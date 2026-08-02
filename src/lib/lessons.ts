@@ -128,7 +128,7 @@ export const LESSONS: Lesson[] = [
     machine: "Four buckets",
     minutes: 8,
     ink: "teal",
-    status: "building",
+    status: "ready",
     feynman: "Which of my tasks would I be embarrassed to have handed over?",
   },
   {

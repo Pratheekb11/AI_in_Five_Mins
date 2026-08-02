@@ -88,7 +88,7 @@ export const LESSONS: Lesson[] = [
     machine: "Assembly line",
     minutes: 8,
     ink: "yellow",
-    status: "building",
+    status: "ready",
     feynman:
       "If I gave this instruction to a stranger, would they produce what I want?",
   },

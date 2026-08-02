@@ -154,6 +154,15 @@ export function PromptLine() {
         phase={phase}
         onStart={start}
         finalScore={scene.score}
+        mood={
+          scene.flash > 0.3
+            ? scene.flashOk
+              ? scene.combo >= 4
+                ? "celebrate"
+                : "cheer"
+              : "wince"
+            : "idle"
+        }
         readouts={[
           { label: "Score", value: scene.score, accent: true },
           { label: "Streak", value: `×${scene.combo}` },

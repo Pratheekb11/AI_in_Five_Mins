@@ -207,7 +207,7 @@ export const LESSONS: Lesson[] = [
     machine: "Magnet",
     minutes: 9,
     ink: "blue",
-    status: "building",
+    status: "ready",
   },
   {
     slug: "attention",

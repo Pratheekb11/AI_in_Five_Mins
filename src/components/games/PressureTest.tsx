@@ -42,6 +42,9 @@ import { useGameLoop } from "@/lib/game/useGameLoop";
 
 const KEY_TO_CALL = new Map(CALLS.map((c) => [c.key, c.id]));
 
+/** Nimo is perched in the top-right corner of every cabinet. Keep clear. */
+const NIMO_GUTTER = 96;
+
 export function PressureTest() {
   const [phase, setPhase] = useState<"ready" | "playing" | "over">("ready");
   // Not shuffled for the first paint: this scene is rendered on the server too,
@@ -155,7 +158,7 @@ export function PressureTest() {
             FUSE
           </text>
           <text
-            x={PANEL_W - 14}
+            x={PANEL_W - NIMO_GUTTER}
             y={30}
             textAnchor="end"
             fontSize={13}

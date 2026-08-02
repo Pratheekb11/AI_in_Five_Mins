@@ -6,11 +6,28 @@ If you change a number, change the script and regenerate — a hand-edit here is
 
 ## Regenerating everything
 
+Two scripts read corpora that are **not committed** — they belong to other people, and `data/raw/` is gitignored. Fetch them first:
+
 ```bash
-node data/scripts/build-token-examples.mjs
+mkdir -p data/raw && cd data/raw
+
+# SMS Spam Collection v.1 — lesson 1
+curl -LO https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip
+unzip sms+spam+collection.zip
+
+# Alice's Adventures in Wonderland — lesson 2
+curl -Lo alice.txt https://www.gutenberg.org/files/11/11-0.txt
 ```
 
-Output should be byte-identical to what is committed. If it isn't, something upstream changed and the lesson copy needs rechecking against the new figures.
+Then:
+
+```bash
+node data/scripts/build-token-examples.mjs
+node data/scripts/build-spam-bench.mjs
+node data/scripts/build-regression-data.mjs
+```
+
+Output should be byte-identical to what is committed — every script that samples or splits uses a fixed seed for exactly that reason. If it isn't, something upstream changed and the lesson copy needs rechecking against the new figures.
 
 ---
 
@@ -32,3 +49,42 @@ Output should be byte-identical to what is committed. If it isn't, something ups
 **About the translations.** The multilingual comparison uses one English sentence and its translations into Spanish, Hindi, Kannada and Japanese. The translations are editorial content chosen to carry the same meaning; the *measurements* made from them — the token counts the lesson's claim rests on — are computed, not asserted. The effect they demonstrate is independently reported in [Petrov et al., NeurIPS 2023](https://arxiv.org/abs/2305.15425).
 
 **Verifying by hand:** paste any of the sentences into any published `o200k_base` tokenizer and the counts should match exactly.
+
+---
+
+## `public/data/spam-bench.json`
+
+**Script:** `data/scripts/build-spam-bench.mjs`
+**Generated:** 2 August 2026
+**Used by:** Lesson 1 — What AI actually is
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — 5,574 real SMS messages, 747 of them spam |
+| Collected by | Tiago A. Almeida and José María Gómez Hidalgo |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** the per-rule hit counts, the best achievable rule combination (found by trying all 255 non-empty subsets), the flag-nothing baseline, and the naive Bayes accuracy. The classifier is trained here — multinomial naive Bayes with add-one smoothing on a bag of words, an 80/20 split at a fixed seed.
+
+**On fairness:** hand-written rules and the learned model are both scored on the same held-out 20%. Scoring the rules on the full corpus while scoring the model out-of-sample would have made the model look better than it is; the earlier draft of this script did that and was wrong.
+
+**On the displayed messages:** the twelve examples shown in the lesson are filtered to exclude any message containing a 7+ digit number, so no personal phone number is reprinted.
+
+---
+
+## `public/data/regression.json`
+
+**Script:** `data/scripts/build-regression-data.mjs`
+**Generated:** 2 August 2026
+**Used by:** Lesson 2 — How a model learns
+
+| | |
+|---|---|
+| Source | *Alice's Adventures in Wonderland*, Lewis Carroll — [Project Gutenberg ebook 11](https://www.gutenberg.org/ebooks/11) |
+| Licence | Public domain |
+| Encoding | `o200k_base`, same as lesson 3 |
+
+**What is computed:** 140 sentences sampled at a fixed seed from the book with the Gutenberg header and licence removed, each measured for character count and true token count; the least-squares slope through the origin; and a sweep of the error curve.
+
+The figure the lesson lands on — about 4.08 characters per token — is a property of this text, recovered by gradient descent in the browser rather than asserted. It happens to agree with the widely quoted rule of thumb for English, which is a good sanity check and not the reason it is stated.

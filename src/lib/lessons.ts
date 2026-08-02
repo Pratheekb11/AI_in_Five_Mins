@@ -35,7 +35,7 @@ export const LESSONS: Lesson[] = [
     machine: "Rule bench",
     minutes: 8,
     ink: "blue",
-    status: "building",
+    status: "ready",
   },
   {
     slug: "how-models-learn",
@@ -46,7 +46,7 @@ export const LESSONS: Lesson[] = [
     machine: "Gradient hill",
     minutes: 8,
     ink: "teal",
-    status: "building",
+    status: "ready",
   },
   {
     slug: "tokens",

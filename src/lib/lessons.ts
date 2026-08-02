@@ -102,7 +102,7 @@ export const LESSONS: Lesson[] = [
     machine: "Pressure test",
     minutes: 8,
     ink: "pink",
-    status: "building",
+    status: "ready",
     feynman: "How would I catch this if it were wrong?",
   },
   {

@@ -88,3 +88,28 @@ Output should be byte-identical to what is committed — every script that sampl
 **What is computed:** 140 sentences sampled at a fixed seed from the book with the Gutenberg header and licence removed, each measured for character count and true token count; the least-squares slope through the origin; and a sweep of the error curve.
 
 The figure the lesson lands on — about 4.08 characters per token — is a property of this text, recovered by gradient descent in the browser rather than asserted. It happens to agree with the widely quoted rule of thumb for English, which is a good sanity check and not the reason it is stated.
+
+## DistilGPT-2 weights — `attention.json` and `logits.json`
+
+`logits.json` comes from running `Xenova/distilgpt2` through
+`@huggingface/transformers`; the library fetches and caches the ONNX build
+itself, so no manual download is needed:
+
+```
+node data/scripts/build-logits.mjs
+```
+
+`attention.json` needs the original parameters, because the ONNX build does not
+expose attention. Fetch them once into `data/raw/` (352 MB, gitignored):
+
+```
+curl -L -o data/raw/distilgpt2.safetensors \
+  https://huggingface.co/distilbert/distilgpt2/resolve/main/model.safetensors
+node --max-old-space-size=4096 data/scripts/build-attention.mjs
+```
+
+The extraction script implements the GPT-2 forward pass itself and then checks
+its own final-position logits against the same model run through
+`@huggingface/transformers`. It refuses to write anything if any logit differs
+by more than 0.02; the last run agreed to about 6e-5. Model card and licence:
+https://huggingface.co/distilbert/distilgpt2 (Apache 2.0).

@@ -219,7 +219,7 @@ export const LESSONS: Lesson[] = [
     machine: "Beam",
     minutes: 9,
     ink: "pink",
-    status: "building",
+    status: "ready",
   },
   {
     slug: "how-llms-answer",

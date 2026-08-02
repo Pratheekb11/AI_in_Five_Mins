@@ -75,7 +75,7 @@ export const LESSONS: Lesson[] = [
     machine: "The conveyor",
     minutes: 7,
     ink: "teal",
-    status: "building",
+    status: "ready",
     feynman: "Why does it forget what I said forty messages ago?",
   },
   {

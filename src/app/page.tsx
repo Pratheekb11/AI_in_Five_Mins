@@ -3,132 +3,166 @@ import { LiveTokenizer } from "@/components/machines/LiveTokenizer";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
-import { LESSONS, TOTAL_MINUTES } from "@/lib/lessons";
+import { type Lesson, lessonsIn, TRACKS } from "@/lib/lessons";
 
 export default function Home() {
+  const use = lessonsIn("use");
+  const how = lessonsIn("how");
+  const useMinutes = use.reduce((n, l) => n + l.minutes, 0);
+
   return (
     <>
       <SiteHeader />
 
       <main>
-        {/* Hero. The thesis is the machine itself, not a sentence about it —
-            the first thing a visitor does is watch their own words get cut up. */}
+        {/* Hero. The claim is made by a machine you can poke, not by a
+            paragraph asserting it. */}
         <section className="mx-auto max-w-6xl px-5 pt-14 pb-16 md:pt-20">
           <p className="label text-ink-faint mb-5">
-            Field manual · {LESSONS.length} lessons · {TOTAL_MINUTES} minutes
+            Two tracks · {use.length + how.length} short modules
           </p>
 
           <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
             <div>
               <h1 className="display-xl">
-                AI doesn&rsquo;t
+                Stop guessing
                 <br />
-                read your
+                what AI is
                 <br />
-                <span className="text-pink-text">words.</span>
+                <span className="text-pink-text">actually doing.</span>
               </h1>
 
               <div className="prose-measure text-ink-soft mt-7 text-lg">
                 <p>
-                  It reads these. Every model you have ever used chops your text
-                  into pieces first, and only ever sees the pieces.
+                  Short modules you play rather than read. You watch the thing
+                  fail, and only then does anyone explain the machinery behind
+                  it &mdash; while you are still annoyed about it. Every game
+                  runs on real data, never a mock-up.
                 </p>
                 <p>
-                  That is the real tokenizer beside this &mdash; the same one
-                  behind GPT&#8209;4o and GPT&#8209;5 &mdash; running on
-                  whatever you type. Nothing here is a mock-up of how AI works.
-                  You operate the actual machinery.
+                  Start at module 1. The whole practical track takes about{" "}
+                  {useMinutes} minutes, and there is no theory to get through
+                  first.
                 </p>
               </div>
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href="/lessons/what-is-ai"
+                  href={`/lessons/${use[0].slug}`}
                   className="plate misreg btn-primary font-display inline-block px-5 py-3 font-bold"
                 >
-                  Start at lesson 1
+                  Start module 1
                 </Link>
                 <Link
                   href="/lessons/tokens"
                   className="plate misreg font-display inline-block px-5 py-3 font-bold"
                 >
-                  Skip to tokens
+                  Or open the machine
                 </Link>
               </div>
             </div>
 
             <div className="plate p-5 md:p-6">
-              <LiveTokenizer />
+              <p className="label text-ink-faint mb-3">
+                Try it now — this is real
+              </p>
+              <LiveTokenizer rows={2} />
             </div>
           </div>
         </section>
 
-        {/* Lesson map */}
-        <section
-          id="lessons"
-          className="border-ink/25 bg-paper-sunk border-t border-b"
-        >
-          <div className="mx-auto max-w-6xl px-5 py-14">
-            <h2 className="display-lg mb-2">The eight machines</h2>
-            <p className="prose-measure text-ink-soft mb-9">
-              Each lesson is one thing you take apart. They run in order because
-              each is built out of the one before it &mdash; but the tokenizer
-              stands on its own if you want the short version.
-            </p>
-
-            <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {LESSONS.map((lesson) => {
-                const ink = inkClasses[lesson.ink];
-                return (
-                  <li key={lesson.slug}>
-                    <Link
-                      href={`/lessons/${lesson.slug}`}
-                      className="plate misreg flex h-full flex-col p-5"
-                    >
-                      <div className="mb-3 flex items-center justify-between gap-3">
-                        <span
-                          className={`data ${ink.chip} rounded-[2px] border px-1.5 py-0.5 text-xs font-bold`}
-                        >
-                          {String(lesson.number).padStart(2, "0")}
-                        </span>
-                        <span className="label text-ink-faint">
-                          {lesson.minutes} min
-                        </span>
-                      </div>
-
-                      <h3 className="display-md mb-2">{lesson.title}</h3>
-                      <p className="text-ink-soft grow text-[0.9375rem]">
-                        {lesson.standfirst}
-                      </p>
-
-                      <p className="border-ink/20 label text-ink-faint mt-4 flex items-center justify-between gap-2 border-t pt-3">
-                        <span>{lesson.machine}</span>
-                        {lesson.status === "building" ? (
-                          <span className="opacity-70">On the bench</span>
-                        ) : (
-                          <span className="text-teal-text">Ready</span>
-                        )}
-                      </p>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ol>
-          </div>
-        </section>
+        <TrackSection
+          id="use"
+          track="use"
+          lessons={use}
+          eyebrow="Start here"
+          sunk
+        />
+        <TrackSection id="how" track="how" lessons={how} eyebrow="Optional depth — reachable from inside the modules" />
 
         <section className="mx-auto max-w-6xl px-5 py-14">
           <h2 className="display-md mb-3">Where the numbers come from</h2>
           <p className="prose-measure text-ink-soft">
-            Every token, vector and probability on this site is computed from a
-            real model or a published dataset, and every lesson ends with the
-            sources it drew on. Where a figure is precomputed rather than run in
-            your browser, the script that produced it is in the repository.
+            Every token, vector and probability here is computed from a real
+            model or a published dataset, and every module ends with the sources
+            it drew on. Where a figure is precomputed rather than run in your
+            browser, the script that produced it is in the repository. If a
+            number cannot be traced, it does not ship.
           </p>
         </section>
       </main>
 
       <SiteFooter />
     </>
+  );
+}
+
+function TrackSection({
+  id,
+  track,
+  lessons,
+  eyebrow,
+  sunk = false,
+}: {
+  id: string;
+  track: "use" | "how";
+  lessons: Lesson[];
+  eyebrow: string;
+  sunk?: boolean;
+}) {
+  const meta = TRACKS[track];
+
+  return (
+    <section
+      id={id}
+      className={`border-ink/25 border-t ${sunk ? "bg-paper-sunk" : ""}`}
+    >
+      <div className="mx-auto max-w-6xl px-5 py-14">
+        <p className="label text-ink-faint mb-3">{eyebrow}</p>
+        <h2 className="display-lg mb-2">{meta.title}</h2>
+        <p className="prose-measure text-ink-soft mb-9">{meta.blurb}</p>
+
+        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {lessons.map((lesson) => {
+            const ink = inkClasses[lesson.ink];
+            return (
+              <li key={lesson.slug}>
+                <Link
+                  href={`/lessons/${lesson.slug}`}
+                  className="plate misreg flex h-full flex-col p-4"
+                >
+                  <div className="mb-3 flex items-center justify-between gap-2">
+                    <span
+                      className={`data ${ink.chip} rounded-[2px] border px-1.5 py-0.5 text-xs font-bold`}
+                    >
+                      {String(lesson.number).padStart(2, "0")}
+                    </span>
+                    <span className="label text-ink-faint">
+                      {lesson.minutes}m
+                    </span>
+                  </div>
+
+                  <h3 className="font-display mb-2 text-lg leading-tight font-bold">
+                    {lesson.title}
+                  </h3>
+                  <p className="text-ink-soft grow text-sm">
+                    {lesson.standfirst}
+                  </p>
+
+                  <p className="border-ink/20 label text-ink-faint mt-4 flex items-center justify-between gap-2 border-t pt-3">
+                    <span className="truncate">{lesson.machine}</span>
+                    {lesson.status === "building" ? (
+                      <span className="shrink-0 opacity-70">Soon</span>
+                    ) : (
+                      <span className="text-teal-text shrink-0">Ready</span>
+                    )}
+                  </p>
+                </Link>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </section>
   );
 }

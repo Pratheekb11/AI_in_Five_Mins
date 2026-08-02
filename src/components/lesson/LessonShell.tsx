@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
-import { type Lesson, neighbours } from "@/lib/lessons";
+import { type Lesson, neighbours, TRACKS } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { Sources } from "./Sources";
 
@@ -32,7 +32,7 @@ export function LessonShell({
             <span
               className={`data ${ink.chip} rounded-[2px] border px-2 py-1 text-xs font-bold`}
             >
-              Lesson {String(lesson.number).padStart(2, "0")}
+              {TRACKS[lesson.track].title} · {String(lesson.number).padStart(2, "0")}
             </span>
             <span className="label text-ink-faint">{lesson.machine}</span>
             <span className="label text-ink-faint">{lesson.minutes} min</span>

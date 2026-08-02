@@ -20,6 +20,39 @@ export type Video = {
 };
 
 export const VIDEOS: Record<string, Video> = {
+  // ------------------------------------------------------------ use it well --
+  "what-an-llm-is": {
+    youtubeId: "5sLYAQS9sWQ",
+    title: "How Large Language Models Work",
+    channel: "IBM Technology",
+    why: "The same next-word idea you just played against, at full scale.",
+  },
+  "context-is-everything": {
+    youtubeId: "-QVoIxEpFkM",
+    title: "What is a Context Window? Unlocking LLM Secrets",
+    channel: "IBM Technology",
+    why: "Why the belt has a fixed length, and what falls off the end.",
+  },
+  "prompting-as-delegation": {
+    youtubeId: "dOxUroR57xs",
+    title: "Prompt Engineering Overview",
+    channel: "Elvis Saravia",
+    why: "A tour of the techniques, if you want more than the five elements.",
+  },
+  "where-it-breaks": {
+    youtubeId: "cfqtFvWOfg0",
+    title: "Why Large Language Models Hallucinate",
+    channel: "IBM Technology",
+    why: "Where invented answers come from, explained plainly.",
+  },
+  "tools-change-the-game": {
+    youtubeId: "zjkBMFhNj_g",
+    title: "Intro to Large Language Models",
+    channel: "Andrej Karpathy",
+    why: "A long talk, but the best account of what tools add to a model.",
+  },
+
+  // ----------------------------------------------------------- how it works --
   "what-is-ai": {
     youtubeId: "aircAruvnKk",
     title: "But what is a neural network?",

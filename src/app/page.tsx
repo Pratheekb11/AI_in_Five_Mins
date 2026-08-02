@@ -1,20 +1,14 @@
 import Link from "next/link";
 import { LiveTokenizer } from "@/components/machines/LiveTokenizer";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
 import { LESSONS, TOTAL_MINUTES } from "@/lib/lessons";
 
 export default function Home() {
   return (
     <>
-      <header className="border-ink/25 border-b">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
-          <span className="font-display text-lg font-extrabold tracking-tight">
-            LearnLoop<span className="text-pink-text">AI</span>
-          </span>
-          <ThemeToggle />
-        </div>
-      </header>
+      <SiteHeader />
 
       <main>
         {/* Hero. The thesis is the machine itself, not a sentence about it —
@@ -93,7 +87,7 @@ export default function Home() {
                     >
                       <div className="mb-3 flex items-center justify-between gap-3">
                         <span
-                          className={`data ${ink.solid} ${ink.onSolid} rounded-[2px] px-1.5 py-0.5 text-xs font-bold`}
+                          className={`data ${ink.chip} rounded-[2px] border px-1.5 py-0.5 text-xs font-bold`}
                         >
                           {String(lesson.number).padStart(2, "0")}
                         </span>
@@ -107,8 +101,13 @@ export default function Home() {
                         {lesson.standfirst}
                       </p>
 
-                      <p className="border-ink/20 label text-ink-faint mt-4 border-t pt-3">
-                        {lesson.machine}
+                      <p className="border-ink/20 label text-ink-faint mt-4 flex items-center justify-between gap-2 border-t pt-3">
+                        <span>{lesson.machine}</span>
+                        {lesson.status === "building" ? (
+                          <span className="opacity-70">On the bench</span>
+                        ) : (
+                          <span className="text-teal-text">Ready</span>
+                        )}
                       </p>
                     </Link>
                   </li>
@@ -129,14 +128,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-ink/25 border-t">
-        <div className="text-ink-faint mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-6 text-sm">
-          <span>LearnLoopAI</span>
-          <span className="data text-xs">
-            Tokenizer: o200k_base · runs entirely in your browser
-          </span>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

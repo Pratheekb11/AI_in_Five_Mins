@@ -57,7 +57,7 @@ export const LESSONS: Lesson[] = [
     machine: "Live tokenizer",
     minutes: 7,
     ink: "pink",
-    status: "building",
+    status: "ready",
   },
   {
     slug: "embeddings",

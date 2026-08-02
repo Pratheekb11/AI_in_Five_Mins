@@ -26,13 +26,16 @@
   --paper-sunk: #ded9cd;
   --ink: #17171f;
   --ink-soft: #4a4a58;
-  --ink-faint: #86868f;
+  --ink-faint: #66666e;
   --rule: #17171f26;
 
-  /* Spot inks */
+  /* Spot inks. These four are checked, not eyeballed: they clear the OKLCH
+     lightness band, the chroma floor, colour-blind separation between every
+     adjacent pair, and 3:1 against paper. Changing one means re-running
+     the palette validator on all four together. */
   --blue: #2440d8;
-  --pink: #f5347f;
-  --yellow: #f2b418;
+  --pink: #dd2a72;
+  --yellow: #a87400;
   --teal: #009180;
 
   /* Ink tints — flat, pre-mixed with paper rather than alpha-composited,
@@ -42,10 +45,11 @@
   --yellow-wash: #fbf0d5;
   --teal-wash: #d6ecea;
 
-  /* Contrast-safe text colours for each ink on paper */
+  /* Contrast-safe text colours for each ink. Each clears 4.5:1 on both paper
+     and its own wash, so ink-coloured text is always legible on either. */
   --blue-text: #1e35b4;
   --pink-text: #c31359;
-  --yellow-text: #8a6100;
+  --yellow-text: #7d5800;
   --teal-text: #007063;
 
   --halftone: #17171f;
@@ -64,13 +68,15 @@
   --paper-sunk: #0d0d12;
   --ink: #ece9e1;
   --ink-soft: #a9a6a0;
-  --ink-faint: #74726e;
+  --ink-faint: #85837e;
   --rule: #ece9e12e;
 
-  --blue: #7d93ff;
-  --pink: #ff6fa3;
-  --yellow: #f5c542;
-  --teal: #3cc7b4;
+  /* Dark is a separate set stepped for the dark plate, not a flip of the light
+     inks — same validator, dark band, dark surface. */
+  --blue: #5570e8;
+  --pink: #e8477f;
+  --yellow: #b0861e;
+  --teal: #0f9e8d;
 
   --blue-wash: #1c2450;
   --pink-wash: #3d1a2c;

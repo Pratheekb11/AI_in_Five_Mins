@@ -11,14 +11,19 @@ export const INKS: readonly Ink[] = ["blue", "pink", "yellow", "teal"] as const;
 type InkClasses = {
   /** Flat tint fill, for the body of a mark. */
   wash: string;
-  /** Full-strength ink, as a background. */
+  /** Full-strength ink, as a background. Marks only — see `chip`. */
   solid: string;
   /** Full-strength ink, as a border. */
   border: string;
-  /** Contrast-corrected ink, for text on paper. */
+  /** Contrast-corrected ink, for text on paper or on its own wash. */
   text: string;
-  /** Text colour that sits legibly on `solid`. */
-  onSolid: string;
+  /**
+   * A small label in this ink: tint behind, corrected ink in front. Solid ink
+   * is deliberately not used behind text — only blue clears 4.5:1 against
+   * paper-coloured type, so a wash-and-ink chip is the one pairing that stays
+   * legible in all four colours.
+   */
+  chip: string;
 };
 
 /**
@@ -31,28 +36,28 @@ export const inkClasses: Record<Ink, InkClasses> = {
     solid: "bg-blue",
     border: "border-blue",
     text: "text-blue-text",
-    onSolid: "text-paper",
+    chip: "bg-blue-wash text-blue-text border-blue/40",
   },
   pink: {
     wash: "bg-pink-wash",
     solid: "bg-pink",
     border: "border-pink",
     text: "text-pink-text",
-    onSolid: "text-paper",
+    chip: "bg-pink-wash text-pink-text border-pink/40",
   },
   yellow: {
     wash: "bg-yellow-wash",
     solid: "bg-yellow",
     border: "border-yellow",
     text: "text-yellow-text",
-    onSolid: "text-[#17171f]",
+    chip: "bg-yellow-wash text-yellow-text border-yellow/40",
   },
   teal: {
     wash: "bg-teal-wash",
     solid: "bg-teal",
     border: "border-teal",
     text: "text-teal-text",
-    onSolid: "text-paper",
+    chip: "bg-teal-wash text-teal-text border-teal/40",
   },
 };
 

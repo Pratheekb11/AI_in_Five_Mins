@@ -141,7 +141,7 @@ export const LESSONS: Lesson[] = [
     machine: "Cost of wrong",
     minutes: 7,
     ink: "yellow",
-    status: "building",
+    status: "ready",
     feynman: "What is the worst thing that happens if this output is wrong?",
   },
   {

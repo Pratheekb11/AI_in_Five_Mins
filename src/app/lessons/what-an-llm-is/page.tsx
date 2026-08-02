@@ -1,5 +1,6 @@
 import { NextWord } from "@/components/games/NextWord";
 import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
@@ -96,7 +97,19 @@ const QUESTIONS: QuizQuestion[] = [
 export default function WhatAnLlmIsLesson() {
   return (
     <LessonShell lesson={lesson} sources={SOURCES}>
-      <div className="pb-4">
+      <Hook
+        claim={
+          <>
+            You are about to lose to something that has{" "}
+            <span className="text-pink-text">never understood a word</span> in
+            its life.
+          </>
+        }
+        sting="It read one book and counted which word followed which. That is the entire machine. It is also, in miniature, the entire machine behind every AI assistant you have used."
+        cta="Take it on"
+      />
+
+      <div className="py-4">
         <NextWord />
       </div>
 

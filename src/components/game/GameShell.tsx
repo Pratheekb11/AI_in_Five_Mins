@@ -1,43 +1,67 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { useBestScore } from "@/lib/game/useBestScore";
 
 /**
  * The cabinet every game is mounted in.
  *
- * Holds the title strip, the live readouts, and the two screens a short game
- * needs either side of play. Rounds are deliberately brief — under a minute —
- * so a learner can lose, understand why, and immediately go again, which is
- * where the actual teaching happens.
+ * Rounds are deliberately under a minute, so losing costs nothing and going
+ * again is the obvious move. That is the whole design: the teaching happens on
+ * the third replay, not the first, so everything here exists to make the third
+ * replay feel like the player's own idea.
+ *
+ * The levers are the boring proven ones — a visible personal best, a loud
+ * moment when it is beaten, the score kept on screen while you play, and a
+ * restart that takes one press and no confirmation.
  */
 
 export type Readout = { label: string; value: string | number; accent?: boolean };
 
 export function GameShell({
+  gameId,
   name,
   instruction,
   readouts,
   phase,
   onStart,
-  startLabel = "Start",
+  startLabel = "Play",
+  finalScore,
   again,
   children,
   footer,
 }: {
+  /** Stable id for the personal best. Omit for games that are not scored. */
+  gameId?: string;
   name: string;
   instruction: string;
   readouts: Readout[];
   phase: "ready" | "playing" | "over";
   onStart: () => void;
   startLabel?: string;
-  /** Shown on the end screen. */
+  /** The score to record when the round ends. */
+  finalScore?: number;
   again?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
 }) {
+  const { best, submit } = useBestScore(gameId ?? "unscored");
+
+  // Recorded when the round ends, not while it runs — a best is a result.
+  useEffect(() => {
+    if (phase === "over" && gameId && typeof finalScore === "number") {
+      submit(finalScore);
+    }
+  }, [phase, gameId, finalScore, submit]);
+
+  const beatenBest =
+    phase === "over" &&
+    typeof finalScore === "number" &&
+    finalScore > 0 &&
+    finalScore >= best;
+
   return (
-    <div className="plate overflow-hidden">
-      {/* Title strip — the printed header of the cabinet */}
+    <div className="plate scroll-mt-20 overflow-hidden" id="game">
       <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
         <span className="label">{name}</span>
         <dl className="flex flex-wrap gap-x-5 gap-y-1">
@@ -53,6 +77,14 @@ export function GameShell({
               </dd>
             </div>
           ))}
+          {gameId && best > 0 ? (
+            <div className="flex items-baseline gap-2">
+              <dt className="label text-ink-faint">Best</dt>
+              <dd className="data text-teal-text text-sm font-bold tabular-nums">
+                {best}
+              </dd>
+            </div>
+          ) : null}
         </dl>
       </div>
 
@@ -66,6 +98,9 @@ export function GameShell({
                 <p className="prose-measure text-ink-soft text-[0.9375rem]">
                   {instruction}
                 </p>
+                {gameId && best > 0 ? (
+                  <p className="label text-teal-text">Your best: {best}</p>
+                ) : null}
                 <button
                   type="button"
                   onClick={onStart}
@@ -76,6 +111,11 @@ export function GameShell({
               </>
             ) : (
               <>
+                {beatenBest ? (
+                  <p className="label text-teal-text">
+                    ★ New best ★
+                  </p>
+                ) : null}
                 {again}
                 <button
                   type="button"
@@ -84,6 +124,11 @@ export function GameShell({
                 >
                   Go again
                 </button>
+                {gameId && best > 0 && !beatenBest ? (
+                  <p className="label text-ink-faint">
+                    Best so far: {best}
+                  </p>
+                ) : null}
               </>
             )}
           </div>

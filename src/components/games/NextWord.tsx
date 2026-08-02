@@ -65,11 +65,13 @@ export function NextWord() {
 
   return (
     <GameShell
+      gameId="nextword"
       name="Guess the next word"
       instruction="You will see the middle of a sentence from a real book. Pick the word that actually came next. A very simple guessing machine is playing the same rounds against you."
       startLabel="Play"
       phase={phase}
       onStart={start}
+      finalScore={youScore}
       readouts={[
         { label: "You", value: youScore, accent: true },
         { label: "Machine", value: modelScore },

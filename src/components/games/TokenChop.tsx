@@ -76,11 +76,13 @@ export function TokenChop() {
 
   return (
     <GameShell
+      gameId="chop"
       name="Chop"
       instruction="A word runs through the press. Hit the blade the moment a real token boundary passes under it — press Space, or tap the strip. The splits printed below the strip tell you what you are aiming for."
       startLabel="Start cutting"
       phase={phase}
       onStart={start}
+      finalScore={scene.score}
       readouts={[
         { label: "Score", value: scene.score, accent: true },
         { label: "Streak", value: `×${scene.combo}` },

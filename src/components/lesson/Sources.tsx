@@ -18,7 +18,7 @@ export function Sources({ sources }: { sources: Source[] }) {
             <a
               href={source.url}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               className="font-display decoration-ink/30 hover:decoration-ink font-bold underline underline-offset-4"
             >
               {source.title}

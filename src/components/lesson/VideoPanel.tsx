@@ -26,7 +26,8 @@ export function VideoPanel({ video }: { video: Video }) {
             className="absolute inset-0 h-full w-full"
             src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?autoplay=1&rel=0`}
             title={video.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           />
         ) : (
@@ -42,6 +43,7 @@ export function VideoPanel({ video }: { video: Video }) {
               alt=""
               className="h-full w-full object-cover"
               loading="lazy"
+              referrerPolicy="no-referrer"
             />
             <span className="absolute inset-0 flex items-center justify-center">
               <span className="plate misreg bg-pink flex h-16 w-16 items-center justify-center rounded-full">

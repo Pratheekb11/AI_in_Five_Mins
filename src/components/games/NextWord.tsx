@@ -72,6 +72,13 @@ export function NextWord() {
       phase={phase}
       onStart={start}
       finalScore={youScore}
+      mood={
+        !revealed
+          ? "think"
+          : picked === round?.truth
+            ? "cheer"
+            : "wince"
+      }
       readouts={[
         { label: "You", value: youScore, accent: true },
         { label: "Machine", value: modelScore },

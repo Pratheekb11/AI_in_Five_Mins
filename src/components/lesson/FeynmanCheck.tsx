@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Nimo } from "@/components/nimo/Nimo";
 import { SpeechButton } from "./SpeechButton";
 
 /**
@@ -53,11 +54,18 @@ export function FeynmanCheck({
   return (
     <section className="plate p-5 md:p-6">
       <div className="mb-4 flex items-start justify-between gap-3">
-        <div>
+        <div className="flex items-start gap-4">
+          <Nimo
+            mood={revealed ? "cheer" : "think"}
+            height={120}
+            className="hidden w-[120px] shrink-0 sm:block"
+          />
+          <div>
           <p className="label text-ink-faint mb-2">
-            Explain it to a twelve-year-old
+            Explain it to Nimo
           </p>
           <h3 className="display-md">{question}</h3>
+          </div>
         </div>
         <SpeechButton text={question} />
       </div>

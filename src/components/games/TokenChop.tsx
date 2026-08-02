@@ -83,6 +83,15 @@ export function TokenChop() {
       phase={phase}
       onStart={start}
       finalScore={scene.score}
+      mood={
+        scene.flash > 0.3
+          ? scene.combo >= 4
+            ? "celebrate"
+            : "cheer"
+          : scene.combo === 0 && scene.missed > 0
+            ? "wince"
+            : "idle"
+      }
       readouts={[
         { label: "Score", value: scene.score, accent: true },
         { label: "Streak", value: `×${scene.combo}` },

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
 import { type Lesson, neighbours, TRACKS } from "@/lib/lessons";
@@ -85,6 +86,8 @@ export function LessonShell({
           )}
         </nav>
       </main>
+
+      <SiteFooter />
     </>
   );
 }

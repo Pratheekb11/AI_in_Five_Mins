@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { NimoSays } from "@/components/nimo/NimoSays";
 import {
   type EmbeddingSpace,
   loadEmbeddings,
@@ -115,9 +116,9 @@ export function WordChart() {
             The map — 50 dimensions flattened to 2
           </figcaption>
           {!space ? (
-            <p className="text-ink-faint py-20 text-center text-sm">
-              Loading 1,851 word vectors…
-            </p>
+            <div className="flex justify-center py-16">
+              <NimoSays mood="think">Fetching 1,851 word vectors…</NimoSays>
+            </div>
           ) : (
             <svg
               viewBox={`0 0 ${W} ${H}`}

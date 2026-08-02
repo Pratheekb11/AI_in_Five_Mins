@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { LiveTokenizer } from "@/components/machines/LiveTokenizer";
 import { SiteFooter } from "@/components/SiteFooter";
+import { Nimo } from "@/components/nimo/Nimo";
+import { NimoSays } from "@/components/nimo/NimoSays";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
 import { type Lesson, lessonsIn, TRACKS } from "@/lib/lessons";
@@ -62,11 +64,15 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="plate p-5 md:p-6">
-              <p className="label text-ink-faint mb-3">
-                Try it now — this is real
-              </p>
-              <LiveTokenizer rows={2} />
+            <div className="space-y-4">
+              <Nimo mood="curious" height={250} />
+              <NimoSays mood="curious">
+                I am Nimo. Type something below and watch it get chopped into
+                the pieces a model actually reads.
+              </NimoSays>
+              <div className="plate p-5 md:p-6">
+                <LiveTokenizer rows={2} />
+              </div>
             </div>
           </div>
         </section>

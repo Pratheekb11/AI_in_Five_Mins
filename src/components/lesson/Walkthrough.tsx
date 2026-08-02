@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Nimo } from "@/components/nimo/Nimo";
 import { SpeechButton } from "./SpeechButton";
 
 /**
@@ -50,12 +51,22 @@ export function Walkthrough({ steps }: { steps: Step[] }) {
       </div>
 
       <div className="p-5 md:p-6">
-        <p
-          className="prose-measure mb-5 text-lg leading-relaxed"
-          aria-live="polite"
-        >
-          {step.say}
-        </p>
+        {/* Nimo does the explaining, so the walkthrough has a voice rather
+            than being an anonymous block of text. */}
+        <div className="mb-5 flex items-start gap-4">
+          <Nimo
+            mood={last ? "cheer" : "curious"}
+            follow={false}
+            height={110}
+            className="hidden w-[110px] shrink-0 sm:block"
+          />
+          <p
+            className="prose-measure text-lg leading-relaxed"
+            aria-live="polite"
+          >
+            {step.say}
+          </p>
+        </div>
 
         {step.show ? <div className="mb-4">{step.show}</div> : null}
 

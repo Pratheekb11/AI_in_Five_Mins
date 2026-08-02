@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
+import { Nimo } from "@/components/nimo/Nimo";
+import type { Mood } from "@/components/nimo/moods";
 import { useBestScore } from "@/lib/game/useBestScore";
 
 /**
@@ -28,6 +30,7 @@ export function GameShell({
   startLabel = "Play",
   finalScore,
   again,
+  mood = "idle",
   children,
   footer,
 }: {
@@ -42,6 +45,8 @@ export function GameShell({
   /** The score to record when the round ends. */
   finalScore?: number;
   again?: ReactNode;
+  /** Nimo's live reaction — games raise this on a hit, a miss or a streak. */
+  mood?: Mood;
   children: ReactNode;
   footer?: ReactNode;
 }) {
@@ -89,6 +94,17 @@ export function GameShell({
       </div>
 
       <div className="relative">
+        {/* Nimo watches the round and reacts. He is the loudest feedback in
+            the cabinet, which is most of why a miss stings enough to retry. */}
+        <span className="pointer-events-none absolute -top-1 right-2 z-20 hidden md:block">
+          <Nimo
+            mood={phase === "playing" ? mood : "curious"}
+            follow={false}
+            height={120}
+            className="w-[120px]"
+          />
+        </span>
+
         {children}
 
         {phase !== "playing" ? (

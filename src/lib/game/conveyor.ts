@@ -106,7 +106,8 @@ export type ConveyorScene = {
 /* -------------------------------------------------------------- geometry -- */
 
 export const VIEW_W = 380;
-export const VIEW_H = 190;
+/** Just enough room under the belt for a card to tumble out of frame. */
+export const VIEW_H = 158;
 export const BELT_L = 8;
 export const BELT_R = 372;
 export const CARD_Y = 36;

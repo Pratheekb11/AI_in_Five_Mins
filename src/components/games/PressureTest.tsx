@@ -44,7 +44,9 @@ const KEY_TO_CALL = new Map(CALLS.map((c) => [c.key, c.id]));
 
 export function PressureTest() {
   const [phase, setPhase] = useState<"ready" | "playing" | "over">("ready");
-  const [scene, setScene] = useState<PressureScene>(() => newScene(DECK));
+  // Not shuffled for the first paint: this scene is rendered on the server too,
+  // and a shuffled deck would put a different card on each side.
+  const [scene, setScene] = useState<PressureScene>(() => newScene(DECK, false));
 
   const start = useCallback(() => {
     setScene(newScene(DECK));

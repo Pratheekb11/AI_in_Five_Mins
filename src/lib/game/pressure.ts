@@ -458,7 +458,10 @@ function shuffled(items: readonly number[]): number[] {
  * the fuse gets shorter with every card cleared, and the cards themselves get
  * harder as the deck is worked through.
  */
-export function buildDeck(cards: readonly Card[]): number[] {
+export function buildDeck(
+  cards: readonly Card[],
+  randomise = true,
+): number[] {
   const one: number[] = [];
   const two: number[] = [];
   const three: number[] = [];
@@ -467,13 +470,23 @@ export function buildDeck(cards: readonly Card[]): number[] {
     else if (cards[i].level === 2) two.push(i);
     else three.push(i);
   }
-  return [...shuffled(one), ...shuffled(two), ...shuffled(three)];
+  return randomise
+    ? [...shuffled(one), ...shuffled(two), ...shuffled(three)]
+    : [...one, ...two, ...three];
 }
 
-export function newScene(cards: readonly Card[]): PressureScene {
+/**
+ * `randomise` is off for the scene rendered before anyone presses play: that
+ * one is drawn on the server as well as the client, and a shuffled deck would
+ * put a different card in the frame on each side.
+ */
+export function newScene(
+  cards: readonly Card[],
+  randomise = true,
+): PressureScene {
   const fuse = fuseFor(0);
   return {
-    deck: buildDeck(cards),
+    deck: buildDeck(cards, randomise),
     at: 0,
     fuse,
     fuseMax: fuse,

@@ -89,10 +89,10 @@ export type WhichScene = {
 // ------------------------------------------------------------------ layout --
 
 export const VIEW_W = 500;
-export const VIEW_H = 380;
+export const VIEW_H = 306;
 
 export const PIVOT_X = 250;
-export const PIVOT_Y = 232;
+export const PIVOT_Y = 190;
 export const ARM_LEN = 66;
 
 export const CARD_W = 380;
@@ -102,7 +102,7 @@ export const SPAWN_Y = -60;
 export const CONTACT_Y = PIVOT_Y - 8 - CARD_H / 2;
 
 export const BIN_X = [70, 190, 310, 430];
-export const BIN_Y = 300;
+export const BIN_Y = 258;
 export const BIN_W = 108;
 export const BIN_H = 62;
 
@@ -326,9 +326,20 @@ function shuffled(count: number): number[] {
   return out;
 }
 
-export function newScene(requests: Request[], calm: boolean): WhichScene {
+/**
+ * `randomise` is off for the scene rendered before anyone presses play: that
+ * one is drawn on the server as well as the client, and a shuffled order would
+ * make the two disagree.
+ */
+export function newScene(
+  requests: Request[],
+  calm: boolean,
+  randomise = true,
+): WhichScene {
   return {
-    order: shuffled(requests.length),
+    order: randomise
+      ? shuffled(requests.length)
+      : Array.from({ length: requests.length }, (_, i) => i),
     at: 0,
     card: null,
     arm: { angle: DETENT[1], vel: 0 },

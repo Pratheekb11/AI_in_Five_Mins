@@ -57,7 +57,10 @@ function lerp(a: number, b: number, t: number): number {
 
 export function WhichMode() {
   const [phase, setPhase] = useState<"ready" | "playing" | "over">("ready");
-  const [scene, setScene] = useState<WhichScene>(() => newScene(REQUESTS, false));
+  // Not shuffled for the first paint: this scene is rendered on the server too.
+  const [scene, setScene] = useState<WhichScene>(() =>
+    newScene(REQUESTS, false, false),
+  );
 
   const start = useCallback(() => {
     const calm =

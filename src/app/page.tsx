@@ -44,7 +44,7 @@ export default function Home() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href="/lessons/what-is-ai"
-                  className="plate misreg bg-blue text-paper border-ink font-display inline-block px-5 py-3 font-bold"
+                  className="plate misreg btn-primary font-display inline-block px-5 py-3 font-bold"
                 >
                   Start at lesson 1
                 </Link>

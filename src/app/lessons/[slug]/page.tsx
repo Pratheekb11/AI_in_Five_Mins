@@ -66,7 +66,7 @@ export default async function LessonPlaceholder(
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/lessons/tokens"
-              className="plate misreg bg-blue text-paper border-ink font-display inline-block px-4 py-2.5 font-bold"
+              className="plate misreg btn-primary font-display inline-block px-4 py-2.5 font-bold"
             >
               Try the tokenizer instead
             </Link>

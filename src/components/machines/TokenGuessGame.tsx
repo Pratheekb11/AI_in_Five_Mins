@@ -124,7 +124,7 @@ export function TokenGuessGame({ items }: { items: MeasuredText[] }) {
           <button
             type="button"
             onClick={submit}
-            className="plate misreg bg-blue text-paper border-ink font-display px-5 py-2.5 font-bold"
+            className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
           >
             Lock it in
           </button>

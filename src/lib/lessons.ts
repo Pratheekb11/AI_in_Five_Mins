@@ -115,7 +115,7 @@ export const LESSONS: Lesson[] = [
     machine: "Which mode?",
     minutes: 7,
     ink: "blue",
-    status: "building",
+    status: "ready",
     feynman: "Did it look this up, calculate it, or guess it?",
   },
   {

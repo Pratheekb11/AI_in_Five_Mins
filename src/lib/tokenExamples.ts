@@ -28,10 +28,18 @@ export type Curiosity = MeasuredText & {
   charsPerToken: number;
 };
 
+/** A word for the cutting game, with the offsets its tokens break at. */
+export type ChopWord = {
+  word: string;
+  pieces: string[];
+  cuts: number[];
+};
+
 export const TOKEN_EXAMPLES = raw as {
   encoding: string;
   generatedBy: string;
   multilingual: MultilingualRow[];
   curiosities: Curiosity[];
   guessable: MeasuredText[];
+  chop: ChopWord[];
 };

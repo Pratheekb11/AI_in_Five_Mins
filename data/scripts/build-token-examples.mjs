@@ -88,6 +88,21 @@ const GUESSABLE = [
   "Please summarise this email in three bullet points.",
 ];
 
+/**
+ * Words for the cutting game. Chosen so the round keeps teaching: some are a
+ * single token however long they look, some shatter in places nobody would
+ * guess. Only words that actually split are kept — a one-token word has no
+ * boundary to aim at.
+ */
+const CHOP_CANDIDATES =
+  `strawberry unbelievable tokenization pneumonia rhythm giraffe blockchain
+   antidisestablishmentarianism kubernetes espresso bureaucracy onomatopoeia
+   mississippi photosynthesis quesadilla wednesday entrepreneur hallucination
+   asymptotic jalapeno bangalore embeddings juxtapose serendipity nightingale
+   thunderstorm archipelago kaleidoscope questionnaire mischievous`
+    .split(/\s+/)
+    .filter(Boolean);
+
 function tokenize(text) {
   return encode(text).map((id, index) => ({
     index,
@@ -124,6 +139,21 @@ const output = {
     const m = measure(text);
     return { text, chars: m.chars, tokenCount: m.tokenCount, tokens: m.tokens };
   }),
+  /**
+   * Each word with the character offsets its tokens break at. The game aims at
+   * these offsets, so a hit means the player cut exactly where the real
+   * tokenizer does.
+   */
+  chop: CHOP_CANDIDATES.map((word) => {
+    const tokens = tokenize(word);
+    let at = 0;
+    const cuts = [];
+    for (let i = 0; i < tokens.length - 1; i++) {
+      at += [...tokens[i].text].length;
+      cuts.push(at);
+    }
+    return { word, pieces: tokens.map((t) => t.text), cuts };
+  }).filter((entry) => entry.cuts.length > 0),
 };
 
 await mkdir(dirname(OUT), { recursive: true });

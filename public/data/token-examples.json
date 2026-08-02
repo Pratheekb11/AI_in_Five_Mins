@@ -1042,5 +1042,347 @@
         }
       ]
     }
+  ],
+  "chop": [
+    {
+      "word": "strawberry",
+      "pieces": [
+        "st",
+        "raw",
+        "berry"
+      ],
+      "cuts": [
+        2,
+        5
+      ]
+    },
+    {
+      "word": "unbelievable",
+      "pieces": [
+        "un",
+        "bel",
+        "ievable"
+      ],
+      "cuts": [
+        2,
+        5
+      ]
+    },
+    {
+      "word": "tokenization",
+      "pieces": [
+        "token",
+        "ization"
+      ],
+      "cuts": [
+        5
+      ]
+    },
+    {
+      "word": "pneumonia",
+      "pieces": [
+        "p",
+        "ne",
+        "um",
+        "onia"
+      ],
+      "cuts": [
+        1,
+        3,
+        5
+      ]
+    },
+    {
+      "word": "rhythm",
+      "pieces": [
+        "rh",
+        "ythm"
+      ],
+      "cuts": [
+        2
+      ]
+    },
+    {
+      "word": "giraffe",
+      "pieces": [
+        "g",
+        "ira",
+        "ffe"
+      ],
+      "cuts": [
+        1,
+        4
+      ]
+    },
+    {
+      "word": "blockchain",
+      "pieces": [
+        "block",
+        "chain"
+      ],
+      "cuts": [
+        5
+      ]
+    },
+    {
+      "word": "antidisestablishmentarianism",
+      "pieces": [
+        "ant",
+        "idis",
+        "est",
+        "ablishment",
+        "arian",
+        "ism"
+      ],
+      "cuts": [
+        3,
+        7,
+        10,
+        20,
+        25
+      ]
+    },
+    {
+      "word": "kubernetes",
+      "pieces": [
+        "k",
+        "ubernetes"
+      ],
+      "cuts": [
+        1
+      ]
+    },
+    {
+      "word": "bureaucracy",
+      "pieces": [
+        "bureau",
+        "cr",
+        "acy"
+      ],
+      "cuts": [
+        6,
+        8
+      ]
+    },
+    {
+      "word": "onomatopoeia",
+      "pieces": [
+        "onom",
+        "at",
+        "op",
+        "oe",
+        "ia"
+      ],
+      "cuts": [
+        4,
+        6,
+        8,
+        10
+      ]
+    },
+    {
+      "word": "mississippi",
+      "pieces": [
+        "miss",
+        "issippi"
+      ],
+      "cuts": [
+        4
+      ]
+    },
+    {
+      "word": "photosynthesis",
+      "pieces": [
+        "photos",
+        "ynthesis"
+      ],
+      "cuts": [
+        6
+      ]
+    },
+    {
+      "word": "quesadilla",
+      "pieces": [
+        "ques",
+        "adilla"
+      ],
+      "cuts": [
+        4
+      ]
+    },
+    {
+      "word": "wednesday",
+      "pieces": [
+        "w",
+        "ednesday"
+      ],
+      "cuts": [
+        1
+      ]
+    },
+    {
+      "word": "entrepreneur",
+      "pieces": [
+        "entre",
+        "preneur"
+      ],
+      "cuts": [
+        5
+      ]
+    },
+    {
+      "word": "hallucination",
+      "pieces": [
+        "hall",
+        "uc",
+        "ination"
+      ],
+      "cuts": [
+        4,
+        6
+      ]
+    },
+    {
+      "word": "asymptotic",
+      "pieces": [
+        "as",
+        "ym",
+        "pt",
+        "otic"
+      ],
+      "cuts": [
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "word": "jalapeno",
+      "pieces": [
+        "jal",
+        "ap",
+        "eno"
+      ],
+      "cuts": [
+        3,
+        5
+      ]
+    },
+    {
+      "word": "bangalore",
+      "pieces": [
+        "bang",
+        "alore"
+      ],
+      "cuts": [
+        4
+      ]
+    },
+    {
+      "word": "embeddings",
+      "pieces": [
+        "emb",
+        "eddings"
+      ],
+      "cuts": [
+        3
+      ]
+    },
+    {
+      "word": "juxtapose",
+      "pieces": [
+        "ju",
+        "xtap",
+        "ose"
+      ],
+      "cuts": [
+        2,
+        6
+      ]
+    },
+    {
+      "word": "serendipity",
+      "pieces": [
+        "ser",
+        "end",
+        "ip",
+        "ity"
+      ],
+      "cuts": [
+        3,
+        6,
+        8
+      ]
+    },
+    {
+      "word": "nightingale",
+      "pieces": [
+        "night",
+        "ingale"
+      ],
+      "cuts": [
+        5
+      ]
+    },
+    {
+      "word": "thunderstorm",
+      "pieces": [
+        "th",
+        "under",
+        "storm"
+      ],
+      "cuts": [
+        2,
+        7
+      ]
+    },
+    {
+      "word": "archipelago",
+      "pieces": [
+        "arch",
+        "ipelago"
+      ],
+      "cuts": [
+        4
+      ]
+    },
+    {
+      "word": "kaleidoscope",
+      "pieces": [
+        "k",
+        "ale",
+        "idos",
+        "cope"
+      ],
+      "cuts": [
+        1,
+        4,
+        8
+      ]
+    },
+    {
+      "word": "questionnaire",
+      "pieces": [
+        "question",
+        "naire"
+      ],
+      "cuts": [
+        8
+      ]
+    },
+    {
+      "word": "mischievous",
+      "pieces": [
+        "m",
+        "isch",
+        "iev",
+        "ous"
+      ],
+      "cuts": [
+        1,
+        5,
+        8
+      ]
+    }
   ]
 }

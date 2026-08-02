@@ -154,7 +154,7 @@ export const LESSONS: Lesson[] = [
     machine: "Would you paste it?",
     minutes: 8,
     ink: "pink",
-    status: "building",
+    status: "ready",
     feynman: "If this tool vanished tomorrow, could I still do my job?",
   },
 

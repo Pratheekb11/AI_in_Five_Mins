@@ -1,0 +1,326 @@
+@import "tailwindcss";
+
+/*
+  LearnLoopAI — risograph print system.
+
+  The whole site is styled as a two-to-four-ink risograph print of a technical
+  manual: flat spot colours, no gradients, no glow, visible halftone, and a
+  deliberate 1–2px misregistration on interactive elements. Every ink has a
+  fixed meaning that holds across all eight lessons:
+
+    blue    structure   tokens, boundaries, axes, the machine itself
+    pink    heat        attention, probability, focus, "where the model looks"
+    yellow  signal      the learner's own input and their rewards
+    teal    resolved    correct, converged, learned
+
+  Keeping those meanings stable is what lets a learner read lesson 8 using
+  intuitions they built in lesson 3.
+*/
+
+:root {
+  color-scheme: light;
+
+  /* Paper + ink */
+  --paper: #eae7de;
+  --paper-raised: #f3f1ea;
+  --paper-sunk: #ded9cd;
+  --ink: #17171f;
+  --ink-soft: #4a4a58;
+  --ink-faint: #86868f;
+  --rule: #17171f26;
+
+  /* Spot inks */
+  --blue: #2440d8;
+  --pink: #f5347f;
+  --yellow: #f2b418;
+  --teal: #009180;
+
+  /* Ink tints — flat, pre-mixed with paper rather than alpha-composited,
+     so overlapping marks stay readable instead of muddying. */
+  --blue-wash: #dfe3fa;
+  --pink-wash: #fbe0eb;
+  --yellow-wash: #fbf0d5;
+  --teal-wash: #d6ecea;
+
+  /* Contrast-safe text colours for each ink on paper */
+  --blue-text: #1e35b4;
+  --pink-text: #c31359;
+  --yellow-text: #8a6100;
+  --teal-text: #007063;
+
+  --halftone: #17171f;
+  --halftone-opacity: 0.055;
+
+  --radius: 3px;
+  --rule-weight: 1.5px;
+  --measure: 62ch;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --paper: #131319;
+  --paper-raised: #1c1c24;
+  --paper-sunk: #0d0d12;
+  --ink: #ece9e1;
+  --ink-soft: #a9a6a0;
+  --ink-faint: #74726e;
+  --rule: #ece9e12e;
+
+  --blue: #7d93ff;
+  --pink: #ff6fa3;
+  --yellow: #f5c542;
+  --teal: #3cc7b4;
+
+  --blue-wash: #1c2450;
+  --pink-wash: #3d1a2c;
+  --yellow-wash: #3a2f12;
+  --teal-wash: #10322f;
+
+  --blue-text: #97a9ff;
+  --pink-text: #ff85b3;
+  --yellow-text: #f7d071;
+  --teal-text: #55d8c6;
+
+  --halftone: #ece9e1;
+  --halftone-opacity: 0.05;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --paper: #131319;
+    --paper-raised: #1c1c24;
+    --paper-sunk: #0d0d12;
+    --ink: #ece9e1;
+    --ink-soft: #a9a6a0;
+    --ink-faint: #74726e;
+    --rule: #ece9e12e;
+
+    --blue: #7d93ff;
+    --pink: #ff6fa3;
+    --yellow: #f5c542;
+    --teal: #3cc7b4;
+
+    --blue-wash: #1c2450;
+    --pink-wash: #3d1a2c;
+    --yellow-wash: #3a2f12;
+    --teal-wash: #10322f;
+
+    --blue-text: #97a9ff;
+    --pink-text: #ff85b3;
+    --yellow-text: #f7d071;
+    --teal-text: #55d8c6;
+
+    --halftone: #ece9e1;
+    --halftone-opacity: 0.05;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunk: var(--paper-sunk);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+
+  --color-blue: var(--blue);
+  --color-pink: var(--pink);
+  --color-yellow: var(--yellow);
+  --color-teal: var(--teal);
+
+  --color-blue-wash: var(--blue-wash);
+  --color-pink-wash: var(--pink-wash);
+  --color-yellow-wash: var(--yellow-wash);
+  --color-teal-wash: var(--teal-wash);
+
+  --color-blue-text: var(--blue-text);
+  --color-pink-text: var(--pink-text);
+  --color-yellow-text: var(--yellow-text);
+  --color-teal-text: var(--teal-text);
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-literata), ui-serif, Georgia, serif;
+  --font-data: var(--font-martian), ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ---------------------------------------------------------------- base --- */
+
+* {
+  border-color: var(--rule);
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* The halftone plate. A single fixed dot screen sits over the whole page so
+   every section shares one grain, the way a real print would. It is inert to
+   pointer events and sits behind content. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--halftone-opacity);
+  background-image: radial-gradient(
+    var(--halftone) 0.9px,
+    transparent 0.9px
+  );
+  background-size: 4px 4px;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+/* The display face carries a width axis. Condensing the largest sizes and
+   letting small labels run wide is the one typographic move the site repeats —
+   it reads as a printer setting rather than as decoration. */
+.display-xl {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 88, "opsz" 48;
+  font-weight: 800;
+  font-size: clamp(2.75rem, 8.5vw, 6.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 92, "opsz" 36;
+  font-weight: 700;
+  font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+  line-height: 1.03;
+  letter-spacing: -0.035em;
+}
+
+.display-md {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 96, "opsz" 24;
+  font-weight: 700;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+/* Eyebrows and data labels run wide and letterspaced — the manual's voice. */
+.label {
+  font-family: var(--font-data);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.data {
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.prose-measure {
+  max-width: var(--measure);
+}
+
+.prose-measure p + p {
+  margin-top: 0.85em;
+}
+
+/* ------------------------------------------------------------ mechanics --- */
+
+/* A printed panel: hard rule, flat fill, offset shadow standing in for the
+   second pass of the press. No blur — a riso shadow is just another plate. */
+.plate {
+  background: var(--paper-raised);
+  border: var(--rule-weight) solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.plate-flush {
+  background: var(--paper-raised);
+  border: var(--rule-weight) solid var(--ink);
+  border-radius: var(--radius);
+}
+
+/* Misregistration: on hover the ink plate slips, as if the paper fed crooked.
+   This is the site's one recurring micro-interaction. */
+.misreg {
+  transition:
+    transform 140ms cubic-bezier(0.2, 0.8, 0.3, 1),
+    box-shadow 140ms cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.misreg:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.misreg:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+/* ------------------------------------------------------------ a11y base --- */
+
+:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .misreg:hover,
+  .misreg:active {
+    transform: none;
+  }
+}
+
+::selection {
+  background: var(--yellow);
+  color: #17171f;
+}
+
+/* Thin, printed-looking scrollbars on the horizontal token rails. */
+.rail {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-faint) transparent;
+}

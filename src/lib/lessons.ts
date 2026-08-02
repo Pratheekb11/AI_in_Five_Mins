@@ -170,6 +170,7 @@ export const LESSONS: Lesson[] = [
     minutes: 8,
     ink: "blue",
     status: "ready",
+    feynman: "What is the difference between AI and ordinary software?",
   },
   {
     slug: "how-models-learn",
@@ -182,6 +183,7 @@ export const LESSONS: Lesson[] = [
     minutes: 8,
     ink: "teal",
     status: "ready",
+    feynman: "What does it mean to say a model 'learned' something?",
   },
   {
     slug: "tokens",

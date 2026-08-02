@@ -1,12 +1,19 @@
-import { Beat } from "@/components/lesson/Beat";
+import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
+import { MechanismPanel } from "@/components/lesson/MechanismPanel";
+import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { GradientHill } from "@/components/machines/GradientHill";
 import { REGRESSION } from "@/lib/datasets";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
+import { videoFor } from "@/lib/videos";
 
 const lesson = getLesson("how-models-learn")!;
+const video = videoFor("how-models-learn")!;
 
 export const metadata = {
   title: lesson.title,
@@ -32,6 +39,25 @@ const SOURCES: Source[] = [
     publisher: "Rumelhart, Hinton & Williams, Nature (1986)",
     url: "https://www.nature.com/articles/323533a0",
     used: "How the same downhill step is applied to models with millions of dials instead of one.",
+  },
+];
+
+const STEPS: Step[] = [
+  {
+    say: "A model is a formula with adjustable numbers in it. That is the whole of what the word means. The one you just used had a single dial; a large language model has hundreds of billions of them.",
+    caption: "tokens = dial × characters. One number to set, and nobody told it the answer.",
+  },
+  {
+    say: "Training is four steps on a loop. Measure how wrong you are. Work out which way is downhill. Take a small step. Do it again until stepping stops helping.",
+  },
+  {
+    say: "Notice what it never had. It could not see the shape of the hill — only whether the ground under its feet slopes up or down. Every model you have heard of is trained by feeling for the slope in the dark.",
+  },
+  {
+    say: `And notice what came out. About ${REGRESSION.best.charsPerToken} characters per token. Nobody wrote that number down; it fell out of the measurements. Feed it different text and it settles somewhere else.`,
+  },
+  {
+    say: "Which is the sentence to keep from this page. A model's answers are downstream of the examples it was shown — always, with no exceptions, at every scale.",
   },
 ];
 
@@ -70,8 +96,7 @@ const QUESTIONS: QuizQuestion[] = [
       "Step size is the one setting that has to be tuned by hand. Too small and training takes forever; too large and it diverges. This is why training big models is expensive and fiddly, not just slow.",
   },
   {
-    prompt:
-      `Training settled on about ${REGRESSION.best.charsPerToken} characters per token. What is that number?`,
+    prompt: `Training settled on about ${REGRESSION.best.charsPerToken} characters per token. What is that number?`,
     options: [
       "A constant that was programmed in",
       "A fact discovered from the sentences, which would come out differently for different text",
@@ -86,97 +111,98 @@ const QUESTIONS: QuizQuestion[] = [
 export default function HowModelsLearnLesson() {
   return (
     <LessonShell lesson={lesson} sources={SOURCES}>
-      <Beat
-        kind="look"
-        title="A model is a formula with dials on it"
-        standfirst={
+      <Hook
+        claim={
           <>
-            <p>
-              Lesson 1 said a model finds patterns in examples instead of being
-              told rules. This is what that looks like from the inside, and it is
-              less mysterious than it sounds.
-            </p>
-            <p>
-              Start with a formula that has an adjustable number in it. Measure
-              how wrong it is on real data. Nudge the number in whichever
-              direction makes it less wrong. Repeat until nudging stops helping.
-              That is training &mdash; all of it.
-            </p>
-            <p>
-              The model below has exactly one dial, so you can watch the whole
-              thing at once. GPT&#8209;class models run the identical procedure
-              on hundreds of billions of dials, which is a difference of scale
-              and cost, not of idea.
-            </p>
+            Learning, in every AI system ever built, is{" "}
+            <span className="text-teal-text">rolling downhill in the dark</span>
+            .
           </>
         }
-      >
-        <div className="plate bg-paper-sunk p-5 md:p-6">
-          <p className="label text-ink-faint mb-3">The formula</p>
-          <p className="font-data mb-4 text-lg">
-            tokens = <span className="text-pink-text">dial</span> &times;
-            characters
-          </p>
-          <p className="prose-measure text-ink-soft text-sm">
-            One dial to set. The data is {REGRESSION.sampleSize} sentences from{" "}
-            {REGRESSION.source.title}, each measured for how many characters it
-            has and how many tokens it actually costs. Nobody has told the model
-            what the answer is.
-          </p>
-        </div>
-      </Beat>
+        sting={`One dial, ${REGRESSION.sampleSize} real sentences, and no view of the hill — only whether the ground under your feet slopes up or down. Find the bottom by hand first. It is harder than it looks, and then you get to hand it over.`}
+        cta="Take the wheel"
+      />
 
-      <Beat
-        kind="try"
-        title="Turn the dial, then hand it over"
-        standfirst={
-          <p>
-            Find the best setting by hand first &mdash; it is harder than it
-            looks. Then press <strong>Let it learn</strong> and watch it do the
-            same search without ever seeing the shape of the hill.
-          </p>
-        }
-      >
+      <div className="py-4">
         <GradientHill />
-      </Beat>
+      </div>
 
-      <Beat kind="check" title="Four questions">
+      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+        <Walkthrough steps={STEPS} />
+        <VideoPanel video={video} />
+      </div>
+
+      <div className="space-y-4 pb-4">
+        <MechanismPanel
+          question="Where do the billions of dials come from?"
+          summary="Same procedure, more numbers. The step is worked out for every dial at once."
+        >
+          <p>
+            One dial makes a hill you could draw. A hundred billion dials make a
+            surface nobody can picture &mdash; but the procedure does not care,
+            because it never looks at the whole surface anyway. At each step it
+            asks one question per dial: if I nudge this one, does the error go
+            up or down? Then it nudges them all a little, in the answer&rsquo;s
+            direction.
+          </p>
+          <p>
+            Rumelhart, Hinton and Williams gave that its efficient form in 1986
+            &mdash; working the slope backwards through a network so all the
+            dials get their answer in one pass. Everything since has been the
+            same idea with more arithmetic behind it.
+          </p>
+        </MechanismPanel>
+
+        <MechanismPanel
+          question="If nothing is stored, why does it seem to know things?"
+          summary="Because the examples changed the numbers. The effect survives; the examples do not."
+          deeper="what-an-llm-is"
+        >
+          <p>
+            A trained model does not contain its training data. It contains
+            numbers that data pushed into shape. That single fact explains the
+            behaviour that annoys people most: there is no source inside it to
+            check an answer against, so a plausible wrong answer and a correct
+            one are produced by exactly the same machinery.
+          </p>
+          <p>
+            It also explains the training cut-off. Absorbing anything new means
+            running this whole procedure again over the whole corpus, which
+            costs real money and time. That is why a model&rsquo;s knowledge
+            stops on a date &mdash; not because anyone chose to freeze it.
+          </p>
+        </MechanismPanel>
+      </div>
+
+      <div className="pb-4">
+        <FeynmanCheck
+          question={lesson.feynman!}
+          answer="It means some numbers got adjusted. The model is a formula with dials in it; training shows it examples, measures how wrong it is, and turns each dial a little in whichever direction makes it less wrong. Do that a few million times and the dials end up in positions that fit the examples well. Nothing was memorised and nothing was understood — the examples are gone, and only their effect on the dials is left."
+        />
+      </div>
+
+      <div className="pb-4">
+        <PracticeCard
+          title="Find out what your assistant was shown"
+          watchFor="Whether it can tell you its own cut-off, and whether it hedges about it. It has no way to check the date from the inside — anything it says about now is a guess dressed as a fact."
+        >
+          <p>
+            Ask an assistant when its training data ends. Then ask it about
+            something that happened after that date and watch what it does with
+            the gap.
+          </p>
+          <p>
+            Then ask it something where the answer depends on which text it was
+            trained on &mdash; a regional spelling, a contested date, a term
+            used differently in different fields.
+          </p>
+        </PracticeCard>
+      </div>
+
+      <div className="py-10">
+        <h2 className="display-lg mb-5">Check yourself</h2>
         <Quiz slug={lesson.slug} questions={QUESTIONS} />
-      </Beat>
-
-      <Beat
-        kind="use"
-        title="What this changes for you"
-        standfirst={<p>Training is a procedure, and procedures have costs.</p>}
-      >
-        <ul className="grid gap-4 md:grid-cols-2">
-          {[
-            {
-              heading: "Nothing is looked up",
-              body: "A trained model does not contain its training examples. It contains numbers those examples pushed into shape. That is why a model can produce something plausible and wrong with total confidence — there is no source to check against.",
-            },
-            {
-              heading: "Training is expensive for a boring reason",
-              body: "Every step needs the error measured across the data, and there are billions of dials. That is the whole bill: arithmetic, repeated. It also explains why models have a training cut-off — retraining is not free.",
-            },
-            {
-              heading: "The settings matter as much as the data",
-              body: "You just made training fail by changing one number. Real training has dozens of such settings. When a lab says a model was hard to train, this is usually what they mean.",
-            },
-            {
-              heading: "The answer depends on the examples",
-              body: `Your dial settled on ${REGRESSION.best.charsPerToken} characters per token because that is true of this book. Feed it different text and it settles somewhere else. A model's answers are downstream of what it was shown — always.`,
-            },
-          ].map((item) => (
-            <li key={item.heading} className="plate p-5">
-              <h4 className="font-display mb-2 text-lg font-bold">
-                {item.heading}
-              </h4>
-              <p className="text-ink-soft text-[0.9375rem]">{item.body}</p>
-            </li>
-          ))}
-        </ul>
-      </Beat>
+      </div>
     </LessonShell>
   );
 }

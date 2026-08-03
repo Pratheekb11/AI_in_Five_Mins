@@ -28,6 +28,53 @@ export type EmbeddingSpace = {
 
 let spacePromise: Promise<EmbeddingSpace> | null = null;
 
+/**
+ * Unpacks the int8-quantised file into searchable vectors.
+ *
+ * Split out from the loader so the tests measure through exactly the code the
+ * browser runs, rather than a second copy of the same arithmetic.
+ */
+export function decodeSpace(raw: {
+  dims: number;
+  scale: number;
+  words: string[];
+  groups: (string | null)[];
+  points: [number, number][];
+  source: EmbeddingSpace["source"];
+  vectors: string;
+}): EmbeddingSpace {
+  const { dims, words } = raw;
+
+  const binary = atob(raw.vectors);
+  const packed = new Int8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) packed[i] = binary.charCodeAt(i);
+
+  // Normalising once at load turns every later similarity into a dot
+  // product, which is what makes searching 1,851 words feel instant.
+  const unit = new Float32Array(words.length * dims);
+  for (let w = 0; w < words.length; w++) {
+    const off = w * dims;
+    let norm = 0;
+    for (let i = 0; i < dims; i++) {
+      const v = packed[off + i] * raw.scale;
+      unit[off + i] = v;
+      norm += v * v;
+    }
+    norm = Math.sqrt(norm) || 1;
+    for (let i = 0; i < dims; i++) unit[off + i] /= norm;
+  }
+
+  return {
+    words,
+    groups: raw.groups,
+    points: raw.points,
+    dims,
+    source: raw.source,
+    unit,
+    index: new Map(words.map((w: string, i: number) => [w, i])),
+  } satisfies EmbeddingSpace;
+}
+
 export function loadEmbeddings(): Promise<EmbeddingSpace> {
   if (!spacePromise) {
     spacePromise = fetch("/data/embeddings.json")
@@ -35,39 +82,7 @@ export function loadEmbeddings(): Promise<EmbeddingSpace> {
         if (!r.ok) throw new Error(`embeddings: ${r.status}`);
         return r.json();
       })
-      .then((raw) => {
-        const dims: number = raw.dims;
-        const words: string[] = raw.words;
-
-        const binary = atob(raw.vectors);
-        const packed = new Int8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) packed[i] = binary.charCodeAt(i);
-
-        // Normalising once at load turns every later similarity into a dot
-        // product, which is what makes searching 1,851 words feel instant.
-        const unit = new Float32Array(words.length * dims);
-        for (let w = 0; w < words.length; w++) {
-          const off = w * dims;
-          let norm = 0;
-          for (let i = 0; i < dims; i++) {
-            const v = packed[off + i] * raw.scale;
-            unit[off + i] = v;
-            norm += v * v;
-          }
-          norm = Math.sqrt(norm) || 1;
-          for (let i = 0; i < dims; i++) unit[off + i] /= norm;
-        }
-
-        return {
-          words,
-          groups: raw.groups,
-          points: raw.points,
-          dims,
-          source: raw.source,
-          unit,
-          index: new Map(words.map((w: string, i: number) => [w, i])),
-        } satisfies EmbeddingSpace;
-      });
+      .then(decodeSpace);
   }
   return spacePromise;
 }

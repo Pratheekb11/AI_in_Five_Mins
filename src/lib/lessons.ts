@@ -243,7 +243,7 @@ export const LESSONS: Lesson[] = [
     machine: "Failure bench",
     minutes: 10,
     ink: "teal",
-    status: "building",
+    status: "ready",
   },
 ];
 

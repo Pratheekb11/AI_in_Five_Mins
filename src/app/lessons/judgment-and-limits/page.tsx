@@ -11,7 +11,7 @@ import { getLesson, lessonsIn } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 
 const lesson = getLesson("judgment-and-limits")!;
-const track = lessonsIn("use");
+const track = lessonsIn("world");
 
 export const metadata = {
   title: lesson.title,
@@ -132,8 +132,8 @@ export default function JudgmentAndLimitsLesson() {
             .
           </>
         }
-        sting="The customer whose complaint you pasted was not asked. Neither was the colleague in the screenshot. Here are twenty-six things you might reasonably consider pasting — three of them will end your round if you get them wrong, and refusing all of them is not the answer either."
-        cta="Start the belt"
+        sting="The customer whose complaint you pasted was not asked. Neither was the colleague in the screenshot. Here are things you might reasonably consider pasting, one at a time and with no clock on it — because refusing all of them is not the answer either, and a tool nobody may use is not a safe tool."
+        cta="Open the first one"
       />
 
       <div className="py-4">

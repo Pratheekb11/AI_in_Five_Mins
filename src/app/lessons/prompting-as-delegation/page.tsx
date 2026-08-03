@@ -69,7 +69,7 @@ const STEPS: Step[] = [
       "Role · Goal · Constraints · Format · Example. You rarely need all five — you need to know which one you left out.",
   },
   {
-    say: "Everything else you typed is manners. Please, thanks, urgent, you're brilliant. None of it is harmful, and none of it is an instruction. It is the part of the belt you should let fall through.",
+    say: "Everything else you typed is manners. Please, thanks, urgent, you're brilliant. None of it is harmful and none of it is doing any work — the role-play phrasing measured slightly worse than saying nothing at all.",
   },
   {
     say: "Here is the test that replaces all of this advice. Read your prompt back and ask: if I sent only this to a competent stranger, would they produce what I actually want? If the answer is no, you already know which part is missing.",
@@ -124,8 +124,8 @@ export default function PromptingAsDelegationLesson() {
             <span className="text-yellow-text">does no work at all</span>.
           </>
         }
-        sting="Five things in an instruction actually change what comes back. The rest is politeness, urgency and flattery — harmless, and completely silent about the job. Here is a belt full of both, coming at you fast enough that you have to read."
-        cta="Work the line"
+        sting="Not the bit you would guess, either. Telling it how to answer moves the odds by 1.21 times. Telling it that it is an expert moves them by 0.92 — that is worse than saying nothing. Showing it one worked example moves them by forty. Five phrasings of the same request, and you pick the one that actually lands."
+        cta="Take the first one"
       />
 
       <div className="py-4">

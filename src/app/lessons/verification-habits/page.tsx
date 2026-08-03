@@ -58,7 +58,7 @@ const STEPS: Step[] = [
       "Awkward — skim it. Costly — verify every load-bearing claim at its source. Serious — a second pair of eyes, or do it again independently.",
   },
   {
-    say: "One outcome in that game deserves more attention than the failures. The dockets you under-checked that turned out fine. Nothing went wrong, you felt fast and competent, and you learnt exactly the wrong lesson.",
+    say: "One outcome deserves more attention than the misses: the sentences you read straight past that were fine. Nothing went wrong, you felt fast and competent, and you learnt exactly the wrong lesson.",
   },
   {
     say: "That is how every bad habit forms. It works, and works, and works, and then one Thursday it does not — and the one it does not work on is never the one you would have chosen.",
@@ -112,8 +112,8 @@ export default function VerificationHabitsLesson() {
             up as <span className="text-yellow-text">the same policy</span>.
           </>
         }
-        sting="Because checking costs time you do not have, and a rule you cannot afford is one you will drop — usually on the busiest day, which is exactly when the stakes are highest. So this round makes you pay for every check in seconds off your own clock, and finds out what your real policy is."
-        cta="Open the desk"
+        sting="So stop trying to check everything and get good at spotting the thing worth checking. Below is a real encyclopedia paragraph with three things quietly changed in it. Six flags, three errors, and everybody gets the same paragraph today."
+        cta="Hunt today's paragraph"
       />
 
       <div className="py-4">

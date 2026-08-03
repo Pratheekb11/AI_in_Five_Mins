@@ -51,7 +51,7 @@ const STEPS: Step[] = [
       "Not your last conversation. Not your file that was not attached. Not the correction you made yesterday.",
   },
   {
-    say: "And the context has a fixed maximum size. That is the belt you just played on. When new text arrives and there is no room, the oldest text is dropped so it fits.",
+    say: "And the context has a fixed maximum size. That is the five slots you just filled. When new text arrives and there is no room, the oldest is dropped so it fits — with no warning, and no note in the reply.",
   },
   {
     say: "Nothing announces this. The reply comes back in the same confident voice as always. It is not lying to you about remembering — from where it is sitting, that message was never there.",
@@ -110,8 +110,8 @@ export default function ContextIsEverythingLesson() {
             top, every single time.
           </>
         }
-        sting="And what it re-reads has a fixed maximum length. Once the chat gets longer than that, the oldest part is quietly dropped — with no warning, and no note in the reply. Here is what that feels like from the inside."
-        cta="Run the belt"
+        sting="So what is in front of it is the entire job. You get five slots and a pile of cards — the document, the chit-chat, the decoy, the helpful-looking example — and then the real model is run on exactly what you built. One of those cards drops the right answer from 89.9% to 3.8%, and it is not the one you would guess."
+        cta="Open the window"
       />
 
       <div className="py-4">
@@ -123,7 +123,7 @@ export default function ContextIsEverythingLesson() {
         <VideoPanel video={video} />
       </div>
 
-      {/* Both panels land after the belt has already dropped something the
+      {/* Both panels land after the window has already cost the reader something
           player needed — the question they are asking right now is "why". */}
       <div className="space-y-4 pb-4">
         <MechanismPanel

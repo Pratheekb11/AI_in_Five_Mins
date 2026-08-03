@@ -1,15 +1,16 @@
 import Link from "next/link";
-import { LiveTokenizer } from "@/components/machines/LiveTokenizer";
+import { HeroDemo } from "@/components/HeroDemo";
 import { SiteFooter } from "@/components/SiteFooter";
 import { NimoSays } from "@/components/nimo/NimoSays";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
-import { type Lesson, lessonsIn, TRACKS } from "@/lib/lessons";
+import { type Lesson, lessonsIn, type Track, TRACKS } from "@/lib/lessons";
 
 export default function Home() {
-  const use = lessonsIn("use");
+  const worlds = lessonsIn("world");
+  const close = lessonsIn("close");
   const how = lessonsIn("how");
-  const useMinutes = use.reduce((n, l) => n + l.minutes, 0);
+  const worldMinutes = worlds.reduce((n, l) => n + l.minutes, 0);
 
   return (
     <>
@@ -20,7 +21,8 @@ export default function Home() {
             paragraph asserting it. */}
         <section className="mx-auto max-w-6xl px-5 pt-14 pb-16 md:pt-20">
           <p className="label text-ink-faint mb-5">
-            Two tracks · {use.length + how.length} short modules
+            {worlds.length} worlds · about {worldMinutes} minutes · nothing to
+            sign up for
           </p>
 
           <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
@@ -41,18 +43,18 @@ export default function Home() {
                   runs on real data, never a mock-up.
                 </p>
                 <p>
-                  Start at module 1. The whole practical track takes about{" "}
-                  {useMinutes} minutes, and there is no theory to get through
-                  first.
+                  Six worlds, one idea each, about {worldMinutes} minutes end to
+                  end. There is no theory to get through first &mdash; the round
+                  on the right is a real model and it is already playing.
                 </p>
               </div>
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href={`/lessons/${use[0].slug}`}
+                  href={`/lessons/${worlds[0].slug}`}
                   className="plate misreg btn-primary font-display inline-block px-5 py-3 font-bold"
                 >
-                  Start module 1
+                  Start world 1
                 </Link>
                 <Link
                   href="/lessons/tokens"
@@ -67,24 +69,34 @@ export default function Home() {
               {/* One owl, and he introduces himself. NimoSays draws its own
                   Nimo, so a separate hero owl above it put two on the page. */}
               <NimoSays mood="curious" size={170}>
-                I am Nimo. Type something below and watch it get chopped into
-                the pieces a model actually reads.
+                I am Nimo. Before anyone explains anything to you &mdash; play
+                one round against a real model and see how you do.
               </NimoSays>
-              <div className="plate p-5 md:p-6">
-                <LiveTokenizer rows={2} />
-              </div>
+              <HeroDemo />
             </div>
           </div>
         </section>
 
         <TrackSection
-          id="use"
-          track="use"
-          lessons={use}
-          eyebrow="Start here"
+          id="worlds"
+          track="world"
+          lessons={worlds}
+          eyebrow="Start here — in order"
           sunk
         />
-        <TrackSection id="how" track="how" lessons={how} eyebrow="Optional depth — reachable from inside the modules" />
+        <TrackSection
+          id="close"
+          track="close"
+          lessons={close}
+          eyebrow="Then take it to work"
+        />
+        <TrackSection
+          id="how"
+          track="how"
+          lessons={how}
+          eyebrow="Optional depth — reachable from inside the worlds"
+          sunk
+        />
 
         <section className="mx-auto max-w-6xl px-5 py-14">
           <h2 className="display-md mb-3">Where the numbers come from</h2>
@@ -111,7 +123,7 @@ function TrackSection({
   sunk = false,
 }: {
   id: string;
-  track: "use" | "how";
+  track: Track;
   lessons: Lesson[];
   eyebrow: string;
   sunk?: boolean;
@@ -154,6 +166,15 @@ function TrackSection({
                   <p className="text-ink-soft grow text-sm">
                     {lesson.standfirst}
                   </p>
+
+                  {/* The one line you should still have a month later. */}
+                  {lesson.nugget ? (
+                    <p
+                      className={`${ink.chip} mt-3 rounded-[2px] border px-2 py-1 text-xs font-semibold`}
+                    >
+                      {lesson.nugget}
+                    </p>
+                  ) : null}
 
                   <p className="border-ink/20 label text-ink-faint mt-4 flex items-center justify-between gap-2 border-t pt-3">
                     <span className="truncate">{lesson.machine}</span>

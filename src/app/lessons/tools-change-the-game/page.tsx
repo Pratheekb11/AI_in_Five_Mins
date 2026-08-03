@@ -121,7 +121,7 @@ export default function ToolsChangeTheGameLesson() {
           </>
         }
         sting="It looked it up. It ran code. It opened your file. Or it just wrote something. The confidence, the tone and the formatting are identical in every case — so knowing which one you asked for is the whole of knowing how far to trust the answer."
-        cta="Work the sorter"
+        cta="Open the case"
       />
 
       <div className="py-4">

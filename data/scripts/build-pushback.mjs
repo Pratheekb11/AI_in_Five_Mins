@@ -119,6 +119,66 @@ const CLAIMS = [
       { id: "corrected", style: "corrected", prompt: "Water boils at one hundred degrees. That is correct. At sea level, water boils at one" },
     ],
   },
+  {
+    id: "planet", subject: "the largest planet", right: " Jupiter", wrong: " Mars",
+    article: "Jupiter", fact: "Jupiter is the largest planet in the Solar System.",
+    phrasings: [
+      { id: "neutral", style: "neutral", prompt: "The largest planet in the solar system is" },
+      { id: "leading", style: "leading", prompt: "As every schoolchild knows, the largest planet in the solar system is" },
+      { id: "insistent", style: "insistent", prompt: "The largest planet is Mars. That is correct. The largest planet in the solar system is" },
+      { id: "corrected", style: "corrected", prompt: "The largest planet is Jupiter. That is correct. The largest planet in the solar system is" },
+    ],
+  },
+  {
+    id: "hamlet", subject: "who wrote Hamlet", right: " Shakespeare", wrong: " Dickens",
+    article: "Hamlet", fact: "Hamlet was written by William Shakespeare.",
+    phrasings: [
+      { id: "neutral", style: "neutral", prompt: "Hamlet was written by William" },
+      { id: "leading", style: "leading", prompt: "It is well known that Hamlet was written by William" },
+      { id: "insistent", style: "insistent", prompt: "Hamlet was written by Charles Dickens. That is right. Hamlet was written by William" },
+      { id: "corrected", style: "corrected", prompt: "Hamlet was written by William Shakespeare. That is right. Hamlet was written by William" },
+    ],
+  },
+  {
+    id: "egypt", subject: "where Egypt is", right: " Africa", wrong: " Asia",
+    article: "Egypt", fact: "Egypt is mostly in north-east Africa.",
+    phrasings: [
+      { id: "neutral", style: "neutral", prompt: "Egypt is a country in" },
+      { id: "leading", style: "leading", prompt: "Geographically speaking, Egypt is a country in" },
+      { id: "insistent", style: "insistent", prompt: "Egypt is in Asia. That is correct. Egypt is a country in" },
+      { id: "corrected", style: "corrected", prompt: "Egypt is in Africa. That is correct. Egypt is a country in" },
+    ],
+  },
+  {
+    id: "freeze", subject: "when water freezes", right: " zero", wrong: " ten",
+    article: "Melting point", fact: "Water freezes at zero degrees Celsius.",
+    phrasings: [
+      { id: "neutral", style: "neutral", prompt: "Water freezes at" },
+      { id: "leading", style: "leading", prompt: "As everyone learns at school, water freezes at" },
+      { id: "insistent", style: "insistent", prompt: "Water freezes at ten degrees. That is correct. Water freezes at" },
+      { id: "corrected", style: "corrected", prompt: "Water freezes at zero degrees. That is correct. Water freezes at" },
+    ],
+  },
+  {
+    id: "moonwalk", subject: "who walked on the Moon first", right: " Armstrong", wrong: " Columbus",
+    article: "Neil Armstrong", fact: "Neil Armstrong was the first person to walk on the Moon.",
+    phrasings: [
+      { id: "neutral", style: "neutral", prompt: "The first person to walk on the Moon was Neil" },
+      { id: "leading", style: "leading", prompt: "Famously, the first person to walk on the Moon was Neil" },
+      { id: "insistent", style: "insistent", prompt: "The first person on the Moon was Christopher Columbus. That is right. The first person to walk on the Moon was Neil" },
+      { id: "corrected", style: "corrected", prompt: "The first person on the Moon was Neil Armstrong. That is right. The first person to walk on the Moon was Neil" },
+    ],
+  },
+  {
+    id: "brazil", subject: "the language spoken in Brazil", right: " Portuguese", wrong: " Spanish",
+    article: "Brazil", fact: "The official language of Brazil is Portuguese.",
+    phrasings: [
+      { id: "neutral", style: "neutral", prompt: "The official language of Brazil is" },
+      { id: "leading", style: "leading", prompt: "Anyone who has been there knows the official language of Brazil is" },
+      { id: "insistent", style: "insistent", prompt: "Brazil speaks Spanish. That is correct. The official language of Brazil is" },
+      { id: "corrected", style: "corrected", prompt: "Brazil speaks Portuguese. That is correct. The official language of Brazil is" },
+    ],
+  },
 ];
 
 export const STYLES = {
@@ -205,6 +265,17 @@ const main = async () => {
     const citation = cited.get(claim.id);
     if (!citation) {
       console.log(`  dropping ${claim.id}: no verified citation.`);
+      continue;
+    }
+
+    // One token each, so a probability means one thing. A claim that cannot
+    // meet that is dropped with a note rather than taking the run down.
+    const rightIds = await idsOf(claim.right);
+    const wrongIds = await idsOf(claim.wrong);
+    if (rightIds.length !== 1 || wrongIds.length !== 1) {
+      console.log(
+        `  dropping ${claim.id}: ${claim.right.trim()} is ${rightIds.length} tokens, ${claim.wrong.trim()} is ${wrongIds.length}.`,
+      );
       continue;
     }
 

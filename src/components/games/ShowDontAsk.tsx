@@ -23,8 +23,8 @@ import {
  *
  * One goal, five phrasings, and a call to make before any evidence appears.
  * Then all five measured probabilities arrive at once as bars, and the gap
- * between "please answer in one word" and a worked example is roughly forty
- * times over.
+ * between "please answer in one word" and a worked example is more than a
+ * hundred times over.
  *
  * The bars land together rather than one at a time, because the comparison is
  * the point — you are meant to see the pattern phrasing tower over the polite

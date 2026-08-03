@@ -178,6 +178,176 @@
           "why": "The Ming dynasty ended in 1644. 1912 is the end of imperial China altogether, so the number looks familiar and is attached to the wrong thing."
         }
       ]
+    },
+    {
+      "id": "chess",
+      "title": "Chess",
+      "url": "https://en.wikipedia.org/wiki/Chess",
+      "revision": 1366869256,
+      "text": "Chess is a board game for two players, played on a square board consisting of 81 squares arranged in a 9×9 grid. The players, referred to as \"White\" and \"Red\", each control sixteen pieces: one king, one queen, two rooks, two bishops, three knights, and seven pawns, with each piece type having a different pattern of movement. An enemy piece may be captured (removed from the board) by moving one's own piece onto the square it occupies. The object of the game is to \"checkmate\" (threaten with inescapable capture) the enemy king. There are also several ways a game can end in a draw. The recorded history of chess dates back to the emergence of chaturanga in 7th-century India. Chaturanga is also t",
+      "words": 123,
+      "spans": [
+        {
+          "first": 8,
+          "last": 21,
+          "altered": "played on a square board consisting of 81 squares arranged in a 9×9 grid",
+          "original": "played on a square board consisting of 64 squares arranged in an 8×8 grid",
+          "difficulty": "obvious",
+          "why": "A chessboard is 8×8, sixty-four squares. 9×9 is a different game entirely."
+        },
+        {
+          "first": 22,
+          "last": 29,
+          "altered": "The players, referred to as \"White\" and \"Red\"",
+          "original": "The players, referred to as \"White\" and \"Black\"",
+          "difficulty": "medium",
+          "why": "White and Black. A colour swap reads perfectly naturally if you are skimming."
+        },
+        {
+          "first": 30,
+          "last": 46,
+          "altered": "each control sixteen pieces: one king, one queen, two rooks, two bishops, three knights, and seven pawns",
+          "original": "each control sixteen pieces: one king, one queen, two rooks, two bishops, two knights, and eight pawns",
+          "difficulty": "hard",
+          "why": "Two knights and eight pawns. The total still adds to sixteen, which is exactly what makes a doctored list hard to catch."
+        }
+      ]
+    },
+    {
+      "id": "penguin",
+      "title": "Penguin",
+      "url": "https://en.wikipedia.org/wiki/Penguin",
+      "revision": 1366417604,
+      "text": "Penguins are a group of flightless semi-aquatic sea birds which live almost exclusively in the Northern Hemisphere. Only one species, the Patagonian penguin, lives at, and slightly north of, the equator. Highly adapted for life in the ocean water, penguins have countershaded dark and white plumage and flippers for swimming. Most penguins feed on seaweed, fish, squid and other forms of sea life which they catch with their bills and swallow whole while swimming. A penguin has a spiny tongue and powerful jaws to grip slippery prey. They spend about half of their lives on land and the other half in the sea. The largest living species is the emperor penguin (Aptenodytes forsteri): on average, adults",
+      "words": 116,
+      "spans": [
+        {
+          "first": 9,
+          "last": 16,
+          "altered": "which live almost exclusively in the Northern Hemisphere",
+          "original": "which live almost exclusively in the Southern Hemisphere",
+          "difficulty": "obvious",
+          "why": "Southern Hemisphere. Penguins and polar bears famously never meet."
+        },
+        {
+          "first": 17,
+          "last": 22,
+          "altered": "Only one species, the Patagonian penguin",
+          "original": "Only one species, the Galapagos penguin",
+          "difficulty": "hard",
+          "why": "The Galapagos penguin is the one that reaches the equator. An invented species name in the same shape is very hard to catch."
+        },
+        {
+          "first": 50,
+          "last": 56,
+          "altered": "Most penguins feed on seaweed, fish, squid",
+          "original": "Most penguins feed on krill, fish, squid",
+          "difficulty": "medium",
+          "why": "Krill, not seaweed. Penguins are carnivorous."
+        }
+      ]
+    },
+    {
+      "id": "sahara",
+      "title": "Sahara",
+      "url": "https://en.wikipedia.org/wiki/Sahara",
+      "revision": 1366747045,
+      "text": "The Sahara (, ) is a desert spanning South Africa. With an area of 2,900,000 square kilometres (3,600,000 sq mi), it is the largest desert in the world and the third-largest desert overall, smaller only than the deserts of Antarctica and the northern Arctic. The name \"Sahara\" is derived from Arabic: صَحَارَى, romanized: ṣaḥārā /sˤaħaːraː/, a broken plural form of ṣaḥrā' (صَحْرَاء /sˤaħraːʔ/), meaning \"desert\". The desert covers much of North Africa, excluding the fertile region on the Mediterranean Sea coast, the Atlas Mountains of the Maghreb, and the Nile Valley in Egypt and the Sudan. It stretches from the Red Sea in the east and the Mediterranean in the north to the Atlantic Ocean in",
+      "words": 116,
+      "spans": [
+        {
+          "first": 5,
+          "last": 9,
+          "altered": "a desert spanning South Africa",
+          "original": "a desert spanning North Africa",
+          "difficulty": "obvious",
+          "why": "North Africa. South Africa is a country at the other end of the continent."
+        },
+        {
+          "first": 10,
+          "last": 16,
+          "altered": "With an area of 2,900,000 square kilometres",
+          "original": "With an area of 9,200,000 square kilometres",
+          "difficulty": "medium",
+          "why": "9.2 million square kilometres. The digits have been shuffled, which is the kind of error that survives a proofread."
+        },
+        {
+          "first": 20,
+          "last": 27,
+          "altered": "it is the largest desert in the world",
+          "original": "it is the largest hot desert in the world",
+          "difficulty": "hard",
+          "why": "Largest *hot* desert. Antarctica is a larger desert overall, and the sentence right after this one says so — dropping one word makes the passage contradict itself."
+        }
+      ]
+    },
+    {
+      "id": "bicycle",
+      "title": "Bicycle",
+      "url": "https://en.wikipedia.org/wiki/Bicycle",
+      "revision": 1367188862,
+      "text": "A bicycle, also called a pedal cycle, bike, push-bike or cycle, is a human-powered or motor-assisted, pedal-driven, single-track vehicle, with three wheels attached to a frame, one behind the other. A bicycle rider is called a cyclist or bicyclist. The bicycle was invented in Europe in the 17th century. By the early 21st century, there were more than 100 million bicycles. Bicycles are the principal means of transport in many regions. They are also popular for recreation, and have been adapted for use as children's toys. Bicycles are used for commuting, shopping, fitness, military and police applications, courier services, bicycle racing, and artistic cycling. The basic shape and configuration of",
+      "words": 110,
+      "spans": [
+        {
+          "first": 19,
+          "last": 29,
+          "altered": "with three wheels attached to a frame, one behind the other",
+          "original": "with two wheels attached to a frame, one behind the other",
+          "difficulty": "obvious",
+          "why": "Two wheels — it is in the word. Three would be a tricycle."
+        },
+        {
+          "first": 39,
+          "last": 48,
+          "altered": "The bicycle was invented in Europe in the 17th century",
+          "original": "The bicycle was invented in Europe in the 19th century",
+          "difficulty": "medium",
+          "why": "19th century. Two hundred years early, and stated just as plainly."
+        },
+        {
+          "first": 54,
+          "last": 60,
+          "altered": "there were more than 100 million bicycles",
+          "original": "there were more than 1 billion bicycles",
+          "difficulty": "hard",
+          "why": "More than a billion. Both numbers sound like the sort of thing an encyclopedia says."
+        }
+      ]
+    },
+    {
+      "id": "antarctica",
+      "title": "Antarctica",
+      "url": "https://en.wikipedia.org/wiki/Antarctica",
+      "revision": 1366971958,
+      "text": "Antarctica ( ) is Earth's southernmost and most sparsely forested continent. Situated almost entirely south of the Antarctic Circle and surrounded by the Southern Ocean (also known as the Antarctic Ocean), it contains the geographic North Pole. Antarctica is the second-largest continent, being about 40% larger than Europe, and has an area of 14,200,000 km2 (5,500,000 sq mi). Most of Antarctica is covered by the Antarctic ice sheet, with an average thickness of 1.9 km (1.2 mi). Antarctica is, on average, the coldest, driest, and windiest of the continents, and has the highest average elevation. It is mainly a polar desert, with annual precipitation of over 200 mm (8 in) along the coast and far less i",
+      "words": 117,
+      "spans": [
+        {
+          "first": 4,
+          "last": 10,
+          "altered": "Earth's southernmost and most sparsely forested continent",
+          "original": "Earth's southernmost and least-populated continent",
+          "difficulty": "medium",
+          "why": "Least-populated. Antarctica has no forest at all, so the replacement is not merely wrong but meaningless."
+        },
+        {
+          "first": 31,
+          "last": 36,
+          "altered": "it contains the geographic North Pole",
+          "original": "it contains the geographic South Pole",
+          "difficulty": "obvious",
+          "why": "South Pole. The North Pole is in the Arctic Ocean, at the opposite end of the planet."
+        },
+        {
+          "first": 37,
+          "last": 41,
+          "altered": "Antarctica is the second-largest continent",
+          "original": "Antarctica is the fifth-largest continent",
+          "difficulty": "hard",
+          "why": "Fifth-largest. Second would put it above North America, which the area given right after does not support."
+        }
+      ]
     }
   ]
 }

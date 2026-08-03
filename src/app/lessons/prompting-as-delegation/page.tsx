@@ -124,7 +124,7 @@ export default function PromptingAsDelegationLesson() {
             <span className="text-yellow-text">does no work at all</span>.
           </>
         }
-        sting="Not the bit you would guess, either. Telling it how to answer moves the odds by 1.21 times. Telling it that it is an expert moves them by 0.92 — that is worse than saying nothing. Showing it one worked example moves them by forty. Five phrasings of the same request, and you pick the one that actually lands."
+        sting="Not the bit you would guess, either. Across fourteen goals, telling it how to answer moved the odds by 1.65 times and telling it that it is an expert by 1.02 — which is to say, not at all. Showing it one worked example moved them by 125, and won every single goal. Five phrasings of the same request, and you pick the one that actually lands."
         cta="Take the first one"
       />
 

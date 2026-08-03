@@ -1,0 +1,291 @@
+"use client";
+
+import { AnimatePresence, motion } from "motion/react";
+import { useCallback, useEffect, useState } from "react";
+import {
+  ENCODING_NAME,
+  loadEncoding,
+  type Token,
+  tokenize,
+  VOCAB_SIZE,
+} from "@/lib/tokenizer";
+import { loadScripts, type ScriptData } from "@/lib/scripts";
+
+/**
+ * Token Chopper — type anything, watch it shatter.
+ *
+ * Not a round-based game. It is an instrument: whatever you type is cut, live,
+ * by the real `o200k_base` merge table, and the tiles rearrange themselves as
+ * you go. The teaching happens the moment you try something and the count does
+ * not do what you expected.
+ *
+ * Three of those moments are set up for you. "strawberry" comes apart into
+ * three pieces rather than ten letters, which is the whole reason these things
+ * cannot count letters. A line of Kannada or Hindi costs roughly twice the
+ * tokens of the same length of English, which is a bill nobody mentions. And
+ * emoji cost several tokens each.
+ *
+ * Everything is measured in the browser as you type. The comparison table is
+ * measured too, offline, over the same number of characters of Wikipedia in
+ * each language, with the article revision recorded.
+ */
+
+type Encoding = Awaited<ReturnType<typeof loadEncoding>>;
+
+const START = "strawberry";
+
+const TRIES: { label: string; text: string; note: string }[] = [
+  {
+    label: "strawberry",
+    text: "strawberry",
+    note: "Ten letters. Count the tiles — this is exactly why it miscounts the r's.",
+  },
+  {
+    label: "A sentence",
+    text: "The quick brown fox jumps over the lazy dog.",
+    note: "Ordinary English is the cheapest thing you can send. Roughly one token per short word.",
+  },
+  {
+    label: "ಕನ್ನಡ",
+    text: "ಕನ್ನಡ ಭಾಷೆಯಲ್ಲಿ ಬರೆದ ಒಂದು ಸಣ್ಣ ವಾಕ್ಯ.",
+    note: "Now watch the tile count against the character count. Same length of text, far more tokens.",
+  },
+  {
+    label: "हिन्दी",
+    text: "यह हिन्दी में लिखा गया एक छोटा वाक्य है।",
+    note: "Devanagari does the same thing. If you are billed per token, this is a surcharge on your own language.",
+  },
+  {
+    label: "Emoji",
+    text: "I love this 🎉🍓🇮🇳",
+    note: "A single emoji is often several tokens. A flag can be more.",
+  },
+  {
+    label: "Code",
+    text: "const total = items.reduce((a, b) => a + b, 0);",
+    note: "Punctuation and symbols split hard. Code is dense in tokens for its length.",
+  },
+  {
+    label: "Numbers",
+    text: "1234567 and 2026 and 3.14159",
+    note: "Long numbers shatter into pieces. This is a large part of why arithmetic goes wrong.",
+  },
+];
+
+/** Stable colour per tile, so neighbouring tiles never share one. */
+const TILE_INKS = [
+  "bg-blue-wash text-blue-text border-blue",
+  "bg-pink-wash text-pink-text border-pink",
+  "bg-yellow-wash text-yellow-text border-yellow",
+  "bg-teal-wash text-teal-text border-teal",
+];
+
+export function TokenChopper() {
+  const [encoding, setEncoding] = useState<Encoding | null>(null);
+  const [scripts, setScripts] = useState<ScriptData | null>(null);
+  const [text, setText] = useState(START);
+  const [note, setNote] = useState<string | null>(TRIES[0].note);
+
+  useEffect(() => {
+    let alive = true;
+    loadEncoding().then((e) => alive && setEncoding(e));
+    loadScripts()
+      .then((s) => alive && setScripts(s))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const tokens: Token[] = encoding ? tokenize(encoding, text) : [];
+  const characters = [...text].length;
+  const perToken = tokens.length > 0 ? characters / tokens.length : 0;
+
+  const tryIt = useCallback((entry: (typeof TRIES)[number]) => {
+    setText(entry.text);
+    setNote(entry.note);
+  }, []);
+
+  const english = scripts?.languages.find((l) => l.code === "en");
+
+  return (
+    <div className="plate">
+      <div className="border-ink/20 flex flex-wrap items-baseline justify-between gap-3 border-b px-5 py-3">
+        <h3 className="display-md">Token Chopper</h3>
+        <p className="label text-ink-faint">
+          {ENCODING_NAME} &middot; {VOCAB_SIZE.toLocaleString()} tokens
+        </p>
+      </div>
+
+      <div className="p-5 md:p-6">
+        <label className="mb-4 block">
+          <span className="label text-ink-faint mb-1.5 block">
+            Type anything. It is cut as you type.
+          </span>
+          <textarea
+            value={text}
+            onChange={(e) => {
+              setText(e.target.value);
+              setNote(null);
+            }}
+            rows={3}
+            spellCheck={false}
+            className="font-data border-ink/30 bg-paper-sunk focus:border-ink w-full resize-y rounded-[2px] border px-4 py-3 text-[1.0625rem] outline-none"
+            placeholder="strawberry"
+          />
+        </label>
+
+        <div className="mb-4 flex flex-wrap gap-2">
+          {TRIES.map((entry) => (
+            <button
+              key={entry.label}
+              type="button"
+              onClick={() => tryIt(entry)}
+              className="plate hover:border-ink cursor-pointer px-3 py-1.5 text-[0.875rem]"
+            >
+              {entry.label}
+            </button>
+          ))}
+        </div>
+
+        {/* The tiles. They move, because the point is that your text is being
+            taken apart — a still picture of the result does not say that. */}
+        <div className="bg-paper-sunk border-ink/20 mb-4 min-h-[6rem] rounded-[2px] border p-3">
+          {encoding ? (
+            tokens.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                <AnimatePresence initial={false} mode="popLayout">
+                  {tokens.map((token) => (
+                    <motion.span
+                      key={`${token.index}-${token.id}`}
+                      layout
+                      initial={{ opacity: 0, scale: 0.6, y: -8 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.6 }}
+                      transition={{ duration: 0.18, ease: "easeOut" }}
+                      title={`token ${token.id}`}
+                      className={`font-data rounded-[2px] border px-1.5 py-1 text-[0.9375rem] whitespace-pre ${
+                        TILE_INKS[token.index % TILE_INKS.length]
+                      }`}
+                    >
+                      {token.text === " "
+                        ? "␣"
+                        : token.text.replace(/\n/g, "⏎")}
+                    </motion.span>
+                  ))}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <p className="text-ink-soft text-[0.9375rem]">
+                Nothing to cut yet.
+              </p>
+            )
+          ) : (
+            <p className="text-ink-soft text-[0.9375rem]">
+              Loading the real merge table (about 2MB)…
+            </p>
+          )}
+        </div>
+
+        <div className="mb-4 grid grid-cols-3 gap-3">
+          {[
+            { label: "Characters", value: characters },
+            { label: "Tokens", value: tokens.length },
+            {
+              label: "Chars / token",
+              value: perToken > 0 ? perToken.toFixed(2) : "—",
+            },
+          ].map((readout) => (
+            <div key={readout.label} className="plate-flush px-3 py-2">
+              <p className="label text-ink-faint">{readout.label}</p>
+              <motion.p
+                key={String(readout.value)}
+                initial={{ opacity: 0.4 }}
+                animate={{ opacity: 1 }}
+                className="data text-[1.25rem] tabular-nums"
+              >
+                {readout.value}
+              </motion.p>
+            </div>
+          ))}
+        </div>
+
+        <div className="min-h-[2.5rem]" aria-live="polite">
+          {note ? (
+            <motion.p
+              key={note}
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="prose-measure text-ink-soft text-[0.9375rem]"
+            >
+              {note}
+            </motion.p>
+          ) : null}
+        </div>
+      </div>
+
+      {scripts && english ? (
+        <div className="border-ink/20 border-t p-5 md:p-6">
+          <h4 className="display-md mb-1">The bill nobody mentions</h4>
+          <p className="prose-measure text-ink-soft mb-4 text-[0.9375rem]">
+            The same {scripts.charactersMeasured} characters of Wikipedia, in
+            each language, cut by the same tokenizer. You are billed per token,
+            so the right-hand column is what your language costs you.
+          </p>
+
+          <ul className="space-y-2">
+            {scripts.languages.map((language) => (
+              <li key={language.code} className="flex items-center gap-3">
+                <span className="w-24 shrink-0 text-[0.9375rem]">
+                  {language.name}
+                </span>
+                <span className="bg-paper-sunk border-ink/20 h-4 flex-1 overflow-hidden rounded-[1px] border">
+                  <motion.span
+                    className={`block h-full ${
+                      language.code === "en" ? "bg-teal" : "bg-pink"
+                    }`}
+                    initial={{ width: 0 }}
+                    whileInView={{
+                      width: `${Math.min(
+                        100,
+                        (language.tokens /
+                          Math.max(
+                            ...scripts.languages.map((l) => l.tokens),
+                          )) *
+                          100,
+                      )}%`,
+                    }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                  />
+                </span>
+                <span className="data text-ink-soft w-20 shrink-0 text-right text-xs tabular-nums">
+                  {language.tokens} tok
+                </span>
+                <span
+                  className={`data w-14 shrink-0 text-right text-xs tabular-nums ${
+                    language.timesEnglish > 1.5 ? "text-pink-text" : "text-ink-soft"
+                  }`}
+                >
+                  {language.timesEnglish.toFixed(2)}×
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <p className="prose-measure text-ink-faint mt-4 text-[0.8125rem]">
+            Japanese is the one to think about. It needs four times the tokens
+            per character &mdash; but a Japanese character carries far more than
+            a Latin one, so per <em>idea</em> it is not four times worse. The
+            Indic scripts have no such excuse: they are alphabetic like English,
+            and they still cost close to twice as much. Measured{" "}
+            {scripts.measuredOn} against {scripts.corpus.name}, {" "}
+            {scripts.corpus.licence}. Articles are written independently in each
+            language, so these are comparable texts on one subject rather than
+            translations.
+          </p>
+        </div>
+      ) : null}
+    </div>
+  );
+}

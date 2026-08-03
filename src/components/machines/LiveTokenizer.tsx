@@ -73,6 +73,10 @@ export function LiveTokenizer({
     onTokensChange?.(tokens, text);
   }, [tokens, text, onTokensChange]);
 
+  // Before the merge table lands there is no honest token count to show unless
+  // the text happens to be the one precomputed above. Reporting zero would read
+  // as an answer rather than as "not yet".
+  const counted = encoding !== null || tokens.length > 0;
   const charCount = [...text].length;
   const ratio = tokens.length > 0 ? charCount / tokens.length : 0;
 
@@ -117,10 +121,10 @@ export function LiveTokenizer({
       {showStats ? (
         <dl className="border-ink/25 grid grid-cols-3 gap-px border-t pt-4">
           <Stat label="Characters" value={charCount} />
-          <Stat label="Tokens" value={tokens.length} accent />
+          <Stat label="Tokens" value={counted ? tokens.length : "—"} accent />
           <Stat
             label="Chars / token"
-            value={ratio ? ratio.toFixed(2) : "—"}
+            value={counted && ratio ? ratio.toFixed(2) : "—"}
           />
         </dl>
       ) : null}

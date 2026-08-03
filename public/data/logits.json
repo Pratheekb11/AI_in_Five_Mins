@@ -1,0 +1,837 @@
+{
+  "generatedBy": "data/scripts/build-logits.mjs",
+  "model": {
+    "id": "Xenova/distilgpt2",
+    "name": "DistilGPT-2",
+    "url": "https://huggingface.co/distilbert/distilgpt2",
+    "licence": "Apache 2.0",
+    "note": "A distilled, 82M-parameter version of GPT-2. Small enough to run honestly on a laptop, and wrong often enough to be instructive."
+  },
+  "topK": 12,
+  "temperatures": [
+    0.2,
+    0.5,
+    1,
+    1.5
+  ],
+  "prompts": [
+    {
+      "id": "memorised",
+      "text": "In the beginning God created the heaven and the",
+      "why": "Text the model has seen over and over. Almost the entire distribution lands on one token.",
+      "tokens": [
+        {
+          "id": 818,
+          "text": "In"
+        },
+        {
+          "id": 262,
+          "text": " the"
+        },
+        {
+          "id": 3726,
+          "text": " beginning"
+        },
+        {
+          "id": 1793,
+          "text": " God"
+        },
+        {
+          "id": 2727,
+          "text": " created"
+        },
+        {
+          "id": 262,
+          "text": " the"
+        },
+        {
+          "id": 9538,
+          "text": " heaven"
+        },
+        {
+          "id": 290,
+          "text": " and"
+        },
+        {
+          "id": 262,
+          "text": " the"
+        }
+      ],
+      "candidates": [
+        {
+          "id": 4534,
+          "text": " earth",
+          "logit": -43.9251,
+          "probability": 0.994124
+        },
+        {
+          "id": 3668,
+          "text": " Earth",
+          "logit": -49.4799,
+          "probability": 0.003846
+        },
+        {
+          "id": 8824,
+          "text": " moon",
+          "logit": -51.3506,
+          "probability": 0.000592
+        },
+        {
+          "id": 7627,
+          "text": " east",
+          "logit": -52.2602,
+          "probability": 0.000239
+        },
+        {
+          "id": 5417,
+          "text": " sea",
+          "logit": -52.2606,
+          "probability": 0.000238
+        },
+        {
+          "id": 1633,
+          "text": " air",
+          "logit": -52.9972,
+          "probability": 0.000114
+        },
+        {
+          "id": 6881,
+          "text": " universe",
+          "logit": -53.24,
+          "probability": 0.00009
+        },
+        {
+          "id": 995,
+          "text": " world",
+          "logit": -53.5476,
+          "probability": 0.000066
+        },
+        {
+          "id": 42494,
+          "text": " underworld",
+          "logit": -53.6599,
+          "probability": 0.000059
+        },
+        {
+          "id": 1660,
+          "text": " water",
+          "logit": -53.6754,
+          "probability": 0.000058
+        },
+        {
+          "id": 43088,
+          "text": " valleys",
+          "logit": -53.7791,
+          "probability": 0.000052
+        },
+        {
+          "id": 5366,
+          "text": " south",
+          "logit": -54.1653,
+          "probability": 0.000035
+        }
+      ],
+      "byTemperature": {
+        "1": [
+          0.994608,
+          0.003848,
+          0.000593,
+          0.000239,
+          0.000239,
+          0.000114,
+          0.00009,
+          0.000066,
+          0.000059,
+          0.000058,
+          0.000052,
+          0.000036
+        ],
+        "0.2": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "0.5": [
+          0.999985,
+          0.000015,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "1.5": [
+          0.951506,
+          0.02345,
+          0.006738,
+          0.003674,
+          0.003673,
+          0.002248,
+          0.001912,
+          0.001557,
+          0.001445,
+          0.00143,
+          0.001335,
+          0.001032
+        ]
+      },
+      "topProbability": 0.994124,
+      "entropyBits": 0.0665,
+      "vocabSize": 50257
+    },
+    {
+      "id": "certain",
+      "text": "The United States of",
+      "why": "Not memorised scripture, just an overwhelmingly common phrase. The effect is the same.",
+      "tokens": [
+        {
+          "id": 464,
+          "text": "The"
+        },
+        {
+          "id": 1578,
+          "text": " United"
+        },
+        {
+          "id": 1829,
+          "text": " States"
+        },
+        {
+          "id": 286,
+          "text": " of"
+        }
+      ],
+      "candidates": [
+        {
+          "id": 2253,
+          "text": " America",
+          "logit": -39.0048,
+          "probability": 0.971706
+        },
+        {
+          "id": 262,
+          "text": " the",
+          "logit": -44.7423,
+          "probability": 0.003132
+        },
+        {
+          "id": 49463,
+          "text": " AMERICA",
+          "logit": -45.705,
+          "probability": 0.001196
+        },
+        {
+          "id": 2031,
+          "text": " Europe",
+          "logit": -45.8048,
+          "probability": 0.001082
+        },
+        {
+          "id": 1605,
+          "text": " American",
+          "logit": -45.8365,
+          "probability": 0.001048
+        },
+        {
+          "id": 2258,
+          "text": " North",
+          "logit": -46.0541,
+          "probability": 0.000843
+        },
+        {
+          "id": 2520,
+          "text": " South",
+          "logit": -46.2581,
+          "probability": 0.000688
+        },
+        {
+          "id": 317,
+          "text": " A",
+          "logit": -46.3576,
+          "probability": 0.000623
+        },
+        {
+          "id": 4969,
+          "text": " Korea",
+          "logit": -46.4567,
+          "probability": 0.000564
+        },
+        {
+          "id": 3399,
+          "text": " Americans",
+          "logit": -46.5414,
+          "probability": 0.000518
+        },
+        {
+          "id": 3340,
+          "text": " Canada",
+          "logit": -46.6329,
+          "probability": 0.000473
+        },
+        {
+          "id": 2807,
+          "text": " China",
+          "logit": -46.9614,
+          "probability": 0.00034
+        }
+      ],
+      "byTemperature": {
+        "1": [
+          0.989302,
+          0.003188,
+          0.001218,
+          0.001102,
+          0.001067,
+          0.000859,
+          0.0007,
+          0.000634,
+          0.000574,
+          0.000528,
+          0.000481,
+          0.000347
+        ],
+        "0.2": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "0.5": [
+          0.999983,
+          0.00001,
+          0.000002,
+          0.000001,
+          0.000001,
+          0.000001,
+          0.000001,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "1.5": [
+          0.906018,
+          0.019767,
+          0.010405,
+          0.009735,
+          0.009531,
+          0.008244,
+          0.007196,
+          0.006734,
+          0.006304,
+          0.005958,
+          0.005605,
+          0.004503
+        ]
+      },
+      "topProbability": 0.971706,
+      "entropyBits": 0.4257,
+      "vocabSize": 50257
+    },
+    {
+      "id": "torn",
+      "text": "I would like a cup of",
+      "why": "Two answers neck and neck. This is what a genuine coin-flip looks like from the inside — and you never see it in the reply.",
+      "tokens": [
+        {
+          "id": 40,
+          "text": "I"
+        },
+        {
+          "id": 561,
+          "text": " would"
+        },
+        {
+          "id": 588,
+          "text": " like"
+        },
+        {
+          "id": 257,
+          "text": " a"
+        },
+        {
+          "id": 6508,
+          "text": " cup"
+        },
+        {
+          "id": 286,
+          "text": " of"
+        }
+      ],
+      "candidates": [
+        {
+          "id": 6891,
+          "text": " coffee",
+          "logit": -59.0106,
+          "probability": 0.231612
+        },
+        {
+          "id": 8887,
+          "text": " tea",
+          "logit": -59.1703,
+          "probability": 0.197432
+        },
+        {
+          "id": 1660,
+          "text": " water",
+          "logit": -60.8268,
+          "probability": 0.03767
+        },
+        {
+          "id": 8237,
+          "text": " wine",
+          "logit": -61.4354,
+          "probability": 0.020498
+        },
+        {
+          "id": 7545,
+          "text": " milk",
+          "logit": -61.4542,
+          "probability": 0.020115
+        },
+        {
+          "id": 11311,
+          "text": " chocolate",
+          "logit": -62.0547,
+          "probability": 0.011034
+        },
+        {
+          "id": 3024,
+          "text": " hot",
+          "logit": -62.2617,
+          "probability": 0.008971
+        },
+        {
+          "id": 6099,
+          "text": " beer",
+          "logit": -62.3279,
+          "probability": 0.008397
+        },
+        {
+          "id": 4771,
+          "text": " ice",
+          "logit": -62.4232,
+          "probability": 0.007633
+        },
+        {
+          "id": 262,
+          "text": " the",
+          "logit": -62.4737,
+          "probability": 0.007257
+        },
+        {
+          "id": 12498,
+          "text": " honey",
+          "logit": -62.5712,
+          "probability": 0.006583
+        },
+        {
+          "id": 2525,
+          "text": " jo",
+          "logit": -62.5821,
+          "probability": 0.006511
+        }
+      ],
+      "byTemperature": {
+        "1": [
+          0.410869,
+          0.350234,
+          0.066826,
+          0.036362,
+          0.035683,
+          0.019575,
+          0.015914,
+          0.014895,
+          0.013541,
+          0.012874,
+          0.011677,
+          0.011551
+        ],
+        "0.2": [
+          0.689564,
+          0.31035,
+          0.000078,
+          0.000004,
+          0.000003,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "0.5": [
+          0.562682,
+          0.408859,
+          0.014885,
+          0.004407,
+          0.004244,
+          0.001277,
+          0.000844,
+          0.00074,
+          0.000611,
+          0.000552,
+          0.000455,
+          0.000445
+        ],
+        "1.5": [
+          0.29986,
+          0.269581,
+          0.089347,
+          0.05955,
+          0.058806,
+          0.039407,
+          0.034327,
+          0.032846,
+          0.030823,
+          0.029803,
+          0.027926,
+          0.027724
+        ]
+      },
+      "topProbability": 0.231612,
+      "entropyBits": 6.7009,
+      "vocabSize": 50257
+    },
+    {
+      "id": "open",
+      "text": "Once upon a",
+      "why": "You expect a landslide here. There is not one. Being obvious to a person and being likely to a model are different things.",
+      "tokens": [
+        {
+          "id": 7454,
+          "text": "Once"
+        },
+        {
+          "id": 2402,
+          "text": " upon"
+        },
+        {
+          "id": 257,
+          "text": " a"
+        }
+      ],
+      "candidates": [
+        {
+          "id": 640,
+          "text": " time",
+          "logit": -65.3236,
+          "probability": 0.070157
+        },
+        {
+          "id": 1218,
+          "text": " second",
+          "logit": -65.3989,
+          "probability": 0.065067
+        },
+        {
+          "id": 2589,
+          "text": " moment",
+          "logit": -65.8933,
+          "probability": 0.039687
+        },
+        {
+          "id": 1110,
+          "text": " day",
+          "logit": -65.9728,
+          "probability": 0.036652
+        },
+        {
+          "id": 4802,
+          "text": " sudden",
+          "logit": -66.4358,
+          "probability": 0.023069
+        },
+        {
+          "id": 1728,
+          "text": " certain",
+          "logit": -66.4862,
+          "probability": 0.021935
+        },
+        {
+          "id": 1755,
+          "text": " night",
+          "logit": -66.8777,
+          "probability": 0.014829
+        },
+        {
+          "id": 1441,
+          "text": " return",
+          "logit": -66.8819,
+          "probability": 0.014768
+        },
+        {
+          "id": 3187,
+          "text": " visit",
+          "logit": -66.8888,
+          "probability": 0.014666
+        },
+        {
+          "id": 2274,
+          "text": " recent",
+          "logit": -66.9246,
+          "probability": 0.014149
+        },
+        {
+          "id": 1969,
+          "text": " close",
+          "logit": -66.9909,
+          "probability": 0.013242
+        },
+        {
+          "id": 1178,
+          "text": " few",
+          "logit": -67.0794,
+          "probability": 0.01212
+        }
+      ],
+      "byTemperature": {
+        "1": [
+          0.206138,
+          0.191181,
+          0.11661,
+          0.107692,
+          0.067783,
+          0.064449,
+          0.043571,
+          0.043391,
+          0.043091,
+          0.041574,
+          0.038907,
+          0.035612
+        ],
+        "0.2": [
+          0.558095,
+          0.38295,
+          0.032329,
+          0.021719,
+          0.002145,
+          0.001667,
+          0.000235,
+          0.000231,
+          0.000223,
+          0.000186,
+          0.000134,
+          0.000086
+        ],
+        "0.5": [
+          0.345091,
+          0.296829,
+          0.110431,
+          0.094186,
+          0.037313,
+          0.033733,
+          0.015418,
+          0.01529,
+          0.01508,
+          0.014037,
+          0.012294,
+          0.010299
+        ],
+        "1.5": [
+          0.159622,
+          0.151805,
+          0.109181,
+          0.103541,
+          0.076045,
+          0.07353,
+          0.05664,
+          0.056484,
+          0.056223,
+          0.054896,
+          0.052522,
+          0.049513
+        ]
+      },
+      "topProbability": 0.070157,
+      "entropyBits": 9.0752,
+      "vocabSize": 50257
+    },
+    {
+      "id": "fact",
+      "text": "Paris is the capital of",
+      "why": "The model is not looking anything up, so it continues the grammar rather than the fact. Watch where the correct answer actually ranks.",
+      "tokens": [
+        {
+          "id": 40313,
+          "text": "Paris"
+        },
+        {
+          "id": 318,
+          "text": " is"
+        },
+        {
+          "id": 262,
+          "text": " the"
+        },
+        {
+          "id": 3139,
+          "text": " capital"
+        },
+        {
+          "id": 286,
+          "text": " of"
+        }
+      ],
+      "candidates": [
+        {
+          "id": 262,
+          "text": " the",
+          "logit": -46.2362,
+          "probability": 0.300763
+        },
+        {
+          "id": 257,
+          "text": " a",
+          "logit": -47.9854,
+          "probability": 0.05231
+        },
+        {
+          "id": 4881,
+          "text": " France",
+          "logit": -49.1355,
+          "probability": 0.016561
+        },
+        {
+          "id": 968,
+          "text": " New",
+          "logit": -49.3348,
+          "probability": 0.013568
+        },
+        {
+          "id": 2031,
+          "text": " Europe",
+          "logit": -49.4149,
+          "probability": 0.012524
+        },
+        {
+          "id": 3576,
+          "text": " London",
+          "logit": -49.4382,
+          "probability": 0.012235
+        },
+        {
+          "id": 2807,
+          "text": " China",
+          "logit": -49.5491,
+          "probability": 0.010951
+        },
+        {
+          "id": 3340,
+          "text": " Canada",
+          "logit": -49.6464,
+          "probability": 0.009936
+        },
+        {
+          "id": 2692,
+          "text": " Israel",
+          "logit": -49.7107,
+          "probability": 0.009317
+        },
+        {
+          "id": 5491,
+          "text": " Britain",
+          "logit": -49.7331,
+          "probability": 0.009111
+        },
+        {
+          "id": 3794,
+          "text": " India",
+          "logit": -49.7988,
+          "probability": 0.008531
+        },
+        {
+          "id": 281,
+          "text": " an",
+          "logit": -49.8101,
+          "probability": 0.008435
+        }
+      ],
+      "byTemperature": {
+        "1": [
+          0.647857,
+          0.112677,
+          0.035674,
+          0.029226,
+          0.026977,
+          0.026356,
+          0.02359,
+          0.021402,
+          0.020069,
+          0.019625,
+          0.018377,
+          0.01817
+        ],
+        "0.2": [
+          0.99984,
+          0.000159,
+          0.000001,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "0.5": [
+          0.957312,
+          0.028958,
+          0.002903,
+          0.001948,
+          0.00166,
+          0.001584,
+          0.001269,
+          0.001045,
+          0.000919,
+          0.000878,
+          0.00077,
+          0.000753
+        ],
+        "1.5": [
+          0.414008,
+          0.128997,
+          0.059922,
+          0.052465,
+          0.049738,
+          0.048971,
+          0.045482,
+          0.042625,
+          0.040836,
+          0.040231,
+          0.038506,
+          0.038218
+        ]
+      },
+      "topProbability": 0.300763,
+      "entropyBits": 7.4467,
+      "vocabSize": 50257
+    }
+  ]
+}

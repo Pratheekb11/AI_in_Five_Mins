@@ -1,0 +1,1388 @@
+{
+  "encoding": "o200k_base",
+  "generatedBy": "data/scripts/build-token-examples.mjs",
+  "multilingual": [
+    {
+      "language": "English",
+      "text": "Artificial intelligence is changing how we work.",
+      "chars": 48,
+      "tokenCount": 8,
+      "charsPerToken": 6,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 186671,
+          "text": "Artificial"
+        },
+        {
+          "index": 1,
+          "id": 22990,
+          "text": " intelligence"
+        },
+        {
+          "index": 2,
+          "id": 382,
+          "text": " is"
+        },
+        {
+          "index": 3,
+          "id": 13784,
+          "text": " changing"
+        },
+        {
+          "index": 4,
+          "id": 1495,
+          "text": " how"
+        },
+        {
+          "index": 5,
+          "id": 581,
+          "text": " we"
+        },
+        {
+          "index": 6,
+          "id": 1101,
+          "text": " work"
+        },
+        {
+          "index": 7,
+          "id": 13,
+          "text": "."
+        }
+      ]
+    },
+    {
+      "language": "Spanish",
+      "text": "La inteligencia artificial está cambiando cómo trabajamos.",
+      "chars": 58,
+      "tokenCount": 10,
+      "charsPerToken": 5.8,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 4579,
+          "text": "La"
+        },
+        {
+          "index": 1,
+          "id": 121330,
+          "text": " inteligencia"
+        },
+        {
+          "index": 2,
+          "id": 27034,
+          "text": " artificial"
+        },
+        {
+          "index": 3,
+          "id": 5541,
+          "text": " está"
+        },
+        {
+          "index": 4,
+          "id": 53680,
+          "text": " cambi"
+        },
+        {
+          "index": 5,
+          "id": 1975,
+          "text": "ando"
+        },
+        {
+          "index": 6,
+          "id": 25878,
+          "text": " cómo"
+        },
+        {
+          "index": 7,
+          "id": 16686,
+          "text": " trabaj"
+        },
+        {
+          "index": 8,
+          "id": 4064,
+          "text": "amos"
+        },
+        {
+          "index": 9,
+          "id": 13,
+          "text": "."
+        }
+      ]
+    },
+    {
+      "language": "Hindi",
+      "text": "आर्टिफिशियल इंटेलिजेंस हमारे काम करने के तरीके को बदल रहा है।",
+      "chars": 61,
+      "tokenCount": 20,
+      "charsPerToken": 3.05,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 14417,
+          "text": "आ"
+        },
+        {
+          "index": 1,
+          "id": 31979,
+          "text": "र्ट"
+        },
+        {
+          "index": 2,
+          "id": 64541,
+          "text": "िफ"
+        },
+        {
+          "index": 3,
+          "id": 16501,
+          "text": "िश"
+        },
+        {
+          "index": 4,
+          "id": 105042,
+          "text": "ियल"
+        },
+        {
+          "index": 5,
+          "id": 4881,
+          "text": " इ"
+        },
+        {
+          "index": 6,
+          "id": 28349,
+          "text": "ंट"
+        },
+        {
+          "index": 7,
+          "id": 11184,
+          "text": "ेल"
+        },
+        {
+          "index": 8,
+          "id": 22729,
+          "text": "िज"
+        },
+        {
+          "index": 9,
+          "id": 85955,
+          "text": "ेंस"
+        },
+        {
+          "index": 10,
+          "id": 56972,
+          "text": " हमारे"
+        },
+        {
+          "index": 11,
+          "id": 22763,
+          "text": " काम"
+        },
+        {
+          "index": 12,
+          "id": 14054,
+          "text": " करने"
+        },
+        {
+          "index": 13,
+          "id": 2329,
+          "text": " के"
+        },
+        {
+          "index": 14,
+          "id": 119353,
+          "text": " तरीके"
+        },
+        {
+          "index": 15,
+          "id": 4045,
+          "text": " को"
+        },
+        {
+          "index": 16,
+          "id": 58466,
+          "text": " बदल"
+        },
+        {
+          "index": 17,
+          "id": 22605,
+          "text": " रहा"
+        },
+        {
+          "index": 18,
+          "id": 2487,
+          "text": " है"
+        },
+        {
+          "index": 19,
+          "id": 1670,
+          "text": "।"
+        }
+      ]
+    },
+    {
+      "language": "Kannada",
+      "text": "ಕೃತಕ ಬುದ್ಧಿಮತ್ತೆ ನಾವು ಕೆಲಸ ಮಾಡುವ ರೀತಿಯನ್ನು ಬದಲಾಯಿಸುತ್ತಿದೆ.",
+      "chars": 58,
+      "tokenCount": 19,
+      "charsPerToken": 3.05,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 4488,
+          "text": "ಕ"
+        },
+        {
+          "index": 1,
+          "id": 51153,
+          "text": "ೃತ"
+        },
+        {
+          "index": 2,
+          "id": 4488,
+          "text": "ಕ"
+        },
+        {
+          "index": 3,
+          "id": 7715,
+          "text": " ಬ"
+        },
+        {
+          "index": 4,
+          "id": 91966,
+          "text": "ುದ್ಧ"
+        },
+        {
+          "index": 5,
+          "id": 31638,
+          "text": "ಿಮ"
+        },
+        {
+          "index": 6,
+          "id": 9677,
+          "text": "ತ್ತ"
+        },
+        {
+          "index": 7,
+          "id": 2122,
+          "text": "ೆ"
+        },
+        {
+          "index": 8,
+          "id": 131440,
+          "text": " ನಾವು"
+        },
+        {
+          "index": 9,
+          "id": 106468,
+          "text": " ಕೆಲಸ"
+        },
+        {
+          "index": 10,
+          "id": 113333,
+          "text": " ಮಾಡುವ"
+        },
+        {
+          "index": 11,
+          "id": 194449,
+          "text": " ರೀತ"
+        },
+        {
+          "index": 12,
+          "id": 76694,
+          "text": "ಿಯನ್ನು"
+        },
+        {
+          "index": 13,
+          "id": 7715,
+          "text": " ಬ"
+        },
+        {
+          "index": 14,
+          "id": 76575,
+          "text": "ದಲ"
+        },
+        {
+          "index": 15,
+          "id": 20100,
+          "text": "ಾಯ"
+        },
+        {
+          "index": 16,
+          "id": 90448,
+          "text": "ಿಸುತ್ತ"
+        },
+        {
+          "index": 17,
+          "id": 14527,
+          "text": "ಿದೆ"
+        },
+        {
+          "index": 18,
+          "id": 13,
+          "text": "."
+        }
+      ]
+    },
+    {
+      "language": "Japanese",
+      "text": "人工知能は私たちの働き方を変えています。",
+      "chars": 20,
+      "tokenCount": 16,
+      "charsPerToken": 1.25,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 47243,
+          "text": "人工"
+        },
+        {
+          "index": 1,
+          "id": 14276,
+          "text": "知"
+        },
+        {
+          "index": 2,
+          "id": 6306,
+          "text": "能"
+        },
+        {
+          "index": 3,
+          "id": 5205,
+          "text": "は"
+        },
+        {
+          "index": 4,
+          "id": 25885,
+          "text": "私"
+        },
+        {
+          "index": 5,
+          "id": 5598,
+          "text": "た"
+        },
+        {
+          "index": 6,
+          "id": 15376,
+          "text": "ち"
+        },
+        {
+          "index": 7,
+          "id": 3385,
+          "text": "の"
+        },
+        {
+          "index": 8,
+          "id": 161512,
+          "text": "働"
+        },
+        {
+          "index": 9,
+          "id": 11852,
+          "text": "き"
+        },
+        {
+          "index": 10,
+          "id": 4983,
+          "text": "方"
+        },
+        {
+          "index": 11,
+          "id": 7277,
+          "text": "を"
+        },
+        {
+          "index": 12,
+          "id": 60722,
+          "text": "変"
+        },
+        {
+          "index": 13,
+          "id": 18606,
+          "text": "え"
+        },
+        {
+          "index": 14,
+          "id": 122223,
+          "text": "ています"
+        },
+        {
+          "index": 15,
+          "id": 788,
+          "text": "。"
+        }
+      ]
+    }
+  ],
+  "curiosities": [
+    {
+      "id": "strawberry",
+      "note": "Split mid-word, so the model never sees the letters in a row.",
+      "text": "strawberry",
+      "chars": 10,
+      "tokenCount": 3,
+      "charsPerToken": 3.33,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 302,
+          "text": "st"
+        },
+        {
+          "index": 1,
+          "id": 1618,
+          "text": "raw"
+        },
+        {
+          "index": 2,
+          "id": 19772,
+          "text": "berry"
+        }
+      ]
+    },
+    {
+      "id": "strawberry-spaced",
+      "note": "The same word with a leading space is a single token. Spaces belong to the token after them.",
+      "text": " strawberry",
+      "chars": 11,
+      "tokenCount": 1,
+      "charsPerToken": 11,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 101830,
+          "text": " strawberry"
+        }
+      ]
+    },
+    {
+      "id": "number",
+      "note": "Long numbers get chopped into pieces, which is why arithmetic is hard.",
+      "text": "The year 2024 cost $1,299.99",
+      "chars": 28,
+      "tokenCount": 12,
+      "charsPerToken": 2.33,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 976,
+          "text": "The"
+        },
+        {
+          "index": 1,
+          "id": 1284,
+          "text": " year"
+        },
+        {
+          "index": 2,
+          "id": 220,
+          "text": " "
+        },
+        {
+          "index": 3,
+          "id": 1323,
+          "text": "202"
+        },
+        {
+          "index": 4,
+          "id": 19,
+          "text": "4"
+        },
+        {
+          "index": 5,
+          "id": 3097,
+          "text": " cost"
+        },
+        {
+          "index": 6,
+          "id": 548,
+          "text": " $"
+        },
+        {
+          "index": 7,
+          "id": 16,
+          "text": "1"
+        },
+        {
+          "index": 8,
+          "id": 11,
+          "text": ","
+        },
+        {
+          "index": 9,
+          "id": 25431,
+          "text": "299"
+        },
+        {
+          "index": 10,
+          "id": 13,
+          "text": "."
+        },
+        {
+          "index": 11,
+          "id": 2058,
+          "text": "99"
+        }
+      ]
+    },
+    {
+      "id": "code",
+      "note": "Code tokenizes densely — common syntax has its own tokens.",
+      "text": "const total = items.reduce((a, b) => a + b, 0);",
+      "chars": 47,
+      "tokenCount": 18,
+      "charsPerToken": 2.61,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 1671,
+          "text": "const"
+        },
+        {
+          "index": 1,
+          "id": 3609,
+          "text": " total"
+        },
+        {
+          "index": 2,
+          "id": 314,
+          "text": " ="
+        },
+        {
+          "index": 3,
+          "id": 4732,
+          "text": " items"
+        },
+        {
+          "index": 4,
+          "id": 49441,
+          "text": ".reduce"
+        },
+        {
+          "index": 5,
+          "id": 2054,
+          "text": "(("
+        },
+        {
+          "index": 6,
+          "id": 64,
+          "text": "a"
+        },
+        {
+          "index": 7,
+          "id": 11,
+          "text": ","
+        },
+        {
+          "index": 8,
+          "id": 287,
+          "text": " b"
+        },
+        {
+          "index": 9,
+          "id": 8,
+          "text": ")"
+        },
+        {
+          "index": 10,
+          "id": 871,
+          "text": " =>"
+        },
+        {
+          "index": 11,
+          "id": 261,
+          "text": " a"
+        },
+        {
+          "index": 12,
+          "id": 659,
+          "text": " +"
+        },
+        {
+          "index": 13,
+          "id": 287,
+          "text": " b"
+        },
+        {
+          "index": 14,
+          "id": 11,
+          "text": ","
+        },
+        {
+          "index": 15,
+          "id": 220,
+          "text": " "
+        },
+        {
+          "index": 16,
+          "id": 15,
+          "text": "0"
+        },
+        {
+          "index": 17,
+          "id": 2245,
+          "text": ");"
+        }
+      ]
+    },
+    {
+      "id": "emoji",
+      "note": "One emoji can cost several tokens.",
+      "text": "Ship it 🚀🚀🚀",
+      "chars": 11,
+      "tokenCount": 8,
+      "charsPerToken": 1.38,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 36080,
+          "text": "Ship"
+        },
+        {
+          "index": 1,
+          "id": 480,
+          "text": " it"
+        },
+        {
+          "index": 2,
+          "id": 169883,
+          "text": " "
+        },
+        {
+          "index": 3,
+          "id": 222,
+          "text": "🚀"
+        },
+        {
+          "index": 4,
+          "id": 112927,
+          "text": ""
+        },
+        {
+          "index": 5,
+          "id": 222,
+          "text": "🚀"
+        },
+        {
+          "index": 6,
+          "id": 112927,
+          "text": ""
+        },
+        {
+          "index": 7,
+          "id": 222,
+          "text": "🚀"
+        }
+      ]
+    },
+    {
+      "id": "typo",
+      "note": "Misspellings shatter into fragments the model has rarely seen together.",
+      "text": "teh quick brwon fox",
+      "chars": 19,
+      "tokenCount": 6,
+      "charsPerToken": 3.17,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 411,
+          "text": "te"
+        },
+        {
+          "index": 1,
+          "id": 71,
+          "text": "h"
+        },
+        {
+          "index": 2,
+          "id": 4853,
+          "text": " quick"
+        },
+        {
+          "index": 3,
+          "id": 1294,
+          "text": " br"
+        },
+        {
+          "index": 4,
+          "id": 36391,
+          "text": "won"
+        },
+        {
+          "index": 5,
+          "id": 68347,
+          "text": " fox"
+        }
+      ]
+    }
+  ],
+  "guessable": [
+    {
+      "text": "Hello, world!",
+      "chars": 13,
+      "tokenCount": 4,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 13225,
+          "text": "Hello"
+        },
+        {
+          "index": 1,
+          "id": 11,
+          "text": ","
+        },
+        {
+          "index": 2,
+          "id": 2375,
+          "text": " world"
+        },
+        {
+          "index": 3,
+          "id": 0,
+          "text": "!"
+        }
+      ]
+    },
+    {
+      "text": "The quick brown fox jumps over the lazy dog.",
+      "chars": 44,
+      "tokenCount": 10,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 976,
+          "text": "The"
+        },
+        {
+          "index": 1,
+          "id": 4853,
+          "text": " quick"
+        },
+        {
+          "index": 2,
+          "id": 19705,
+          "text": " brown"
+        },
+        {
+          "index": 3,
+          "id": 68347,
+          "text": " fox"
+        },
+        {
+          "index": 4,
+          "id": 65613,
+          "text": " jumps"
+        },
+        {
+          "index": 5,
+          "id": 1072,
+          "text": " over"
+        },
+        {
+          "index": 6,
+          "id": 290,
+          "text": " the"
+        },
+        {
+          "index": 7,
+          "id": 29082,
+          "text": " lazy"
+        },
+        {
+          "index": 8,
+          "id": 6446,
+          "text": " dog"
+        },
+        {
+          "index": 9,
+          "id": 13,
+          "text": "."
+        }
+      ]
+    },
+    {
+      "text": "antidisestablishmentarianism",
+      "chars": 28,
+      "tokenCount": 6,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 493,
+          "text": "ant"
+        },
+        {
+          "index": 1,
+          "id": 129901,
+          "text": "idis"
+        },
+        {
+          "index": 2,
+          "id": 376,
+          "text": "est"
+        },
+        {
+          "index": 3,
+          "id": 160388,
+          "text": "ablishment"
+        },
+        {
+          "index": 4,
+          "id": 21203,
+          "text": "arian"
+        },
+        {
+          "index": 5,
+          "id": 2367,
+          "text": "ism"
+        }
+      ]
+    },
+    {
+      "text": "こんにちは世界",
+      "chars": 7,
+      "tokenCount": 2,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 95839,
+          "text": "こんにちは"
+        },
+        {
+          "index": 1,
+          "id": 28428,
+          "text": "世界"
+        }
+      ]
+    },
+    {
+      "text": "AI won't replace you.",
+      "chars": 21,
+      "tokenCount": 5,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 17527,
+          "text": "AI"
+        },
+        {
+          "index": 1,
+          "id": 14219,
+          "text": " won't"
+        },
+        {
+          "index": 2,
+          "id": 13284,
+          "text": " replace"
+        },
+        {
+          "index": 3,
+          "id": 481,
+          "text": " you"
+        },
+        {
+          "index": 4,
+          "id": 13,
+          "text": "."
+        }
+      ]
+    },
+    {
+      "text": "2 + 2 = 4",
+      "chars": 9,
+      "tokenCount": 7,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 17,
+          "text": "2"
+        },
+        {
+          "index": 1,
+          "id": 659,
+          "text": " +"
+        },
+        {
+          "index": 2,
+          "id": 220,
+          "text": " "
+        },
+        {
+          "index": 3,
+          "id": 17,
+          "text": "2"
+        },
+        {
+          "index": 4,
+          "id": 314,
+          "text": " ="
+        },
+        {
+          "index": 5,
+          "id": 220,
+          "text": " "
+        },
+        {
+          "index": 6,
+          "id": 19,
+          "text": "4"
+        }
+      ]
+    },
+    {
+      "text": "Supercalifragilisticexpialidocious",
+      "chars": 34,
+      "tokenCount": 10,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 17260,
+          "text": "Super"
+        },
+        {
+          "index": 1,
+          "id": 5842,
+          "text": "cal"
+        },
+        {
+          "index": 2,
+          "id": 366,
+          "text": "if"
+        },
+        {
+          "index": 3,
+          "id": 17764,
+          "text": "rag"
+        },
+        {
+          "index": 4,
+          "id": 311,
+          "text": "il"
+        },
+        {
+          "index": 5,
+          "id": 6207,
+          "text": "istic"
+        },
+        {
+          "index": 6,
+          "id": 8067,
+          "text": "exp"
+        },
+        {
+          "index": 7,
+          "id": 563,
+          "text": "ial"
+        },
+        {
+          "index": 8,
+          "id": 315,
+          "text": "id"
+        },
+        {
+          "index": 9,
+          "id": 170661,
+          "text": "ocious"
+        }
+      ]
+    },
+    {
+      "text": "Please summarise this email in three bullet points.",
+      "chars": 51,
+      "tokenCount": 10,
+      "tokens": [
+        {
+          "index": 0,
+          "id": 8256,
+          "text": "Please"
+        },
+        {
+          "index": 1,
+          "id": 43991,
+          "text": " summar"
+        },
+        {
+          "index": 2,
+          "id": 1096,
+          "text": "ise"
+        },
+        {
+          "index": 3,
+          "id": 495,
+          "text": " this"
+        },
+        {
+          "index": 4,
+          "id": 3719,
+          "text": " email"
+        },
+        {
+          "index": 5,
+          "id": 306,
+          "text": " in"
+        },
+        {
+          "index": 6,
+          "id": 3407,
+          "text": " three"
+        },
+        {
+          "index": 7,
+          "id": 31926,
+          "text": " bullet"
+        },
+        {
+          "index": 8,
+          "id": 5571,
+          "text": " points"
+        },
+        {
+          "index": 9,
+          "id": 13,
+          "text": "."
+        }
+      ]
+    }
+  ],
+  "chop": [
+    {
+      "word": "strawberry",
+      "pieces": [
+        "st",
+        "raw",
+        "berry"
+      ],
+      "cuts": [
+        2,
+        5
+      ]
+    },
+    {
+      "word": "unbelievable",
+      "pieces": [
+        "un",
+        "bel",
+        "ievable"
+      ],
+      "cuts": [
+        2,
+        5
+      ]
+    },
+    {
+      "word": "tokenization",
+      "pieces": [
+        "token",
+        "ization"
+      ],
+      "cuts": [
+        5
+      ]
+    },
+    {
+      "word": "pneumonia",
+      "pieces": [
+        "p",
+        "ne",
+        "um",
+        "onia"
+      ],
+      "cuts": [
+        1,
+        3,
+        5
+      ]
+    },
+    {
+      "word": "rhythm",
+      "pieces": [
+        "rh",
+        "ythm"
+      ],
+      "cuts": [
+        2
+      ]
+    },
+    {
+      "word": "giraffe",
+      "pieces": [
+        "g",
+        "ira",
+        "ffe"
+      ],
+      "cuts": [
+        1,
+        4
+      ]
+    },
+    {
+      "word": "blockchain",
+      "pieces": [
+        "block",
+        "chain"
+      ],
+      "cuts": [
+        5
+      ]
+    },
+    {
+      "word": "antidisestablishmentarianism",
+      "pieces": [
+        "ant",
+        "idis",
+        "est",
+        "ablishment",
+        "arian",
+        "ism"
+      ],
+      "cuts": [
+        3,
+        7,
+        10,
+        20,
+        25
+      ]
+    },
+    {
+      "word": "kubernetes",
+      "pieces": [
+        "k",
+        "ubernetes"
+      ],
+      "cuts": [
+        1
+      ]
+    },
+    {
+      "word": "bureaucracy",
+      "pieces": [
+        "bureau",
+        "cr",
+        "acy"
+      ],
+      "cuts": [
+        6,
+        8
+      ]
+    },
+    {
+      "word": "onomatopoeia",
+      "pieces": [
+        "onom",
+        "at",
+        "op",
+        "oe",
+        "ia"
+      ],
+      "cuts": [
+        4,
+        6,
+        8,
+        10
+      ]
+    },
+    {
+      "word": "mississippi",
+      "pieces": [
+        "miss",
+        "issippi"
+      ],
+      "cuts": [
+        4
+      ]
+    },
+    {
+      "word": "photosynthesis",
+      "pieces": [
+        "photos",
+        "ynthesis"
+      ],
+      "cuts": [
+        6
+      ]
+    },
+    {
+      "word": "quesadilla",
+      "pieces": [
+        "ques",
+        "adilla"
+      ],
+      "cuts": [
+        4
+      ]
+    },
+    {
+      "word": "wednesday",
+      "pieces": [
+        "w",
+        "ednesday"
+      ],
+      "cuts": [
+        1
+      ]
+    },
+    {
+      "word": "entrepreneur",
+      "pieces": [
+        "entre",
+        "preneur"
+      ],
+      "cuts": [
+        5
+      ]
+    },
+    {
+      "word": "hallucination",
+      "pieces": [
+        "hall",
+        "uc",
+        "ination"
+      ],
+      "cuts": [
+        4,
+        6
+      ]
+    },
+    {
+      "word": "asymptotic",
+      "pieces": [
+        "as",
+        "ym",
+        "pt",
+        "otic"
+      ],
+      "cuts": [
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "word": "jalapeno",
+      "pieces": [
+        "jal",
+        "ap",
+        "eno"
+      ],
+      "cuts": [
+        3,
+        5
+      ]
+    },
+    {
+      "word": "bangalore",
+      "pieces": [
+        "bang",
+        "alore"
+      ],
+      "cuts": [
+        4
+      ]
+    },
+    {
+      "word": "embeddings",
+      "pieces": [
+        "emb",
+        "eddings"
+      ],
+      "cuts": [
+        3
+      ]
+    },
+    {
+      "word": "juxtapose",
+      "pieces": [
+        "ju",
+        "xtap",
+        "ose"
+      ],
+      "cuts": [
+        2,
+        6
+      ]
+    },
+    {
+      "word": "serendipity",
+      "pieces": [
+        "ser",
+        "end",
+        "ip",
+        "ity"
+      ],
+      "cuts": [
+        3,
+        6,
+        8
+      ]
+    },
+    {
+      "word": "nightingale",
+      "pieces": [
+        "night",
+        "ingale"
+      ],
+      "cuts": [
+        5
+      ]
+    },
+    {
+      "word": "thunderstorm",
+      "pieces": [
+        "th",
+        "under",
+        "storm"
+      ],
+      "cuts": [
+        2,
+        7
+      ]
+    },
+    {
+      "word": "archipelago",
+      "pieces": [
+        "arch",
+        "ipelago"
+      ],
+      "cuts": [
+        4
+      ]
+    },
+    {
+      "word": "kaleidoscope",
+      "pieces": [
+        "k",
+        "ale",
+        "idos",
+        "cope"
+      ],
+      "cuts": [
+        1,
+        4,
+        8
+      ]
+    },
+    {
+      "word": "questionnaire",
+      "pieces": [
+        "question",
+        "naire"
+      ],
+      "cuts": [
+        8
+      ]
+    },
+    {
+      "word": "mischievous",
+      "pieces": [
+        "m",
+        "isch",
+        "iev",
+        "ous"
+      ],
+      "cuts": [
+        1,
+        5,
+        8
+      ]
+    }
+  ]
+}

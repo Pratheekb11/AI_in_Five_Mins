@@ -82,11 +82,19 @@ export function Slug({
 
   const style: React.CSSProperties = {};
   if (weight !== undefined) {
-    // Flat fill at partial opacity rather than a lighter hue — the press only
+    // Flat fill at partial strength rather than a lighter hue — the press only
     // has the one ink, it just lays down less of it.
-    style.backgroundColor = `color-mix(in srgb, var(--${ink}) ${Math.round(
-      weight * 100,
-    )}%, var(--paper-raised))`;
+    //
+    // The fill is capped well short of solid: at full strength the darkest inks
+    // drop `--ink` text to about 2.4:1, which is the slug erasing its own
+    // label. The ceiling is the worst passing case across all four inks in both
+    // themes, so weight is always readable rather than sometimes readable. The
+    // range that gets lost is made up by the border, which thickens with
+    // weight — two channels for one quantity, which also survives greyscale.
+    const clamped = Math.min(Math.max(weight, 0), 1);
+    style.backgroundColor = `color-mix(in srgb, var(--${ink}) calc(${clamped} * var(--weight-ceiling) * 100%), var(--paper-raised))`;
+    style.borderColor = `var(--${ink})`;
+    style.borderWidth = clamped > 0.55 ? "2px" : "1px";
   }
 
   const body = (

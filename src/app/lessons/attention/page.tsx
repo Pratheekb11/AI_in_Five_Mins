@@ -1,0 +1,217 @@
+import { Beam } from "@/components/games/Beam";
+import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { Hook } from "@/components/lesson/Hook";
+import { LessonShell } from "@/components/lesson/LessonShell";
+import { MechanismPanel } from "@/components/lesson/MechanismPanel";
+import { PracticeCard } from "@/components/lesson/PracticeCard";
+import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { AttentionMap } from "@/components/machines/AttentionMap";
+import { getLesson } from "@/lib/lessons";
+import type { Source } from "@/lib/sources";
+import { videoFor } from "@/lib/videos";
+
+const lesson = getLesson("attention")!;
+const video = videoFor("attention")!;
+
+export const metadata = {
+  title: lesson.title,
+  description: lesson.standfirst,
+};
+
+const SOURCES: Source[] = [
+  {
+    title: "Attention Is All You Need",
+    publisher: "Vaswani et al. (arXiv:1706.03762, 2017)",
+    url: "https://arxiv.org/abs/1706.03762",
+    used: "The paper that introduced the transformer, and the definition of the attention step this page extracts.",
+  },
+  {
+    title: "DistilGPT-2",
+    publisher: "Hugging Face",
+    url: "https://huggingface.co/distilbert/distilgpt2",
+    used: "The model the attention weights on this page were extracted from — six layers, twelve heads, 82 million parameters.",
+    licence: "Apache 2.0",
+  },
+  {
+    title: "Efficient Streaming Language Models with Attention Sinks",
+    publisher: "Xiao, Tian, Chen, Han & Lewis (arXiv:2309.17453, 2023)",
+    url: "https://arxiv.org/abs/2309.17453",
+    used: "The named account of the effect you can see in the first column of every map here: a large share of attention landing on the initial token regardless of meaning.",
+  },
+  {
+    title: "Attention in transformers, step-by-step",
+    publisher: "3Blue1Brown",
+    url: "https://www.youtube.com/watch?v=eMlx5fFNoYc",
+    used: "The clearest visual account of the same mechanism, with the maths drawn out.",
+  },
+];
+
+const STEPS: Step[] = [
+  {
+    say: "Embeddings gave every word a fixed position in space. But a word does not mean the same thing everywhere. Bank in a river sentence and bank in a money sentence need to end up somewhere different.",
+  },
+  {
+    say: "Attention is how that happens. Before deciding what a word means here, every word gets to look back at every earlier word and pull in some of what they carry.",
+    caption:
+      "Which is why the top-right of every map is empty: nothing may look at its own future.",
+  },
+  {
+    say: "How much it pulls from each one is a weight, and those weights are what you were guessing. They are not fixed rules — they are computed on the spot, from the sentence in front of it.",
+  },
+  {
+    say: "And there is not one set of them. This small model runs twelve heads in every one of six layers, seventy-two in total, all at once. They plainly do not agree with each other, which is the point of having more than one.",
+  },
+  {
+    say: "One thing to notice before you go. That heavy first column is an attention sink — a large share of nearly every head landing on the first token for no reason to do with meaning. It is a known, named artefact, and it is a good reminder that a heat map is not a mind.",
+  },
+];
+
+const QUESTIONS: QuizQuestion[] = [
+  {
+    prompt: "What does the attention step actually compute?",
+    options: [
+      "A fixed lookup of which words are grammatically related",
+      "A weight for every earlier word, worked out from this sentence, deciding how much of each to pull in",
+      "The probability of the next word",
+    ],
+    answer: 1,
+    because:
+      "The weights are computed fresh for each input, which is exactly why the same word can be resolved differently in two sentences. Nothing was written down in advance about which words should be linked.",
+  },
+  {
+    prompt: "Why is the top-right of every map empty?",
+    options: [
+      "Those weights are too small to display",
+      "The causal mask — a token is never allowed to attend to anything that comes after it",
+      "The sentences are too short",
+    ],
+    answer: 1,
+    because:
+      "The model is trained to predict the next token, so letting a position see its own future would let it cheat. The mask enforces that at every layer, which is also why generation runs strictly left to right.",
+  },
+  {
+    prompt: "The first token soaks up attention in almost every head. What does that tell you?",
+    options: [
+      "That the first word is the most important word in the sentence",
+      "That a heat map is not an explanation — some of what you see is a mechanical artefact rather than meaning",
+      "That the extraction is faulty",
+    ],
+    answer: 1,
+    because:
+      "It is a documented effect, named the attention sink by Xiao and colleagues. Heads that have nothing they need this time still have to put their weights somewhere, because the row is forced to sum to one. Reading intent into that column would be reading intent into arithmetic.",
+  },
+];
+
+export default function AttentionLesson() {
+  return (
+    <LessonShell lesson={lesson} sources={SOURCES}>
+      <Hook
+        claim={
+          <>
+            Before it decides what a word means, every word{" "}
+            <span className="text-pink-text">looks back at all the others</span>
+            .
+          </>
+        }
+        sting="That is the whole invention that made modern AI work, and you can watch it happen. Every weight below was pulled out of a real model by running its published parameters forward — and checked against the reference implementation before it was allowed on this page."
+        cta="Fire the beam"
+      />
+
+      <div className="py-4">
+        <Beam />
+      </div>
+
+      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+        <Walkthrough steps={STEPS} />
+        <VideoPanel video={video} />
+      </div>
+
+      <section className="pb-4">
+        <h2 className="display-lg mb-2">All seventy-two heads</h2>
+        <p className="prose-measure text-ink-soft mb-5">
+          Scrub through the layers and heads. What is worth noticing is not any
+          single map &mdash; it is how little they resemble each other.
+        </p>
+        <AttentionMap />
+      </section>
+
+      <div className="space-y-4 pb-4">
+        <MechanismPanel
+          question="Where do the weights come from?"
+          summary="Each word produces a question and a label. The weight is how well one word's question matches another's label."
+          deeper="embeddings"
+        >
+          <p>
+            Every position turns its vector into three others: a{" "}
+            <strong>query</strong> (what am I looking for?), a{" "}
+            <strong>key</strong> (what am I?) and a <strong>value</strong> (what
+            do I pass on?). The weight from one word to another is how strongly
+            the first one&rsquo;s query lines up with the second one&rsquo;s
+            key. Those weights are then squashed so each row adds up to one, and
+            used to mix the values together.
+          </p>
+          <p>
+            Everything here follows from that. The row summing to one is why a
+            head with nothing to look for still has to spend its attention
+            somewhere. The mask is applied before the squashing, which is why
+            the future is not merely unlikely but impossible. And the three
+            projections are learnt during training &mdash; nobody assigned a
+            head its job.
+          </p>
+        </MechanismPanel>
+
+        <MechanismPanel
+          question="Is this a small model? Does that matter?"
+          summary="Very. It is 82 million parameters — thousands of times smaller than a production model."
+          deeper="what-an-llm-is"
+        >
+          <p>
+            DistilGPT-2 was chosen so the extraction could be run honestly on a
+            laptop and checked line by line. Its mechanism is exactly the one in
+            a frontier model; its competence is not. Expect the heads here to
+            look messier and to resolve fewer things cleanly than the tidy
+            diagrams you may have seen elsewhere.
+          </p>
+          <p>
+            That messiness is worth having. Published attention pictures are
+            usually the two or three heads that came out beautifully. This is
+            all of them, including the ones doing something nobody has a name
+            for &mdash; which is the honest state of the art on what attention
+            heads are actually for.
+          </p>
+        </MechanismPanel>
+      </div>
+
+      <div className="pb-4">
+        <FeynmanCheck
+          question="How does a model work out which word 'it' refers to?"
+          answer="Every word gets to look back at all the words before it and take a bit of each one. How much it takes from each is worked out fresh for this sentence, not from a rule somebody wrote. So when the model reaches 'it', it pulls hardest from whichever earlier word fits — and because that mixing is computed on the spot, the same word can come out pointing at different things in different sentences."
+        />
+      </div>
+
+      <div className="pb-4">
+        <PracticeCard
+          title="Write a sentence that breaks it"
+          watchFor="That you can change the answer without changing a single word of the structure — only the meaning. Nothing in the grammar tells the model which way to go, so whatever resolves it came out of the training text."
+        >
+          <p>
+            Take the pair of sentences in the map above about the trophy and the
+            suitcase. Write your own pair with the same shape, where a single
+            adjective flips which noun the pronoun refers to.
+          </p>
+          <p>
+            Then give both to an assistant and ask which thing the pronoun
+            means.
+          </p>
+        </PracticeCard>
+      </div>
+
+      <div className="py-10">
+        <h2 className="display-lg mb-5">Check yourself</h2>
+        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+      </div>
+    </LessonShell>
+  );
+}

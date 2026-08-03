@@ -207,7 +207,13 @@ export function GameShell({
         </dl>
       </div>
 
-      <div className="relative">
+      {/* The cabinet grows for the ready and finished screens, which carry the
+          rules and the debrief and are taller than the board itself, then
+          settles back to the game's own height once play starts. Without this
+          the overlay had to scroll inside a shorter box. */}
+      <div
+        className={`relative ${phase !== "playing" ? "min-h-[36rem]" : ""}`}
+      >
         {/* Nimo watches the round and reacts. He is the loudest feedback in
             the cabinet, which is most of why a miss stings enough to retry. */}
         <span className="pointer-events-none absolute -top-1 right-2 z-20 hidden md:block">
@@ -228,7 +234,14 @@ export function GameShell({
         ) : null}
 
         {phase !== "playing" ? (
-          <div className="bg-paper/92 absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 px-6 text-center backdrop-blur-[2px]">
+          /* `m-auto` on the inner column rather than `justify-center` on the
+             overlay. Centring a flex column that overflows its scroll container
+             pushes the top out of reach — the how-to-play panel made the ready
+             screen taller than the cabinet and its heading was clipped with no
+             way to scroll back to it. `m-auto` centres when there is room and
+             behaves when there is not. */
+          <div className="bg-paper/92 absolute inset-0 z-10 flex flex-col overflow-y-auto px-6 py-6 text-center backdrop-blur-[2px]">
+            <div className="m-auto flex w-full flex-col items-center gap-4">
             {phase === "ready" ? (
               <>
                 <p className="prose-measure text-ink-soft text-[0.9375rem]">
@@ -272,6 +285,7 @@ export function GameShell({
                 ) : null}
               </>
             )}
+            </div>
           </div>
         ) : null}
       </div>

@@ -1,4 +1,4 @@
-import { Conveyor } from "@/components/games/Conveyor";
+import { ContextBudget } from "@/components/games/ContextBudget";
 import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
@@ -115,7 +115,7 @@ export default function ContextIsEverythingLesson() {
       />
 
       <div className="py-4">
-        <Conveyor />
+        <ContextBudget />
       </div>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">

@@ -45,8 +45,12 @@ export default function Home() {
                   runs on real data, never a mock-up.
                 </p>
                 <p>
-                  Six worlds, one idea each, about {worldMinutes} minutes end to
-                  end. There is no theory to get through first &mdash; the round
+                  {/* The space after the count is explicit: written as plain
+                      text it was eaten at the line break and rendered as
+                      "44minutes". */}
+                  Six worlds, one idea each, about {worldMinutes}{" "}
+                  minutes end to end. There is no theory to get through first
+                  &mdash; the round
                   on the right is a real model and it is already playing.
                 </p>
               </div>
@@ -70,7 +74,7 @@ export default function Home() {
             <div className="space-y-4">
               {/* One owl, and he introduces himself. NimoSays draws its own
                   Nimo, so a separate hero owl above it put two on the page. */}
-              <NimoSays mood="curious" size={170}>
+              <NimoSays mood="curious" size={200} follow>
                 I am Nimo. Before anyone explains anything to you &mdash; play
                 one round against a real model and see how you do.
               </NimoSays>

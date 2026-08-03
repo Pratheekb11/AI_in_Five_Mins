@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { type Mood, POSES } from "./moods";
 
@@ -55,6 +55,35 @@ function useToonGradient() {
  */
 const BASE_Y = -0.8;
 
+/**
+ * The cursor's position on the page, in client coordinates.
+ *
+ * Deliberately not R3F's own `pointer`: that one is canvas-local and only
+ * updates while the cursor is actually over the canvas, so the owl froze the
+ * moment you moved away from him — which is exactly when you want him to turn
+ * and watch you. A window listener sees the whole page.
+ *
+ * Kept in a ref rather than state because it changes on every mouse event and
+ * nothing on the page needs to re-render when it does; only the next animation
+ * frame reads it.
+ */
+function usePagePointer() {
+  const at = useRef<{ x: number; y: number } | null>(null);
+
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      at.current = { x: e.clientX, y: e.clientY };
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
+
+  return at;
+}
+
+/** How far the pupil can slide inside the eyeball before it hits the rim. */
+const PUPIL_REACH = 0.032;
+
 function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
   const gradient = useToonGradient();
   const root = useRef<THREE.Group>(null);
@@ -63,13 +92,16 @@ function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
   const wingR = useRef<THREE.Group>(null);
   const lidL = useRef<THREE.Mesh>(null);
   const lidR = useRef<THREE.Mesh>(null);
+  const pupilL = useRef<THREE.Group>(null);
+  const pupilR = useRef<THREE.Group>(null);
 
   // Blink timing lives outside React entirely — it changes sixty times a
   // second and nothing on the page needs to re-render when it does. Seeded
   // with a constant rather than a random number, because rendering has to be
   // pure; the jitter gets added on the first frame instead.
   const blink = useRef({ next: 2.6, closing: 0, seeded: false });
-  const { pointer } = useThree();
+  const pagePointer = usePagePointer();
+  const canvas = useThree((s) => s.gl.domElement);
 
   const mat = useMemo(
     () => ({
@@ -101,10 +133,37 @@ function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
         (mood === "celebrate" ? Math.abs(Math.sin(t * 7)) * 0.05 : 0);
     }
 
+    // --- where is the cursor, relative to his face? -----------------------
+    // Measured against the canvas each frame rather than once, so he keeps
+    // aiming at the right place after the page scrolls. Half the viewport is
+    // the unit: a cursor at the edge of the screen turns him as far as he
+    // goes, anywhere further is the same look.
+    let aimX = 0;
+    let aimY = 0;
+    if (follow && pagePointer.current) {
+      const box = canvas.getBoundingClientRect();
+      // His eyes sit in the upper third of the frame, not the middle, so
+      // that is the point the angles are measured from.
+      const eyesX = box.left + box.width / 2;
+      const eyesY = box.top + box.height * 0.3;
+      aimX = THREE.MathUtils.clamp(
+        (pagePointer.current.x - eyesX) / (window.innerWidth / 2),
+        -1,
+        1,
+      );
+      aimY = THREE.MathUtils.clamp(
+        (pagePointer.current.y - eyesY) / (window.innerHeight / 2),
+        -1,
+        1,
+      );
+    }
+
     // --- head: follows the cursor, then the mood on top ------------------
     if (head.current) {
-      const wantX = follow ? pointer.y * 0.22 : 0;
-      const wantY = follow ? pointer.x * 0.45 : 0;
+      // Positive rotation.x pitches the face downward, and aimY is positive
+      // when the cursor is below him, so these already agree.
+      const wantX = aimY * 0.22;
+      const wantY = aimX * 0.45;
 
       head.current.rotation.y +=
         (wantY - head.current.rotation.y) * Math.min(1, delta * 5);
@@ -148,6 +207,19 @@ function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
     const squash = Math.max(0.02, 1 - closed);
     if (lidL.current) lidL.current.scale.y = squash;
     if (lidR.current) lidR.current.scale.y = squash;
+
+    // --- pupils -----------------------------------------------------------
+    // The head only turns part of the way; the eyes cover the rest, which is
+    // what makes him read as looking AT you rather than merely facing you.
+    // They slide inside the eyeball, so the offset is small and clamped to
+    // the white — a pupil that reaches the rim looks broken, not attentive.
+    const pupilX = aimX * PUPIL_REACH;
+    const pupilY = -aimY * PUPIL_REACH * 0.8;
+    for (const p of [pupilL.current, pupilR.current]) {
+      if (!p) continue;
+      p.position.x += (pupilX - p.position.x) * Math.min(1, delta * 9);
+      p.position.y += (pupilY - p.position.y) * Math.min(1, delta * 9);
+    }
   });
 
   const eye = (side: 1 | -1) => (
@@ -157,12 +229,16 @@ function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
         material={mat.white}
         geometry={new THREE.SphereGeometry(0.1, 24, 20)}
       />
-      <mesh position={[0, 0, 0.075]} material={mat.ink}>
-        <sphereGeometry args={[0.05, 16, 14]} />
-      </mesh>
-      <mesh position={[0.02, 0.025, 0.115]} material={mat.white}>
-        <sphereGeometry args={[0.016, 10, 8]} />
-      </mesh>
+      {/* Pupil and catchlight travel together — a highlight that stayed put
+          while the pupil moved read as a smudge on the eye. */}
+      <group ref={side === 1 ? pupilR : pupilL}>
+        <mesh position={[0, 0, 0.075]} material={mat.ink}>
+          <sphereGeometry args={[0.05, 16, 14]} />
+        </mesh>
+        <mesh position={[0.02, 0.025, 0.115]} material={mat.white}>
+          <sphereGeometry args={[0.016, 10, 8]} />
+        </mesh>
+      </group>
     </group>
   );
 
@@ -315,8 +391,13 @@ export function Nimo3D({
       role="img"
       aria-label={`Nimo the owl, ${mood}`}
     >
+      {/* Pulled in from 4.3: at that distance he sat in the middle of a lot of
+          empty box and read as a sticker. The model spans 1.6 units and this
+          leaves about a fifth of the frame as headroom, so the ear tufts and
+          the books both still clear the edge. Move the geometry and this
+          number has to be rechecked. */}
       <Canvas
-        camera={{ position: [0, 0, 4.3], fov: 32 }}
+        camera={{ position: [0, 0, 3.5], fov: 32 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
         frameloop={reduced ? "demand" : "always"}

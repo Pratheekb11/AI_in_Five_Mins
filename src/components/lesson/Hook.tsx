@@ -1,5 +1,3 @@
-"use client";
-
 import type { ReactNode } from "react";
 
 /**
@@ -34,12 +32,16 @@ export function Hook({
     <section className="border-ink/25 border-b pb-10">
       <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-end">
         <div>
-          <h2 className="display-lg mb-4">{claim}</h2>
-          <p className="prose-measure text-ink-soft text-lg">{sting}</p>
+          <h2 className="display-lg hook-arrive mb-4">
+            {claim}
+          </h2>
+          <p className="prose-measure text-ink-soft hook-arrive hook-arrive-1 text-lg">
+            {sting}
+          </p>
 
           <a
             href={target}
-            className="plate misreg btn-primary font-display mt-7 inline-flex items-center gap-3 px-6 py-3.5 text-lg font-bold"
+            className="plate misreg btn-primary font-display hook-arrive hook-arrive-2 mt-7 inline-flex items-center gap-3 px-6 py-3.5 text-lg font-bold"
           >
             {cta}
             <svg width="16" height="14" viewBox="0 0 16 14" aria-hidden="true">

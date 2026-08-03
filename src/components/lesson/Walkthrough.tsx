@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { Nimo } from "@/components/nimo/Nimo";
 import { SpeechButton } from "./SpeechButton";
@@ -27,6 +28,7 @@ export type Step = {
 
 export function Walkthrough({ steps }: { steps: Step[] }) {
   const [at, setAt] = useState(0);
+  const still = useReducedMotion();
   const step = steps[at];
   const last = at === steps.length - 1;
 
@@ -41,10 +43,15 @@ export function Walkthrough({ steps }: { steps: Step[] }) {
           {steps.map((_, i) => (
             <span
               key={i}
-              className={`h-1.5 flex-1 rounded-[1px] ${
-                i <= at ? "bg-pink" : "bg-ink/15"
-              }`}
-            />
+              className="bg-ink/15 h-1.5 flex-1 overflow-hidden rounded-[1px]"
+            >
+              <motion.span
+                className="bg-pink block h-full origin-left"
+                initial={false}
+                animate={{ scaleX: i <= at ? 1 : 0 }}
+                transition={{ duration: still ? 0 : 0.3, ease: "easeOut" }}
+              />
+            </span>
           ))}
         </span>
         <SpeechButton key={at} text={step.say} />
@@ -60,19 +67,37 @@ export function Walkthrough({ steps }: { steps: Step[] }) {
             height={110}
             className="hidden w-[110px] shrink-0 sm:block"
           />
-          <p
-            className="prose-measure text-lg leading-relaxed"
-            aria-live="polite"
-          >
-            {step.say}
-          </p>
+          <div className="prose-measure grow" aria-live="polite">
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={at}
+                className="text-lg leading-relaxed"
+                initial={still ? false : { opacity: 0, x: 18 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={still ? undefined : { opacity: 0, x: -18 }}
+                transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {step.say}
+              </motion.p>
+            </AnimatePresence>
+          </div>
         </div>
 
-        {step.show ? <div className="mb-4">{step.show}</div> : null}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={at}
+            initial={still ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={still ? undefined : { opacity: 0 }}
+            transition={{ duration: 0.28, delay: still ? 0 : 0.06 }}
+          >
+            {step.show ? <div className="mb-4">{step.show}</div> : null}
 
-        {step.caption ? (
-          <p className="text-ink-faint mb-4 text-sm">{step.caption}</p>
-        ) : null}
+            {step.caption ? (
+              <p className="text-ink-faint mb-4 text-sm">{step.caption}</p>
+            ) : null}
+          </motion.div>
+        </AnimatePresence>
 
         <div className="border-ink/20 flex items-center justify-between gap-3 border-t pt-4">
           <button

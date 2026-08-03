@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { HeroDemo } from "@/components/HeroDemo";
+import { Reveal } from "@/components/Reveal";
+import { TheLoop } from "@/components/TheLoop";
 import { SiteFooter } from "@/components/SiteFooter";
 import { NimoSays } from "@/components/nimo/NimoSays";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -77,6 +79,29 @@ export default function Home() {
           </div>
         </section>
 
+        {/* The site's central claim, running, before anyone is asked to read
+            a word of it. */}
+        <section className="border-ink/25 border-t">
+          <div className="mx-auto max-w-6xl px-5 py-14">
+            <Reveal>
+              <p className="label text-ink-faint mb-3">
+                What it is actually doing
+              </p>
+              <h2 className="display-lg mb-2">
+                One word. Then it starts again.
+              </h2>
+              <p className="prose-measure text-ink-soft mb-9">
+                That is the whole machine, and everything strange about these
+                tools falls out of it. Watch it go round a few times &mdash;
+                nothing below will make sense until this does.
+              </p>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <TheLoop />
+            </Reveal>
+          </div>
+        </section>
+
         <TrackSection
           id="worlds"
           track="world"
@@ -141,10 +166,11 @@ function TrackSection({
         <p className="prose-measure text-ink-soft mb-9">{meta.blurb}</p>
 
         <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {lessons.map((lesson) => {
+          {lessons.map((lesson, i) => {
             const ink = inkClasses[lesson.ink];
             return (
-              <li key={lesson.slug}>
+              <li key={lesson.slug} className="flex">
+                <Reveal delay={Math.min(i, 5) * 0.05} className="flex w-full">
                 <Link
                   href={`/lessons/${lesson.slug}`}
                   className="plate misreg flex h-full flex-col p-4"
@@ -185,6 +211,7 @@ function TrackSection({
                     )}
                   </p>
                 </Link>
+                </Reveal>
               </li>
             );
           })}

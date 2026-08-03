@@ -33,9 +33,9 @@ import {
 /** "1st", "2nd", "148th" — a rank reads better than an index to a person. */
 function ordinal(n: number): string {
   const tens = n % 100;
-  if (tens >= 11 && tens <= 13) return `${n.toLocaleString()}th`;
+  if (tens >= 11 && tens <= 13) return `${n.toLocaleString("en-US")}th`;
   const suffix = { 1: "st", 2: "nd", 3: "rd" }[n % 10] ?? "th";
-  return `${n.toLocaleString()}${suffix}`;
+  return `${n.toLocaleString("en-US")}${suffix}`;
 }
 
 let cached: Promise<PredictorData> | null = null;

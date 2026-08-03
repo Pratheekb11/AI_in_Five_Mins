@@ -118,7 +118,7 @@ export function Plinko() {
             {data.model.name}, real next-token odds. The dial reshapes the
             recorded logits and the slots are renormalised over the top {SLOTS}{" "}
             candidates &mdash; the rest of the{" "}
-            {prompt?.vocabSize.toLocaleString() ?? "50,257"} tokens are still
+            {prompt?.vocabSize.toLocaleString("en-US") ?? "50,257"} tokens are still
             there in the model, just not on this board.
           </>
         ) : failed ? (

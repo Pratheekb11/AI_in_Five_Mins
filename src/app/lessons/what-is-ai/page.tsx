@@ -6,7 +6,7 @@ import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { RuleBench } from "@/components/machines/RuleBench";
+import { WhatIsAI } from "@/components/machines/WhatIsAI";
 import { SPAM_BENCH } from "@/lib/datasets";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -57,10 +57,10 @@ const STEPS: Step[] = [
   },
   {
     say: "What people call AI is the other approach. Nobody tells it the rule. It is shown thousands of examples with the answer attached and works out the pattern itself.",
-    caption: `The model on this page was given ${SPAM_BENCH.learned.trainSize.toLocaleString()} labelled messages and nothing else — no word list, no hints.`,
+    caption: `The model on this page was given ${SPAM_BENCH.learned.trainSize.toLocaleString("en-US")} labelled messages and nothing else — no word list, no hints.`,
   },
   {
-    say: `And look how close it was. Your best hand-written rules reach about ${pct(SPAM_BENCH.bestSubset.accuracy)} on the held-out messages. The learned model reaches ${pct(SPAM_BENCH.learned.accuracy)}. Under a point and a half apart.`,
+    say: `And look how close it was. The best hand-written rules reach about ${pct(SPAM_BENCH.bestSubset.accuracy)} on the held-out messages. The learned model reaches ${pct(SPAM_BENCH.learned.accuracy)}. Under a point and a half apart.`,
   },
   {
     say: `Now the number that should worry you. Flagging nothing at all — a filter that does not exist — scores ${pct(SPAM_BENCH.baseline.accuracy)}, because most messages are not spam. A single accuracy figure can be almost meaningless.`,
@@ -107,7 +107,7 @@ const QUESTIONS: QuizQuestion[] = [
     prompt: "What did the model actually get given?",
     options: [
       "A list of suspicious words written by researchers",
-      `${SPAM_BENCH.learned.trainSize.toLocaleString()} messages, each marked spam or not spam, and nothing else`,
+      `${SPAM_BENCH.learned.trainSize.toLocaleString("en-US")} messages, each marked spam or not spam, and nothing else`,
       "Access to the internet to look up known spam",
     ],
     answer: 1,
@@ -134,12 +134,12 @@ export default function WhatIsAiLesson() {
             of the machine-learning model.
           </>
         }
-        sting={`On ${SPAM_BENCH.corpus.total.toLocaleString()} real text messages, scored on the same held-out split. Go and beat them — the bench below is the actual corpus, and every number moves as you switch rules on and off.`}
-        cta="Build the filter"
+        sting={`On ${SPAM_BENCH.corpus.total.toLocaleString("en-US")} real text messages, scored on the same held-out split. Watch the three of them go up — including the one that does nothing at all and still scores 86%, which is the number that should worry you.`}
+        cta="Watch it run"
       />
 
       <div className="py-4">
-        <RuleBench />
+        <WhatIsAI />
       </div>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
@@ -203,7 +203,7 @@ export default function WhatIsAiLesson() {
           summary="Because when one answer is much more common, guessing that answer every time already looks good."
         >
           <p>
-            {SPAM_BENCH.corpus.spam} of the {SPAM_BENCH.corpus.total.toLocaleString()}{" "}
+            {SPAM_BENCH.corpus.spam} of the {SPAM_BENCH.corpus.total.toLocaleString("en-US")}{" "}
             messages are spam &mdash; about one in seven. A filter that flags
             nothing is right about everything else, which is{" "}
             {pct(SPAM_BENCH.baseline.accuracy)} of the time.

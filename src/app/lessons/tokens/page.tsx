@@ -160,7 +160,7 @@ export default function TokensLesson() {
         sting={`Not “struggles with” — cannot. By the time the word reaches it, it is ${bare.final.length} chunks (${bare.final.join(
           " · ",
         )}) and the letters are gone. Below you can watch those chunks being formed, one real merge at a time, and then go and cut words up yourself.`}
-        cta="Show me the machine"
+        cta="Watch it cut"
         target="#merges"
       />
 

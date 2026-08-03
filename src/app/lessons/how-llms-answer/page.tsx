@@ -52,7 +52,7 @@ const STEPS: Step[] = [
     say: "Here is the entire operation. The model reads everything so far, produces a score for every one of fifty thousand possible next tokens, picks one, adds it to the text, and starts again.",
   },
   {
-    say: "The scores you were playing with are real. Give it the opening of Genesis and one token takes 99% of the probability. Give it 'Once upon a' and the most likely token is at seven per cent — far less certain than a person would be.",
+    say: "The scores you were playing with are real. Give it the opening of Genesis and one token takes ninety-nine per cent of the probability. Give it 'Once upon a' and the most likely token is at seven per cent — far less certain than a person would be.",
     caption:
       "Both measured from the same model, on this page, with nothing rounded for effect.",
   },

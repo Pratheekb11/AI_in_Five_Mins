@@ -113,7 +113,7 @@ export default function EmbeddingsLesson() {
           </>
         }
         sting="Fifty numbers per word, and nobody decided what any of them stand for — they fell out of counting which words turn up near which, across six billion words of text. In the box below, the pull between two words is that real measurement, not a story about it."
-        cta="Show me the space"
+        cta="Open the space"
         target="#space"
       />
 

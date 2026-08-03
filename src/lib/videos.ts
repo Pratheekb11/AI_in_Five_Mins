@@ -95,6 +95,26 @@ export const VIDEOS: Record<string, Video> = {
     channel: "Andrej Karpathy",
     why: "A long talk, but the section on how these models fail is worth it.",
   },
+
+  // ------------------------------------------------------------ before you go --
+  "verification-habits": {
+    youtubeId: "SHNprb2hgzU",
+    title: "Sort Fact from Fiction Online with Lateral Reading",
+    channel: "Digital Inquiry Group",
+    why: "Nothing to do with AI, which is the point — this is how professional fact-checkers settle a claim, by leaving the thing they are reading.",
+  },
+  "task-audit": {
+    youtubeId: "dPJ6Bxsky0s",
+    title: 'Ethan Mollick: "Navigating the Jagged Technological Frontier"',
+    channel: "Stanford Digital Economy Lab",
+    why: "The field experiment behind the idea you just sorted your week with: 758 consultants, big gains on tasks inside the frontier and worse work on tasks outside it.",
+  },
+
+  /* `judgment-and-limits` has no video and should keep having none until one
+     turns up that is actually about the judgement call. What exists is either
+     GDPR compliance training, which is the wrong register for a beginner, or
+     enterprise governance decks, which are about somebody else's policy rather
+     than what you personally decide to paste in. */
 };
 
 export function videoFor(slug: string): Video | undefined {

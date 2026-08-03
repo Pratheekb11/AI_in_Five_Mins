@@ -5,12 +5,15 @@ import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
+import { videoFor } from "@/lib/videos";
 
 const lesson = getLesson("verification-habits")!;
+const video = videoFor("verification-habits")!;
 
 export const metadata = {
   title: lesson.title,
@@ -119,8 +122,9 @@ export default function VerificationHabitsLesson() {
         <HallucinationHunt />
       </div>
 
-      <div className="pb-4">
+      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
         <Walkthrough steps={STEPS} />
+        <VideoPanel video={video} />
       </div>
 
       <div className="space-y-4 pb-4">

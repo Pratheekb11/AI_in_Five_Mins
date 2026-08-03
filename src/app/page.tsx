@@ -39,13 +39,15 @@ export default function Home() {
 
               <div className="prose-measure text-ink-soft mt-7 text-lg">
                 <p>
-                  You already use these tools. Nobody ever showed you what they
-                  are doing when they answer you &mdash; so you are guessing
-                  about when to trust one. {/* The space after the count is
-                  explicit: written as plain text it was eaten at the line break
-                  and rendered as "44minutes". */}
-                  Six short chapters, one game each, about {chapterMinutes}{" "}
-                  minutes. You play first and read after.
+                  You are probably already using one of these things, and
+                  nobody ever showed you what it is doing while it answers
+                  you &mdash; which leaves you guessing about when to trust it.
+                  {/* The space after the count is explicit: written as plain
+                  text it was eaten at the line break and rendered as
+                  "44minutes". */}
+                  Six short chapters fix that, one game each, about{" "}
+                  {chapterMinutes} minutes in total. You play first and read
+                  afterwards.
                 </p>
               </div>
 

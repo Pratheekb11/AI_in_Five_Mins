@@ -5,14 +5,17 @@ import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { YourWeek } from "@/components/machines/YourWeek";
 import { BUCKETS } from "@/lib/game/sort";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
+import { videoFor } from "@/lib/videos";
 
 const lesson = getLesson("task-audit")!;
+const video = videoFor("task-audit")!;
 
 export const metadata = {
   title: lesson.title,
@@ -128,8 +131,9 @@ export default function TaskAuditLesson() {
         <YourWeek />
       </div>
 
-      <div className="pb-4">
+      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
         <Walkthrough steps={STEPS} />
+        <VideoPanel video={video} />
       </div>
 
       <section className="plate mb-4 p-5 md:p-6">

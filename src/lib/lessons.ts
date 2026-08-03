@@ -169,7 +169,7 @@ export const LESSONS: Lesson[] = [
     title: "The task audit",
     standfirst:
       "Sort your own week into four buckets. That list is your personal map of what to hand over.",
-    nugget: "Your own week, sorted — and no score for it.",
+    nugget: "It helps most where you are weakest.",
     machine: "The Bucket Sort",
     minutes: 8,
     ink: "teal",
@@ -182,9 +182,9 @@ export const LESSONS: Lesson[] = [
     number: 3,
     title: "Judgment and limits",
     standfirst:
-      "What you paste is data you have shared. And there is a line between using a tool and outsourcing your thinking.",
-    nugget: "What you paste is data you have shared.",
-    machine: "Would you paste it?",
+      "Pasting is disclosing, and there is a line between using a tool and outsourcing your thinking.",
+    nugget: "Anything you paste, you have already shared.",
+    machine: "The Paste Test",
     minutes: 8,
     ink: "pink",
     status: "ready",
@@ -261,7 +261,7 @@ export const LESSONS: Lesson[] = [
     title: "Why the failures happen",
     standfirst:
       "The mechanics behind forgetting, making things up, and inherited bias — each one measured.",
-    machine: "Failure bench",
+    machine: "Failure Bench",
     minutes: 10,
     ink: "teal",
     status: "ready",

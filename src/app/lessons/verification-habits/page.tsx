@@ -6,7 +6,6 @@ import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { DAMAGE_LABEL, STAMPS } from "@/lib/game/costofwrong";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 
@@ -125,37 +124,6 @@ export default function VerificationHabitsLesson() {
         <Walkthrough steps={STEPS} />
       </div>
 
-      <section className="plate mb-4 p-5 md:p-6">
-        <p className="label text-ink-faint mb-4">
-          The ladder, and what each rung is actually for
-        </p>
-        <dl className="mb-5 grid gap-x-8 gap-y-4 sm:grid-cols-2">
-          {STAMPS.map((option) => (
-            <div key={option.level}>
-              <dt className="font-display text-base font-bold">
-                {option.label}
-                <span className="text-ink-faint ml-2 text-sm font-normal">
-                  {option.means}
-                </span>
-              </dt>
-              <dd className="text-ink-soft mt-1 text-[0.9375rem]">
-                {USES[option.level]}
-              </dd>
-            </div>
-          ))}
-        </dl>
-        <p className="prose-measure text-ink-soft border-ink/20 border-t pt-4 text-[0.9375rem]">
-          The pairing is the module&rsquo;s rule, not a measurement:{" "}
-          <strong>{DAMAGE_LABEL[1].toLowerCase()}</strong> if wrong asks for a
-          skim, <strong>{DAMAGE_LABEL[2].toLowerCase()}</strong> asks for
-          verification at source, and{" "}
-          <strong>{DAMAGE_LABEL[3].toLowerCase()}</strong> asks for a second
-          pair of eyes. Argue with it if you like &mdash; but write down
-          whatever you replace it with, because an unwritten policy is the one
-          that vanishes under deadline.
-        </p>
-      </section>
-
       <div className="space-y-4 pb-4">
         <MechanismPanel
           question="Why does a wrong answer feel safe to send?"
@@ -237,11 +205,3 @@ export default function VerificationHabitsLesson() {
     </LessonShell>
   );
 }
-
-/** What each rung is genuinely for, printed after the round has been played. */
-const USES: Record<number, string> = {
-  1: "Work with no fact in it and no audience — a draft for your eyes, a throwaway rewrite. It is a legitimate choice, and it is only legitimate when both of those are true.",
-  2: "Catches the obvious: wrong name, missing section, tone that would embarrass you. It does not catch a plausible wrong number, because a plausible wrong number reads exactly like a right one.",
-  3: "Open the source for every claim the piece rests on. This is the rung people skip, and it is the one that catches the failures the previous module named.",
-  4: "For things that are hard to undo: money, health, law, hiring, anything public. The point is independence — a second look by the same person who wrote the prompt is not a second look.",
-};

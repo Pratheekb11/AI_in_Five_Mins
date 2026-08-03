@@ -1,7 +1,14 @@
 "use client";
 
 import { useCallback, useSyncExternalStore } from "react";
-import type { Exposure, Task } from "@/lib/game/buckets";
+import type { Exposure } from "@/lib/game/sort";
+
+/**
+ * What is stored is only what the reader typed. The evidence tags a sorting
+ * card carries are attached when the round is dealt, not saved here — they are
+ * ours to change without invalidating somebody's saved list.
+ */
+export type OwnTask = { text: string; exposure: Exposure; mine: true };
 
 /**
  * The tasks you typed in yourself, kept in localStorage.
@@ -19,12 +26,12 @@ const EVENT = "llai-own-tasks-change";
 const LIMIT = 24;
 const MAX_LENGTH = 64;
 
-let cache: Task[] = [];
+let cache: OwnTask[] = [];
 let cacheRaw: string | null = null;
 
-const EMPTY: Task[] = [];
+const EMPTY: OwnTask[] = [];
 
-function parse(raw: string | null): Task[] {
+function parse(raw: string | null): OwnTask[] {
   if (!raw) return [];
   try {
     const value: unknown = JSON.parse(raw);
@@ -49,7 +56,7 @@ function parse(raw: string | null): Task[] {
   }
 }
 
-function read(): Task[] {
+function read(): OwnTask[] {
   let raw: string | null = null;
   try {
     raw = localStorage.getItem(KEY);
@@ -71,7 +78,7 @@ function subscribe(onChange: () => void) {
   };
 }
 
-function write(next: Task[]) {
+function write(next: OwnTask[]) {
   try {
     localStorage.setItem(
       KEY,

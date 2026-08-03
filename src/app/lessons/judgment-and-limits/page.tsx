@@ -1,4 +1,4 @@
-import { WouldYouPaste } from "@/components/games/WouldYouPaste";
+import { PasteCheck } from "@/components/games/PasteCheck";
 import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
@@ -137,7 +137,7 @@ export default function JudgmentAndLimitsLesson() {
       />
 
       <div className="py-4">
-        <WouldYouPaste />
+        <PasteCheck />
       </div>
 
       <div className="pb-4">

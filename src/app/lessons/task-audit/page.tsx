@@ -1,4 +1,4 @@
-import { FourBuckets } from "@/components/games/FourBuckets";
+import { BucketSort } from "@/components/games/BucketSort";
 import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
@@ -7,7 +7,7 @@ import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { YourWeek } from "@/components/machines/YourWeek";
-import { BUCKETS } from "@/lib/game/buckets";
+import { BUCKETS } from "@/lib/game/sort";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 
@@ -120,7 +120,7 @@ export default function TaskAuditLesson() {
       />
 
       <div className="py-4">
-        <FourBuckets />
+        <BucketSort />
       </div>
 
       <div className="pb-4">

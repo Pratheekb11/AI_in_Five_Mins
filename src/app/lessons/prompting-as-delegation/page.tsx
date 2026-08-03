@@ -8,7 +8,6 @@ import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { PromptInspector } from "@/components/machines/PromptInspector";
-import { ELEMENTS } from "@/lib/game/promptline";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { ENCODING_NAME } from "@/lib/tokenizer";
@@ -137,29 +136,6 @@ export default function PromptingAsDelegationLesson() {
         <Walkthrough steps={STEPS} />
         <VideoPanel video={video} />
       </div>
-
-      {/* The five parts, printed once, after they have already been sorted by
-          hand. Reading the list first would have made the game a memory test. */}
-      <section className="plate mb-4 p-5 md:p-6">
-        <p className="label text-ink-faint mb-4">
-          The five parts, and what each one costs you when it is missing
-        </p>
-        <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
-          {ELEMENTS.map((element) => (
-            <div key={element.key}>
-              <dt className="font-display text-base font-bold">
-                {element.label}
-                <span className="text-ink-faint ml-2 text-sm font-normal">
-                  {element.asks}
-                </span>
-              </dt>
-              <dd className="text-ink-soft mt-1 text-[0.9375rem]">
-                {element.missing}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
 
       <div className="space-y-4 pb-4">
         <MechanismPanel

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { LiveTokenizer } from "@/components/machines/LiveTokenizer";
 import { SiteFooter } from "@/components/SiteFooter";
-import { Nimo } from "@/components/nimo/Nimo";
 import { NimoSays } from "@/components/nimo/NimoSays";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
@@ -65,8 +64,9 @@ export default function Home() {
             </div>
 
             <div className="space-y-4">
-              <Nimo mood="curious" height={250} />
-              <NimoSays mood="curious">
+              {/* One owl, and he introduces himself. NimoSays draws its own
+                  Nimo, so a separate hero owl above it put two on the page. */}
+              <NimoSays mood="curious" size={170}>
                 I am Nimo. Type something below and watch it get chopped into
                 the pieces a model actually reads.
               </NimoSays>

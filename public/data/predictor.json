@@ -1,0 +1,1234 @@
+{
+  "generatedBy": "data/scripts/build-predictor.mjs",
+  "model": {
+    "id": "Xenova/distilgpt2",
+    "name": "DistilGPT-2",
+    "url": "https://huggingface.co/distilbert/distilgpt2",
+    "licence": "Apache 2.0",
+    "note": "82 million parameters. Small enough to run honestly on a laptop, and wrong often enough to be instructive."
+  },
+  "corpus": {
+    "name": "Alice's Adventures in Wonderland",
+    "author": "Lewis Carroll",
+    "url": "https://www.gutenberg.org/ebooks/11",
+    "licence": "Public domain"
+  },
+  "optionCount": 4,
+  "measuredSentences": 72,
+  "rounds": [
+    {
+      "id": "usa",
+      "prefix": "The United States of",
+      "options": [
+        {
+          "text": " Europe",
+          "probability": 0.001082
+        },
+        {
+          "text": " America",
+          "probability": 0.971706
+        },
+        {
+          "text": " American",
+          "probability": 0.001048
+        },
+        {
+          "text": " the",
+          "probability": 0.003132
+        }
+      ],
+      "truth": 1,
+      "modelPick": 1,
+      "answerRank": 0,
+      "trapped": false,
+      "kind": "phrase",
+      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+    },
+    {
+      "id": "genesis",
+      "prefix": "In the beginning God created the heaven and the",
+      "options": [
+        {
+          "text": " earth",
+          "probability": 0.994124
+        },
+        {
+          "text": " east",
+          "probability": 0.000239
+        },
+        {
+          "text": " sea",
+          "probability": 0.000238
+        },
+        {
+          "text": " moon",
+          "probability": 0.000592
+        }
+      ],
+      "truth": 0,
+      "modelPick": 0,
+      "answerRank": 0,
+      "trapped": false,
+      "kind": "phrase",
+      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+    },
+    {
+      "id": "york",
+      "prefix": "The Statue of Liberty stands in New",
+      "options": [
+        {
+          "text": " York",
+          "probability": 0.881191
+        },
+        {
+          "text": " Jersey",
+          "probability": 0.032094
+        },
+        {
+          "text": " Mexico",
+          "probability": 0.009422
+        },
+        {
+          "text": " Orleans",
+          "probability": 0.042413
+        }
+      ],
+      "truth": 0,
+      "modelPick": 0,
+      "answerRank": 0,
+      "trapped": false,
+      "kind": "phrase",
+      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+    },
+    {
+      "id": "once",
+      "prefix": "It was raining, so she opened her",
+      "options": [
+        {
+          "text": " hand",
+          "probability": 0.031223
+        },
+        {
+          "text": " umbrella",
+          "probability": 0.000946
+        },
+        {
+          "text": " mouth",
+          "probability": 0.162273
+        },
+        {
+          "text": " eyes",
+          "probability": 0.569381
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 45,
+      "trapped": true,
+      "kind": "phrase",
+      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+    },
+    {
+      "id": "birthday",
+      "prefix": "He blew out the candles on his birthday",
+      "options": [
+        {
+          "text": " cake",
+          "probability": 0.002031
+        },
+        {
+          "text": " day",
+          "probability": 0.027074
+        },
+        {
+          "text": " and",
+          "probability": 0.105107
+        },
+        {
+          "text": " party",
+          "probability": 0.105979
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 43,
+      "trapped": true,
+      "kind": "phrase",
+      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+    },
+    {
+      "id": "doctor",
+      "prefix": "She felt ill, so she went to see the",
+      "options": [
+        {
+          "text": " doctor",
+          "probability": 0.413383
+        },
+        {
+          "text": " hospital",
+          "probability": 0.019253
+        },
+        {
+          "text": " nurse",
+          "probability": 0.026705
+        },
+        {
+          "text": " doctors",
+          "probability": 0.049256
+        }
+      ],
+      "truth": 0,
+      "modelPick": 0,
+      "answerRank": 0,
+      "trapped": false,
+      "kind": "phrase",
+      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+    },
+    {
+      "id": "keys",
+      "prefix": "He could not start the car because he had lost his",
+      "options": [
+        {
+          "text": " grip",
+          "probability": 0.044685
+        },
+        {
+          "text": " keys",
+          "probability": 0.002943
+        },
+        {
+          "text": " mind",
+          "probability": 0.049106
+        },
+        {
+          "text": " balance",
+          "probability": 0.053205
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 52,
+      "trapped": true,
+      "kind": "phrase",
+      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+    },
+    {
+      "id": "coffee",
+      "prefix": "She could not wake up properly without a cup of",
+      "options": [
+        {
+          "text": " milk",
+          "probability": 0.027744
+        },
+        {
+          "text": " water",
+          "probability": 0.054671
+        },
+        {
+          "text": " coffee",
+          "probability": 0.462113
+        },
+        {
+          "text": " tea",
+          "probability": 0.279953
+        }
+      ],
+      "truth": 2,
+      "modelPick": 2,
+      "answerRank": 0,
+      "trapped": false,
+      "kind": "phrase",
+      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+    },
+    {
+      "id": "alice-0",
+      "kind": "corpus",
+      "prefix": "She went in without knocking, and hurried upstairs, in great fear lest she should meet the real Mary Ann, and be turned out of the house before she had found the fan and",
+      "options": [
+        {
+          "text": " her",
+          "probability": 0.044972
+        },
+        {
+          "text": " gloves",
+          "probability": 0.000007
+        },
+        {
+          "text": " found",
+          "probability": 0.033344
+        },
+        {
+          "text": " the",
+          "probability": 0.120403
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 3945,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-1",
+      "kind": "corpus",
+      "prefix": "The King turned pale, and shut his note-book",
+      "options": [
+        {
+          "text": " hastily",
+          "probability": 0.000038
+        },
+        {
+          "text": " and",
+          "probability": 0.058757
+        },
+        {
+          "text": " away",
+          "probability": 0.04423
+        },
+        {
+          "text": " down",
+          "probability": 0.072174
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 410,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-2",
+      "kind": "corpus",
+      "prefix": "Would not, could not, would not, could not, would not join the",
+      "options": [
+        {
+          "text": " dance",
+          "probability": 0.000089
+        },
+        {
+          "text": " war",
+          "probability": 0.02223
+        },
+        {
+          "text": " fight",
+          "probability": 0.022032
+        },
+        {
+          "text": " ranks",
+          "probability": 0.028478
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 1408,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-3",
+      "kind": "corpus",
+      "prefix": "The next witness was the Duchess's",
+      "options": [
+        {
+          "text": " father",
+          "probability": 0.052024
+        },
+        {
+          "text": " cook",
+          "probability": 0.000149
+        },
+        {
+          "text": " sister",
+          "probability": 0.065016
+        },
+        {
+          "text": " mother",
+          "probability": 0.080262
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 469,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-4",
+      "kind": "corpus",
+      "prefix": "So she set to work, and very soon finished off the",
+      "options": [
+        {
+          "text": " cake",
+          "probability": 0.000277
+        },
+        {
+          "text": " work",
+          "probability": 0.039372
+        },
+        {
+          "text": " project",
+          "probability": 0.052132
+        },
+        {
+          "text": " job",
+          "probability": 0.122194
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 415,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-5",
+      "kind": "corpus",
+      "prefix": "The Cat seemed to think that there was enough of it now in sight, and no more of it",
+      "options": [
+        {
+          "text": " appeared",
+          "probability": 0.000476
+        },
+        {
+          "text": " was",
+          "probability": 0.030314
+        },
+        {
+          "text": " now",
+          "probability": 0.09571
+        },
+        {
+          "text": " than",
+          "probability": 0.108269
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 144,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-6",
+      "kind": "corpus",
+      "prefix": "The further off from England the nearer is to France— Then turn not pale, beloved snail, but come and join the",
+      "options": [
+        {
+          "text": " world",
+          "probability": 0.014183
+        },
+        {
+          "text": " dance",
+          "probability": 0.001047
+        },
+        {
+          "text": " rest",
+          "probability": 0.020485
+        },
+        {
+          "text": " sea",
+          "probability": 0.025752
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 116,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-7",
+      "kind": "corpus",
+      "prefix": "Alice went timidly up to the door, and",
+      "options": [
+        {
+          "text": " when",
+          "probability": 0.030993
+        },
+        {
+          "text": " she",
+          "probability": 0.053005
+        },
+        {
+          "text": " knocked",
+          "probability": 0.001112
+        },
+        {
+          "text": " the",
+          "probability": 0.0562
+        }
+      ],
+      "truth": 2,
+      "modelPick": 3,
+      "answerRank": 122,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-8",
+      "kind": "corpus",
+      "prefix": "The King's argument was, that anything that had a head could be beheaded, and that you weren't to talk",
+      "options": [
+        {
+          "text": " with",
+          "probability": 0.008116
+        },
+        {
+          "text": " anything",
+          "probability": 0.005254
+        },
+        {
+          "text": " nonsense",
+          "probability": 0.001351
+        },
+        {
+          "text": " about",
+          "probability": 0.520469
+        }
+      ],
+      "truth": 2,
+      "modelPick": 3,
+      "answerRank": 25,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-9",
+      "kind": "corpus",
+      "prefix": "So she set the little creature down, and felt quite relieved to see it trot away quietly into the",
+      "options": [
+        {
+          "text": " forest",
+          "probability": 0.04024
+        },
+        {
+          "text": " room",
+          "probability": 0.041529
+        },
+        {
+          "text": " wood",
+          "probability": 0.00153
+        },
+        {
+          "text": " air",
+          "probability": 0.060854
+        }
+      ],
+      "truth": 2,
+      "modelPick": 3,
+      "answerRank": 90,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-10",
+      "kind": "corpus",
+      "prefix": "Alice did not quite like the look of the creature, but on the whole she thought it would be quite as safe to stay with it as to go after that savage Queen: so she",
+      "options": [
+        {
+          "text": " took",
+          "probability": 0.043153
+        },
+        {
+          "text": " decided",
+          "probability": 0.067499
+        },
+        {
+          "text": " waited",
+          "probability": 0.001554
+        },
+        {
+          "text": " went",
+          "probability": 0.074138
+        }
+      ],
+      "truth": 2,
+      "modelPick": 3,
+      "answerRank": 89,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-11",
+      "kind": "corpus",
+      "prefix": "The Mouse gave a sudden leap out of the water, and seemed to quiver all over with",
+      "options": [
+        {
+          "text": " fright",
+          "probability": 0.002778
+        },
+        {
+          "text": " excitement",
+          "probability": 0.066964
+        },
+        {
+          "text": " his",
+          "probability": 0.055317
+        },
+        {
+          "text": " the",
+          "probability": 0.091497
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 35,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-12",
+      "kind": "corpus",
+      "prefix": "She felt very curious to know what it was all about, and crept a little way out of the wood to",
+      "options": [
+        {
+          "text": " find",
+          "probability": 0.064158
+        },
+        {
+          "text": " listen",
+          "probability": 0.003031
+        },
+        {
+          "text": " get",
+          "probability": 0.049982
+        },
+        {
+          "text": " see",
+          "probability": 0.160508
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 54,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-13",
+      "kind": "corpus",
+      "prefix": "I gave her one, they gave him two, You gave us three or more; They all returned from him to you, Though they were mine",
+      "options": [
+        {
+          "text": " for",
+          "probability": 0.02282
+        },
+        {
+          "text": " before",
+          "probability": 0.00369
+        },
+        {
+          "text": " too",
+          "probability": 0.012074
+        },
+        {
+          "text": " and",
+          "probability": 0.057288
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 27,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-14",
+      "kind": "corpus",
+      "prefix": "She carried the pepper-box in her hand, and Alice guessed who it was, even before she got into the court, by the way the people near the door began sneezing all at",
+      "options": [
+        {
+          "text": " once",
+          "probability": 0.005226
+        },
+        {
+          "text": " the",
+          "probability": 0.073885
+        },
+        {
+          "text": " him",
+          "probability": 0.062245
+        },
+        {
+          "text": " her",
+          "probability": 0.643603
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 10,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-15",
+      "kind": "corpus",
+      "prefix": "Alice led the way, and the whole party swam to the",
+      "options": [
+        {
+          "text": " shore",
+          "probability": 0.005836
+        },
+        {
+          "text": " end",
+          "probability": 0.021999
+        },
+        {
+          "text": " front",
+          "probability": 0.027124
+        },
+        {
+          "text": " top",
+          "probability": 0.059976
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 16,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-16",
+      "kind": "corpus",
+      "prefix": "It was as much as she could do, lying down on one side, to look through into the garden with one eye; but to get through was more hopeless than ever: she sat down and began to cry",
+      "options": [
+        {
+          "text": " with",
+          "probability": 0.011638
+        },
+        {
+          "text": " again",
+          "probability": 0.007556
+        },
+        {
+          "text": " out",
+          "probability": 0.012294
+        },
+        {
+          "text": " and",
+          "probability": 0.062795
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 11,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-17",
+      "kind": "corpus",
+      "prefix": "However, it was over at last, and they sat down again in a ring, and begged the Mouse to tell them something",
+      "options": [
+        {
+          "text": " more",
+          "probability": 0.008286
+        },
+        {
+          "text": " they",
+          "probability": 0.018398
+        },
+        {
+          "text": " else",
+          "probability": 0.040346
+        },
+        {
+          "text": " about",
+          "probability": 0.146313
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 12,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-18",
+      "kind": "corpus",
+      "prefix": "It was so long since she had been anything near the right size, that it felt quite strange at first; but she got used to it in a few minutes, and began talking to herself, as",
+      "options": [
+        {
+          "text": " well",
+          "probability": 0.054449
+        },
+        {
+          "text": " though",
+          "probability": 0.04343
+        },
+        {
+          "text": " usual",
+          "probability": 0.009294
+        },
+        {
+          "text": " she",
+          "probability": 0.121298
+        }
+      ],
+      "truth": 2,
+      "modelPick": 3,
+      "answerRank": 11,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-19",
+      "kind": "corpus",
+      "prefix": "Alice thought she might as well wait, as she had nothing else to do, and perhaps after all it might tell her something worth",
+      "options": [
+        {
+          "text": " waiting",
+          "probability": 0.061712
+        },
+        {
+          "text": " thinking",
+          "probability": 0.062667
+        },
+        {
+          "text": " hearing",
+          "probability": 0.0095
+        },
+        {
+          "text": " doing",
+          "probability": 0.153656
+        }
+      ],
+      "truth": 2,
+      "modelPick": 3,
+      "answerRank": 18,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-20",
+      "kind": "corpus",
+      "prefix": "The three soldiers wandered about for a minute or two, looking for them, and then quietly marched off after the",
+      "options": [
+        {
+          "text": " officers",
+          "probability": 0.059655
+        },
+        {
+          "text": " men",
+          "probability": 0.039749
+        },
+        {
+          "text": " others",
+          "probability": 0.014406
+        },
+        {
+          "text": " soldiers",
+          "probability": 0.182079
+        }
+      ],
+      "truth": 2,
+      "modelPick": 3,
+      "answerRank": 11,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-21",
+      "kind": "corpus",
+      "prefix": "Alice remained looking thoughtfully at the mushroom for a minute, trying to make out which were the two sides of it; and as it was perfectly round, she found this a very difficult",
+      "options": [
+        {
+          "text": " thing",
+          "probability": 0.079107
+        },
+        {
+          "text": " task",
+          "probability": 0.044278
+        },
+        {
+          "text": " question",
+          "probability": 0.01636
+        },
+        {
+          "text": " one",
+          "probability": 0.123867
+        }
+      ],
+      "truth": 2,
+      "modelPick": 3,
+      "answerRank": 8,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-22",
+      "kind": "corpus",
+      "prefix": "So they got their tails fast in their",
+      "options": [
+        {
+          "text": " first",
+          "probability": 0.032508
+        },
+        {
+          "text": " mouths",
+          "probability": 0.022803
+        },
+        {
+          "text": " heads",
+          "probability": 0.02501
+        },
+        {
+          "text": " own",
+          "probability": 0.054326
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 3,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-23",
+      "kind": "corpus",
+      "prefix": "Even the Duchess sneezed occasionally; and as for the baby, it was sneezing and howling alternately without a moment's",
+      "options": [
+        {
+          "text": " pause",
+          "probability": 0.029076
+        },
+        {
+          "text": " hesitation",
+          "probability": 0.14758
+        },
+        {
+          "text": " thought",
+          "probability": 0.077587
+        },
+        {
+          "text": " notice",
+          "probability": 0.475042
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 3,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-24",
+      "kind": "corpus",
+      "prefix": "As soon as she was small enough to get through the door, she ran out of the house, and found quite a crowd of little animals and birds waiting",
+      "options": [
+        {
+          "text": " outside",
+          "probability": 0.046592
+        },
+        {
+          "text": " around",
+          "probability": 0.018541
+        },
+        {
+          "text": " nearby",
+          "probability": 0.010906
+        },
+        {
+          "text": " for",
+          "probability": 0.410095
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 4,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-25",
+      "kind": "corpus",
+      "prefix": "After a time she heard a little pattering of feet in the distance, and she hastily dried her eyes to see what was",
+      "options": [
+        {
+          "text": " happening",
+          "probability": 0.256008
+        },
+        {
+          "text": " coming",
+          "probability": 0.071555
+        },
+        {
+          "text": " there",
+          "probability": 0.015681
+        },
+        {
+          "text": " going",
+          "probability": 0.42714
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 2,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-26",
+      "kind": "corpus",
+      "prefix": "However, she did not like to be rude, so she bore it as well as she",
+      "options": [
+        {
+          "text": " was",
+          "probability": 0.066919
+        },
+        {
+          "text": " could",
+          "probability": 0.100757
+        },
+        {
+          "text": " would",
+          "probability": 0.068442
+        },
+        {
+          "text": " did",
+          "probability": 0.246204
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 1,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-27",
+      "kind": "corpus",
+      "prefix": "Alice noticed with some surprise that the pebbles were all turning into little cakes as they lay on the floor, and a bright idea came into her",
+      "options": [
+        {
+          "text": " head",
+          "probability": 0.151984
+        },
+        {
+          "text": " eye",
+          "probability": 0.002945
+        },
+        {
+          "text": " mouth",
+          "probability": 0.00372
+        },
+        {
+          "text": " mind",
+          "probability": 0.824193
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 1,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-28",
+      "kind": "corpus",
+      "prefix": "Presently the Rabbit came up to the door, and tried to open it; but, as the door opened inwards, and Alice's elbow was pressed hard against it, that attempt proved a",
+      "options": [
+        {
+          "text": " futile",
+          "probability": 0.027547
+        },
+        {
+          "text": " failure",
+          "probability": 0.205165
+        },
+        {
+          "text": " fatal",
+          "probability": 0.048914
+        },
+        {
+          "text": " success",
+          "probability": 0.136182
+        }
+      ],
+      "truth": 1,
+      "modelPick": 1,
+      "answerRank": 0,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "alice-29",
+      "kind": "corpus",
+      "prefix": "He came in with a teacup in one hand and a piece of bread-and-butter in the",
+      "options": [
+        {
+          "text": " third",
+          "probability": 0.000228
+        },
+        {
+          "text": " others",
+          "probability": 0.000376
+        },
+        {
+          "text": " other",
+          "probability": 0.9974
+        },
+        {
+          "text": " next",
+          "probability": 0.000999
+        }
+      ],
+      "truth": 2,
+      "modelPick": 2,
+      "answerRank": 0,
+      "because": "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence."
+    },
+    {
+      "id": "paris",
+      "prefix": "Paris is the capital of",
+      "options": [
+        {
+          "text": " France",
+          "probability": 0.016561
+        },
+        {
+          "text": " New",
+          "probability": 0.013568
+        },
+        {
+          "text": " Europe",
+          "probability": 0.012524
+        },
+        {
+          "text": " the",
+          "probability": 0.300763
+        }
+      ],
+      "truth": 0,
+      "modelPick": 3,
+      "answerRank": 2,
+      "trapped": true,
+      "kind": "fact",
+      "fact": "Paris is the capital of France.",
+      "source": "https://www.britannica.com/place/Paris",
+      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+    },
+    {
+      "id": "everest",
+      "prefix": "The highest mountain in the world is Mount",
+      "options": [
+        {
+          "text": " Sin",
+          "probability": 0.026051
+        },
+        {
+          "text": " Everest",
+          "probability": 0.259126
+        },
+        {
+          "text": " Sharp",
+          "probability": 0.016114
+        },
+        {
+          "text": " Fuji",
+          "probability": 0.0482
+        }
+      ],
+      "truth": 1,
+      "modelPick": 1,
+      "answerRank": 0,
+      "trapped": false,
+      "kind": "fact",
+      "fact": "Mount Everest is the highest mountain above sea level.",
+      "source": "https://www.britannica.com/place/Mount-Everest",
+      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+    },
+    {
+      "id": "planet",
+      "prefix": "The largest planet in the solar system is",
+      "options": [
+        {
+          "text": " located",
+          "probability": 0.078553
+        },
+        {
+          "text": " Jupiter",
+          "probability": 0.013292
+        },
+        {
+          "text": " about",
+          "probability": 0.033327
+        },
+        {
+          "text": " the",
+          "probability": 0.09258
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 8,
+      "trapped": true,
+      "kind": "fact",
+      "fact": "Jupiter is the largest planet in the Solar System.",
+      "source": "https://science.nasa.gov/jupiter/",
+      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+    },
+    {
+      "id": "moon",
+      "prefix": "The first person to walk on the Moon was Neil",
+      "options": [
+        {
+          "text": " Armstrong",
+          "probability": 0.956578
+        },
+        {
+          "text": " Mitchell",
+          "probability": 0.000233
+        },
+        {
+          "text": " Gorsuch",
+          "probability": 0.000264
+        },
+        {
+          "text": " Young",
+          "probability": 0.001659
+        }
+      ],
+      "truth": 0,
+      "modelPick": 0,
+      "answerRank": 0,
+      "trapped": false,
+      "kind": "fact",
+      "fact": "Neil Armstrong was the first person to walk on the Moon, in July 1969.",
+      "source": "https://www.nasa.gov/mission/apollo-11/",
+      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+    },
+    {
+      "id": "boil",
+      "prefix": "At sea level, water boils at one hundred degrees",
+      "options": [
+        {
+          "text": " above",
+          "probability": 0.027668
+        },
+        {
+          "text": " Celsius",
+          "probability": 0.130853
+        },
+        {
+          "text": " and",
+          "probability": 0.053685
+        },
+        {
+          "text": " Fahrenheit",
+          "probability": 0.263045
+        }
+      ],
+      "truth": 1,
+      "modelPick": 3,
+      "answerRank": 2,
+      "trapped": true,
+      "kind": "fact",
+      "fact": "Water boils at 100 degrees Celsius at standard atmospheric pressure.",
+      "source": "https://www.britannica.com/science/boiling-point",
+      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+    },
+    {
+      "id": "author",
+      "prefix": "Alice's Adventures in Wonderland was written by Lewis",
+      "options": [
+        {
+          "text": " Powell",
+          "probability": 0.008208
+        },
+        {
+          "text": " Carroll",
+          "probability": 0.223981
+        },
+        {
+          "text": " and",
+          "probability": 0.029455
+        },
+        {
+          "text": " Hamilton",
+          "probability": 0.0731
+        }
+      ],
+      "truth": 1,
+      "modelPick": 1,
+      "answerRank": 0,
+      "trapped": false,
+      "kind": "fact",
+      "fact": "Alice's Adventures in Wonderland was written by Lewis Carroll.",
+      "source": "https://www.gutenberg.org/ebooks/11",
+      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { NextWord } from "@/components/games/NextWord";
+import { BeatThePredictor } from "@/components/games/BeatThePredictor";
 import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
@@ -8,7 +8,6 @@ import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { getLesson } from "@/lib/lessons";
-import { NEXT_WORD } from "@/lib/nextWord";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
 
@@ -22,11 +21,30 @@ export const metadata = {
 
 const SOURCES: Source[] = [
   {
+    title: "DistilGPT-2",
+    publisher: "Hugging Face",
+    url: "https://huggingface.co/distilbert/distilgpt2",
+    used: "The machine you play against. Every percentage on the board is its own output for that sentence, measured and printed unrounded.",
+    licence: "Apache 2.0",
+  },
+  {
     title: "Alice's Adventures in Wonderland",
     publisher: "Lewis Carroll, via Project Gutenberg",
     url: "https://www.gutenberg.org/ebooks/11",
-    used: `The ${NEXT_WORD.model.trainedOnWords.toLocaleString()} words the guessing machine in the game was counted from.`,
+    used: "Act two. The right answer in those rounds is simply the word Carroll wrote, so the machine can be scored against something it cannot argue with.",
     licence: "Public domain",
+  },
+  {
+    title: "Paris",
+    publisher: "Encyclopædia Britannica",
+    url: "https://www.britannica.com/place/Paris",
+    used: "One of the checkable facts in act three, where the likeliest continuation and the true one come apart.",
+  },
+  {
+    title: "Jupiter",
+    publisher: "NASA Science",
+    url: "https://science.nasa.gov/jupiter/",
+    used: "Another act three fact. The model puts the right answer eighth in its own ranking.",
   },
   {
     title: "Why Large Language Models Hallucinate",
@@ -47,14 +65,20 @@ const STEPS: Step[] = [
     say: "A large language model does one thing. It looks at the text so far and guesses what comes next. Then it adds that guess to the text and guesses again.",
   },
   {
-    say: "You just played against a machine doing exactly that. It only knew which word usually followed which, across one book. It still got some right.",
-    caption: `The opponent knew ${NEXT_WORD.model.vocabulary.toLocaleString()} distinct words and nothing about what any of them mean.`,
+    say: "You just played a real one. In act one it beat you, and it should have. Ordinary sentences are exactly what a next-word guesser is for, and it was ninety-seven per cent sure of some of them.",
+    caption:
+      "Nothing was rigged in its favour there. Those are its own odds on its own strongest ground.",
   },
   {
-    say: "Now scale that up. Thousands of words of context instead of one. More text than a person could read in a thousand lifetimes. The guessing gets good enough to look like knowing.",
+    say: "Then act two, and it fell apart. Same machine, same confidence, but the right answer was a specific word a specific author chose — and it does not know the story. It knows what usually follows.",
   },
   {
-    say: "But it is still guessing what sounds right. It is not looking anything up. That single fact explains almost every strange thing these tools do.",
+    say: "Act three is the one worth remembering. Asked where Paris is the capital of, it put thirty per cent on the word 'the' and under two per cent on France. It is not lying and it is not broken. It is finishing a sentence, and the shape of the sentence beat the fact.",
+    caption:
+      "Watch that it never sounds any less sure when it is wrong. That is the part that costs people money.",
+  },
+  {
+    say: "Now scale it up. Thousands of words of context, more text than a person could read in a thousand lifetimes. The guessing gets good enough to look like knowing — and the failure mode does not change, it just gets harder to spot.",
   },
 ];
 
@@ -71,15 +95,15 @@ const QUESTIONS: QuizQuestion[] = [
       "Unless it has been given a search tool, there is no lookup happening. It is continuing your text with something that fits the pattern of a correct answer — which is usually, but not always, a correct answer.",
   },
   {
-    prompt: "The machine in the game said a word and was confident. Was it right?",
+    prompt: "In act three the machine was confident and wrong. What does that tell you?",
     options: [
-      "Always — confidence means correctness",
-      "Sometimes. Its confidence came from counting, not from knowing",
-      "Never — simple models are always wrong",
+      "It was a bug in that particular question",
+      "Confidence measures how concentrated its guesses are, not whether they are true",
+      "Bigger models do not do this",
     ],
     answer: 1,
     because:
-      "That gap between how sure it sounds and how right it is does not close as models get bigger. It just gets harder to spot, because a bigger model is wrong more fluently.",
+      "The two are separate quantities. It was 30% sure of 'the' after 'Paris is the capital of' — a high number, and a wrong answer. That gap does not close as models get bigger; it gets harder to spot, because a bigger model is wrong more fluently.",
   },
   {
     prompt: "Why does it invent details about obscure topics in particular?",
@@ -105,12 +129,12 @@ export default function WhatAnLlmIsLesson() {
             its life.
           </>
         }
-        sting="It read one book and counted which word followed which. That is the entire machine. It is also, in miniature, the entire machine behind every AI assistant you have used."
+        sting="Nine rounds, head to head against a real language model. It will beat you at ordinary sentences, because guessing what usually comes next is the whole of what it is. Stay for act three, where the likeliest answer and the true one come apart."
         cta="Take it on"
       />
 
-      <div className="py-4">
-        <NextWord />
+      <div className="py-4" id="game">
+        <BeatThePredictor />
       </div>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
@@ -157,13 +181,13 @@ export default function WhatAnLlmIsLesson() {
             description: any check against the world.
           </p>
           <p>
-            The machine in the game was {Math.round(
-              NEXT_WORD.rounds[0].modelConfidence * 100,
-            )}
-            % sure of its first answer for exactly the same reason &mdash;
-            confidence came from counting, not from knowing. Scale changes how
-            often it is right. It does not add a truth check, because there
-            isn&rsquo;t one to add.
+            You watched that happen. It was 99% sure of the word after
+            &ldquo;God created the heaven and the&rdquo; and 30% sure of the
+            word after &ldquo;Paris is the capital of&rdquo; &mdash; and the
+            second one was wrong. Both numbers came from the same place:
+            counting what follows what, over an enormous amount of text. Scale
+            changes how often it is right. It does not add a truth check,
+            because there isn&rsquo;t one to add.
           </p>
         </MechanismPanel>
       </div>

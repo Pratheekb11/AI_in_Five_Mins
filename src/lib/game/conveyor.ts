@@ -119,7 +119,17 @@ export const EDGE_BAND = 26;
 export const ROUND_SECONDS = 45;
 
 const SPRING = 130;
-const DAMP = 18;
+/**
+ * Critically damped: `2 * sqrt(SPRING)`.
+ *
+ * It was 18, which is underdamped, and the overshoot was not cosmetic. A card
+ * shoved by a new arrival would sail past its slot, cross the edge and be
+ * destroyed while the slot it was heading for was still safely on the belt.
+ * Cards now settle into their slots instead of ringing past them.
+ */
+const DAMP = 2 * Math.sqrt(SPRING);
+/** Nothing slides faster than this, so a shove stays readable. */
+const MAX_SLIDE = 320;
 const GRAVITY = 900;
 const SEND_COOLDOWN = 0.3;
 
@@ -436,21 +446,30 @@ export function advance(scene: ConveyorScene, delta: number): ConveyorScene {
   // arrival shoves the whole belt rather than teleporting it.
   const t = targets(messages);
   const stiff = scene.calm ? SPRING * 1.8 : SPRING;
-  const damp = scene.calm ? DAMP * 1.6 : DAMP;
+  const damp = scene.calm ? DAMP * 1.3 : DAMP;
   for (let i = 0; i < messages.length; i++) {
     const m = messages[i];
     m.vx += ((t[i] - m.x) * stiff - m.vx * damp) * delta;
+    m.vx = clamp(m.vx, -MAX_SLIDE, MAX_SLIDE);
     m.x += m.vx * delta;
+    // Every card approaches its slot from the right, so it has no business
+    // being left of it. This is the belt-jump the spring used to produce.
+    if (m.x < t[i]) {
+      m.x = t[i];
+      m.vx = 0;
+    }
     m.flash = Math.max(0, m.flash - delta * 1.6);
   }
 
-  // Tip off the end. A card goes once its middle is past the edge — there is
-  // nothing left holding it up.
+  // Tip off the end. A card goes when the packing has pushed its slot past the
+  // edge — judged on the slot, not on where the animation happens to be, so a
+  // card can never be lost to a wobble.
   const falling = scene.falling.map((f) => ({ ...f }));
   let gone = scene.gone;
   const survivors: Message[] = [];
-  for (const m of messages) {
-    if (m.x + m.w / 2 >= BELT_L) {
+  for (let i = 0; i < messages.length; i++) {
+    const m = messages[i];
+    if (t[i] + m.w / 2 >= BELT_L) {
       survivors.push(m);
       continue;
     }

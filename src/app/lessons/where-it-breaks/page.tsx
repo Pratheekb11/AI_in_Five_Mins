@@ -1,4 +1,4 @@
-import { PressureTest } from "@/components/games/PressureTest";
+import { Pushback } from "@/components/games/Pushback";
 import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
@@ -136,7 +136,7 @@ export default function WhereItBreaksLesson() {
       />
 
       <div className="py-4">
-        <PressureTest />
+        <Pushback />
       </div>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">

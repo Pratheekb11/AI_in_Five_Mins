@@ -242,7 +242,8 @@ export function WhatIsAI() {
 
       <p className="border-ink/20 text-ink-faint border-t px-4 py-3 text-[0.8125rem]">
         {corpus.name}, {corpus.total.toLocaleString("en-US")} messages. All
-        three scored on the same held-out split, and the {rules.length} candidate
+        three scored on the same held-out split, and the {rules.length}{" "}
+        candidate
         rules were written before any of them were tested. Nothing here is
         rounded in anyone&rsquo;s favour.
       </p>

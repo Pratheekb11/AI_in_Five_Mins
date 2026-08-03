@@ -1,0 +1,920 @@
+{
+  "encoding": "o200k_base",
+  "generatedBy": "data/scripts/build-merges.mjs",
+  "vocabularySize": 199998,
+  "note": "Each trace is tiktoken's own byte-pair merge loop replayed against the published o200k_base rank table, then checked token-for-token against the tokenizer's own output.",
+  "traces": [
+    {
+      "word": "strawberry",
+      "teaches": "The word behind the letter-counting failure. Three chunks, none of which is a letter.",
+      "bytes": 10,
+      "start": [
+        "s",
+        "t",
+        "r",
+        "a",
+        "w",
+        "b",
+        "e",
+        "r",
+        "r",
+        "y"
+      ],
+      "steps": [
+        {
+          "at": 6,
+          "left": "e",
+          "right": "r",
+          "into": "er",
+          "id": 259,
+          "pieces": [
+            "s",
+            "t",
+            "r",
+            "a",
+            "w",
+            "b",
+            "e",
+            "r",
+            "r",
+            "y"
+          ]
+        },
+        {
+          "at": 0,
+          "left": "s",
+          "right": "t",
+          "into": "st",
+          "id": 302,
+          "pieces": [
+            "s",
+            "t",
+            "r",
+            "a",
+            "w",
+            "b",
+            "er",
+            "r",
+            "y"
+          ]
+        },
+        {
+          "at": 1,
+          "left": "r",
+          "right": "a",
+          "into": "ra",
+          "id": 614,
+          "pieces": [
+            "st",
+            "r",
+            "a",
+            "w",
+            "b",
+            "er",
+            "r",
+            "y"
+          ]
+        },
+        {
+          "at": 3,
+          "left": "b",
+          "right": "er",
+          "into": "ber",
+          "id": 718,
+          "pieces": [
+            "st",
+            "ra",
+            "w",
+            "b",
+            "er",
+            "r",
+            "y"
+          ]
+        },
+        {
+          "at": 4,
+          "left": "r",
+          "right": "y",
+          "into": "ry",
+          "id": 1102,
+          "pieces": [
+            "st",
+            "ra",
+            "w",
+            "ber",
+            "r",
+            "y"
+          ]
+        },
+        {
+          "at": 1,
+          "left": "ra",
+          "right": "w",
+          "into": "raw",
+          "id": 1618,
+          "pieces": [
+            "st",
+            "ra",
+            "w",
+            "ber",
+            "ry"
+          ]
+        },
+        {
+          "at": 2,
+          "left": "ber",
+          "right": "ry",
+          "into": "berry",
+          "id": 19772,
+          "pieces": [
+            "st",
+            "raw",
+            "ber",
+            "ry"
+          ]
+        }
+      ],
+      "final": [
+        "st",
+        "raw",
+        "berry"
+      ],
+      "ids": [
+        302,
+        1618,
+        19772
+      ]
+    },
+    {
+      "word": " strawberry",
+      "teaches": "The same word with a leading space. The space is part of the token, and the whole thing collapses to one.",
+      "bytes": 11,
+      "start": [
+        " ",
+        "s",
+        "t",
+        "r",
+        "a",
+        "w",
+        "b",
+        "e",
+        "r",
+        "r",
+        "y"
+      ],
+      "steps": [
+        {
+          "at": 7,
+          "left": "e",
+          "right": "r",
+          "into": "er",
+          "id": 259,
+          "pieces": [
+            " ",
+            "s",
+            "t",
+            "r",
+            "a",
+            "w",
+            "b",
+            "e",
+            "r",
+            "r",
+            "y"
+          ]
+        },
+        {
+          "at": 0,
+          "left": " ",
+          "right": "s",
+          "into": " s",
+          "id": 265,
+          "pieces": [
+            " ",
+            "s",
+            "t",
+            "r",
+            "a",
+            "w",
+            "b",
+            "er",
+            "r",
+            "y"
+          ]
+        },
+        {
+          "at": 1,
+          "left": "t",
+          "right": "r",
+          "into": "tr",
+          "id": 371,
+          "pieces": [
+            " s",
+            "t",
+            "r",
+            "a",
+            "w",
+            "b",
+            "er",
+            "r",
+            "y"
+          ]
+        },
+        {
+          "at": 4,
+          "left": "b",
+          "right": "er",
+          "into": "ber",
+          "id": 718,
+          "pieces": [
+            " s",
+            "tr",
+            "a",
+            "w",
+            "b",
+            "er",
+            "r",
+            "y"
+          ]
+        },
+        {
+          "at": 0,
+          "left": " s",
+          "right": "tr",
+          "into": " str",
+          "id": 989,
+          "pieces": [
+            " s",
+            "tr",
+            "a",
+            "w",
+            "ber",
+            "r",
+            "y"
+          ]
+        },
+        {
+          "at": 4,
+          "left": "r",
+          "right": "y",
+          "into": "ry",
+          "id": 1102,
+          "pieces": [
+            " str",
+            "a",
+            "w",
+            "ber",
+            "r",
+            "y"
+          ]
+        },
+        {
+          "at": 1,
+          "left": "a",
+          "right": "w",
+          "into": "aw",
+          "id": 1134,
+          "pieces": [
+            " str",
+            "a",
+            "w",
+            "ber",
+            "ry"
+          ]
+        },
+        {
+          "at": 2,
+          "left": "ber",
+          "right": "ry",
+          "into": "berry",
+          "id": 19772,
+          "pieces": [
+            " str",
+            "aw",
+            "ber",
+            "ry"
+          ]
+        },
+        {
+          "at": 0,
+          "left": " str",
+          "right": "aw",
+          "into": " straw",
+          "id": 43456,
+          "pieces": [
+            " str",
+            "aw",
+            "berry"
+          ]
+        },
+        {
+          "at": 0,
+          "left": " straw",
+          "right": "berry",
+          "into": " strawberry",
+          "id": 101830,
+          "pieces": [
+            " straw",
+            "berry"
+          ]
+        }
+      ],
+      "final": [
+        " strawberry"
+      ],
+      "ids": [
+        101830
+      ]
+    },
+    {
+      "word": "unbelievable",
+      "teaches": "A long word that is still cheap, because its parts are common.",
+      "bytes": 12,
+      "start": [
+        "u",
+        "n",
+        "b",
+        "e",
+        "l",
+        "i",
+        "e",
+        "v",
+        "a",
+        "b",
+        "l",
+        "e"
+      ],
+      "steps": [
+        {
+          "at": 10,
+          "left": "l",
+          "right": "e",
+          "into": "le",
+          "id": 282,
+          "pieces": [
+            "u",
+            "n",
+            "b",
+            "e",
+            "l",
+            "i",
+            "e",
+            "v",
+            "a",
+            "b",
+            "l",
+            "e"
+          ]
+        },
+        {
+          "at": 3,
+          "left": "e",
+          "right": "l",
+          "into": "el",
+          "id": 296,
+          "pieces": [
+            "u",
+            "n",
+            "b",
+            "e",
+            "l",
+            "i",
+            "e",
+            "v",
+            "a",
+            "b",
+            "le"
+          ]
+        },
+        {
+          "at": 0,
+          "left": "u",
+          "right": "n",
+          "into": "un",
+          "id": 373,
+          "pieces": [
+            "u",
+            "n",
+            "b",
+            "el",
+            "i",
+            "e",
+            "v",
+            "a",
+            "b",
+            "le"
+          ]
+        },
+        {
+          "at": 6,
+          "left": "a",
+          "right": "b",
+          "into": "ab",
+          "id": 378,
+          "pieces": [
+            "un",
+            "b",
+            "el",
+            "i",
+            "e",
+            "v",
+            "a",
+            "b",
+            "le"
+          ]
+        },
+        {
+          "at": 3,
+          "left": "i",
+          "right": "e",
+          "into": "ie",
+          "id": 396,
+          "pieces": [
+            "un",
+            "b",
+            "el",
+            "i",
+            "e",
+            "v",
+            "ab",
+            "le"
+          ]
+        },
+        {
+          "at": 5,
+          "left": "ab",
+          "right": "le",
+          "into": "able",
+          "id": 562,
+          "pieces": [
+            "un",
+            "b",
+            "el",
+            "ie",
+            "v",
+            "ab",
+            "le"
+          ]
+        },
+        {
+          "at": 1,
+          "left": "b",
+          "right": "el",
+          "into": "bel",
+          "id": 9880,
+          "pieces": [
+            "un",
+            "b",
+            "el",
+            "ie",
+            "v",
+            "able"
+          ]
+        },
+        {
+          "at": 2,
+          "left": "ie",
+          "right": "v",
+          "into": "iev",
+          "id": 15811,
+          "pieces": [
+            "un",
+            "bel",
+            "ie",
+            "v",
+            "able"
+          ]
+        },
+        {
+          "at": 2,
+          "left": "iev",
+          "right": "able",
+          "into": "ievable",
+          "id": 45794,
+          "pieces": [
+            "un",
+            "bel",
+            "iev",
+            "able"
+          ]
+        }
+      ],
+      "final": [
+        "un",
+        "bel",
+        "ievable"
+      ],
+      "ids": [
+        373,
+        9880,
+        45794
+      ]
+    },
+    {
+      "word": "Ashwatthama",
+      "teaches": "A rare proper noun. Nothing here was worth memorising, so it shatters.",
+      "bytes": 11,
+      "start": [
+        "A",
+        "s",
+        "h",
+        "w",
+        "a",
+        "t",
+        "t",
+        "h",
+        "a",
+        "m",
+        "a"
+      ],
+      "steps": [
+        {
+          "at": 4,
+          "left": "a",
+          "right": "t",
+          "into": "at",
+          "id": 266,
+          "pieces": [
+            "A",
+            "s",
+            "h",
+            "w",
+            "a",
+            "t",
+            "t",
+            "h",
+            "a",
+            "m",
+            "a"
+          ]
+        },
+        {
+          "at": 7,
+          "left": "a",
+          "right": "m",
+          "into": "am",
+          "id": 313,
+          "pieces": [
+            "A",
+            "s",
+            "h",
+            "w",
+            "at",
+            "t",
+            "h",
+            "a",
+            "m",
+            "a"
+          ]
+        },
+        {
+          "at": 5,
+          "left": "t",
+          "right": "h",
+          "into": "th",
+          "id": 404,
+          "pieces": [
+            "A",
+            "s",
+            "h",
+            "w",
+            "at",
+            "t",
+            "h",
+            "am",
+            "a"
+          ]
+        },
+        {
+          "at": 1,
+          "left": "s",
+          "right": "h",
+          "into": "sh",
+          "id": 1116,
+          "pieces": [
+            "A",
+            "s",
+            "h",
+            "w",
+            "at",
+            "th",
+            "am",
+            "a"
+          ]
+        },
+        {
+          "at": 5,
+          "left": "am",
+          "right": "a",
+          "into": "ama",
+          "id": 2152,
+          "pieces": [
+            "A",
+            "sh",
+            "w",
+            "at",
+            "th",
+            "am",
+            "a"
+          ]
+        },
+        {
+          "at": 2,
+          "left": "w",
+          "right": "at",
+          "into": "wat",
+          "id": 27961,
+          "pieces": [
+            "A",
+            "sh",
+            "w",
+            "at",
+            "th",
+            "ama"
+          ]
+        },
+        {
+          "at": 0,
+          "left": "A",
+          "right": "sh",
+          "into": "Ash",
+          "id": 72804,
+          "pieces": [
+            "A",
+            "sh",
+            "wat",
+            "th",
+            "ama"
+          ]
+        }
+      ],
+      "final": [
+        "Ash",
+        "wat",
+        "th",
+        "ama"
+      ],
+      "ids": [
+        72804,
+        27961,
+        404,
+        2152
+      ]
+    },
+    {
+      "word": "hallucination",
+      "teaches": "A word this whole site uses constantly, and the tokenizer still does not know it in one piece.",
+      "bytes": 13,
+      "start": [
+        "h",
+        "a",
+        "l",
+        "l",
+        "u",
+        "c",
+        "i",
+        "n",
+        "a",
+        "t",
+        "i",
+        "o",
+        "n"
+      ],
+      "steps": [
+        {
+          "at": 6,
+          "left": "i",
+          "right": "n",
+          "into": "in",
+          "id": 258,
+          "pieces": [
+            "h",
+            "a",
+            "l",
+            "l",
+            "u",
+            "c",
+            "i",
+            "n",
+            "a",
+            "t",
+            "i",
+            "o",
+            "n"
+          ]
+        },
+        {
+          "at": 10,
+          "left": "o",
+          "right": "n",
+          "into": "on",
+          "id": 263,
+          "pieces": [
+            "h",
+            "a",
+            "l",
+            "l",
+            "u",
+            "c",
+            "in",
+            "a",
+            "t",
+            "i",
+            "o",
+            "n"
+          ]
+        },
+        {
+          "at": 7,
+          "left": "a",
+          "right": "t",
+          "into": "at",
+          "id": 266,
+          "pieces": [
+            "h",
+            "a",
+            "l",
+            "l",
+            "u",
+            "c",
+            "in",
+            "a",
+            "t",
+            "i",
+            "on"
+          ]
+        },
+        {
+          "at": 1,
+          "left": "a",
+          "right": "l",
+          "into": "al",
+          "id": 280,
+          "pieces": [
+            "h",
+            "a",
+            "l",
+            "l",
+            "u",
+            "c",
+            "in",
+            "at",
+            "i",
+            "on"
+          ]
+        },
+        {
+          "at": 7,
+          "left": "i",
+          "right": "on",
+          "into": "ion",
+          "id": 294,
+          "pieces": [
+            "h",
+            "al",
+            "l",
+            "u",
+            "c",
+            "in",
+            "at",
+            "i",
+            "on"
+          ]
+        },
+        {
+          "at": 6,
+          "left": "at",
+          "right": "ion",
+          "into": "ation",
+          "id": 387,
+          "pieces": [
+            "h",
+            "al",
+            "l",
+            "u",
+            "c",
+            "in",
+            "at",
+            "ion"
+          ]
+        },
+        {
+          "at": 1,
+          "left": "al",
+          "right": "l",
+          "into": "all",
+          "id": 586,
+          "pieces": [
+            "h",
+            "al",
+            "l",
+            "u",
+            "c",
+            "in",
+            "ation"
+          ]
+        },
+        {
+          "at": 2,
+          "left": "u",
+          "right": "c",
+          "into": "uc",
+          "id": 1734,
+          "pieces": [
+            "h",
+            "all",
+            "u",
+            "c",
+            "in",
+            "ation"
+          ]
+        },
+        {
+          "at": 3,
+          "left": "in",
+          "right": "ation",
+          "into": "ination",
+          "id": 3273,
+          "pieces": [
+            "h",
+            "all",
+            "uc",
+            "in",
+            "ation"
+          ]
+        },
+        {
+          "at": 0,
+          "left": "h",
+          "right": "all",
+          "into": "hall",
+          "id": 58601,
+          "pieces": [
+            "h",
+            "all",
+            "uc",
+            "ination"
+          ]
+        }
+      ],
+      "final": [
+        "hall",
+        "uc",
+        "ination"
+      ],
+      "ids": [
+        58601,
+        1734,
+        3273
+      ]
+    }
+  ],
+  "numbers": [
+    {
+      "text": "7",
+      "ids": [
+        22
+      ],
+      "pieces": [
+        "7"
+      ]
+    },
+    {
+      "text": "2024",
+      "ids": [
+        1323,
+        19
+      ],
+      "pieces": [
+        "202",
+        "4"
+      ]
+    },
+    {
+      "text": "3141592",
+      "ids": [
+        28968,
+        19218,
+        17
+      ],
+      "pieces": [
+        "314",
+        "159",
+        "2"
+      ]
+    },
+    {
+      "text": "1000000",
+      "ids": [
+        1353,
+        1302,
+        15
+      ],
+      "pieces": [
+        "100",
+        "000",
+        "0"
+      ]
+    }
+  ]
+}

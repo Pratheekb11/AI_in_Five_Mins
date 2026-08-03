@@ -167,7 +167,8 @@ export default function JudgmentAndLimitsLesson() {
           is this module&rsquo;s rule and a sensible default, not legal advice
           &mdash; the binding answer is your employer&rsquo;s policy plus the
           terms of the specific tool, and those two differ more than people
-          expect. The deck is {PAYLOADS.length} written examples; none is
+          expect. The deck is {PAYLOADS.length}{" "}
+          written examples; none is
           anybody&rsquo;s real data.
         </p>
       </section>

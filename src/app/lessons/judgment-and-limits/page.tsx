@@ -11,7 +11,7 @@ import { getLesson, lessonsIn } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 
 const lesson = getLesson("judgment-and-limits")!;
-const track = lessonsIn("world");
+const track = lessonsIn("chapter");
 
 export const metadata = {
   title: lesson.title,

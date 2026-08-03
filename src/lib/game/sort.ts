@@ -67,7 +67,7 @@ export function bucketOf(id: BucketId): Bucket {
 /* --------------------------------------------------------------- evidence -- */
 
 /**
- * The findings from the six worlds, each with the number that makes it real.
+ * The findings from the six chapters, each with the number that makes it real.
  *
  * Every one of these is measured elsewhere on this site and the wording here
  * points at that measurement rather than restating it loosely.

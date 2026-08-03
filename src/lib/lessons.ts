@@ -1,9 +1,9 @@
 import type { Ink } from "./ink";
 
 /**
- * The syllabus: six worlds, three closers, and the machine room.
+ * The syllabus: six chapters, three closers, and the machine room.
  *
- * **The six worlds** are the spine and are meant to be played in order. Each
+ * **The six chapters** are the spine and are meant to be played in order. Each
  * one is a single idea with a single game, and each game is a real measurement
  * you can be wrong about before you see it. One sitting, start to finish.
  *
@@ -11,14 +11,14 @@ import type { Ink } from "./ink";
  * sorted, and what you are willing to paste in.
  *
  * **Open the machine** is optional depth. Every one of these is linked from the
- * moment inside a world where you would actually want it, so nobody should ever
+ * moment inside a chapter where you would actually want it, so nobody should ever
  * need to come here first.
  *
  * This registry is the single source of truth for navigation and progress.
  */
 
 export type LessonStatus = "ready" | "building";
-export type Track = "world" | "close" | "how";
+export type Track = "chapter" | "close" | "how";
 
 export type Lesson = {
   slug: string;
@@ -30,7 +30,7 @@ export type Lesson = {
   standfirst: string;
   /** What the learner plays. Written as a noun, because it is a thing. */
   machine: string;
-  /** The one thing you should still know a month later. Worlds and closers. */
+  /** The one thing you should still know a month later. Chapters and closers. */
   nugget?: string;
   minutes: number;
   ink: Ink;
@@ -43,10 +43,10 @@ export type Lesson = {
 };
 
 export const TRACKS: Record<Track, { title: string; blurb: string }> = {
-  world: {
-    title: "The six worlds",
+  chapter: {
+    title: "The six chapters",
     blurb:
-      "The whole thing, in order, in about an hour. Every world is one idea and one game, and every game is a real measurement you get to be wrong about before you see it.",
+      "The whole thing, in order, in about an hour. Every chapter is one idea and one game, and every game is a real measurement you get to be wrong about before you see it.",
   },
   close: {
     title: "Before you go",
@@ -56,15 +56,15 @@ export const TRACKS: Record<Track, { title: string; blurb: string }> = {
   how: {
     title: "Open the machine",
     blurb:
-      "Optional depth. Each of these is linked from the moment inside a world where you would actually want it — you should never need to come here first. Real tokenizers, real word vectors, real probabilities.",
+      "Optional depth. Each of these is linked from the moment inside a chapter where you would actually want it — you should never need to come here first. Real tokenizers, real word vectors, real probabilities.",
   },
 };
 
 export const LESSONS: Lesson[] = [
-  // ------------------------------------------------------------- the worlds --
+  // ----------------------------------------------------------- the chapters --
   {
     slug: "what-an-llm-is",
-    track: "world",
+    track: "chapter",
     number: 1,
     title: "What an LLM actually is",
     standfirst:
@@ -78,7 +78,7 @@ export const LESSONS: Lesson[] = [
   },
   {
     slug: "tokens",
-    track: "world",
+    track: "chapter",
     number: 2,
     title: "Tokens",
     standfirst:
@@ -91,7 +91,7 @@ export const LESSONS: Lesson[] = [
   },
   {
     slug: "context-is-everything",
-    track: "world",
+    track: "chapter",
     number: 3,
     title: "Context is everything",
     standfirst:
@@ -105,7 +105,7 @@ export const LESSONS: Lesson[] = [
   },
   {
     slug: "prompting-as-delegation",
-    track: "world",
+    track: "chapter",
     number: 4,
     title: "Prompting as delegation",
     standfirst:
@@ -120,7 +120,7 @@ export const LESSONS: Lesson[] = [
   },
   {
     slug: "where-it-breaks",
-    track: "world",
+    track: "chapter",
     number: 5,
     title: "Where it breaks",
     standfirst:
@@ -134,7 +134,7 @@ export const LESSONS: Lesson[] = [
   },
   {
     slug: "tools-change-the-game",
-    track: "world",
+    track: "chapter",
     number: 6,
     title: "Tools change the game",
     standfirst:

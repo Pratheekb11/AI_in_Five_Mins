@@ -192,7 +192,7 @@ export function HeroDemo() {
             </p>
             <p className="text-ink-soft text-[0.875rem]">
               Those are its real odds, measured, not illustrated. It is very good
-              at this and very bad at other things &mdash; world one is where it
+              at this and very bad at other things &mdash; chapter one is where it
               falls over.{" "}
               <button
                 type="button"

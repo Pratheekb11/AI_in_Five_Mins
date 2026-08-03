@@ -89,28 +89,6 @@ const STEPS: Step[] = [
 
 const QUESTIONS: QuizQuestion[] = [
   {
-    prompt: "What is a word embedding?",
-    options: [
-      "A dictionary definition stored alongside the word, written by the people who built the model",
-      "A list of numbers giving the word a position in space, learnt from which words appear near which",
-      "A compressed version of the word's spelling, so it can be reconstructed letter by letter",
-    ],
-    answer: 1,
-    because:
-      "Coordinates, not meaning. Nobody wrote down what any single dimension is for. The whole structure came from counting co-occurrence across an enormous amount of text — and it turns out that is enough for nearby positions to mean related things.",
-  },
-  {
-    prompt: "Why were most of the words in the box pushed away rather than pulled in?",
-    options: [
-      "The game makes unrelated pairs repel each other deliberately, which is there to add a bit of difficulty",
-      "Because most pairs of words genuinely have almost nothing in common, and the force is the real similarity",
-      "Because those were words the model never saw during training, so it has nothing to go on",
-    ],
-    answer: 1,
-    because:
-      "Similarity is measured across all fifty dimensions, and for two unrelated words it comes out near zero or below. A crowded magnet is the exception, which is exactly why the crowd is informative when it forms.",
-  },
-  {
     prompt: "The same arithmetic gives stereotyped answers on some inputs. Why?",
     options: [
       "A bug in the way the vectors are quantised and stored, which distorts the rarer directions in the space",

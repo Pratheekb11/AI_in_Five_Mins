@@ -4,9 +4,10 @@ import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
-import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { Check } from "@/components/lesson/checks/Check";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
@@ -81,20 +82,33 @@ const STEPS: Step[] = [
   },
 ];
 
-const QUESTIONS: QuizQuestion[] = [
+const CHECK: CheckBeat[] = [
   {
-    prompt:
-      "An answer arrives with an author, a year and a page range. What does that specificity tell you?",
-    options: [
-      "That it came from a real source, since that much detail is far too specific to be invented",
-      "Nothing about whether it is true. That shape is exactly what an invented citation looks like",
-      "That it is probably right in substance, though the page number may well be slightly off",
+    kind: "match",
+    prompt: "Match each thing you have seen it do with what is actually going on.",
+    pairs: [
+      {
+        left: "It cites a paper with author, year and page range",
+        right: "Detail is a property of the text, not evidence about the world",
+      },
+      {
+        left: "You say 'that's wrong' and it folds instantly",
+        right: "It is moving toward your apparent view, not re-checking anything",
+      },
+      {
+        left: "It quotes a price that was right two years ago",
+        right: "It was true on a date you cannot see, stated as if it were today",
+      },
+      {
+        left: "It is vaguest on the topic you know best",
+        right: "It read little on it, so plausible is all that is left",
+      },
     ],
-    answer: 1,
     because:
-      "Detail is a property of the text, not evidence about the world. A citation-shaped string is easy to produce; a citation that exists is not. The only thing that settles it is looking the reference up.",
+      "Four symptoms, one machine. None of them is a malfunction you could patch: each one is what continuing text looks like when the text has run out of grounding, run into your confidence, or run past its own cut-off.",
   },
   {
+    kind: "choice",
     prompt:
       "You tell it 'that's wrong' with no reason, and it immediately agrees and changes the answer. What just happened?",
     options: [
@@ -105,17 +119,6 @@ const QUESTIONS: QuizQuestion[] = [
     answer: 1,
     because:
       "Nothing was re-checked; there is no separate place to check against. Sharma and colleagues measured this across five leading assistants. It follows that agreement after a push is worth nothing — which is why you should push back on answers you believe as well as ones you doubt.",
-  },
-  {
-    prompt: "Which of these should you trust the least, all else being equal?",
-    options: [
-      "A confident explanation of a concept that is well known and widely written about",
-      "A specific figure about a price, version or ranking",
-      "An answer that openly says it is not sure about the details",
-    ],
-    answer: 1,
-    because:
-      "Anything that changes over time was true on a date you cannot see, and is being stated as if it were true today. Meanwhile the answer that admits uncertainty is the rarest and most useful thing on the list — the training pressure runs against producing it.",
   },
 ];
 
@@ -213,7 +216,7 @@ export default function WhereItBreaksLesson() {
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+        <Check slug={lesson.slug} beats={CHECK} />
       </div>
     </LessonShell>
   );

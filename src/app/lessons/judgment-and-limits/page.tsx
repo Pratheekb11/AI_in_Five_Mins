@@ -4,9 +4,10 @@ import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
-import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { KIND_LABEL, KIND_NOTE, PAYLOADS } from "@/lib/game/paste";
+import type { CheckBeat } from "@/lib/check";
 import { getLesson, lessonsIn } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 
@@ -83,20 +84,28 @@ const STEPS: Step[] = [
   },
 ];
 
-const QUESTIONS: QuizQuestion[] = [
+const CHECK: CheckBeat[] = [
   {
-    prompt:
-      "You want help replying to a customer complaint. What is the safe move?",
-    options: [
-      "Paste the whole email, name and address included, so the reply has everything it needs",
-      "Strip the identifying details and paste the substance of the problem",
-      "Never use AI for customer correspondence under any circumstances, whatever has been removed",
+    kind: "sort",
+    prompt: "Into a general-purpose chat window, at work. Which pile?",
+    buckets: [
+      { id: "fine", label: "Paste it", hint: "nothing at stake but your time" },
+      { id: "strip", label: "Strip it first", hint: "the details were never the hard part" },
+      { id: "no", label: "Keep it out", hint: "not yours to disclose" },
     ],
-    answer: 1,
+    items: [
+      { id: "draft", text: "A blog post you wrote, for a tidy-up", bucket: "fine" },
+      { id: "public", text: "A published annual report you want summarised", bucket: "fine" },
+      { id: "complaint", text: "A customer complaint, with their name and address", bucket: "strip" },
+      { id: "cv", text: "Three job applications you are comparing", bucket: "strip" },
+      { id: "sick", text: "A colleague's sick note", bucket: "no" },
+      { id: "creds", text: "A config file with a live API key in it", bucket: "no" },
+    ],
     because:
-      "The identifiers were almost never the part you needed help with. Removing them gets you the same assistance without making a disclosure decision on somebody else's behalf — and it takes about ten seconds.",
+      "The middle pile is the one people get wrong. The identifiers in a complaint or an application are almost never the part you needed help with, so removing them costs ten seconds and buys you the same answer without making a disclosure decision on someone else's behalf. The last pile is different in kind: health is special category data under Article 9, and a live key is a key — neither becomes safe by being anonymised.",
   },
   {
+    kind: "choice",
     prompt: "Why is a colleague's sick note different from their home address?",
     options: [
       "It is not different at all — under the law both are simply personal data about someone",
@@ -106,18 +115,6 @@ const QUESTIONS: QuizQuestion[] = [
     answer: 1,
     because:
       "Article 9 singles out health, race, politics, religion, union membership, genetics, biometrics and sex life for stricter treatment. In practice that means it does not belong in a general-purpose chat window unless your organisation has approved tooling and a lawful basis.",
-  },
-  {
-    prompt:
-      "What does the research suggest about heavy reliance on these tools?",
-    options: [
-      "It reliably makes people worse at their own jobs over time, and the effect grows the longer they keep using it without a break",
-      "Higher trust in the tool is associated with less critical checking, and early work suggests reduced engagement and ownership of the output",
-      "It has no measurable effect on how people think or work, according to every study that has looked at it so far",
-    ],
-    answer: 1,
-    because:
-      "Both findings are associations from a survey and a small preprint, not proof that using AI makes you worse at thinking. What they justify is a habit, not a panic: keep doing some of the work yourself, especially the part you would be embarrassed to have lost.",
   },
 ];
 
@@ -291,7 +288,7 @@ export default function JudgmentAndLimitsLesson() {
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+        <Check slug={lesson.slug} beats={CHECK} />
       </div>
     </LessonShell>
   );

@@ -1,7 +1,7 @@
 import type { Ink } from "./ink";
 
 /**
- * The syllabus: six chapters, three closers, and the machine room.
+ * The syllabus: six chapters, three closers, and the rabbit hole.
  *
  * **The six chapters** are the spine and are meant to be played in order. Each
  * one is a single idea with a single game, and each game is a real measurement
@@ -10,7 +10,7 @@ import type { Ink } from "./ink";
  * **Before you go** is the part you take to work: a daily puzzle, your own week
  * sorted, and what you are willing to paste in.
  *
- * **Open the machine** is optional depth. Every one of these is linked from the
+ * **Down the rabbit hole** is optional depth. Every one of these is linked from the
  * moment inside a chapter where you would actually want it, so nobody should ever
  * need to come here first.
  *
@@ -54,9 +54,9 @@ export const TRACKS: Record<Track, { title: string; blurb: string }> = {
       "The part you take to work. A puzzle that changes daily, your own week sorted into what you would hand over, and a hard look at what you are willing to paste in.",
   },
   how: {
-    title: "Open the machine",
+    title: "Down the rabbit hole",
     blurb:
-      "Optional depth. Each of these is linked from the moment inside a chapter where you would actually want it — you should never need to come here first. Real tokenizers, real word vectors, real probabilities.",
+      "Optional depth, as far down as you care to go. Each of these is linked from the moment inside a chapter where you would actually want it, so you should never need to come here first. Real tokenizers, real word vectors, real probabilities.",
   },
 };
 
@@ -191,7 +191,7 @@ export const LESSONS: Lesson[] = [
     feynman: "If this tool vanished tomorrow, could I still do my job?",
   },
 
-  // ----------------------------------------------------------- open the machine --
+  // --------------------------------------------------------- down the rabbit hole --
   {
     slug: "what-is-ai",
     track: "how",

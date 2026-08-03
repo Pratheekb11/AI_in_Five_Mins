@@ -2,7 +2,8 @@ import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 /**
- * Guards against a quiz you can pass without reading it.
+ * Guards against a quiz you can pass without reading it, and against the quiz
+ * growing back.
  *
  * Both of these were real. Every module's questions were written in the same
  * sitting and drifted into the same shape: 44 of 49 correct answers sat second
@@ -90,7 +91,23 @@ const questions: Parsed[] = readdirSync(LESSONS)
 
 describe("quiz questions", () => {
   it("finds the questions to check", () => {
-    expect(questions.length).toBeGreaterThan(40);
+    /* One per lesson, give or take. Three per lesson was the old shape and a
+       learner told us it was exhausting; the rest of each check is now sorting,
+       matching, flagging and filling, which this parser does not see. */
+    expect(questions.length).toBeGreaterThan(12);
+  });
+
+  it("never asks more than one multiple-choice question per lesson", () => {
+    const counts = new Map<string, number>();
+    for (const q of questions) {
+      counts.set(q.lesson, (counts.get(q.lesson) ?? 0) + 1);
+    }
+
+    const offenders = [...counts]
+      .filter(([, n]) => n > 1)
+      .map(([lesson, n]) => `${lesson}: ${n}`);
+
+    expect(offenders).toEqual([]);
   });
 
   it("never makes the correct answer the conspicuously longest option", () => {

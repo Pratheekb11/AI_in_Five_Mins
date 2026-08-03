@@ -63,39 +63,6 @@ const STEPS: Step[] = [
 
 const QUESTIONS: QuizQuestion[] = [
   {
-    prompt: "What is a model, concretely?",
-    options: [
-      "A very large database of answers, searched whenever a question comes in",
-      "A formula with adjustable numbers in it",
-      "A program that searches the internet and summarises whatever it finds there",
-    ],
-    answer: 1,
-    because:
-      "The one on this page is tokens = slope × characters, with a single adjustable number. A large language model is the same idea with hundreds of billions of them. Nothing is stored and looked up; the numbers are the model.",
-  },
-  {
-    prompt: "What does 'training' actually do?",
-    options: [
-      "It stores every training example it was shown, so that any of them can be recalled later",
-      "It repeatedly nudges the numbers in whichever direction reduces the error",
-      "It writes new rules for itself, based on what a researcher noticed while watching it work",
-    ],
-    answer: 1,
-    because:
-      "Exactly what you watched: measure how wrong you are, work out which way is downhill, take a small step, repeat. The examples are not kept — only their effect on the numbers.",
-  },
-  {
-    prompt: "You set the step size to 'Reckless' and the error exploded. Why?",
-    options: [
-      "The data was corrupted, so every error it measured along the way was meaningless from the start",
-      "Each step jumped past the bottom and landed further up the other side, so corrections got bigger instead of smaller",
-      "The model ran out of fresh examples to learn from, and started going round the ones it already had again",
-    ],
-    answer: 1,
-    because:
-      "Step size is the one setting that has to be tuned by hand. Too small and training takes forever; too large and it diverges. This is why training big models is expensive and fiddly, not just slow.",
-  },
-  {
     prompt: `Training settled on about ${REGRESSION.best.charsPerToken} characters per token. What is that number?`,
     options: [
       "A constant that was programmed in before training, the same for any text you use",

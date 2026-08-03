@@ -4,10 +4,11 @@ import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
-import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { Check } from "@/components/lesson/checks/Check";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { PromptInspector } from "@/components/machines/PromptInspector";
+import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { ENCODING_NAME } from "@/lib/tokenizer";
@@ -76,31 +77,30 @@ const STEPS: Step[] = [
   },
 ];
 
-const QUESTIONS: QuizQuestion[] = [
+const CHECK: CheckBeat[] = [
   {
+    kind: "flag",
     prompt:
-      "You ask for 'a short summary' and get four dense paragraphs. Which part was missing?",
-    options: [
-      "The goal — nothing in the request told it that a summary was what you were after",
-      "Constraints and format — 'short' is your idea of short, not a stated limit",
-      "The role — it was never told to act as a summariser, so it answered as a generalist",
+      "Here is a request as most people write it. Tap the parts that a competent stranger could not act on.",
+    instruction: "Four of these eleven pieces are unusable. Tap those four.",
+    parts: [
+      { text: "Write a" },
+      { text: "short", wrong: true },
+      { text: "summary of the attached report" },
+      { text: "for the board meeting" },
+      { text: "on Thursday." },
+      { text: "Make it" },
+      { text: "professional", wrong: true },
+      { text: "and" },
+      { text: "punchy", wrong: true },
+      { text: "and get it to me" },
+      { text: "soon", wrong: true },
     ],
-    answer: 1,
     because:
-      "The goal was perfectly clear. 'Short' is the problem: it means nothing until you attach a number and a shape. 'Under 100 words, as five bullets' cannot be misread. Vague adjectives are where most disappointing output comes from.",
+      "Short, professional, punchy and soon are the four words carrying your standards, and none of them survives leaving your head. Everything else in the request is checkable by someone who has never met you. Replace the four with a number, a shape and a deadline — under 100 words, five bullets, no adjectives, by 2pm — and the same request becomes something a stranger could deliver.",
   },
   {
-    prompt: "Why does pasting in one example of a good answer work so well?",
-    options: [
-      "It retrains the model on your preference, so the next reply is fitted to your taste",
-      "It gives the model a concrete pattern to continue, in the same input it is already reading",
-      "It signals that the task matters, which makes the model apply more effort to it",
-    ],
-    answer: 1,
-    because:
-      "Nothing is retrained — the example sits in the context, and the model continues the pattern it can see. Brown and colleagues measured this effect directly. It is also why one real example beats three paragraphs describing what you want.",
-  },
-  {
+    kind: "choice",
     prompt:
       "Which of these is the fastest way to tell whether a prompt is good enough?",
     options: [
@@ -219,7 +219,7 @@ export default function PromptingAsDelegationLesson() {
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+        <Check slug={lesson.slug} beats={CHECK} />
       </div>
     </LessonShell>
   );

@@ -4,9 +4,10 @@ import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
-import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { Check } from "@/components/lesson/checks/Check";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
@@ -73,8 +74,28 @@ const STEPS: Step[] = [
   },
 ];
 
-const QUESTIONS: QuizQuestion[] = [
+const CHECK: CheckBeat[] = [
   {
+    kind: "sort",
+    prompt: "Which door does each request need?",
+    buckets: [
+      { id: "knows", label: "It already knows", hint: "written down everywhere" },
+      { id: "source", label: "Needs a source", hint: "changes, or is private" },
+      { id: "tool", label: "Needs a tool", hint: "must be computed or done" },
+    ],
+    items: [
+      { id: "capital", text: "What is the capital of India?", bucket: "knows" },
+      { id: "boil", text: "Why does water boil faster up a mountain?", bucket: "knows" },
+      { id: "price", text: "What does this laptop cost today?", bucket: "source" },
+      { id: "policy", text: "What is our refund policy?", bucket: "source" },
+      { id: "sum", text: "Total these 400 invoice rows", bucket: "tool" },
+      { id: "email", text: "Send that summary to the team", bucket: "tool" },
+    ],
+    because:
+      "The first two are in the weights, written down so often that the likeliest continuation is also the right one. The next two are not knowledge, they are lookups — one changes by the week, the other was never public. The last two are actions: the model can write out what to do, but something outside it has to actually add the column up or press send. Guessing at any of the bottom four is exactly the failure the game measured.",
+  },
+  {
+    kind: "choice",
     prompt: "What is actually happening when a model 'uses a tool'?",
     options: [
       "The model runs the program inside itself and then reads back whatever that program happened to produce",
@@ -84,29 +105,6 @@ const QUESTIONS: QuizQuestion[] = [
     answer: 1,
     because:
       "It is still only producing text. The text just happens to be a call, and the surrounding program is what executes it and pastes the answer back in. This is why a tool result lands in the same context window as everything else — and competes for the same space.",
-  },
-  {
-    prompt:
-      "An assistant with web search gives you a figure and a link. What is still worth checking?",
-    options: [
-      "Nothing at all — the presence of a link means the answer was genuinely looked up",
-      "That the link actually says what the answer says it says",
-      "Only whether the site linked to is one you have heard of",
-    ],
-    answer: 1,
-    because:
-      "Search fixes the staleness, not the summarising. Retrieval puts real text into the context; the model still writes the sentence about it, and that sentence can drift from the source. Clicking the link is a two-second check that catches most of it.",
-  },
-  {
-    prompt: "You need a total from a 400-row spreadsheet. What is safest?",
-    options: [
-      "Ask for the total in plain language and read the answer",
-      "Ask it to compute it by running code, and check the code",
-      "Paste the rows and ask it to add carefully",
-    ],
-    answer: 1,
-    because:
-      "Asking it to add carefully is asking a text predictor to be an adding machine. Running code moves the arithmetic to something that actually does arithmetic — and the code is short enough to read, which is the part you can verify.",
   },
 ];
 
@@ -210,7 +208,7 @@ export default function ToolsChangeTheGameLesson() {
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+        <Check slug={lesson.slug} beats={CHECK} />
       </div>
     </LessonShell>
   );

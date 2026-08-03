@@ -4,9 +4,10 @@ import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
-import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { Check } from "@/components/lesson/checks/Check";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
@@ -82,20 +83,59 @@ const STEPS: Step[] = [
   },
 ];
 
-const QUESTIONS: QuizQuestion[] = [
+const CHECK: CheckBeat[] = [
   {
-    prompt: "When you ask an AI a factual question, what is it doing?",
-    options: [
-      "Searching a database of facts for the answer it needs",
-      "Producing text that sounds like a plausible answer",
-      "Asking another computer that already knows the answer",
+    kind: "fill",
+    prompt: "Finish the sentence the whole chapter rests on.",
+    segments: [
+      "Given the words so far, it produces the ",
+      { blank: "likeliest" },
+      " continuation. Where it has read a great deal, that is usually also the ",
+      { blank: "true" },
+      " one. Where it has read little, ",
+      { blank: "plausible" },
+      " is all that is left — and it still reads perfectly fluently.",
     ],
-    answer: 1,
+    options: [
+      { id: "likeliest", text: "likeliest" },
+      { id: "true", text: "true" },
+      { id: "plausible", text: "plausible" },
+      { id: "verified", text: "verified" },
+      { id: "shortest", text: "shortest" },
+    ],
     because:
-      "Unless it has been given a search tool, there is no lookup happening. It is continuing your text with something that fits the pattern of a correct answer — which is usually, but not always, a correct answer.",
+      "Two of those words are doing all the work. Likeliest is what the machine optimises; true is what you wanted; and they come apart exactly where the training text ran thin. Nothing in the loop ever checks a claim, so there is no verified option to pick.",
   },
   {
-    prompt: "In act three the machine was confident and wrong. What does that tell you?",
+    kind: "sort",
+    prompt: "Which of these tell you an answer is true?",
+    buckets: [
+      {
+        id: "no",
+        label: "Tells you nothing about truth",
+        hint: "a property of the text",
+      },
+      {
+        id: "yes",
+        label: "Actually settles it",
+        hint: "a check against the world",
+      },
+    ],
+    items: [
+      { id: "fluent", text: "It reads fluently and confidently", bucket: "no" },
+      { id: "prob", text: "The model put a high probability on it", bucket: "no" },
+      { id: "detail", text: "It gives a precise figure and a date", bucket: "no" },
+      { id: "again", text: "You asked again and got the same answer", bucket: "no" },
+      { id: "source", text: "You found the claim in a named source", bucket: "yes" },
+      { id: "run", text: "You ran the calculation yourself", bucket: "yes" },
+    ],
+    because:
+      "Only the last two leave the conversation. Everything above them is produced by the same process that produces the answer, so it cannot be evidence about the answer — including asking twice, which just runs the same machine on nearly the same text.",
+  },
+  {
+    kind: "choice",
+    prompt:
+      "In act three the machine was confident and wrong. What does that tell you?",
     options: [
       "It was a bug in that particular question, and it would not happen on a different one",
       "Confidence measures how concentrated its guesses are, not whether they are true",
@@ -104,17 +144,6 @@ const QUESTIONS: QuizQuestion[] = [
     answer: 1,
     because:
       "The two are separate quantities. It was 30% sure of 'the' after 'Paris is the capital of' — a high number, and a wrong answer. That gap does not close as models get bigger; it gets harder to spot, because a bigger model is wrong more fluently.",
-  },
-  {
-    prompt: "Why does it invent details about obscure topics in particular?",
-    options: [
-      "It is programmed to fill any gaps in its knowledge with a plausible guess",
-      "It saw little text on that topic, so the most plausible continuation is a pattern rather than a fact",
-      "It confuses the topic with a similar one that it happens to know a great deal more about",
-    ],
-    answer: 1,
-    because:
-      "It always produces the most plausible continuation. Where it has seen a lot, plausible and true line up. Where it has seen little, plausible is all that is left — and plausible still reads perfectly fluently.",
   },
 ];
 
@@ -218,7 +247,7 @@ export default function WhatAnLlmIsLesson() {
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+        <Check slug={lesson.slug} beats={CHECK} />
       </div>
     </LessonShell>
   );

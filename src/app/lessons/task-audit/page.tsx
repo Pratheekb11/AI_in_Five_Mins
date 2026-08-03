@@ -4,10 +4,11 @@ import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
-import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { YourWeek } from "@/components/machines/YourWeek";
 import { BUCKETS } from "@/lib/game/sort";
+import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 
@@ -68,31 +69,31 @@ const STEPS: Step[] = [
   },
 ];
 
-const QUESTIONS: QuizQuestion[] = [
+const CHECK: CheckBeat[] = [
   {
-    prompt:
-      "In the customer support study, who gained the most from the assistant?",
-    options: [
-      "The most experienced agents, who already knew the material well enough to use it best",
-      "Novice and low-skilled agents, at 34% against 14% on average",
-      "Everyone equally, since the assistance offered was identical for every agent",
+    kind: "fill",
+    prompt: "Put the measured result back together.",
+    segments: [
+      "Across 5,179 support agents, the assistant raised issues resolved per hour by ",
+      { blank: "avg" },
+      " on average. For novice and low-skilled agents it was ",
+      { blank: "novice" },
+      ". For the most experienced agents the impact was ",
+      { blank: "expert" },
+      ".",
     ],
-    answer: 1,
+    options: [
+      { id: "avg", text: "14%" },
+      { id: "novice", text: "34%" },
+      { id: "expert", text: "minimal" },
+      { id: "d1", text: "62%" },
+      { id: "d2", text: "reversed" },
+    ],
     because:
-      "Experienced agents saw minimal impact. The authors' reading is that the tool spreads the practices of the strongest workers — which is worth a great deal if you are new to something, and very little where you are already the person others would copy.",
+      "Brynjolfsson, Li and Raymond, 2023. The shape of those three numbers is the whole finding: the tool spreads what the strongest workers already do, so it is worth a great deal where you are new and close to nothing where you are already the person others copy. That is a claim about measured averages, not about you — which is why the audit is yours to do.",
   },
   {
-    prompt: "What does that suggest about where to point it in your own week?",
-    options: [
-      "At the work you are already best at, so that you get through far more of it",
-      "At competent-but-unremarkable work, and at things just outside what you know how to do",
-      "At everything you do, uniformly, whatever the task happens to involve",
-    ],
-    answer: 1,
-    because:
-      "The gap it closes is the gap between average and good. Where you are already excellent, there is little room; where you are a beginner, there is a great deal. That is a claim about measured averages, not about you — which is why the audit is yours to do.",
-  },
-  {
+    kind: "choice",
     prompt: "Why does a task you cannot sort in six seconds matter?",
     options: [
       "It means the task is simply not important enough to be worth sorting into either bucket",
@@ -228,7 +229,7 @@ export default function TaskAuditLesson() {
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+        <Check slug={lesson.slug} beats={CHECK} />
       </div>
     </LessonShell>
   );

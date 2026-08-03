@@ -231,7 +231,7 @@ export const LESSONS: Lesson[] = [
     machine: "Plinko",
     minutes: 8,
     ink: "yellow",
-    status: "building",
+    status: "ready",
   },
   {
     slug: "why-ai-gets-things-wrong",

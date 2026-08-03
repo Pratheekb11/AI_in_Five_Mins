@@ -1,0 +1,203 @@
+import { Plinko } from "@/components/games/Plinko";
+import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { Hook } from "@/components/lesson/Hook";
+import { LessonShell } from "@/components/lesson/LessonShell";
+import { MechanismPanel } from "@/components/lesson/MechanismPanel";
+import { PracticeCard } from "@/components/lesson/PracticeCard";
+import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { getLesson } from "@/lib/lessons";
+import type { Source } from "@/lib/sources";
+import { videoFor } from "@/lib/videos";
+
+const lesson = getLesson("how-llms-answer")!;
+const video = videoFor("how-llms-answer")!;
+
+export const metadata = {
+  title: lesson.title,
+  description: lesson.standfirst,
+};
+
+const SOURCES: Source[] = [
+  {
+    title: "DistilGPT-2",
+    publisher: "Hugging Face",
+    url: "https://huggingface.co/distilbert/distilgpt2",
+    used: "The model whose real next-token probabilities are on this page. Every percentage in the game is its own output, recorded rather than illustrated.",
+    licence: "Apache 2.0",
+  },
+  {
+    title: "The Curious Case of Neural Text Degeneration",
+    publisher: "Holtzman, Buys, Du, Forbes & Choi (arXiv:1904.09751, 2019)",
+    url: "https://arxiv.org/abs/1904.09751",
+    used: "Why always taking the most likely token produces flat, repetitive text — and where sampling settings came from.",
+  },
+  {
+    title: "Why Language Models Hallucinate",
+    publisher: "Kalai, Nachum, Vempala & Zhang (arXiv:2509.04664, 2025)",
+    url: "https://arxiv.org/abs/2509.04664",
+    used: "The account of why nothing in this loop checks anything: the training rewards a confident guess over an admission of uncertainty.",
+  },
+  {
+    title: "Large Language Models explained briefly",
+    publisher: "3Blue1Brown",
+    url: "https://www.youtube.com/watch?v=LPZh9BOjkQs",
+    used: "The same loop, end to end, in a few minutes and without the maths.",
+  },
+];
+
+const STEPS: Step[] = [
+  {
+    say: "Here is the entire operation. The model reads everything so far, produces a score for every one of fifty thousand possible next tokens, picks one, adds it to the text, and starts again.",
+  },
+  {
+    say: "The scores you were playing with are real. Give it the opening of Genesis and one token takes 99% of the probability. Give it 'Once upon a' and the most likely token is at seven per cent — far less certain than a person would be.",
+    caption:
+      "Both measured from the same model, on this page, with nothing rounded for effect.",
+  },
+  {
+    say: "Temperature is the only dial in that loop, and it does not know anything. It stretches the odds or flattens them. Cold means the top token nearly always wins; hot spreads the weight into the tail.",
+  },
+  {
+    say: "Which is why you cannot ask for creative and reliable at the same time. Those are the same dial pointing in opposite directions, and every assistant you use has already chosen a compromise for you.",
+  },
+  {
+    say: "And notice the thing that is missing from all of it. Nowhere in that loop is there a step that checks anything against the world. Look at the Paris prompt: the model puts thirty per cent on 'the' and under two per cent on 'France'. It is continuing a sentence, not answering a question.",
+  },
+];
+
+const QUESTIONS: QuizQuestion[] = [
+  {
+    prompt: "What does temperature actually change?",
+    options: [
+      "How hard the model thinks about the answer",
+      "How much probability mass sits on the likeliest tokens versus the rest",
+      "How many facts the model checks before answering",
+    ],
+    answer: 1,
+    because:
+      "It is one number applied to the scores before a token is drawn. Low sharpens the distribution toward the top candidate; high flattens it. There is no version of the dial that makes the answers more correct — only more or less predictable.",
+  },
+  {
+    prompt:
+      "Why does 'Once upon a' not put almost all its weight on 'time'?",
+    options: [
+      "The model has never seen the phrase",
+      "Because likely to a model and obvious to a person are different things — plenty of other continuations are also common",
+      "Because the temperature was set high",
+    ],
+    answer: 1,
+    because:
+      "It was measured at about 7%, with 'second' and 'moment' close behind. Your certainty comes from knowing this is the opening of a fairy tale. The model has seen 'once upon a' in every other context too.",
+  },
+  {
+    prompt: "Where in this loop does the model check whether something is true?",
+    options: [
+      "Just before it picks the token",
+      "At the end, before returning the answer",
+      "Nowhere — there is no such step",
+    ],
+    answer: 2,
+    because:
+      "Score every token, pick one, repeat. That is the whole loop. Nothing consults a source unless the model has been given a tool that does, which is why 'Paris is the capital of' continues with 'the' rather than 'France'.",
+  },
+];
+
+export default function HowLlmsAnswerLesson() {
+  return (
+    <LessonShell lesson={lesson} sources={SOURCES}>
+      <Hook
+        claim={
+          <>
+            It does not choose a word. It{" "}
+            <span className="text-yellow-text">rolls loaded dice</span>, fifty
+            thousand sides, once per token.
+          </>
+        }
+        sting="These are a real model's real odds, recorded and printed unrounded. You get one control — the dial that loads the dice — and a target to hit. Finding out that you cannot have both reliable and surprising is the point of the round."
+        cta="Load the odds"
+      />
+
+      <div className="py-4">
+        <Plinko />
+      </div>
+
+      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+        <Walkthrough steps={STEPS} />
+        <VideoPanel video={video} />
+      </div>
+
+      <div className="space-y-4 pb-4">
+        <MechanismPanel
+          question="Why not always take the most likely token?"
+          summary="Because the result is flat, repetitive text. That was measured, and it is why sampling exists at all."
+          deeper="what-an-llm-is"
+        >
+          <p>
+            Taking the top token every time is called greedy decoding, and it
+            sounds like it should be the best possible strategy. Holtzman and
+            colleagues showed it is not: the output degenerates, loops and
+            repeats itself, because the most likely continuation of a likely
+            continuation is likelier still, and the text collapses into a groove.
+          </p>
+          <p>
+            So real systems sample instead, and usually cut off the long tail
+            first &mdash; only the tokens that make up the top slice of
+            probability are eligible at all. The dial in the game is the simple
+            version of that machinery.
+          </p>
+        </MechanismPanel>
+
+        <MechanismPanel
+          question="So why does the same question give me different answers?"
+          summary="Because a token is drawn, not chosen. Run it twice and you drew twice."
+          deeper="where-it-breaks"
+        >
+          <p>
+            Any temperature above zero means the reply is one sample from a
+            distribution, not the distribution itself. Two runs of the same
+            prompt are two rolls of the same dice &mdash; and once an early
+            token differs, everything after it is conditioned on that difference,
+            so the answers can diverge completely.
+          </p>
+          <p>
+            There is a practical habit in that. If an answer matters, ask twice
+            in separate chats and compare. Where the two agree, the model was
+            confident. Where they diverge is exactly where it was guessing, and
+            that is the cheapest uncertainty signal you will ever get out of one
+            of these systems.
+          </p>
+        </MechanismPanel>
+      </div>
+
+      <div className="pb-4">
+        <FeynmanCheck
+          question="Why do I get a different answer if I ask the same thing twice?"
+          answer="Because it does not pick the next word, it draws it. At each step it scores every possible next chunk of text and then takes a weighted random pick — so two runs are two draws. There is a dial that decides how strongly the odds favour the top choice, and even at its most predictable, one early difference changes everything downstream. Where two runs agree, it was confident. Where they differ is where it was guessing."
+        />
+      </div>
+
+      <div className="pb-4">
+        <PracticeCard
+          title="Ask the same question in three fresh chats"
+          watchFor="Which parts come back identical and which parts move. The stable parts are where the model is confident; the parts that change every time are the parts you need to check yourself."
+        >
+          <p>
+            Take a question from your own work with a factual answer. Ask it in
+            three separate new chats &mdash; new chats, not follow-ups, so each
+            starts from the same context.
+          </p>
+          <p>
+            Line the three answers up and mark everything that differs.
+          </p>
+        </PracticeCard>
+      </div>
+
+      <div className="py-10">
+        <h2 className="display-lg mb-5">Check yourself</h2>
+        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+      </div>
+    </LessonShell>
+  );
+}

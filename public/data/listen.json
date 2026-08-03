@@ -1,0 +1,338 @@
+{
+  "generatedBy": "data/scripts/build-listen.mjs",
+  "model": {
+    "id": "Xenova/distilgpt2",
+    "name": "DistilGPT-2",
+    "url": "https://huggingface.co/distilbert/distilgpt2",
+    "licence": "Apache 2.0",
+    "note": "A base model. It has had no training to follow instructions — that is a separate stage, and it is the difference between this and the assistant you use. What is measured here is the floor: what works even on a model that is not trying to please you."
+  },
+  "styles": {
+    "bare": "Just the question",
+    "request": "The question, plus an instruction about how to answer",
+    "role": "The question, plus a role to play",
+    "pattern": "The same thing shown as a pattern to continue"
+  },
+  "summary": [
+    {
+      "style": "bare",
+      "label": "Just the question",
+      "medianTimesBare": 1,
+      "wins": 0
+    },
+    {
+      "style": "request",
+      "label": "The question, plus an instruction about how to answer",
+      "medianTimesBare": 1.21,
+      "wins": 0
+    },
+    {
+      "style": "role",
+      "label": "The question, plus a role to play",
+      "medianTimesBare": 0.92,
+      "wins": 0
+    },
+    {
+      "style": "pattern",
+      "label": "The same thing shown as a pattern to continue",
+      "medianTimesBare": 40.39,
+      "wins": 6
+    }
+  ],
+  "rounds": [
+    {
+      "id": "capital",
+      "goal": "Get it to answer with the city, and nothing else.",
+      "target": " Paris",
+      "variants": [
+        {
+          "id": "bare",
+          "style": "bare",
+          "prompt": "What is the capital of France?",
+          "probability": 0.00198387,
+          "rank": 55,
+          "topText": "\n"
+        },
+        {
+          "id": "polite",
+          "style": "request",
+          "prompt": "Please answer in one word. What is the capital of France?",
+          "probability": 0.00240232,
+          "rank": 44,
+          "topText": "\n"
+        },
+        {
+          "id": "role",
+          "style": "role",
+          "prompt": "You are a helpful geography expert. What is the capital of France?",
+          "probability": 0.00181819,
+          "rank": 52,
+          "topText": "\n"
+        },
+        {
+          "id": "qa",
+          "style": "pattern",
+          "prompt": "Q: What is the capital of Japan?\nA: Tokyo\nQ: What is the capital of France?\nA:",
+          "probability": 0.07724798,
+          "rank": 1,
+          "topText": " France"
+        },
+        {
+          "id": "colon",
+          "style": "pattern",
+          "prompt": "The capital of France is",
+          "probability": 0.0027634,
+          "rank": 36,
+          "topText": " the"
+        }
+      ],
+      "best": "qa",
+      "bestStyle": "pattern"
+    },
+    {
+      "id": "translate",
+      "goal": "Get it to give the French word for cat.",
+      "target": " chat",
+      "variants": [
+        {
+          "id": "bare",
+          "style": "bare",
+          "prompt": "How do you say cat in French?",
+          "probability": 0.00000392,
+          "rank": 4713,
+          "topText": "\n"
+        },
+        {
+          "id": "polite",
+          "style": "request",
+          "prompt": "Translate accurately and give only the word. How do you say cat in French?",
+          "probability": 0.00000295,
+          "rank": 6127,
+          "topText": "\n"
+        },
+        {
+          "id": "role",
+          "style": "role",
+          "prompt": "You are a professional French translator. How do you say cat in French?",
+          "probability": 0.00000309,
+          "rank": 4504,
+          "topText": "\n"
+        },
+        {
+          "id": "qa",
+          "style": "pattern",
+          "prompt": "English: dog\nFrench: chien\nEnglish: cat\nFrench:",
+          "probability": 0.00015834,
+          "rank": 660,
+          "topText": " cat"
+        },
+        {
+          "id": "colon",
+          "style": "pattern",
+          "prompt": "The French word for cat is",
+          "probability": 0.00000725,
+          "rank": 5946,
+          "topText": " cat"
+        }
+      ],
+      "best": "qa",
+      "bestStyle": "pattern"
+    },
+    {
+      "id": "opposite",
+      "goal": "Get it to give the opposite of hot.",
+      "target": " cold",
+      "variants": [
+        {
+          "id": "bare",
+          "style": "bare",
+          "prompt": "What is the opposite of hot?",
+          "probability": 0.00006613,
+          "rank": 760,
+          "topText": "\n"
+        },
+        {
+          "id": "polite",
+          "style": "request",
+          "prompt": "Reply with a single word and no explanation. What is the opposite of hot?",
+          "probability": 0.0001093,
+          "rank": 504,
+          "topText": "\n"
+        },
+        {
+          "id": "role",
+          "style": "role",
+          "prompt": "You are an expert lexicographer. What is the opposite of hot?",
+          "probability": 0.00002381,
+          "rank": 1625,
+          "topText": "\n"
+        },
+        {
+          "id": "qa",
+          "style": "pattern",
+          "prompt": "Opposite of up: down\nOpposite of big: small\nOpposite of hot:",
+          "probability": 0.0176459,
+          "rank": 6,
+          "topText": " small"
+        },
+        {
+          "id": "colon",
+          "style": "pattern",
+          "prompt": "The opposite of hot is",
+          "probability": 0.0082968,
+          "rank": 13,
+          "topText": " the"
+        }
+      ],
+      "best": "qa",
+      "bestStyle": "pattern"
+    },
+    {
+      "id": "plural",
+      "goal": "Get it to give the plural of mouse.",
+      "target": " mice",
+      "variants": [
+        {
+          "id": "bare",
+          "style": "bare",
+          "prompt": "What is the plural of mouse?",
+          "probability": 0.0000601,
+          "rank": 828,
+          "topText": "\n"
+        },
+        {
+          "id": "polite",
+          "style": "request",
+          "prompt": "Answer with just the plural form, nothing else. What is the plural of mouse?",
+          "probability": 0.00003995,
+          "rank": 989,
+          "topText": "\n"
+        },
+        {
+          "id": "role",
+          "style": "role",
+          "prompt": "You are an English grammar teacher. What is the plural of mouse?",
+          "probability": 0.00009924,
+          "rank": 507,
+          "topText": "\n"
+        },
+        {
+          "id": "qa",
+          "style": "pattern",
+          "prompt": "Singular: goose\nPlural: geese\nSingular: mouse\nPlural:",
+          "probability": 0.00016755,
+          "rank": 767,
+          "topText": " ge"
+        },
+        {
+          "id": "colon",
+          "style": "pattern",
+          "prompt": "The plural of mouse is",
+          "probability": 0.00021394,
+          "rank": 453,
+          "topText": " the"
+        }
+      ],
+      "best": "colon",
+      "bestStyle": "pattern"
+    },
+    {
+      "id": "colourof",
+      "goal": "Get it to say what colour the sky is.",
+      "target": " blue",
+      "variants": [
+        {
+          "id": "bare",
+          "style": "bare",
+          "prompt": "What colour is the sky?",
+          "probability": 0.00037709,
+          "rank": 177,
+          "topText": "\n"
+        },
+        {
+          "id": "polite",
+          "style": "request",
+          "prompt": "Answer in exactly one word. What colour is the sky?",
+          "probability": 0.0001373,
+          "rank": 369,
+          "topText": "\n"
+        },
+        {
+          "id": "role",
+          "style": "role",
+          "prompt": "You are a careful scientist. What colour is the sky?",
+          "probability": 0.00015073,
+          "rank": 342,
+          "topText": " What"
+        },
+        {
+          "id": "qa",
+          "style": "pattern",
+          "prompt": "Q: What colour is grass?\nA: green\nQ: What colour is the sky?\nA:",
+          "probability": 0.21186426,
+          "rank": 1,
+          "topText": " green"
+        },
+        {
+          "id": "colon",
+          "style": "pattern",
+          "prompt": "The colour of the sky is",
+          "probability": 0.00324145,
+          "rank": 45,
+          "topText": " the"
+        }
+      ],
+      "best": "qa",
+      "bestStyle": "pattern"
+    },
+    {
+      "id": "counting",
+      "goal": "Get it to say how many legs a spider has.",
+      "target": " eight",
+      "variants": [
+        {
+          "id": "bare",
+          "style": "bare",
+          "prompt": "How many legs does a spider have?",
+          "probability": 0.00000303,
+          "rank": 5867,
+          "topText": "\n"
+        },
+        {
+          "id": "polite",
+          "style": "request",
+          "prompt": "Answer with the number word only. How many legs does a spider have?",
+          "probability": 0.00002496,
+          "rank": 1591,
+          "topText": "\n"
+        },
+        {
+          "id": "role",
+          "style": "role",
+          "prompt": "You are a biologist. How many legs does a spider have?",
+          "probability": 0.00001345,
+          "rank": 1877,
+          "topText": " How"
+        },
+        {
+          "id": "qa",
+          "style": "pattern",
+          "prompt": "Q: How many legs does a dog have?\nA: four\nQ: How many legs does a spider have?\nA:",
+          "probability": 0.04465858,
+          "rank": 6,
+          "topText": " five"
+        },
+        {
+          "id": "colon",
+          "style": "pattern",
+          "prompt": "A spider has",
+          "probability": 0.00027474,
+          "rank": 234,
+          "topText": " been"
+        }
+      ],
+      "best": "qa",
+      "bestStyle": "pattern"
+    }
+  ]
+}

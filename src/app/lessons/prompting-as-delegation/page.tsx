@@ -1,4 +1,4 @@
-import { PromptLine } from "@/components/games/PromptLine";
+import { ShowDontAsk } from "@/components/games/ShowDontAsk";
 import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
@@ -130,7 +130,7 @@ export default function PromptingAsDelegationLesson() {
       />
 
       <div className="py-4">
-        <PromptLine />
+        <ShowDontAsk />
       </div>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">

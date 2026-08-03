@@ -40,7 +40,7 @@ const OPTIONS = 4;
 /** How many candidate sentences to measure before choosing the round set. */
 const SAMPLE = 400;
 /** How many corpus rounds to keep, spread across the difficulty range. */
-const KEEP = 30;
+const KEEP = 40;
 /** How deep into the model's ranking a round may draw its wrong options. */
 const FIELD = 60;
 
@@ -60,51 +60,75 @@ const PHRASE_PROMPTS = [
   { id: "doctor", text: "She felt ill, so she went to see the", truth: " doctor" },
   { id: "keys", text: "He could not start the car because he had lost his", truth: " keys" },
   { id: "coffee", text: "She could not wake up properly without a cup of", truth: " coffee" },
+  { id: "letter", text: "She sealed the envelope and put on a", truth: " stamp" },
+  { id: "shoes", text: "Before going into the temple, everyone took off their", truth: " shoes" },
+  { id: "library", text: "He wanted a quiet place to study, so he went to the", truth: " library" },
+  { id: "teeth", text: "Every night before bed he brushes his", truth: " teeth" },
+  { id: "airport", text: "They arrived two hours early at the", truth: " airport" },
+  { id: "kettle", text: "She filled the kettle and switched it", truth: " on" },
+  { id: "window", text: "The room was stuffy, so he opened the", truth: " window" },
+  { id: "guitar", text: "He picked up the guitar and began to", truth: " play" },
+  { id: "monday", text: "The day after Sunday is", truth: " Monday" },
+  { id: "winter", text: "The coldest season of the year is", truth: " winter" },
+  { id: "salt", text: "The soup was bland, so she added a little", truth: " salt" },
+  { id: "bicycle", text: "He was late, so he rode to school on his", truth: " bicycle" },
 ];
 
 const FACT_PROMPTS = [
-  {
-    id: "paris",
-    text: "Paris is the capital of",
-    truth: " France",
+  { id: "paris", text: "Paris is the capital of", truth: " France",
     fact: "Paris is the capital of France.",
-    source: "https://www.britannica.com/place/Paris",
-  },
-  {
-    id: "everest",
-    text: "The highest mountain in the world is Mount",
-    truth: " Everest",
+    article: "Paris" },
+  { id: "everest", text: "The highest mountain in the world is Mount", truth: " Everest",
     fact: "Mount Everest is the highest mountain above sea level.",
-    source: "https://www.britannica.com/place/Mount-Everest",
-  },
-  {
-    id: "planet",
-    text: "The largest planet in the solar system is",
-    truth: " Jupiter",
+    article: "Mount Everest" },
+  { id: "planet", text: "The largest planet in the solar system is", truth: " Jupiter",
     fact: "Jupiter is the largest planet in the Solar System.",
-    source: "https://science.nasa.gov/jupiter/",
-  },
-  {
-    id: "moon",
-    text: "The first person to walk on the Moon was Neil",
-    truth: " Armstrong",
+    article: "Jupiter" },
+  { id: "moon", text: "The first person to walk on the Moon was Neil", truth: " Armstrong",
     fact: "Neil Armstrong was the first person to walk on the Moon, in July 1969.",
-    source: "https://www.nasa.gov/mission/apollo-11/",
-  },
-  {
-    id: "boil",
-    text: "At sea level, water boils at one hundred degrees",
-    truth: " Celsius",
+    article: "Neil Armstrong" },
+  { id: "boil", text: "At sea level, water boils at one hundred degrees", truth: " Celsius",
     fact: "Water boils at 100 degrees Celsius at standard atmospheric pressure.",
-    source: "https://www.britannica.com/science/boiling-point",
-  },
-  {
-    id: "author",
-    text: "Alice's Adventures in Wonderland was written by Lewis",
-    truth: " Carroll",
+    article: "Boiling point" },
+  { id: "author", text: "Alice's Adventures in Wonderland was written by Lewis", truth: " Carroll",
     fact: "Alice's Adventures in Wonderland was written by Lewis Carroll.",
-    source: "https://www.gutenberg.org/ebooks/11",
-  },
+    article: "Alice's Adventures in Wonderland" },
+  { id: "delhi", text: "The capital of India is New", truth: " Delhi",
+    fact: "New Delhi is the capital of India.",
+    article: "New Delhi" },
+  { id: "tokyo", text: "The capital of Japan is", truth: " Tokyo",
+    fact: "Tokyo is the capital of Japan.",
+    article: "Tokyo" },
+  { id: "canberra", text: "The capital of Australia is", truth: " Canberra",
+    fact: "Canberra is the capital of Australia — not Sydney, which is the largest city.",
+    article: "Canberra" },
+  { id: "brasilia", text: "The capital of Brazil is", truth: " Bras",
+    fact: "Brasília is the capital of Brazil — not Rio de Janeiro, which was the capital until 1960.",
+    article: "Brasília" },
+  { id: "ottawa", text: "The capital of Canada is", truth: " Ottawa",
+    fact: "Ottawa is the capital of Canada — not Toronto, which is the largest city.",
+    article: "Ottawa" },
+  { id: "nile", text: "The longest river in Africa is the", truth: " Nile",
+    fact: "The Nile is the longest river in Africa.",
+    article: "Nile" },
+  { id: "ocean", text: "The largest ocean on Earth is the", truth: " Pacific",
+    fact: "The Pacific is the largest and deepest of Earth's oceans.",
+    article: "Pacific Ocean" },
+  { id: "relativity", text: "The theory of general relativity was published by Albert", truth: " Einstein",
+    fact: "Albert Einstein published the general theory of relativity in 1915.",
+    article: "General relativity" },
+  { id: "penicillin", text: "Penicillin was discovered by Alexander", truth: " Fleming",
+    fact: "Alexander Fleming discovered penicillin in 1928.",
+    article: "Alexander Fleming" },
+  { id: "gravity", text: "The force that keeps the planets in orbit around the Sun is", truth: " gravity",
+    fact: "Gravity holds the planets in orbit around the Sun.",
+    article: "Gravity" },
+  { id: "photosynthesis", text: "Plants make their own food by a process called", truth: " photos",
+    fact: "Plants make food from light by photosynthesis.",
+    article: "Photosynthesis" },
+  { id: "sun", text: "The star at the centre of our solar system is called the", truth: " Sun",
+    fact: "The Sun is the star at the centre of the Solar System.",
+    article: "Sun" },
 ];
 
 function softmax(values) {
@@ -376,8 +400,56 @@ const main = async () => {
 
   // ------------------------------------------------------------ fact rounds --
 
+  // Provenance is checked, not assumed.
+  //
+  // Every fact cites a Wikipedia article, and the article is looked up through
+  // the API so the exact revision the claim was checked against is recorded.
+  // A citation that does not resolve keeps its round off the board, and the run
+  // says which one was dropped. An earlier version pointed at Britannica, which
+  // answers non-browser requests with 403 — a citation nobody can verify
+  // programmatically is not much of a citation.
+  const cited = new Map();
+  for (const prompt of FACT_PROMPTS) {
+    const url =
+      "https://en.wikipedia.org/w/api.php?action=query&format=json" +
+      "&formatversion=2&prop=revisions&rvprop=ids&redirects=1&titles=" +
+      encodeURIComponent(prompt.article);
+    try {
+      let response;
+      for (let attempt = 0; attempt < 6; attempt++) {
+        response = await fetch(url, {
+          headers: { "User-Agent": "LearnLoopAI/1.0 (educational)" },
+        });
+        if (response.status !== 429) break;
+        await new Promise((r) => setTimeout(r, 2000 * 2 ** attempt));
+      }
+      if (!response || !response.ok) {
+        console.log(`  citation lookup failed (${response?.status}): ${prompt.article}`);
+        continue;
+      }
+      const page = (await response.json())?.query?.pages?.[0];
+      if (!page || page.missing) {
+        console.log(`  no such article: ${prompt.article}`);
+        continue;
+      }
+      cited.set(prompt.id, {
+        title: page.title,
+        url: `https://en.wikipedia.org/wiki/${encodeURIComponent(page.title)}`,
+        revision: page.revisions?.[0]?.revid ?? null,
+      });
+      await new Promise((r) => setTimeout(r, 900));
+    } catch {
+      console.log(`  citation lookup failed: ${prompt.article}`);
+    }
+  }
+
   const factRounds = [];
   for (const prompt of FACT_PROMPTS) {
+    const citation = cited.get(prompt.id);
+    if (!citation) {
+      console.log(`  dropping ${prompt.id}: citation did not check out.`);
+      continue;
+    }
     const round = await roundFor(prompt, 20260803 + 100 + factRounds.length);
     if (!round) {
       console.log(`  skipping ${prompt.id}: no clean round.`);
@@ -387,7 +459,7 @@ const main = async () => {
       ...round,
       kind: "fact",
       fact: prompt.fact,
-      source: prompt.source,
+      citation,
       because:
         "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations.",
     });

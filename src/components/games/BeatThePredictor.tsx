@@ -289,6 +289,22 @@ export function BeatThePredictor() {
                     The true word was the model&rsquo;s{" "}
                     {ordinal(round.answerRank + 1)} choice out of 50,257.
                     {round.fact ? ` ${round.fact}` : ""}
+                    {round.citation ? (
+                      <>
+                        {" "}
+                        <a
+                          href={round.citation.url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="underline underline-offset-2"
+                        >
+                          Checked against {round.citation.title}
+                        </a>
+                        {round.citation.revision
+                          ? `, revision ${round.citation.revision}.`
+                          : "."}
+                      </>
+                    ) : null}
                   </p>
                   <button
                     type="button"

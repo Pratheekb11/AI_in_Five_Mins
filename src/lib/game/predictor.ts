@@ -39,7 +39,7 @@ export type PredictorRound = {
   because: string;
   /** Fact rounds only. */
   fact?: string;
-  source?: string;
+  citation?: { title: string; url: string; revision: number | null };
   trapped?: boolean;
 };
 

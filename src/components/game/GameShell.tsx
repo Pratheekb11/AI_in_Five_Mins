@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { Nimo } from "@/components/nimo/Nimo";
 import type { Mood } from "@/components/nimo/moods";
 import { useBestScore } from "@/lib/game/useBestScore";
+import { playCue, useMuted } from "@/lib/game/sound";
 
 /**
  * The cabinet every game is mounted in.
@@ -19,6 +20,8 @@ import { useBestScore } from "@/lib/game/useBestScore";
  */
 
 export type Readout = { label: string; value: string | number; accent?: boolean };
+
+export type Phase = "ready" | "playing" | "over";
 
 export function GameShell({
   gameId,
@@ -39,7 +42,7 @@ export function GameShell({
   name: string;
   instruction: string;
   readouts: Readout[];
-  phase: "ready" | "playing" | "over";
+  phase: Phase;
   onStart: () => void;
   startLabel?: string;
   /** The score to record when the round ends. */
@@ -51,6 +54,7 @@ export function GameShell({
   footer?: ReactNode;
 }) {
   const { best, submit } = useBestScore(gameId ?? "unscored");
+  const [muted, toggleMuted] = useMuted();
 
   // Recorded when the round ends, not while it runs — a best is a result.
   useEffect(() => {
@@ -65,10 +69,58 @@ export function GameShell({
     finalScore > 0 &&
     finalScore >= best;
 
+  // Sound is wired here rather than in each game, so every cabinet gets it and
+  // no game can forget. Mood is already the shared vocabulary for "that went
+  // well" and "that did not", so it is the thing listened to.
+  //
+  // Refs hold the previous values rather than state, because a cue is a side
+  // effect and turning one into a render would be a loop. They are written and
+  // read only inside effects — never during render.
+  const lastMood = useRef<Mood | null>(null);
+  const lastPhase = useRef<Phase | null>(null);
+
+  useEffect(() => {
+    if (lastPhase.current !== phase) {
+      const from = lastPhase.current;
+      lastPhase.current = phase;
+      // Nothing on first mount: the page should be silent until someone plays.
+      if (from !== null) {
+        if (phase === "playing") playCue("start");
+        else if (phase === "over") playCue(beatenBest ? "best" : "over");
+      }
+      // Seed the mood on the way in, or the first call of every round is
+      // swallowed as "no previous value" and answers silently.
+      lastMood.current = phase === "playing" ? mood : null;
+      return;
+    }
+
+    if (phase !== "playing") return;
+    if (lastMood.current === mood) return;
+    const from = lastMood.current;
+    lastMood.current = mood;
+    if (from === null) return;
+
+    if (mood === "cheer" || mood === "celebrate") playCue("right");
+    else if (mood === "wince") playCue("wrong");
+    // Nothing for "think". Games drop back to it between rounds, and a noise
+    // on every advance turns feedback into nagging.
+  }, [phase, mood, beatenBest]);
+
   return (
     <div className="plate scroll-mt-20 overflow-hidden" id="game">
       <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
-        <span className="label">{name}</span>
+        <span className="flex items-center gap-3">
+          <span className="label">{name}</span>
+          <button
+            type="button"
+            onClick={toggleMuted}
+            aria-pressed={muted}
+            title={muted ? "Sound is off" : "Sound is on"}
+            className="label text-ink-faint hover:text-ink cursor-pointer underline-offset-2 hover:underline"
+          >
+            {muted ? "sound off" : "sound on"}
+          </button>
+        </span>
         <dl className="flex flex-wrap gap-x-5 gap-y-1">
           {readouts.map((r) => (
             <div key={r.label} className="flex items-baseline gap-2">

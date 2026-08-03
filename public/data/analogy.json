@@ -1,0 +1,605 @@
+{
+  "generatedBy": "data/scripts/build-analogy.mjs",
+  "source": {
+    "name": "GloVe 6B, 50 dimensions",
+    "trainedOn": "Wikipedia 2014 + Gigaword 5, 6 billion tokens",
+    "url": "https://nlp.stanford.edu/projects/glove/",
+    "licence": "Public Domain Dedication and Licence v1.0"
+  },
+  "dims": 50,
+  "vocabulary": 50000,
+  "note": "Full-precision GloVe vectors. Neighbours are ranked over the 50000 commonest words. Each analogy is drawn on the plane spanned by its own two difference vectors, so the parallelogram is exact and every other word shown is a projection onto it.",
+  "analogies": [
+    {
+      "id": "royal",
+      "a": "man",
+      "b": "king",
+      "c": "woman",
+      "expect": "queen",
+      "teaches": "The canonical one. Whatever separates man from king turns out to be roughly the same displacement that separates woman from queen.",
+      "answer": {
+        "word": "queen",
+        "similarity": 0.861
+      },
+      "unfiltered": {
+        "word": "king",
+        "similarity": 0.886
+      },
+      "neighbours": [
+        {
+          "word": "queen",
+          "similarity": 0.861
+        },
+        {
+          "word": "daughter",
+          "similarity": 0.7685
+        },
+        {
+          "word": "prince",
+          "similarity": 0.7641
+        },
+        {
+          "word": "throne",
+          "similarity": 0.7635
+        },
+        {
+          "word": "princess",
+          "similarity": 0.7513
+        },
+        {
+          "word": "elizabeth",
+          "similarity": 0.7506
+        },
+        {
+          "word": "father",
+          "similarity": 0.7314
+        },
+        {
+          "word": "kingdom",
+          "similarity": 0.7296
+        }
+      ],
+      "neighboursUnfiltered": [
+        {
+          "word": "king",
+          "similarity": 0.886
+        },
+        {
+          "word": "queen",
+          "similarity": 0.861
+        },
+        {
+          "word": "daughter",
+          "similarity": 0.7685
+        },
+        {
+          "word": "prince",
+          "similarity": 0.7641
+        },
+        {
+          "word": "throne",
+          "similarity": 0.7635
+        },
+        {
+          "word": "princess",
+          "similarity": 0.7513
+        },
+        {
+          "word": "elizabeth",
+          "similarity": 0.7506
+        },
+        {
+          "word": "father",
+          "similarity": 0.7314
+        }
+      ],
+      "points": [
+        {
+          "word": "man",
+          "x": 0,
+          "y": 0,
+          "offPlane": 0
+        },
+        {
+          "word": "king",
+          "x": 5.1439,
+          "y": 0,
+          "offPlane": 0
+        },
+        {
+          "word": "woman",
+          "x": -0.2025,
+          "y": 2.5947,
+          "offPlane": 0
+        },
+        {
+          "word": "queen",
+          "x": 3.8496,
+          "y": 1.9816,
+          "offPlane": 2.5481
+        }
+      ],
+      "result": {
+        "x": 4.9413,
+        "y": 2.5947,
+        "offPlane": 0
+      },
+      "expectedSimilarity": 0.861,
+      "expectedRank": 1
+    },
+    {
+      "id": "capital",
+      "a": "france",
+      "b": "paris",
+      "c": "italy",
+      "expect": "rome",
+      "teaches": "Nobody stored a table of capitals. The relation is a direction in the space, and it is the same direction for both countries.",
+      "answer": {
+        "word": "rome",
+        "similarity": 0.8379
+      },
+      "unfiltered": {
+        "word": "rome",
+        "similarity": 0.8379
+      },
+      "neighbours": [
+        {
+          "word": "rome",
+          "similarity": 0.8379
+        },
+        {
+          "word": "milan",
+          "similarity": 0.7715
+        },
+        {
+          "word": "turin",
+          "similarity": 0.7603
+        },
+        {
+          "word": "venice",
+          "similarity": 0.7575
+        },
+        {
+          "word": "madrid",
+          "similarity": 0.7458
+        },
+        {
+          "word": "aires",
+          "similarity": 0.7403
+        },
+        {
+          "word": "naples",
+          "similarity": 0.7388
+        },
+        {
+          "word": "italian",
+          "similarity": 0.7373
+        }
+      ],
+      "neighboursUnfiltered": [
+        {
+          "word": "rome",
+          "similarity": 0.8379
+        },
+        {
+          "word": "italy",
+          "similarity": 0.7875
+        },
+        {
+          "word": "milan",
+          "similarity": 0.7715
+        },
+        {
+          "word": "turin",
+          "similarity": 0.7603
+        },
+        {
+          "word": "venice",
+          "similarity": 0.7575
+        },
+        {
+          "word": "paris",
+          "similarity": 0.7519
+        },
+        {
+          "word": "madrid",
+          "similarity": 0.7458
+        },
+        {
+          "word": "aires",
+          "similarity": 0.7403
+        }
+      ],
+      "points": [
+        {
+          "word": "france",
+          "x": 0,
+          "y": 0,
+          "offPlane": 0
+        },
+        {
+          "word": "paris",
+          "x": 3.6404,
+          "y": 0,
+          "offPlane": 0
+        },
+        {
+          "word": "italy",
+          "x": 0.3491,
+          "y": 3.8667,
+          "offPlane": 0
+        },
+        {
+          "word": "rome",
+          "x": 2.9177,
+          "y": 2.9409,
+          "offPlane": 2.6493
+        }
+      ],
+      "result": {
+        "x": 3.9896,
+        "y": 3.8667,
+        "offPlane": 0
+      },
+      "expectedSimilarity": 0.8379,
+      "expectedRank": 1
+    },
+    {
+      "id": "tense",
+      "a": "walk",
+      "b": "walking",
+      "c": "swim",
+      "expect": "swimming",
+      "teaches": "Grammar is geometry too: the -ing displacement is its own direction, learnt from nothing but which words share company.",
+      "answer": {
+        "word": "swimming",
+        "similarity": 0.8071
+      },
+      "unfiltered": {
+        "word": "swim",
+        "similarity": 0.9153
+      },
+      "neighbours": [
+        {
+          "word": "swimming",
+          "similarity": 0.8071
+        },
+        {
+          "word": "swimmers",
+          "similarity": 0.7563
+        },
+        {
+          "word": "swims",
+          "similarity": 0.748
+        },
+        {
+          "word": "surfing",
+          "similarity": 0.7419
+        },
+        {
+          "word": "swam",
+          "similarity": 0.7342
+        },
+        {
+          "word": "biking",
+          "similarity": 0.7324
+        },
+        {
+          "word": "diving",
+          "similarity": 0.7195
+        },
+        {
+          "word": "jumping",
+          "similarity": 0.7179
+        }
+      ],
+      "neighboursUnfiltered": [
+        {
+          "word": "swim",
+          "similarity": 0.9153
+        },
+        {
+          "word": "swimming",
+          "similarity": 0.8071
+        },
+        {
+          "word": "swimmers",
+          "similarity": 0.7563
+        },
+        {
+          "word": "swims",
+          "similarity": 0.748
+        },
+        {
+          "word": "surfing",
+          "similarity": 0.7419
+        },
+        {
+          "word": "swam",
+          "similarity": 0.7342
+        },
+        {
+          "word": "biking",
+          "similarity": 0.7324
+        },
+        {
+          "word": "diving",
+          "similarity": 0.7195
+        }
+      ],
+      "points": [
+        {
+          "word": "walk",
+          "x": 0,
+          "y": 0,
+          "offPlane": 0
+        },
+        {
+          "word": "walking",
+          "x": 2.0668,
+          "y": 0,
+          "offPlane": 0
+        },
+        {
+          "word": "swim",
+          "x": 0.8598,
+          "y": 4.0497,
+          "offPlane": 0
+        },
+        {
+          "word": "swimming",
+          "x": 1.851,
+          "y": 3.4121,
+          "offPlane": 2.987
+        }
+      ],
+      "result": {
+        "x": 2.9266,
+        "y": 4.0497,
+        "offPlane": 0
+      },
+      "expectedSimilarity": 0.8071,
+      "expectedRank": 1
+    },
+    {
+      "id": "comparative",
+      "a": "big",
+      "b": "bigger",
+      "c": "small",
+      "expect": "smaller",
+      "teaches": "The same trick on a different relation. One direction means more-of-this.",
+      "answer": {
+        "word": "larger",
+        "similarity": 0.9044
+      },
+      "unfiltered": {
+        "word": "larger",
+        "similarity": 0.9044
+      },
+      "neighbours": [
+        {
+          "word": "larger",
+          "similarity": 0.9044
+        },
+        {
+          "word": "large",
+          "similarity": 0.8707
+        },
+        {
+          "word": "smaller",
+          "similarity": 0.8655
+        },
+        {
+          "word": "normally",
+          "similarity": 0.7709
+        },
+        {
+          "word": "typically",
+          "similarity": 0.7661
+        },
+        {
+          "word": "tiny",
+          "similarity": 0.7537
+        },
+        {
+          "word": "usually",
+          "similarity": 0.7496
+        },
+        {
+          "word": "mainly",
+          "similarity": 0.743
+        }
+      ],
+      "neighboursUnfiltered": [
+        {
+          "word": "larger",
+          "similarity": 0.9044
+        },
+        {
+          "word": "large",
+          "similarity": 0.8707
+        },
+        {
+          "word": "small",
+          "similarity": 0.8668
+        },
+        {
+          "word": "smaller",
+          "similarity": 0.8655
+        },
+        {
+          "word": "normally",
+          "similarity": 0.7709
+        },
+        {
+          "word": "typically",
+          "similarity": 0.7661
+        },
+        {
+          "word": "tiny",
+          "similarity": 0.7537
+        },
+        {
+          "word": "usually",
+          "similarity": 0.7496
+        }
+      ],
+      "points": [
+        {
+          "word": "big",
+          "x": 0,
+          "y": 0,
+          "offPlane": 0
+        },
+        {
+          "word": "bigger",
+          "x": 2.6949,
+          "y": 0,
+          "offPlane": 0
+        },
+        {
+          "word": "small",
+          "x": 1.6176,
+          "y": 3.6703,
+          "offPlane": 0
+        },
+        {
+          "word": "larger",
+          "x": 3.0316,
+          "y": 2.5607,
+          "offPlane": 1.498
+        },
+        {
+          "word": "smaller",
+          "x": 2.6849,
+          "y": 2.7255,
+          "offPlane": 1.8842
+        }
+      ],
+      "result": {
+        "x": 4.3125,
+        "y": 3.6703,
+        "offPlane": 0
+      },
+      "expectedSimilarity": 0.8655,
+      "expectedRank": 3
+    },
+    {
+      "id": "occupation",
+      "a": "man",
+      "b": "doctor",
+      "c": "woman",
+      "expect": null,
+      "teaches": "Run the same arithmetic on an occupation and the geometry answers with a stereotype. Nothing is broken — this is what counting real text produces.",
+      "answer": {
+        "word": "nurse",
+        "similarity": 0.8424
+      },
+      "unfiltered": {
+        "word": "doctor",
+        "similarity": 0.896
+      },
+      "neighbours": [
+        {
+          "word": "nurse",
+          "similarity": 0.8424
+        },
+        {
+          "word": "child",
+          "similarity": 0.7754
+        },
+        {
+          "word": "pregnant",
+          "similarity": 0.7679
+        },
+        {
+          "word": "mother",
+          "similarity": 0.7661
+        },
+        {
+          "word": "patient",
+          "similarity": 0.7491
+        },
+        {
+          "word": "physician",
+          "similarity": 0.7384
+        },
+        {
+          "word": "parents",
+          "similarity": 0.7376
+        },
+        {
+          "word": "dentist",
+          "similarity": 0.7323
+        }
+      ],
+      "neighboursUnfiltered": [
+        {
+          "word": "doctor",
+          "similarity": 0.896
+        },
+        {
+          "word": "nurse",
+          "similarity": 0.8424
+        },
+        {
+          "word": "child",
+          "similarity": 0.7754
+        },
+        {
+          "word": "woman",
+          "similarity": 0.7708
+        },
+        {
+          "word": "pregnant",
+          "similarity": 0.7679
+        },
+        {
+          "word": "mother",
+          "similarity": 0.7661
+        },
+        {
+          "word": "patient",
+          "similarity": 0.7491
+        },
+        {
+          "word": "physician",
+          "similarity": 0.7384
+        }
+      ],
+      "points": [
+        {
+          "word": "man",
+          "x": 0,
+          "y": 0,
+          "offPlane": 0
+        },
+        {
+          "word": "doctor",
+          "x": 3.8643,
+          "y": 0,
+          "offPlane": 0
+        },
+        {
+          "word": "woman",
+          "x": 0.8066,
+          "y": 2.4745,
+          "offPlane": 0
+        },
+        {
+          "word": "nurse",
+          "x": 3.544,
+          "y": 1.4629,
+          "offPlane": 2.7456
+        }
+      ],
+      "result": {
+        "x": 4.6709,
+        "y": 2.4745,
+        "offPlane": 0
+      },
+      "expectedSimilarity": null,
+      "expectedRank": null
+    }
+  ]
+}

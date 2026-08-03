@@ -8,13 +8,24 @@ import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { AnalogyBench } from "@/components/machines/AnalogyBench";
+import { AnalogyPlane } from "@/components/machines/AnalogyPlane";
 import { WordChart } from "@/components/machines/WordChart";
+import { ANALOGY, analogy } from "@/lib/analogy";
 import { getLesson } from "@/lib/lessons";
+import { ordinal } from "@/lib/ordinal";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
 
 const lesson = getLesson("embeddings")!;
 const video = videoFor("embeddings")!;
+
+/* Quoted in the prose below, so that regenerating the vectors updates the
+   sentences rather than leaving them asserting an old number. */
+const royal = analogy("royal");
+const comparative = analogy("comparative");
+const royalAnswerPoint = royal.points.find(
+  (p) => p.word === royal.answer.word,
+)!;
 
 export const metadata = {
   title: lesson.title,
@@ -124,12 +135,99 @@ export default function EmbeddingsLesson() {
           </>
         }
         sting="Fifty numbers per word, and nobody decided what any of them stand for — they fell out of counting which words turn up near which, across six billion words of text. In the box below, the pull between two words is that real measurement, not a story about it."
-        cta="Switch on the magnet"
+        cta="Show me the space"
+        target="#space"
       />
 
-      <div className="py-4">
-        <WordMagnet />
-      </div>
+      {/* ------------------------------------------------ the explanation --- */}
+      <section id="space" className="py-10">
+        <p className="label text-ink-faint mb-3">What a vector buys you</p>
+        <h2 className="display-lg mb-4">
+          If meaning is a direction, you can do arithmetic with it.
+        </h2>
+
+        <div className="prose-measure text-ink-soft mb-8 space-y-4 text-lg">
+          <p>
+            Give every word a list of {ANALOGY.dims}{" "}
+            numbers and you have given
+            every word a position. Positions on their own would only buy you
+            similarity: near means alike, far means unalike. What makes this
+            idea powerful is the thing positions have that labels do not &mdash;
+            the space <em>between</em> them.
+          </p>
+          <p>
+            Subtract one word&rsquo;s position from another&rsquo;s and you get
+            a direction: not a word, but a displacement, a &ldquo;whatever it is
+            that turns this into that&rdquo;. The startling result &mdash; found
+            by Mikolov and colleagues in 2013, and reproducible here on
+            vectors anyone can download &mdash; is that those displacements are
+            reusable. The step from <span className="font-data">man</span> to{" "}
+            <span className="font-data">king</span> is very nearly the same step
+            as the one from <span className="font-data">woman</span> to{" "}
+            <span className="font-data">queen</span>, even though nothing in the
+            training ever compared those two pairs.
+          </p>
+          <p>
+            Watch it happen. The figure draws one arrow, picks it up, and puts it
+            down somewhere else.
+          </p>
+        </div>
+
+        <AnalogyPlane />
+
+        <div className="prose-measure text-ink-soft mt-8 space-y-4 text-lg">
+          <p>
+            Two things in that figure are usually left out of this
+            demonstration, and both are worth more than the trick itself.
+          </p>
+          <p>
+            <strong>The arrow does not land on the word.</strong> It lands near
+            it. <span className="font-data">{royal.answer.word}</span> is the
+            closest of {ANALOGY.vocabulary.toLocaleString("en-US")} words to
+            where the arithmetic points, at a cosine of{" "}
+            {royal.answer.similarity.toFixed(3)} &mdash; but it also sits{" "}
+            {royalAnswerPoint.offPlane.toFixed(2)} units off the plane the
+            picture is drawn on. Every published version of this diagram is a
+            shadow of something {ANALOGY.dims}-dimensional, and the number, not
+            the picture, is the claim.
+          </p>
+          <p>
+            <strong>The inputs have to be excluded by hand.</strong> Ask for the
+            nearest word to <span className="font-data">king − man + woman</span>{" "}
+            without ruling anything out and the answer is{" "}
+            <span className="font-data">{royal.unfiltered.word}</span>, at{" "}
+            {royal.unfiltered.similarity.toFixed(3)} &mdash; higher than{" "}
+            {royal.answer.word}. The convention of dropping the three input
+            words comes from the original evaluation, and without it most of
+            these analogies return one of their own ingredients. That is not a
+            scandal, but it is the sort of detail that separates knowing the
+            demo from knowing the method.
+          </p>
+          <p>
+            And try the comparative one. <span className="font-data">bigger − big + small</span>{" "}
+            does not give <span className="font-data">smaller</span>. It gives{" "}
+            <span className="font-data">{comparative.answer.word}</span>, with{" "}
+            <span className="font-data">smaller</span> only{" "}
+            {ordinal(comparative.expectedRank ?? 0)}. The geometry is real, and it is
+            approximate, and both of those are true at once.
+          </p>
+        </div>
+      </section>
+
+      {/* --------------------------------------------------------- the game --- */}
+      <section className="border-ink/25 border-t py-10">
+        <p className="label text-ink-faint mb-3">Now you try</p>
+        <h2 className="display-lg mb-2">Feel the pull between two words.</h2>
+        <p className="prose-measure text-ink-soft mb-6">
+          You have seen that distance in this space means something. Now guess
+          it. The magnet&rsquo;s strength is the real measured similarity between
+          the pair &mdash; commit to a guess and find out how wrong the
+          intuition is.
+        </p>
+        <div id="game">
+          <WordMagnet />
+        </div>
+      </section>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
         <Walkthrough steps={STEPS} />

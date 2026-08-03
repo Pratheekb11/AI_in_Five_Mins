@@ -96,6 +96,16 @@ export function ProvenanceDetective() {
       gameId="provenance-detective"
       name="Provenance Detective"
       instruction="A question, and three doors. Does it already know this, does it need the source handing to it, or does it need a tool that can actually do the work? Call it before you see the evidence — because in real use, you always have to."
+      howToPlay={{
+        goal: "Say where the answer would have to come from, before you see any evidence.",
+        steps: [
+          "Read the question.",
+          "Choose one of three doors: it already knows this, it needs the source handing to it, or it needs a real tool.",
+          "The evidence arrives — what the model does cold, and what it does with the source in front of it.",
+        ],
+        controls: "Click a door, or press 1–3. Enter moves on.",
+        scoring: "100 a call, plus 80 for spotting a gap the model hides well.",
+      }}
       startLabel={data ? "Open the case" : "Loading the evidence…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}

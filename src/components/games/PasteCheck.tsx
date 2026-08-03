@@ -65,6 +65,16 @@ export function PasteCheck() {
       gameId="paste-check"
       name="Would you paste it?"
       instruction="One thing at a time, and no clock — deciding whether something may leave your organisation is not a reflex test. Say what you would do with it. Sending something further out than it should go costs you everything; holding back something harmless only costs you the tool."
+      howToPlay={{
+        goal: "Decide what you would actually do with each thing before pasting it in.",
+        steps: [
+          "Read what you are about to paste and what is in it.",
+          "Choose: paste it as it is, strip the names and numbers first, or keep it out of the tool entirely.",
+          "The category and the reasoning follow. There is no clock.",
+        ],
+        controls: "Click a door, or press 1–3. Enter moves on.",
+        scoring: "Sending something further out than it should go scores nothing — that is the mistake you cannot take back. Being too careful costs you a little.",
+      }}
       startLabel="Open the first one"
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}

@@ -93,6 +93,17 @@ export function ContextBudget() {
       gameId="context-budget"
       name="Context Budget"
       instruction="Five slots. A pile of cards. One question. Decide what the model gets to see, then run it — and the number that comes back is the real model's probability of producing the real answer from exactly the context you built. Four runs per question."
+      howToPlay={{
+        goal: "Get the model to produce the right answer, using five slots.",
+        steps: [
+          "Read the question at the top.",
+          "Click cards from the pile to put them in the window. Click again to take one out.",
+          "Press Run it. The real model is run on exactly what you built, and the meter shows its chance of producing the right answer.",
+          "Four runs per question — so think before you spend one.",
+        ],
+        controls: "Click cards and buttons.",
+        scoring: "Based on how close you got to the best any combination can reach, plus whatever runs you did not need.",
+      }}
       startLabel={data ? "Open the window" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}

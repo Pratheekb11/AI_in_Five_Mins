@@ -93,6 +93,17 @@ export function HallucinationHunt() {
       gameId="hallucination-hunt"
       name="Hallucination Hunt"
       instruction="A real paragraph from a real encyclopedia, with three things quietly changed. Click the words you do not believe. Six flags for three errors — so clicking everything loses. Everyone gets the same paragraph today."
+      howToPlay={{
+        goal: "Find the three things that were changed, without flagging anything true.",
+        steps: [
+          "Read the paragraph. It is real, and three things in it have been quietly altered.",
+          "Click any word you do not believe. Clicking anywhere inside an alteration finds the whole thing.",
+          "You get six flags for three errors, so clicking everything loses.",
+          "Press “That is all I can see” when you are done, and the source wording appears in place of each change.",
+        ],
+        controls: "Click words.",
+        scoring: "Harder errors are worth more, a wrong flag costs you, and the clock only affects the speed bonus — it never ends the round.",
+      }}
       startLabel={data ? "Today's paragraph" : "Loading the paragraph…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}

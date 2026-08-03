@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Nimo } from "@/components/nimo/Nimo";
 import type { Mood } from "@/components/nimo/moods";
 import { useBestScore } from "@/lib/game/useBestScore";
@@ -21,12 +21,61 @@ import { playCue, useMuted } from "@/lib/game/sound";
 
 export type Readout = { label: string; value: string | number; accent?: boolean };
 
+/**
+ * How to play, in the fewest words that still work.
+ *
+ * Every cabinet takes one. The instruction paragraph explains why the game
+ * exists, which is a different job from telling somebody which key to press —
+ * and readers were bouncing off games because only the first job was being
+ * done.
+ */
+export type HowToPlay = {
+  /** What winning looks like, in one line. */
+  goal: string;
+  /** Two to four steps, in the order you do them. */
+  steps: string[];
+  /** Keys and clicks. Omitted where there is nothing but clicking. */
+  controls?: string;
+  /** What the score rewards, where that is not obvious. */
+  scoring?: string;
+};
+
 export type Phase = "ready" | "playing" | "over";
+
+function Rules({ how }: { how: HowToPlay }) {
+  return (
+    <div className="text-left">
+      <p className="label text-ink-faint mb-1">How to play</p>
+      <p className="mb-2 text-[0.9375rem] font-semibold">{how.goal}</p>
+      <ol className="mb-2 space-y-1">
+        {how.steps.map((step, i) => (
+          <li key={step} className="flex gap-2 text-[0.875rem]">
+            <span className="data text-ink-faint shrink-0">{i + 1}.</span>
+            <span>{step}</span>
+          </li>
+        ))}
+      </ol>
+      {how.controls ? (
+        <p className="text-ink-faint text-[0.8125rem]">
+          <span className="label mr-1">Controls</span>
+          {how.controls}
+        </p>
+      ) : null}
+      {how.scoring ? (
+        <p className="text-ink-faint text-[0.8125rem]">
+          <span className="label mr-1">Scoring</span>
+          {how.scoring}
+        </p>
+      ) : null}
+    </div>
+  );
+}
 
 export function GameShell({
   gameId,
   name,
   instruction,
+  howToPlay,
   readouts,
   phase,
   onStart,
@@ -41,6 +90,8 @@ export function GameShell({
   gameId?: string;
   name: string;
   instruction: string;
+  /** Shown before the round, and reachable from the header during it. */
+  howToPlay?: HowToPlay;
   readouts: Readout[];
   phase: Phase;
   onStart: () => void;
@@ -54,6 +105,7 @@ export function GameShell({
   footer?: ReactNode;
 }) {
   const { best, submit } = useBestScore(gameId ?? "unscored");
+  const [rulesOpen, setRulesOpen] = useState(false);
   const [muted, toggleMuted] = useMuted();
 
   // Recorded when the round ends, not while it runs — a best is a result.
@@ -120,6 +172,16 @@ export function GameShell({
           >
             {muted ? "sound off" : "sound on"}
           </button>
+          {howToPlay && phase === "playing" ? (
+            <button
+              type="button"
+              onClick={() => setRulesOpen((open) => !open)}
+              aria-expanded={rulesOpen}
+              className="label text-ink-faint hover:text-ink cursor-pointer underline-offset-2 hover:underline"
+            >
+              {rulesOpen ? "hide rules" : "how to play"}
+            </button>
+          ) : null}
         </span>
         <dl className="flex flex-wrap gap-x-5 gap-y-1">
           {readouts.map((r) => (
@@ -159,6 +221,12 @@ export function GameShell({
 
         {children}
 
+        {howToPlay && rulesOpen && phase === "playing" ? (
+          <div className="border-ink/25 bg-paper-sunk border-t px-5 py-4">
+            <Rules how={howToPlay} />
+          </div>
+        ) : null}
+
         {phase !== "playing" ? (
           <div className="bg-paper/92 absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 px-6 text-center backdrop-blur-[2px]">
             {phase === "ready" ? (
@@ -166,6 +234,11 @@ export function GameShell({
                 <p className="prose-measure text-ink-soft text-[0.9375rem]">
                   {instruction}
                 </p>
+                {howToPlay ? (
+                  <div className="plate-flush prose-measure w-full max-w-md px-4 py-3">
+                    <Rules how={howToPlay} />
+                  </div>
+                ) : null}
                 {gameId && best > 0 ? (
                   <p className="label text-teal-text">Your best: {best}</p>
                 ) : null}

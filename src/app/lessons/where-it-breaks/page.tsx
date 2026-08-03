@@ -86,9 +86,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "An answer arrives with an author, a year and a page range. What does that specificity tell you?",
     options: [
-      "That it came from a real source — it is too detailed to be invented",
+      "That it came from a real source, since that much detail is far too specific to be invented",
       "Nothing about whether it is true. That shape is exactly what an invented citation looks like",
-      "That it is probably right but the page number may be off",
+      "That it is probably right in substance, though the page number may well be slightly off",
     ],
     answer: 1,
     because:
@@ -98,9 +98,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "You tell it 'that's wrong' with no reason, and it immediately agrees and changes the answer. What just happened?",
     options: [
-      "It re-checked its work and found the error",
+      "It re-checked its own work, found the error, and corrected it for you",
       "It matched your confidence — a documented behaviour called sycophancy",
-      "The first answer was definitely wrong",
+      "The first answer was definitely wrong, which is why it gave way so quickly",
     ],
     answer: 1,
     because:
@@ -109,9 +109,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Which of these should you trust the least, all else being equal?",
     options: [
-      "A confident explanation of a well-known concept",
+      "A confident explanation of a concept that is well known and widely written about",
       "A specific figure about a price, version or ranking",
-      "An answer that says it is not sure",
+      "An answer that openly says it is not sure about the details",
     ],
     answer: 1,
     because:

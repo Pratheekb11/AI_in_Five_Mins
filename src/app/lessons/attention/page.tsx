@@ -73,9 +73,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What does the attention step actually compute?",
     options: [
-      "A fixed lookup of which words are grammatically related",
+      "A fixed table of which words are grammatically related, written during training and applied to every sentence alike",
       "A weight for every earlier word, worked out from this sentence, deciding how much of each to pull in",
-      "The probability of the next word",
+      "The probability of each possible next word, worked out once the whole sentence has been read",
     ],
     answer: 1,
     because:
@@ -84,9 +84,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why is the top-right of every map empty?",
     options: [
-      "Those weights are too small to display",
+      "Those weights exist but come out too small to be worth drawing at the scale used here",
       "The causal mask — a token is never allowed to attend to anything that comes after it",
-      "The sentences are too short",
+      "The sentences are too short to fill the grid, so the corner is left blank",
     ],
     answer: 1,
     because:
@@ -95,9 +95,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "The first token soaks up attention in almost every head. What does that tell you?",
     options: [
-      "That the first word is the most important word in the sentence",
+      "That the first word carries the most meaning in the sentence, which is why nearly every head keeps returning to it",
       "That a heat map is not an explanation — some of what you see is a mechanical artefact rather than meaning",
-      "That the extraction is faulty",
+      "That the extraction is faulty, since a real model would spread its attention more evenly",
     ],
     answer: 1,
     because:

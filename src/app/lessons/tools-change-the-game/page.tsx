@@ -77,9 +77,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What is actually happening when a model 'uses a tool'?",
     options: [
-      "The model runs the program inside itself",
+      "The model runs the program inside itself and then reads back whatever that program happened to produce",
       "The model writes out a request to call the tool; a program outside runs it and puts the result back into the context",
-      "The model is connected to the internet at all times",
+      "The model is connected to the internet at all times, and simply fetches whatever it happens to need",
     ],
     answer: 1,
     because:
@@ -89,9 +89,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "An assistant with web search gives you a figure and a link. What is still worth checking?",
     options: [
-      "Nothing — a link means it was looked up",
+      "Nothing at all — the presence of a link means the answer was genuinely looked up",
       "That the link actually says what the answer says it says",
-      "Only whether the site is well known",
+      "Only whether the site linked to is one you have heard of",
     ],
     answer: 1,
     because:

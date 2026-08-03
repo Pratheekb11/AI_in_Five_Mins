@@ -91,9 +91,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "What do fabrication, false confidence and inherited bias have in common?",
     options: [
-      "They are three separate defects, each with its own fix",
+      "They are three separate defects, each with its own cause and its own separate fix",
       "They all follow from the same thing: the model was fitted to text, not to the world",
-      "They only happen in small models",
+      "They only happen in small models, and disappear once the model is large enough",
     ],
     answer: 1,
     because:
@@ -103,9 +103,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "The model was more certain about 'Paris is the capital of' — which it gets wrong — than about a prompt it gets right. What follows?",
     options: [
-      "The certainty measurement is broken",
+      "The certainty measurement is broken, and reports high numbers whatever it is given to read",
       "Certainty and correctness are separate quantities, so a confident tone is not evidence of anything",
-      "It knows the answer but is choosing not to say it",
+      "It knows the right answer perfectly well, but for some reason is choosing not to say it out loud",
     ],
     answer: 1,
     because:
@@ -115,9 +115,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "The vectors put 'secretary' nearer 'he' than 'she'. What does that show?",
     options: [
-      "That the vectors are unbiased after all",
+      "That the vectors are unbiased after all, and that what you just saw was an error in the measurement itself",
       "That the measurement is of a specific corpus — half newswire, where 'Secretary of State' is common — and not a fact about the job",
-      "That the extraction is faulty",
+      "That the extraction itself is faulty, and an extraction done correctly would not have produced a result anything like this",
     ],
     answer: 1,
     because:

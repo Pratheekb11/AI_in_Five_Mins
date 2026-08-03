@@ -26,14 +26,70 @@ export type QuizProps = {
   questions: QuizQuestion[];
 };
 
+/**
+ * A small stable hash of the prompt.
+ *
+ * Stable is the whole requirement. It has to give the same order on the server
+ * and in the browser or the markup mismatches, and the same order on a reload
+ * or a learner who retries a module would find the answers had moved.
+ */
+function seedOf(text: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < text.length; i++) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+/**
+ * Deal the options into a fixed but unguessable order.
+ *
+ * Written because the answers had drifted into a pattern nobody intended: 44 of
+ * 49 questions across the site had their correct option second, the other 5
+ * had it third, and not one had it first. That is a quiz you can score full
+ * marks on without reading a single question, which is worse than no quiz.
+ *
+ * Ordering by a hash of the prompt rather than by chance keeps it deterministic
+ * — no impure call during render, no hydration mismatch — while spreading the
+ * answers across every position.
+ */
+function dealt(question: QuizQuestion): {
+  options: string[];
+  answer: number;
+} {
+  const order = question.options.map((_, i) => i);
+  let seed = seedOf(question.prompt);
+
+  // Fisher–Yates, driven by a xorshift on the seed so it is repeatable.
+  for (let i = order.length - 1; i > 0; i--) {
+    seed ^= seed << 13;
+    seed ^= seed >>> 17;
+    seed ^= seed << 5;
+    seed >>>= 0;
+    const j = seed % (i + 1);
+    const swap = order[i];
+    order[i] = order[j];
+    order[j] = swap;
+  }
+
+  return {
+    options: order.map((i) => question.options[i]),
+    answer: order.indexOf(question.answer),
+  };
+}
+
 export function Quiz({ slug, questions }: QuizProps) {
   const { complete, scoreFor } = useProgress();
   const [picks, setPicks] = useState<(number | null)[]>(() =>
     questions.map(() => null),
   );
 
+  /* Everything below indexes into the dealt order, not the authored one. */
+  const rounds = questions.map(dealt);
+
   const answered = picks.filter((p) => p !== null).length;
-  const correct = picks.filter((p, i) => p === questions[i].answer).length;
+  const correct = picks.filter((p, i) => p === rounds[i].answer).length;
   const done = answered === questions.length;
   const best = scoreFor(slug);
 
@@ -47,7 +103,7 @@ export function Quiz({ slug, questions }: QuizProps) {
     const nowAnswered = next.filter((p) => p !== null).length;
     if (nowAnswered === questions.length) {
       const score =
-        next.filter((p, i) => p === questions[i].answer).length /
+        next.filter((p, i) => p === rounds[i].answer).length /
         questions.length;
       complete(slug, score);
     }
@@ -57,6 +113,7 @@ export function Quiz({ slug, questions }: QuizProps) {
     <div className="space-y-5">
       <ol className="space-y-5">
         {questions.map((question, qi) => {
+          const round = rounds[qi];
           const pickedIndex = picks[qi];
           const revealed = pickedIndex !== null;
 
@@ -67,8 +124,8 @@ export function Quiz({ slug, questions }: QuizProps) {
               </p>
 
               <div className="grid gap-2">
-                {question.options.map((option, oi) => {
-                  const isAnswer = oi === question.answer;
+                {round.options.map((option, oi) => {
+                  const isAnswer = oi === round.answer;
                   const isPicked = pickedIndex === oi;
 
                   let tone = "border-ink/30 bg-paper";

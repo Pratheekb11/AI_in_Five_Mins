@@ -81,9 +81,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "You ask for 'a short summary' and get four dense paragraphs. Which part was missing?",
     options: [
-      "The goal — it did not know you wanted a summary",
+      "The goal — nothing in the request told it that a summary was what you were after",
       "Constraints and format — 'short' is your idea of short, not a stated limit",
-      "The role — it was not told to be a summariser",
+      "The role — it was never told to act as a summariser, so it answered as a generalist",
     ],
     answer: 1,
     because:
@@ -92,9 +92,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why does pasting in one example of a good answer work so well?",
     options: [
-      "It retrains the model on your preference",
+      "It retrains the model on your preference, so the next reply is fitted to your taste",
       "It gives the model a concrete pattern to continue, in the same input it is already reading",
-      "It makes the model try harder",
+      "It signals that the task matters, which makes the model apply more effort to it",
     ],
     answer: 1,
     because:
@@ -104,8 +104,8 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "Which of these is the fastest way to tell whether a prompt is good enough?",
     options: [
-      "Count how polite it is",
-      "Check it uses technical terms so the model takes it seriously",
+      "Count how polite the request is, since politeness earns a better reply",
+      "Check that it uses enough technical terms for the model to take the request seriously",
       "Ask whether a competent stranger, given only this, would produce what you want",
     ],
     answer: 2,

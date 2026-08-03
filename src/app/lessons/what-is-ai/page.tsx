@@ -74,9 +74,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What separates 'AI' from ordinary software?",
     options: [
-      "It is written in a different programming language",
+      "It is written in a different programming language, one designed for this kind of work",
       "Its behaviour comes from patterns found in examples, rather than from rules a person wrote",
-      "It runs on more powerful computers",
+      "It runs on far more powerful computers than ordinary software does",
     ],
     answer: 1,
     because:
@@ -85,7 +85,7 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "A spam filter reports 86% accuracy. Should you be impressed?",
     options: [
-      "Yes — that catches most spam",
+      "Yes — a score that high means it is catching very nearly all of the spam that arrives",
       "No — flagging nothing at all scores about that, because most messages are not spam",
       "There is no way to tell without knowing the programming language",
     ],
@@ -95,9 +95,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why do hand-written rules struggle in the long run?",
     options: [
-      "They are too slow to run",
+      "They are too slow to run over the volume of messages a real inbox receives",
       "Somebody has to think of every rule, and spam changes as soon as the rules are known",
-      "Computers cannot process if-statements reliably",
+      "Computers cannot process long chains of if-statements reliably enough to be trusted",
     ],
     answer: 1,
     because:
@@ -106,9 +106,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What did the model actually get given?",
     options: [
-      "A list of suspicious words written by researchers",
+      "A list of suspicious words written by researchers, refined over several years of use",
       `${SPAM_BENCH.learned.trainSize.toLocaleString("en-US")} messages, each marked spam or not spam, and nothing else`,
-      "Access to the internet to look up known spam",
+      "Access to the internet, so it can look up messages already reported as spam elsewhere",
     ],
     answer: 1,
     because:

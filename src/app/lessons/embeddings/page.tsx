@@ -91,9 +91,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What is a word embedding?",
     options: [
-      "A dictionary definition stored alongside the word",
+      "A dictionary definition stored alongside the word, written by the people who built the model",
       "A list of numbers giving the word a position in space, learnt from which words appear near which",
-      "A compressed version of the word's spelling",
+      "A compressed version of the word's spelling, so it can be reconstructed letter by letter",
     ],
     answer: 1,
     because:
@@ -102,9 +102,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why were most of the words in the box pushed away rather than pulled in?",
     options: [
-      "The game makes them repel to add difficulty",
+      "The game makes unrelated pairs repel each other deliberately, which is there to add a bit of difficulty",
       "Because most pairs of words genuinely have almost nothing in common, and the force is the real similarity",
-      "Because they were words the model had not seen",
+      "Because those were words the model never saw during training, so it has nothing to go on",
     ],
     answer: 1,
     because:
@@ -113,9 +113,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "The same arithmetic gives stereotyped answers on some inputs. Why?",
     options: [
-      "A bug in how the vectors are stored",
+      "A bug in the way the vectors are quantised and stored, which distorts the rarer directions in the space",
       "The vectors were built by counting real human text, so associations present in that text are present in the geometry",
-      "Because the vocabulary is too small",
+      "Because the vocabulary is too small to hold the words that would give a fairer answer",
     ],
     answer: 1,
     because:

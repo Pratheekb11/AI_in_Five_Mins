@@ -73,9 +73,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "In the customer support study, who gained the most from the assistant?",
     options: [
-      "The most experienced agents, who could use it best",
+      "The most experienced agents, who already knew the material well enough to use it best",
       "Novice and low-skilled agents, at 34% against 14% on average",
-      "Everyone equally",
+      "Everyone equally, since the assistance offered was identical for every agent",
     ],
     answer: 1,
     because:
@@ -84,9 +84,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What does that suggest about where to point it in your own week?",
     options: [
-      "At the work you are best at, to go even faster",
+      "At the work you are already best at, so that you get through far more of it",
       "At competent-but-unremarkable work, and at things just outside what you know how to do",
-      "At everything, uniformly",
+      "At everything you do, uniformly, whatever the task happens to involve",
     ],
     answer: 1,
     because:
@@ -95,9 +95,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why does a task you cannot sort in six seconds matter?",
     options: [
-      "It means the task is unimportant",
+      "It means the task is simply not important enough to be worth sorting into either bucket",
       "It means you have not decided — and undecided is what gets handed over badly under time pressure",
-      "It means the task is too complicated for AI",
+      "It means the task is too complicated for AI to be much use on it yet",
     ],
     answer: 1,
     because:

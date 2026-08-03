@@ -69,9 +69,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why is 'always verify everything' a bad policy?",
     options: [
-      "Because AI output is usually right",
+      "Because AI output is usually right, so checking all of it is effort spent for nothing",
       "Because it costs more than you have, so in practice it degrades into verifying nothing",
-      "Because verification is impossible",
+      "Because verification is impossible once the answer is written in confident prose",
     ],
     answer: 1,
     because:
@@ -80,9 +80,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "You ask the assistant 'are you sure about that?' and it says yes. What have you learnt?",
     options: [
-      "That the answer is probably right",
+      "That the answer is probably right, since it has now been confirmed a second time",
       "Nothing — its agreement is not independent of your question",
-      "That it has re-checked its sources",
+      "That it has gone back and re-checked its sources before agreeing with you",
     ],
     answer: 1,
     because:
@@ -92,9 +92,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "Which of these should be checked at source almost regardless of stakes?",
     options: [
-      "The tone of a message",
+      "The tone of a message, and whether it reads as confident or hedged",
       "Specific numbers, names, dates and citations",
-      "The structure of an argument",
+      "The structure of an argument, and whether its steps follow from each other",
     ],
     answer: 1,
     because:

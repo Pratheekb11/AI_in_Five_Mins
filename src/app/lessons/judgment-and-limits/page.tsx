@@ -88,9 +88,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "You want help replying to a customer complaint. What is the safe move?",
     options: [
-      "Paste the whole email, name and address included",
+      "Paste the whole email, name and address included, so the reply has everything it needs",
       "Strip the identifying details and paste the substance of the problem",
-      "Never use AI for customer correspondence",
+      "Never use AI for customer correspondence under any circumstances, whatever has been removed",
     ],
     answer: 1,
     because:
@@ -99,9 +99,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why is a colleague's sick note different from their home address?",
     options: [
-      "It is not — both are just personal data",
+      "It is not different at all — under the law both are simply personal data about someone",
       "Health data is special category data, which carries a higher bar than ordinary personal data",
-      "Sick notes are public documents",
+      "Sick notes count as public documents once they have been handed to an employer",
     ],
     answer: 1,
     because:
@@ -111,9 +111,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "What does the research suggest about heavy reliance on these tools?",
     options: [
-      "It reliably makes people worse at their jobs",
+      "It reliably makes people worse at their own jobs over time, and the effect grows the longer they keep using it without a break",
       "Higher trust in the tool is associated with less critical checking, and early work suggests reduced engagement and ownership of the output",
-      "It has no measurable effect on how people think",
+      "It has no measurable effect on how people think or work, according to every study that has looked at it so far",
     ],
     answer: 1,
     because:

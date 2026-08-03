@@ -118,9 +118,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Is a token the same thing as a word?",
     options: [
-      "Yes — one word, one token",
+      "Yes — every word becomes exactly one token, which is why they are counted that way",
       "No — it is a chunk of characters, sometimes shorter than a word, sometimes longer",
-      "No — it is always a single character",
+      "No — it is always a single character, so a word costs as many tokens as it has letters",
     ],
     answer: 1,
     because:
@@ -129,10 +129,10 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What decides where a word gets cut?",
     options: [
-      "Its syllables",
+      "Its syllables, as you would say the word out loud",
       "Its meaningful parts — prefixes, roots, suffixes",
       "How often each chunk appeared in the text the vocabulary was built from",
-      "A list of rules written by linguists",
+      "A list of splitting rules written by linguists when the model was built",
     ],
     answer: 2,
     because:
@@ -143,9 +143,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why do models miscount the letters in 'strawberry'?",
     options: [
-      "They cannot count at all",
+      "They cannot count reliably, whatever they are being asked to count",
       "It arrives as st, raw and berry, so the letters were never separate things it saw",
-      "The word is too rare in training data",
+      "The word is too rare in the training data for it to have learned the spelling",
     ],
     answer: 1,
     because:
@@ -165,9 +165,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Same sentence in English or in Hindi — which costs more to send?",
     options: [
-      "English",
+      "English, because its words are longer on the page",
       "Hindi, by roughly two and a half times",
-      "They cost the same",
+      "They cost the same, since the sentence means the same thing either way",
     ],
     answer: 1,
     because: `Measured above: ${english.tokenCount} tokens against ${hindi.tokenCount}. Merge tables are built mostly from English, so other scripts get chopped much finer.`,

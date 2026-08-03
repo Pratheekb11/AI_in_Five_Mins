@@ -1,4 +1,4 @@
-import { CostOfWrong } from "@/components/games/CostOfWrong";
+import { HallucinationHunt } from "@/components/games/HallucinationHunt";
 import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
@@ -118,7 +118,7 @@ export default function VerificationHabitsLesson() {
       />
 
       <div className="py-4">
-        <CostOfWrong />
+        <HallucinationHunt />
       </div>
 
       <div className="pb-4">

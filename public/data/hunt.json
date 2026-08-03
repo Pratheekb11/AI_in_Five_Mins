@@ -1,0 +1,183 @@
+{
+  "generatedBy": "data/scripts/build-hunt.mjs",
+  "builtOn": "2026-08-03",
+  "source": {
+    "name": "Wikipedia",
+    "licence": "CC BY-SA 4.0",
+    "url": "https://en.wikipedia.org/wiki/Wikipedia:Copyrights",
+    "note": "The opening 700 characters of each article, fetched with its revision id. Every alteration was checked to match the source exactly before this file was written, so the answer key and the cited revision cannot drift apart."
+  },
+  "charactersUsed": 700,
+  "puzzles": [
+    {
+      "id": "venus",
+      "title": "Venus",
+      "url": "https://en.wikipedia.org/wiki/Venus",
+      "revision": 1366981697,
+      "text": "Venus is the third planet from the Sun. Similar in size and mass to Earth, Venus has no liquid water, and its atmosphere is far thicker and denser than that of any other rocky body in the Solar System. The atmosphere is composed mostly of carbon dioxide and has a thick cloud layer of hydrochloric acid that spans the whole planet. At the mean surface level, the atmosphere reaches a temperature of 737 K (464 °C; 867 °F), making it the hottest planet in the solar system and also a pressure 12 times greater than Earth's at sea level, turning the lowest layer of the atmosphere into a supercritical fluid. From Earth, Venus is visible as a star-like point of light, appearing brighter than any other na",
+      "words": 127,
+      "spans": [
+        {
+          "first": 0,
+          "last": 7,
+          "altered": "Venus is the third planet from the Sun.",
+          "original": "Venus is the second planet from the Sun.",
+          "difficulty": "obvious",
+          "why": "Venus is the second planet from the Sun. Earth is the third."
+        },
+        {
+          "first": 49,
+          "last": 55,
+          "altered": "a thick cloud layer of hydrochloric acid",
+          "original": "a thick cloud layer of sulfuric acid",
+          "difficulty": "medium",
+          "why": "The clouds are sulfuric acid. Swapping one plausible chemical for another reads perfectly smoothly."
+        },
+        {
+          "first": 89,
+          "last": 95,
+          "altered": "a pressure 12 times greater than Earth's",
+          "original": "a pressure 92 times greater than Earth's",
+          "difficulty": "hard",
+          "why": "The real figure is 92 times Earth's surface pressure. A wrong number in the same shape as a right one is the hardest kind to catch."
+        }
+      ]
+    },
+    {
+      "id": "everest",
+      "title": "Mount Everest",
+      "url": "https://en.wikipedia.org/wiki/Mount%20Everest",
+      "revision": 1365907460,
+      "text": "Mount Everest (known locally as Sagarmāthā in Nepal and Qomolangma in the Tibet Autonomous Region of China) is the second-highest mountain on Earth above sea level. It lies in the Mahalangur Himal sub-range of the Himalayas and marks part of the India–Nepal border at its summit. Its height was most recently measured in 2010 through a joint survey by Nepalese and Chinese authorities as 8,848.86 m (29,031 ft 8+1⁄2 in). Mount Everest attracts many climbers, including highly experienced mountaineers. There are two main climbing routes, one approaching the summit from the southeast in Nepal (known as the standard route) and the other from the north in China. While not posing substantial technical climbi",
+      "words": 113,
+      "spans": [
+        {
+          "first": 17,
+          "last": 25,
+          "altered": "is the second-highest mountain on Earth above sea level",
+          "original": "is the highest mountain on Earth above sea level",
+          "difficulty": "obvious",
+          "why": "Everest is the highest. This is the one everybody catches, and it is here so that catching it does not feel like the whole game."
+        },
+        {
+          "first": 37,
+          "last": 42,
+          "altered": "marks part of the India–Nepal border",
+          "original": "marks part of the China–Nepal border",
+          "difficulty": "medium",
+          "why": "The summit is on the China–Nepal border. India is nowhere near it."
+        },
+        {
+          "first": 46,
+          "last": 53,
+          "altered": "Its height was most recently measured in 2010",
+          "original": "Its height was most recently measured in 2020",
+          "difficulty": "hard",
+          "why": "The joint Nepalese and Chinese survey was in 2020. A date ten years out is invisible unless you happen to know it."
+        }
+      ]
+    },
+    {
+      "id": "amazon",
+      "title": "Amazon rainforest",
+      "url": "https://en.wikipedia.org/wiki/Amazon%20rainforest",
+      "revision": 1366623979,
+      "text": "The Amazon rainforest, also called the Amazon jungle, Amazonia, or simply the Amazon, is a moist broadleaf tropical rainforest in the Amazon biome that covers most of the Amazon basin of South America. This basin encompasses 7 million km2 (2.7 million sq mi), of which 6 million km2 (2.3 million sq mi) are covered by the rainforest. This region includes territory belonging to four nations and 3,344 indigenous territories. The majority of the forest, 85%, is in Brazil, followed by Bolivia with 13%, Colombia with 10%, and with minor amounts in Bolivia, Ecuador, French Guiana, Guyana, Suriname, and Venezuela. Four nations have \"Amazonas\" as the name of one of their first-level administrative region",
+      "words": 113,
+      "spans": [
+        {
+          "first": 60,
+          "last": 64,
+          "altered": "territory belonging to four nations",
+          "original": "territory belonging to nine nations",
+          "difficulty": "medium",
+          "why": "Nine nations. A smaller number sounds tidier, which is often how invented figures go."
+        },
+        {
+          "first": 69,
+          "last": 77,
+          "altered": "The majority of the forest, 85%, is in Brazil",
+          "original": "The majority of the forest, 60%, is in Brazil",
+          "difficulty": "hard",
+          "why": "It is 60% in Brazil. 85% is still a plausible-sounding majority, which is exactly why it slips past."
+        },
+        {
+          "first": 78,
+          "last": 82,
+          "altered": "followed by Bolivia with 13%",
+          "original": "followed by Peru with 13%",
+          "difficulty": "medium",
+          "why": "Peru holds the second-largest share. Swapping in a neighbouring country keeps the sentence reading naturally."
+        }
+      ]
+    },
+    {
+      "id": "bluewhale",
+      "title": "Blue whale",
+      "url": "https://en.wikipedia.org/wiki/Blue%20whale",
+      "revision": 1364714839,
+      "text": "The blue whale (Balaenoptera musculus) is a species of toothed whale and the largest marine mammal in the rorqual family Balaenopteridae. Reaching a maximum confirmed length of 29.9–30.5 m (98–100 ft) and weighing up to 190–200 t (190–200 long tons; 210–220 short tons), it is the largest animal alive today, though not the largest ever. The blue whale's long and slender body can be of various shades of greyish-blue on its upper surface and somewhat lighter underneath. Eleven subspecies are recognized: B. m. musculus in the North Atlantic and North Pacific, B. m. intermedia in the Southern Ocean, B. m. brevicauda (the pygmy blue whale) in the Indian Ocean and South Pacific Ocean, and B. m. indica in the Northe",
+      "words": 120,
+      "spans": [
+        {
+          "first": 6,
+          "last": 10,
+          "altered": "a species of toothed whale",
+          "original": "a species of baleen whale",
+          "difficulty": "hard",
+          "why": "Baleen, not toothed — the two are the major division of whales, and getting it backwards is a real error that reads fluently."
+        },
+        {
+          "first": 43,
+          "last": 54,
+          "altered": "it is the largest animal alive today, though not the largest ever",
+          "original": "it is the largest animal known to have ever existed",
+          "difficulty": "obvious",
+          "why": "The blue whale is the largest animal known to have existed at all, including every extinct one."
+        },
+        {
+          "first": 77,
+          "last": 80,
+          "altered": "Eleven subspecies are recognized",
+          "original": "Four subspecies are recognized",
+          "difficulty": "medium",
+          "why": "Four. An inflated count in a technical sentence is the sort of thing readers skim straight past."
+        }
+      ]
+    },
+    {
+      "id": "greatwall",
+      "title": "Great Wall of China",
+      "url": "https://en.wikipedia.org/wiki/Great%20Wall%20of%20China",
+      "revision": 1365733834,
+      "text": "The Great Wall of China is a series of fortifications in China. They were built across the historical northern borders of ancient Chinese states and Imperial China as protection against various nomadic groups from the Arabian Peninsula. The first walls date to the 2nd century AD; these were joined together in the Qin dynasty. Successive dynasties expanded the wall system; the best-known sections were built by the Ming dynasty (1368–1912). To aid in defense, the Great Wall utilized watchtowers, troop barracks, garrison stations, signaling capabilities through the means of smoke or fire, and its status as a transportation corridor. Other purposes of the Great Wall have included border controls (",
+      "words": 110,
+      "spans": [
+        {
+          "first": 30,
+          "last": 36,
+          "altered": "various nomadic groups from the Arabian Peninsula",
+          "original": "various nomadic groups from the Eurasian Steppe",
+          "difficulty": "obvious",
+          "why": "The Eurasian Steppe, to the north. The Arabian Peninsula is thousands of kilometres in the wrong direction."
+        },
+        {
+          "first": 37,
+          "last": 45,
+          "altered": "The first walls date to the 2nd century AD",
+          "original": "The first walls date to the 7th century BC",
+          "difficulty": "medium",
+          "why": "7th century BC — roughly nine hundred years earlier than the altered date, and on the other side of the era boundary."
+        },
+        {
+          "first": 60,
+          "last": 69,
+          "altered": "the best-known sections were built by the Ming dynasty (1368–1912)",
+          "original": "the best-known sections were built by the Ming dynasty (1368–1644)",
+          "difficulty": "hard",
+          "why": "The Ming dynasty ended in 1644. 1912 is the end of imperial China altogether, so the number looks familiar and is attached to the wrong thing."
+        }
+      ]
+    }
+  ]
+}

@@ -88,12 +88,12 @@ export default function Home() {
                 What it is actually doing
               </p>
               <h2 className="display-lg mb-2">
-                One word. Then it starts again.
+                Watch it write a sentence, one word at a time.
               </h2>
               <p className="prose-measure text-ink-soft mb-9">
-                That is the whole machine, and everything strange about these
-                tools falls out of it. Watch it go round a few times &mdash;
-                nothing below will make sense until this does.
+                It reads what it has written, picks the next word, adds it, and
+                reads again. That is the whole machine &mdash; and every strange
+                thing these tools do falls out of it.
               </p>
             </Reveal>
             <Reveal delay={0.08}>

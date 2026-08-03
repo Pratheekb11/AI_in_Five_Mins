@@ -95,6 +95,16 @@ export function Pushback() {
       gameId="pushback"
       name="Pushback"
       instruction="A fact nobody disputes, and the same question put four ways — flat, with a nudge, with the wrong answer asserted first, and with the right one asserted first. Call which way it goes before you see the numbers."
+      howToPlay={{
+        goal: "Predict what the model does when somebody insists on a wrong answer.",
+        steps: [
+          "Read the fact. Nobody disputes it.",
+          "Somebody is about to assert the wrong answer before asking. Say whether the model holds its ground or goes with what it was told.",
+          "The same question is then shown put four ways, with the true and false answers racing each other under each one.",
+        ],
+        controls: "Click a choice, or press 1–2. Enter moves on.",
+        scoring: "120 for the right call, more when the framing swung the answer a long way.",
+      }}
       startLabel={data ? "Lean on it" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}

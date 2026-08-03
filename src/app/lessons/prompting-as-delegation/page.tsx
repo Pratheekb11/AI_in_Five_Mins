@@ -8,7 +8,6 @@ import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { PromptInspector } from "@/components/machines/PromptInspector";
-import { ELEMENTS } from "@/lib/game/promptline";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { ENCODING_NAME } from "@/lib/tokenizer";
@@ -70,7 +69,7 @@ const STEPS: Step[] = [
       "Role · Goal · Constraints · Format · Example. You rarely need all five — you need to know which one you left out.",
   },
   {
-    say: "Everything else you typed is manners. Please, thanks, urgent, you're brilliant. None of it is harmful, and none of it is an instruction. It is the part of the belt you should let fall through.",
+    say: "Everything else you typed is manners. Please, thanks, urgent, you're brilliant. None of it is harmful and none of it is doing any work — the role-play phrasing measured slightly worse than saying nothing at all.",
   },
   {
     say: "Here is the test that replaces all of this advice. Read your prompt back and ask: if I sent only this to a competent stranger, would they produce what I actually want? If the answer is no, you already know which part is missing.",
@@ -82,9 +81,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "You ask for 'a short summary' and get four dense paragraphs. Which part was missing?",
     options: [
-      "The goal — it did not know you wanted a summary",
+      "The goal — nothing in the request told it that a summary was what you were after",
       "Constraints and format — 'short' is your idea of short, not a stated limit",
-      "The role — it was not told to be a summariser",
+      "The role — it was never told to act as a summariser, so it answered as a generalist",
     ],
     answer: 1,
     because:
@@ -93,9 +92,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why does pasting in one example of a good answer work so well?",
     options: [
-      "It retrains the model on your preference",
+      "It retrains the model on your preference, so the next reply is fitted to your taste",
       "It gives the model a concrete pattern to continue, in the same input it is already reading",
-      "It makes the model try harder",
+      "It signals that the task matters, which makes the model apply more effort to it",
     ],
     answer: 1,
     because:
@@ -105,8 +104,8 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "Which of these is the fastest way to tell whether a prompt is good enough?",
     options: [
-      "Count how polite it is",
-      "Check it uses technical terms so the model takes it seriously",
+      "Count how polite the request is, since politeness earns a better reply",
+      "Check that it uses enough technical terms for the model to take the request seriously",
       "Ask whether a competent stranger, given only this, would produce what you want",
     ],
     answer: 2,
@@ -125,8 +124,8 @@ export default function PromptingAsDelegationLesson() {
             <span className="text-yellow-text">does no work at all</span>.
           </>
         }
-        sting="Five things in an instruction actually change what comes back. The rest is politeness, urgency and flattery — harmless, and completely silent about the job. Here is a belt full of both, coming at you fast enough that you have to read."
-        cta="Work the line"
+        sting="Not the bit you would guess, either. Across fourteen goals, telling it how to answer moved the odds by 1.65 times and telling it that it is an expert by 1.02 — which is to say, not at all. Showing it one worked example moved them by 125, and won every single goal. Five phrasings of the same request, and you pick the one that actually lands."
+        cta="Take the first one"
       />
 
       <div className="py-4">
@@ -137,29 +136,6 @@ export default function PromptingAsDelegationLesson() {
         <Walkthrough steps={STEPS} />
         <VideoPanel video={video} />
       </div>
-
-      {/* The five parts, printed once, after they have already been sorted by
-          hand. Reading the list first would have made the game a memory test. */}
-      <section className="plate mb-4 p-5 md:p-6">
-        <p className="label text-ink-faint mb-4">
-          The five parts, and what each one costs you when it is missing
-        </p>
-        <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
-          {ELEMENTS.map((element) => (
-            <div key={element.key}>
-              <dt className="font-display text-base font-bold">
-                {element.label}
-                <span className="text-ink-faint ml-2 text-sm font-normal">
-                  {element.asks}
-                </span>
-              </dt>
-              <dd className="text-ink-soft mt-1 text-[0.9375rem]">
-                {element.missing}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
 
       <div className="space-y-4 pb-4">
         <MechanismPanel

@@ -1,4 +1,4 @@
-import { WouldYouPaste } from "@/components/games/WouldYouPaste";
+import { PasteCheck } from "@/components/games/PasteCheck";
 import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
@@ -11,7 +11,7 @@ import { getLesson, lessonsIn } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 
 const lesson = getLesson("judgment-and-limits")!;
-const track = lessonsIn("use");
+const track = lessonsIn("world");
 
 export const metadata = {
   title: lesson.title,
@@ -88,9 +88,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "You want help replying to a customer complaint. What is the safe move?",
     options: [
-      "Paste the whole email, name and address included",
+      "Paste the whole email, name and address included, so the reply has everything it needs",
       "Strip the identifying details and paste the substance of the problem",
-      "Never use AI for customer correspondence",
+      "Never use AI for customer correspondence under any circumstances, whatever has been removed",
     ],
     answer: 1,
     because:
@@ -99,9 +99,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why is a colleague's sick note different from their home address?",
     options: [
-      "It is not — both are just personal data",
+      "It is not different at all — under the law both are simply personal data about someone",
       "Health data is special category data, which carries a higher bar than ordinary personal data",
-      "Sick notes are public documents",
+      "Sick notes count as public documents once they have been handed to an employer",
     ],
     answer: 1,
     because:
@@ -111,9 +111,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "What does the research suggest about heavy reliance on these tools?",
     options: [
-      "It reliably makes people worse at their jobs",
+      "It reliably makes people worse at their own jobs over time, and the effect grows the longer they keep using it without a break",
       "Higher trust in the tool is associated with less critical checking, and early work suggests reduced engagement and ownership of the output",
-      "It has no measurable effect on how people think",
+      "It has no measurable effect on how people think or work, according to every study that has looked at it so far",
     ],
     answer: 1,
     because:
@@ -132,12 +132,12 @@ export default function JudgmentAndLimitsLesson() {
             .
           </>
         }
-        sting="The customer whose complaint you pasted was not asked. Neither was the colleague in the screenshot. Here are twenty-six things you might reasonably consider pasting — three of them will end your round if you get them wrong, and refusing all of them is not the answer either."
-        cta="Start the belt"
+        sting="The customer whose complaint you pasted was not asked. Neither was the colleague in the screenshot. Here are things you might reasonably consider pasting, one at a time and with no clock on it — because refusing all of them is not the answer either, and a tool nobody may use is not a safe tool."
+        cta="Open the first one"
       />
 
       <div className="py-4">
-        <WouldYouPaste />
+        <PasteCheck />
       </div>
 
       <div className="pb-4">
@@ -167,7 +167,8 @@ export default function JudgmentAndLimitsLesson() {
           is this module&rsquo;s rule and a sensible default, not legal advice
           &mdash; the binding answer is your employer&rsquo;s policy plus the
           terms of the specific tool, and those two differ more than people
-          expect. The deck is {PAYLOADS.length} written examples; none is
+          expect. The deck is {PAYLOADS.length}{" "}
+          written examples; none is
           anybody&rsquo;s real data.
         </p>
       </section>

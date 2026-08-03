@@ -43,6 +43,9 @@ next-env.d.ts
 # local assistant scratch files
 CLAUDE.md
 AGENTS.md
+CLAUDE.original.md
+AGENTS.original.md
+*.original.md
 
 # large source corpora — regenerate with the scripts in data/scripts
 /data/raw/

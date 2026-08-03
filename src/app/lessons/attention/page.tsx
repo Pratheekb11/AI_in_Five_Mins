@@ -7,6 +7,7 @@ import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { AttentionBeams } from "@/components/machines/AttentionBeams";
 import { AttentionMap } from "@/components/machines/AttentionMap";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -72,9 +73,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What does the attention step actually compute?",
     options: [
-      "A fixed lookup of which words are grammatically related",
+      "A fixed table of which words are grammatically related, written during training and applied to every sentence alike",
       "A weight for every earlier word, worked out from this sentence, deciding how much of each to pull in",
-      "The probability of the next word",
+      "The probability of each possible next word, worked out once the whole sentence has been read",
     ],
     answer: 1,
     because:
@@ -83,9 +84,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why is the top-right of every map empty?",
     options: [
-      "Those weights are too small to display",
+      "Those weights exist but come out too small to be worth drawing at the scale used here",
       "The causal mask — a token is never allowed to attend to anything that comes after it",
-      "The sentences are too short",
+      "The sentences are too short to fill the grid, so the corner is left blank",
     ],
     answer: 1,
     because:
@@ -94,9 +95,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "The first token soaks up attention in almost every head. What does that tell you?",
     options: [
-      "That the first word is the most important word in the sentence",
+      "That the first word carries the most meaning in the sentence, which is why nearly every head keeps returning to it",
       "That a heat map is not an explanation — some of what you see is a mechanical artefact rather than meaning",
-      "That the extraction is faulty",
+      "That the extraction is faulty, since a real model would spread its attention more evenly",
     ],
     answer: 1,
     because:
@@ -116,12 +117,68 @@ export default function AttentionLesson() {
           </>
         }
         sting="That is the whole invention that made modern AI work, and you can watch it happen. Every weight below was pulled out of a real model by running its published parameters forward — and checked against the reference implementation before it was allowed on this page."
-        cta="Fire the beam"
+        cta="Watch one word do it"
+        target="#looking"
       />
 
-      <div className="py-4">
-        <Beam />
-      </div>
+      {/* ------------------------------------------------ the explanation --- */}
+      <section id="looking" className="py-10">
+        <p className="label text-ink-faint mb-3">The problem attention solves</p>
+        <h2 className="display-lg mb-4">
+          A word does not mean the same thing twice.
+        </h2>
+
+        <div className="prose-measure text-ink-soft mb-8 space-y-4 text-lg">
+          <p>
+            The previous module gave every word a fixed position in space. That
+            buys a great deal, and it cannot buy this:{" "}
+            <span className="font-data">bank</span> in a sentence about a river
+            and <span className="font-data">bank</span> in a sentence about money
+            have to end up somewhere different, and they start out identical.
+            Something has to move them apart, using nothing but the rest of the
+            sentence.
+          </p>
+          <p>
+            Attention is that something. Before settling what a word means here,
+            every position gets to look back over everything earlier in the text
+            and pull in a share of each one. How much it takes from each is a
+            weight, and the weights are not rules anybody wrote &mdash; they are
+            computed on the spot, from the sentence in front of it. That is why
+            the same word can resolve two ways in two sentences with no extra
+            machinery.
+          </p>
+          <p>
+            One word, one head, five beats. Then the same thing seventy-two times
+            over.
+          </p>
+        </div>
+
+        <AttentionBeams />
+
+        <div className="prose-measure text-ink-soft mt-8 space-y-4 text-lg">
+          <p>
+            Three things in that figure are worth carrying: it can only reach
+            backwards, the amounts are a share of one, and a great deal of that
+            share goes somewhere meaningless. All three are consequences of the
+            arithmetic rather than decisions about language, which is a useful
+            way to hold the whole subject.
+          </p>
+        </div>
+      </section>
+
+      {/* --------------------------------------------------------- the game --- */}
+      <section className="border-ink/25 border-t py-10">
+        <p className="label text-ink-faint mb-3">Now you try</p>
+        <h2 className="display-lg mb-2">Guess where the beam goes.</h2>
+        <p className="prose-measure text-ink-soft mb-6">
+          You have seen one head resolve one word. Commit to a prediction on a
+          head you have not seen, and the real extracted weights will tell you
+          how you did.
+        </p>
+        <div id="game">
+          <Beam />
+        </div>
+      </section>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
         <Walkthrough steps={STEPS} />

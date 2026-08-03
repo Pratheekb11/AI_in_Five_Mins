@@ -119,6 +119,16 @@ export function FailureBench() {
       gameId="failure-bench"
       name="Failure bench"
       instruction="A specimen goes on the balance and you say which pan drops — before it is weighed. Every weight is a live measurement on data already on this site, so when your instinct loses, it loses to arithmetic. Arrow keys, or click a pan."
+      howToPlay={{
+        goal: "Call which pan of the balance drops, before the specimen is weighed.",
+        steps: [
+          "Read the question above the scale.",
+          "Choose the left or the right pan.",
+          "The real measurement lands and the beam tilts to wherever the data actually put it.",
+        ],
+        controls: "Click a pan, or press ← and →. Enter moves on.",
+        scoring: "60 plus a speed bonus, multiplied by your streak. The clock ends the specimen, not the round.",
+      }}
       startLabel={bench ? "Load the bench" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}

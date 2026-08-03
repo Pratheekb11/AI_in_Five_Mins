@@ -71,9 +71,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What does temperature actually change?",
     options: [
-      "How hard the model thinks about the answer",
+      "How hard the model is working on the answer before it commits to the first word",
       "How much probability mass sits on the likeliest tokens versus the rest",
-      "How many facts the model checks before answering",
+      "How many facts the model checks against its training data before it answers",
     ],
     answer: 1,
     because:
@@ -83,9 +83,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "Why does 'Once upon a' not put almost all its weight on 'time'?",
     options: [
-      "The model has never seen the phrase",
+      "The model has never seen the phrase before, so it has nothing to copy from",
       "Because likely to a model and obvious to a person are different things — plenty of other continuations are also common",
-      "Because the temperature was set high",
+      "Because the temperature was set high, which spreads the probability out across many more words than usual",
     ],
     answer: 1,
     because:

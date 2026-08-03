@@ -65,9 +65,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What is a model, concretely?",
     options: [
-      "A very large database of answers",
+      "A very large database of answers, searched whenever a question comes in",
       "A formula with adjustable numbers in it",
-      "A program that searches the internet",
+      "A program that searches the internet and summarises whatever it finds there",
     ],
     answer: 1,
     because:
@@ -76,9 +76,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What does 'training' actually do?",
     options: [
-      "It stores the training examples so they can be recalled later",
+      "It stores every training example it was shown, so that any of them can be recalled later",
       "It repeatedly nudges the numbers in whichever direction reduces the error",
-      "It writes new rules based on what a researcher observed",
+      "It writes new rules for itself, based on what a researcher noticed while watching it work",
     ],
     answer: 1,
     because:
@@ -87,9 +87,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "You set the step size to 'Reckless' and the error exploded. Why?",
     options: [
-      "The data was corrupted",
+      "The data was corrupted, so every error it measured along the way was meaningless from the start",
       "Each step jumped past the bottom and landed further up the other side, so corrections got bigger instead of smaller",
-      "The model ran out of examples",
+      "The model ran out of fresh examples to learn from, and started going round the ones it already had again",
     ],
     answer: 1,
     because:
@@ -98,9 +98,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: `Training settled on about ${REGRESSION.best.charsPerToken} characters per token. What is that number?`,
     options: [
-      "A constant that was programmed in",
+      "A constant that was programmed in before training, the same for any text you use",
       "A fact discovered from the sentences, which would come out differently for different text",
-      "An arbitrary value with no meaning",
+      "An arbitrary value with no real meaning, chosen because it made the numbers work out",
     ],
     answer: 1,
     because:

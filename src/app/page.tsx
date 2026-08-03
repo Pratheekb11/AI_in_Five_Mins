@@ -1,16 +1,18 @@
 import Link from "next/link";
-import { LiveTokenizer } from "@/components/machines/LiveTokenizer";
+import { HeroDemo } from "@/components/HeroDemo";
+import { Reveal } from "@/components/Reveal";
+import { TheLoop } from "@/components/TheLoop";
 import { SiteFooter } from "@/components/SiteFooter";
-import { Nimo } from "@/components/nimo/Nimo";
 import { NimoSays } from "@/components/nimo/NimoSays";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
-import { type Lesson, lessonsIn, TRACKS } from "@/lib/lessons";
+import { type Lesson, lessonsIn, type Track, TRACKS } from "@/lib/lessons";
 
 export default function Home() {
-  const use = lessonsIn("use");
+  const worlds = lessonsIn("world");
+  const close = lessonsIn("close");
   const how = lessonsIn("how");
-  const useMinutes = use.reduce((n, l) => n + l.minutes, 0);
+  const worldMinutes = worlds.reduce((n, l) => n + l.minutes, 0);
 
   return (
     <>
@@ -21,7 +23,8 @@ export default function Home() {
             paragraph asserting it. */}
         <section className="mx-auto max-w-6xl px-5 pt-14 pb-16 md:pt-20">
           <p className="label text-ink-faint mb-5">
-            Two tracks · {use.length + how.length} short modules
+            {worlds.length} worlds · about {worldMinutes} minutes · nothing to
+            sign up for
           </p>
 
           <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
@@ -42,18 +45,22 @@ export default function Home() {
                   runs on real data, never a mock-up.
                 </p>
                 <p>
-                  Start at module 1. The whole practical track takes about{" "}
-                  {useMinutes} minutes, and there is no theory to get through
-                  first.
+                  {/* The space after the count is explicit: written as plain
+                      text it was eaten at the line break and rendered as
+                      "44minutes". */}
+                  Six worlds, one idea each, about {worldMinutes}{" "}
+                  minutes end to end. There is no theory to get through first
+                  &mdash; the round
+                  on the right is a real model and it is already playing.
                 </p>
               </div>
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href={`/lessons/${use[0].slug}`}
+                  href={`/lessons/${worlds[0].slug}`}
                   className="plate misreg btn-primary font-display inline-block px-5 py-3 font-bold"
                 >
-                  Start module 1
+                  Start world 1
                 </Link>
                 <Link
                   href="/lessons/tokens"
@@ -65,26 +72,60 @@ export default function Home() {
             </div>
 
             <div className="space-y-4">
-              <Nimo mood="curious" height={250} />
-              <NimoSays mood="curious">
-                I am Nimo. Type something below and watch it get chopped into
-                the pieces a model actually reads.
+              {/* One owl, and he introduces himself. NimoSays draws its own
+                  Nimo, so a separate hero owl above it put two on the page. */}
+              <NimoSays mood="curious" size={200} follow>
+                I am Nimo. Before anyone explains anything to you &mdash; play
+                one round against a real model and see how you do.
               </NimoSays>
-              <div className="plate p-5 md:p-6">
-                <LiveTokenizer rows={2} />
-              </div>
+              <HeroDemo />
             </div>
           </div>
         </section>
 
+        {/* The site's central claim, running, before anyone is asked to read
+            a word of it. */}
+        <section className="border-ink/25 border-t">
+          <div className="mx-auto max-w-6xl px-5 py-14">
+            <Reveal>
+              <p className="label text-ink-faint mb-3">
+                What it is actually doing
+              </p>
+              <h2 className="display-lg mb-2">
+                Watch it write a sentence, one word at a time.
+              </h2>
+              <p className="prose-measure text-ink-soft mb-9">
+                It reads what it has written, picks the next word, adds it, and
+                reads again. That is the whole machine &mdash; and every strange
+                thing these tools do falls out of it.
+              </p>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <TheLoop />
+            </Reveal>
+          </div>
+        </section>
+
         <TrackSection
-          id="use"
-          track="use"
-          lessons={use}
-          eyebrow="Start here"
+          id="worlds"
+          track="world"
+          lessons={worlds}
+          eyebrow="Start here — in order"
           sunk
         />
-        <TrackSection id="how" track="how" lessons={how} eyebrow="Optional depth — reachable from inside the modules" />
+        <TrackSection
+          id="close"
+          track="close"
+          lessons={close}
+          eyebrow="Then take it to work"
+        />
+        <TrackSection
+          id="how"
+          track="how"
+          lessons={how}
+          eyebrow="Optional depth — reachable from inside the worlds"
+          sunk
+        />
 
         <section className="mx-auto max-w-6xl px-5 py-14">
           <h2 className="display-md mb-3">Where the numbers come from</h2>
@@ -111,7 +152,7 @@ function TrackSection({
   sunk = false,
 }: {
   id: string;
-  track: "use" | "how";
+  track: Track;
   lessons: Lesson[];
   eyebrow: string;
   sunk?: boolean;
@@ -129,10 +170,11 @@ function TrackSection({
         <p className="prose-measure text-ink-soft mb-9">{meta.blurb}</p>
 
         <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {lessons.map((lesson) => {
+          {lessons.map((lesson, i) => {
             const ink = inkClasses[lesson.ink];
             return (
-              <li key={lesson.slug}>
+              <li key={lesson.slug} className="flex">
+                <Reveal delay={Math.min(i, 5) * 0.05} className="flex w-full">
                 <Link
                   href={`/lessons/${lesson.slug}`}
                   className="plate misreg flex h-full flex-col p-4"
@@ -155,6 +197,15 @@ function TrackSection({
                     {lesson.standfirst}
                   </p>
 
+                  {/* The one line you should still have a month later. */}
+                  {lesson.nugget ? (
+                    <p
+                      className={`${ink.chip} mt-3 rounded-[2px] border px-2 py-1 text-xs font-semibold`}
+                    >
+                      {lesson.nugget}
+                    </p>
+                  ) : null}
+
                   <p className="border-ink/20 label text-ink-faint mt-4 flex items-center justify-between gap-2 border-t pt-3">
                     <span className="truncate">{lesson.machine}</span>
                     {lesson.status === "building" ? (
@@ -164,6 +215,7 @@ function TrackSection({
                     )}
                   </p>
                 </Link>
+                </Reveal>
               </li>
             );
           })}

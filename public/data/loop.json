@@ -1,0 +1,1166 @@
+{
+  "generatedBy": "data/scripts/build-loop.mjs",
+  "model": {
+    "id": "Xenova/distilgpt2",
+    "name": "DistilGPT-2",
+    "url": "https://huggingface.co/distilbert/distilgpt2",
+    "licence": "Apache 2.0"
+  },
+  "note": "Each step is a real forward pass over the text the step before it produced. The likeliest token is appended every time, so a rerun reproduces this file exactly.",
+  "topK": 5,
+  "vocabSize": 50257,
+  "chains": [
+    {
+      "seed": "The best thing about living in a small town is",
+      "steps": [
+        {
+          "before": "The best thing about living in a small town is",
+          "candidates": [
+            {
+              "text": " that",
+              "probability": 0.495744
+            },
+            {
+              "text": " you",
+              "probability": 0.098734
+            },
+            {
+              "text": " the",
+              "probability": 0.093497
+            },
+            {
+              "text": " how",
+              "probability": 0.034135
+            },
+            {
+              "text": " to",
+              "probability": 0.032382
+            }
+          ],
+          "taken": " that",
+          "entropyBits": 3.632
+        },
+        {
+          "before": "The best thing about living in a small town is that",
+          "candidates": [
+            {
+              "text": " it",
+              "probability": 0.353311
+            },
+            {
+              "text": " you",
+              "probability": 0.327037
+            },
+            {
+              "text": " the",
+              "probability": 0.050011
+            },
+            {
+              "text": " there",
+              "probability": 0.033875
+            },
+            {
+              "text": " they",
+              "probability": 0.02329
+            }
+          ],
+          "taken": " it",
+          "entropyBits": 3.556
+        },
+        {
+          "before": "The best thing about living in a small town is that it",
+          "candidates": [
+            {
+              "text": "'s",
+              "probability": 0.328089
+            },
+            {
+              "text": "�",
+              "probability": 0.168559
+            },
+            {
+              "text": " is",
+              "probability": 0.088241
+            },
+            {
+              "text": " doesn",
+              "probability": 0.069476
+            },
+            {
+              "text": " has",
+              "probability": 0.036341
+            }
+          ],
+          "taken": "'s",
+          "entropyBits": 4.256
+        },
+        {
+          "before": "The best thing about living in a small town is that it's",
+          "candidates": [
+            {
+              "text": " not",
+              "probability": 0.144112
+            },
+            {
+              "text": " a",
+              "probability": 0.111715
+            },
+            {
+              "text": " easy",
+              "probability": 0.097275
+            },
+            {
+              "text": " safe",
+              "probability": 0.024459
+            },
+            {
+              "text": " the",
+              "probability": 0.02411
+            }
+          ],
+          "taken": " not",
+          "entropyBits": 6.724
+        },
+        {
+          "before": "The best thing about living in a small town is that it's not",
+          "candidates": [
+            {
+              "text": " a",
+              "probability": 0.113271
+            },
+            {
+              "text": " like",
+              "probability": 0.074603
+            },
+            {
+              "text": " just",
+              "probability": 0.047402
+            },
+            {
+              "text": " as",
+              "probability": 0.046955
+            },
+            {
+              "text": " the",
+              "probability": 0.045972
+            }
+          ],
+          "taken": " a",
+          "entropyBits": 6.784
+        },
+        {
+          "before": "The best thing about living in a small town is that it's not a",
+          "candidates": [
+            {
+              "text": " place",
+              "probability": 0.204654
+            },
+            {
+              "text": " big",
+              "probability": 0.06435
+            },
+            {
+              "text": " city",
+              "probability": 0.032524
+            },
+            {
+              "text": " small",
+              "probability": 0.019371
+            },
+            {
+              "text": " town",
+              "probability": 0.014622
+            }
+          ],
+          "taken": " place",
+          "entropyBits": 8.024
+        },
+        {
+          "before": "The best thing about living in a small town is that it's not a place",
+          "candidates": [
+            {
+              "text": " to",
+              "probability": 0.345968
+            },
+            {
+              "text": " where",
+              "probability": 0.255586
+            },
+            {
+              "text": " for",
+              "probability": 0.162772
+            },
+            {
+              "text": " that",
+              "probability": 0.074032
+            },
+            {
+              "text": " you",
+              "probability": 0.05131
+            }
+          ],
+          "taken": " to",
+          "entropyBits": 2.977
+        },
+        {
+          "before": "The best thing about living in a small town is that it's not a place to",
+          "candidates": [
+            {
+              "text": " live",
+              "probability": 0.254297
+            },
+            {
+              "text": " go",
+              "probability": 0.146517
+            },
+            {
+              "text": " be",
+              "probability": 0.069107
+            },
+            {
+              "text": " get",
+              "probability": 0.032832
+            },
+            {
+              "text": " spend",
+              "probability": 0.025329
+            }
+          ],
+          "taken": " live",
+          "entropyBits": 5.583
+        },
+        {
+          "before": "The best thing about living in a small town is that it's not a place to live",
+          "candidates": [
+            {
+              "text": ".",
+              "probability": 0.353062
+            },
+            {
+              "text": ",",
+              "probability": 0.172027
+            },
+            {
+              "text": " in",
+              "probability": 0.080689
+            },
+            {
+              "text": ",\"",
+              "probability": 0.070028
+            },
+            {
+              "text": " and",
+              "probability": 0.040101
+            }
+          ],
+          "taken": ".",
+          "entropyBits": 4.03
+        },
+        {
+          "before": "The best thing about living in a small town is that it's not a place to live.",
+          "candidates": [
+            {
+              "text": " It",
+              "probability": 0.201433
+            },
+            {
+              "text": "\n",
+              "probability": 0.091262
+            },
+            {
+              "text": " You",
+              "probability": 0.067652
+            },
+            {
+              "text": " There",
+              "probability": 0.046965
+            },
+            {
+              "text": " The",
+              "probability": 0.044878
+            }
+          ],
+          "taken": " It",
+          "entropyBits": 5.891
+        },
+        {
+          "before": "The best thing about living in a small town is that it's not a place to live. It",
+          "candidates": [
+            {
+              "text": "'s",
+              "probability": 0.849901
+            },
+            {
+              "text": " is",
+              "probability": 0.055727
+            },
+            {
+              "text": " doesn",
+              "probability": 0.011188
+            },
+            {
+              "text": " has",
+              "probability": 0.011156
+            },
+            {
+              "text": " just",
+              "probability": 0.008518
+            }
+          ],
+          "taken": "'s",
+          "entropyBits": 1.292
+        },
+        {
+          "before": "The best thing about living in a small town is that it's not a place to live. It's",
+          "candidates": [
+            {
+              "text": " a",
+              "probability": 0.405466
+            },
+            {
+              "text": " not",
+              "probability": 0.145771
+            },
+            {
+              "text": " just",
+              "probability": 0.070369
+            },
+            {
+              "text": " an",
+              "probability": 0.049433
+            },
+            {
+              "text": " the",
+              "probability": 0.02068
+            }
+          ],
+          "taken": " a",
+          "entropyBits": 4.609
+        },
+        {
+          "before": "The best thing about living in a small town is that it's not a place to live. It's a",
+          "candidates": [
+            {
+              "text": " place",
+              "probability": 0.811379
+            },
+            {
+              "text": " community",
+              "probability": 0.013879
+            },
+            {
+              "text": " city",
+              "probability": 0.01146
+            },
+            {
+              "text": " town",
+              "probability": 0.009307
+            },
+            {
+              "text": " small",
+              "probability": 0.007056
+            }
+          ],
+          "taken": " place",
+          "entropyBits": 2.193
+        },
+        {
+          "before": "The best thing about living in a small town is that it's not a place to live. It's a place",
+          "candidates": [
+            {
+              "text": " to",
+              "probability": 0.48212
+            },
+            {
+              "text": " where",
+              "probability": 0.204185
+            },
+            {
+              "text": " that",
+              "probability": 0.131311
+            },
+            {
+              "text": " of",
+              "probability": 0.053432
+            },
+            {
+              "text": " for",
+              "probability": 0.047079
+            }
+          ],
+          "taken": " to",
+          "entropyBits": 2.488
+        }
+      ],
+      "final": "The best thing about living in a small town is that it's not a place to live. It's a place to"
+    },
+    {
+      "seed": "She opened the letter and",
+      "steps": [
+        {
+          "before": "She opened the letter and",
+          "candidates": [
+            {
+              "text": " said",
+              "probability": 0.188125
+            },
+            {
+              "text": " read",
+              "probability": 0.048868
+            },
+            {
+              "text": " asked",
+              "probability": 0.046442
+            },
+            {
+              "text": " the",
+              "probability": 0.020989
+            },
+            {
+              "text": " I",
+              "probability": 0.019793
+            }
+          ],
+          "taken": " said",
+          "entropyBits": 7.432
+        },
+        {
+          "before": "She opened the letter and said",
+          "candidates": [
+            {
+              "text": ",",
+              "probability": 0.362829
+            },
+            {
+              "text": ":",
+              "probability": 0.155896
+            },
+            {
+              "text": " that",
+              "probability": 0.074261
+            },
+            {
+              "text": " she",
+              "probability": 0.065771
+            },
+            {
+              "text": " he",
+              "probability": 0.063595
+            }
+          ],
+          "taken": ",",
+          "entropyBits": 4.052
+        },
+        {
+          "before": "She opened the letter and said,",
+          "candidates": [
+            {
+              "text": " �",
+              "probability": 0.406214
+            },
+            {
+              "text": " \"",
+              "probability": 0.250891
+            },
+            {
+              "text": " '",
+              "probability": 0.229534
+            },
+            {
+              "text": "\n",
+              "probability": 0.011339
+            },
+            {
+              "text": " \"'",
+              "probability": 0.005186
+            }
+          ],
+          "taken": " �",
+          "entropyBits": 2.839
+        },
+        {
+          "before": "She opened the letter and said, �",
+          "candidates": [
+            {
+              "text": "I",
+              "probability": 0.155295
+            },
+            {
+              "text": "You",
+              "probability": 0.067541
+            },
+            {
+              "text": "This",
+              "probability": 0.051274
+            },
+            {
+              "text": "It",
+              "probability": 0.035944
+            },
+            {
+              "text": "We",
+              "probability": 0.031978
+            }
+          ],
+          "taken": "I",
+          "entropyBits": 7.248
+        },
+        {
+          "before": "She opened the letter and said, �I",
+          "candidates": [
+            {
+              "text": " am",
+              "probability": 0.117332
+            },
+            {
+              "text": " don",
+              "probability": 0.077575
+            },
+            {
+              "text": "'m",
+              "probability": 0.070084
+            },
+            {
+              "text": " want",
+              "probability": 0.053809
+            },
+            {
+              "text": " have",
+              "probability": 0.049887
+            }
+          ],
+          "taken": " am",
+          "entropyBits": 6.005
+        },
+        {
+          "before": "She opened the letter and said, �I am",
+          "candidates": [
+            {
+              "text": " sorry",
+              "probability": 0.167133
+            },
+            {
+              "text": " not",
+              "probability": 0.07913
+            },
+            {
+              "text": " a",
+              "probability": 0.077914
+            },
+            {
+              "text": " very",
+              "probability": 0.060811
+            },
+            {
+              "text": " going",
+              "probability": 0.028894
+            }
+          ],
+          "taken": " sorry",
+          "entropyBits": 6.806
+        },
+        {
+          "before": "She opened the letter and said, �I am sorry",
+          "candidates": [
+            {
+              "text": ".",
+              "probability": 0.249713
+            },
+            {
+              "text": " for",
+              "probability": 0.201989
+            },
+            {
+              "text": ",",
+              "probability": 0.142667
+            },
+            {
+              "text": " that",
+              "probability": 0.108886
+            },
+            {
+              "text": " to",
+              "probability": 0.06525
+            }
+          ],
+          "taken": ".",
+          "entropyBits": 3.746
+        },
+        {
+          "before": "She opened the letter and said, �I am sorry.",
+          "candidates": [
+            {
+              "text": " I",
+              "probability": 0.384061
+            },
+            {
+              "text": "�",
+              "probability": 0.050277
+            },
+            {
+              "text": " You",
+              "probability": 0.048228
+            },
+            {
+              "text": " It",
+              "probability": 0.041954
+            },
+            {
+              "text": " We",
+              "probability": 0.033829
+            }
+          ],
+          "taken": " I",
+          "entropyBits": 4.811
+        },
+        {
+          "before": "She opened the letter and said, �I am sorry. I",
+          "candidates": [
+            {
+              "text": " am",
+              "probability": 0.224832
+            },
+            {
+              "text": " have",
+              "probability": 0.061109
+            },
+            {
+              "text": "'m",
+              "probability": 0.057989
+            },
+            {
+              "text": " was",
+              "probability": 0.048109
+            },
+            {
+              "text": " don",
+              "probability": 0.046449
+            }
+          ],
+          "taken": " am",
+          "entropyBits": 5.663
+        },
+        {
+          "before": "She opened the letter and said, �I am sorry. I am",
+          "candidates": [
+            {
+              "text": " sorry",
+              "probability": 0.576665
+            },
+            {
+              "text": " not",
+              "probability": 0.053038
+            },
+            {
+              "text": " very",
+              "probability": 0.03138
+            },
+            {
+              "text": " a",
+              "probability": 0.026707
+            },
+            {
+              "text": " so",
+              "probability": 0.015658
+            }
+          ],
+          "taken": " sorry",
+          "entropyBits": 3.978
+        },
+        {
+          "before": "She opened the letter and said, �I am sorry. I am sorry",
+          "candidates": [
+            {
+              "text": ".",
+              "probability": 0.474244
+            },
+            {
+              "text": " for",
+              "probability": 0.133875
+            },
+            {
+              "text": ",",
+              "probability": 0.104706
+            },
+            {
+              "text": " that",
+              "probability": 0.052934
+            },
+            {
+              "text": " to",
+              "probability": 0.040796
+            }
+          ],
+          "taken": ".",
+          "entropyBits": 3.158
+        },
+        {
+          "before": "She opened the letter and said, �I am sorry. I am sorry.",
+          "candidates": [
+            {
+              "text": " I",
+              "probability": 0.529382
+            },
+            {
+              "text": " But",
+              "probability": 0.038436
+            },
+            {
+              "text": "�",
+              "probability": 0.036524
+            },
+            {
+              "text": " It",
+              "probability": 0.033542
+            },
+            {
+              "text": " You",
+              "probability": 0.029835
+            }
+          ],
+          "taken": " I",
+          "entropyBits": 3.878
+        },
+        {
+          "before": "She opened the letter and said, �I am sorry. I am sorry. I",
+          "candidates": [
+            {
+              "text": " am",
+              "probability": 0.356992
+            },
+            {
+              "text": " have",
+              "probability": 0.056165
+            },
+            {
+              "text": "'m",
+              "probability": 0.048867
+            },
+            {
+              "text": " was",
+              "probability": 0.042109
+            },
+            {
+              "text": " will",
+              "probability": 0.037343
+            }
+          ],
+          "taken": " am",
+          "entropyBits": 4.927
+        },
+        {
+          "before": "She opened the letter and said, �I am sorry. I am sorry. I am",
+          "candidates": [
+            {
+              "text": " sorry",
+              "probability": 0.630912
+            },
+            {
+              "text": " not",
+              "probability": 0.062064
+            },
+            {
+              "text": " very",
+              "probability": 0.022596
+            },
+            {
+              "text": " a",
+              "probability": 0.022295
+            },
+            {
+              "text": " sure",
+              "probability": 0.010381
+            }
+          ],
+          "taken": " sorry",
+          "entropyBits": 3.505
+        }
+      ],
+      "final": "She opened the letter and said, �I am sorry. I am sorry. I am sorry"
+    },
+    {
+      "seed": "The recipe is simple. First you",
+      "steps": [
+        {
+          "before": "The recipe is simple. First you",
+          "candidates": [
+            {
+              "text": " add",
+              "probability": 0.130143
+            },
+            {
+              "text": " have",
+              "probability": 0.108716
+            },
+            {
+              "text": " need",
+              "probability": 0.079483
+            },
+            {
+              "text": " make",
+              "probability": 0.051201
+            },
+            {
+              "text": "'ll",
+              "probability": 0.031124
+            }
+          ],
+          "taken": " add",
+          "entropyBits": 6.092
+        },
+        {
+          "before": "The recipe is simple. First you add",
+          "candidates": [
+            {
+              "text": " the",
+              "probability": 0.239982
+            },
+            {
+              "text": " a",
+              "probability": 0.150092
+            },
+            {
+              "text": " 1",
+              "probability": 0.038734
+            },
+            {
+              "text": " some",
+              "probability": 0.024234
+            },
+            {
+              "text": " all",
+              "probability": 0.02103
+            }
+          ],
+          "taken": " the",
+          "entropyBits": 6.408
+        },
+        {
+          "before": "The recipe is simple. First you add the",
+          "candidates": [
+            {
+              "text": " ingredients",
+              "probability": 0.041607
+            },
+            {
+              "text": " following",
+              "probability": 0.038289
+            },
+            {
+              "text": " onion",
+              "probability": 0.029848
+            },
+            {
+              "text": " salt",
+              "probability": 0.027958
+            },
+            {
+              "text": " flour",
+              "probability": 0.025216
+            }
+          ],
+          "taken": " ingredients",
+          "entropyBits": 9.068
+        },
+        {
+          "before": "The recipe is simple. First you add the ingredients",
+          "candidates": [
+            {
+              "text": " and",
+              "probability": 0.211165
+            },
+            {
+              "text": ",",
+              "probability": 0.158632
+            },
+            {
+              "text": " to",
+              "probability": 0.092253
+            },
+            {
+              "text": " in",
+              "probability": 0.077272
+            },
+            {
+              "text": ".",
+              "probability": 0.066895
+            }
+          ],
+          "taken": " and",
+          "entropyBits": 4.616
+        },
+        {
+          "before": "The recipe is simple. First you add the ingredients and",
+          "candidates": [
+            {
+              "text": " add",
+              "probability": 0.177
+            },
+            {
+              "text": " then",
+              "probability": 0.056109
+            },
+            {
+              "text": " mix",
+              "probability": 0.055114
+            },
+            {
+              "text": " the",
+              "probability": 0.04088
+            },
+            {
+              "text": " cook",
+              "probability": 0.037746
+            }
+          ],
+          "taken": " add",
+          "entropyBits": 6.989
+        },
+        {
+          "before": "The recipe is simple. First you add the ingredients and add",
+          "candidates": [
+            {
+              "text": " the",
+              "probability": 0.471236
+            },
+            {
+              "text": " a",
+              "probability": 0.087111
+            },
+            {
+              "text": " to",
+              "probability": 0.06924
+            },
+            {
+              "text": " some",
+              "probability": 0.030718
+            },
+            {
+              "text": " them",
+              "probability": 0.021312
+            }
+          ],
+          "taken": " the",
+          "entropyBits": 4.336
+        },
+        {
+          "before": "The recipe is simple. First you add the ingredients and add the",
+          "candidates": [
+            {
+              "text": " ingredients",
+              "probability": 0.079495
+            },
+            {
+              "text": " salt",
+              "probability": 0.051074
+            },
+            {
+              "text": " spices",
+              "probability": 0.037355
+            },
+            {
+              "text": " sugar",
+              "probability": 0.024772
+            },
+            {
+              "text": " sauce",
+              "probability": 0.01994
+            }
+          ],
+          "taken": " ingredients",
+          "entropyBits": 8.639
+        },
+        {
+          "before": "The recipe is simple. First you add the ingredients and add the ingredients",
+          "candidates": [
+            {
+              "text": ".",
+              "probability": 0.319362
+            },
+            {
+              "text": " to",
+              "probability": 0.113421
+            },
+            {
+              "text": " and",
+              "probability": 0.102395
+            },
+            {
+              "text": ",",
+              "probability": 0.083875
+            },
+            {
+              "text": " in",
+              "probability": 0.060929
+            }
+          ],
+          "taken": ".",
+          "entropyBits": 4.507
+        },
+        {
+          "before": "The recipe is simple. First you add the ingredients and add the ingredients.",
+          "candidates": [
+            {
+              "text": " Then",
+              "probability": 0.36623
+            },
+            {
+              "text": "\n",
+              "probability": 0.094765
+            },
+            {
+              "text": " Add",
+              "probability": 0.042244
+            },
+            {
+              "text": " Next",
+              "probability": 0.037129
+            },
+            {
+              "text": " The",
+              "probability": 0.035536
+            }
+          ],
+          "taken": " Then",
+          "entropyBits": 4.945
+        },
+        {
+          "before": "The recipe is simple. First you add the ingredients and add the ingredients. Then",
+          "candidates": [
+            {
+              "text": " add",
+              "probability": 0.383741
+            },
+            {
+              "text": " you",
+              "probability": 0.159841
+            },
+            {
+              "text": ",",
+              "probability": 0.082139
+            },
+            {
+              "text": " the",
+              "probability": 0.037149
+            },
+            {
+              "text": " make",
+              "probability": 0.017165
+            }
+          ],
+          "taken": " add",
+          "entropyBits": 4.691
+        },
+        {
+          "before": "The recipe is simple. First you add the ingredients and add the ingredients. Then add",
+          "candidates": [
+            {
+              "text": " the",
+              "probability": 0.586782
+            },
+            {
+              "text": " to",
+              "probability": 0.076529
+            },
+            {
+              "text": " a",
+              "probability": 0.057364
+            },
+            {
+              "text": " some",
+              "probability": 0.023099
+            },
+            {
+              "text": " in",
+              "probability": 0.022366
+            }
+          ],
+          "taken": " the",
+          "entropyBits": 3.439
+        },
+        {
+          "before": "The recipe is simple. First you add the ingredients and add the ingredients. Then add the",
+          "candidates": [
+            {
+              "text": " ingredients",
+              "probability": 0.212509
+            },
+            {
+              "text": " salt",
+              "probability": 0.035398
+            },
+            {
+              "text": " spices",
+              "probability": 0.030273
+            },
+            {
+              "text": " sugar",
+              "probability": 0.016667
+            },
+            {
+              "text": " sauce",
+              "probability": 0.016445
+            }
+          ],
+          "taken": " ingredients",
+          "entropyBits": 8.026
+        },
+        {
+          "before": "The recipe is simple. First you add the ingredients and add the ingredients. Then add the ingredients",
+          "candidates": [
+            {
+              "text": " and",
+              "probability": 0.29292
+            },
+            {
+              "text": ".",
+              "probability": 0.267034
+            },
+            {
+              "text": " to",
+              "probability": 0.110674
+            },
+            {
+              "text": ",",
+              "probability": 0.079349
+            },
+            {
+              "text": " in",
+              "probability": 0.030053
+            }
+          ],
+          "taken": " and",
+          "entropyBits": 3.786
+        },
+        {
+          "before": "The recipe is simple. First you add the ingredients and add the ingredients. Then add the ingredients and",
+          "candidates": [
+            {
+              "text": " add",
+              "probability": 0.46511
+            },
+            {
+              "text": " the",
+              "probability": 0.04216
+            },
+            {
+              "text": " mix",
+              "probability": 0.038541
+            },
+            {
+              "text": " stir",
+              "probability": 0.028924
+            },
+            {
+              "text": " cook",
+              "probability": 0.028611
+            }
+          ],
+          "taken": " add",
+          "entropyBits": 4.929
+        }
+      ],
+      "final": "The recipe is simple. First you add the ingredients and add the ingredients. Then add the ingredients and add"
+    }
+  ]
+}

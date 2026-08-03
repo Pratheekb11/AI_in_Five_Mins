@@ -33,9 +33,9 @@ import {
 /** "1st", "2nd", "148th" — a rank reads better than an index to a person. */
 function ordinal(n: number): string {
   const tens = n % 100;
-  if (tens >= 11 && tens <= 13) return `${n.toLocaleString()}th`;
+  if (tens >= 11 && tens <= 13) return `${n.toLocaleString("en-US")}th`;
   const suffix = { 1: "st", 2: "nd", 3: "rd" }[n % 10] ?? "th";
-  return `${n.toLocaleString()}${suffix}`;
+  return `${n.toLocaleString("en-US")}${suffix}`;
 }
 
 let cached: Promise<PredictorData> | null = null;
@@ -101,6 +101,16 @@ export function BeatThePredictor() {
       gameId="beat-the-predictor"
       name="Beat the Predictor"
       instruction="A sentence, with its last word taken away. You pick one of four. The machine picks at the same time, and then its real odds arrive as bars. Nine rounds, and it is not the same game all the way through."
+      howToPlay={{
+        goal: "Guess the missing word more often than the machine does.",
+        steps: [
+          "Read the sentence. The last word has been taken away.",
+          "Pick one of the four options. The machine has already picked, but you cannot see which.",
+          "Its real probability for every option arrives as bars. Whoever chose the true word wins the round.",
+        ],
+        controls: "Click an option, or press 1–4. Enter moves to the next round.",
+        scoring: "100 for a correct call. More when you are right and the machine was confidently wrong.",
+      }}
       startLabel={data ? "Play the machine" : "Loading the odds…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}

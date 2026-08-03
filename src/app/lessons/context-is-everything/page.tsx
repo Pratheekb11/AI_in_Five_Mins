@@ -51,7 +51,7 @@ const STEPS: Step[] = [
       "Not your last conversation. Not your file that was not attached. Not the correction you made yesterday.",
   },
   {
-    say: "And the context has a fixed maximum size. That is the belt you just played on. When new text arrives and there is no room, the oldest text is dropped so it fits.",
+    say: "And the context has a fixed maximum size. That is the five slots you just filled. When new text arrives and there is no room, the oldest is dropped so it fits — with no warning, and no note in the reply.",
   },
   {
     say: "Nothing announces this. The reply comes back in the same confident voice as always. It is not lying to you about remembering — from where it is sitting, that message was never there.",
@@ -66,9 +66,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "You correct the assistant in message three. By message sixty it has gone back to the old behaviour. Why?",
     options: [
-      "It decided your correction was wrong",
+      "It decided your correction was wrong and quietly went back to its own earlier answer",
       "Message three has been pushed out of the context, so it is no longer part of what the model reads",
-      "It only follows the most recent instruction on purpose",
+      "It is designed to follow only the most recent instruction, discarding whatever came before it",
     ],
     answer: 1,
     because:
@@ -78,8 +78,8 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "You paste a very long report and ask a question about one paragraph in the middle. What is the risk?",
     options: [
-      "The model cannot read documents at all",
-      "It reads the whole thing equally well, so there is no risk",
+      "The model cannot really read a long document, so it skims the opening few pages and guesses at the rest",
+      "It reads the whole thing equally well, so position in the document carries no risk at all",
       "Material in the middle of a long context is measurably harder for models to use than material at either end",
     ],
     answer: 2,
@@ -89,9 +89,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What is the most reliable way to fix a chat that has gone bad?",
     options: [
-      "Tell it to try harder and pay attention",
+      "Tell it firmly to try harder and pay closer attention to everything you have already said",
       "Start a fresh chat and paste in a short summary of what matters",
-      "Keep going and hope it recovers",
+      "Keep going in the same thread and give it a chance to recover on its own",
     ],
     answer: 1,
     because:
@@ -110,8 +110,8 @@ export default function ContextIsEverythingLesson() {
             top, every single time.
           </>
         }
-        sting="And what it re-reads has a fixed maximum length. Once the chat gets longer than that, the oldest part is quietly dropped — with no warning, and no note in the reply. Here is what that feels like from the inside."
-        cta="Run the belt"
+        sting="So what is in front of it is the entire job. You get five slots and a pile of cards — the document, the chit-chat, the decoy, the helpful-looking example — and then the real model is run on exactly what you built. One of those cards drops the right answer from 89.9% to 3.8%, and it is not the one you would guess."
+        cta="Open the window"
       />
 
       <div className="py-4">
@@ -123,7 +123,7 @@ export default function ContextIsEverythingLesson() {
         <VideoPanel video={video} />
       </div>
 
-      {/* Both panels land after the belt has already dropped something the
+      {/* Both panels land after the window has already cost the reader something
           player needed — the question they are asking right now is "why". */}
       <div className="space-y-4 pb-4">
         <MechanismPanel

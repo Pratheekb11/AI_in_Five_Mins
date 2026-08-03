@@ -8,9 +8,13 @@
  * The measurement is in `data/scripts/build-listen.mjs`, and it came out
  * unambiguous. Against just asking the question:
  *
- *   an instruction about how to answer   1.21x   — near enough nothing
- *   a role to play                       0.92x   — slightly worse than nothing
- *   the same thing shown as a pattern   40.39x   — best on every single item
+ *   an instruction about how to answer    1.65x   — near enough nothing
+ *   a role to play                        1.02x   — indistinguishable from nothing
+ *   the same thing shown as a pattern   125.46x   — best on all fourteen goals
+
+ * (Medians over fourteen goals. The component reads these from the data file
+ * rather than from this comment, so adding goals cannot leave the page quoting
+ * a stale figure — which it briefly did.)
  *
  * WHAT THIS DOES AND DOES NOT SHOW. It is measured on a base model, which has
  * had no training to follow instructions. Modern assistants have had exactly

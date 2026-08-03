@@ -77,6 +77,17 @@ export function Plinko() {
       gameId="plinko"
       name="Plinko"
       instruction="A real model, a real prompt, and its real odds on the next token. You are asked for a particular token — and the only thing you control is the temperature dial, which stretches or flattens those odds. Eight balls per prompt."
+      howToPlay={{
+        goal: "Land the ball on the token you are asked for.",
+        steps: [
+          "You are told which token to hit. You cannot aim — the only control is the temperature dial.",
+          "Move the dial. Cold piles the odds onto the top token; hot spreads them into the tail.",
+          "Drop a ball. Where it lands is drawn from the model's real odds, reshaped by your dial.",
+          "Eight balls per prompt.",
+        ],
+        controls: "Drag the slider, then press Drop a ball.",
+        scoring: "A hit you made unlikely is worth far more than an easy one.",
+      }}
       startLabel={data ? "Load the odds" : "Loading the odds…"}
       phase={phase}
       onStart={begin}
@@ -107,7 +118,7 @@ export function Plinko() {
             {data.model.name}, real next-token odds. The dial reshapes the
             recorded logits and the slots are renormalised over the top {SLOTS}{" "}
             candidates &mdash; the rest of the{" "}
-            {prompt?.vocabSize.toLocaleString() ?? "50,257"} tokens are still
+            {prompt?.vocabSize.toLocaleString("en-US") ?? "50,257"} tokens are still
             there in the model, just not on this board.
           </>
         ) : failed ? (

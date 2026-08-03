@@ -86,9 +86,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "When you ask an AI a factual question, what is it doing?",
     options: [
-      "Searching a database of facts for the answer",
+      "Searching a database of facts for the answer it needs",
       "Producing text that sounds like a plausible answer",
-      "Asking another computer that knows the answer",
+      "Asking another computer that already knows the answer",
     ],
     answer: 1,
     because:
@@ -97,9 +97,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "In act three the machine was confident and wrong. What does that tell you?",
     options: [
-      "It was a bug in that particular question",
+      "It was a bug in that particular question, and it would not happen on a different one",
       "Confidence measures how concentrated its guesses are, not whether they are true",
-      "Bigger models do not do this",
+      "Bigger models do not do this, because they have seen enough text to know better",
     ],
     answer: 1,
     because:
@@ -108,9 +108,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Why does it invent details about obscure topics in particular?",
     options: [
-      "It is programmed to fill gaps with guesses",
+      "It is programmed to fill any gaps in its knowledge with a plausible guess",
       "It saw little text on that topic, so the most plausible continuation is a pattern rather than a fact",
-      "It confuses the topic with a similar one",
+      "It confuses the topic with a similar one that it happens to know a great deal more about",
     ],
     answer: 1,
     because:

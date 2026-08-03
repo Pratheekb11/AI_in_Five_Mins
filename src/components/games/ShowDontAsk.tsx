@@ -23,8 +23,8 @@ import {
  *
  * One goal, five phrasings, and a call to make before any evidence appears.
  * Then all five measured probabilities arrive at once as bars, and the gap
- * between "please answer in one word" and a worked example is roughly forty
- * times over.
+ * between "please answer in one word" and a worked example is more than a
+ * hundred times over.
  *
  * The bars land together rather than one at a time, because the comparison is
  * the point — you are meant to see the pattern phrasing tower over the polite
@@ -95,6 +95,16 @@ export function ShowDontAsk() {
       gameId="show-dont-ask"
       name="Show, Don't Ask"
       instruction="One thing you want out of the model, and five ways of asking for it. Pick the phrasing that actually gets it — then watch all five measured at once. Most of what people tell you about prompting turns out not to survive this."
+      howToPlay={{
+        goal: "Pick the phrasing that actually gets what you asked for.",
+        steps: [
+          "Read what you are trying to get out of the model.",
+          "Five phrasings of the same request are listed. Pick the one you think works best.",
+          "All five measured probabilities arrive at once, with how many times better than a bare question each one is.",
+        ],
+        controls: "Click a phrasing, or press 1–5. Enter moves on.",
+        scoring: "120 for the winner, and more when the runner-up was close behind.",
+      }}
       startLabel={data ? "Take the first one" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}

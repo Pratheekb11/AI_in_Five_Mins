@@ -7,7 +7,6 @@ import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { CALLS } from "@/lib/game/pressure";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
@@ -87,9 +86,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "An answer arrives with an author, a year and a page range. What does that specificity tell you?",
     options: [
-      "That it came from a real source — it is too detailed to be invented",
+      "That it came from a real source, since that much detail is far too specific to be invented",
       "Nothing about whether it is true. That shape is exactly what an invented citation looks like",
-      "That it is probably right but the page number may be off",
+      "That it is probably right in substance, though the page number may well be slightly off",
     ],
     answer: 1,
     because:
@@ -99,9 +98,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "You tell it 'that's wrong' with no reason, and it immediately agrees and changes the answer. What just happened?",
     options: [
-      "It re-checked its work and found the error",
+      "It re-checked its own work, found the error, and corrected it for you",
       "It matched your confidence — a documented behaviour called sycophancy",
-      "The first answer was definitely wrong",
+      "The first answer was definitely wrong, which is why it gave way so quickly",
     ],
     answer: 1,
     because:
@@ -110,9 +109,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "Which of these should you trust the least, all else being equal?",
     options: [
-      "A confident explanation of a well-known concept",
+      "A confident explanation of a concept that is well known and widely written about",
       "A specific figure about a price, version or ranking",
-      "An answer that says it is not sure",
+      "An answer that openly says it is not sure about the details",
     ],
     answer: 1,
     because:
@@ -131,8 +130,8 @@ export default function WhereItBreaksLesson() {
             probably only ever noticed one of them.
           </>
         }
-        sting="Invented, stale, caved, bad sum. Given a minute each, most people can spot any of them. You are not getting a minute — the fuse starts at six seconds and gets shorter. What you miss under pressure is what you miss at work."
-        cta="Light the fuse"
+        sting="Take a fact nobody disputes, then assert the wrong answer before you ask. Watch what the model does. Then watch what happens when you assert the right one instead — because it does that just as hard, and that is the part that should worry you."
+        cta="Lean on it"
       />
 
       <div className="py-4">
@@ -143,29 +142,6 @@ export default function WhereItBreaksLesson() {
         <Walkthrough steps={STEPS} />
         <VideoPanel video={video} />
       </div>
-
-      {/* The named list arrives after the round, not before it. Reading the
-          four modes first would have made the game a lookup exercise. */}
-      <section className="plate mb-4 p-5 md:p-6">
-        <p className="label text-ink-faint mb-4">
-          The four modes, and the one honest outcome
-        </p>
-        <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
-          {CALLS.map((option) => (
-            <div key={option.id}>
-              <dt className="font-display text-base font-bold">
-                {option.name}
-                <span className="text-ink-faint ml-2 text-sm font-normal">
-                  {option.hint}
-                </span>
-              </dt>
-              <dd className="text-ink-soft mt-1 text-[0.9375rem]">
-                {TELLS[option.id]}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
 
       <div className="space-y-4 pb-4">
         <MechanismPanel
@@ -242,16 +218,3 @@ export default function WhereItBreaksLesson() {
     </LessonShell>
   );
 }
-
-/** What each call means in practice, printed once the round has been played. */
-const TELLS: Record<string, string> = {
-  sound: "Right, or honestly unsure. The hedge is not the failure — hedging about the right thing is the correct answer, and it is the one people rate lowest.",
-  invented:
-    "A specific that was never true: a citation, a section number, a setting, a claim to have checked something. It arrives fully formed because the form is what it learnt.",
-  stale:
-    "True on some date before training stopped, stated as if it were true today. Watch for prices, versions, rankings, and the words 'still' and 'latest'.",
-  sycophantic:
-    "It changed its answer because you pushed, not because you gave it anything. Documented across five leading assistants, and traced back to human raters preferring agreement.",
-  arithmetic:
-    "The prose is immaculate and the number is wrong. Text that looks like working out is not working out.",
-};

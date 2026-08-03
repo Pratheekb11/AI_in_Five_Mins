@@ -94,6 +94,16 @@ export function Beam() {
       gameId="beam"
       name="Beam"
       instruction="One word is lit up, and one attention head is switched on. Say which earlier word that head sends most of its attention to. The first word of the sentence is set aside — it soaks up a huge share of nearly every head for reasons that have nothing to do with meaning, and you will see why below."
+      howToPlay={{
+        goal: "Say which earlier word this attention head is looking at.",
+        steps: [
+          "One word in the sentence is lit up, and one of the model's 72 attention heads is switched on.",
+          "Click the earlier word you think that head sends most of its attention to.",
+          "The real row of weights comes up as bars. The first word is set aside — it soaks up attention for reasons unrelated to meaning.",
+        ],
+        controls: "Click a word.",
+        scoring: "100 plus the weight that actually went there, plus a streak bonus.",
+      }}
       startLabel={data ? "Fire the beam" : "Loading the weights…"}
       phase={phase}
       onStart={start}

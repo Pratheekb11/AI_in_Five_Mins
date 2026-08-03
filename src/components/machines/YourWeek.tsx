@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Exposure } from "@/lib/game/buckets";
+import type { Exposure } from "@/lib/game/sort";
 import { useOwnTasks } from "@/lib/game/useOwnTasks";
 
 /**

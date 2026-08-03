@@ -7,7 +7,6 @@ import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { CHUTES } from "@/lib/game/whichmode";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
@@ -78,9 +77,9 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "What is actually happening when a model 'uses a tool'?",
     options: [
-      "The model runs the program inside itself",
+      "The model runs the program inside itself and then reads back whatever that program happened to produce",
       "The model writes out a request to call the tool; a program outside runs it and puts the result back into the context",
-      "The model is connected to the internet at all times",
+      "The model is connected to the internet at all times, and simply fetches whatever it happens to need",
     ],
     answer: 1,
     because:
@@ -90,9 +89,9 @@ const QUESTIONS: QuizQuestion[] = [
     prompt:
       "An assistant with web search gives you a figure and a link. What is still worth checking?",
     options: [
-      "Nothing — a link means it was looked up",
+      "Nothing at all — the presence of a link means the answer was genuinely looked up",
       "That the link actually says what the answer says it says",
-      "Only whether the site is well known",
+      "Only whether the site linked to is one you have heard of",
     ],
     answer: 1,
     because:
@@ -122,7 +121,7 @@ export default function ToolsChangeTheGameLesson() {
           </>
         }
         sting="It looked it up. It ran code. It opened your file. Or it just wrote something. The confidence, the tone and the formatting are identical in every case — so knowing which one you asked for is the whole of knowing how far to trust the answer."
-        cta="Work the sorter"
+        cta="Open the case"
       />
 
       <div className="py-4">
@@ -133,27 +132,6 @@ export default function ToolsChangeTheGameLesson() {
         <Walkthrough steps={STEPS} />
         <VideoPanel video={video} />
       </div>
-
-      <section className="plate mb-4 p-5 md:p-6">
-        <p className="label text-ink-faint mb-4">
-          The four chutes, and what can still go wrong in each
-        </p>
-        <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
-          {CHUTES.map((chute) => (
-            <div key={chute.mode}>
-              <dt className="font-display text-base font-bold">
-                {chute.label.charAt(0) + chute.label.slice(1).toLowerCase()}
-                <span className="text-ink-faint ml-2 text-sm font-normal">
-                  {chute.tool}
-                </span>
-              </dt>
-              <dd className="text-ink-soft mt-1 text-[0.9375rem]">
-                {RISKS[chute.mode]}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
 
       <div className="space-y-4 pb-4">
         <MechanismPanel
@@ -237,12 +215,3 @@ export default function ToolsChangeTheGameLesson() {
     </LessonShell>
   );
 }
-
-/** What survives the tool. Printed after the round, not before it. */
-const RISKS: Record<string, string> = {
-  look: "Staleness is gone; summarising is not. The passage is real, the sentence about it is still written by a guesser. Open the link.",
-  calc: "The arithmetic is real now, so the risk moves upstream: it may have written code that answers a slightly different question. The code is short — read it.",
-  read: "It has actually opened your file, so quotes can be checked. Ask for the exact line rather than the gist, and confirm the line exists.",
-  guess:
-    "Nothing was consulted. This is fine for the jobs where there is no fact to get wrong — rewriting, drafting, naming, explaining — and it is the only chute where fluency is the whole product.",
-};

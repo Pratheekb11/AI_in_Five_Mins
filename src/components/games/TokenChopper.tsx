@@ -113,7 +113,10 @@ export function TokenChopper() {
       <div className="border-ink/20 flex flex-wrap items-baseline justify-between gap-3 border-b px-5 py-3">
         <h3 className="display-md">Token Chopper</h3>
         <p className="label text-ink-faint">
-          {ENCODING_NAME} &middot; {VOCAB_SIZE.toLocaleString()} tokens
+          {/* Pinned locale. A bare toLocaleString() renders 200,006 on the
+              server and 2,00,006 in an Indian locale, which is a hydration
+              mismatch on the first paint. */}
+          {ENCODING_NAME} &middot; {VOCAB_SIZE.toLocaleString("en-US")} tokens
         </p>
       </div>
 

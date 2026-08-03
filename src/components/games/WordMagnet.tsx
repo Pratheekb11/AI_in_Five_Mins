@@ -283,7 +283,7 @@ export function WordMagnet() {
       footer={
         space ? (
           <>
-            {space.words.length.toLocaleString()} words from {space.source.name}.
+            {space.words.length.toLocaleString("en-US")} words from {space.source.name}.
             Pull is the real cosine similarity;
             anything under {NEUTRAL} is pushed away, which is almost every pair
             of words there is.

@@ -94,6 +94,38 @@ const SCENARIOS = [
       { id: "policy", kind: "noise", label: "Unrelated policy", text: "Reminder: keep your ticket until you have left the station." },
     ],
   },
+  {
+    id: "deadline",
+    ask: "What day is the deck due?",
+    question: "The deck is due on",
+    answer: " Thursday",
+    answerLabel: "Thursday",
+    cards: [
+      { id: "doc", kind: "relevant", label: "The project email", text: "From the lead: the deck is due on Thursday, before the ten o'clock review." },
+      { id: "chat1", kind: "noise", label: "Chit-chat", text: "Sam: morning all, coffee machine is broken again." },
+      { id: "chat2", kind: "noise", label: "More chit-chat", text: "Ruth: I can bring the spare cable if anyone needs it." },
+      { id: "stale", kind: "stale", label: "Superseded instruction", text: "Earlier plan, now changed: the deck was going to be due on Monday." },
+      { id: "decoy", kind: "decoy", label: "A similar email", text: "From the other team: their deck is due on Saturday, which does not affect us." },
+      { id: "example", kind: "example", label: "A worked example, with a made-up value in it", text: "Example of a good answer: The deck is due on Tuesday." },
+      { id: "policy", kind: "noise", label: "Unrelated policy", text: "Reminder: all meeting rooms must be booked at least a day in advance." },
+    ],
+  },
+  {
+    id: "room",
+    ask: "Which room is the review in?",
+    question: "The review is in room",
+    answer: " 4B",
+    answerLabel: "room 4B",
+    cards: [
+      { id: "doc", kind: "relevant", label: "The booking note", text: "Booking confirmed: the review is in room 4B on the fourth floor." },
+      { id: "chat1", kind: "noise", label: "Chit-chat", text: "Dev: running about five minutes late, start without me." },
+      { id: "chat2", kind: "noise", label: "More chit-chat", text: "Mo: has anyone seen the whiteboard pens?" },
+      { id: "stale", kind: "stale", label: "Superseded instruction", text: "Old booking, now cancelled: the review was in room 2A." },
+      { id: "decoy", kind: "decoy", label: "A similar booking", text: "Booking confirmed: the training session is in room 4D, which is not this meeting." },
+      { id: "example", kind: "example", label: "A worked example, with a made-up value in it", text: "Example of a good answer: The review is in room 1C." },
+      { id: "policy", kind: "noise", label: "Unrelated policy", text: "Reminder: please leave rooms as you found them and take your cups." },
+    ],
+  },
 ];
 
 function softmax(values) {

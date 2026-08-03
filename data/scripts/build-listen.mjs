@@ -114,6 +114,86 @@ const ITEMS = [
       { id: "colon", style: "pattern", prompt: "A spider has" },
     ],
   },
+  {
+    id: "capitalof", goal: "Get it to name the capital of Japan, and nothing else.", target: " Tokyo",
+    variants: [
+      { id: "bare", style: "bare", prompt: "What is the capital of Japan?" },
+      { id: "polite", style: "request", prompt: "Answer with the city name only. What is the capital of Japan?" },
+      { id: "role", style: "role", prompt: "You are an expert geographer. What is the capital of Japan?" },
+      { id: "qa", style: "pattern", prompt: "Q: What is the capital of France?\nA: Paris\nQ: What is the capital of Japan?\nA:" },
+      { id: "colon", style: "pattern", prompt: "The capital of Japan is" },
+    ],
+  },
+  {
+    id: "past", goal: "Get it to give the past tense of go.", target: " went",
+    variants: [
+      { id: "bare", style: "bare", prompt: "What is the past tense of go?" },
+      { id: "polite", style: "request", prompt: "Give only the single word. What is the past tense of go?" },
+      { id: "role", style: "role", prompt: "You are an English grammar expert. What is the past tense of go?" },
+      { id: "qa", style: "pattern", prompt: "Present: run\nPast: ran\nPresent: go\nPast:" },
+      { id: "colon", style: "pattern", prompt: "The past tense of go is" },
+    ],
+  },
+  {
+    id: "young", goal: "Get it to name a young dog.", target: " puppy",
+    variants: [
+      { id: "bare", style: "bare", prompt: "What do you call a young dog?" },
+      { id: "polite", style: "request", prompt: "One word answer please. What do you call a young dog?" },
+      { id: "role", style: "role", prompt: "You are a veterinary expert. What do you call a young dog?" },
+      { id: "qa", style: "pattern", prompt: "Young cat: kitten\nYoung cow: calf\nYoung dog:" },
+      { id: "colon", style: "pattern", prompt: "A young dog is called a" },
+    ],
+  },
+  {
+    id: "capitalcity", goal: "Get it to name the currency of Japan.", target: " yen",
+    variants: [
+      { id: "bare", style: "bare", prompt: "What is the currency of Japan?" },
+      { id: "polite", style: "request", prompt: "Name the currency only, no sentence. What is the currency of Japan?" },
+      { id: "role", style: "role", prompt: "You are a foreign exchange specialist. What is the currency of Japan?" },
+      { id: "qa", style: "pattern", prompt: "Country: France\nCurrency: euro\nCountry: Japan\nCurrency:" },
+      { id: "colon", style: "pattern", prompt: "The currency of Japan is the" },
+    ],
+  },
+  {
+    id: "sound", goal: "Get it to say what sound a cow makes.", target: " moo",
+    variants: [
+      { id: "bare", style: "bare", prompt: "What sound does a cow make?" },
+      { id: "polite", style: "request", prompt: "Answer with the sound only. What sound does a cow make?" },
+      { id: "role", style: "role", prompt: "You are a farm animal expert. What sound does a cow make?" },
+      { id: "qa", style: "pattern", prompt: "Dog: woof\nCat: meow\nCow:" },
+      { id: "colon", style: "pattern", prompt: "A cow says" },
+    ],
+  },
+  {
+    id: "season", goal: "Get it to name the season after summer.", target: " autumn",
+    variants: [
+      { id: "bare", style: "bare", prompt: "Which season comes after summer?" },
+      { id: "polite", style: "request", prompt: "One word only. Which season comes after summer?" },
+      { id: "role", style: "role", prompt: "You are a climate scientist. Which season comes after summer?" },
+      { id: "qa", style: "pattern", prompt: "After winter: spring\nAfter spring: summer\nAfter summer:" },
+      { id: "colon", style: "pattern", prompt: "The season after summer is" },
+    ],
+  },
+  {
+    id: "bigger", goal: "Get it to give the comparative of good.", target: " better",
+    variants: [
+      { id: "bare", style: "bare", prompt: "What is the comparative form of good?" },
+      { id: "polite", style: "request", prompt: "Reply with the single word. What is the comparative form of good?" },
+      { id: "role", style: "role", prompt: "You are a linguistics professor. What is the comparative form of good?" },
+      { id: "qa", style: "pattern", prompt: "big: bigger\nfast: faster\ngood:" },
+      { id: "colon", style: "pattern", prompt: "The comparative of good is" },
+    ],
+  },
+  {
+    id: "wheels", goal: "Get it to say how many wheels a bicycle has.", target: " two",
+    variants: [
+      { id: "bare", style: "bare", prompt: "How many wheels does a bicycle have?" },
+      { id: "polite", style: "request", prompt: "Answer with the number word only. How many wheels does a bicycle have?" },
+      { id: "role", style: "role", prompt: "You are a cycling expert. How many wheels does a bicycle have?" },
+      { id: "qa", style: "pattern", prompt: "Q: How many wheels does a car have?\nA: four\nQ: How many wheels does a bicycle have?\nA:" },
+      { id: "colon", style: "pattern", prompt: "A bicycle has" },
+    ],
+  },
 ];
 
 export const STYLES = {

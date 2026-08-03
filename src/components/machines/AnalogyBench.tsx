@@ -91,7 +91,7 @@ export function AnalogyBench() {
           <p className="text-ink-soft text-[0.9375rem]">
             Not in this vocabulary:{" "}
             <span className="font-data">{missing.join(", ")}</span>. It holds{" "}
-            {space.words.length.toLocaleString()} common words, so plenty of
+            {space.words.length.toLocaleString("en-US")} common words, so plenty of
             ordinary English is outside it.
           </p>
         ) : result ? (

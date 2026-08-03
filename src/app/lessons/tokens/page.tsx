@@ -2,8 +2,7 @@ import { LessonShell } from "@/components/lesson/LessonShell";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { TokenChop } from "@/components/games/TokenChop";
-import { LiveTokenizer } from "@/components/machines/LiveTokenizer";
+import { TokenChopper } from "@/components/games/TokenChopper";
 import { TokenCostChart } from "@/components/machines/TokenCostChart";
 import { TokenStrip } from "@/components/token-strip/TokenStrip";
 import { getLesson } from "@/lib/lessons";
@@ -132,8 +131,8 @@ const QUESTIONS: QuizQuestion[] = [
 export default function TokensLesson() {
   return (
     <LessonShell lesson={lesson} sources={SOURCES}>
-      <div className="space-y-4 pb-4">
-        <TokenChop />
+      <div className="pb-4" id="game">
+        <TokenChopper />
       </div>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
@@ -141,14 +140,6 @@ export default function TokensLesson() {
         <div className="space-y-4">
           <VideoPanel video={video} />
         </div>
-      </div>
-
-      <div className="plate p-5 pb-4 md:p-6">
-        <p className="label text-ink-faint mb-4">Cut up anything you like</p>
-        <LiveTokenizer
-          initialText="Why can't you count the r's in strawberry?"
-          rows={2}
-        />
       </div>
 
       <div className="py-10">

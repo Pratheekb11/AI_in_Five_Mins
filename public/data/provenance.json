@@ -1,0 +1,392 @@
+{
+  "generatedBy": "data/scripts/build-provenance.mjs",
+  "model": {
+    "id": "Xenova/distilgpt2",
+    "name": "DistilGPT-2",
+    "url": "https://huggingface.co/distilbert/distilgpt2",
+    "licence": "Apache 2.0"
+  },
+  "note": "Which bucket a question falls in was decided by the measurement, not chosen in advance. A question counts as known if the true answer is already the model's own first choice with no help.",
+  "arithmetic": {
+    "problems": 200,
+    "correct": 0,
+    "accuracy": 0,
+    "description": "Two-digit addition, seeded so the same problems come back on a rerun. The model is read greedily and its answer compared with the real sum.",
+    "examples": [
+      {
+        "prompt": "41 + 45 =",
+        "truth": "86",
+        "got": "0",
+        "raw": "0.5%",
+        "right": false
+      },
+      {
+        "prompt": "31 + 95 =",
+        "truth": "126",
+        "got": "0",
+        "raw": "0.01 + 0",
+        "right": false
+      },
+      {
+        "prompt": "93 + 27 =",
+        "truth": "120",
+        "got": "0",
+        "raw": "0.5%",
+        "right": false
+      },
+      {
+        "prompt": "75 + 38 =",
+        "truth": "113",
+        "got": "0",
+        "raw": "0.5%",
+        "right": false
+      },
+      {
+        "prompt": "64 + 27 =",
+        "truth": "91",
+        "got": "0",
+        "raw": "0.0% +",
+        "right": false
+      },
+      {
+        "prompt": "78 + 27 =",
+        "truth": "105",
+        "got": "0",
+        "raw": "0.5%",
+        "right": false
+      },
+      {
+        "prompt": "73 + 30 =",
+        "truth": "103",
+        "got": "0",
+        "raw": "0.0%",
+        "right": false
+      },
+      {
+        "prompt": "88 + 12 =",
+        "truth": "100",
+        "got": "0",
+        "raw": "0.0%",
+        "right": false
+      },
+      {
+        "prompt": "12 + 83 =",
+        "truth": "95",
+        "got": "0",
+        "raw": "0.0%",
+        "right": false
+      },
+      {
+        "prompt": "36 + 34 =",
+        "truth": "70",
+        "got": "0",
+        "raw": "0.0%",
+        "right": false
+      },
+      {
+        "prompt": "78 + 75 =",
+        "truth": "153",
+        "got": "0",
+        "raw": "0.0%",
+        "right": false
+      },
+      {
+        "prompt": "93 + 65 =",
+        "truth": "158",
+        "got": "0",
+        "raw": "0.5%",
+        "right": false
+      }
+    ]
+  },
+  "rounds": [
+    {
+      "id": "usa-capital",
+      "kind": "lookup",
+      "ask": "What is the capital of the United States?",
+      "question": "The capital of the United States is",
+      "answerLabel": "Washington",
+      "answerTokens": 1,
+      "fact": "The capital of the United States is Washington, D.C.",
+      "citation": {
+        "title": "Washington, D.C.",
+        "url": "https://en.wikipedia.org/wiki/Washington%2C%20D.C.",
+        "revision": 1367208173
+      },
+      "bare": {
+        "probability": 0.004374,
+        "rank": 16,
+        "topText": " the"
+      },
+      "sourced": {
+        "probability": 0.985127,
+        "rank": 0,
+        "topText": " Washington"
+      }
+    },
+    {
+      "id": "india-capital",
+      "kind": "memory",
+      "ask": "What is the capital of India?",
+      "question": "The capital of India is New",
+      "answerLabel": "Delhi",
+      "answerTokens": 1,
+      "fact": "The capital of India is New Delhi.",
+      "citation": {
+        "title": "New Delhi",
+        "url": "https://en.wikipedia.org/wiki/New%20Delhi",
+        "revision": 1365935626
+      },
+      "bare": {
+        "probability": 0.932264,
+        "rank": 0,
+        "topText": " Delhi"
+      },
+      "sourced": {
+        "probability": 0.998274,
+        "rank": 0,
+        "topText": " Delhi"
+      }
+    },
+    {
+      "id": "australia-capital",
+      "kind": "lookup",
+      "ask": "What is the capital of Australia?",
+      "question": "The capital of Australia is",
+      "answerLabel": "Canberra",
+      "answerTokens": 1,
+      "fact": "The capital of Australia is Canberra.",
+      "citation": {
+        "title": "Canberra",
+        "url": "https://en.wikipedia.org/wiki/Canberra",
+        "revision": 1365086707
+      },
+      "bare": {
+        "probability": 0.001179,
+        "rank": 86,
+        "topText": " the"
+      },
+      "sourced": {
+        "probability": 0.95826,
+        "rank": 0,
+        "topText": " Canberra"
+      }
+    },
+    {
+      "id": "brazil-capital",
+      "kind": "lookup",
+      "ask": "What is the capital of Brazil?",
+      "question": "The capital of Brazil is",
+      "answerLabel": "Brasilia",
+      "answerTokens": 2,
+      "fact": "The capital of Brazil is Brasilia.",
+      "citation": {
+        "title": "Brasília",
+        "url": "https://en.wikipedia.org/wiki/Bras%C3%ADlia",
+        "revision": 1365616413
+      },
+      "bare": {
+        "probability": 0.000453,
+        "rank": 158,
+        "topText": " the"
+      },
+      "sourced": {
+        "probability": 0.952403,
+        "rank": 0,
+        "topText": " Bras"
+      }
+    },
+    {
+      "id": "photosynthesis",
+      "kind": "lookup",
+      "ask": "How do plants make their food?",
+      "question": "Plants make their own food by a process called",
+      "answerLabel": "photosynthesis",
+      "answerTokens": 2,
+      "fact": "Plants make their own food by a process called photosynthesis.",
+      "citation": {
+        "title": "Photosynthesis",
+        "url": "https://en.wikipedia.org/wiki/Photosynthesis",
+        "revision": 1366154845
+      },
+      "bare": {
+        "probability": 0.000206,
+        "rank": 810,
+        "topText": " \""
+      },
+      "sourced": {
+        "probability": 0.985748,
+        "rank": 0,
+        "topText": " photos"
+      }
+    },
+    {
+      "id": "gravity",
+      "kind": "lookup",
+      "ask": "What holds the planets in orbit around the Sun?",
+      "question": "The force that keeps the planets in orbit around the Sun is",
+      "answerLabel": "gravity",
+      "answerTokens": 1,
+      "fact": "The force that keeps the planets in orbit around the Sun is gravity.",
+      "citation": {
+        "title": "Gravity",
+        "url": "https://en.wikipedia.org/wiki/Gravity",
+        "revision": 1366779324
+      },
+      "bare": {
+        "probability": 0.000293,
+        "rank": 425,
+        "topText": " the"
+      },
+      "sourced": {
+        "probability": 0.986457,
+        "rank": 0,
+        "topText": " gravity"
+      }
+    },
+    {
+      "id": "penicillin",
+      "kind": "lookup",
+      "ask": "Who discovered penicillin?",
+      "question": "Penicillin was discovered by Alexander",
+      "answerLabel": "Fleming",
+      "answerTokens": 1,
+      "fact": "Penicillin was discovered by Alexander Fleming in 1928.",
+      "citation": {
+        "title": "Alexander Fleming",
+        "url": "https://en.wikipedia.org/wiki/Alexander%20Fleming",
+        "revision": 1364094538
+      },
+      "bare": {
+        "probability": 0.002193,
+        "rank": 52,
+        "topText": " K"
+      },
+      "sourced": {
+        "probability": 0.998232,
+        "rank": 0,
+        "topText": " Fleming"
+      }
+    },
+    {
+      "id": "everest",
+      "kind": "memory",
+      "ask": "What is the highest mountain in the world?",
+      "question": "The highest mountain in the world is Mount",
+      "answerLabel": "Everest",
+      "answerTokens": 1,
+      "fact": "The highest mountain in the world is Mount Everest.",
+      "citation": {
+        "title": "Mount Everest",
+        "url": "https://en.wikipedia.org/wiki/Mount%20Everest",
+        "revision": 1365907460
+      },
+      "bare": {
+        "probability": 0.259126,
+        "rank": 0,
+        "topText": " Everest"
+      },
+      "sourced": {
+        "probability": 0.933329,
+        "rank": 0,
+        "topText": " Everest"
+      }
+    },
+    {
+      "id": "longest-river",
+      "kind": "lookup",
+      "ask": "What is the longest river in Africa?",
+      "question": "The longest river in Africa is the",
+      "answerLabel": "Nile",
+      "answerTokens": 1,
+      "fact": "The longest river in Africa is the Nile.",
+      "citation": {
+        "title": "Nile",
+        "url": "https://en.wikipedia.org/wiki/Nile",
+        "revision": 1366212787
+      },
+      "bare": {
+        "probability": 0.013048,
+        "rank": 1,
+        "topText": " T"
+      },
+      "sourced": {
+        "probability": 0.965367,
+        "rank": 0,
+        "topText": " Nile"
+      }
+    },
+    {
+      "id": "relativity",
+      "kind": "memory",
+      "ask": "Who published the theory of general relativity?",
+      "question": "The theory of general relativity was published by Albert",
+      "answerLabel": "Einstein",
+      "answerTokens": 1,
+      "fact": "The theory of general relativity was published by Albert Einstein in 1915.",
+      "citation": {
+        "title": "General relativity",
+        "url": "https://en.wikipedia.org/wiki/General%20relativity",
+        "revision": 1362913724
+      },
+      "bare": {
+        "probability": 0.934275,
+        "rank": 0,
+        "topText": " Einstein"
+      },
+      "sourced": {
+        "probability": 0.99913,
+        "rank": 0,
+        "topText": " Einstein"
+      }
+    },
+    {
+      "id": "largest-planet",
+      "kind": "lookup",
+      "ask": "Which is the largest planet in the solar system?",
+      "question": "The largest planet in the solar system is",
+      "answerLabel": "Jupiter",
+      "answerTokens": 1,
+      "fact": "The largest planet in the solar system is Jupiter.",
+      "citation": {
+        "title": "Jupiter",
+        "url": "https://en.wikipedia.org/wiki/Jupiter",
+        "revision": 1367123182
+      },
+      "bare": {
+        "probability": 0.013292,
+        "rank": 8,
+        "topText": " the"
+      },
+      "sourced": {
+        "probability": 0.964316,
+        "rank": 0,
+        "topText": " Jupiter"
+      }
+    },
+    {
+      "id": "boiling",
+      "kind": "lookup",
+      "ask": "At what temperature does water boil at sea level?",
+      "question": "At sea level, water boils at one hundred degrees",
+      "answerLabel": "Celsius",
+      "answerTokens": 1,
+      "fact": "At sea level, water boils at one hundred degrees Celsius.",
+      "citation": {
+        "title": "Boiling point",
+        "url": "https://en.wikipedia.org/wiki/Boiling%20point",
+        "revision": 1362065820
+      },
+      "bare": {
+        "probability": 0.130853,
+        "rank": 2,
+        "topText": " Fahrenheit"
+      },
+      "sourced": {
+        "probability": 0.999019,
+        "rank": 0,
+        "topText": " Celsius"
+      }
+    }
+  ]
+}

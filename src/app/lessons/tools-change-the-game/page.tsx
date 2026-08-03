@@ -1,4 +1,4 @@
-import { WhichMode } from "@/components/games/WhichMode";
+import { ProvenanceDetective } from "@/components/games/ProvenanceDetective";
 import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
@@ -126,7 +126,7 @@ export default function ToolsChangeTheGameLesson() {
       />
 
       <div className="py-4">
-        <WhichMode />
+        <ProvenanceDetective />
       </div>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">

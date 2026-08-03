@@ -9,10 +9,10 @@ import { inkClasses } from "@/lib/ink";
 import { type Lesson, lessonsIn, type Track, TRACKS } from "@/lib/lessons";
 
 export default function Home() {
-  const worlds = lessonsIn("world");
+  const chapters = lessonsIn("chapter");
   const close = lessonsIn("close");
   const how = lessonsIn("how");
-  const worldMinutes = worlds.reduce((n, l) => n + l.minutes, 0);
+  const chapterMinutes = chapters.reduce((n, l) => n + l.minutes, 0);
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function Home() {
             paragraph asserting it. */}
         <section className="mx-auto max-w-6xl px-5 pt-14 pb-16 md:pt-20">
           <p className="label text-ink-faint mb-5">
-            {worlds.length} worlds · about {worldMinutes} minutes · nothing to
+            {chapters.length} chapters · about {chapterMinutes} minutes · nothing to
             sign up for
           </p>
 
@@ -39,34 +39,22 @@ export default function Home() {
 
               <div className="prose-measure text-ink-soft mt-7 text-lg">
                 <p>
-                  Short modules you play rather than read. You watch the thing
-                  fail, and only then does anyone explain the machinery behind
-                  it &mdash; while you are still annoyed about it. Every game
-                  runs on real data, never a mock-up.
-                </p>
-                <p>
-                  {/* The space after the count is explicit: written as plain
-                      text it was eaten at the line break and rendered as
-                      "44minutes". */}
-                  Six worlds, one idea each, about {worldMinutes}{" "}
-                  minutes end to end. There is no theory to get through first
-                  &mdash; the round
-                  on the right is a real model and it is already playing.
+                  You already use these tools. Nobody ever showed you what they
+                  are doing when they answer you &mdash; so you are guessing
+                  about when to trust one. {/* The space after the count is
+                  explicit: written as plain text it was eaten at the line break
+                  and rendered as "44minutes". */}
+                  Six short chapters, one game each, about {chapterMinutes}{" "}
+                  minutes. You play first and read after.
                 </p>
               </div>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-8">
                 <Link
-                  href={`/lessons/${worlds[0].slug}`}
+                  href={`/lessons/${chapters[0].slug}`}
                   className="plate misreg btn-primary font-display inline-block px-5 py-3 font-bold"
                 >
-                  Start world 1
-                </Link>
-                <Link
-                  href="/lessons/tokens"
-                  className="plate misreg font-display inline-block px-5 py-3 font-bold"
-                >
-                  Or open the machine
+                  Start chapter 1
                 </Link>
               </div>
             </div>
@@ -80,6 +68,36 @@ export default function Home() {
               </NimoSays>
               <HeroDemo />
             </div>
+          </div>
+        </section>
+
+        {/* Why anyone should care, said once, quietly, after they have already
+            poked the demo. Stating the problem beats stating the product. */}
+        <section className="border-ink/25 bg-paper-sunk border-t">
+          <div className="mx-auto max-w-6xl px-5 py-14">
+            <Reveal>
+              <p className="label text-ink-faint mb-3">Why this exists</p>
+              <h2 className="display-lg prose-measure mb-4">
+                Everyone is using these tools. Almost nobody was shown how they
+                work.
+              </h2>
+              <div className="prose-measure text-ink-soft space-y-3">
+                <p>
+                  Which is why most of the advice going around is folklore: a
+                  magic phrase that supposedly unlocks better answers, a rule
+                  that you should never trust it with anything that matters, a
+                  vague sense that it reasons the way a colleague does. All of
+                  it falls apart the moment you watch one of these models
+                  actually work.
+                </p>
+                <p>
+                  What holds up is a plain picture of what the model is doing
+                  while it answers you. That is what tells you when to lean on
+                  it and when to check it &mdash; and it takes about an hour to
+                  pick up, with no maths and no jargon.
+                </p>
+              </div>
+            </Reveal>
           </div>
         </section>
 
@@ -107,9 +125,9 @@ export default function Home() {
         </section>
 
         <TrackSection
-          id="worlds"
-          track="world"
-          lessons={worlds}
+          id="chapters"
+          track="chapter"
+          lessons={chapters}
           eyebrow="Start here — in order"
           sunk
         />
@@ -123,7 +141,7 @@ export default function Home() {
           id="how"
           track="how"
           lessons={how}
-          eyebrow="Optional depth — reachable from inside the worlds"
+          eyebrow="Optional depth — reachable from inside the chapters"
           sunk
         />
 
@@ -132,9 +150,7 @@ export default function Home() {
           <p className="prose-measure text-ink-soft">
             Every token, vector and probability here is computed from a real
             model or a published dataset, and every module ends with the sources
-            it drew on. Where a figure is precomputed rather than run in your
-            browser, the script that produced it is in the repository. If a
-            number cannot be traced, it does not ship.
+            it drew on. If a number cannot be traced, it does not ship.
           </p>
         </section>
       </main>

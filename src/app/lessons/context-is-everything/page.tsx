@@ -4,9 +4,10 @@ import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
-import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { Check } from "@/components/lesson/checks/Check";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
@@ -61,32 +62,27 @@ const STEPS: Step[] = [
   },
 ];
 
-const QUESTIONS: QuizQuestion[] = [
+const CHECK: CheckBeat[] = [
   {
+    kind: "sort",
     prompt:
-      "You correct the assistant in message three. By message sixty it has gone back to the old behaviour. Why?",
-    options: [
-      "It decided your correction was wrong and quietly went back to its own earlier answer",
-      "Message three has been pushed out of the context, so it is no longer part of what the model reads",
-      "It is designed to follow only the most recent instruction, discarding whatever came before it",
+      "The right document is already in the context. Which of these extra cards can sit beside it without doing damage?",
+    buckets: [
+      { id: "safe", label: "Barely moves the answer", hint: "clutter, but harmless" },
+      { id: "bad", label: "Wrecks the answer", hint: "competes with the right card" },
     ],
-    answer: 1,
+    items: [
+      { id: "chat", text: "Small talk about the weekend", bucket: "safe" },
+      { id: "policy", text: "An unrelated policy document", bucket: "safe" },
+      { id: "stale", text: "An instruction you later superseded", bucket: "bad" },
+      { id: "decoy", text: "A similar memo about a different case", bucket: "bad" },
+      { id: "example", text: "A worked example with a placeholder in it", bucket: "bad" },
+    ],
     because:
-      "It is not overruling you. From the model's position that correction was never said — the text it read this time started after message three. Restating the rule puts it back in front of the model, which is why repeating yourself works so well.",
+      "Measured across all five scenarios in the game: chit-chat and the unrelated policy land between 0.89× and 1.10× of the answer's probability — noise, effectively free. The other three are not noise, they are rivals. Each one contains something that fits the shape of the answer, and the worked example is the worst of them: in the wi-fi scenario it takes the right answer from 89.9% to 3.8%, because the model copies the placeholder.",
   },
   {
-    prompt:
-      "You paste a very long report and ask a question about one paragraph in the middle. What is the risk?",
-    options: [
-      "The model cannot really read a long document, so it skims the opening few pages and guesses at the rest",
-      "It reads the whole thing equally well, so position in the document carries no risk at all",
-      "Material in the middle of a long context is measurably harder for models to use than material at either end",
-    ],
-    answer: 2,
-    because:
-      "Liu and colleagues measured exactly this: accuracy is highest when the relevant passage sits at the start or the end, and drops when it sits in the middle. Quoting the paragraph you care about, rather than trusting it to find it, costs you nothing.",
-  },
-  {
+    kind: "choice",
     prompt: "What is the most reliable way to fix a chat that has gone bad?",
     options: [
       "Tell it firmly to try harder and pay closer attention to everything you have already said",
@@ -196,7 +192,7 @@ export default function ContextIsEverythingLesson() {
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+        <Check slug={lesson.slug} beats={CHECK} />
       </div>
     </LessonShell>
   );

@@ -4,8 +4,9 @@ import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
-import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 
@@ -65,20 +66,30 @@ const STEPS: Step[] = [
   },
 ];
 
-const QUESTIONS: QuizQuestion[] = [
+const CHECK: CheckBeat[] = [
   {
-    prompt: "Why is 'always verify everything' a bad policy?",
-    options: [
-      "Because AI output is usually right, so checking all of it is effort spent for nothing",
-      "Because it costs more than you have, so in practice it degrades into verifying nothing",
-      "Because verification is impossible once the answer is written in confident prose",
+    kind: "flag",
+    prompt:
+      "An assistant drafted this for a client email. Tap what you would check at source before it goes out.",
+    instruction: "Three of these pieces need checking. The rest you can judge by reading.",
+    parts: [
+      { text: "Thanks for waiting —" },
+      { text: "here is where we landed." },
+      { text: "The regulation came into force on 17 March 2023,", wrong: true },
+      { text: "which is why the deadline matters." },
+      { text: "Our own turnaround is about a week," },
+      { text: "so the timing is comfortable." },
+      { text: "The current fee is £4,200 a year,", wrong: true },
+      { text: "and I think that is good value." },
+      { text: "This is set out in Article 12 of the Act.", wrong: true },
     ],
-    answer: 1,
     because:
-      "A policy has to be affordable to survive. Checking a name in a note as hard as a figure in a board pack is not diligence, it is a plan to run out of time and start skipping — usually on whichever item is most urgent, which is often the one that matters.",
+      "A date, a figure and a citation. They are the three shapes the machine produces most fluently when it has least to go on, and each is a thirty-second lookup. Everything else in the draft is tone, judgement or a fact about your own company — things you can settle by reading, because you are the source.",
   },
   {
-    prompt: "You ask the assistant 'are you sure about that?' and it says yes. What have you learnt?",
+    kind: "choice",
+    prompt:
+      "You ask the assistant 'are you sure about that?' and it says yes. What have you learnt?",
     options: [
       "That the answer is probably right, since it has now been confirmed a second time",
       "Nothing — its agreement is not independent of your question",
@@ -87,18 +98,6 @@ const QUESTIONS: QuizQuestion[] = [
     answer: 1,
     because:
       "Sharma and colleagues measured how readily these systems move toward the user's apparent view. A yes after 'are you sure' and a change of answer after 'that's wrong' are the same behaviour. Confirmation has to come from outside the conversation.",
-  },
-  {
-    prompt:
-      "Which of these should be checked at source almost regardless of stakes?",
-    options: [
-      "The tone of a message, and whether it reads as confident or hedged",
-      "Specific numbers, names, dates and citations",
-      "The structure of an argument, and whether its steps follow from each other",
-    ],
-    answer: 1,
-    because:
-      "Those are the parts that are cheap to check and expensive to get wrong, and they are the parts these systems produce most confidently when they have least to go on. Tone you can judge by reading. A citation you cannot judge by reading at all.",
   },
 ];
 
@@ -200,7 +199,7 @@ export default function VerificationHabitsLesson() {
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+        <Check slug={lesson.slug} beats={CHECK} />
       </div>
     </LessonShell>
   );

@@ -72,17 +72,6 @@ const STEPS: Step[] = [
 
 const QUESTIONS: QuizQuestion[] = [
   {
-    prompt: "What separates 'AI' from ordinary software?",
-    options: [
-      "It is written in a different programming language, one designed for this kind of work",
-      "Its behaviour comes from patterns found in examples, rather than from rules a person wrote",
-      "It runs on far more powerful computers than ordinary software does",
-    ],
-    answer: 1,
-    because:
-      "Ordinary software does exactly what someone specified. A learned model was never told what to look for — it was shown labelled examples and worked out the pattern itself. That is the whole distinction.",
-  },
-  {
     prompt: "A spam filter reports 86% accuracy. Should you be impressed?",
     options: [
       "Yes — a score that high means it is catching very nearly all of the spam that arrives",
@@ -91,28 +80,6 @@ const QUESTIONS: QuizQuestion[] = [
     ],
     answer: 1,
     because: `You saw this above: doing nothing scores ${pct(SPAM_BENCH.baseline.accuracy)}. When one answer is far more common than the other, accuracy flatters useless models. Look at what was caught and what was wrongly flagged instead.`,
-  },
-  {
-    prompt: "Why do hand-written rules struggle in the long run?",
-    options: [
-      "They are too slow to run over the volume of messages a real inbox receives",
-      "Somebody has to think of every rule, and spam changes as soon as the rules are known",
-      "Computers cannot process long chains of if-statements reliably enough to be trusted",
-    ],
-    answer: 1,
-    because:
-      "Rules only cover cases their author imagined. A model retrained on new examples picks up new patterns without anybody writing them down — which matters most when the thing you are filtering is actively trying to get past you.",
-  },
-  {
-    prompt: "What did the model actually get given?",
-    options: [
-      "A list of suspicious words written by researchers, refined over several years of use",
-      `${SPAM_BENCH.learned.trainSize.toLocaleString("en-US")} messages, each marked spam or not spam, and nothing else`,
-      "Access to the internet, so it can look up messages already reported as spam elsewhere",
-    ],
-    answer: 1,
-    because:
-      "Just labelled examples. Every pattern it uses — including that shortcodes matter more than the word 'free' — it found on its own by counting which words showed up in which kind of message.",
   },
 ];
 

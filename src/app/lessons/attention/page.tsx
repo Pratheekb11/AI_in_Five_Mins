@@ -71,17 +71,6 @@ const STEPS: Step[] = [
 
 const QUESTIONS: QuizQuestion[] = [
   {
-    prompt: "What does the attention step actually compute?",
-    options: [
-      "A fixed table of which words are grammatically related, written during training and applied to every sentence alike",
-      "A weight for every earlier word, worked out from this sentence, deciding how much of each to pull in",
-      "The probability of each possible next word, worked out once the whole sentence has been read",
-    ],
-    answer: 1,
-    because:
-      "The weights are computed fresh for each input, which is exactly why the same word can be resolved differently in two sentences. Nothing was written down in advance about which words should be linked.",
-  },
-  {
     prompt: "Why is the top-right of every map empty?",
     options: [
       "Those weights exist but come out too small to be worth drawing at the scale used here",
@@ -91,17 +80,6 @@ const QUESTIONS: QuizQuestion[] = [
     answer: 1,
     because:
       "The model is trained to predict the next token, so letting a position see its own future would let it cheat. The mask enforces that at every layer, which is also why generation runs strictly left to right.",
-  },
-  {
-    prompt: "The first token soaks up attention in almost every head. What does that tell you?",
-    options: [
-      "That the first word carries the most meaning in the sentence, which is why nearly every head keeps returning to it",
-      "That a heat map is not an explanation — some of what you see is a mechanical artefact rather than meaning",
-      "That the extraction is faulty, since a real model would spread its attention more evenly",
-    ],
-    answer: 1,
-    because:
-      "It is a documented effect, named the attention sink by Xiao and colleagues. Heads that have nothing they need this time still have to put their weights somewhere, because the row is forced to sum to one. Reading intent into that column would be reading intent into arithmetic.",
   },
 ];
 

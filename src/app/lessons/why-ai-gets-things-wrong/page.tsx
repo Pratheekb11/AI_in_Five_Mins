@@ -89,30 +89,6 @@ const STEPS: Step[] = [
 const QUESTIONS: QuizQuestion[] = [
   {
     prompt:
-      "What do fabrication, false confidence and inherited bias have in common?",
-    options: [
-      "They are three separate defects, each with its own cause and its own separate fix",
-      "They all follow from the same thing: the model was fitted to text, not to the world",
-      "They only happen in small models, and disappear once the model is large enough",
-    ],
-    answer: 1,
-    because:
-      "Nothing in the machine consults reality. It learns the shape of text, so it reproduces what text does — including continuing a sentence instead of answering it, being confident about a common phrasing, and carrying the associations of whoever wrote the training data.",
-  },
-  {
-    prompt:
-      "The model was more certain about 'Paris is the capital of' — which it gets wrong — than about a prompt it gets right. What follows?",
-    options: [
-      "The certainty measurement is broken, and reports high numbers whatever it is given to read",
-      "Certainty and correctness are separate quantities, so a confident tone is not evidence of anything",
-      "It knows the right answer perfectly well, but for some reason is choosing not to say it out loud",
-    ],
-    answer: 1,
-    because:
-      "Certainty measures how concentrated its guesses about the next token are. Whether the token is true is a different question that nothing in the loop asks. The tone of the reply carries neither number.",
-  },
-  {
-    prompt:
       "The vectors put 'secretary' nearer 'he' than 'she'. What does that show?",
     options: [
       "That the vectors are unbiased after all, and that what you just saw was an error in the measurement itself",

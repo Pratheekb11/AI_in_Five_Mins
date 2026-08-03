@@ -3,13 +3,14 @@ import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
-import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
+import { Check } from "@/components/lesson/checks/Check";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { TokenChopper } from "@/components/games/TokenChopper";
 import { MergeReel } from "@/components/machines/MergeReel";
 import { TokenCostChart } from "@/components/machines/TokenCostChart";
 import { TokenStrip } from "@/components/token-strip/TokenStrip";
+import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import { MERGES, numberSplit, traceFor } from "@/lib/merges";
 import type { Source } from "@/lib/sources";
@@ -114,59 +115,31 @@ const STEPS: Step[] = [
   },
 ];
 
-const QUESTIONS: QuizQuestion[] = [
+const CHECK: CheckBeat[] = [
   {
-    prompt: "Is a token the same thing as a word?",
-    options: [
-      "Yes — every word becomes exactly one token, which is why they are counted that way",
-      "No — it is a chunk of characters, sometimes shorter than a word, sometimes longer",
-      "No — it is always a single character, so a word costs as many tokens as it has letters",
+    kind: "match",
+    prompt: "Pair each piece of text with the way the tokenizer actually cuts it.",
+    pairs: [
+      {
+        left: `"${strawberry.text}"`,
+        right: strawberry.tokens.map((t) => t.text).join(" | "),
+      },
+      {
+        left: `"${spaced.text}"`,
+        right: spaced.tokens.map((t) => t.text.trim()).join(" | ") + " (one token, space and all)",
+      },
+      { left: '"unbelievable"', right: unbelievable.final.join(" | ") },
+      { left: '"1000000"', right: million.pieces.join(" | ") },
     ],
-    answer: 1,
     because:
-      "Common words are usually one token. Rare ones break into several, and a leading space rides along with the token after it.",
+      "Every split above is o200k_base doing its job, not an illustration of it. Note what the pairs have in common: nothing lines up with syllables, meaning or place value. The chunks are whatever turned out to be common in the text the vocabulary was built from — which is also why the same word costs a different amount depending on whether a space came first.",
   },
   {
-    prompt: "What decides where a word gets cut?",
-    options: [
-      "Its syllables, as you would say the word out loud",
-      "Its meaningful parts — prefixes, roots, suffixes",
-      "How often each chunk appeared in the text the vocabulary was built from",
-      "A list of splitting rules written by linguists when the model was built",
-    ],
-    answer: 2,
-    because:
-      `Frequency, and nothing else. You can see it in the figure: "unbelievable" comes apart as ${unbelievable.final.join(
-        "|",
-      )} rather than un|believ|able. The algorithm has no idea what a prefix is — it merges whichever pair is commonest, over and over.`,
-  },
-  {
-    prompt: "Why do models miscount the letters in 'strawberry'?",
-    options: [
-      "They cannot count reliably, whatever they are being asked to count",
-      "It arrives as st, raw and berry, so the letters were never separate things it saw",
-      "The word is too rare in the training data for it to have learned the spelling",
-    ],
-    answer: 1,
-    because:
-      "You cut this word yourself in the game. The model reasons over chunks, so counting letters means reconstructing something it was never handed.",
-  },
-  {
-    prompt: `How does the number 1000000 reach the model?`,
-    options: [
-      "As one token, since it is a single number",
-      "As seven tokens, one per digit",
-      `As ${million.pieces.length} tokens: ${million.pieces.join("|")}`,
-    ],
-    answer: 2,
-    because:
-      "Digit runs are cut into groups of at most three, and then merged by frequency like anything else. The groups do not line up with place value, which is part of why arithmetic on long numbers goes wrong in ways that look bizarre.",
-  },
-  {
+    kind: "choice",
     prompt: "Same sentence in English or in Hindi — which costs more to send?",
     options: [
       "English, because its words are longer on the page",
-      "Hindi, by roughly two and a half times",
+      `Hindi, by roughly ${(hindi.tokenCount / english.tokenCount).toFixed(1)} times`,
       "They cost the same, since the sentence means the same thing either way",
     ],
     answer: 1,
@@ -408,7 +381,7 @@ export default function TokensLesson() {
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+        <Check slug={lesson.slug} beats={CHECK} />
       </div>
     </LessonShell>
   );

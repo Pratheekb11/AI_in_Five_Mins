@@ -69,29 +69,6 @@ const STEPS: Step[] = [
 
 const QUESTIONS: QuizQuestion[] = [
   {
-    prompt: "What does temperature actually change?",
-    options: [
-      "How hard the model is working on the answer before it commits to the first word",
-      "How much probability mass sits on the likeliest tokens versus the rest",
-      "How many facts the model checks against its training data before it answers",
-    ],
-    answer: 1,
-    because:
-      "It is one number applied to the scores before a token is drawn. Low sharpens the distribution toward the top candidate; high flattens it. There is no version of the dial that makes the answers more correct — only more or less predictable.",
-  },
-  {
-    prompt:
-      "Why does 'Once upon a' not put almost all its weight on 'time'?",
-    options: [
-      "The model has never seen the phrase before, so it has nothing to copy from",
-      "Because likely to a model and obvious to a person are different things — plenty of other continuations are also common",
-      "Because the temperature was set high, which spreads the probability out across many more words than usual",
-    ],
-    answer: 1,
-    because:
-      "It was measured at about 7%, with 'second' and 'moment' close behind. Your certainty comes from knowing this is the opening of a fairy tale. The model has seen 'once upon a' in every other context too.",
-  },
-  {
     prompt: "Where in this loop does the model check whether something is true?",
     options: [
       "Just before it picks the token",

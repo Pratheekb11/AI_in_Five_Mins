@@ -59,13 +59,13 @@ const STEPS: Step[] = [
   {
     say: "The rule that survives contact with a real week is simple. Match the check to the damage. What happens if this is wrong, and who finds out?",
     caption:
-      "Awkward — skim it. Costly — verify every load-bearing claim at its source. Serious — a second pair of eyes, or do it again independently.",
+      "Awkward: skim it. Costly: verify every load-bearing claim at its source. Serious: get a second pair of eyes, or do it again independently.",
   },
   {
     say: "One outcome deserves more attention than the misses: the sentences you read straight past that were fine. Nothing went wrong, you felt fast and competent, and you learnt exactly the wrong lesson.",
   },
   {
-    say: "That is how every bad habit forms. It works, and works, and works, and then one Thursday it does not — and the one it does not work on is never the one you would have chosen.",
+    say: "That is how every bad habit forms. It works, and works, and works, and then one Thursday it does not. And the one it fails on is never the one you would have chosen.",
   },
 ];
 
@@ -76,7 +76,7 @@ const CHECK: CheckBeat[] = [
       "An assistant drafted this for a client email. Tap what you would check at source before it goes out.",
     instruction: "Three of these pieces need checking. The rest you can judge by reading.",
     parts: [
-      { text: "Thanks for waiting —" },
+      { text: "Thanks for waiting." },
       { text: "here is where we landed." },
       { text: "The regulation came into force on 17 March 2023,", wrong: true },
       { text: "which is why the deadline matters." },
@@ -87,7 +87,7 @@ const CHECK: CheckBeat[] = [
       { text: "This is set out in Article 12 of the Act.", wrong: true },
     ],
     because:
-      "A date, a figure and a citation. They are the three shapes the machine produces most fluently when it has least to go on, and each is a thirty-second lookup. Everything else in the draft is tone, judgement or a fact about your own company — things you can settle by reading, because you are the source.",
+      "A date, a figure and a citation. They are the three shapes the machine produces most fluently when it has least to go on, and each is a thirty-second lookup. Everything else in the draft is tone, judgement, or a fact about your own company. You can settle those by reading, because you are the source.",
   },
   {
     kind: "choice",
@@ -95,12 +95,12 @@ const CHECK: CheckBeat[] = [
       "You ask the assistant 'are you sure about that?' and it says yes. What have you learnt?",
     options: [
       "That the answer is probably right, since it has now been confirmed a second time",
-      "Nothing — its agreement is not independent of your question",
+      "Nothing. Its agreement is not independent of your question",
       "That it has gone back and re-checked its sources before agreeing with you",
     ],
     answer: 1,
     because:
-      "Sharma and colleagues measured how readily these systems move toward the user's apparent view. A yes after 'are you sure' and a change of answer after 'that's wrong' are the same behaviour. Confirmation has to come from outside the conversation.",
+      "Sharma and colleagues measured how readily these systems move toward the user's apparent view. A yes after 'are you sure' and a change of answer after 'that is wrong' are the same behaviour. Confirmation has to come from outside the conversation.",
   },
 ];
 
@@ -144,9 +144,9 @@ export default function VerificationHabitsLesson() {
             Lee and colleagues supply the human half. Across 319 knowledge
             workers, higher confidence in the AI predicted less critical
             thinking; higher confidence in one&rsquo;s own ability predicted
-            more. Trust and scrutiny trade off directly &mdash; which means the
-            tasks you have handed over longest are the ones you are now reading
-            least carefully.
+            more. Trust and scrutiny trade off directly. That means the tasks
+            you have handed over longest are the ones you are now reading least
+            carefully.
           </p>
         </MechanismPanel>
 
@@ -164,7 +164,7 @@ export default function VerificationHabitsLesson() {
           <p>
             Three specifics never make the &ldquo;probably fine&rdquo; list.
             Arithmetic gets recomputed, in a calculator or by asking for code
-            &mdash; Dziri and colleagues showed accuracy collapses as sums get
+            Dziri and colleagues showed that accuracy collapses as sums get
             bigger, and prose that looks like working out is not working out.
             Citations get opened, not scanned. And anything with a date, a
             price or a version gets checked against the source that owns it.
@@ -180,14 +180,14 @@ export default function VerificationHabitsLesson() {
       <div className="pb-4">
         <FeynmanCheck
           question={lesson.feynman!}
-          answer="I ask who sees it and what it costs to undo. If it stays with me, a read-through is plenty. If it goes to a customer or a decision, I check every specific claim against the thing it came from. If somebody could be harmed or the money is real, I do not check it — I have somebody qualified check it, or I do it again myself from scratch. And I stay suspicious of the ones I got away with, because nothing going wrong is not the same as nothing being wrong."
+          answer="I ask who sees it and what it costs to undo. If it stays with me, a read-through is plenty. If it goes to a customer or a decision, I check every specific claim against the thing it came from. If somebody could be harmed or the money is real, I do not check it myself. I have somebody qualified check it, or I do it again from scratch. And I stay suspicious of the ones I got away with, because nothing going wrong is not the same as nothing being wrong."
         />
       </div>
 
       <div className="pb-4">
         <PracticeCard
           title="Find the load-bearing sentence"
-          watchFor="How often the sentence everything rests on is a specific — a figure, a date, a named source — rather than an argument. That is not a coincidence, and it is the shortest route to a check that is actually worth the time."
+          watchFor="How often the sentence everything rests on is a specific rather than an argument. A figure, a date, a named source. That is not a coincidence, and it is the shortest route to a check that is worth the time."
         >
           <p>
             Take the last substantial thing an assistant produced for you. Read

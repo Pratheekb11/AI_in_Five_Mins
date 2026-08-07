@@ -1,5 +1,5 @@
 /**
- * The Bucket Sort — the endgame, and deliberately not a game.
+ * The Bucket Sort, the endgame, and deliberately not a game.
  *
  * Everything else on the site measures something and then scores you against
  * it. This one cannot and does not. Which of your own tasks you are willing to
@@ -92,7 +92,7 @@ export const EVIDENCE: Record<
   },
   "needs-source": {
     finding:
-      "Cold, it ranked the right answer 811th out of 50,257. With the source in front of it, 98.6%. Nothing about the model changed — only what it could see.",
+      "Cold, it ranked the right answer 811th out of 50,257. With the source in front of it, 98.6%. Nothing about the model changed. Only what it could see.",
     where: "Provenance Detective",
     slug: "tools-change-the-game",
   },
@@ -110,7 +110,7 @@ export const EVIDENCE: Record<
   },
   context: {
     finding:
-      "What you put in front of it is most of the answer — and the most helpful-looking card in the pile, a worked example, dropped the right answer from 89.9% to 3.8%.",
+      "What you put in front of it is most of the answer. The most helpful-looking card in the pile, a worked example, dropped the right answer from 89.9% to 3.8%.",
     where: "Context Budget",
     slug: "context-is-everything",
   },
@@ -192,7 +192,7 @@ export function shuffledBy<T>(items: readonly T[], rolls: number[]): T[] {
   return out;
 }
 
-/** Your own tasks first — the generic ones are only there to prime the pump. */
+/** Your own tasks first, the generic ones are only there to prime the pump. */
 export function start(
   mine: readonly SortTask[],
   rolls: number[],
@@ -246,7 +246,7 @@ export function asText(scene: SortScene): string {
   for (const bucket of BUCKETS) {
     const tasks = map[bucket.id];
     if (tasks.length === 0) continue;
-    lines.push(`${bucket.label} — ${bucket.means}`);
+    lines.push(`${bucket.label}: ${bucket.means}`);
     for (const task of tasks) lines.push(`  - ${task.text}`);
     lines.push("");
   }

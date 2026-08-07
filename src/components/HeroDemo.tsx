@@ -15,8 +15,8 @@ import { playCue } from "@/lib/game/sound";
  * argue against.
  *
  * The round is drawn from the phrase act deliberately. Those are the ones the
- * model is genuinely strong at — no rigging, just its own recorded odds on its
- * own best ground — so the first thing a visitor learns is true and stings.
+ * model is genuinely strong at, no rigging, just its own recorded odds on its
+ * own best ground, so the first thing a visitor learns is true and stings.
  */
 
 let cached: Promise<PredictorData> | null = null;
@@ -70,7 +70,7 @@ export function HeroDemo() {
     return (
       <div className="plate p-5">
         <p className="text-ink-soft text-[0.9375rem]">
-          The demo did not load. The modules below still work.
+          The demo did not load. Everything below still works.
         </p>
       </div>
     );
@@ -164,7 +164,7 @@ export function HeroDemo() {
                     />
                   </span>
                   <span className="data text-ink-soft w-14 shrink-0 text-right text-xs tabular-nums">
-                    {revealed ? `${(option.probability * 100).toFixed(1)}%` : "—"}
+                    {revealed ? `${(option.probability * 100).toFixed(1)}%` : "-"}
                   </span>
                 </span>
               </button>
@@ -179,7 +179,7 @@ export function HeroDemo() {
             <p className="mb-1 text-[0.9375rem] font-semibold">
               {youWon ? (
                 <span className="text-teal-text">
-                  You got it &mdash; and so did the machine, at{" "}
+                  You got it, and so did the machine, at{" "}
                   {(round.options[round.truth].probability * 100).toFixed(0)}%.
                 </span>
               ) : (
@@ -191,9 +191,9 @@ export function HeroDemo() {
               )}
             </p>
             <p className="text-ink-soft text-[0.875rem]">
-              Those are its real odds, measured, not illustrated. It is very good
-              at this and very bad at other things &mdash; chapter one is where it
-              falls over.{" "}
+              Those are its real odds, measured rather than illustrated.
+              It is very good at this and very bad at other things. Chapter
+              one is where it falls over.{" "}
               <button
                 type="button"
                 onClick={again}

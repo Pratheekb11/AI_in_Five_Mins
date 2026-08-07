@@ -317,7 +317,7 @@ const main = async () => {
       name: "DistilGPT-2",
       url: "https://huggingface.co/distilbert/distilgpt2",
       licence: "Apache 2.0",
-      note: "A base model. It has had no training to follow instructions — that is a separate stage, and it is the difference between this and the assistant you use. What is measured here is the floor: what works even on a model that is not trying to please you.",
+      note: "A base model. It has had no training to follow instructions. That is a separate stage, and it is the difference between this and the assistant you actually use. What is measured here is the floor: what works even on a model that is not trying to please you.",
     },
     styles: STYLES,
     summary,

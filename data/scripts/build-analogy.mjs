@@ -91,7 +91,7 @@ const ANALOGIES = [
     c: "woman",
     expect: null,
     teaches:
-      "Run the same arithmetic on an occupation and the geometry answers with a stereotype. Nothing is broken — this is what counting real text produces.",
+      "Run the same arithmetic on an occupation and the geometry answers with a stereotype. Nothing is broken. This is what counting real text produces.",
   },
 ];
 

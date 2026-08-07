@@ -92,7 +92,7 @@ export function FlagBeatView({
 
       {state.checked ? (
         <p className="label text-ink-faint mt-3">
-          Teal, you caught it. Pink, you walked past it — there{" "}
+          Teal, you caught it. Pink, you walked past it. There{" "}
           {wrongCount === 1 ? "was one to catch" : `were ${wrongCount} to catch`}
           . Struck through, you flagged something that was fine.
         </p>

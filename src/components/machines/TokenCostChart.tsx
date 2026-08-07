@@ -3,7 +3,7 @@ import type { MultilingualRow } from "@/lib/tokenExamples";
 /**
  * The same sentence, five scripts, one measure: how many tokens it costs.
  *
- * One series, so one ink and no legend — the heading names what the bars are.
+ * One series, so one ink and no legend, the heading names what the bars are.
  * Every bar is directly labelled, which doubles as the table view: there are
  * five rows, so the numbers are simply present rather than hidden in tooltips.
  *
@@ -68,7 +68,7 @@ export function TokenCostChart({ rows }: { rows: MultilingualRow[] }) {
           ).toFixed(1)}
           &times; as many tokens
         </strong>
-        , because the merge table was built mostly from English text and never
+      , because the merge table was built mostly from English text and never
         learned long Devanagari chunks worth reusing.
       </p>
     </figure>

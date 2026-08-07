@@ -12,7 +12,7 @@ import { useOwnTasks } from "@/lib/game/useOwnTasks";
  * starts asking about your actual week.
  *
  * It is stored in this browser and nowhere else. There is no account, no
- * server, and nothing is sent anywhere — which is the same standard the last
+ * server, and nothing is sent anywhere, which is the same standard the last
  * module of this track asks you to hold your tools to.
  */
 export function YourWeek() {
@@ -29,7 +29,7 @@ export function YourWeek() {
       <p className="prose-measure text-ink-soft mb-5 text-[0.9375rem]">
         Type the jobs that actually filled your last five days. They get
         shuffled into the deck the next time you play, and they stay in this
-        browser &mdash; nothing is sent anywhere.
+        browser. Nothing is sent anywhere.
       </p>
 
       <form

@@ -136,7 +136,7 @@ export function TheLoop() {
         {/* The sentence. This is the whole point: it gets longer, and what it
             says next is decided by what it already says. */}
         <p className="label text-ink-faint mb-2">
-          What it has written so far &mdash; and what it is about to add
+          What it has written so far, and what it is about to add
         </p>
         <p className="font-data bg-paper-sunk border-ink/20 mb-6 min-h-[6rem] rounded-[2px] border px-4 py-3 text-[1.0625rem] leading-relaxed">
           <span className="text-ink-soft">{written}</span>
@@ -152,7 +152,7 @@ export function TheLoop() {
         </p>
 
         <p className="label text-ink-faint mb-2">
-          The words it weighed up before picking &mdash; out of{" "}
+          The words it weighed up before picking, out of{" "}
           {data.vocabSize.toLocaleString("en-US")}
         </p>
         <ul className="mb-5 space-y-1.5">
@@ -206,17 +206,16 @@ export function TheLoop() {
           <p className="prose-measure text-ink-soft min-h-[3rem] text-[0.9375rem]">
             {repeating ? (
               <>
-                It has started repeating itself. That is what always taking the
-                likeliest word does &mdash; the likeliest continuation of a
-                likely continuation is likelier still, and it falls into a
-                groove.{" "}
+                It has started repeating itself. That is what always taking
+                the likeliest word does. The likeliest continuation of a likely
+                continuation is likelier still, so it falls into a groove.{" "}
                 <Link
                   href="/lessons/how-llms-answer"
                   className="underline underline-offset-2"
                 >
                   That is measured here
                 </Link>
-                , and it is why real systems roll dice instead.
+              , and it is why real systems roll dice instead.
               </>
             ) : (
               <>
@@ -256,9 +255,9 @@ export function TheLoop() {
       </div>
 
       <p className="border-ink/20 text-ink-faint border-t px-4 py-3 text-[0.8125rem]">
-        {data.model.name}, and every step is a real run over the text the step
-        before it produced &mdash; not a script. It always takes its top choice
-        here, so this exact sentence comes back every time and you can check it.
+        {data.model.name}. Every step is a real run over the text the step
+        before it produced, not a script. It always takes its top choice here,
+        so this exact sentence comes back every time and you can check it.
       </p>
     </div>
   );

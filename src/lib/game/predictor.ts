@@ -32,7 +32,7 @@ export type PredictorRound = {
   options: Option[];
   /** Index of the true continuation. */
   truth: number;
-  /** Index the model would take — its highest-probability option. */
+  /** Index the model would take, its highest-probability option. */
   modelPick: number;
   /** Where the truth sat in the model's whole 50,257-token ranking. */
   answerRank: number;
@@ -130,7 +130,7 @@ export function shuffledBy<T>(items: readonly T[], rolls: number[]): T[] {
  * Deals a round: three of each act, in act order.
  *
  * If an act is short of material the round is shorter rather than padded from
- * a neighbouring act — the three-act shape is the teaching, so a round that
+ * a neighbouring act, the three-act shape is the teaching, so a round that
  * cannot hold it should be visibly wrong rather than quietly reshuffled.
  */
 export function deal(

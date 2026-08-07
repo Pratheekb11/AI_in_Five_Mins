@@ -34,7 +34,7 @@ const SOURCES: Source[] = [
     title: "The Impact of AI on Developer Productivity: Evidence from GitHub Copilot",
     publisher: "Peng, Kalliamvakou, Cihon & Demirer (arXiv:2302.06590, 2023)",
     url: "https://arxiv.org/abs/2302.06590",
-    used: "A controlled experiment on one narrow task — implementing an HTTP server in JavaScript — where the assisted group finished 55.8% faster.",
+    used: "A controlled experiment on one narrow task, implementing an HTTP server in JavaScript, where the assisted group finished 55.8% faster.",
   },
   {
     title:
@@ -57,7 +57,7 @@ const STEPS: Step[] = [
     say: "The biggest field study so far watched five thousand customer support agents get an AI assistant. Productivity went up fourteen per cent on average. That average hides the whole story.",
   },
   {
-    say: "Novices got thirty-four per cent faster. The experienced, highly skilled agents got almost nothing. The tool was spreading what the best people already did — and if you are already doing it, there is nothing to spread to you.",
+    say: "Novices got thirty-four per cent faster. The experienced, highly skilled agents got almost nothing. The tool was spreading what the best people already did. If you are already doing it, there is nothing left to spread to you.",
     caption:
       "Brynjolfsson, Li & Raymond, 2023. 5,179 agents, issues resolved per hour.",
   },
@@ -68,7 +68,7 @@ const STEPS: Step[] = [
     say: "Four honest buckets. Hand it over and skim. Let it draft and you finish. Think out loud with it while you do the work. Or keep it entirely.",
   },
   {
-    say: "The useful output of that round was not the score. It was the list of tasks you stalled on. Those are the ones you have never actually decided about — and undecided is how a bad hand-over happens.",
+    say: "The useful output of that round was not the score. It was the list of tasks you stalled on. Those are the ones you have never actually decided about, and undecided is how a bad hand-over happens.",
   },
 ];
 
@@ -93,14 +93,14 @@ const CHECK: CheckBeat[] = [
       { id: "d2", text: "reversed" },
     ],
     because:
-      "Brynjolfsson, Li and Raymond, 2023. The shape of those three numbers is the whole finding: the tool spreads what the strongest workers already do, so it is worth a great deal where you are new and close to nothing where you are already the person others copy. That is a claim about measured averages, not about you — which is why the audit is yours to do.",
+      "Brynjolfsson, Li and Raymond, 2023. The shape of those three numbers is the whole finding. The tool spreads what the strongest workers already do. So it is worth a great deal where you are new, and close to nothing where you are already the person others copy. That is a claim about measured averages, not about you. Which is why the audit is yours to do.",
   },
   {
     kind: "choice",
     prompt: "Why does a task you cannot sort in six seconds matter?",
     options: [
       "It means the task is simply not important enough to be worth sorting into either bucket",
-      "It means you have not decided — and undecided is what gets handed over badly under time pressure",
+      "It means you have not decided, and undecided is what gets handed over badly under time pressure",
       "It means the task is too complicated for AI to be much use on it yet",
     ],
     answer: 1,
@@ -119,7 +119,7 @@ export default function TaskAuditLesson() {
             <span className="text-teal-text">almost nothing</span>.
           </>
         }
-        sting="Novices got 34% faster. The average was 14%. The experts, statistically, got a rounding error — because the tool spreads what the best people already do, and they were already doing it. So the only question that matters is which of your tasks sit on the wrong side of that line."
+        sting="Novices got 34% faster. The average was 14%. The experts, statistically, got a rounding error. The tool spreads what the best people already do, and they were already doing it. So the only question that matters is which of your tasks sit on the wrong side of that line."
         cta="Sort your week"
       />
 
@@ -174,8 +174,8 @@ export default function TaskAuditLesson() {
             It also tells you where the value is hiding: not in the work you are
             proud of, but in the competent, unremarkable work you produce
             because it has to exist. And in the work that sits just outside what
-            you know how to do &mdash; the language you cannot read, the format
-            you have never written.
+            you know how to do. The language you cannot read, the format you
+            have never written.
           </p>
           <p>
             One caution about generalising. That study is one job, one company,
@@ -199,9 +199,9 @@ export default function TaskAuditLesson() {
           </p>
           <p>
             Which is a warning about the hand-over bucket specifically. It is
-            the right bucket for plenty of work &mdash; but the tasks in it are
-            precisely the ones you have stopped reading carefully. The last
-            module of this track is about where that line sits.
+            the right bucket for plenty of work, but the tasks in it are
+            exactly the ones you have stopped reading carefully. The last
+            chapter of this track is about where that line sits.
           </p>
         </MechanismPanel>
       </div>
@@ -216,7 +216,7 @@ export default function TaskAuditLesson() {
       <div className="pb-4">
         <PracticeCard
           title="Keep a hand-over log for one week"
-          watchFor="How often the answer was 'I didn't check'. That number, not the time saved, is the honest measure of whether the hand-over was a good one."
+          watchFor="How often the answer was 'I did not check'. That number, not the time saved, is the honest measure of whether the hand-over was a good one."
         >
           <p>
             Every time you hand something to an assistant this week, write one
@@ -241,10 +241,10 @@ export default function TaskAuditLesson() {
 
 /** One honest question per bucket, printed after the sorting is done. */
 const TESTS: Record<string, string> = {
-  hand: "Would I notice if this came back wrong? If the honest answer is no, this is not a hand-over — it is a hope.",
+  hand: "Would I notice if this came back wrong? If the honest answer is no, this is not a hand-over. It is a hope.",
   draft:
     "Do I know what good looks like here? If yes, a first draft saves you the blank page and costs you nothing.",
   think:
-    "Am I trying to produce something, or work something out? For working out, the value is being argued with — so ask it to attack your reasoning, not to agree.",
+    "Am I trying to produce something, or work something out? For working out, the value is being argued with. So ask it to attack your reasoning, not to agree with it.",
   keep: "Is this the judgement people rely on me for, or something with my name on it in a way I would have to defend? Then keep it.",
 };

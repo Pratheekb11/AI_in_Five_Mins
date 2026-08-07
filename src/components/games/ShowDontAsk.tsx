@@ -27,7 +27,7 @@ import {
  * hundred times over.
  *
  * The bars land together rather than one at a time, because the comparison is
- * the point — you are meant to see the pattern phrasing tower over the polite
+ * the point, you are meant to see the pattern phrasing tower over the polite
  * one, not read five numbers in sequence.
  */
 
@@ -94,7 +94,7 @@ export function ShowDontAsk() {
     <GameShell
       gameId="show-dont-ask"
       name="Show, Don't Ask"
-      instruction="One thing you want out of the model, and five ways of asking for it. Pick the phrasing that actually gets it — then watch all five measured at once. Most of what people tell you about prompting turns out not to survive this."
+      instruction="One thing you want out of the model, and five ways of asking for it. Pick the phrasing that you think gets it, then watch all five measured at once. Most of what people tell you about prompting turns out not to survive this."
       howToPlay={{
         goal: "Pick the phrasing that actually gets what you asked for.",
         steps: [
@@ -150,7 +150,7 @@ export function ShowDontAsk() {
             Telling it how to answer did almost nothing. Giving it a role to
             play did slightly less than nothing. Showing it one worked example
             beat both on every single item. Delegation is not conversation
-            &mdash; if you want a particular shape of answer, put an example of
+            . If you want a particular shape of answer, put an example of
             that shape in front of it.
           </p>
         </div>
@@ -159,7 +159,7 @@ export function ShowDontAsk() {
         data ? (
           <>
             Measured on {data.model.name}, a base model with no
-            instruction-following training at all &mdash; which is the point.
+            instruction-following training at all, which is the point.
             The assistant you use has had that training, so polite instructions
             do work on it. What this shows is the floor: showing a pattern works
             even on a model that is not trying to please you, which is why it
@@ -250,7 +250,7 @@ export function ShowDontAsk() {
                                   : "text-ink-soft"
                             }`}
                           >
-                            {multiple ? `${multiple.toFixed(multiple >= 10 ? 0 : 1)}×` : "—"}
+                            {multiple ? `${multiple.toFixed(multiple >= 10 ? 0 : 1)}×` : "-"}
                           </span>
                         </span>
                       ) : null}

@@ -139,7 +139,7 @@ const output = {
     licence: "Public domain",
   },
   model: {
-    kind: "Bigram — counts of which word followed which, nothing else",
+    kind: "Bigram: counts of which word followed which, nothing else",
     vocabulary: unigram.size,
     trainedOnWords: words.length,
   },

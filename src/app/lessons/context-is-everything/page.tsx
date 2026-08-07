@@ -52,13 +52,13 @@ const STEPS: Step[] = [
       "Not your last conversation. Not your file that was not attached. Not the correction you made yesterday.",
   },
   {
-    say: "And the context has a fixed maximum size. That is the five slots you just filled. When new text arrives and there is no room, the oldest is dropped so it fits — with no warning, and no note in the reply.",
+    say: "The context also has a fixed maximum size. That is the five slots you just filled. When new text arrives and there is no room, the oldest text is dropped to make it fit. You get no warning, and no note in the reply.",
   },
   {
-    say: "Nothing announces this. The reply comes back in the same confident voice as always. It is not lying to you about remembering — from where it is sitting, that message was never there.",
+    say: "Nothing announces this. The reply comes back in the same confident voice as always. It is not lying to you about remembering. From where it sits, that message was never there.",
   },
   {
-    say: "Which tells you the fix. Do not ask it to remember harder. Put the thing back in front of it. Restate the constraint, re-paste the document, start a fresh chat with a short summary you wrote yourself.",
+    say: "That tells you the fix. Do not ask it to remember harder. Put the thing back in front of it. Restate the constraint, paste the document again, or start a fresh chat with a short summary you wrote yourself.",
   },
 ];
 
@@ -79,7 +79,7 @@ const CHECK: CheckBeat[] = [
       { id: "example", text: "A worked example with a placeholder in it", bucket: "bad" },
     ],
     because:
-      "Measured across all five scenarios in the game: chit-chat and the unrelated policy land between 0.89× and 1.10× of the answer's probability — noise, effectively free. The other three are not noise, they are rivals. Each one contains something that fits the shape of the answer, and the worked example is the worst of them: in the wi-fi scenario it takes the right answer from 89.9% to 3.8%, because the model copies the placeholder.",
+      "This was measured across all five scenarios in the game. Chit-chat and the unrelated policy land between 0.89× and 1.10× of the answer's probability. That is noise, and it is close to free. The other three are not noise. They are rivals. Each one holds something shaped like the answer. The worked example is the worst of them. In the wi-fi scenario it drags the right answer from 89.9% down to 3.8%, because the model copies the placeholder.",
   },
   {
     kind: "choice",
@@ -91,7 +91,7 @@ const CHECK: CheckBeat[] = [
     ],
     answer: 1,
     because:
-      "A long, messy chat is a long, messy context — and every wrong turn in it is still being read as input. Starting again with a clean, short context is not giving up. It is the single highest-leverage habit in this whole course.",
+      "A long, messy chat is a long, messy context. Every wrong turn in it is still read as input. Starting again with a short, clean context is not giving up. It is the most useful habit on this whole site.",
   },
 ];
 
@@ -106,7 +106,7 @@ export default function ContextIsEverythingLesson() {
             top, every single time.
           </>
         }
-        sting="So what is in front of it is the entire job. You get five slots and a pile of cards — the document, the chit-chat, the decoy, the helpful-looking example — and then the real model is run on exactly what you built. One of those cards drops the right answer from 89.9% to 3.8%, and it is not the one you would guess."
+        sting="So what is in front of it is the whole job. You get five slots and a pile of cards: the document, the chit-chat, the decoy, the helpful-looking example. Then a real model is run on exactly what you built. One of those cards drops the right answer from 89.9% to 3.8%, and it is not the one you would guess."
         cta="Open the window"
       />
 
@@ -119,12 +119,12 @@ export default function ContextIsEverythingLesson() {
         <VideoPanel video={video} />
       </div>
 
-      {/* Both panels land after the window has already cost the reader something
-          player needed — the question they are asking right now is "why". */}
+      {/* Both panels land after the window has already cost the player
+          something they needed. The question they are asking now is "why". */}
       <div className="space-y-4 pb-4">
         <MechanismPanel
           question="A fixed length of what, exactly?"
-          summary="Not words, and not characters. The window is counted in tokens — the chunks a model actually reads."
+          summary="Not words, and not characters. The window is counted in tokens, which are the chunks a model actually reads."
           deeper="tokens"
         >
           <p>
@@ -137,9 +137,9 @@ export default function ContextIsEverythingLesson() {
           <p>
             Two consequences worth carrying around. A page of ordinary English
             costs far fewer tokens than a page of code, chemical names or
-            unusual proper nouns &mdash; so how much fits depends on what you
-            put in. And an attached file is not stored anywhere: it is poured
-            into the same window as the conversation, and it competes with it.
+            unusual proper nouns. So how much fits depends on what you put in.
+            And an attached file is not stored anywhere. It is poured into the
+            same window as the conversation, and it competes for the same room.
           </p>
         </MechanismPanel>
 
@@ -153,14 +153,14 @@ export default function ContextIsEverythingLesson() {
             a question at different positions inside a long context and measured
             how often the model found it. Accuracy was highest when the answer
             sat near the beginning or the end, and dropped noticeably when it
-            sat in the middle &mdash; including for models built specifically
-            for long contexts.
+            sat in the middle. That held even for models built specifically for
+            long contexts.
           </p>
           <p>
             So &ldquo;it is in the document I gave you&rdquo; is a weaker
-            guarantee than it feels like. If one paragraph is what your question
+            guarantee than it feels. If one paragraph is what your question
             turns on, quote that paragraph. You are not being rude to the
-            machine; you are moving it out of the middle.
+            machine. You are moving that paragraph out of the middle.
           </p>
         </MechanismPanel>
       </div>
@@ -168,20 +168,20 @@ export default function ContextIsEverythingLesson() {
       <div className="pb-4">
         <FeynmanCheck
           question={lesson.feynman!}
-          answer="Because it never held on to it in the first place. Each time you send a message, it gets handed the conversation as one long piece of text and reads the whole thing again. That piece of text has a maximum length, so when the chat outgrows it, the oldest part is cut off to make room. Nothing tells you this happened. If you need something from earlier, the fix is to say it again — you are not reminding it, you are putting it back in front of it."
+          answer="Because it never held on to it in the first place. Each time you send a message, it is handed the conversation as one long piece of text, and it reads the whole thing again. That piece of text has a maximum length. When the chat outgrows it, the oldest part is cut off to make room. Nothing tells you this happened. If you need something from earlier, say it again. You are not reminding it. You are putting the thing back in front of it."
         />
       </div>
 
       <div className="pb-4">
         <PracticeCard
           title="Make it drop something"
-          watchFor="That it never says 'I have lost that'. It either answers from what is left or fills the gap with something plausible. Silence about the loss is the whole problem — you have to notice it yourself."
+          watchFor="That it never says 'I have lost that'. It either answers from what is left, or it fills the gap with something plausible. The silence is the whole problem. You have to notice the loss yourself."
         >
           <p>
-            Open a long chat you already have &mdash; one that has run for
-            dozens of messages. Near the top, find a specific instruction or
-            detail you gave it early on. Now ask about that exact detail without
-            repeating it.
+            Open a long chat you already have, one that has run for dozens of
+            messages. Near the top, find a specific instruction or detail you
+            gave it early on. Now ask about that exact detail without repeating
+            it.
           </p>
           <p>
             Then start a fresh chat, paste in four lines summarising what

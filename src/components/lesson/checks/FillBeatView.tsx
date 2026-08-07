@@ -118,7 +118,7 @@ export function FillBeatView({
           {blanks
             .map((b) => `${textOf(b.blank)}`)
             .join(" · ")}{" "}
-          — in that order.
+        , in that order.
         </p>
       ) : pool.length > 0 ? (
         <div className="border-ink/25 bg-paper-sunk mt-4 flex flex-wrap gap-2 rounded-[2px] border border-dashed p-3">

@@ -9,7 +9,7 @@ import { gradient, gradientStep, meanSquaredError } from "@/lib/ml";
  *
  * The model has exactly one number in it: how many tokens you get per
  * character. The learner turns that number by hand, watches the error move,
- * and then hands it over to the machine — which does nothing cleverer than
+ * and then hands it over to the machine, which does nothing cleverer than
  * repeatedly step downhill.
  *
  * Every figure is computed live from 140 real sentences, so the value it
@@ -106,7 +106,7 @@ export function GradientHill() {
               The guess, against the evidence
             </h3>
             <p className="text-ink-soft mt-1 text-sm">
-              {sampleSize} real sentences. Each dot is one — how long it is,
+              {sampleSize} real sentences. Each dot is one sentence: how long it is,
               against how many tokens it cost.
             </p>
           </figcaption>
@@ -120,7 +120,7 @@ export function GradientHill() {
             </h3>
             <p className="text-ink-soft mt-1 text-sm">
               How wrong the line is, for every setting of the dial. The machine
-              cannot see this shape — it only feels which way is down.
+              cannot see this shape. It only feels which way is down.
             </p>
           </figcaption>
           <ErrorCurve curve={curve} slope={slope} />
@@ -233,7 +233,7 @@ export function GradientHill() {
             </span>
           ) : slopeAtBest ? (
             <span className="text-teal-text">
-              Settled. {best.charsPerToken} characters per token &mdash; the
+              Settled. {best.charsPerToken} characters per token, and the
               number nobody wrote down, recovered from {sampleSize} sentences by
               nothing more than repeatedly stepping downhill.
             </span>
@@ -247,7 +247,7 @@ export function GradientHill() {
       </div>
 
       <p className="data text-ink-faint text-xs">
-        {source.title} &mdash; {source.author} · {source.via} · public domain
+        {source.title} · {source.author} · {source.via} · public domain
       </p>
     </div>
   );

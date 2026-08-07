@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
  *
  * The page was a stack of static plates: everything was already there, so
  * nothing ever felt like it was happening. This is the cheapest fix that is not
- * decoration — sections lift into place as they come into view, which gives the
+ * decoration, sections lift into place as they come into view, which gives the
  * eye somewhere to go and makes a long lesson read as a sequence rather than a
  * wall.
  *
@@ -21,7 +21,7 @@ import type { ReactNode } from "react";
 export function Reveal({
   children,
   delay = 0,
-  /** How far it travels. Small by default — this should be barely noticed. */
+  /** How far it travels. Small by default, this should be barely noticed. */
   distance = 14,
   className,
 }: {

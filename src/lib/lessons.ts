@@ -46,17 +46,17 @@ export const TRACKS: Record<Track, { title: string; blurb: string }> = {
   chapter: {
     title: "The six chapters",
     blurb:
-      "The whole thing, in order, in about an hour. Every chapter is one idea and one game, and every game is a real measurement you get to be wrong about before you see it.",
+      "The whole thing, in order, in about an hour. Each chapter is one idea and one game, and every game makes you commit to a guess before it shows you what a real model actually did.",
   },
   close: {
     title: "Before you go",
     blurb:
-      "The part you take to work. A puzzle that changes daily, your own week sorted into what you would hand over, and a hard look at what you are willing to paste in.",
+      "The part you take to work. A puzzle that changes every day, your own week sorted into what you would hand over, and a hard look at what you are willing to paste in.",
   },
   how: {
     title: "Down the rabbit hole",
     blurb:
-      "Optional depth, as far down as you care to go. Each of these is linked from the moment inside a chapter where you would actually want it, so you should never need to come here first. Real tokenizers, real word vectors, real probabilities.",
+      "Optional depth, as far down as you care to go. Every one of these is linked from the moment inside a chapter where you would actually want it, so you should never need to start here. Real tokenizers, real word vectors, real probabilities.",
   },
 };
 
@@ -95,7 +95,7 @@ export const LESSONS: Lesson[] = [
     number: 3,
     title: "Context is everything",
     standfirst:
-      "It knows what is in front of it right now. Your prompt, this chat, your attachments. Nothing else.",
+      "It only knows what is in front of it right now: your prompt, this chat, your attachments. Nothing else.",
     nugget: "No context, no chance.",
     machine: "Context Budget",
     minutes: 7,
@@ -109,8 +109,8 @@ export const LESSONS: Lesson[] = [
     number: 4,
     title: "Prompting as delegation",
     standfirst:
-      "Treat it like a sharp new intern. Role, goal, constraints, format, and an example of good.",
-    nugget: "Delegate, don't converse.",
+      "Treat it like a sharp new intern. Give it a role, a goal, constraints, a format, and an example of what good looks like.",
+    nugget: "Delegate, do not converse.",
     machine: "Show, Don't Ask",
     minutes: 8,
     ink: "yellow",
@@ -182,7 +182,7 @@ export const LESSONS: Lesson[] = [
     number: 3,
     title: "Judgment and limits",
     standfirst:
-      "Pasting is disclosing, and there is a line between using a tool and outsourcing your thinking.",
+      "Pasting is disclosing. And there is a line between using a tool and outsourcing your thinking.",
     nugget: "Anything you paste, you have already shared.",
     machine: "The Paste Test",
     minutes: 8,
@@ -260,7 +260,7 @@ export const LESSONS: Lesson[] = [
     number: 6,
     title: "Why the failures happen",
     standfirst:
-      "The mechanics behind forgetting, making things up, and inherited bias — each one measured.",
+      "The mechanics behind forgetting, making things up, and inherited bias, and each one is measured.",
     machine: "Failure Bench",
     minutes: 10,
     ink: "teal",
@@ -277,7 +277,7 @@ export function lessonsIn(track: Track): Lesson[] {
   return LESSONS.filter((l) => l.track === track);
 }
 
-/** Previous and next within the same track — tracks are read end to end. */
+/** Previous and next within the same track, tracks are read end to end. */
 export function neighbours(slug: string): {
   previous?: Lesson;
   next?: Lesson;

@@ -27,8 +27,8 @@ export function SiteFooter() {
             </p>
             <p className="prose-measure text-ink-soft mt-2 text-sm">
               Every token, vector and probability here is computed from a real
-              model or a published dataset. If a number cannot be traced, it does
-              not ship.
+              model or a published dataset. If a number cannot be traced, it
+              does not ship.
             </p>
           </div>
 

@@ -67,10 +67,10 @@ const STEPS: Step[] = [
   {
     say: "Five things do the work. Who they are. What you want done. The limits. The shape the answer should arrive in. And one example of good.",
     caption:
-      "Role · Goal · Constraints · Format · Example. You rarely need all five — you need to know which one you left out.",
+      "Role · Goal · Constraints · Format · Example. You rarely need all five. You need to know which one you left out.",
   },
   {
-    say: "Everything else you typed is manners. Please, thanks, urgent, you're brilliant. None of it is harmful and none of it is doing any work — the role-play phrasing measured slightly worse than saying nothing at all.",
+    say: "Everything else you typed is manners. Please, thanks, urgent, you are brilliant. None of it is harmful, and none of it is doing any work. The role-play phrasing measured slightly worse than saying nothing at all.",
   },
   {
     say: "Here is the test that replaces all of this advice. Read your prompt back and ask: if I sent only this to a competent stranger, would they produce what I actually want? If the answer is no, you already know which part is missing.",
@@ -97,7 +97,7 @@ const CHECK: CheckBeat[] = [
       { text: "soon", wrong: true },
     ],
     because:
-      "Short, professional, punchy and soon are the four words carrying your standards, and none of them survives leaving your head. Everything else in the request is checkable by someone who has never met you. Replace the four with a number, a shape and a deadline — under 100 words, five bullets, no adjectives, by 2pm — and the same request becomes something a stranger could deliver.",
+      "Short, professional, punchy and soon are the four words carrying your standards, and none of them survives leaving your head. Everything else in the request is checkable by someone who has never met you. Replace those four with a number, a shape and a deadline. Under 100 words, five bullets, no adjectives, by 2pm. Now the same request is something a stranger could deliver.",
   },
   {
     kind: "choice",
@@ -110,7 +110,7 @@ const CHECK: CheckBeat[] = [
     ],
     answer: 2,
     because:
-      "That single question catches almost everything: unstated audience, unstated length, unstated format, unstated standard of good. It works because the model genuinely is a stranger — everything obvious to you about this job is invisible to it.",
+      "That single question catches almost everything: unstated audience, unstated length, unstated format, unstated standard of good. It works because the model really is a stranger. Everything that is obvious to you about this job is invisible to it.",
   },
 ];
 
@@ -124,7 +124,7 @@ export default function PromptingAsDelegationLesson() {
             <span className="text-yellow-text">does no work at all</span>.
           </>
         }
-        sting="Not the bit you would guess, either. Across fourteen goals, telling it how to answer moved the odds by 1.65 times and telling it that it is an expert by 1.02 — which is to say, not at all. Showing it one worked example moved them by 125, and won every single goal. Five phrasings of the same request, and you pick the one that actually lands."
+        sting="Not the bit you would guess, either. Across fourteen goals, telling it how to answer moved the odds by 1.65 times. Telling it that it is an expert moved them by 1.02, which is to say not at all. Showing it one worked example moved them by 125, and won every single goal. Five phrasings of the same request, and you pick the one that lands."
         cta="Take the first one"
       />
 
@@ -140,7 +140,7 @@ export default function PromptingAsDelegationLesson() {
       <div className="space-y-4 pb-4">
         <MechanismPanel
           question="Does the politeness actually cost me anything?"
-          summary="It costs tokens and instructs nobody. That is the honest answer — the game charges you for it to force you to read."
+          summary="It costs tokens and instructs nobody. That is the honest answer. The game charges you for it so that you have to read it."
           deeper="tokens"
         >
           <p>
@@ -170,8 +170,8 @@ export default function PromptingAsDelegationLesson() {
             The model produces text that plausibly continues its input. If its
             input contains a worked example of the thing you want, the most
             plausible continuation is another one of those. That is the whole
-            mechanism &mdash; Brown and colleagues named it few-shot learning
-            and measured it in 2020, and nothing is being retrained when it
+            mechanism. Brown and colleagues named it few-shot learning and
+            measured it in 2020, and nothing is being retrained when it
             happens.
           </p>
           <p>
@@ -187,7 +187,7 @@ export default function PromptingAsDelegationLesson() {
         <h2 className="display-lg mb-2">Now check one of your own</h2>
         <p className="prose-measure text-ink-soft mb-5">
           Paste in a prompt you have really sent. This is a keyword check, not
-          comprehension &mdash; it shows you what it matched on so you can
+          comprehension. It shows you what it matched on, so that you can
           overrule it. Judging the evidence yourself is the point.
         </p>
         <PromptInspector />
@@ -196,7 +196,7 @@ export default function PromptingAsDelegationLesson() {
       <div className="pb-4">
         <FeynmanCheck
           question={lesson.feynman!}
-          answer="Ask it the way you would ask a capable person who has just joined and knows nothing about your world. Say who they should be, what you want done, what the limits are, what shape the answer should come in, and show one example of a good one. Then read it back and ask whether a stranger given only that would produce what you want. If not, you have found the missing part — and it is almost never the politeness."
+          answer="Ask it the way you would ask a capable person who has just joined and knows nothing about your world. Say who they should be, what you want done, what the limits are, what shape the answer should come in, and show one example of a good one. Then read it back and ask whether a stranger given only that would produce what you want. If not, you have found the missing part, and it is almost never the politeness."
         />
       </div>
 

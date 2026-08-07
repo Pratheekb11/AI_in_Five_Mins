@@ -1,7 +1,7 @@
 /**
  * Real BPE tokenization, in the browser.
  *
- * This is the `o200k_base` encoding — the same byte-pair merge table OpenAI's
+ * This is the `o200k_base` encoding, the same byte-pair merge table OpenAI's
  * GPT-4o and GPT-5 family models use. Nothing here is a simulation or an
  * approximation of tokenizing; every split and every id a learner sees is what
  * the actual model would receive.
@@ -29,7 +29,7 @@ type Encoding = {
 let encodingPromise: Promise<Encoding> | null = null;
 
 /**
- * Loads (and caches) the encoding. Safe to call repeatedly — concurrent callers
+ * Loads (and caches) the encoding. Safe to call repeatedly, concurrent callers
  * share one download.
  */
 export function loadEncoding(): Promise<Encoding> {

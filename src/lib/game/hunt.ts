@@ -6,7 +6,7 @@
  * you the round.
  *
  * The paragraphs are the openings of real Wikipedia articles and the
- * alterations were checked against the cited revision before shipping — see
+ * alterations were checked against the cited revision before shipping, see
  * `data/scripts/build-hunt.mjs`. That matters more here than anywhere else on
  * the site: a spot-the-error game with an unreliable answer key teaches people
  * to distrust the wrong things.

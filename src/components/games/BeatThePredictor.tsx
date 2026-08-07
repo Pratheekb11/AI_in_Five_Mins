@@ -30,7 +30,7 @@ import {
  * that the only motion in the room is the evidence arriving.
  */
 
-/** "1st", "2nd", "148th" — a rank reads better than an index to a person. */
+/** "1st", "2nd", "148th", a rank reads better than an index to a person. */
 function ordinal(n: number): string {
   const tens = n % 100;
   if (tens >= 11 && tens <= 13) return `${n.toLocaleString("en-US")}th`;
@@ -100,7 +100,7 @@ export function BeatThePredictor() {
     <GameShell
       gameId="beat-the-predictor"
       name="Beat the Predictor"
-      instruction="A sentence, with its last word taken away. You pick one of four. The machine picks at the same time, and then its real odds arrive as bars. Nine rounds, and it is not the same game all the way through."
+      instruction="A sentence with its last word taken away. You pick one of four. The machine picks at the same time, and then its real odds arrive as bars. Nine rounds, and it is not the same game all the way through."
       howToPlay={{
         goal: "Guess the missing word more often than the machine does.",
         steps: [
@@ -143,13 +143,13 @@ export function BeatThePredictor() {
           <p className="text-ink-soft mb-2 text-[0.9375rem]">
             {scene.upsets > 0
               ? `${scene.upsets} ${scene.upsets === 1 ? "round" : "rounds"} where you were right and it was confidently wrong.`
-              : "It did not put a foot wrong against you this time. Go again — act three is where it falls over."}
+              : "It did not put a foot wrong against you this time. Go again, because act three is where it falls over."}
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
-            It won the ordinary sentences because that is precisely what it is:
-            a machine for guessing what usually comes next. It lost the book,
-            and it lost the facts, for the same reason. Nothing in it is asking
-            what is true &mdash; only what is likely.
+            It won the ordinary sentences because that is exactly what it
+            is: a machine for guessing what usually comes next. It lost the book
+            and it lost the facts for the same reason. Nothing in it asks
+            what is true, only what is likely.
           </p>
         </div>
       }
@@ -158,8 +158,9 @@ export function BeatThePredictor() {
           <>
             Every percentage is {data.model.name}&rsquo;s own output, measured
             over {data.measuredSentences} sentences from {data.corpus.name}{" "}
-            and printed unrounded. The wrong options are not invented &mdash; they
-            are tokens the model itself ranked highly for that sentence.
+            and printed unrounded. The wrong options are not invented.
+            They are tokens the model itself ranked highly for that
+            sentence.
           </>
         ) : failed ? (
           <>The odds did not load.</>
@@ -261,7 +262,7 @@ export function BeatThePredictor() {
                             ? `${(option.probability * 100).toFixed(
                                 option.probability < 0.01 ? 3 : 1,
                               )}%`
-                            : "—"}
+                            : "-"}
                         </span>
                       </span>
                     </button>
@@ -283,7 +284,7 @@ export function BeatThePredictor() {
                     }`}
                   >
                     {result.upset
-                      ? `You got it, the machine did not — and it was ${(
+                      ? `You got it and the machine did not, and it was ${(
                           round.options[round.modelPick].probability * 100
                         ).toFixed(0)}% sure. +${pointsFor(round, scene.picked!)}`
                       : result.you
@@ -329,7 +330,7 @@ export function BeatThePredictor() {
               ) : (
                 <p className="text-ink-soft text-[0.9375rem]">
                   Pick one. Keys 1&ndash;4 work too. The machine has already
-                  chosen &mdash; you just cannot see it yet.
+                  chosen, you just cannot see it yet.
                 </p>
               )}
             </div>

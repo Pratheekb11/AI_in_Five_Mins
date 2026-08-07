@@ -20,7 +20,7 @@ import {
 } from "@/lib/game/provenance";
 
 /**
- * Provenance Detective — three doors, one question.
+ * Provenance Detective, three doors, one question.
  *
  * You are shown a question and asked which of three situations you are in
  * before you see any evidence. Then the evidence arrives as two bars: what the
@@ -95,13 +95,13 @@ export function ProvenanceDetective() {
     <GameShell
       gameId="provenance-detective"
       name="Provenance Detective"
-      instruction="A question, and three doors. Does it already know this, does it need the source handing to it, or does it need a tool that can actually do the work? Call it before you see the evidence — because in real use, you always have to."
+      instruction="A question, and three doors. Does it already know this, does it need the source handing to it, or does it need a tool that can actually do the work? Call it before you see the evidence, because in real use you always have to."
       howToPlay={{
         goal: "Say where the answer would have to come from, before you see any evidence.",
         steps: [
           "Read the question.",
           "Choose one of three doors: it already knows this, it needs the source handing to it, or it needs a real tool.",
-          "The evidence arrives — what the model does cold, and what it does with the source in front of it.",
+          "The evidence arrives. You see what the model does cold, and what it does with the source in front of it.",
         ],
         controls: "Click a door, or press 1–3. Enter moves on.",
         scoring: "100 a call, plus 80 for spotting a gap the model hides well.",
@@ -140,7 +140,7 @@ export function ProvenanceDetective() {
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
             This is the habit worth keeping. Not &ldquo;is AI reliable&rdquo;
-            &mdash; that question has no answer. Ask instead which of the three
+            . That question has no answer. Ask instead which of the three
             you are in. Recall, and it is probably fine. Something it would have
             to look up, and it needs the source or it will invent one. Actual
             work, and it needs a tool. The reply reads exactly the same in all
@@ -216,7 +216,7 @@ export function ProvenanceDetective() {
                   >
                     {correct
                       ? `${VERDICTS[truth!].label}. +${pointsFor(round, scene.called!)}`
-                      : `Not quite — ${VERDICTS[truth!].label.toLowerCase()}.`}
+                      : `Not quite. ${VERDICTS[truth!].label}.`}
                   </p>
 
                   {isSum(round) ? (
@@ -227,7 +227,7 @@ export function ProvenanceDetective() {
                       <p className="font-data mb-2 text-[1.0625rem]">
                         {round.prompt}
                         <span className="bg-pink-wash text-pink-text ml-1 rounded-[2px] px-2">
-                          {round.raw || "—"}
+                          {round.raw || "-"}
                         </span>
                       </p>
                       <p className="text-ink-soft text-[0.9375rem]">
@@ -285,7 +285,7 @@ export function ProvenanceDetective() {
                       </ul>
                       <p className="prose-measure text-ink-soft mb-2 text-[0.9375rem]">
                         {round.kind === "memory"
-                          ? "It had this already — the true answer was its own first choice with no help at all. Handing it the source barely moved anything."
+                          ? "It had this already. The true answer was its own first choice, with no help at all. Handing it the source barely moved anything."
                           : `Cold, the true answer was its ${round.bare.rank + 1}th choice out of 50,257, and it would have said “${round.bare.topText.trim()}” instead. With the source in front of it, near-certain. Nothing about the model changed; only what it could see.`}
                       </p>
                       <p className="text-ink-faint text-[0.8125rem]">
@@ -317,7 +317,7 @@ export function ProvenanceDetective() {
               ) : (
                 <p className="text-ink-soft text-[0.9375rem]">
                   Keys 1&ndash;3 work. There is no way to tell from the answer
-                  itself &mdash; that is the point of calling it first.
+                  itself. That is the point of calling it first.
                 </p>
               )}
             </div>

@@ -4,7 +4,7 @@ import { cycleInk, type Ink } from "@/lib/ink";
 import { Slug, type SlugSize } from "./Slug";
 
 /**
- * A run of slugs — the site's spine element.
+ * A run of slugs, the site's spine element.
  *
  * Adjacent items are inked differently on purpose. The colours carry no
  * meaning here; the *boundaries* are the information, and alternating ink is

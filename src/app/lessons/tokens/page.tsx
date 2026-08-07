@@ -50,7 +50,7 @@ const hindi = TOKEN_EXAMPLES.multilingual.find((r) => r.language === "Hindi")!;
 
 const SOURCES: Source[] = [
   {
-    title: "tiktoken — BPE tokeniser for OpenAI models",
+    title: "tiktoken, the BPE tokeniser for OpenAI models",
     publisher: "OpenAI",
     url: "https://github.com/openai/tiktoken",
     used: "The o200k_base encoding behind every split, token id, merge and score on this page.",
@@ -67,7 +67,7 @@ const SOURCES: Source[] = [
     title: "Neural Machine Translation of Rare Words with Subword Units",
     publisher: "Sennrich, Haddow & Birch (ACL 2016)",
     url: "https://aclanthology.org/P16-1162/",
-    used: "The paper that introduced byte-pair encoding for language models — the algorithm replayed in the figure.",
+    used: "The paper that introduced byte-pair encoding for language models. It is the algorithm replayed in the figure.",
   },
   {
     title: "Language Model Tokenizers Introduce Unfairness Between Languages",
@@ -97,7 +97,7 @@ const STEPS: Step[] = [
       />
     ),
     caption:
-      "This is why models miscount the letters in strawberry — the r's were never separate things it saw.",
+      "This is why models miscount the letters in strawberry. The r's were never separate things it saw.",
   },
   {
     say: "Add a space in front and the whole word becomes a single token. The space belongs to the token after it, which surprises almost everybody.",
@@ -132,11 +132,11 @@ const CHECK: CheckBeat[] = [
       { left: '"1000000"', right: million.pieces.join(" | ") },
     ],
     because:
-      "Every split above is o200k_base doing its job, not an illustration of it. Note what the pairs have in common: nothing lines up with syllables, meaning or place value. The chunks are whatever turned out to be common in the text the vocabulary was built from — which is also why the same word costs a different amount depending on whether a space came first.",
+      "Every split above is o200k_base doing its job, not an illustration of it. Notice what the pairs have in common. Nothing lines up with syllables, meaning or place value. The chunks are whatever turned out to be common in the text the vocabulary was built from. That is also why the same word costs a different amount depending on whether a space came first.",
   },
   {
     kind: "choice",
-    prompt: "Same sentence in English or in Hindi — which costs more to send?",
+    prompt: "The same sentence in English or in Hindi. Which costs more to send?",
     options: [
       "English, because its words are longer on the page",
       `Hindi, by roughly ${(hindi.tokenCount / english.tokenCount).toFixed(1)} times`,
@@ -157,7 +157,7 @@ export default function TokensLesson() {
             <span className="text-pink-text">strawberry</span>.
           </>
         }
-        sting={`Not “struggles with” — cannot. By the time the word reaches it, it is ${bare.final.length} chunks (${bare.final.join(
+        sting={`Not “struggles with”. Cannot. By the time the word reaches it, it is ${bare.final.length} chunks (${bare.final.join(
           " · ",
         )}) and the letters are gone. Below you can watch those chunks being formed, one real merge at a time, and then go and cut words up yourself.`}
         cta="Watch it cut"
@@ -173,13 +173,11 @@ export default function TokensLesson() {
 
         <div className="prose-measure text-ink-soft mb-8 space-y-4 text-lg">
           <p>
-            A model has a fixed vocabulary &mdash;{" "}
-            {MERGES.vocabularySize.toLocaleString("en-US")}{" "}
-            entries for the
-            encoding used here &mdash; and every piece of text you send has to be
-            expressed in it. That vocabulary was not written by linguists. It was
-            <em> grown</em>, by an algorithm with no notion of words, prefixes or
-            meaning.
+            A model has a fixed vocabulary. The encoding used here has{" "}
+            {MERGES.vocabularySize.toLocaleString("en-US")} entries, and every
+            piece of text you send has to be expressed in them. That vocabulary
+            was not written by linguists. It was <em>grown</em>, by an algorithm
+            with no notion of words, prefixes or meaning.
           </p>
           <p>
             It starts with raw bytes: no words, not even letters, just{" "}
@@ -187,10 +185,11 @@ export default function TokensLesson() {
             repeats one move. Find the pair of neighbours that occurs most often
             across the whole training corpus, and glue it into a single new
             entry. Do that a couple of hundred thousand times and the frequent
-            chunks of English &mdash; <span className="font-data">the</span>,{" "}
-            <span className="font-data">ing</span>,{" "}
-            <span className="font-data"> straw</span> &mdash; end up as single
-            units, while everything rare stays in fragments.
+            chunks of English end up as single units. Chunks like{" "}
+            <span className="font-data">the</span>,{" "}
+            <span className="font-data">ing</span> and{" "}
+            <span className="font-data"> straw</span>. Everything rare stays in
+            fragments.
           </p>
           <p>
             That is byte-pair encoding, and the figure below is not an
@@ -228,7 +227,7 @@ export default function TokensLesson() {
 
         <div className="grid gap-5 lg:grid-cols-3">
           <div className="plate p-5">
-            <p className="label text-ink-faint mb-3">1 — The leading space</p>
+            <p className="label text-ink-faint mb-3">1. The leading space</p>
             <div className="mb-3">
               <TokenStrip
                 items={withSpace.final.map((t) => ({ text: t, ink: "teal" }))}
@@ -245,7 +244,7 @@ export default function TokensLesson() {
           </div>
 
           <div className="plate p-5">
-            <p className="label text-ink-faint mb-3">2 — Numbers</p>
+            <p className="label text-ink-faint mb-3">2. Numbers</p>
             <div className="mb-3 space-y-1.5">
               {[year, pi, million].map((n) => (
                 <div key={n.text} className="flex items-center gap-2">
@@ -262,23 +261,23 @@ export default function TokensLesson() {
             <p className="text-ink-soft text-[0.9375rem]">
               Digit runs are cut into groups of at most three, then merged by
               frequency. A million arrives as{" "}
-              <span className="font-data">{million.pieces.join("|")}</span> — the
+              <span className="font-data">{million.pieces.join("|")}</span>. The
               boundaries have nothing to do with place value.
             </p>
           </div>
 
           <div className="plate p-5">
-            <p className="label text-ink-faint mb-3">3 — Your language</p>
+            <p className="label text-ink-faint mb-3">3. Your language</p>
             <p className="data mb-2 text-3xl font-bold">
               {(hindi.tokenCount / english.tokenCount).toFixed(1)}&times;
             </p>
             <p className="text-ink-soft text-[0.9375rem]">
               The same sentence costs {english.tokenCount} tokens in English and{" "}
               {hindi.tokenCount}{" "}
-              in Hindi. You pay per token, your context fills
-              per token, and you wait per token — so the same conversation is
-              measurably more expensive in most of the world&rsquo;s languages.
-              Measured below, and independently by Petrov and colleagues.
+              in Hindi. You pay per token, your context fills per token, and you
+              wait per token. So the same conversation is measurably more
+              expensive in most of the world&rsquo;s languages. It is measured
+              below, and independently by Petrov and colleagues.
             </p>
           </div>
         </div>
@@ -308,7 +307,7 @@ export default function TokensLesson() {
       <div className="space-y-4 py-4">
         <MechanismPanel
           question="If the split is this crude, how does it ever work?"
-          summary="Because the model never needed the letters — it needed something it could count, and chunks are countable."
+          summary="Because the model never needed the letters. It needed something it could count, and chunks are countable."
           deeper="what-an-llm-is"
         >
           <p>
@@ -317,8 +316,8 @@ export default function TokensLesson() {
             arithmetic on, without ever failing on an input it has not seen.
             Byte-pair encoding does that with one guarantee: since it starts from
             raw bytes, <em>any</em> string can be expressed, worst case one token
-            per byte. Emoji, code, a language the model has never met, a password
-            — all representable.
+            per byte. Emoji, code, a language the model has never met, a
+            password. All of it can be represented.
           </p>
           <p>
             The price is that the chunks carry no promise of meaning. Whatever
@@ -331,7 +330,7 @@ export default function TokensLesson() {
 
         <MechanismPanel
           question="Why does the same word cost different amounts in different places?"
-          summary="Because the token depends on what is next to it — spacing, capitals and punctuation all change the split."
+          summary="Because the token depends on what sits next to it. Spacing, capitals and punctuation all change the split."
           deeper="context-is-everything"
         >
           <p>
@@ -342,7 +341,7 @@ export default function TokensLesson() {
             <span className="font-data">Strawberry</span> and{" "}
             <span className="font-data">STRAWBERRY</span> are four different
             sequences of ids, not four forms of one word. The model learns to
-            treat them similarly because they appear in similar places — not
+            treat them similarly because they appear in similar places, not
             because anything told it they were related.
           </p>
           <p>
@@ -357,14 +356,14 @@ export default function TokensLesson() {
       <div className="py-4">
         <FeynmanCheck
           question="Why can a model write a whole essay about strawberries but not count the r's in the word?"
-          answer="Because it never receives the word as letters. Your text is cut into chunks first, and strawberry arrives as st, raw and berry. Writing about strawberries only needs those chunks to sit in the right company, which is exactly what it is good at. Counting the r's needs something it was never given — the individual letters — so it has to reconstruct them from memory of how the word is spelled, and it often gets that wrong while sounding completely certain."
+          answer="Because it never receives the word as letters. Your text is cut into chunks first, and strawberry arrives as st, raw and berry. Writing about strawberries only needs those chunks to sit in the right company, which is exactly what it is good at. Counting the r's needs the individual letters, and it was never given those. So it has to rebuild them from memory of how the word is spelled, and it often gets that wrong while sounding completely certain."
         />
       </div>
 
       <div className="py-4">
         <PracticeCard
           title="Make an assistant contradict itself about spelling"
-          watchFor="That the confident wrong answer and the correct one arrive in the same tone. Nothing in how it writes tells you which one it is — that is the habit worth taking away, and it is what the next modules are about."
+          watchFor="That the confident wrong answer and the correct one arrive in the same tone. Nothing in how it writes tells you which one you are looking at. That is the habit worth taking away, and it is what the next chapters are about."
         >
           <p>
             Ask any assistant: <em>how many r&rsquo;s are in strawberry?</em>{" "}
@@ -373,8 +372,8 @@ export default function TokensLesson() {
           </p>
           <p>
             Most will get it wrong the first way and right the second. Forcing
-            the letters onto separate lines forces them into separate tokens —
-            you have handed it the thing the tokenizer took away.
+            the letters onto separate lines forces them into separate tokens.
+            You have handed it the thing the tokenizer took away.
           </p>
         </PracticeCard>
       </div>

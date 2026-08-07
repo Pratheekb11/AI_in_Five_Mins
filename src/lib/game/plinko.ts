@@ -10,7 +10,7 @@
  *
  * HONESTY. Nothing here invents a probability. Every weight comes from the
  * logits recorded in `logits.json`, rescaled by the dial and renormalised over
- * the candidates on the board — which the page states plainly, because the
+ * the candidates on the board, which the page states plainly, because the
  * board holds six of the model's 50,257 tokens.
  *
  * PURITY. The reducer never rolls a die. Draws are made by the caller in the
@@ -65,7 +65,7 @@ export type PlinkoScene = {
   done: boolean;
 };
 
-/** The scene before a round starts — no prompt, nothing to drop into. */
+/** The scene before a round starts, no prompt, nothing to drop into. */
 export function newScene(): PlinkoScene {
   return {
     order: [],

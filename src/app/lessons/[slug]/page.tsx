@@ -9,13 +9,13 @@ import { getLesson, LESSONS, neighbours } from "@/lib/lessons";
  * Holding page for lessons still on the bench.
  *
  * Lessons that are finished have their own route under `lessons/<slug>`, and a
- * static segment wins over this dynamic one — so a lesson graduates simply by
+ * static segment wins over this dynamic one, so a lesson graduates simply by
  * gaining its own folder. Anything not in the registry is a genuine 404.
  */
 
 export function generateStaticParams() {
   // Finished lessons have their own route, which takes precedence over this
-  // one — prerendering them here would only build a page nothing can reach.
+  // one. Prerendering them here would only build a page nothing can reach.
   return LESSONS.filter((lesson) => lesson.status === "building").map(
     (lesson) => ({ slug: lesson.slug }),
   );
@@ -60,7 +60,7 @@ export default async function LessonPlaceholder(
         <div className="plate prose-measure p-6">
           <p className="label text-ink-faint mb-3">Still on the bench</p>
           <p className="text-ink-soft">
-            This machine isn&rsquo;t built yet. The lessons are being finished in
+            This machine is not built yet. The lessons are being finished in
             order, and each one has to work with real data before it ships.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">

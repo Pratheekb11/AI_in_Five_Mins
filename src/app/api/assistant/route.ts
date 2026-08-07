@@ -12,7 +12,7 @@ import {
  *
  * It takes a conversation and a game id, and returns the assistant's reply.
  * It does not take a model name, a system prompt, a token budget or anything
- * else that would let a caller turn this into a free general-purpose proxy —
+ * else that would let a caller turn this into a free general-purpose proxy,
  * the system prompt is chosen here, from a fixed list, by game id.
  */
 
@@ -25,7 +25,7 @@ export const dynamic = "force-dynamic";
  *
  * Neither of these asks the model to behave badly. Prompt Golf asks it to do
  * exactly what it is told, which is the point of the game. The pushback game
- * asks for nothing at all beyond being an ordinary assistant — the whole
+ * asks for nothing at all beyond being an ordinary assistant, the whole
  * question it is built to answer is what an ordinary assistant does when you
  * lean on it, so putting a thumb on that scale would destroy the measurement.
  */

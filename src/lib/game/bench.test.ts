@@ -22,7 +22,7 @@ import {
 /**
  * The Failure bench.
  *
- * The point of most of these is not the reducer at all — it is that every
+ * The point of most of these is not the reducer at all, it is that every
  * specimen on the bench still measures the way the page says it does. If a
  * data file is regenerated and a specimen stops tipping, or starts tipping the
  * other way, the run fails here rather than quietly teaching something untrue.
@@ -42,7 +42,7 @@ function level(bench: Weighing[] = BENCH): BenchScene {
 }
 
 describe("the bench", () => {
-  it("keeps every specimen — none silently dropped for missing data", () => {
+  it("keeps every specimen, none silently dropped for missing data", () => {
     expect(BENCH).toHaveLength(SPECIMENS.length);
   });
 
@@ -82,7 +82,7 @@ describe("what each specimen claims", () => {
   const find = (subject: string, left: string) =>
     BENCH.find((w) => w.subject.includes(subject) && w.left.label === left)!;
 
-  it("Paris: the model puts more on 'the' than on 'France' — the fabrication", () => {
+  it("Paris: the model puts more on 'the' than on 'France', the fabrication", () => {
     const w = find("Paris", "France");
     expect(w.answer).toBe("right");
     expect(w.right.label).toBe("the");
@@ -131,7 +131,7 @@ describe("what each specimen claims", () => {
     expect(w.right.label).toBe("software");
   });
 
-  it("'nurse' leans one way and 'engineer' the other — the inherited lean", () => {
+  it("'nurse' leans one way and 'engineer' the other, the inherited lean", () => {
     expect(BENCH.find((s) => s.subject === "nurse")!.answer).toBe("left");
     expect(BENCH.find((s) => s.subject === "engineer")!.answer).toBe("right");
   });
@@ -243,7 +243,7 @@ describe("call", () => {
     expect(JSON.stringify(scene)).toBe(before);
   });
 
-  it("is pure — the same call twice gives the same scene", () => {
+  it("is pure, the same call twice gives the same scene", () => {
     const scene = level();
     expect(call(scene, "left")).toEqual(call(scene, "left"));
   });

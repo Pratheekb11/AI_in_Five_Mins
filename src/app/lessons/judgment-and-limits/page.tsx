@@ -21,7 +21,7 @@ export const metadata = {
 
 const SOURCES: Source[] = [
   {
-    title: "Article 9 — Processing of special categories of personal data",
+    title: "Article 9: Processing of special categories of personal data",
     publisher: "General Data Protection Regulation (EU) 2016/679",
     url: "https://gdpr-info.eu/art-9-gdpr/",
     used: "The definition of special category data used by the game: health, race or ethnic origin, political opinions, religious belief, trade union membership, genetics, biometrics, sex life and sexual orientation.",
@@ -71,16 +71,16 @@ const STEPS: Step[] = [
       "The law already draws these lines: personal data, and a stricter category for health, beliefs, politics, union membership and the rest.",
   },
   {
-    say: "Which is why the useful habit is smaller than a policy. Before pasting, ask: is any of this somebody else's to give away? Usually the identifiers were not the part you needed anyway — strip them and paste the substance.",
+    say: "Which is why the useful habit is smaller than a policy. Before pasting, ask: is any of this somebody else's to give away? Usually the identifiers were not the part you needed anyway. Strip them out and paste the substance.",
   },
   {
     say: "Now the second thing. Lee and colleagues surveyed three hundred knowledge workers and found that the more confidence people had in the tool, the less critical thinking they did. Confidence in themselves ran the other way.",
   },
   {
-    say: "There is early evidence the effect is not only about attention. Kosmyna and colleagues put people in EEG caps to write essays; the group using an LLM showed the weakest brain connectivity, the lowest sense of ownership of their own work, and struggled to quote back what they had just written. Small study, one task, still a preprint — but the direction is worth taking seriously.",
+    say: "There is early evidence the effect is not only about attention. Kosmyna and colleagues put people in EEG caps to write essays; the group using an LLM showed the weakest brain connectivity, the lowest sense of ownership of their own work, and struggled to quote back what they had just written. Small study, one task, and still a preprint. But the direction is worth taking seriously.",
   },
   {
-    say: "So the closing question of this whole track is not whether to use it. It is which of your abilities you are willing to let go rusty — and to answer that on purpose, rather than by drift.",
+    say: "So the closing question of this whole track is not whether to use it. It is which of your abilities you are willing to let go rusty. And to answer that on purpose, rather than by drift.",
   },
 ];
 
@@ -102,13 +102,13 @@ const CHECK: CheckBeat[] = [
       { id: "creds", text: "A config file with a live API key in it", bucket: "no" },
     ],
     because:
-      "The middle pile is the one people get wrong. The identifiers in a complaint or an application are almost never the part you needed help with, so removing them costs ten seconds and buys you the same answer without making a disclosure decision on someone else's behalf. The last pile is different in kind: health is special category data under Article 9, and a live key is a key — neither becomes safe by being anonymised.",
+      "The middle pile is the one people get wrong. The identifiers in a complaint or an application are almost never the part you needed help with, so removing them costs ten seconds and buys you the same answer without making a disclosure decision on someone else's behalf. The last pile is different in kind. Health is special category data under Article 9, and a live key is a key. Neither becomes safe by being anonymised.",
   },
   {
     kind: "choice",
     prompt: "Why is a colleague's sick note different from their home address?",
     options: [
-      "It is not different at all — under the law both are simply personal data about someone",
+      "It is not different at all. Under the law both are simply personal data about someone",
       "Health data is special category data, which carries a higher bar than ordinary personal data",
       "Sick notes count as public documents once they have been handed to an employer",
     ],
@@ -129,7 +129,7 @@ export default function JudgmentAndLimitsLesson() {
             .
           </>
         }
-        sting="The customer whose complaint you pasted was not asked. Neither was the colleague in the screenshot. Here are things you might reasonably consider pasting, one at a time and with no clock on it — because refusing all of them is not the answer either, and a tool nobody may use is not a safe tool."
+        sting="The customer whose complaint you pasted was not asked. Neither was the colleague in the screenshot. Here are things you might reasonably consider pasting, one at a time and with no clock on it. Refusing all of them is not the answer either, and a tool nobody may use is not a safe tool."
         cta="Open the first one"
       />
 
@@ -162,9 +162,8 @@ export default function JudgmentAndLimitsLesson() {
         <p className="prose-measure text-ink-soft border-ink/20 mt-5 border-t pt-4 text-[0.9375rem]">
           The categories are the legal ones, cited below. What to do about them
           is this module&rsquo;s rule and a sensible default, not legal advice
-          &mdash; the binding answer is your employer&rsquo;s policy plus the
-          terms of the specific tool, and those two differ more than people
-          expect. The deck is {PAYLOADS.length}{" "}
+          The binding answer is your employer&rsquo;s policy plus the terms of
+          the specific tool, and those two differ more than people expect. The deck is {PAYLOADS.length}{" "}
           written examples; none is
           anybody&rsquo;s real data.
         </p>
@@ -187,8 +186,8 @@ export default function JudgmentAndLimitsLesson() {
             So do the boring thing once: open the privacy policy for the tool
             you actually use, and find the two paragraphs about training on
             inputs and about retention. Then check whether your organisation has
-            a sanctioned tool with different terms &mdash; many do, and people
-            paste into the consumer one out of habit.
+            a sanctioned tool with different terms. Many do, and people paste
+            into the consumer one out of habit.
           </p>
           <p>
             And keep one thing in view from the second module: what you paste
@@ -207,8 +206,8 @@ export default function JudgmentAndLimitsLesson() {
             Lee and colleagues surveyed 319 knowledge workers about 936 real
             uses. Higher confidence in the AI predicted less critical thinking;
             higher confidence in one&rsquo;s own ability predicted more. That is
-            a correlation in self-reported data &mdash; it does not establish
-            that the tool caused anything.
+            a correlation in self-reported data. It does not establish that
+            the tool caused anything.
           </p>
           <p>
             Kosmyna and colleagues went further and measured. Fifty-four people
@@ -221,7 +220,7 @@ export default function JudgmentAndLimitsLesson() {
           </p>
           <p>
             What both justify is modest and practical. Keep doing some of the
-            work yourself &mdash; specifically the part you would be embarrassed
+            work yourself, and specifically the part you would be embarrassed
             to have lost. Write the first draft of the thing you care about
             being good at. Use the tool to attack it afterwards.
           </p>
@@ -231,14 +230,14 @@ export default function JudgmentAndLimitsLesson() {
       <div className="pb-4">
         <FeynmanCheck
           question={lesson.feynman!}
-          answer="For most of what I hand over, yes — it would be slower and duller, and I would manage. The honest answer is that there are one or two things I have started letting it do entirely, and I would be shaky on those now. That is the list worth watching. Not because using the tool is wrong, but because I would rather choose which abilities I let go rusty than find out by accident on a day when the tool is down and the work is due."
+          answer="For most of what I hand over, yes. It would be slower and duller, and I would manage. The honest answer is that there are one or two things I have started letting it do entirely, and I would be shaky on those now. That is the list worth watching. Not because using the tool is wrong, but because I would rather choose which abilities I let go rusty than find out by accident on a day when the tool is down and the work is due."
         />
       </div>
 
       <div className="pb-4">
         <PracticeCard
           title="Read the two paragraphs, then write the one rule"
-          watchFor="Whether the tool you actually use every day is the one your employer approved. For most people it is not, and that gap is where the real risk sits — not in the technology."
+          watchFor="Whether the tool you actually use every day is the one your employer approved. For most people it is not, and that gap is where the real risk sits. Not in the technology."
         >
           <p>
             Open the privacy policy of the assistant you use most. Find what it
@@ -258,9 +257,9 @@ export default function JudgmentAndLimitsLesson() {
         <h2 className="display-lg mb-3">Eight questions, and you are done</h2>
         <p className="prose-measure text-ink-soft mb-5">
           None of this was about the technology. It was about eight questions
-          worth asking in front of a chat window &mdash; and if you can answer
-          them in plain words, you understand these tools better than most
-          people who use them daily.
+          worth asking in front of a chat window. If you can answer them in
+          plain words, you understand these tools better than most people who
+          use them every day.
         </p>
         <ol className="grid gap-3 sm:grid-cols-2">
           {track.map((entry) => (

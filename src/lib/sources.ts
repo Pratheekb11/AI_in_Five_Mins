@@ -9,7 +9,7 @@
 export type Source = {
   /** Title as published. */
   title: string;
-  /** Who published it — an organisation or an author list. */
+  /** Who published it, an organisation or an author list. */
   publisher: string;
   url: string;
   /** What this lesson actually took from it. One line, specific. */

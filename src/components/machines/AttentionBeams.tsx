@@ -15,7 +15,7 @@ import {
  * The module already had a heat map of all seventy-two heads, which is the
  * right thing to have and the wrong thing to meet first: a grid of grey squares
  * is not an idea, it is a result. This figure is the idea. A single word, a
- * single head, and arcs reaching back to the words it draws from — thick where
+ * single head, and arcs reaching back to the words it draws from, thick where
  * it takes a lot, thin where it takes little.
  *
  * The beats are ordered so that each one answers the question the last one
@@ -26,7 +26,7 @@ import {
  *
  * The head shown by default is not chosen for looking good. It is the head that
  * sends the largest share of this word's attention somewhere other than the
- * first token or the word immediately before it — computed here, from the real
+ * first token or the word immediately before it, computed here, from the real
  * weights, and named on screen so it can be checked.
  */
 
@@ -51,7 +51,7 @@ type Pick = { layer: number; head: number; score: number };
  *
  * Both exclusions are mechanical rather than aesthetic. Position zero attracts
  * weight in nearly every head for reasons unrelated to meaning, and the
- * previous token is the trivially available one — a head attending to either
+ * previous token is the trivially available one, a head attending to either
  * tells you nothing about whether attention resolves anything.
  */
 function pickHead(sentence: AttentionSentence, query: number): Pick {
@@ -142,7 +142,7 @@ export function AttentionBeams() {
   const boxes = useMemo(() => {
     // A plain loop rather than a map with a running cursor: the compiler
     // rejects reassigning a variable captured by the callback, and it is right
-    // to — the closure would outlive the render.
+    // to, the closure would outlive the render.
     const out: { label: string; x: number; w: number; mid: number }[] = [];
     let cursor = 10;
     for (const token of sentence?.tokens ?? []) {
@@ -195,7 +195,7 @@ export function AttentionBeams() {
 
   const captions = [
     `${sentence.tokens.length} tokens. Nothing here yet knows what any of them refer to.`,
-    `Take the word “${boxes[query].label}”. It is allowed to look at everything before it, and at nothing after it — ever.`,
+    `Take the word “${boxes[query].label}”. It is allowed to look at everything before it, and at nothing after it. Ever.`,
     `It looks back at all of them at once, and takes more from some than others. Thickness is how much.`,
     `Those amounts are a share of one. They are computed from this sentence, not looked up in a rule.`,
     `Now look at the first token across all ${data?.model.layers ?? 6} × ${data?.model.heads ?? 12} heads: on average it takes ${(sinkAverage * 100).toFixed(0)}% of this word's attention, for reasons nothing to do with meaning.`,
@@ -356,7 +356,7 @@ export function AttentionBeams() {
             {at >= 1 && query < boxes.length - 1 ? (
               /* Anchored to the right edge of the frame rather than to the
                  first masked token, which pushed the label off the canvas on
-                 the longer sentences — and below the row, where the arcs are
+                 the longer sentences, and below the row, where the arcs are
                  not. */
               <motion.text
                 x={W - 10}
@@ -382,7 +382,7 @@ export function AttentionBeams() {
         <div className="border-ink/20 bg-paper-sunk mt-3 rounded-[2px] border p-4">
           {at >= 4 ? (
             <p className="text-ink-soft text-[0.9375rem]">
-              That is an <strong>attention sink</strong> — a large share of
+              That is an <strong>attention sink</strong>. A large share of
               nearly every head landing on the first token regardless of what the
               sentence says. The head drawn above is the exception, and
               deliberately so: it was chosen for attending elsewhere, and takes
@@ -395,7 +395,7 @@ export function AttentionBeams() {
             </p>
           ) : (
             <p className="text-ink-soft text-[0.9375rem]">
-              Shown is layer {head.layer + 1}, head {head.head + 1} — of{" "}
+              Shown is layer {head.layer + 1}, head {head.head + 1}, out of{" "}
               {data.model.layers * data.model.heads}, this is the one
               that sends the most of &ldquo;{boxes[query].label}&rdquo;&rsquo;s
               attention somewhere other than the first token or the word right

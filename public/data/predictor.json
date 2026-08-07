@@ -42,7 +42,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "genesis",
@@ -70,7 +70,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "york",
@@ -98,7 +98,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "once",
@@ -126,7 +126,7 @@
       "answerRank": 45,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "birthday",
@@ -154,7 +154,7 @@
       "answerRank": 43,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "doctor",
@@ -182,7 +182,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "keys",
@@ -210,7 +210,7 @@
       "answerRank": 52,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "coffee",
@@ -238,7 +238,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "letter",
@@ -266,7 +266,7 @@
       "answerRank": 1149,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "shoes",
@@ -294,7 +294,7 @@
       "answerRank": 1,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "library",
@@ -322,7 +322,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "teeth",
@@ -350,7 +350,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "airport",
@@ -378,7 +378,7 @@
       "answerRank": 1,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "kettle",
@@ -406,7 +406,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "window",
@@ -434,7 +434,7 @@
       "answerRank": 1,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "guitar",
@@ -462,7 +462,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "monday",
@@ -490,7 +490,7 @@
       "answerRank": 97,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "winter",
@@ -518,7 +518,7 @@
       "answerRank": 416,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "salt",
@@ -546,7 +546,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "bicycle",
@@ -574,7 +574,7 @@
       "answerRank": 2,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong."
+      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
     },
     {
       "id": "alice-0",
@@ -1954,7 +1954,7 @@
       "answerRank": 86,
       "trapped": true,
       "kind": "fact",
-      "fact": "Canberra is the capital of Australia — not Sydney, which is the largest city.",
+      "fact": "Canberra is the capital of Australia, not Sydney, which is the largest city.",
       "citation": {
         "title": "Canberra",
         "url": "https://en.wikipedia.org/wiki/Canberra",
@@ -1988,7 +1988,7 @@
       "answerRank": 158,
       "trapped": true,
       "kind": "fact",
-      "fact": "Brasília is the capital of Brazil — not Rio de Janeiro, which was the capital until 1960.",
+      "fact": "Brasília is the capital of Brazil, not Rio de Janeiro, which was the capital until 1960.",
       "citation": {
         "title": "Brasília",
         "url": "https://en.wikipedia.org/wiki/Bras%C3%ADlia",
@@ -2022,7 +2022,7 @@
       "answerRank": 97,
       "trapped": true,
       "kind": "fact",
-      "fact": "Ottawa is the capital of Canada — not Toronto, which is the largest city.",
+      "fact": "Ottawa is the capital of Canada, not Toronto, which is the largest city.",
       "citation": {
         "title": "Ottawa",
         "url": "https://en.wikipedia.org/wiki/Ottawa",

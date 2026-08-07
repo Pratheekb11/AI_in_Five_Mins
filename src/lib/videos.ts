@@ -3,7 +3,7 @@
  *
  * Every entry here was checked against YouTube's oEmbed endpoint, so the id
  * resolves, the channel is who it claims to be, and embedding is permitted.
- * Nothing is listed from memory — a wrong id is a broken lesson, and a
+ * Nothing is listed from memory, a wrong id is a broken lesson, and a
  * misattributed one is worse.
  *
  * Runtimes are deliberately absent. They are not returned by oEmbed, and
@@ -75,7 +75,7 @@ export const VIDEOS: Record<string, Video> = {
     youtubeId: "wjZofJX0v4M",
     title: "Transformers, the tech behind LLMs",
     channel: "3Blue1Brown",
-    why: "Opens with embeddings — words as directions in space — before going deeper.",
+    why: "Opens with embeddings, words as directions in space, before going deeper.",
   },
   attention: {
     youtubeId: "eMlx5fFNoYc",
@@ -101,7 +101,7 @@ export const VIDEOS: Record<string, Video> = {
     youtubeId: "SHNprb2hgzU",
     title: "Sort Fact from Fiction Online with Lateral Reading",
     channel: "Digital Inquiry Group",
-    why: "Nothing to do with AI, which is the point — this is how professional fact-checkers settle a claim, by leaving the thing they are reading.",
+    why: "Nothing to do with AI, which is the point. This is how professional fact-checkers settle a claim: by leaving the thing they are reading.",
   },
   "task-audit": {
     youtubeId: "dPJ6Bxsky0s",

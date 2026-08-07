@@ -3,7 +3,7 @@ import { Beat } from "./Beat";
 
 /**
  * The closing beat of every lesson. Each entry says what this lesson actually
- * took from the source, not just that the source exists — a citation the reader
+ * took from the source, not just that the source exists, a citation the reader
  * can check is worth more than one they can only admire.
  */
 export function Sources({ sources }: { sources: Source[] }) {

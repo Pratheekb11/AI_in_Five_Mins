@@ -9,7 +9,7 @@ import { SPAM_BENCH } from "@/lib/datasets";
  *
  * The distinction is genuinely simple and almost never drawn: in ordinary
  * software a person writes the rule, and in this kind of software nobody does
- * — the rule is found from examples. Everything else people argue about
+ *, the rule is found from examples. Everything else people argue about
  * follows from that one difference.
  *
  * So it is shown rather than asserted, on one real job. The same 5,574 real SMS
@@ -92,7 +92,7 @@ const BEATS = [
   },
   {
     label: "Find the rule",
-    says: `Now nobody writes a rule. The machine is shown labelled examples and finds the pattern itself — ${(learned.accuracy * 100).toFixed(1)}%. That is the whole of what "AI" means here, and it is the only line that matters.`,
+    says: `Now nobody writes a rule. The machine is shown labelled examples and finds the pattern itself, scoring ${(learned.accuracy * 100).toFixed(1)}%. That is the whole of what "AI" means here, and it is the only line that matters.`,
   },
 ];
 

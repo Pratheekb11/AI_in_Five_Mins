@@ -30,7 +30,7 @@ import {
 } from "@/lib/embeddings";
 
 /**
- * Magnet — the field sorts itself by meaning, and you have to read it.
+ * Magnet, the field sorts itself by meaning, and you have to read it.
  *
  * One word sits on the magnet. Every other word in the box is pulled toward it
  * or pushed away by a force that is its real cosine similarity to that word,
@@ -39,7 +39,7 @@ import {
  * together.
  *
  * The round asks for a specific neighbour, and the ring picks up whatever is
- * nearest. So the skill is not aim, it is prediction — and the moment the
+ * nearest. So the skill is not aim, it is prediction, and the moment the
  * lesson lands is when you grab the wrong word and see that it scored 0.71 to
  * your target's 0.68. The field was right and your intuition was not.
  */
@@ -84,7 +84,7 @@ const GRAB = new Set([" ", "Enter"]);
 /**
  * Builds a round from the real vectors: the magnet word, its true nearest
  * neighbours as targets, and a field of those plus sampled strangers. Called
- * from an event, never during render — it draws random words.
+ * from an event, never during render, it draws random words.
  */
 function buildRound(space: EmbeddingSpace, magnet: string): Round | null {
   const vec = vectorFor(space, magnet);
@@ -96,7 +96,7 @@ function buildRound(space: EmbeddingSpace, magnet: string): Round | null {
   const chosen = new Map<string, number>();
   for (const n of close) chosen.set(n.word, n.similarity);
 
-  // Strangers, so most of the field is actively repelled — which is the true
+  // Strangers, so most of the field is actively repelled, which is the true
   // picture: almost every pair of words has nothing to do with each other.
   let guard = 0;
   while (chosen.size < FIELD && guard < FIELD * 40) {
@@ -245,7 +245,7 @@ export function WordMagnet() {
     <GameShell
       gameId="magnet"
       name="Magnet"
-      instruction="One word rides the magnet. Every other word in the box is pulled toward it or shoved away by its real similarity to that word. Steer with the pointer or the arrow keys, and press space to grab whatever is inside the ring — you are asked for a specific neighbour, so predict which one the numbers actually put closest."
+      instruction="One word rides the magnet. Every other word in the box is pulled toward it or shoved away by its real similarity to that word. Steer with the pointer or the arrow keys, and press space to grab whatever is inside the ring. You are asked for a specific neighbour, so predict which one the numbers actually put closest."
       startLabel={space ? "Switch it on" : "Loading vectors…"}
       phase={phase}
       onStart={start}
@@ -275,7 +275,7 @@ export function WordMagnet() {
           <p className="text-ink-soft text-[0.9375rem]">
             Every force in that box was a real cosine similarity across{" "}
             {space?.dims ?? 50} dimensions. Nothing was arranged for effect
-            &mdash; when two words crowded together, it is because the numbers
+            . When two words crowded together, it is because the numbers
             put them together.
           </p>
         </div>
@@ -335,7 +335,7 @@ export function WordMagnet() {
             className="data"
             fill="var(--blue-text)"
           >
-            {round?.magnet ?? "—"}
+            {round?.magnet ?? "-"}
           </text>
 
           {target ? (
@@ -375,7 +375,7 @@ export function WordMagnet() {
             opacity={0.2}
           />
 
-          {/* the reach of the magnet — only what is inside comes out */}
+          {/* the reach of the magnet, only what is inside comes out */}
           <circle
             cx={scene.magnet.x}
             cy={scene.magnet.y}
@@ -442,7 +442,7 @@ export function WordMagnet() {
             >
               {last.ok ? (
                 <>
-                  <span className="font-semibold">{last.grabbed}</span> &mdash;
+                  <span className="font-semibold">{last.grabbed}</span>,
                   similarity{" "}
                   <span className="font-data">{last.grabbedSim.toFixed(3)}</span>
                   . That was the one.
@@ -452,7 +452,7 @@ export function WordMagnet() {
                   You pulled{" "}
                   <span className="font-semibold">{last.grabbed}</span> at{" "}
                   <span className="font-data">{last.grabbedSim.toFixed(3)}</span>
-                  , not <span className="font-semibold">{last.target}</span> at{" "}
+                , not <span className="font-semibold">{last.target}</span> at{" "}
                   <span className="font-data">{last.targetSim.toFixed(3)}</span>.
                   The ring takes whatever is closest, not what you meant.
                 </>

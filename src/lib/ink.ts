@@ -11,7 +11,7 @@ export const INKS: readonly Ink[] = ["blue", "pink", "yellow", "teal"] as const;
 type InkClasses = {
   /** Flat tint fill, for the body of a mark. */
   wash: string;
-  /** Full-strength ink, as a background. Marks only — see `chip`. */
+  /** Full-strength ink, as a background. Marks only, see `chip`. */
   solid: string;
   /** Full-strength ink, as a border. */
   border: string;
@@ -19,7 +19,7 @@ type InkClasses = {
   text: string;
   /**
    * A small label in this ink: tint behind, corrected ink in front. Solid ink
-   * is deliberately not used behind text — only blue clears 4.5:1 against
+   * is deliberately not used behind text, only blue clears 4.5:1 against
    * paper-coloured type, so a wash-and-ink chip is the one pairing that stays
    * legible in all four colours.
    */
@@ -27,7 +27,7 @@ type InkClasses = {
 };
 
 /**
- * Static class strings rather than interpolated ones — Tailwind only ships
+ * Static class strings rather than interpolated ones, Tailwind only ships
  * classes it can see written out in full.
  */
 export const inkClasses: Record<Ink, InkClasses> = {

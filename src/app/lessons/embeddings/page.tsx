@@ -63,13 +63,13 @@ const SOURCES: Source[] = [
     title: "Transformers, the tech behind LLMs",
     publisher: "3Blue1Brown",
     url: "https://www.youtube.com/watch?v=wjZofJX0v4M",
-    used: "Opens on the same idea — words as directions in space — and then keeps going.",
+    used: "Opens on the same idea, words as directions in space, and then keeps going.",
   },
 ];
 
 const STEPS: Step[] = [
   {
-    say: "A model cannot do arithmetic on the word 'cat'. So before anything else happens, every word is turned into a list of numbers — coordinates for a point in space.",
+    say: "A model cannot do arithmetic on the word 'cat'. So before anything else happens, every word is turned into a list of numbers. Those numbers are coordinates for a point in space.",
   },
   {
     say: "Here that list is fifty numbers long. Nobody chose what any of them mean. They came out of counting which words appear near which other words, across six billion words of text.",
@@ -77,13 +77,13 @@ const STEPS: Step[] = [
       "GloVe, trained on Wikipedia and newswire. The vectors in the box are the real published ones.",
   },
   {
-    say: "And that counting is enough to put words that mean similar things close together. The pull you were fighting in the box was not a metaphor — it was the actual cosine similarity between two of those fifty-number lists.",
+    say: "And that counting is enough to put words that mean similar things close together. The pull you were fighting in the box was not a metaphor. It was the real cosine similarity between two of those fifty-number lists.",
   },
   {
     say: "Which gives you the strangest result in this whole subject. Because directions carry meaning, you can do arithmetic with words. Take king, subtract man, add woman, and look at what is nearest.",
   },
   {
-    say: "Try it below on any words you like. And watch how often it does not work — the bench prints the real numbers, including the unimpressive ones, because a demonstration you can only run on four famous examples is not a demonstration.",
+    say: "Try it below on any words you like. And watch how often it does not work. The bench prints the real numbers, including the unimpressive ones, because a demonstration you can only run on four famous examples is not a demonstration.",
   },
 ];
 
@@ -112,7 +112,7 @@ export default function EmbeddingsLesson() {
             which points sit near which.
           </>
         }
-        sting="Fifty numbers per word, and nobody decided what any of them stand for — they fell out of counting which words turn up near which, across six billion words of text. In the box below, the pull between two words is that real measurement, not a story about it."
+        sting="Fifty numbers per word, and nobody decided what any of them stand for. They fell out of counting which words turn up near which, across six billion words of text. In the box below, the pull between two words is that real measurement, not a story about it."
         cta="Open the space"
         target="#space"
       />
@@ -130,16 +130,16 @@ export default function EmbeddingsLesson() {
             numbers and you have given
             every word a position. Positions on their own would only buy you
             similarity: near means alike, far means unalike. What makes this
-            idea powerful is the thing positions have that labels do not &mdash;
-            the space <em>between</em> them.
+            idea powerful is the thing positions have that labels do not: the
+            space <em>between</em> them.
           </p>
           <p>
             Subtract one word&rsquo;s position from another&rsquo;s and you get
             a direction: not a word, but a displacement, a &ldquo;whatever it is
-            that turns this into that&rdquo;. The startling result &mdash; found
-            by Mikolov and colleagues in 2013, and reproducible here on
-            vectors anyone can download &mdash; is that those displacements are
-            reusable. The step from <span className="font-data">man</span> to{" "}
+            that turns this into that&rdquo;. The startling result is that
+            those displacements are reusable. Mikolov and colleagues found it in
+            2013, and you can reproduce it here on vectors anyone can
+            download. The step from <span className="font-data">man</span> to{" "}
             <span className="font-data">king</span> is very nearly the same step
             as the one from <span className="font-data">woman</span> to{" "}
             <span className="font-data">queen</span>, even though nothing in the
@@ -163,7 +163,7 @@ export default function EmbeddingsLesson() {
             it. <span className="font-data">{royal.answer.word}</span> is the
             closest of {ANALOGY.vocabulary.toLocaleString("en-US")} words to
             where the arithmetic points, at a cosine of{" "}
-            {royal.answer.similarity.toFixed(3)} &mdash; but it also sits{" "}
+            {royal.answer.similarity.toFixed(3)}. But it also sits{" "}
             {royalAnswerPoint.offPlane.toFixed(2)} units off the plane the
             picture is drawn on. Every published version of this diagram is a
             shadow of something {ANALOGY.dims}-dimensional, and the number, not
@@ -174,7 +174,7 @@ export default function EmbeddingsLesson() {
             nearest word to <span className="font-data">king − man + woman</span>{" "}
             without ruling anything out and the answer is{" "}
             <span className="font-data">{royal.unfiltered.word}</span>, at{" "}
-            {royal.unfiltered.similarity.toFixed(3)} &mdash; higher than{" "}
+            {royal.unfiltered.similarity.toFixed(3)}, which is higher than{" "}
             {royal.answer.word}. The convention of dropping the three input
             words comes from the original evaluation, and without it most of
             these analogies return one of their own ingredients. That is not a
@@ -199,8 +199,8 @@ export default function EmbeddingsLesson() {
         <p className="prose-measure text-ink-soft mb-6">
           You have seen that distance in this space means something. Now guess
           it. The magnet&rsquo;s strength is the real measured similarity between
-          the pair &mdash; commit to a guess and find out how wrong the
-          intuition is.
+          the pair. Commit to a guess, then find out how wrong the intuition
+          is.
         </p>
         <div id="game">
           <WordMagnet />
@@ -225,8 +225,8 @@ export default function EmbeddingsLesson() {
       <section className="pb-4">
         <h2 className="display-lg mb-2">Look up any word&rsquo;s neighbours</h2>
         <p className="prose-measure text-ink-soft mb-5">
-          Type a word and see what the numbers put next to it &mdash; including
-          the neighbours you would not have guessed, which are the interesting
+          Type a word and see what the numbers put next to it, including the
+          neighbours you would not have guessed. Those are the interesting
           ones.
         </p>
         <WordChart />
@@ -243,8 +243,8 @@ export default function EmbeddingsLesson() {
             company it keeps. <span className="font-data">Coffee</span> and{" "}
             <span className="font-data">tea</span> both show up near{" "}
             <em>cup</em>, <em>morning</em>, <em>drink</em>, <em>hot</em>. Nobody
-            has to state that they are related &mdash; the pattern of
-            co-occurrence already says so.
+            has to state that they are related. The pattern of co-occurrence
+            already says so.
           </p>
           <p>
             GloVe turns that into arithmetic. It builds the table of how often
@@ -272,7 +272,7 @@ export default function EmbeddingsLesson() {
           <p>
             Worth carrying forward: this is the raw material every language model
             is built on. When a model produces a stereotyped assumption, the
-            first place to look is not its instructions &mdash; it is what the
+            first place to look is not its instructions. It is what the
             arrangement of the text it read already implied.
           </p>
         </MechanismPanel>
@@ -281,7 +281,7 @@ export default function EmbeddingsLesson() {
       <div className="pb-4">
         <FeynmanCheck
           question="Why can a computer tell that 'cat' and 'dog' are related?"
-          answer="Because every word has been turned into a list of numbers — a position in space — and those positions came from counting which words show up near which other words in a huge pile of text. Cat and dog get used in the same kinds of sentences, so their positions end up close together. The machine is not reading a definition. It is measuring a distance between two points that were placed by counting."
+          answer="Because every word has been turned into a list of numbers, which is a position in space. Those positions came from counting which words show up near which other words in a huge pile of text. Cat and dog get used in the same kinds of sentences, so their positions end up close together. The machine is not reading a definition. It is measuring a distance between two points that were placed by counting."
         />
       </div>
 

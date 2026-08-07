@@ -5,11 +5,11 @@ import { type Mood, POSES } from "./moods";
 /**
  * Nimo, printed.
  *
- * The same owl as the 3D model — teal feathers, cream facial disc, amber beak,
- * round dark glasses, perched on a stack of books — redrawn as flat shapes with
+ * The same owl as the 3D model, teal feathers, cream facial disc, amber beak,
+ * round dark glasses, perched on a stack of books, redrawn as flat shapes with
  * hard outlines so he belongs on the page rather than sitting on top of it.
  *
- * Used where the 3D renderer would be too much — small inline appearances and
+ * Used where the 3D renderer would be too much, small inline appearances and
  * loading states. He costs nothing here.
  *
  * His colours are literal, not theme variables. An owl does not change species
@@ -72,7 +72,7 @@ export function NimoFlat({
           strokeLinejoin="round"
         />
 
-        {/* wings — they lift with the mood */}
+        {/* wings, they lift with the mood */}
         {[-1, 1].map((side) => (
           <g
             key={side}
@@ -205,7 +205,7 @@ export function NimoFlat({
                 r="1.5"
                 fill="#ffffff"
               />
-              {/* eyelid — drops for wince and think */}
+              {/* eyelid, drops for wince and think */}
               {lid > 0.02 ? (
                 <path
                   d={`M${60 + side * 11 - 8.5} 52 a8.5 8.5 0 0 1 17 0 Z`}
@@ -255,7 +255,7 @@ export function NimoFlat({
             />
           ))}
 
-          {/* beak — opens on cheer and celebrate */}
+          {/* beak, opens on cheer and celebrate */}
           <path
             d={
               pose.beak > 0.4

@@ -99,7 +99,7 @@ export function BucketSort() {
             <p className="prose-measure text-[1.0625rem]">
               This one does not score you. Which of your tasks you are willing
               to hand over depends on your job and on what happens when it is
-              wrong &mdash; and I do not know either. What I can do is put the
+              wrong, and I do not know either. What I can do is put the
               measurement next to each choice. Add a few of your own first; the
               generic ones are only there to start you off.
             </p>
@@ -271,7 +271,7 @@ export function BucketSort() {
                 animate={{ opacity: 1, y: 0 }}
               >
                 <p className="label text-ink-faint mb-2">
-                  What we measured that bears on this &mdash; the pairing is our
+                  What we measured that bears on this. The pairing is our
                   judgement, the numbers are not
                 </p>
                 <ul className="mb-3 space-y-2">

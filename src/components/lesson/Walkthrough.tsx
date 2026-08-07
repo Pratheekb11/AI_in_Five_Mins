@@ -14,7 +14,7 @@ import { SpeechButton } from "./SpeechButton";
  * be read before the interesting part.
  *
  * Every step can be read aloud, so the text is written to be heard as well as
- * seen — short sentences, no parentheticals, no bullet fragments.
+ * seen, short sentences, no parentheticals, no bullet fragments.
  */
 
 export type Step = {
@@ -34,7 +34,7 @@ export function Walkthrough({ steps }: { steps: Step[] }) {
 
   return (
     <div className="plate overflow-hidden">
-      {/* progress ticks — printed, countable, and short enough to count */}
+      {/* progress ticks, printed, countable, and short enough to count */}
       <div className="border-ink/25 bg-paper-sunk flex items-center gap-3 border-b px-4 py-3">
         <span className="label text-ink-faint shrink-0">
           {at + 1} / {steps.length}
@@ -118,7 +118,7 @@ export function Walkthrough({ steps }: { steps: Step[] }) {
               Next
             </button>
           ) : (
-            <span className="label text-teal-text">That&rsquo;s the idea</span>
+            <span className="label text-teal-text">That is the idea</span>
           )}
         </div>
       </div>

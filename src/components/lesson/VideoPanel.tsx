@@ -9,7 +9,7 @@ import type { Video } from "@/lib/videos";
  * Shows YouTube's thumbnail behind a play button and swaps in the iframe on
  * click. Embedding the player up front would pull several hundred kilobytes of
  * third-party script into a page whose whole argument is that it runs in your
- * browser — and most learners come for the game, not the video.
+ * browser, and most learners come for the game, not the video.
  */
 export function VideoPanel({ video }: { video: Video }) {
   const [playing, setPlaying] = useState(false);
@@ -17,7 +17,7 @@ export function VideoPanel({ video }: { video: Video }) {
   return (
     <figure className="plate overflow-hidden">
       <div className="border-ink/25 bg-paper-sunk border-b px-4 py-3">
-        <p className="label text-ink-faint">Optional — watch it explained</p>
+        <p className="label text-ink-faint">Optional: watch someone explain it</p>
       </div>
 
       <div className="relative aspect-video bg-paper-sunk">

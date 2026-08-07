@@ -5,8 +5,8 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 /**
  * Reads a lesson step aloud.
  *
- * Uses the browser's built-in speech synthesis — no service, no key, no
- * network. Where it isn't available the button simply doesn't render, because
+ * Uses the browser's built-in speech synthesis, no service, no key, no
+ * network. Where it is not available the button simply does not render, because
  * a control that does nothing is worse than no control.
  */
 export function SpeechButton({ text }: { text: string }) {
@@ -22,7 +22,7 @@ export function SpeechButton({ text }: { text: string }) {
 
   // A new step should not carry on being read in the old step's voice. The
   // spoken text is part of the key below, so switching steps remounts this
-  // component and the cleanup above cancels — no setState from an effect.
+  // component and the cleanup above cancels, no setState from an effect.
   if (!supported) return null;
 
   function toggle() {

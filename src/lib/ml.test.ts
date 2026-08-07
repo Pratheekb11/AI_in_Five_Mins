@@ -74,7 +74,7 @@ describe("gradientStep", () => {
     expect(slope).toBeCloseTo(bestSlope(EXACT), 6);
   });
 
-  it("overshoots and diverges when the rate is too large — the failure the lesson shows", () => {
+  it("overshoots and diverges when the rate is too large, the failure the lesson shows", () => {
     let slope = 0.5;
     for (let i = 0; i < 20; i++) slope = gradientStep(EXACT, slope, 0.05);
     expect(meanSquaredError(EXACT, slope)).toBeGreaterThan(
@@ -138,7 +138,7 @@ describe("scoreRules", () => {
     expect(card.correct).toBe(1);
   });
 
-  it("flagging nothing still scores the ham right — the baseline the lesson leans on", () => {
+  it("flagging nothing still scores the ham right, the baseline the lesson leans on", () => {
     const card = scoreRules(SET, 0, RULES);
     expect(card.caught).toBe(0);
     expect(card.missed).toBe(3);

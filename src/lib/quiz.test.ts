@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
  *
  * Both of these were real. Every module's questions were written in the same
  * sitting and drifted into the same shape: 44 of 49 correct answers sat second
- * in their list, the other 5 sat third, not one sat first — and 48 of 49 were
+ * in their list, the other 5 sat third, not one sat first, and 48 of 49 were
  * the longest option on offer. Either tell on its own is enough to score full
  * marks on the whole site without understanding a word of it.
  *
@@ -111,12 +111,12 @@ describe("quiz questions", () => {
   });
 
   it("never makes the correct answer the conspicuously longest option", () => {
-    /* Some slack, because near-equal lengths are not a tell — a reader cannot
+    /* Some slack, because near-equal lengths are not a tell, a reader cannot
        eyeball a 10% difference. What gives the game away is the one option
        that is visibly a paragraph while the rest are phrases. */
     const offenders = questions
       /* An option that interpolates generated data is longer in the source
-         than on the page — `${million.pieces.join("|")}` is 30 characters here
+         than on the page, `${million.pieces.join("|")}` is 30 characters here
          and renders as "100|000|0". Measuring those would fail on questions
          that are fine in the browser, so they are checked there instead. */
       .filter((q) => !q.options.some((o) => o.includes("${")))

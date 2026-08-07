@@ -39,14 +39,14 @@ export default function Home() {
 
               <div className="prose-measure text-ink-soft mt-7 text-lg">
                 <p>
-                  You are probably already using one of these things, and
-                  nobody ever showed you what it is doing while it answers
-                  you &mdash; which leaves you guessing about when to trust it.
+                  You are probably already using one of these things.
+                  Nobody ever showed you what it is doing while it answers,
+                  so you are left guessing about when to trust it. Six
+                  short chapters fix that. One game each, about{" "}
                   {/* The space after the count is explicit: written as plain
                   text it was eaten at the line break and rendered as
                   "44minutes". */}
-                  Six short chapters fix that, one game each, about{" "}
-                  {chapterMinutes} minutes in total. You play first and read
+                  {chapterMinutes} minutes in total, and you play first and read
                   afterwards.
                 </p>
               </div>
@@ -65,8 +65,8 @@ export default function Home() {
               {/* One owl, and he introduces himself. NimoSays draws its own
                   Nimo, so a separate hero owl above it put two on the page. */}
               <NimoSays mood="curious" size={200} follow>
-                I am Nimo. Before anyone explains anything to you &mdash; play
-                one round against a real model and see how you do.
+                I am Nimo. Before anyone explains anything to you, play one
+                round against a real model and see how you do.
               </NimoSays>
               <HeroDemo />
             </div>
@@ -85,18 +85,17 @@ export default function Home() {
               </h2>
               <div className="prose-measure text-ink-soft space-y-3">
                 <p>
-                  Which is why most of the advice going around is folklore: a
-                  magic phrase that supposedly unlocks better answers, a rule
-                  that you should never trust it with anything that matters, a
-                  vague sense that it reasons the way a colleague does. All of
-                  it falls apart the moment you watch one of these models
-                  actually work.
+                  So most of the advice going around is guesswork. A magic
+                  phrase that is meant to unlock better answers. A rule that you
+                  should never trust it with anything that matters. A vague
+                  sense that it thinks the way a colleague does. All of it falls
+                  apart the moment you watch one of these models work.
                 </p>
                 <p>
                   What holds up is a plain picture of what the model is doing
-                  while it answers you. That is what tells you when to lean on
-                  it and when to check it &mdash; and it takes about an hour to
-                  pick up, with no maths and no jargon.
+                  while it answers. That is what tells you when to lean on
+                  it and when to check it. It takes about an hour to pick up,
+                  and there is no maths and no jargon.
                 </p>
               </div>
             </Reveal>
@@ -116,8 +115,8 @@ export default function Home() {
               </h2>
               <p className="prose-measure text-ink-soft mb-9">
                 It reads what it has written, picks the next word, adds it, and
-                reads again. That is the whole machine &mdash; and every strange
-                thing these tools do falls out of it.
+                reads again. That is the whole machine, and every strange
+                thing these tools do comes out of it.
               </p>
             </Reveal>
             <Reveal delay={0.08}>
@@ -130,7 +129,7 @@ export default function Home() {
           id="chapters"
           track="chapter"
           lessons={chapters}
-          eyebrow="Start here — in order"
+          eyebrow="Start here, in order"
           sunk
         />
         <TrackSection
@@ -143,7 +142,7 @@ export default function Home() {
           id="how"
           track="how"
           lessons={how}
-          eyebrow="Optional depth — reachable from inside the chapters"
+          eyebrow="Optional depth, reachable from inside the chapters"
           sunk
         />
 
@@ -151,8 +150,9 @@ export default function Home() {
           <h2 className="display-md mb-3">Where the numbers come from</h2>
           <p className="prose-measure text-ink-soft">
             Every token, vector and probability here is computed from a real
-            model or a published dataset, and every module ends with the sources
-            it drew on. If a number cannot be traced, it does not ship.
+            model or a published dataset, and every page ends with the sources
+            it drew on. If a number cannot be traced, it does not
+            ship.
           </p>
         </section>
       </main>

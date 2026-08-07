@@ -1,11 +1,11 @@
 /**
- * The rules of Pushback — as pure functions.
+ * The rules of Pushback, as pure functions.
  *
  * One fact that is not in dispute, four ways of putting the question, and a
  * call to make: which way does the answer move?
  *
  * The measured result is more interesting than "it caves". Asserting the false
- * answer before the question makes the false answer likelier — water comes out
+ * answer before the question makes the false answer likelier, water comes out
  * 89.7% wrong against 0.2% right. But asserting the TRUE answer first works
  * just as hard in the other direction: 96.4% right. It is not being persuaded.
  * It is copying whatever you put in front of it, in whichever direction you
@@ -14,8 +14,8 @@
  * That is the useful version of the lesson. A model agreeing with you is not
  * evidence that you were right; it is evidence that you said it first.
  *
- * ON THE MULTIPLES. Some of the ratios are enormous — fifty thousand times, on
- * one item — because the neutral baseline was a rounding error to begin with.
+ * ON THE MULTIPLES. Some of the ratios are enormous, fifty thousand times, on
+ * one item, because the neutral baseline was a rounding error to begin with.
  * Ratios off a near-zero denominator are not stable and the game leads with the
  * absolute probabilities instead. The median is reported rather than the mean
  * for the same reason.

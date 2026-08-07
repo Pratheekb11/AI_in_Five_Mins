@@ -11,7 +11,7 @@ import {
 } from "@/lib/attention";
 
 /**
- * Beam — where does this word look?
+ * Beam, where does this word look?
  *
  * A sentence, one word lit up, and a single attention head. Say which earlier
  * word that head sends most of its beam to, then watch the real row of weights
@@ -20,7 +20,7 @@ import {
  * Two things make this worth playing rather than reading. The heads disagree
  * with each other constantly, so you cannot learn one rule and coast. And the
  * first token takes an enormous share of almost every row for no meaning-
- * related reason at all — a documented artefact called an attention sink,
+ * related reason at all, a documented artefact called an attention sink,
  * which is why the question sets it aside and then tells you about it.
  */
 
@@ -93,13 +93,13 @@ export function Beam() {
     <GameShell
       gameId="beam"
       name="Beam"
-      instruction="One word is lit up, and one attention head is switched on. Say which earlier word that head sends most of its attention to. The first word of the sentence is set aside — it soaks up a huge share of nearly every head for reasons that have nothing to do with meaning, and you will see why below."
+      instruction="One word is lit up, and one attention head is switched on. Say which earlier word that head sends most of its attention to. The first word of the sentence is set aside. It soaks up a huge share of nearly every head, for reasons that have nothing to do with meaning, and you will see why below."
       howToPlay={{
         goal: "Say which earlier word this attention head is looking at.",
         steps: [
           "One word in the sentence is lit up, and one of the model's 72 attention heads is switched on.",
           "Click the earlier word you think that head sends most of its attention to.",
-          "The real row of weights comes up as bars. The first word is set aside — it soaks up attention for reasons unrelated to meaning.",
+          "The real row of weights comes up as bars. The first word is set aside, because it soaks up attention for reasons unrelated to meaning.",
         ],
         controls: "Click a word.",
         scoring: "100 plus the weight that actually went there, plus a streak bonus.",
@@ -135,7 +135,7 @@ export function Beam() {
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
             Hard, because there is no single rule to learn. Each head has ended
-            up doing its own job &mdash; some track the word before, some hunt
+            up doing its own job. Some track the word before, some hunt
             for a matching noun, some do something nobody has a name for. All
             {" "}
             {data ? data.model.layers * data.model.heads : 72} of them run at
@@ -162,7 +162,7 @@ export function Beam() {
         {round ? (
           <>
             <p className="label text-ink-faint mb-3">
-              Layer {round.layer + 1}, head {round.head + 1} &mdash; where does
+              Layer {round.layer + 1}, head {round.head + 1}. Where does
               the lit word look?
             </p>
 
@@ -204,7 +204,7 @@ export function Beam() {
                   }`}
                 >
                   {picked === round.answer
-                    ? `Right — ${(round.answerWeight * 100).toFixed(0)}% of this head's beam went there.`
+                    ? `Right. ${(round.answerWeight * 100).toFixed(0)}% of this head's beam went there.`
                     : `Not quite. It went to “${round.sentence.tokens[round.answer].text.trim()}” at ${(round.answerWeight * 100).toFixed(0)}%, against ${((picked !== null ? round.weights[picked] : 0) * 100).toFixed(0)}% for your pick.`}
                 </p>
 
@@ -245,7 +245,7 @@ export function Beam() {
               </div>
             ) : (
               <p className="text-ink-soft text-[0.9375rem]">
-                The lit word can only look backwards &mdash; nothing in a
+                The lit word can only look backwards. Nothing in a
                 language model is allowed to see its own future.
               </p>
             )}

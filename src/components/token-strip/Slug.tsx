@@ -7,7 +7,7 @@ import { type Ink, inkClasses } from "@/lib/ink";
  *
  * This is the atom the whole site is built from. A slug is a token in lesson 3,
  * a point on the star chart in lesson 4, a node in the attention wiring in
- * lesson 5, a bar in lesson 6 and a shelved message in lesson 8 — always the
+ * lesson 5, a bar in lesson 6 and a shelved message in lesson 8, always the
  * same object, wearing a different job. Keeping it literally the same component
  * is the pedagogical claim: the learner watches one thing become each concept.
  */
@@ -25,7 +25,7 @@ export type SlugProps = {
   text: string;
   ink: Ink;
   size?: SlugSize;
-  /** Shown small and tucked under the text — a token id, an index, a score. */
+  /** Shown small and tucked under the text, a token id, an index, a score. */
   caption?: string;
   /** 0–1. Fades the fill so a strip can carry a weight without changing hue. */
   weight?: number;
@@ -44,7 +44,7 @@ const WHITESPACE_MARKS: Record<string, string> = {
 
 /**
  * Whitespace has to be visible or tokenization looks like it silently loses
- * characters — a leading space really is part of the token. The replacements
+ * characters, a leading space really is part of the token. The replacements
  * are printer's marks, in keeping with the rest of the system.
  *
  * Text is split into runs rather than per character so a token stays one node,
@@ -82,7 +82,7 @@ export function Slug({
 
   const style: React.CSSProperties = {};
   if (weight !== undefined) {
-    // Flat fill at partial strength rather than a lighter hue — the press only
+    // Flat fill at partial strength rather than a lighter hue, the press only
     // has the one ink, it just lays down less of it.
     //
     // The fill is capped well short of solid: at full strength the darkest inks
@@ -90,7 +90,7 @@ export function Slug({
     // label. The ceiling is the worst passing case across all four inks in both
     // themes, so weight is always readable rather than sometimes readable. The
     // range that gets lost is made up by the border, which thickens with
-    // weight — two channels for one quantity, which also survives greyscale.
+    // weight, two channels for one quantity, which also survives greyscale.
     const clamped = Math.min(Math.max(weight, 0), 1);
     style.backgroundColor = `color-mix(in srgb, var(--${ink}) calc(${clamped} * var(--weight-ceiling) * 100%), var(--paper-raised))`;
     style.borderColor = `var(--${ink})`;

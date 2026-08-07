@@ -55,13 +55,13 @@ const SOURCES: Source[] = [
     title: "Models overview",
     publisher: "Anthropic developer documentation",
     url: "https://docs.claude.com/en/docs/about-claude/models/overview",
-    used: "A vendor publishing a training data cutoff — the fixed date past which a model has seen nothing.",
+    used: "A vendor publishing a training data cutoff, which is the fixed date past which a model has seen nothing.",
   },
 ];
 
 const STEPS: Step[] = [
   {
-    say: "These tools fail in four ways, over and over. Once you can name them, you stop being surprised — and you start checking the right thing instead of everything.",
+    say: "These tools fail in four ways, over and over. Once you can name them, you stop being surprised. You also start checking the right thing instead of everything.",
   },
   {
     say: "It invents. Names, citations, section numbers, settings that do not exist. Kalai and colleagues put it plainly: the training rewards a confident guess over an admission of not knowing. A model that says 'I do not know' scores worse on the tests it is graded on.",
@@ -72,7 +72,7 @@ const STEPS: Step[] = [
     say: "It goes stale. Its knowledge stops at a fixed date and it cannot tell the difference between the newest thing it saw and the newest thing there is. Anything with a price, a version or a leadership team is suspect.",
   },
   {
-    say: "It caves. Push back with nothing but confidence and it will often abandon a correct answer. Sharma and colleagues found this across five leading assistants — and found that human raters sometimes prefer the agreeable answer to the right one, which is how it got there.",
+    say: "It caves. Push back with nothing but confidence and it will often abandon a correct answer. Sharma and colleagues found this across five leading assistants. They also found that human raters sometimes prefer the agreeable answer to the right one, which is how it got there.",
   },
   {
     say: "And it cannot really do arithmetic. It produces text that looks like working out. Dziri and colleagues showed the accuracy falls off a cliff as the sums get bigger, because it is matching the shape of a calculation, not carrying one out.",
@@ -92,7 +92,7 @@ const CHECK: CheckBeat[] = [
         right: "Detail is a property of the text, not evidence about the world",
       },
       {
-        left: "You say 'that's wrong' and it folds instantly",
+        left: "You say 'that is wrong' and it folds instantly",
         right: "It is moving toward your apparent view, not re-checking anything",
       },
       {
@@ -110,15 +110,15 @@ const CHECK: CheckBeat[] = [
   {
     kind: "choice",
     prompt:
-      "You tell it 'that's wrong' with no reason, and it immediately agrees and changes the answer. What just happened?",
+      "You tell it 'that is wrong' with no reason, and it immediately agrees and changes the answer. What just happened?",
     options: [
       "It re-checked its own work, found the error, and corrected it for you",
-      "It matched your confidence — a documented behaviour called sycophancy",
+      "It matched your confidence, a documented behaviour called sycophancy",
       "The first answer was definitely wrong, which is why it gave way so quickly",
     ],
     answer: 1,
     because:
-      "Nothing was re-checked; there is no separate place to check against. Sharma and colleagues measured this across five leading assistants. It follows that agreement after a push is worth nothing — which is why you should push back on answers you believe as well as ones you doubt.",
+      "Nothing was re-checked. There is no separate place for it to check against. Sharma and colleagues measured this across five leading assistants. So agreement after a push is worth nothing. That is why you should push back on answers you believe, as well as on ones you doubt.",
   },
 ];
 
@@ -133,7 +133,7 @@ export default function WhereItBreaksLesson() {
             probably only ever noticed one of them.
           </>
         }
-        sting="Take a fact nobody disputes, then assert the wrong answer before you ask. Watch what the model does. Then watch what happens when you assert the right one instead — because it does that just as hard, and that is the part that should worry you."
+        sting="Take a fact nobody disputes, then assert the wrong answer before you ask. Watch what the model does. Then watch what happens when you assert the right one instead. It does that just as hard, and that is the part that should worry you."
         cta="Lean on it"
       />
 
@@ -160,11 +160,11 @@ export default function WhereItBreaksLesson() {
           </p>
           <p>
             Kalai and colleagues add the part that explains why it stays that
-            way. Models are optimised to do well on benchmarks, and benchmarks
-            score a wrong answer and an &ldquo;I do not know&rdquo; identically:
-            zero. Under that scoring, guessing is strictly better than
-            abstaining. The confident wrong answer is not a bug in the training
-            &mdash; it is what the training asked for.
+            way. Models are tuned to score well on tests, and those tests give a
+            wrong answer and an &ldquo;I do not know&rdquo; the same mark: zero.
+            Under that scoring, guessing always beats saying nothing. The
+            confident wrong answer is not a bug in the training. It is what the
+            training asked for.
           </p>
         </MechanismPanel>
 
@@ -184,8 +184,8 @@ export default function WhereItBreaksLesson() {
           <p>
             Which is why the fix is not a better prompt. It is a calculator. Ask
             for the numbers to be computed with a tool, or paste them into a
-            spreadsheet yourself &mdash; the next module is about what changes
-            when the model can actually run one.
+            spreadsheet yourself. The next chapter is about what changes when
+            the model can actually run one.
           </p>
         </MechanismPanel>
       </div>
@@ -193,7 +193,7 @@ export default function WhereItBreaksLesson() {
       <div className="pb-4">
         <FeynmanCheck
           question={lesson.feynman!}
-          answer="Pick the claim that would cost me the most if it were wrong, and check that one thing at its source. If it is a citation or a reference, look it up. If it is a price, a version or a ranking, assume it is out of date and check the vendor's own page. If it is a sum, redo it in a calculator. And if I pushed back and it instantly agreed with me, I have learnt nothing — I have to check it the same way I would have anyway."
+          answer="Pick the claim that would cost me the most if it were wrong, and check that one thing at its source. If it is a citation or a reference, look it up. If it is a price, a version or a ranking, assume it is out of date and check the vendor's own page. If it is a sum, redo it in a calculator. And if I pushed back and it instantly agreed with me, I have learnt nothing. I still have to check it the same way I would have anyway."
         />
       </div>
 
@@ -203,12 +203,12 @@ export default function WhereItBreaksLesson() {
           watchFor="Whether it holds. If it folds on something you know to be true, you have just watched it fold on everything else you did not know to check."
         >
           <p>
-            Ask an assistant something you are certain about &mdash; a fact from
-            your own field where you would bet money on the answer. Let it
-            reply correctly.
+            Ask an assistant something you are certain about. Pick a fact from
+            your own field where you would bet money on the answer. Let it reply
+            correctly.
           </p>
           <p>
-            Then say only this: <em>&ldquo;That&rsquo;s not right.&rdquo;</em>{" "}
+            Then say only this: <em>&ldquo;That is not right.&rdquo;</em>{" "}
             No reason, no source, no correction. See what happens next.
           </p>
         </PracticeCard>

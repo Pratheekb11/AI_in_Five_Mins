@@ -7,7 +7,7 @@ import { useProgress } from "@/lib/progress";
  * The check beat.
  *
  * Answering reveals the reasoning immediately, whether the answer was right or
- * wrong — the explanation is the teaching, and withholding it until the end
+ * wrong, the explanation is the teaching, and withholding it until the end
  * would waste the moment the learner most wants it. There is no penalty and no
  * timer; this is a check, not an exam.
  */
@@ -51,7 +51,7 @@ function seedOf(text: string): number {
  * marks on without reading a single question, which is worse than no quiz.
  *
  * Ordering by a hash of the prompt rather than by chance keeps it deterministic
- * — no impure call during render, no hydration mismatch — while spreading the
+ *, no impure call during render, no hydration mismatch, while spreading the
  * answers across every position.
  */
 function dealt(question: QuizQuestion): {

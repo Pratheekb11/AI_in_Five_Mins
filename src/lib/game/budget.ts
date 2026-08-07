@@ -5,8 +5,8 @@
  * to see. Then you run it, and the number that comes back is the probability
  * the real model puts on the real answer given exactly the context you built.
  *
- * Every combination was measured offline — see `data/scripts/build-context.mjs`
- * — so pressing Run is a lookup of a real measurement rather than a simulation.
+ * Every combination was measured offline, see `data/scripts/build-context.mjs`
+ *, so pressing Run is a lookup of a real measurement rather than a simulation.
  *
  * What the measurements turned out to say, which is not what most people expect:
  *
@@ -200,7 +200,7 @@ export function clear(scene: BudgetScene): BudgetScene {
  * Run it.
  *
  * Score is the best probability reached, so a good first guess is worth as much
- * as a lucky fourth — and the runs are there to make you think, not to be spent.
+ * as a lucky fourth, and the runs are there to make you think, not to be spent.
  */
 export function run(scene: BudgetScene, scenario: Scenario): BudgetScene {
   if (scene.done || scene.runsLeft <= 0) return scene;

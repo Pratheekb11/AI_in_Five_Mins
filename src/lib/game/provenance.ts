@@ -13,7 +13,7 @@
  * Every round is measured. `bare` is the model asked cold; `sourced` is the
  * same question with the fact placed in front of it, which is what a search
  * tool or a document upload actually does. Which bucket a question belongs in
- * was decided by that measurement, not chosen in advance — guessing which facts
+ * was decided by that measurement, not chosen in advance, guessing which facts
  * a model happens to know is precisely the mistake being taught.
  *
  * The arithmetic round is separate and is not a probability. It is an accuracy:
@@ -97,7 +97,7 @@ export const VERDICTS: Record<Verdict, { label: string; blurb: string }> = {
 
 /* ---------------------------------------------------------------- rounds -- */
 
-/** A sum round carries no probabilities — it is scored on measured accuracy. */
+/** A sum round carries no probabilities, it is scored on measured accuracy. */
 export type SumRound = {
   id: string;
   kind: "tool";

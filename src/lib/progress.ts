@@ -6,7 +6,7 @@ import { LESSONS } from "./lessons";
 /**
  * Learner progress.
  *
- * Kept in localStorage for now — there are no accounts. The shape below is the
+ * Kept in localStorage for now, there are no accounts. The shape below is the
  * contract a backend would take over: swap the read/write pair for API calls
  * and nothing else in the app has to change.
  */
@@ -65,7 +65,7 @@ function write(next: Progress) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   } catch {
-    // Storage unavailable or full — progress just won't survive a reload.
+    // Storage unavailable or full, progress just will not survive a reload.
   }
   for (const listener of listeners) listener();
 }

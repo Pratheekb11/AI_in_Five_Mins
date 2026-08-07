@@ -3,7 +3,7 @@
  *
  * One vocabulary shared by the 3D model and the flat printed version, so a
  * component can ask for a mood without knowing which Nimo it is going to get.
- * Every mood maps to a pose, not to a face swap — the tilt and the wings do
+ * Every mood maps to a pose, not to a face swap, the tilt and the wings do
  * most of the work, which is what stops him reading as a sticker.
  */
 
@@ -39,7 +39,7 @@ export const POSES: Record<Mood, Pose> = {
   celebrate: { tilt: 0, nod: 12, wings: 1, lids: 0.1, bounce: 0.08, beak: 1 },
 };
 
-/** A short line Nimo can say. Kept plain — he is a guide, not a hype man. */
+/** A short line Nimo can say. Kept plain, he is a guide, not a hype man. */
 export const NIMO_LINES: Record<Mood, string[]> = {
   idle: ["Ready when you are."],
   curious: ["Have a go.", "Try it and see."],

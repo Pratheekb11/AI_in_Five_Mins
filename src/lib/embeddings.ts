@@ -3,7 +3,7 @@
  *
  * The 1,851 words here carry their full 50-dimensional GloVe vectors, because
  * neighbours and analogies are only true if they are computed in all fifty. The
- * 2D coordinates that draw the map are a projection — a shadow — and the lesson
+ * 2D coordinates that draw the map are a projection, a shadow, and the lesson
  * is explicit that the shadow misleads. Ranking never uses them.
  *
  * Loaded on demand (~180KB) rather than bundled, so it costs nothing until a
@@ -87,7 +87,7 @@ export function loadEmbeddings(): Promise<EmbeddingSpace> {
   return spacePromise;
 }
 
-/** The (already unit-length) vector for a word, or null if it isn't here. */
+/** The (already unit-length) vector for a word, or null if it is not here. */
 export function vectorFor(
   space: EmbeddingSpace,
   word: string,
@@ -102,7 +102,7 @@ export type Neighbour = { word: string; similarity: number; index: number };
 /**
  * Closest words by cosine similarity, computed across all dimensions.
  *
- * `exclude` keeps the query words out of their own results — otherwise every
+ * `exclude` keeps the query words out of their own results, otherwise every
  * analogy answers itself.
  */
 export function nearest(

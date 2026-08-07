@@ -5,7 +5,7 @@
  * paste it, strip the identifying parts first, or do not paste it at all.
  *
  * HONESTY ABOUT THE SCORING. The categories here are real and cited on the
- * page — personal data, special category data and other people's confidential
+ * page, personal data, special category data and other people's confidential
  * material are defined in law, not by us. What is ours is the routing rule:
  * public or your own ordinary text goes in; anything identifying a living
  * person gets stripped first; special category data and somebody else's
@@ -72,7 +72,7 @@ export const KIND_NOTE: Record<Kind, string> = {
   personal:
     "Personal data: it identifies a living person. Usually the identifiers, not the substance, are what you actually needed to send.",
   special:
-    "Special category data under Article 9 — health, race, religion, politics, trade union membership, sex life or orientation, genetics, biometrics — plus criminal offence data. The bar for handling this is much higher than for ordinary personal data.",
+    "Special category data under Article 9. That covers health, race, religion, politics, trade union membership, sex life or orientation, genetics and biometrics, plus criminal offence data. The bar for handling this is much higher than for ordinary personal data.",
   secret:
     "Not yours to disclose: credentials, unreleased figures, a client's confidential material, anything under an agreement you signed.",
 };
@@ -180,7 +180,7 @@ export const PAYLOADS: readonly Payload[] = [
   {
     text: "A member list including trade union membership",
     kind: "special",
-    contains: "trade union membership — explicitly special category",
+    contains: "trade union membership, explicitly special category",
   },
   {
     text: "The full text of an open-source licence",
@@ -200,7 +200,7 @@ export const PAYLOADS: readonly Payload[] = [
   {
     text: "A photo of a colleague's face, to caption",
     kind: "special",
-    contains: "an image used to identify a person — biometric territory",
+    contains: "an image used to identify a person, which is biometric territory",
   },
   {
     text: "A meeting agenda for a public webinar",

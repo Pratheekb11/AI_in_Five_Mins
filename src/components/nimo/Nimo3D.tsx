@@ -10,12 +10,12 @@ import { type Mood, POSES } from "./moods";
  *
  * Rebuilt procedurally from the same primitives the original model was made
  * from, rather than loading the 2.8MB OBJ export. Same owl, a fraction of the
- * weight, and every joint is addressable — which is what lets him blink, tilt
+ * weight, and every joint is addressable, which is what lets him blink, tilt
  * toward the cursor and react to a wrong answer.
  *
  * His own colours are fixed and do not follow the theme. An owl does not change
  * species between light and dark mode; only the ground he sits on does. That
- * was the bug in the flat version — his cream belly went dark because it was
+ * was the bug in the flat version, his cream belly went dark because it was
  * painted with a theme variable.
  *
  * Shading is toon-stepped with a hard outline so he reads as printed rather
@@ -35,7 +35,7 @@ const C = {
   pages: "#f3ecdd",
 } as const;
 
-/** Three flat steps — enough to read as volume, few enough to read as print. */
+/** Three flat steps, enough to read as volume, few enough to read as print. */
 function useToonGradient() {
   return useMemo(() => {
     const data = new Uint8Array([90, 90, 90, 165, 165, 165, 255, 255, 255]);
@@ -50,7 +50,7 @@ function useToonGradient() {
 /**
  * Where the group sits so the whole owl is centred on the origin. The model
  * runs from y 0 at the books to about y 1.6 at the ear tufts, so it has to be
- * pushed down by half its height. The bounce below ADDS to this — assigning
+ * pushed down by half its height. The bounce below ADDS to this, assigning
  * position.y outright was what floated his head out of frame.
  */
 const BASE_Y = -0.8;
@@ -60,7 +60,7 @@ const BASE_Y = -0.8;
  *
  * Deliberately not R3F's own `pointer`: that one is canvas-local and only
  * updates while the cursor is actually over the canvas, so the owl froze the
- * moment you moved away from him — which is exactly when you want him to turn
+ * moment you moved away from him, which is exactly when you want him to turn
  * and watch you. A window listener sees the whole page.
  *
  * Kept in a ref rather than state because it changes on every mouse event and
@@ -95,7 +95,7 @@ function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
   const pupilL = useRef<THREE.Group>(null);
   const pupilR = useRef<THREE.Group>(null);
 
-  // Blink timing lives outside React entirely — it changes sixty times a
+  // Blink timing lives outside React entirely, it changes sixty times a
   // second and nothing on the page needs to re-render when it does. Seeded
   // with a constant rather than a random number, because rendering has to be
   // pure; the jitter gets added on the first frame instead.
@@ -212,7 +212,7 @@ function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
     // The head only turns part of the way; the eyes cover the rest, which is
     // what makes him read as looking AT you rather than merely facing you.
     // They slide inside the eyeball, so the offset is small and clamped to
-    // the white — a pupil that reaches the rim looks broken, not attentive.
+    // the white, a pupil that reaches the rim looks broken, not attentive.
     const pupilX = aimX * PUPIL_REACH;
     const pupilY = -aimY * PUPIL_REACH * 0.8;
     for (const p of [pupilL.current, pupilR.current]) {
@@ -229,7 +229,7 @@ function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
         material={mat.white}
         geometry={new THREE.SphereGeometry(0.1, 24, 20)}
       />
-      {/* Pupil and catchlight travel together — a highlight that stayed put
+      {/* Pupil and catchlight travel together, a highlight that stayed put
           while the pupil moved read as a smudge on the eye. */}
       <group ref={side === 1 ? pupilR : pupilL}>
         <mesh position={[0, 0, 0.075]} material={mat.ink}>

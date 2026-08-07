@@ -31,7 +31,7 @@ const SOURCES: Source[] = [
     title: "The Curious Case of Neural Text Degeneration",
     publisher: "Holtzman, Buys, Du, Forbes & Choi (arXiv:1904.09751, 2019)",
     url: "https://arxiv.org/abs/1904.09751",
-    used: "Why always taking the most likely token produces flat, repetitive text — and where sampling settings came from.",
+    used: "Why always taking the most likely token produces flat, repetitive text, and where sampling settings came from.",
   },
   {
     title: "Why Language Models Hallucinate",
@@ -52,7 +52,7 @@ const STEPS: Step[] = [
     say: "Here is the entire operation. The model reads everything so far, produces a score for every one of fifty thousand possible next tokens, picks one, adds it to the text, and starts again.",
   },
   {
-    say: "The scores you were playing with are real. Give it the opening of Genesis and one token takes ninety-nine per cent of the probability. Give it 'Once upon a' and the most likely token is at seven per cent — far less certain than a person would be.",
+    say: "The scores you were playing with are real. Give it the opening of Genesis and one token takes ninety-nine per cent of the probability. Give it 'Once upon a' and the most likely token is at seven per cent. That is far less certain than a person would be.",
     caption:
       "Both measured from the same model, on this page, with nothing rounded for effect.",
   },
@@ -73,7 +73,7 @@ const QUESTIONS: QuizQuestion[] = [
     options: [
       "Just before it picks the token",
       "At the end, before returning the answer",
-      "Nowhere — there is no such step",
+      "Nowhere. There is no such step",
     ],
     answer: 2,
     because:
@@ -92,7 +92,7 @@ export default function HowLlmsAnswerLesson() {
             thousand sides, once per token.
           </>
         }
-        sting="These are a real model's real odds, recorded and printed unrounded. You get one control — the dial that loads the dice — and a target to hit. Finding out that you cannot have both reliable and surprising is the point of the round."
+        sting="These are a real model's real odds, recorded and printed unrounded. You get one control, the dial that loads the dice, and a target to hit. Finding out that you cannot have both reliable and surprising is the point of the round."
         cta="Load the odds"
       />
 
@@ -120,8 +120,8 @@ export default function HowLlmsAnswerLesson() {
           </p>
           <p>
             So real systems sample instead, and usually cut off the long tail
-            first &mdash; only the tokens that make up the top slice of
-            probability are eligible at all. The dial in the game is the simple
+            first. Only the tokens that make up the top slice of probability
+            are eligible at all. The dial in the game is the simple
             version of that machinery.
           </p>
         </MechanismPanel>
@@ -134,9 +134,9 @@ export default function HowLlmsAnswerLesson() {
           <p>
             Any temperature above zero means the reply is one sample from a
             distribution, not the distribution itself. Two runs of the same
-            prompt are two rolls of the same dice &mdash; and once an early
-            token differs, everything after it is conditioned on that difference,
-            so the answers can diverge completely.
+            prompt are two rolls of the same dice. Once an early token
+            differs, everything after it is built on that difference, so
+            the answers can diverge completely.
           </p>
           <p>
             There is a practical habit in that. If an answer matters, ask twice
@@ -151,7 +151,7 @@ export default function HowLlmsAnswerLesson() {
       <div className="pb-4">
         <FeynmanCheck
           question="Why do I get a different answer if I ask the same thing twice?"
-          answer="Because it does not pick the next word, it draws it. At each step it scores every possible next chunk of text and then takes a weighted random pick — so two runs are two draws. There is a dial that decides how strongly the odds favour the top choice, and even at its most predictable, one early difference changes everything downstream. Where two runs agree, it was confident. Where they differ is where it was guessing."
+          answer="Because it does not pick the next word, it draws it. At each step it scores every possible next chunk of text and then takes a weighted random pick, so two runs are two draws. There is a dial that decides how strongly the odds favour the top choice, and even at its most predictable, one early difference changes everything downstream. Where two runs agree, it was confident. Where they differ is where it was guessing."
         />
       </div>
 
@@ -162,8 +162,8 @@ export default function HowLlmsAnswerLesson() {
         >
           <p>
             Take a question from your own work with a factual answer. Ask it in
-            three separate new chats &mdash; new chats, not follow-ups, so each
-            starts from the same context.
+            three separate new chats. New chats, not follow-ups, so that each
+            one starts from the same context.
           </p>
           <p>
             Line the three answers up and mark everything that differs.

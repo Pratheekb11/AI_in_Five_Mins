@@ -61,7 +61,7 @@ export function LessonShell({
             <Link href="/" className="plate misreg p-4">
               <span className="label text-ink-faint">Back to</span>
               <span className="font-display mt-1.5 block font-bold">
-                All eight machines
+                All the chapters
               </span>
             </Link>
           )}
@@ -78,7 +78,7 @@ export function LessonShell({
             </Link>
           ) : (
             <Link href="/" className="plate misreg p-4 sm:text-right">
-              <span className="label text-ink-faint">That&rsquo;s the set</span>
+              <span className="label text-ink-faint">That is the set</span>
               <span className="font-display mt-1.5 block font-bold">
                 Back to the start
               </span>

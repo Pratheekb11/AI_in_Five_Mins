@@ -50,7 +50,7 @@ export function isConfigured(): boolean {
 /**
  * A fixed-window counter, in memory.
  *
- * In memory means it resets on redeploy and is per-instance — fine for a
+ * In memory means it resets on redeploy and is per-instance, fine for a
  * teaching site, and honest about what it is. It exists to stop one person
  * running up a bill, not to survive a determined attacker. If this ever gets
  * real traffic it wants replacing with something shared.

@@ -12,8 +12,8 @@ import { MERGES } from "@/lib/merges";
  * the answer with the working thrown away, and there is nothing in it a
  * learner can watch happen.
  *
- * So this plays the working. It starts where the tokenizer starts — one tile
- * per byte, no words, no letters, nothing grouped — and performs the real
+ * So this plays the working. It starts where the tokenizer starts, one tile
+ * per byte, no words, no letters, nothing grouped, and performs the real
  * merges in the real order, pausing on each one long enough to see which pair
  * joined and how common that pair is. By the end the tiles on screen are the
  * tokens the model actually receives.
@@ -25,7 +25,7 @@ import { MERGES } from "@/lib/merges";
  *
  * The animation carries the idea rather than decorating it. The pair about to
  * join is marked, it closes the gap between the two tiles, and the tile that
- * results is a single wider tile — so "two things became one thing" is
+ * results is a single wider tile, so "two things became one thing" is
  * something you see rather than something you are told.
  */
 
@@ -41,7 +41,7 @@ function visible(text: string) {
 
 /**
  * How common a token is, in words. The id IS the rank in tiktoken, so a low
- * number means the pair was worth memorising early — which is a statement
+ * number means the pair was worth memorising early, which is a statement
  * about how often it appears in text, not about how meaningful it is.
  */
 function commonness(id: number) {
@@ -153,7 +153,7 @@ export function MergeReel() {
       <div className="p-5 md:p-6">
         <p className="label text-ink-faint mb-3">
           {scene.done === 0
-            ? `Where the tokenizer starts — ${trace.bytes} bytes, nothing grouped`
+            ? `Where the tokenizer starts. ${trace.bytes} bytes, nothing grouped`
             : "What it is holding now"}
         </p>
 
@@ -203,7 +203,7 @@ export function MergeReel() {
           })}
         </div>
 
-        {/* The commentary. One merge, what joined, and how common it is —
+        {/* The commentary. One merge, what joined, and how common it is,
             because "common" is the only reason any of this happened. */}
         <div className="border-ink/20 bg-paper-sunk min-h-[5.5rem] rounded-[2px] border p-4">
           {finished ? (
@@ -239,7 +239,7 @@ export function MergeReel() {
                 <span className="data tabular-nums">
                   {next!.id.toLocaleString("en-US")}
                 </span>{" "}
-                out of {data.vocabularySize.toLocaleString("en-US")} &mdash;{" "}
+                out of {data.vocabularySize.toLocaleString("en-US")}.{" "}
                 {commonness(next!.id)}. Of every pair it could have joined here,
                 this one was the most common, so it goes first.
               </p>

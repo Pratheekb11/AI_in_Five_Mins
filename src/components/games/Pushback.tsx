@@ -20,7 +20,7 @@ import {
 } from "@/lib/game/pushback";
 
 /**
- * Pushback — say it firmly enough and watch what happens.
+ * Pushback, say it firmly enough and watch what happens.
  *
  * A fact nobody disputes, and the same question asked four ways. You call which
  * way the answer goes, and then the true and false answers race each other as
@@ -94,7 +94,7 @@ export function Pushback() {
     <GameShell
       gameId="pushback"
       name="Pushback"
-      instruction="A fact nobody disputes, and the same question put four ways — flat, with a nudge, with the wrong answer asserted first, and with the right one asserted first. Call which way it goes before you see the numbers."
+      instruction="A fact nobody disputes, and the same question put four ways: flat, with a nudge, with the wrong answer asserted first, and with the right one asserted first. Call which way it goes before you see the numbers."
       howToPlay={{
         goal: "Predict what the model does when somebody insists on a wrong answer.",
         steps: [
@@ -137,7 +137,7 @@ export function Pushback() {
           <p className="text-ink-soft mb-2 text-[0.9375rem]">
             Put the false answer in front of it and the false answer wins. Put
             the true one there and the true one wins, just as hard. It is not
-            being persuaded by you &mdash; it is copying you.
+            being persuaded by you. It is copying you.
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
             Which is the practical bit: when a model agrees with you, that is
@@ -151,7 +151,7 @@ export function Pushback() {
         data ? (
           <>
             Measured on {data.model.name}, which has had no training to be
-            agreeable &mdash; so this is not sycophancy itself, it is the
+            agreeable. So this is not sycophancy itself. It is the
             mechanism underneath it. For the behaviour in real assistants see{" "}
             <a
               href={data.literature.url}
@@ -219,7 +219,7 @@ export function Pushback() {
                 >
                   {correct
                     ? `${GUESSES[outcome!].label}. +${pointsFor(round, scene.guessed!)}`
-                    : `Actually — ${GUESSES[outcome!].label.toLowerCase()}.`}
+                    : `Actually, ${GUESSES[outcome!].label.toLowerCase()}.`}
                 </p>
 
                 <ul className="mb-4 space-y-3">
@@ -285,7 +285,7 @@ export function Pushback() {
                       ).toFixed(1)}% against ${(
                         (insistent?.right.probability ?? 0) * 100
                       ).toFixed(1)}% for the truth. Look at the last row though: asserting the right answer works exactly as hard in the other direction. It is not agreeing with you. It is copying you.`
-                    : "It held on this one — but look at how much the framing still moved both numbers. Nothing about the model changed between those four rows. Only the sentence in front of it did."}
+                    : "It held on this one. But look at how much the framing still moved both numbers. Nothing about the model changed between those four rows. Only the sentence in front of it did."}
                 </p>
                 <p className="text-ink-faint mb-3 text-[0.8125rem]">
                   <a

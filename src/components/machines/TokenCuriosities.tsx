@@ -3,7 +3,7 @@ import type { Curiosity } from "@/lib/tokenExamples";
 
 /**
  * Six short strings, each chosen because its split contradicts something people
- * assume about tokens. The note under each says what to notice — without it the
+ * assume about tokens. The note under each says what to notice, without it the
  * strips are just pretty, and noticing is the whole job.
  */
 export function TokenCuriosities({ items }: { items: Curiosity[] }) {

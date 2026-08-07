@@ -7,7 +7,7 @@
   "licence": "Public domain"
  },
  "model": {
-  "kind": "Bigram — counts of which word followed which, nothing else",
+  "kind": "Bigram: counts of which word followed which, nothing else",
   "vocabulary": 2646,
   "trainedOnWords": 26813
  },

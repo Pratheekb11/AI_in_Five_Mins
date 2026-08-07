@@ -3,10 +3,10 @@ import type { ReactNode } from "react";
 /**
  * One movement of a lesson.
  *
- * Every lesson runs the same five beats in the same order — look, try it, check
+ * Every lesson runs the same five beats in the same order, look, try it, check
  * yourself, use it, sources. That order is a real sequence rather than a
- * decorative device: you can't check yourself on a machine you haven't operated
- * yet. The margin rail names the beat you're in so the shape of a lesson is
+ * decorative device: you cannot check yourself on a machine you have not operated
+ * yet. The margin rail names the beat you are in so the shape of a lesson is
  * learnable and the second lesson feels familiar.
  */
 

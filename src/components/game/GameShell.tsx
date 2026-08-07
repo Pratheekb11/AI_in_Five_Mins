@@ -14,7 +14,7 @@ import { playCue, useMuted } from "@/lib/game/sound";
  * the third replay, not the first, so everything here exists to make the third
  * replay feel like the player's own idea.
  *
- * The levers are the boring proven ones — a visible personal best, a loud
+ * The levers are the boring proven ones, a visible personal best, a loud
  * moment when it is beaten, the score kept on screen while you play, and a
  * restart that takes one press and no confirmation.
  */
@@ -25,7 +25,7 @@ export type Readout = { label: string; value: string | number; accent?: boolean 
  * How to play, in the fewest words that still work.
  *
  * Every cabinet takes one. The instruction paragraph explains why the game
- * exists, which is a different job from telling somebody which key to press —
+ * exists, which is a different job from telling somebody which key to press,
  * and readers were bouncing off games because only the first job was being
  * done.
  */
@@ -99,7 +99,7 @@ export function GameShell({
   /** The score to record when the round ends. */
   finalScore?: number;
   again?: ReactNode;
-  /** Nimo's live reaction — games raise this on a hit, a miss or a streak. */
+  /** Nimo's live reaction, games raise this on a hit, a miss or a streak. */
   mood?: Mood;
   children: ReactNode;
   footer?: ReactNode;
@@ -108,7 +108,7 @@ export function GameShell({
   const [rulesOpen, setRulesOpen] = useState(false);
   const [muted, toggleMuted] = useMuted();
 
-  // Recorded when the round ends, not while it runs — a best is a result.
+  // Recorded when the round ends, not while it runs, a best is a result.
   useEffect(() => {
     if (phase === "over" && gameId && typeof finalScore === "number") {
       submit(finalScore);
@@ -127,7 +127,7 @@ export function GameShell({
   //
   // Refs hold the previous values rather than state, because a cue is a side
   // effect and turning one into a render would be a loop. They are written and
-  // read only inside effects — never during render.
+  // read only inside effects, never during render.
   const lastMood = useRef<Mood | null>(null);
   const lastPhase = useRef<Phase | null>(null);
 
@@ -236,7 +236,7 @@ export function GameShell({
         {phase !== "playing" ? (
           /* `m-auto` on the inner column rather than `justify-center` on the
              overlay. Centring a flex column that overflows its scroll container
-             pushes the top out of reach — the how-to-play panel made the ready
+             pushes the top out of reach, the how-to-play panel made the ready
              screen taller than the cabinet and its heading was clipped with no
              way to scroll back to it. `m-auto` centres when there is room and
              behaves when there is not. */

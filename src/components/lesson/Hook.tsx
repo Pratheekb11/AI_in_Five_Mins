@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
  *
  * It states one uncomfortable, concrete claim in large type and then gets out
  * of the way. No preamble, no "in this module you will learn", no list of
- * objectives — those are how a page announces that the interesting part is
+ * objectives, those are how a page announces that the interesting part is
  * still some distance away.
  *
  * The claim has to be true and checkable, because the whole site's argument is
@@ -23,7 +23,7 @@ export function Hook({
   claim: ReactNode;
   /** One sentence that lands the claim and points at the game. */
   sting: string;
-  /** Optional tiny visual — kept small, the type is the hero here. */
+  /** Optional tiny visual, kept small, the type is the hero here. */
   children?: ReactNode;
   cta?: string;
   target?: string;

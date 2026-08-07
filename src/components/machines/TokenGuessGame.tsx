@@ -20,7 +20,7 @@ function verdict(guess: number, actual: number): { text: string; ink: Ink } {
   const off = Math.abs(guess - actual);
   if (off === 0) return { text: "Exact.", ink: "teal" };
   if (off === 1) return { text: "One off.", ink: "teal" };
-  if (off <= 3) return { text: `${off} off — close.`, ink: "yellow" };
+  if (off <= 3) return { text: `${off} off, close.`, ink: "yellow" };
   return { text: `${off} off.`, ink: "pink" };
 }
 
@@ -68,7 +68,7 @@ export function TokenGuessGame({ items }: { items: MeasuredText[] }) {
         <p className="text-ink-soft prose-measure mb-5">
           {within >= 4
             ? "You have the feel for it. Token count tracks characters far more than it tracks words."
-            : "Most people guess low on long words and high on short sentences. Tokens are chunks of characters, not words — a common word is one token, a rare one shatters."}
+            : "Most people guess low on long words and high on short sentences. Tokens are chunks of characters, not words. A common word is one token, and a rare one shatters."}
         </p>
         <button
           type="button"

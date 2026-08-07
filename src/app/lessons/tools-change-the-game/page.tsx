@@ -25,7 +25,7 @@ const SOURCES: Source[] = [
     title: "Toolformer: Language Models Can Teach Themselves to Use Tools",
     publisher: "Schick et al. (arXiv:2302.04761, 2023)",
     url: "https://arxiv.org/abs/2302.04761",
-    used: "The statement of the problem this module is about: models struggle at arithmetic and factual lookup, where far simpler programs excel — and the fix is to call those programs.",
+    used: "The statement of the problem this module is about: models struggle at arithmetic and factual lookup, where far simpler programs excel. The fix is to call those programs.",
   },
   {
     title: "ReAct: Synergizing Reasoning and Acting in Language Models",
@@ -64,7 +64,7 @@ const STEPS: Step[] = [
       "Looked up · calculated · read · guessed. Only the first three involve anything outside the model being consulted.",
   },
   {
-    say: "This matters because it changes what the failures are. A model with a search tool is no longer stale — but it can still summarise the page wrongly. A model that ran code did not guess the number — but it may have written the wrong code.",
+    say: "This matters because it changes what the failures are. A model with a search tool is no longer stale, but it can still summarise the page wrongly. A model that ran code did not guess the number, but it may have written the wrong code.",
   },
   {
     say: "So the useful question stops being 'is this right' and becomes 'which of the four just happened'. That tells you what could have gone wrong, which tells you what to check.",
@@ -92,7 +92,7 @@ const CHECK: CheckBeat[] = [
       { id: "email", text: "Send that summary to the team", bucket: "tool" },
     ],
     because:
-      "The first two are in the weights, written down so often that the likeliest continuation is also the right one. The next two are not knowledge, they are lookups — one changes by the week, the other was never public. The last two are actions: the model can write out what to do, but something outside it has to actually add the column up or press send. Guessing at any of the bottom four is exactly the failure the game measured.",
+      "The first two are in the weights, written down so often that the likeliest continuation is also the right one. The next two are not knowledge, they are lookups. One changes by the week, and the other was never public. The last two are actions. The model can write out what to do, but something outside it has to add the column up or press send. Guessing at any of the bottom four is exactly the failure the game measured.",
   },
   {
     kind: "choice",
@@ -104,7 +104,7 @@ const CHECK: CheckBeat[] = [
     ],
     answer: 1,
     because:
-      "It is still only producing text. The text just happens to be a call, and the surrounding program is what executes it and pastes the answer back in. This is why a tool result lands in the same context window as everything else — and competes for the same space.",
+      "It is still only producing text. The text just happens to be a call, and the surrounding program is what executes it and pastes the answer back in. This is why a tool result lands in the same context window as everything else, and competes for the same room.",
   },
 ];
 
@@ -118,7 +118,7 @@ export default function ToolsChangeTheGameLesson() {
             <span className="text-blue-text">All four look the same.</span>
           </>
         }
-        sting="It looked it up. It ran code. It opened your file. Or it just wrote something. The confidence, the tone and the formatting are identical in every case — so knowing which one you asked for is the whole of knowing how far to trust the answer."
+        sting="It looked it up. It ran code. It opened your file. Or it just wrote something. The confidence, the tone and the formatting are identical in every case. So knowing which one you asked for is the whole of knowing how far to trust the answer."
         cta="Open the case"
       />
 
@@ -142,8 +142,8 @@ export default function ToolsChangeTheGameLesson() {
             that text is addressed to a program rather than to you: a call, with
             arguments. The surrounding system spots it, runs the real search or
             the real code, and pastes the result back into the context. Then the
-            model reads its own context again &mdash; now containing a genuine
-            answer &mdash; and writes your reply.
+            model reads its own context again, which now holds a genuine
+            answer, and writes your reply.
           </p>
           <p>
             Yao and colleagues formalised the loop as reason, act, observe,
@@ -166,17 +166,17 @@ export default function ToolsChangeTheGameLesson() {
           deeper="context-is-everything"
         >
           <p>
-            Retrieval &mdash; the idea Lewis and colleagues published in 2020
-            &mdash; fetches real passages and puts them in the context before
-            the model writes. That genuinely fixes the stale-knowledge failure,
+            Retrieval is the idea Lewis and colleagues published in 2020. It
+            fetches real passages and puts them in the context before the model
+            writes. That genuinely fixes the stale-knowledge failure,
             and it is why a searched answer can carry a link at all.
           </p>
           <p>
             What it does not fix is the sentence the model then writes about
             those passages. It can overstate, merge two sources, or attach a
             real link to a claim the page never made. So the check is not
-            &ldquo;is there a citation&rdquo; &mdash; it is &ldquo;does the
-            citation say this&rdquo;. Open one link. It takes seconds and it
+            &ldquo;is there a citation&rdquo;. It is &ldquo;does the citation
+            say this&rdquo;. Open one link. It takes seconds and it
             catches the failure that survives every other precaution.
           </p>
         </MechanismPanel>
@@ -185,14 +185,14 @@ export default function ToolsChangeTheGameLesson() {
       <div className="pb-4">
         <FeynmanCheck
           question={lesson.feynman!}
-          answer="I can usually tell from what I asked. If it needed today's news, a live price or my own file, then it had to use a tool — and if it did not have one, the answer was written from memory no matter how specific it sounds. If it needed a real number, it had to run a calculation, not describe one. And if I cannot tell, I can ask it directly: did you look this up, and show me where."
+          answer="I can usually tell from what I asked. If it needed today's news, a live price or my own file, then it had to use a tool. If it did not have one, the answer was written from memory, no matter how specific it sounds. If it needed a real number, it had to run a calculation, not describe one. And if I cannot tell, I can ask it directly: did you look this up, and show me where."
         />
       </div>
 
       <div className="pb-4">
         <PracticeCard
           title="Ask the same question twice"
-          watchFor="How similar the two answers look. The guessed one is not vaguer or more hesitant — that is the entire problem. Then open the link on the searched one and check it says what the answer claims."
+          watchFor="How similar the two answers look. The guessed one is not vaguer or more hesitant. That is the whole problem. Then open the link on the searched one and check it says what the answer claims."
         >
           <p>
             Pick something that has changed recently in your field: a price, a

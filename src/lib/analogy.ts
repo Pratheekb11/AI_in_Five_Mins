@@ -22,14 +22,14 @@ export type PlanePoint = {
 
 export type Analogy = {
   id: string;
-  /** a is to b as c is to the answer — computed as b - a + c. */
+  /** a is to b as c is to the answer, computed as b - a + c. */
   a: string;
   b: string;
   c: string;
   /** The word the demonstration is usually said to produce, if there is one. */
   expect: string | null;
   teaches: string;
-  /** Nearest word with the three inputs excluded — the usual convention. */
+  /** Nearest word with the three inputs excluded, the usual convention. */
   answer: Neighbour;
   /** Nearest word with nothing excluded. Often one of the inputs. */
   unfiltered: Neighbour;

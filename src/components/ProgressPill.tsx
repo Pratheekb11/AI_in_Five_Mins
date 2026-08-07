@@ -4,7 +4,7 @@ import { useProgress } from "@/lib/progress";
 
 /**
  * How far through the manual the learner is. Rendered as a row of ticks rather
- * than a percentage — eight lessons is few enough to count, and counting reads
+ * than a percentage, eight lessons is few enough to count, and counting reads
  * as progress you could finish today.
  */
 export function ProgressPill() {

@@ -20,11 +20,11 @@ const martian = Martian_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "LearnLoopAI — take the machine apart",
+    default: "LearnLoopAI: take the machine apart",
     template: "%s · LearnLoopAI",
   },
   description:
-    "Eight short lessons that let you operate the machinery behind AI — real tokenizers, real word vectors, real probabilities. No maths required.",
+    "Six short chapters that let you operate the machinery behind AI. Real tokenizers, real word vectors, real probabilities. No maths required.",
 };
 
 export const viewport: Viewport = {

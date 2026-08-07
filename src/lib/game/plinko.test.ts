@@ -24,14 +24,14 @@ import {
  * Two fixtures. The real `logits.json` is used for anything about shape and
  * invariants, because that is what actually ships. A tiny synthetic prompt with
  * round logits is used where the test needs an arithmetic result that can be
- * worked out by hand — it is a test fixture and never reaches a page.
+ * worked out by hand, it is a test fixture and never reaches a page.
  */
 
 const REAL: LogitData = JSON.parse(
   readFileSync("public/data/logits.json", "utf8"),
 );
 
-/** log(4), log(2), log(1) — so at temperature 1 the odds are 4 : 2 : 1. */
+/** log(4), log(2), log(1), so at temperature 1 the odds are 4 : 2 : 1. */
 const TOY: LogitPrompt = {
   id: "toy",
   text: "toy",
@@ -92,7 +92,7 @@ describe("boardWeights", () => {
     expect(boardWeights(TOY, 2)[2]).toBeGreaterThan(boardWeights(TOY, 1)[2]);
   });
 
-  it("keeps the ranking whatever the dial does — temperature never reorders", () => {
+  it("keeps the ranking whatever the dial does, temperature never reorders", () => {
     for (const t of [MIN_T, 0.7, 1, 1.4, MAX_T]) {
       const w = boardWeights(REAL.prompts[0], t);
       for (let i = 1; i < w.length; i++) {
@@ -223,7 +223,7 @@ describe("drop", () => {
     expect(scene.balls).toBe(REAL.prompts.length * DROPS);
   });
 
-  it("is pure — running it twice on the same scene gives the same scene", () => {
+  it("is pure, running it twice on the same scene gives the same scene", () => {
     const s = playing({ target: 1 });
     expect(drop(TOY_DATA, s, 0.7, 0.3)).toEqual(drop(TOY_DATA, s, 0.7, 0.3));
   });

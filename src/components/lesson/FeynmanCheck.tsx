@@ -8,8 +8,8 @@ import { SpeechButton } from "./SpeechButton";
  * The rule the practical track is built on: if you cannot explain it to a
  * twelve-year-old without jargon, you do not understand it yet.
  *
- * The learner writes their explanation before seeing ours. That order matters —
- * reading a good answer first feels like understanding and usually isn't. The
+ * The learner writes their explanation before seeing ours. That order matters,
+ * reading a good answer first feels like understanding and usually is not. The
  * jargon check is deliberately blunt and says so; it is a nudge, not a grader.
  */
 
@@ -91,7 +91,7 @@ export function FeynmanCheck({
             jargon spotted: {found.slice(0, 3).join(", ")}
           </span>
         ) : enough ? (
-          <span className="label text-teal-text">no jargon — good</span>
+          <span className="label text-teal-text">no jargon, good</span>
         ) : null}
       </div>
 

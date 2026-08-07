@@ -6,7 +6,7 @@
  * Everything in `attention.json` came out of a forward pass over DistilGPT-2's
  * published parameters, checked against the same model run through
  * `@huggingface/transformers` before it was written. This file only decodes it
- * and picks rounds out of it — it never invents a number, and it never chooses
+ * and picks rounds out of it, it never invents a number, and it never chooses
  * a head because the picture is prettier.
  */
 
@@ -80,8 +80,8 @@ export type BeamRound = {
 };
 
 /**
- * Finds rounds worth asking about: a query token whose strongest link — once
- * the first-token sink is set aside — is clearly ahead of the next one.
+ * Finds rounds worth asking about: a query token whose strongest link, once
+ * the first-token sink is set aside, is clearly ahead of the next one.
  *
  * The threshold is a playability rule, not a claim: a row where the top two
  * are within a hair of each other is a coin flip, and a coin flip teaches
@@ -137,7 +137,7 @@ export function buildRounds(
   return rounds;
 }
 
-/** Fisher–Yates. Called from events only — it draws random numbers. */
+/** Fisher–Yates. Called from events only, it draws random numbers. */
 export function shuffled<T>(items: T[]): T[] {
   const out = [...items];
   for (let i = out.length - 1; i > 0; i--) {

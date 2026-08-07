@@ -1,10 +1,10 @@
 import { ContextBudget } from "@/components/games/ContextBudget";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { ContextWindowFigure } from "@/components/machines/ContextWindowFigure";
 import type { CheckBeat } from "@/lib/check";
@@ -120,14 +120,13 @@ export default function ContextIsEverythingLesson() {
         <ContextBudget />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} figure={<ContextWindowFigure />} />
-        <VideoPanel video={video} />
       </div>
 
       {/* Both panels land after the window has already cost the player
           something they needed. The question they are asking now is "why". */}
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="A fixed length of what, exactly?"
           summary="Not words, and not characters. The window is counted in tokens, which are the chunks a model actually reads."
@@ -169,10 +168,6 @@ export default function ContextIsEverythingLesson() {
             machine. You are moving that paragraph out of the middle.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Make it drop something"
           watchFor="That it never says 'I have lost that'. It either answers from what is left, or it fills the gap with something plausible. The silence is the whole problem. You have to notice the loss yourself."
@@ -188,7 +183,9 @@ export default function ContextIsEverythingLesson() {
             matters, and ask the same question. Compare the two answers.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

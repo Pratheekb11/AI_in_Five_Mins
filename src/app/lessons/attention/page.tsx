@@ -1,10 +1,10 @@
 import { Beam } from "@/components/games/Beam";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { AttentionBeams } from "@/components/machines/AttentionBeams";
 import { AttentionMap } from "@/components/machines/AttentionMap";
@@ -157,9 +157,8 @@ export default function AttentionLesson() {
         </div>
       </section>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
       </div>
 
       <section className="pb-4">
@@ -171,7 +170,7 @@ export default function AttentionLesson() {
         <AttentionMap />
       </section>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Where do the weights come from?"
           summary="Each word produces a question and a label. The weight is how well one word's question matches another's label."
@@ -216,10 +215,6 @@ export default function AttentionLesson() {
             are actually for.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Write a sentence that breaks it"
           watchFor="That you can change the answer by changing only the meaning, not a single word of the structure. Nothing in the grammar tells the model which way to go, so whatever resolves it came out of the training text."
@@ -234,7 +229,9 @@ export default function AttentionLesson() {
             means.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

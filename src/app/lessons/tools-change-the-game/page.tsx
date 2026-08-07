@@ -1,10 +1,10 @@
 import { ProvenanceDetective } from "@/components/games/ProvenanceDetective";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
@@ -125,12 +125,11 @@ export default function ToolsChangeTheGameLesson() {
         <ProvenanceDetective />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
       </div>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="How does a text predictor 'run' anything?"
           summary="It does not. It writes out a request to call a tool, and a program around it does the running."
@@ -179,10 +178,6 @@ export default function ToolsChangeTheGameLesson() {
             catches the failure that survives every other precaution.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Ask the same question twice"
           watchFor="How similar the two answers look. The guessed one is not vaguer or more hesitant. That is the whole problem. Then open the link on the searched one and check it says what the answer claims."
@@ -197,7 +192,9 @@ export default function ToolsChangeTheGameLesson() {
             source.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

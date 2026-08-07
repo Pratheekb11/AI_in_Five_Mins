@@ -1,10 +1,10 @@
 import { Plinko } from "@/components/games/Plinko";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -99,12 +99,11 @@ export default function HowLlmsAnswerLesson() {
         <Plinko />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
       </div>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Why not always take the most likely token?"
           summary="Because the result is flat, repetitive text. That was measured, and it is why sampling exists at all."
@@ -145,10 +144,6 @@ export default function HowLlmsAnswerLesson() {
             of these systems.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Ask the same question in three fresh chats"
           watchFor="Which parts come back identical and which parts move. The stable parts are where the model is confident; the parts that change every time are the parts you need to check yourself."
@@ -162,7 +157,9 @@ export default function HowLlmsAnswerLesson() {
             Line the three answers up and mark everything that differs.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

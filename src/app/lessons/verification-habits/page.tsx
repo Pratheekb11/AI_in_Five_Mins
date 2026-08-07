@@ -1,10 +1,10 @@
 import { HallucinationHunt } from "@/components/games/HallucinationHunt";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
@@ -121,12 +121,11 @@ export default function VerificationHabitsLesson() {
         <HallucinationHunt />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
       </div>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Why does a wrong answer feel safe to send?"
           summary="Nothing in the writing marks it. And the more you trust the tool, the less of it you read."
@@ -174,10 +173,6 @@ export default function VerificationHabitsLesson() {
             inside it, agreement is the cheapest thing on offer.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Find the load-bearing sentence"
           watchFor="How often the sentence everything rests on is a specific rather than an argument. A figure, a date, a named source. That is not a coincidence, and it is the shortest route to a check that is worth the time."
@@ -192,7 +187,9 @@ export default function VerificationHabitsLesson() {
             you would have caught it if it had been wrong.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

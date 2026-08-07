@@ -1,10 +1,10 @@
 import { BeatThePredictor } from "@/components/games/BeatThePredictor";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { NextTokenFigure } from "@/components/machines/NextTokenFigure";
 import type { CheckBeat } from "@/lib/check";
@@ -172,17 +172,16 @@ export default function WhatAnLlmIsLesson() {
         <BeatThePredictor />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough
           steps={STEPS}
           figure={<NextTokenFigure />}
         />
-        <VideoPanel video={video} />
       </div>
 
       {/* The mechanism arrives here, straight after watching a guesser be
           confidently wrong, not in a chapter they have to get through first. */}
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="If it is guessing, what is it guessing about?"
           summary="Not words. It works in chunks of characters called tokens, and it picks one at a time."
@@ -228,10 +227,6 @@ export default function WhatAnLlmIsLesson() {
             is not one to add.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Make it invent something"
           watchFor="How confident it sounds. There is no wobble in the writing when it is making things up. The sentences are just as smooth as when it is right."
@@ -246,7 +241,9 @@ export default function WhatAnLlmIsLesson() {
             Then check one specific detail it gave you against a real source.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

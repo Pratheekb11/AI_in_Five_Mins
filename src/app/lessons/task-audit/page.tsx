@@ -1,10 +1,10 @@
 import { BucketSort } from "@/components/games/BucketSort";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { YourWeek } from "@/components/machines/YourWeek";
 import { BUCKETS } from "@/lib/game/sort";
@@ -130,9 +130,8 @@ export default function TaskAuditLesson() {
         <YourWeek />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
       </div>
 
       <section className="plate mb-4 p-5 md:p-6">
@@ -156,7 +155,7 @@ export default function TaskAuditLesson() {
         </dl>
       </section>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Why would the experts gain so little?"
           summary="The tool raises work toward a good average. If you are already above that average, there is nothing to raise."
@@ -203,10 +202,6 @@ export default function TaskAuditLesson() {
             chapter of this track is about where that line sits.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Keep a hand-over log for one week"
           watchFor="How often the answer was 'I did not check'. That number, not the time saved, is the honest measure of whether the hand-over was a good one."
@@ -222,7 +217,9 @@ export default function TaskAuditLesson() {
             one you sorted today.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

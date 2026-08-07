@@ -1,10 +1,10 @@
 import { ShowDontAsk } from "@/components/games/ShowDontAsk";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { PhrasingFigure } from "@/components/machines/PhrasingFigure";
 import { PromptInspector } from "@/components/machines/PromptInspector";
@@ -136,12 +136,11 @@ export default function PromptingAsDelegationLesson() {
         <ShowDontAsk />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} figure={<PhrasingFigure />} />
-        <VideoPanel video={video} />
       </div>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Does the politeness actually cost me anything?"
           summary="It costs tokens and instructs nobody. That is the honest answer. The game charges you for it so that you have to read it."
@@ -185,20 +184,6 @@ export default function PromptingAsDelegationLesson() {
             A paragraph you actually approved of does not.
           </p>
         </MechanismPanel>
-      </div>
-
-      <section className="pb-4">
-        <h2 className="display-lg mb-2">Now check one of your own</h2>
-        <p className="prose-measure text-ink-soft mb-5">
-          Paste in a prompt you have really sent. This is a keyword check, not
-          comprehension. It shows you what it matched on, so that you can
-          overrule it. Judging the evidence yourself is the point.
-        </p>
-        <PromptInspector />
-      </section>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Send the bad one first, on purpose"
           watchFor="How much of the gap between the two answers came from adding an example, rather than from adding more description. That ratio surprises most people."
@@ -213,7 +198,19 @@ export default function PromptingAsDelegationLesson() {
             side by side.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+      <section className="pb-4">
+        <h2 className="display-lg mb-2">Now check one of your own</h2>
+        <p className="prose-measure text-ink-soft mb-5">
+          Paste in a prompt you have really sent. This is a keyword check, not
+          comprehension. It shows you what it matched on, so that you can
+          overrule it. Judging the evidence yourself is the point.
+        </p>
+        <PromptInspector />
+      </section>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

@@ -1,10 +1,10 @@
 import { Pushback } from "@/components/games/Pushback";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
@@ -140,12 +140,11 @@ export default function WhereItBreaksLesson() {
         <Pushback />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
       </div>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Why does it not just say it does not know?"
           summary="Because nothing in it measures certainty, and the way models are graded rewards a guess over an admission."
@@ -187,10 +186,6 @@ export default function WhereItBreaksLesson() {
             the model can actually run one.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Push back on an answer you know is right"
           watchFor="Whether it holds. If it folds on something you know to be true, you have just watched it fold on everything else you did not know to check."
@@ -205,7 +200,9 @@ export default function WhereItBreaksLesson() {
             No reason, no source, no correction. See what happens next.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

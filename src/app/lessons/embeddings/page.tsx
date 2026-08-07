@@ -1,10 +1,10 @@
 import { WordMagnet } from "@/components/games/WordMagnet";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { AnalogyBench } from "@/components/machines/AnalogyBench";
 import { AnalogyPlane } from "@/components/machines/AnalogyPlane";
@@ -206,9 +206,8 @@ export default function EmbeddingsLesson() {
         </div>
       </section>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
       </div>
 
       <section className="pb-4">
@@ -231,7 +230,7 @@ export default function EmbeddingsLesson() {
         <WordChart />
       </section>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="How does counting produce meaning?"
           summary="Words that mean similar things get used in similar company. Counting the company is enough."
@@ -275,10 +274,6 @@ export default function EmbeddingsLesson() {
             arrangement of the text it read already implied.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Find where the arithmetic falls over"
           watchFor="How often the top answer is one of the inputs' close relatives rather than the analogy you meant. The trick works far less reliably than the famous example suggests, and seeing that is worth more than seeing it succeed."
@@ -293,7 +288,9 @@ export default function EmbeddingsLesson() {
             back instead.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

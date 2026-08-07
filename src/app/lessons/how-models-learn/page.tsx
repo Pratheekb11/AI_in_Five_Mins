@@ -1,9 +1,9 @@
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { GradientHill } from "@/components/machines/GradientHill";
 import { REGRESSION } from "@/lib/datasets";
@@ -93,12 +93,11 @@ export default function HowModelsLearnLesson() {
         <GradientHill />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
       </div>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Where do the billions of dials come from?"
           summary="Same procedure, more numbers. The step is worked out for every dial at once."
@@ -138,10 +137,6 @@ export default function HowModelsLearnLesson() {
             stops on a date. It is not because anyone chose to freeze it.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Find out what your assistant was shown"
           watchFor="Whether it can tell you its own cut-off, and whether it hedges about it. It has no way to check the date from the inside. Anything it says about now is a guess dressed up as a fact."
@@ -157,7 +152,9 @@ export default function HowModelsLearnLesson() {
             differently in different fields.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

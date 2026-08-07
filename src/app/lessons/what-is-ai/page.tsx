@@ -1,9 +1,9 @@
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { WhatIsAI } from "@/components/machines/WhatIsAI";
 import { SPAM_BENCH } from "@/lib/datasets";
@@ -108,9 +108,8 @@ export default function WhatIsAiLesson() {
         <WhatIsAI />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
       </div>
 
       <section className="pb-4">
@@ -142,7 +141,7 @@ export default function WhatIsAiLesson() {
         </ul>
       </section>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="How did it find the pattern without being told?"
           summary="It counted. Which words turn up in which kind of message, and how often. Then it multiplied."
@@ -183,10 +182,6 @@ export default function WhatIsAiLesson() {
             from an accuracy figure.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Ask the two questions that make AI news readable"
           watchFor="How often neither question is answered anywhere in the article. That absence is usually the story."
@@ -202,7 +197,9 @@ export default function WhatIsAiLesson() {
             flagged.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

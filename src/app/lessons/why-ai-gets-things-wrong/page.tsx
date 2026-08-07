@@ -1,10 +1,10 @@
 import { FailureBench } from "@/components/games/FailureBench";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -118,12 +118,11 @@ export default function WhyAiGetsThingsWrongLesson() {
         <FailureBench />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
       </div>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="What about forgetting? That is the failure I actually hit."
           summary="Different mechanism, and the one failure here with a hard limit behind it: everything has to fit in a fixed window."
@@ -184,10 +183,6 @@ export default function WhyAiGetsThingsWrongLesson() {
             people the words describe.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Find your own Paris"
           watchFor="Whether the wrong answer arrives in a different tone from the right ones. It will not. That sameness is the thing worth remembering. You cannot hear the difference, so you have to check instead of listen."
@@ -202,7 +197,9 @@ export default function WhyAiGetsThingsWrongLesson() {
             the real source.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

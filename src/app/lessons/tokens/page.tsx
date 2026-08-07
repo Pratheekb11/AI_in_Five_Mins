@@ -1,9 +1,9 @@
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { TokenPriceFigure } from "@/components/machines/TokenPriceFigure";
 import { TokenChopper } from "@/components/games/TokenChopper";
@@ -280,14 +280,11 @@ export default function TokensLesson() {
         </div>
       </section>
 
-      <div className="grid gap-4 py-4 lg:grid-cols-[1.35fr_1fr]">
+      <div className="pb-4">
         <Walkthrough steps={STEPS} figure={<TokenPriceFigure />} />
-        <div className="space-y-4">
-          <VideoPanel video={video} />
-        </div>
       </div>
 
-      <div className="space-y-4 py-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="If the split is this crude, how does it ever work?"
           summary="Because the model never needed the letters. It needed something it could count, and chunks are countable."
@@ -334,10 +331,6 @@ export default function TokensLesson() {
             is a different input.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="py-4">
         <PracticeCard
           title="Make an assistant contradict itself about spelling"
           watchFor="That the confident wrong answer and the correct one arrive in the same tone. Nothing in how it writes tells you which one you are looking at. That is the habit worth taking away, and it is what the next chapters are about."
@@ -353,7 +346,9 @@ export default function TokensLesson() {
             You have handed it the thing the tokenizer took away.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

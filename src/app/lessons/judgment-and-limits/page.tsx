@@ -1,4 +1,5 @@
 import { PasteCheck } from "@/components/games/PasteCheck";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -168,7 +169,7 @@ export default function JudgmentAndLimitsLesson() {
         </p>
       </section>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow>
         <MechanismPanel
           question="What actually happens to what I type?"
           summary="It depends entirely on which plan you are on, and the answer is in a document you can read in five minutes."
@@ -224,10 +225,6 @@ export default function JudgmentAndLimitsLesson() {
             being good at. Use the tool to attack it afterwards.
           </p>
         </MechanismPanel>
-      </div>
-
-
-      <div className="pb-4">
         <PracticeCard
           title="Read the two paragraphs, then write the one rule"
           watchFor="Whether the tool you actually use every day is the one your employer approved. For most people it is not, and that gap is where the real risk sits. Not in the technology."
@@ -242,7 +239,9 @@ export default function JudgmentAndLimitsLesson() {
             and stick it somewhere you will see it on a busy Thursday.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+
 
       {/* The end of the track. Eight modules, eight questions worth keeping. */}
       <section className="plate bg-teal-wash mb-4 p-5 md:p-6">

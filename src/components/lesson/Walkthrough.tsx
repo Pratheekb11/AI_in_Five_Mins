@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useState } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import { Nimo } from "@/components/nimo/Nimo";
 import { SpeechButton } from "./SpeechButton";
 
@@ -17,6 +17,21 @@ import { SpeechButton } from "./SpeechButton";
  * seen, short sentences, no parentheticals, no bullet fragments.
  */
 
+/**
+ * Which step the walkthrough is on, published to whatever figure it is hosting.
+ *
+ * A render prop would be the obvious way to do this and it cannot work: lesson
+ * pages are server components, and a function cannot be serialised across that
+ * boundary. A context costs one provider and lets the page pass a plain
+ * element instead.
+ */
+const StepContext = createContext(0);
+
+/** Read by a figure so it can animate itself from one step to the next. */
+export function useWalkthroughStep(): number {
+  return useContext(StepContext);
+}
+
 export type Step = {
   /** Two or three sentences. This is also what gets spoken. */
   say: string;
@@ -26,7 +41,23 @@ export type Step = {
   caption?: string;
 };
 
-export function Walkthrough({ steps }: { steps: Step[] }) {
+export function Walkthrough({
+  steps,
+  figure,
+}: {
+  steps: Step[];
+  /**
+   * One figure for the whole walkthrough, which reads the current step out of
+   * `useWalkthroughStep`.
+   *
+   * The difference between this and a `show` per step is the entire point.
+   * `show` swaps one picture out for another, so each step starts from nothing
+   * and the learner has to find their bearings again. A figure persists: the
+   * same tokens, the same bars, the same slot stay on screen and *change*, so
+   * the only thing you can notice is what moved. Given this, `show` is ignored.
+   */
+  figure?: ReactNode;
+}) {
   const [at, setAt] = useState(0);
   const still = useReducedMotion();
   const step = steps[at];
@@ -83,6 +114,14 @@ export function Walkthrough({ steps }: { steps: Step[] }) {
           </div>
         </div>
 
+        {/* The persistent figure sits outside AnimatePresence on purpose. It
+            must survive the step change in order to animate through it. */}
+        {figure ? (
+          <StepContext.Provider value={at}>
+            <div className="mb-4">{figure}</div>
+          </StepContext.Provider>
+        ) : null}
+
         <AnimatePresence mode="wait">
           <motion.div
             key={at}
@@ -91,7 +130,9 @@ export function Walkthrough({ steps }: { steps: Step[] }) {
             exit={still ? undefined : { opacity: 0 }}
             transition={{ duration: 0.28, delay: still ? 0 : 0.06 }}
           >
-            {step.show ? <div className="mb-4">{step.show}</div> : null}
+            {!figure && step.show ? (
+              <div className="mb-4">{step.show}</div>
+            ) : null}
 
             {step.caption ? (
               <p className="text-ink-faint mb-4 text-sm">{step.caption}</p>

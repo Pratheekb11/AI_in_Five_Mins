@@ -1,5 +1,4 @@
 import { BeatThePredictor } from "@/components/games/BeatThePredictor";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -7,6 +6,7 @@ import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { NextTokenFigure } from "@/components/machines/NextTokenFigure";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -25,7 +25,7 @@ const SOURCES: Source[] = [
     title: "DistilGPT-2",
     publisher: "Hugging Face",
     url: "https://huggingface.co/distilbert/distilgpt2",
-    used: "The machine you play against. Every percentage on the board is its own output for that sentence, measured and printed unrounded.",
+    used: "The machine you play against, and the model behind the figure in the walkthrough. Every percentage on both is its own output for that sentence, measured and printed unrounded.",
     licence: "Apache 2.0",
   },
   {
@@ -64,22 +64,28 @@ const SOURCES: Source[] = [
 const STEPS: Step[] = [
   {
     say: "A large language model does one thing. It looks at the text so far and guesses what comes next. Then it adds that guess to the text and guesses again.",
+    caption:
+      "Below is a real sentence, cut into the chunks the model actually reads, with the empty slot it has to fill. Watch that figure rather than replacing it. Every step from here changes it.",
   },
   {
-    say: "You just played a real one. In act one it beat you, and it should have. Ordinary sentences are exactly what a next-word guesser is for, and it was ninety-seven per cent sure of some of them.",
+    say: "Now the scores arrive. Give it the opening of Genesis and almost the whole weight lands on one word. This is the ground a next-word guesser is built for, and it is why it beat you in act one.",
     caption:
       "Nothing was rigged in its favour there. Those are its own odds on its own strongest ground.",
   },
   {
-    say: "Then came act two, and it fell apart. Same machine, same confidence. But the right answer was a specific word that a specific author chose, and it does not know the story. It only knows what usually follows.",
-  },
-  {
-    say: "Act three is the one worth remembering. Asked to finish 'Paris is the capital of', it put thirty per cent on the word 'the' and under two per cent on France. It is not lying and it is not broken. It is finishing a sentence, and the shape of the sentence beat the fact.",
+    say: "Same machine, different sentence. You know what follows 'Once upon a'. The model's best guess is worth about seven per cent, and the rest is spread thin. Being obvious to a person and being likely to a model are different things.",
     caption:
-      "Notice that it never sounds any less sure when it is wrong. That is the part that costs people money.",
+      "That is act two in one picture. The confidence did not drop, only the odds did, and you cannot hear odds in a sentence.",
   },
   {
-    say: "Now scale it up. Thousands of words of context, and more text than a person could read in a thousand lifetimes. The guessing gets good enough to look like knowing. The failure does not go away, it just gets harder to spot.",
+    say: "Act three is the one worth remembering. Asked to finish 'Paris is the capital of', it puts thirty per cent on the word 'the' and under two per cent on France. It is not lying and it is not broken. It is finishing a sentence, and the shape of the sentence beat the fact.",
+    caption:
+      "The true answer is marked in the figure. Notice that it never sounds any less sure when it is wrong. That is the part that costs people money.",
+  },
+  {
+    say: "Then one of them is drawn, added to the text, and the whole thing runs again. Temperature is the only dial in that loop, and it does not know anything. Now scale it up to more text than a person could read in a thousand lifetimes. The guessing gets good enough to look like knowing, and the failure does not go away. It just gets harder to spot.",
+    caption:
+      "Drag the dial and draw a few. Nothing in the loop ever checks a claim, at any setting.",
   },
 ];
 
@@ -167,7 +173,10 @@ export default function WhatAnLlmIsLesson() {
       </div>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough
+          steps={STEPS}
+          figure={<NextTokenFigure />}
+        />
         <VideoPanel video={video} />
       </div>
 
@@ -221,12 +230,6 @@ export default function WhatAnLlmIsLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="Because it is not looking anything up. It writes whatever sounds most like a right answer, based on all the text it has read. When it has read a lot about something, sounding right and being right are the same thing. When it has not, it still writes something that sounds right, and nothing inside it notices the difference."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

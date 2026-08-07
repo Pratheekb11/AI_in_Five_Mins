@@ -6,6 +6,7 @@ import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { ContextWindowFigure } from "@/components/machines/ContextWindowFigure";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -43,21 +44,27 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "Here is the part nobody tells you. The model does not remember your conversation. Every time you press send, it is handed the whole chat from the beginning and reads it fresh.",
-  },
-  {
-    say: "That handful of text it gets is called the context. It is everything the model knows about you at that moment. Your prompt, the earlier messages, anything you attached. Nothing else exists.",
+    say: "Here is the part nobody tells you. The model does not remember your conversation. Every time you press send, it is handed a window of text and reads it fresh. Start with that window empty.",
     caption:
-      "Not your last conversation. Not your file that was not attached. Not the correction you made yesterday.",
+      "Watch the window and the meter below rather than waiting for a new picture. Every step from here changes those same two things.",
   },
   {
-    say: "The context also has a fixed maximum size. That is the five slots you just filled. When new text arrives and there is no room, the oldest text is dropped to make it fit. You get no warning, and no note in the reply.",
+    say: "Now put the memo in. That single card is the only reason it can answer at all, and the meter says so. Everything the model knows about your situation is in that box and nowhere else.",
+    caption:
+      "Not your last conversation. Not the file you did not attach. Not the correction you made yesterday.",
   },
   {
-    say: "Nothing announces this. The reply comes back in the same confident voice as always. It is not lying to you about remembering. From where it sits, that message was never there.",
+    say: "The window has a fixed size. As the chat goes on, more arrives, and when there is no room the oldest is dropped to make it fit. Watch which card leaves.",
+    caption:
+      "The memo is gone, and with it the only thing in the window that could answer the question. Nothing warned you, and nothing marks the reply.",
   },
   {
-    say: "That tells you the fix. Do not ask it to remember harder. Put the thing back in front of it. Restate the constraint, paste the document again, or start a fresh chat with a short summary you wrote yourself.",
+    say: "And here is what makes it dangerous. The reply comes back in exactly the same confident voice. It is not lying to you about remembering. From where it sits, that memo was never there.",
+  },
+  {
+    say: "Which tells you the fix. Do not ask it to remember harder. Put the thing back in front of it. Restate the constraint, paste the document again, or start a fresh chat with a short summary you wrote yourself.",
+    caption:
+      "Now build the window yourself. Every combination of those seven cards was measured, so whatever you assemble has a real number waiting for it.",
   },
 ];
 
@@ -114,7 +121,7 @@ export default function ContextIsEverythingLesson() {
       </div>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<ContextWindowFigure />} />
         <VideoPanel video={video} />
       </div>
 

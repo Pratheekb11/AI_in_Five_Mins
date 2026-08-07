@@ -1,35 +1,60 @@
 "use client";
 
+import Link from "next/link";
 import { useProgress } from "@/lib/progress";
 
 /**
- * How far through the manual the learner is. Rendered as a row of ticks rather
- * than a percentage, eight lessons is few enough to count, and counting reads
- * as progress you could finish today.
+ * Where the learner is, in the masthead, on every page.
+ *
+ * Fifteen chapters was too many to render as countable ticks, and a row of
+ * forty-five screen ticks would be worse. So this is the usual three numbers
+ * instead: the level you are on, how far into it you are, and how many days in
+ * a row you have finished something.
+ *
+ * The bar fills within the current level rather than across the whole site, so
+ * it moves visibly after a single chapter instead of creeping a fifteenth at a
+ * time.
+ *
+ * It renders nothing until there is something to show. An empty progress bar on
+ * a first visit is a demand, not an encouragement.
  */
 export function ProgressPill() {
-  const { progress, completedCount, totalCount } = useProgress();
+  const { totals } = useProgress();
+
+  if (totals.xp === 0) return null;
+
+  const pct = Math.round((totals.intoLevel / totals.levelSpan) * 100);
 
   return (
-    <span
-      className="hidden items-center gap-2 sm:flex"
-      title={`${completedCount} of ${totalCount} lessons complete`}
+    <Link
+      href="/#chapters"
+      className="hover:border-ink border-ink/30 flex items-center gap-2.5 rounded-[2px] border px-2 py-1"
+      title={`Level ${totals.level}, ${totals.rank}. ${totals.xp} XP. ${totals.completedCount} of ${totals.totalCount} chapters finished.`}
     >
-      <span className="label text-ink-faint">
-        {completedCount}/{totalCount}
+      <span className="data text-teal-text text-xs font-bold">
+        L{totals.level}
       </span>
-      <span className="flex gap-[3px]" aria-hidden="true">
-        {Array.from({ length: totalCount }, (_, i) => (
+
+      <span className="hidden sm:block">
+        <span className="bg-paper-sunk border-ink/20 block h-2 w-16 overflow-hidden rounded-[1px] border">
           <span
-            key={i}
-            className={`h-3 w-[5px] rounded-[1px] border ${
-              i < progress.completed.length
-                ? "bg-teal border-teal"
-                : "border-ink/35"
-            }`}
+            className="bg-teal block h-full"
+            style={{ width: `${pct}%` }}
+            aria-hidden="true"
           />
-        ))}
+        </span>
       </span>
-    </span>
+
+      <span className="label text-ink-faint hidden md:inline">
+        {totals.xp} xp
+      </span>
+
+      {totals.streakDays > 1 ? (
+        <span className="label text-pink-text" title="Days in a row">
+          {totals.streakDays} day
+          {totals.streakDays === 1 ? "" : "s"}
+        </span>
+      ) : null}
+    </Link>
   );
 }

@@ -80,7 +80,7 @@ function dealt(question: QuizQuestion): {
 }
 
 export function Quiz({ slug, questions }: QuizProps) {
-  const { complete, scoreFor } = useProgress();
+  const { recordScore, scoreFor } = useProgress();
   const [picks, setPicks] = useState<(number | null)[]>(() =>
     questions.map(() => null),
   );
@@ -105,7 +105,7 @@ export function Quiz({ slug, questions }: QuizProps) {
       const score =
         next.filter((p, i) => p === rounds[i].answer).length /
         questions.length;
-      complete(slug, score);
+      recordScore(slug, score);
     }
   }
 

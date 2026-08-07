@@ -24,7 +24,7 @@ export function Check({
   slug: string;
   beats: CheckBeat[];
 }) {
-  const { complete, scoreFor } = useProgress();
+  const { recordScore, scoreFor } = useProgress();
   const [scores, setScores] = useState<(number | null)[]>(() =>
     beats.map(() => null),
   );
@@ -46,7 +46,7 @@ export function Check({
       if (next.every((s) => s !== null)) {
         const mean =
           next.reduce<number>((sum, s) => sum + (s ?? 0), 0) / next.length;
-        complete(slug, mean);
+        recordScore(slug, mean);
       }
       return next;
     });

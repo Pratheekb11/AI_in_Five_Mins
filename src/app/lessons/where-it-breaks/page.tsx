@@ -1,5 +1,4 @@
 import { Pushback } from "@/components/games/Pushback";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -190,12 +189,6 @@ export default function WhereItBreaksLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="Pick the claim that would cost me the most if it were wrong, and check that one thing at its source. If it is a citation or a reference, look it up. If it is a price, a version or a ranking, assume it is out of date and check the vendor's own page. If it is a sum, redo it in a calculator. And if I pushed back and it instantly agreed with me, I have learnt nothing. I still have to check it the same way I would have anyway."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

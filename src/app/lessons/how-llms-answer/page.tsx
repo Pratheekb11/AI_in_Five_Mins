@@ -1,5 +1,4 @@
 import { Plinko } from "@/components/games/Plinko";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -148,12 +147,6 @@ export default function HowLlmsAnswerLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question="Why do I get a different answer if I ask the same thing twice?"
-          answer="Because it does not pick the next word, it draws it. At each step it scores every possible next chunk of text and then takes a weighted random pick, so two runs are two draws. There is a dial that decides how strongly the odds favour the top choice, and even at its most predictable, one early difference changes everything downstream. Where two runs agree, it was confident. Where they differ is where it was guessing."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

@@ -1,5 +1,4 @@
 import { FailureBench } from "@/components/games/FailureBench";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -187,12 +186,6 @@ export default function WhyAiGetsThingsWrongLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question="Why does AI get things wrong?"
-          answer="Because it was built to continue text, and text is not the world. Ask it a fact and it produces whatever usually follows those words. That is often right, because true things get written down a lot. It is sometimes confidently wrong, because plausible things get written down too. It sounds equally sure either way, since how certain it is and how right it is are separate measurements and neither one reaches you. And it carries the habits of whatever it read, right down to which jobs sat near which pronouns. One cause, three symptoms."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

@@ -1,5 +1,4 @@
 import { BucketSort } from "@/components/games/BucketSort";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -206,12 +205,6 @@ export default function TaskAuditLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="The ones where being wrong reaches somebody outside, and where I would not have caught it because I never really read the output. It is not embarrassing to have a machine draft a status note. It is embarrassing to have sent a client a number I never checked, and it is worse to have sent something in my own voice that I did not mean. That is the line: not what it can do, but what I would still be able to stand behind afterwards."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

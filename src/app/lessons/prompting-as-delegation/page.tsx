@@ -1,5 +1,4 @@
 import { ShowDontAsk } from "@/components/games/ShowDontAsk";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -193,12 +192,6 @@ export default function PromptingAsDelegationLesson() {
         <PromptInspector />
       </section>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="Ask it the way you would ask a capable person who has just joined and knows nothing about your world. Say who they should be, what you want done, what the limits are, what shape the answer should come in, and show one example of a good one. Then read it back and ask whether a stranger given only that would produce what you want. If not, you have found the missing part, and it is almost never the politeness."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

@@ -1,4 +1,3 @@
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -186,12 +185,6 @@ export default function WhatIsAiLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="Ordinary software does what somebody wrote down. Somebody had to think of the rule first. What we call AI works the other way round: you show it thousands of examples with the answers attached, and it finds the pattern itself. Nobody has to know the rule in advance, and nobody can read it afterwards either. That is the trade you are making."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

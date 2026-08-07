@@ -1,5 +1,4 @@
 import { Beam } from "@/components/games/Beam";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -219,12 +218,6 @@ export default function AttentionLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question="How does a model work out which word 'it' refers to?"
-          answer="Every word gets to look back at all the words before it and take a bit of each one. How much it takes from each is worked out fresh for this sentence, not from a rule somebody wrote. So when the model reaches 'it', it pulls hardest from whichever earlier word fits. That mixing is computed on the spot, so the same word can come out pointing at different things in different sentences."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

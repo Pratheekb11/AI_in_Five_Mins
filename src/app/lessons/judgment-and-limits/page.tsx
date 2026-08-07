@@ -1,5 +1,4 @@
 import { PasteCheck } from "@/components/games/PasteCheck";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -227,12 +226,6 @@ export default function JudgmentAndLimitsLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="For most of what I hand over, yes. It would be slower and duller, and I would manage. The honest answer is that there are one or two things I have started letting it do entirely, and I would be shaky on those now. That is the list worth watching. Not because using the tool is wrong, but because I would rather choose which abilities I let go rusty than find out by accident on a day when the tool is down and the work is due."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

@@ -1,5 +1,4 @@
 import { HallucinationHunt } from "@/components/games/HallucinationHunt";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -177,12 +176,6 @@ export default function VerificationHabitsLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="I ask who sees it and what it costs to undo. If it stays with me, a read-through is plenty. If it goes to a customer or a decision, I check every specific claim against the thing it came from. If somebody could be harmed or the money is real, I do not check it myself. I have somebody qualified check it, or I do it again from scratch. And I stay suspicious of the ones I got away with, because nothing going wrong is not the same as nothing being wrong."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

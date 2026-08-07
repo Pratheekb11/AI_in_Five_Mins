@@ -1,5 +1,4 @@
 import { WordMagnet } from "@/components/games/WordMagnet";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -278,12 +277,6 @@ export default function EmbeddingsLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question="Why can a computer tell that 'cat' and 'dog' are related?"
-          answer="Because every word has been turned into a list of numbers, which is a position in space. Those positions came from counting which words show up near which other words in a huge pile of text. Cat and dog get used in the same kinds of sentences, so their positions end up close together. The machine is not reading a definition. It is measuring a distance between two points that were placed by counting."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

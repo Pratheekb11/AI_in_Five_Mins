@@ -1,5 +1,4 @@
 import { ContextBudget } from "@/components/games/ContextBudget";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -165,12 +164,6 @@ export default function ContextIsEverythingLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="Because it never held on to it in the first place. Each time you send a message, it is handed the conversation as one long piece of text, and it reads the whole thing again. That piece of text has a maximum length. When the chat outgrows it, the oldest part is cut off to make room. Nothing tells you this happened. If you need something from earlier, say it again. You are not reminding it. You are putting the thing back in front of it."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

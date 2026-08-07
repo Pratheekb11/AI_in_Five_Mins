@@ -1,4 +1,3 @@
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -141,12 +140,6 @@ export default function HowModelsLearnLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="It means some numbers got adjusted. The model is a formula with dials in it; training shows it examples, measures how wrong it is, and turns each dial a little in whichever direction makes it less wrong. Do that a few million times and the dials end up in positions that fit the examples well. Nothing was memorised and nothing was understood. The examples are gone, and only their effect on the dials is left."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

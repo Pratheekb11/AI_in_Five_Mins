@@ -1,4 +1,3 @@
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -353,12 +352,6 @@ export default function TokensLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="py-4">
-        <FeynmanCheck
-          question="Why can a model write a whole essay about strawberries but not count the r's in the word?"
-          answer="Because it never receives the word as letters. Your text is cut into chunks first, and strawberry arrives as st, raw and berry. Writing about strawberries only needs those chunks to sit in the right company, which is exactly what it is good at. Counting the r's needs the individual letters, and it was never given those. So it has to rebuild them from memory of how the word is spelled, and it often gets that wrong while sounding completely certain."
-        />
-      </div>
 
       <div className="py-4">
         <PracticeCard

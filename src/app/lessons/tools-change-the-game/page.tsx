@@ -1,5 +1,4 @@
 import { ProvenanceDetective } from "@/components/games/ProvenanceDetective";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -182,12 +181,6 @@ export default function ToolsChangeTheGameLesson() {
         </MechanismPanel>
       </div>
 
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="I can usually tell from what I asked. If it needed today's news, a live price or my own file, then it had to use a tool. If it did not have one, the answer was written from memory, no matter how specific it sounds. If it needed a real number, it had to run a calculation, not describe one. And if I cannot tell, I can ask it directly: did you look this up, and show me where."
-        />
-      </div>
 
       <div className="pb-4">
         <PracticeCard

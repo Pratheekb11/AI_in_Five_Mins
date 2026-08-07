@@ -6,6 +6,7 @@ import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { PhrasingFigure } from "@/components/machines/PhrasingFigure";
 import { PromptInspector } from "@/components/machines/PromptInspector";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
@@ -58,21 +59,25 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "Stop thinking of it as a search box. Think of it as a sharp new colleague on their first morning. They have read enormously widely. They know nothing at all about you, your job, or what good looks like here.",
-  },
-  {
-    say: "So write what you would have to write if you were handing the job to that person and then leaving the building. Not a question. A brief.",
-  },
-  {
-    say: "Five things do the work. Who they are. What you want done. The limits. The shape the answer should arrive in. And one example of good.",
+    say: "Stop thinking of it as a search box. Think of it as a sharp new colleague on their first morning. They have read enormously widely. They know nothing at all about you, your job, or what good looks like here. Start with the plainest possible version of the ask.",
     caption:
-      "Role · Goal · Constraints · Format · Example. You rarely need all five. You need to know which one you left out.",
+      "Watch the rows below rather than waiting for a new picture. Each step measures one more way of asking for the very same thing.",
   },
   {
-    say: "Everything else you typed is manners. Please, thanks, urgent, you are brilliant. None of it is harmful, and none of it is doing any work. The role-play phrasing measured slightly worse than saying nothing at all.",
+    say: "Now the one almost everybody believes in. Tell it that it is an expert. Give it a role to play. Watch what that does to the odds of getting the answer you wanted.",
+    caption:
+      "Nothing. It is not harmful, and it is not doing any work either. Across all fourteen goals, role-play measured slightly worse than saying nothing at all.",
   },
   {
-    say: "Here is the test that replaces all of this advice. Read your prompt back and ask: if I sent only this to a competent stranger, would they produce what I actually want? If the answer is no, you already know which part is missing.",
+    say: "Next, actually instruct it. Say how you want the answer to come back. This one does move the number, which is worth knowing, but look at how far it moves it.",
+  },
+  {
+    say: "Now stop describing what you want and show it instead. One worked example of the shape you are after, and then your real question. That is the whole trick, and the bar has to be rescaled to fit it.",
+  },
+  {
+    say: "Five things do the work when you brief somebody. Who they are, what you want done, the limits, the shape the answer should arrive in, and one example of good. The example is the one people leave out, and it is the one that is doing the lifting.",
+    caption:
+      "Read your prompt back and ask: if I sent only this to a competent stranger, would they produce what I actually want? If not, you already know which part is missing.",
   },
 ];
 
@@ -132,7 +137,7 @@ export default function PromptingAsDelegationLesson() {
       </div>
 
       <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<PhrasingFigure />} />
         <VideoPanel video={video} />
       </div>
 

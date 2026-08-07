@@ -5,9 +5,9 @@ import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { TokenPriceFigure } from "@/components/machines/TokenPriceFigure";
 import { TokenChopper } from "@/components/games/TokenChopper";
 import { MergeReel } from "@/components/machines/MergeReel";
-import { TokenCostChart } from "@/components/machines/TokenCostChart";
 import { TokenStrip } from "@/components/token-strip/TokenStrip";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
@@ -78,39 +78,22 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "A language model never sees your words. Before anything else happens, your text is chopped into pieces called tokens. The model only ever sees the pieces.",
-    show: (
-      <TokenStrip
-        items={strawberry.tokens.map((t) => ({ text: t.text }))}
-        size="lg"
-      />
-    ),
-    caption: "The word strawberry, as the model receives it.",
-  },
-  {
-    say: "Look at where it cut. Not at syllables, and not at meaning. It kept the chunks it had memorised, and left the rest in fragments.",
-    show: (
-      <TokenStrip
-        items={strawberry.tokens.map((t) => ({ text: t.text, ink: "pink" }))}
-        size="lg"
-      />
-    ),
+    say: "Start with what you see. Strawberry is ten letters, and three of them are the letter r. You can count them because they are separate things on the page.",
     caption:
-      "This is why models miscount the letters in strawberry. The r's were never separate things it saw.",
+      "Watch the strip below rather than waiting for a new picture. Every step from here changes that same strip and the number beside it.",
   },
   {
-    say: "Add a space in front and the whole word becomes a single token. The space belongs to the token after it, which surprises almost everybody.",
-    show: (
-      <TokenStrip
-        items={spaced.tokens.map((t) => ({ text: t.text, ink: "teal" }))}
-        size="lg"
-      />
-    ),
-    caption: "One token, where the bare word took three.",
+    say: "Now what the model receives. The same word arrives as three chunks, and not one of them is a letter. The r's are inside the pieces, and nothing it reads has them apart.",
+    caption:
+      "This is the letter-counting failure in one picture. It is not bad at counting. It was never given the things you want counted.",
   },
   {
-    say: "Tokens are the unit everything is counted in. What you pay, how much fits in a conversation, how fast a reply arrives. And they are not shared out evenly between languages.",
-    show: <TokenCostChart rows={TOKEN_EXAMPLES.multilingual} />,
+    say: "Put a space in front of the very same word and it costs one token instead of three. The space belongs to the token after it, which surprises almost everybody.",
+    caption:
+      "Same ten letters, a third of the price. The word in the middle of a sentence and the word at the start are different objects to the model.",
+  },
+  {
+    say: "And tokens are the unit everything is counted in. What you pay, how much fits in a conversation, how fast a reply arrives. They are not shared out evenly between languages, so try a few.",
   },
 ];
 
@@ -275,8 +258,9 @@ export default function TokensLesson() {
               {hindi.tokenCount}{" "}
               in Hindi. You pay per token, your context fills per token, and you
               wait per token. So the same conversation is measurably more
-              expensive in most of the world&rsquo;s languages. It is measured
-              below, and independently by Petrov and colleagues.
+              expensive in most of the world&rsquo;s languages. You can measure
+              it yourself in the walkthrough below, and Petrov and colleagues
+              measured it independently.
             </p>
           </div>
         </div>
@@ -297,7 +281,7 @@ export default function TokensLesson() {
       </section>
 
       <div className="grid gap-4 py-4 lg:grid-cols-[1.35fr_1fr]">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<TokenPriceFigure />} />
         <div className="space-y-4">
           <VideoPanel video={video} />
         </div>

@@ -30,6 +30,7 @@ node data/scripts/build-overfit.mjs
 node data/scripts/build-crossval.mjs
 node data/scripts/build-logistic.mjs
 node data/scripts/build-tree.mjs
+node data/scripts/build-forest.mjs
 node data/scripts/build-spam-bench.mjs
 node data/scripts/build-regression-data.mjs
 ```
@@ -201,6 +202,26 @@ Output should be byte-identical to what is committed — every script that sampl
 **On the depth curve:** held-out accuracy peaks at depth five and then flattens rather than collapsing. With twelve boolean features there is a hard limit on how much of the training set a tree can memorise, and the page says that instead of claiming a textbook collapse.
 
 **On the game nodes:** only nodes where the second best question is worth more than a quarter of the best are kept, because a node with an obvious answer teaches nothing.
+
+---
+
+## `public/data/forest.json`
+
+**Script:** `data/scripts/build-forest.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 8 — Many weak opinions
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** four forests of 60 trees each, all on the same training messages and scored on the same held-out ones. They differ only in depth, how many features each split may choose from, and whether each tree gets its own bootstrap sample. For each: every tree's own accuracy, the majority vote's accuracy as trees are added one at a time, and how often two trees in the same forest disagree.
+
+**On the control:** the fourth forest is built with no randomness at all, so its sixty trees are identical, its disagreement is exactly zero and its vote gains exactly nothing. That is the point of it, and the tests fail if it ever stops being identical.
+
+**On the example messages:** six held-out messages chosen for their vote splits, from near-unanimous to nearly tied, excluding anything with seven or more consecutive digits.
 
 ---
 

@@ -302,6 +302,21 @@ export const LESSONS: Lesson[] = [
     feynman: "Could I explain this model's decision to the person it affects?",
   },
 
+  {
+    slug: "ensembles",
+    track: "ml",
+    number: 8,
+    title: "Many weak opinions",
+    standfirst:
+      "Sixty poor models voting beat one good one, but only if they disagree with each other. A crowd of identical models is one model.",
+    nugget: "A vote spends disagreement.",
+    machine: "Worth the Crowd",
+    minutes: 8,
+    ink: "teal",
+    status: "ready",
+    feynman: "Do these models make the same mistakes, or different ones?",
+  },
+
   // --------------------------------------------------------- down the rabbit hole --
   {
     slug: "what-is-ai",

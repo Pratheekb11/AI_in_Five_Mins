@@ -67,7 +67,7 @@ function pickHead(sentence: AttentionSentence, query: number): Pick {
   return best;
 }
 
-export function AttentionBeams() {
+export function AttentionBeams({ driven }: { driven?: number }) {
   const still = useReducedMotion();
   const [data, setData] = useState<AttentionData | null>(null);
   const [pick, setPick] = useState(0);
@@ -85,19 +85,23 @@ export function AttentionBeams() {
   }, []);
 
   useEffect(() => {
-    if (!playing) return;
+    if (!playing || driven !== undefined) return;
     const id = setTimeout(
       () => setAt((n) => (n + 1 < BEATS.length ? n + 1 : n)),
       still ? 600 : BEAT_MS,
     );
     return () => clearTimeout(id);
-  }, [playing, at, still]);
+  }, [playing, at, still, driven]);
 
   const choose = useCallback((n: number) => {
     setPick(n);
     setAt(0);
     setPlaying(true);
   }, []);
+
+  // Driven from a walkthrough, the reader advances the beats with the
+  // walkthrough's own controls and the machine keeps its own clock out of it.
+  const beat = driven === undefined ? at : Math.min(driven, BEATS.length - 1);
 
   const sentence = data?.sentences[pick] ?? null;
 
@@ -206,7 +210,7 @@ export function AttentionBeams() {
       <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
         <span className="label">One word, looking back</span>
         <span className="label text-ink-faint">
-          layer {head.layer + 1} · head {head.head + 1} · beat {at + 1} of{" "}
+          layer {head.layer + 1} · head {head.head + 1} · beat {beat + 1} of{" "}
           {BEATS.length}
         </span>
       </div>
@@ -262,8 +266,8 @@ export function AttentionBeams() {
                   opacity={0.28 + share * 0.6}
                   initial={false}
                   animate={{
-                    pathLength: at >= 2 ? 1 : 0,
-                    opacity: at >= 2 ? 0.28 + share * 0.6 : 0,
+                    pathLength: beat >= 2 ? 1 : 0,
+                    opacity: beat >= 2 ? 0.28 + share * 0.6 : 0,
                   }}
                   transition={{
                     duration: still ? 0 : 0.7,
@@ -282,7 +286,7 @@ export function AttentionBeams() {
                 <motion.g
                   key={i}
                   initial={false}
-                  animate={{ opacity: masked && at >= 1 ? 0.22 : 1 }}
+                  animate={{ opacity: masked && beat >= 1 ? 0.22 : 1 }}
                   transition={{ duration: still ? 0 : 0.4 }}
                 >
                   <rect
@@ -318,18 +322,18 @@ export function AttentionBeams() {
                     initial={false}
                     animate={{
                       height:
-                        at >= 3 && i < query
+                        beat >= 3 && i < query
                           ? (weights[i] / maxWeight) * BAR_MAX
                           : 0,
                       y: rowY + BOX_H + BAR_GAP,
-                      opacity: at >= 3 && i < query ? 1 : 0,
+                      opacity: beat >= 3 && i < query ? 1 : 0,
                     }}
                     transition={{
                       duration: still ? 0 : 0.5,
                       delay: still ? 0 : i * 0.04,
                     }}
                   />
-                  {at >= 3 && i < query ? (
+                  {beat >= 3 && i < query ? (
                     <motion.text
                       x={b.mid}
                       y={
@@ -353,7 +357,7 @@ export function AttentionBeams() {
             })}
 
             {/* The mask, said out loud rather than merely implied by dimming. */}
-            {at >= 1 && query < boxes.length - 1 ? (
+            {beat >= 1 && query < boxes.length - 1 ? (
               /* Anchored to the right edge of the frame rather than to the
                  first masked token, which pushed the label off the canvas on
                  the longer sentences, and below the row, where the arcs are
@@ -373,14 +377,16 @@ export function AttentionBeams() {
         </div>
 
         <p
-          className="border-ink/20 mt-2 min-h-[3.25rem] border-t pt-3 text-[1.0625rem]"
+          className={`border-ink/20 mt-2 min-h-[3.25rem] border-t pt-3 text-[1.0625rem] ${
+            driven === undefined ? "" : "hidden"
+          }`}
           aria-live="polite"
         >
-          {captions[at]}
+          {captions[beat]}
         </p>
 
         <div className="border-ink/20 bg-paper-sunk mt-3 rounded-[2px] border p-4">
-          {at >= 4 ? (
+          {beat >= 4 ? (
             <p className="text-ink-soft text-[0.9375rem]">
               That is an <strong>attention sink</strong>. A large share of
               nearly every head landing on the first token regardless of what the
@@ -412,11 +418,13 @@ export function AttentionBeams() {
           <p className="text-ink-faint text-[0.8125rem]">
             {data.model.name}, real weights from a verified forward pass.
           </p>
-          <span className="flex shrink-0 gap-2">
+          <span
+            className={`flex shrink-0 gap-2 ${driven === undefined ? "" : "hidden"}`}
+          >
             <button
               type="button"
               onClick={() => setPlaying((p) => !p)}
-              disabled={at >= BEATS.length - 1}
+              disabled={beat >= BEATS.length - 1}
               className="plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
             >
               {playing ? "Pause" : "Play"}
@@ -427,7 +435,7 @@ export function AttentionBeams() {
                 setPlaying(false);
                 setAt((n) => Math.min(BEATS.length - 1, n + 1));
               }}
-              disabled={at >= BEATS.length - 1}
+              disabled={beat >= BEATS.length - 1}
               className="plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
             >
               Next beat

@@ -6,7 +6,7 @@ import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { AttentionBeams } from "@/components/machines/AttentionBeams";
+import { AttentionBeamsFigure } from "@/components/machines/AttentionBeamsFigure";
 import { AttentionMap } from "@/components/machines/AttentionMap";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -125,12 +125,12 @@ export default function AttentionLesson() {
             machinery.
           </p>
           <p>
-            One word, one head, five beats. Then the same thing seventy-two times
-            over.
+            One word, one head, five beats, and you set the pace. Then the same
+            thing seventy-two times over, further down.
           </p>
         </div>
 
-        <AttentionBeams />
+        <Walkthrough steps={STEPS} figure={<AttentionBeamsFigure />} />
 
         <div className="prose-measure text-ink-soft mt-8 space-y-4 text-lg">
           <p>
@@ -156,10 +156,6 @@ export default function AttentionLesson() {
           <Beam />
         </div>
       </section>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} />
-      </div>
 
       <section className="pb-4">
         <h2 className="display-lg mb-2">All seventy-two heads</h2>

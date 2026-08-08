@@ -24,6 +24,7 @@ Then:
 ```bash
 node data/scripts/build-token-examples.mjs
 node data/scripts/build-features.mjs
+node data/scripts/build-split.mjs
 node data/scripts/build-spam-bench.mjs
 node data/scripts/build-regression-data.mjs
 ```
@@ -91,6 +92,26 @@ Output should be byte-identical to what is committed — every script that sampl
 **On the split:** the same seed and the same 80/20 as `build-spam-bench.mjs`, deliberately, so a number here and a number on the what-is-ai page describe the same experiment. Gains are measured on the training messages only, so no feature is judged on the messages it is later tested against.
 
 **On the feature list:** the twelve were written before any of them were scored, and none was dropped for scoring badly. Several are there because they are plausible and weak, which is the entire point of the game.
+
+---
+
+## `public/data/split.json`
+
+**Script:** `data/scripts/build-split.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 2 — Train and test
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** ten models trained on the 4,459 training messages and scored twice, on those and on the 1,115 held out. Two of them memorise on purpose — a lookup table of every training message, and nearest neighbour by word overlap — and both score exactly 100% in training, which is the point of the chapter. Three are naive Bayes on 50, 200 and 1,000 examples, to show that a small honest gap can still mean a bad model.
+
+**On the split:** same seed and same 80/20 as `build-spam-bench.mjs` and `build-features.mjs`. Every number about this corpus anywhere on the site describes one experiment.
+
+**Runtime:** about fifteen seconds, nearly all of it the nearest-neighbour model comparing every test message against every training message.
 
 ---
 

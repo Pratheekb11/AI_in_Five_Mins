@@ -212,6 +212,21 @@ export const LESSONS: Lesson[] = [
     feynman: "What did my data turn into, and what got thrown away?",
   },
 
+  {
+    slug: "train-and-test",
+    track: "ml",
+    number: 2,
+    title: "Train and test",
+    standfirst:
+      "A model scored on the data it studied is a student marking their own homework. Lock some of it away before you start, or you will never know what you have.",
+    nugget: "A perfect training score is the signature of memorising.",
+    machine: "The Holdout",
+    minutes: 8,
+    ink: "teal",
+    status: "ready",
+    feynman: "Which data was that accuracy measured on?",
+  },
+
   // --------------------------------------------------------- down the rabbit hole --
   {
     slug: "what-is-ai",

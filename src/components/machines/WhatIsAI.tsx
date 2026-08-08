@@ -96,27 +96,31 @@ const BEATS = [
   },
 ];
 
-export function WhatIsAI() {
+export function WhatIsAI({ driven }: { driven?: number }) {
   const still = useReducedMotion();
   const [beat, setBeat] = useState(0);
   const [running, setRunning] = useState(true);
 
   useEffect(() => {
-    if (!running) return;
+    if (!running || driven !== undefined) return;
     const id = setInterval(
       () => setBeat((b) => (b + 1) % BEATS.length),
       4200,
     );
     return () => clearInterval(id);
-  }, [running]);
+  }, [running, driven]);
 
   const step = useCallback(() => {
     setRunning(false);
     setBeat((b) => (b + 1) % BEATS.length);
   }, []);
 
+  // Driven from outside, this is a walkthrough figure and the reader advances
+  // it with the walkthrough's own controls. Left alone, it plays itself.
+  const at = driven === undefined ? beat : Math.min(driven, BEATS.length - 1);
+
   /** How many bars are on screen at this beat. */
-  const showing = beat === 0 ? 0 : beat;
+  const showing = at === 0 ? 0 : at;
 
   return (
     <div className="plate overflow-hidden">
@@ -127,13 +131,13 @@ export function WhatIsAI() {
             <span key={b.label} className="flex items-center gap-1.5">
               <span
                 className={`h-2 w-2 rounded-full transition-colors ${
-                  i === beat ? "bg-pink" : "bg-ink/20"
+                  i === at ? "bg-pink" : "bg-ink/20"
                 }`}
                 aria-hidden="true"
               />
               <span
                 className={`label transition-colors ${
-                  i === beat ? "text-pink-text" : "text-ink-faint"
+                  i === at ? "text-pink-text" : "text-ink-faint"
                 }`}
               >
                 {b.label}
@@ -205,38 +209,47 @@ export function WhatIsAI() {
           between 86% and 99%, and a bar drawn from zero hides it.
         </p>
 
-        <div className="border-ink/20 flex flex-wrap items-center justify-between gap-3 border-t pt-4">
+        {/* Driven from a walkthrough, the walkthrough is already saying this
+            in Nimo's voice a few lines above. Two copies of the same sentence
+            on one screen is worse than none. */}
+        <div
+          className={`border-ink/20 flex flex-wrap items-center justify-between gap-3 border-t pt-4 ${
+            driven === undefined ? "" : "hidden"
+          }`}
+        >
           <p
             className="prose-measure text-ink-soft min-h-[3.5rem] text-[0.9375rem]"
             aria-live="polite"
           >
             <motion.span
-              key={beat}
+              key={at}
               initial={still ? false : { opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25 }}
               className="block"
             >
-              {BEATS[beat].says}
+              {BEATS[at].says}
             </motion.span>
           </p>
 
-          <span className="flex shrink-0 gap-2">
-            <button
-              type="button"
-              onClick={() => setRunning((r) => !r)}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
-            >
-              {running ? "Pause" : "Play"}
-            </button>
-            <button
-              type="button"
-              onClick={step}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
-            >
-              Step
-            </button>
-          </span>
+          {driven === undefined ? (
+            <span className="flex shrink-0 gap-2">
+              <button
+                type="button"
+                onClick={() => setRunning((r) => !r)}
+                className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
+              >
+                {running ? "Pause" : "Play"}
+              </button>
+              <button
+                type="button"
+                onClick={step}
+                className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
+              >
+                Step
+              </button>
+            </span>
+          ) : null}
         </div>
       </div>
 

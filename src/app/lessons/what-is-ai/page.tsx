@@ -5,7 +5,7 @@ import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { WhatIsAI } from "@/components/machines/WhatIsAI";
+import { SpamBenchFigure } from "@/components/machines/SpamBenchFigure";
 import { SPAM_BENCH } from "@/lib/datasets";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -52,17 +52,17 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "Almost all software follows rules a person wrote. If the message contains a shortcode, flag it. That approach built most of the computing you use, and it has one requirement: somebody has to know the rule in advance.",
+    say: `Here is the job. ${SPAM_BENCH.corpus.total.toLocaleString("en-US")} real text messages, ${SPAM_BENCH.corpus.spam.toLocaleString("en-US")} of them spam. Sort them. Every machine below gets scored on the same messages it has never seen.`,
   },
   {
-    say: "What people call AI is the other approach. Nobody tells it the rule. It is shown thousands of examples with the answer attached and works out the pattern itself.",
-    caption: `The model on this page was given ${SPAM_BENCH.learned.trainSize.toLocaleString("en-US")} labelled messages and nothing else. No word list, no hints.`,
+    say: `Start with the number that should worry you. A filter that flags nothing at all scores ${pct(SPAM_BENCH.baseline.accuracy)}, because most messages are not spam. It catches no spam whatsoever. A single accuracy figure can be almost meaningless.`,
   },
   {
-    say: `And look how close it was. The best hand-written rules reach about ${pct(SPAM_BENCH.bestSubset.accuracy)} on the held-out messages. The learned model reaches ${pct(SPAM_BENCH.learned.accuracy)}. Under a point and a half apart.`,
+    say: `Now ordinary software. A person reads the messages and writes ${SPAM_BENCH.bestSubset.rules.length} rules: if it contains a shortcode, flag it. That is how most computing you use was built, and it needs somebody to know the rule in advance. It reaches ${pct(SPAM_BENCH.bestSubset.accuracy)}.`,
   },
   {
-    say: `Now the number that should worry you. A filter that does nothing at all scores ${pct(SPAM_BENCH.baseline.accuracy)}, because most messages are not spam. A single accuracy figure can be almost meaningless.`,
+    say: `Now the other approach, the one people call AI. Nobody writes a rule. It is shown labelled examples and finds the pattern itself, and it reaches ${pct(SPAM_BENCH.learned.accuracy)}. That difference, who wrote the rule, is the whole of what the word means here.`,
+    caption: `The model was given ${SPAM_BENCH.learned.trainSize.toLocaleString("en-US")} labelled messages and nothing else. No word list, no hints.`,
   },
   {
     say: "So the useful questions are never about the algorithm. What was it shown? What did it miss? What did it wrongly flag? Those three questions carry you through every AI claim you will ever read.",
@@ -105,11 +105,7 @@ export default function WhatIsAiLesson() {
       />
 
       <div className="py-4">
-        <WhatIsAI />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<SpamBenchFigure />} />
       </div>
 
       <section className="pb-4">

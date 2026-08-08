@@ -317,6 +317,21 @@ export const LESSONS: Lesson[] = [
     feynman: "Do these models make the same mistakes, or different ones?",
   },
 
+  {
+    slug: "clustering",
+    track: "ml",
+    number: 9,
+    title: "Learning with no labels",
+    standfirst:
+      "Nobody says what anything means. The algorithm is given vectors and a number, and it returns that many groups whether or not there are that many things to find.",
+    nugget: "With no labels, there is nothing to be right about.",
+    machine: "Odd One In",
+    minutes: 8,
+    ink: "pink",
+    status: "ready",
+    feynman: "Does this group mean anything, or did I ask for it?",
+  },
+
   // --------------------------------------------------------- down the rabbit hole --
   {
     slug: "what-is-ai",

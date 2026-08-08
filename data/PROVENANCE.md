@@ -31,6 +31,7 @@ node data/scripts/build-crossval.mjs
 node data/scripts/build-logistic.mjs
 node data/scripts/build-tree.mjs
 node data/scripts/build-forest.mjs
+node data/scripts/build-clusters.mjs
 node data/scripts/build-spam-bench.mjs
 node data/scripts/build-regression-data.mjs
 ```
@@ -222,6 +223,25 @@ Output should be byte-identical to what is committed — every script that sampl
 **On the control:** the fourth forest is built with no randomness at all, so its sixty trees are identical, its disagreement is exactly zero and its vote gains exactly nothing. That is the point of it, and the tests fail if it ever stops being identical.
 
 **On the example messages:** six held-out messages chosen for their vote splits, from near-unanimous to nearly tied, excluding anything with seven or more consecutive digits.
+
+---
+
+## `public/data/clusters.json`
+
+**Script:** `data/scripts/build-clusters.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 9 — Learning with no labels
+
+| | |
+|---|---|
+| Source | `public/data/embeddings.json`, itself built from [GloVe 6B](https://nlp.stanford.edu/projects/glove/) |
+| Licence | Public Domain Dedication and Licence v1.0 |
+
+**What is computed:** k-means over all 50 dimensions of the 1,851 shipped word vectors, with k-means++ seeding at a fixed seed. Every word's cluster at every pass is exported, so the figure animates the real convergence: 35 passes, and no word changes on the last one. Also a sweep of k from 2 to 20 for the inertia curve.
+
+**On the picture:** the clustering is done in 50 dimensions and drawn at the same two projected coordinates the embeddings module uses. Dots that touch on screen are not necessarily close in the space, and the page says so.
+
+**On the game rounds:** each round is a real cluster, a real member of it, and three decoys taken from other clusters. Nothing is written by hand, and a test fails if any round's answer stops belonging to the cluster it claims.
 
 ---
 

@@ -277,18 +277,32 @@ export function lessonsIn(track: Track): Lesson[] {
   return LESSONS.filter((l) => l.track === track);
 }
 
-/** Previous and next within the same track, tracks are read end to end. */
+/** The order somebody reading straight through would meet them in. */
+export const TRACK_ORDER: Track[] = ["chapter", "close", "how"];
+
+/** Every lesson, end to end, across the three tracks. */
+export const READING_ORDER: Lesson[] = TRACK_ORDER.flatMap(lessonsIn);
+
+/**
+ * Previous and next, read across the whole syllabus rather than within a track.
+ *
+ * It used to stop at the end of each track, which left two dead ends: the last
+ * chapter did not offer the closers, and the last closer did not offer the
+ * rabbit hole. Somebody who finished everything they were shown was told "that
+ * is the set" while a third of the site sat unlinked.
+ *
+ * Crossing a boundary is a real change of register, so the caller is told which
+ * track the next one belongs to and can say so.
+ */
 export function neighbours(slug: string): {
   previous?: Lesson;
   next?: Lesson;
 } {
-  const lesson = getLesson(slug);
-  if (!lesson) return {};
-  const siblings = lessonsIn(lesson.track);
-  const i = siblings.findIndex((l) => l.slug === slug);
+  const i = READING_ORDER.findIndex((l) => l.slug === slug);
+  if (i < 0) return {};
   return {
-    previous: i > 0 ? siblings[i - 1] : undefined,
-    next: i < siblings.length - 1 ? siblings[i + 1] : undefined,
+    previous: i > 0 ? READING_ORDER[i - 1] : undefined,
+    next: i < READING_ORDER.length - 1 ? READING_ORDER[i + 1] : undefined,
   };
 }
 

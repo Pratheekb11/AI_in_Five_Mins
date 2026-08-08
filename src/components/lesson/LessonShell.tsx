@@ -71,10 +71,21 @@ export function LessonShell({
               href={`/lessons/${next.slug}`}
               className="plate misreg p-4 sm:text-right"
             >
-              <span className="label text-ink-faint">Next</span>
+              {/* Crossing into the closers or the rabbit hole is a change of
+                  register, not just the next page, so it gets named. */}
+              <span className="label text-ink-faint">
+                {next.track === lesson.track
+                  ? "Next"
+                  : `Next · ${TRACKS[next.track].title}`}
+              </span>
               <span className="font-display mt-1.5 block font-bold">
                 {next.title}
               </span>
+              {next.track === lesson.track ? null : (
+                <span className="text-ink-soft mt-1.5 block text-[0.9375rem]">
+                  {TRACKS[next.track].blurb}
+                </span>
+              )}
             </Link>
           ) : (
             <Link href="/" className="plate misreg p-4 sm:text-right">

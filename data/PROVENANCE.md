@@ -26,6 +26,7 @@ node data/scripts/build-token-examples.mjs
 node data/scripts/build-features.mjs
 node data/scripts/build-split.mjs
 node data/scripts/build-threshold.mjs
+node data/scripts/build-overfit.mjs
 node data/scripts/build-spam-bench.mjs
 node data/scripts/build-regression-data.mjs
 ```
@@ -151,6 +152,27 @@ Output should be byte-identical to what is committed — every script that sampl
 **What is computed:** 140 sentences sampled at a fixed seed from the book with the Gutenberg header and licence removed, each measured for character count and true token count; the least-squares slope through the origin; and a sweep of the error curve.
 
 The figure the lesson lands on — about 4.08 characters per token — is a property of this text, recovered by gradient descent in the browser rather than asserted. It happens to agree with the widely quoted rule of thumb for English, which is a good sanity check and not the reason it is stated.
+
+---
+
+## `public/data/overfit.json`
+
+**Script:** `data/scripts/build-overfit.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 4 — Overfitting
+
+| | |
+|---|---|
+| Source | `public/data/regression.json`, itself built from [Alice's Adventures in Wonderland](https://www.gutenberg.org/ebooks/11) |
+| Licence | Public domain |
+
+**What is computed:** polynomials of degree 0 to 12 fitted by ordinary least squares to a seeded sample of 30 of the 140 sentences, each scored on the 110 held out. Then six more sweeps at training sizes 8, 12, 20, 30, 60 and 110, for the game.
+
+**Why 30:** the failure is a small-sample failure. With all 140 sentences the wiggling still happens and the picture is muddier. The page states the sample size everywhere rather than hiding it.
+
+**On degree 12:** the fit is singular at 30 points and is dropped rather than approximated. The figure caption says so.
+
+**On scaling:** character counts are divided by the largest before fitting, because a twelfth power of several hundred overflows the useful range of a double. The figure scales back before drawing, so the axes are in real characters and tokens.
 
 ## DistilGPT-2 weights — `attention.json` and `logits.json`
 

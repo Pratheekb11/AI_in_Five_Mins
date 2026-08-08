@@ -242,6 +242,21 @@ export const LESSONS: Lesson[] = [
     feynman: "Precision or recall, and which one does this job need?",
   },
 
+  {
+    slug: "overfitting",
+    track: "ml",
+    number: 4,
+    title: "Overfitting",
+    standfirst:
+      "Give a model enough freedom and it will explain your examples perfectly, including the parts of them that were accidents.",
+    nugget: "How much model you can afford depends on how much data you have.",
+    machine: "Pick the Model",
+    minutes: 9,
+    ink: "yellow",
+    status: "ready",
+    feynman: "Did it find a pattern, or memorise these particular examples?",
+  },
+
   // --------------------------------------------------------- down the rabbit hole --
   {
     slug: "what-is-ai",

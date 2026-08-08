@@ -25,6 +25,7 @@ Then:
 node data/scripts/build-token-examples.mjs
 node data/scripts/build-features.mjs
 node data/scripts/build-split.mjs
+node data/scripts/build-threshold.mjs
 node data/scripts/build-spam-bench.mjs
 node data/scripts/build-regression-data.mjs
 ```
@@ -112,6 +113,26 @@ Output should be byte-identical to what is committed — every script that sampl
 **On the split:** same seed and same 80/20 as `build-spam-bench.mjs` and `build-features.mjs`. Every number about this corpus anywhere on the site describes one experiment.
 
 **Runtime:** about fifteen seconds, nearly all of it the nearest-neighbour model comparing every test message against every training message.
+
+---
+
+## `public/data/threshold.json`
+
+**Script:** `data/scripts/build-threshold.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 3 — Accuracy is a liar
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** naive Bayes is trained once on the 4,459 training messages and asked for a spam *probability* on each of the 1,115 held out. The threshold is then swept across the whole range and the four counts recorded at each position, along with accuracy, precision and recall. Four costed scenarios are evaluated against every point on that sweep to find the cheapest line for each.
+
+**On the sweep:** thresholds are sampled densely at both extremes because the scorer is extremely confident — 910 of the 1,115 messages land below one in a hundred. A linear sweep spends almost every step in a region where nothing changes.
+
+**On the exported points:** every held-out message ships as `[probability, label]`, rounded to six decimals, so the figure can draw the real distribution and recount from the dots it drew rather than trusting a stored summary.
 
 ---
 

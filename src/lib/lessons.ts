@@ -227,6 +227,21 @@ export const LESSONS: Lesson[] = [
     feynman: "Which data was that accuracy measured on?",
   },
 
+  {
+    slug: "accuracy-is-a-liar",
+    track: "ml",
+    number: 3,
+    title: "Accuracy is a liar",
+    standfirst:
+      "A model does not decide. It scores, and somebody draws a line. Move the line and every number you report moves with it, in opposite directions.",
+    nugget: "Which mistake would you rather make?",
+    machine: "Where's the Line",
+    minutes: 9,
+    ink: "pink",
+    status: "ready",
+    feynman: "Precision or recall, and which one does this job need?",
+  },
+
   // --------------------------------------------------------- down the rabbit hole --
   {
     slug: "what-is-ai",

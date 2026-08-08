@@ -257,6 +257,21 @@ export const LESSONS: Lesson[] = [
     feynman: "Did it find a pattern, or memorise these particular examples?",
   },
 
+  {
+    slug: "cross-validation",
+    track: "ml",
+    number: 5,
+    title: "How sure is that number?",
+    standfirst:
+      "One split gives one accuracy, and it is a sample of size one. Hold out a different slice and the number moves, sometimes far enough to change your mind.",
+    nugget: "A single score has a wobble, and nobody prints it.",
+    machine: "One Fold or Ten",
+    minutes: 8,
+    ink: "teal",
+    status: "ready",
+    feynman: "How much would that number move if I had split the data differently?",
+  },
+
   // --------------------------------------------------------- down the rabbit hole --
   {
     slug: "what-is-ai",

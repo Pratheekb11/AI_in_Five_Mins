@@ -27,6 +27,7 @@ node data/scripts/build-features.mjs
 node data/scripts/build-split.mjs
 node data/scripts/build-threshold.mjs
 node data/scripts/build-overfit.mjs
+node data/scripts/build-crossval.mjs
 node data/scripts/build-spam-bench.mjs
 node data/scripts/build-regression-data.mjs
 ```
@@ -134,6 +135,26 @@ Output should be byte-identical to what is committed — every script that sampl
 **On the sweep:** thresholds are sampled densely at both extremes because the scorer is extremely confident — 910 of the 1,115 messages land below one in a hundred. A linear sweep spends almost every step in a region where nothing changes.
 
 **On the exported points:** every held-out message ships as `[probability, label]`, rounded to six decimals, so the figure can draw the real distribution and recount from the dots it drew rather than trusting a stored summary.
+
+---
+
+## `public/data/crossval.json`
+
+**Script:** `data/scripts/build-crossval.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 5 — How sure is that number?
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** seven models put through ten-fold cross-validation — the corpus is shuffled once at the site's usual seed, dealt into ten blocks, and each block takes a turn being held out while the other nine train. Seventy separate trainings. Per-fold accuracy, mean and standard deviation for each model.
+
+**On the pairs:** every pair of models is checked on every fold, and the folds whose verdict is the opposite of the ten-fold average are recorded. Those are what the game deals from. They were found by measurement, not chosen, and there are five such pairs.
+
+**Runtime:** about a minute. Every fold retrains from scratch, which is the honest way to do it.
 
 ---
 

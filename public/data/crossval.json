@@ -1,0 +1,1794 @@
+{
+  "generatedBy": "data/scripts/build-crossval.mjs",
+  "source": {
+    "name": "SMS Spam Collection v.1",
+    "authors": "Almeida, Gómez Hidalgo & Yamakami",
+    "url": "https://archive.ics.uci.edu/dataset/228/sms+spam+collection",
+    "licence": "Free to use with attribution to the authors' 2011 paper"
+  },
+  "corpus": {
+    "total": 5574,
+    "spam": 747,
+    "folds": 10,
+    "blockSize": 558,
+    "note": "The corpus is shuffled once at the same seed the rest of the site uses, then dealt into ten blocks. Every model sees exactly the same blocks."
+  },
+  "models": [
+    {
+      "id": "learned",
+      "name": "Learned from all the examples",
+      "how": "Naive Bayes over the words, trained on the nine blocks it is given.",
+      "folds": [
+        {
+          "fold": 1,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.991
+        },
+        {
+          "fold": 2,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9875
+        },
+        {
+          "fold": 3,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9928
+        },
+        {
+          "fold": 4,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9875
+        },
+        {
+          "fold": 5,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9928
+        },
+        {
+          "fold": 6,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9892
+        },
+        {
+          "fold": 7,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9928
+        },
+        {
+          "fold": 8,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9838
+        },
+        {
+          "fold": 9,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.991
+        },
+        {
+          "fold": 10,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9785
+        }
+      ],
+      "mean": 0.9887,
+      "sd": 0.0046,
+      "worstFold": 0.9785,
+      "bestFold": 0.9928
+    },
+    {
+      "id": "nb-300",
+      "name": "The same model, on three hundred examples",
+      "how": "Naive Bayes, but shown only the first three hundred of its nine blocks.",
+      "folds": [
+        {
+          "fold": 1,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9642
+        },
+        {
+          "fold": 2,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9875
+        },
+        {
+          "fold": 3,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9785
+        },
+        {
+          "fold": 4,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9659
+        },
+        {
+          "fold": 5,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9803
+        },
+        {
+          "fold": 6,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9749
+        },
+        {
+          "fold": 7,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9713
+        },
+        {
+          "fold": 8,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9785
+        },
+        {
+          "fold": 9,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9803
+        },
+        {
+          "fold": 10,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9659
+        }
+      ],
+      "mean": 0.9747,
+      "sd": 0.0077,
+      "worstFold": 0.9642,
+      "bestFold": 0.9875
+    },
+    {
+      "id": "nb-80",
+      "name": "The same model, on eighty examples",
+      "how": "Naive Bayes, shown eighty messages and no more.",
+      "folds": [
+        {
+          "fold": 1,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.8961
+        },
+        {
+          "fold": 2,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9606
+        },
+        {
+          "fold": 3,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9606
+        },
+        {
+          "fold": 4,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9427
+        },
+        {
+          "fold": 5,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9731
+        },
+        {
+          "fold": 6,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9587
+        },
+        {
+          "fold": 7,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9443
+        },
+        {
+          "fold": 8,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9533
+        },
+        {
+          "fold": 9,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9497
+        },
+        {
+          "fold": 10,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9533
+        }
+      ],
+      "mean": 0.9492,
+      "sd": 0.0207,
+      "worstFold": 0.8961,
+      "bestFold": 0.9731
+    },
+    {
+      "id": "nb-500",
+      "name": "The same model, on five hundred examples",
+      "how": "Naive Bayes, shown five hundred messages.",
+      "folds": [
+        {
+          "fold": 1,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9713
+        },
+        {
+          "fold": 2,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9875
+        },
+        {
+          "fold": 3,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9767
+        },
+        {
+          "fold": 4,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9695
+        },
+        {
+          "fold": 5,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9838
+        },
+        {
+          "fold": 6,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9767
+        },
+        {
+          "fold": 7,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.982
+        },
+        {
+          "fold": 8,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.982
+        },
+        {
+          "fold": 9,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9767
+        },
+        {
+          "fold": 10,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9695
+        }
+      ],
+      "mean": 0.9776,
+      "sd": 0.0062,
+      "worstFold": 0.9695,
+      "bestFold": 0.9875
+    },
+    {
+      "id": "two-rules",
+      "name": "Two hand-written rules",
+      "how": "Flags anything with five or more digits in a row, or a currency symbol.",
+      "folds": [
+        {
+          "fold": 1,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9624
+        },
+        {
+          "fold": 2,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9785
+        },
+        {
+          "fold": 3,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9821
+        },
+        {
+          "fold": 4,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9642
+        },
+        {
+          "fold": 5,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9856
+        },
+        {
+          "fold": 6,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9677
+        },
+        {
+          "fold": 7,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9695
+        },
+        {
+          "fold": 8,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9713
+        },
+        {
+          "fold": 9,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9749
+        },
+        {
+          "fold": 10,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9587
+        }
+      ],
+      "mean": 0.9715,
+      "sd": 0.0088,
+      "worstFold": 0.9587,
+      "bestFold": 0.9856
+    },
+    {
+      "id": "one-rule",
+      "name": "One hand-written rule",
+      "how": "Flags anything with a run of five or more digits.",
+      "folds": [
+        {
+          "fold": 1,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.957
+        },
+        {
+          "fold": 2,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9785
+        },
+        {
+          "fold": 3,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9839
+        },
+        {
+          "fold": 4,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.9606
+        },
+        {
+          "fold": 5,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9803
+        },
+        {
+          "fold": 6,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9731
+        },
+        {
+          "fold": 7,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9677
+        },
+        {
+          "fold": 8,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9713
+        },
+        {
+          "fold": 9,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9749
+        },
+        {
+          "fold": 10,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9569
+        }
+      ],
+      "mean": 0.9704,
+      "sd": 0.0097,
+      "worstFold": 0.9569,
+      "bestFold": 0.9839
+    },
+    {
+      "id": "all-rules",
+      "name": "Five hand-written rules",
+      "how": "Flags a message if any of five reasonable rules fire.",
+      "folds": [
+        {
+          "fold": 1,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.8835
+        },
+        {
+          "fold": 2,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.8943
+        },
+        {
+          "fold": 3,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.8835
+        },
+        {
+          "fold": 4,
+          "trainSize": 5016,
+          "testSize": 558,
+          "accuracy": 0.8799
+        },
+        {
+          "fold": 5,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.8869
+        },
+        {
+          "fold": 6,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9013
+        },
+        {
+          "fold": 7,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.9102
+        },
+        {
+          "fold": 8,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.8923
+        },
+        {
+          "fold": 9,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.8941
+        },
+        {
+          "fold": 10,
+          "trainSize": 5017,
+          "testSize": 557,
+          "accuracy": 0.8959
+        }
+      ],
+      "mean": 0.8922,
+      "sd": 0.0092,
+      "worstFold": 0.8799,
+      "bestFold": 0.9102
+    }
+  ],
+  "pairs": [
+    {
+      "id": "learned-vs-nb-300",
+      "left": "learned",
+      "right": "nb-300",
+      "truth": "learned",
+      "gap": 0.014,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.991,
+          "right": 0.9642
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.9875
+        },
+        {
+          "fold": 3,
+          "left": 0.9928,
+          "right": 0.9785
+        },
+        {
+          "fold": 4,
+          "left": 0.9875,
+          "right": 0.9659
+        },
+        {
+          "fold": 5,
+          "left": 0.9928,
+          "right": 0.9803
+        },
+        {
+          "fold": 6,
+          "left": 0.9892,
+          "right": 0.9749
+        },
+        {
+          "fold": 7,
+          "left": 0.9928,
+          "right": 0.9713
+        },
+        {
+          "fold": 8,
+          "left": 0.9838,
+          "right": 0.9785
+        },
+        {
+          "fold": 9,
+          "left": 0.991,
+          "right": 0.9803
+        },
+        {
+          "fold": 10,
+          "left": 0.9785,
+          "right": 0.9659
+        }
+      ]
+    },
+    {
+      "id": "learned-vs-nb-80",
+      "left": "learned",
+      "right": "nb-80",
+      "truth": "learned",
+      "gap": 0.0395,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.991,
+          "right": 0.8961
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.9606
+        },
+        {
+          "fold": 3,
+          "left": 0.9928,
+          "right": 0.9606
+        },
+        {
+          "fold": 4,
+          "left": 0.9875,
+          "right": 0.9427
+        },
+        {
+          "fold": 5,
+          "left": 0.9928,
+          "right": 0.9731
+        },
+        {
+          "fold": 6,
+          "left": 0.9892,
+          "right": 0.9587
+        },
+        {
+          "fold": 7,
+          "left": 0.9928,
+          "right": 0.9443
+        },
+        {
+          "fold": 8,
+          "left": 0.9838,
+          "right": 0.9533
+        },
+        {
+          "fold": 9,
+          "left": 0.991,
+          "right": 0.9497
+        },
+        {
+          "fold": 10,
+          "left": 0.9785,
+          "right": 0.9533
+        }
+      ]
+    },
+    {
+      "id": "learned-vs-nb-500",
+      "left": "learned",
+      "right": "nb-500",
+      "truth": "learned",
+      "gap": 0.0111,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.991,
+          "right": 0.9713
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.9875
+        },
+        {
+          "fold": 3,
+          "left": 0.9928,
+          "right": 0.9767
+        },
+        {
+          "fold": 4,
+          "left": 0.9875,
+          "right": 0.9695
+        },
+        {
+          "fold": 5,
+          "left": 0.9928,
+          "right": 0.9838
+        },
+        {
+          "fold": 6,
+          "left": 0.9892,
+          "right": 0.9767
+        },
+        {
+          "fold": 7,
+          "left": 0.9928,
+          "right": 0.982
+        },
+        {
+          "fold": 8,
+          "left": 0.9838,
+          "right": 0.982
+        },
+        {
+          "fold": 9,
+          "left": 0.991,
+          "right": 0.9767
+        },
+        {
+          "fold": 10,
+          "left": 0.9785,
+          "right": 0.9695
+        }
+      ]
+    },
+    {
+      "id": "learned-vs-two-rules",
+      "left": "learned",
+      "right": "two-rules",
+      "truth": "learned",
+      "gap": 0.0172,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.991,
+          "right": 0.9624
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.9785
+        },
+        {
+          "fold": 3,
+          "left": 0.9928,
+          "right": 0.9821
+        },
+        {
+          "fold": 4,
+          "left": 0.9875,
+          "right": 0.9642
+        },
+        {
+          "fold": 5,
+          "left": 0.9928,
+          "right": 0.9856
+        },
+        {
+          "fold": 6,
+          "left": 0.9892,
+          "right": 0.9677
+        },
+        {
+          "fold": 7,
+          "left": 0.9928,
+          "right": 0.9695
+        },
+        {
+          "fold": 8,
+          "left": 0.9838,
+          "right": 0.9713
+        },
+        {
+          "fold": 9,
+          "left": 0.991,
+          "right": 0.9749
+        },
+        {
+          "fold": 10,
+          "left": 0.9785,
+          "right": 0.9587
+        }
+      ]
+    },
+    {
+      "id": "learned-vs-one-rule",
+      "left": "learned",
+      "right": "one-rule",
+      "truth": "learned",
+      "gap": 0.0183,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.991,
+          "right": 0.957
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.9785
+        },
+        {
+          "fold": 3,
+          "left": 0.9928,
+          "right": 0.9839
+        },
+        {
+          "fold": 4,
+          "left": 0.9875,
+          "right": 0.9606
+        },
+        {
+          "fold": 5,
+          "left": 0.9928,
+          "right": 0.9803
+        },
+        {
+          "fold": 6,
+          "left": 0.9892,
+          "right": 0.9731
+        },
+        {
+          "fold": 7,
+          "left": 0.9928,
+          "right": 0.9677
+        },
+        {
+          "fold": 8,
+          "left": 0.9838,
+          "right": 0.9713
+        },
+        {
+          "fold": 9,
+          "left": 0.991,
+          "right": 0.9749
+        },
+        {
+          "fold": 10,
+          "left": 0.9785,
+          "right": 0.9569
+        }
+      ]
+    },
+    {
+      "id": "learned-vs-all-rules",
+      "left": "learned",
+      "right": "all-rules",
+      "truth": "learned",
+      "gap": 0.0965,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.991,
+          "right": 0.8835
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.8943
+        },
+        {
+          "fold": 3,
+          "left": 0.9928,
+          "right": 0.8835
+        },
+        {
+          "fold": 4,
+          "left": 0.9875,
+          "right": 0.8799
+        },
+        {
+          "fold": 5,
+          "left": 0.9928,
+          "right": 0.8869
+        },
+        {
+          "fold": 6,
+          "left": 0.9892,
+          "right": 0.9013
+        },
+        {
+          "fold": 7,
+          "left": 0.9928,
+          "right": 0.9102
+        },
+        {
+          "fold": 8,
+          "left": 0.9838,
+          "right": 0.8923
+        },
+        {
+          "fold": 9,
+          "left": 0.991,
+          "right": 0.8941
+        },
+        {
+          "fold": 10,
+          "left": 0.9785,
+          "right": 0.8959
+        }
+      ]
+    },
+    {
+      "id": "nb-300-vs-nb-80",
+      "left": "nb-300",
+      "right": "nb-80",
+      "truth": "nb-300",
+      "gap": 0.0255,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.9642,
+          "right": 0.8961
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.9606
+        },
+        {
+          "fold": 3,
+          "left": 0.9785,
+          "right": 0.9606
+        },
+        {
+          "fold": 4,
+          "left": 0.9659,
+          "right": 0.9427
+        },
+        {
+          "fold": 5,
+          "left": 0.9803,
+          "right": 0.9731
+        },
+        {
+          "fold": 6,
+          "left": 0.9749,
+          "right": 0.9587
+        },
+        {
+          "fold": 7,
+          "left": 0.9713,
+          "right": 0.9443
+        },
+        {
+          "fold": 8,
+          "left": 0.9785,
+          "right": 0.9533
+        },
+        {
+          "fold": 9,
+          "left": 0.9803,
+          "right": 0.9497
+        },
+        {
+          "fold": 10,
+          "left": 0.9659,
+          "right": 0.9533
+        }
+      ]
+    },
+    {
+      "id": "nb-300-vs-nb-500",
+      "left": "nb-300",
+      "right": "nb-500",
+      "truth": "nb-500",
+      "gap": 0.0029,
+      "misleadingFolds": [
+        2,
+        3,
+        9
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.9642,
+          "right": 0.9713
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.9875
+        },
+        {
+          "fold": 3,
+          "left": 0.9785,
+          "right": 0.9767
+        },
+        {
+          "fold": 4,
+          "left": 0.9659,
+          "right": 0.9695
+        },
+        {
+          "fold": 5,
+          "left": 0.9803,
+          "right": 0.9838
+        },
+        {
+          "fold": 6,
+          "left": 0.9749,
+          "right": 0.9767
+        },
+        {
+          "fold": 7,
+          "left": 0.9713,
+          "right": 0.982
+        },
+        {
+          "fold": 8,
+          "left": 0.9785,
+          "right": 0.982
+        },
+        {
+          "fold": 9,
+          "left": 0.9803,
+          "right": 0.9767
+        },
+        {
+          "fold": 10,
+          "left": 0.9659,
+          "right": 0.9695
+        }
+      ]
+    },
+    {
+      "id": "nb-300-vs-two-rules",
+      "left": "nb-300",
+      "right": "two-rules",
+      "truth": "nb-300",
+      "gap": 0.0032,
+      "misleadingFolds": [
+        3,
+        5
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.9642,
+          "right": 0.9624
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.9785
+        },
+        {
+          "fold": 3,
+          "left": 0.9785,
+          "right": 0.9821
+        },
+        {
+          "fold": 4,
+          "left": 0.9659,
+          "right": 0.9642
+        },
+        {
+          "fold": 5,
+          "left": 0.9803,
+          "right": 0.9856
+        },
+        {
+          "fold": 6,
+          "left": 0.9749,
+          "right": 0.9677
+        },
+        {
+          "fold": 7,
+          "left": 0.9713,
+          "right": 0.9695
+        },
+        {
+          "fold": 8,
+          "left": 0.9785,
+          "right": 0.9713
+        },
+        {
+          "fold": 9,
+          "left": 0.9803,
+          "right": 0.9749
+        },
+        {
+          "fold": 10,
+          "left": 0.9659,
+          "right": 0.9587
+        }
+      ]
+    },
+    {
+      "id": "nb-300-vs-one-rule",
+      "left": "nb-300",
+      "right": "one-rule",
+      "truth": "nb-300",
+      "gap": 0.0043,
+      "misleadingFolds": [
+        3
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.9642,
+          "right": 0.957
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.9785
+        },
+        {
+          "fold": 3,
+          "left": 0.9785,
+          "right": 0.9839
+        },
+        {
+          "fold": 4,
+          "left": 0.9659,
+          "right": 0.9606
+        },
+        {
+          "fold": 5,
+          "left": 0.9803,
+          "right": 0.9803
+        },
+        {
+          "fold": 6,
+          "left": 0.9749,
+          "right": 0.9731
+        },
+        {
+          "fold": 7,
+          "left": 0.9713,
+          "right": 0.9677
+        },
+        {
+          "fold": 8,
+          "left": 0.9785,
+          "right": 0.9713
+        },
+        {
+          "fold": 9,
+          "left": 0.9803,
+          "right": 0.9749
+        },
+        {
+          "fold": 10,
+          "left": 0.9659,
+          "right": 0.9569
+        }
+      ]
+    },
+    {
+      "id": "nb-300-vs-all-rules",
+      "left": "nb-300",
+      "right": "all-rules",
+      "truth": "nb-300",
+      "gap": 0.0825,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.9642,
+          "right": 0.8835
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.8943
+        },
+        {
+          "fold": 3,
+          "left": 0.9785,
+          "right": 0.8835
+        },
+        {
+          "fold": 4,
+          "left": 0.9659,
+          "right": 0.8799
+        },
+        {
+          "fold": 5,
+          "left": 0.9803,
+          "right": 0.8869
+        },
+        {
+          "fold": 6,
+          "left": 0.9749,
+          "right": 0.9013
+        },
+        {
+          "fold": 7,
+          "left": 0.9713,
+          "right": 0.9102
+        },
+        {
+          "fold": 8,
+          "left": 0.9785,
+          "right": 0.8923
+        },
+        {
+          "fold": 9,
+          "left": 0.9803,
+          "right": 0.8941
+        },
+        {
+          "fold": 10,
+          "left": 0.9659,
+          "right": 0.8959
+        }
+      ]
+    },
+    {
+      "id": "nb-80-vs-nb-500",
+      "left": "nb-80",
+      "right": "nb-500",
+      "truth": "nb-500",
+      "gap": 0.0284,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.8961,
+          "right": 0.9713
+        },
+        {
+          "fold": 2,
+          "left": 0.9606,
+          "right": 0.9875
+        },
+        {
+          "fold": 3,
+          "left": 0.9606,
+          "right": 0.9767
+        },
+        {
+          "fold": 4,
+          "left": 0.9427,
+          "right": 0.9695
+        },
+        {
+          "fold": 5,
+          "left": 0.9731,
+          "right": 0.9838
+        },
+        {
+          "fold": 6,
+          "left": 0.9587,
+          "right": 0.9767
+        },
+        {
+          "fold": 7,
+          "left": 0.9443,
+          "right": 0.982
+        },
+        {
+          "fold": 8,
+          "left": 0.9533,
+          "right": 0.982
+        },
+        {
+          "fold": 9,
+          "left": 0.9497,
+          "right": 0.9767
+        },
+        {
+          "fold": 10,
+          "left": 0.9533,
+          "right": 0.9695
+        }
+      ]
+    },
+    {
+      "id": "nb-80-vs-two-rules",
+      "left": "nb-80",
+      "right": "two-rules",
+      "truth": "two-rules",
+      "gap": 0.0223,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.8961,
+          "right": 0.9624
+        },
+        {
+          "fold": 2,
+          "left": 0.9606,
+          "right": 0.9785
+        },
+        {
+          "fold": 3,
+          "left": 0.9606,
+          "right": 0.9821
+        },
+        {
+          "fold": 4,
+          "left": 0.9427,
+          "right": 0.9642
+        },
+        {
+          "fold": 5,
+          "left": 0.9731,
+          "right": 0.9856
+        },
+        {
+          "fold": 6,
+          "left": 0.9587,
+          "right": 0.9677
+        },
+        {
+          "fold": 7,
+          "left": 0.9443,
+          "right": 0.9695
+        },
+        {
+          "fold": 8,
+          "left": 0.9533,
+          "right": 0.9713
+        },
+        {
+          "fold": 9,
+          "left": 0.9497,
+          "right": 0.9749
+        },
+        {
+          "fold": 10,
+          "left": 0.9533,
+          "right": 0.9587
+        }
+      ]
+    },
+    {
+      "id": "nb-80-vs-one-rule",
+      "left": "nb-80",
+      "right": "one-rule",
+      "truth": "one-rule",
+      "gap": 0.0212,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.8961,
+          "right": 0.957
+        },
+        {
+          "fold": 2,
+          "left": 0.9606,
+          "right": 0.9785
+        },
+        {
+          "fold": 3,
+          "left": 0.9606,
+          "right": 0.9839
+        },
+        {
+          "fold": 4,
+          "left": 0.9427,
+          "right": 0.9606
+        },
+        {
+          "fold": 5,
+          "left": 0.9731,
+          "right": 0.9803
+        },
+        {
+          "fold": 6,
+          "left": 0.9587,
+          "right": 0.9731
+        },
+        {
+          "fold": 7,
+          "left": 0.9443,
+          "right": 0.9677
+        },
+        {
+          "fold": 8,
+          "left": 0.9533,
+          "right": 0.9713
+        },
+        {
+          "fold": 9,
+          "left": 0.9497,
+          "right": 0.9749
+        },
+        {
+          "fold": 10,
+          "left": 0.9533,
+          "right": 0.9569
+        }
+      ]
+    },
+    {
+      "id": "nb-80-vs-all-rules",
+      "left": "nb-80",
+      "right": "all-rules",
+      "truth": "nb-80",
+      "gap": 0.057,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.8961,
+          "right": 0.8835
+        },
+        {
+          "fold": 2,
+          "left": 0.9606,
+          "right": 0.8943
+        },
+        {
+          "fold": 3,
+          "left": 0.9606,
+          "right": 0.8835
+        },
+        {
+          "fold": 4,
+          "left": 0.9427,
+          "right": 0.8799
+        },
+        {
+          "fold": 5,
+          "left": 0.9731,
+          "right": 0.8869
+        },
+        {
+          "fold": 6,
+          "left": 0.9587,
+          "right": 0.9013
+        },
+        {
+          "fold": 7,
+          "left": 0.9443,
+          "right": 0.9102
+        },
+        {
+          "fold": 8,
+          "left": 0.9533,
+          "right": 0.8923
+        },
+        {
+          "fold": 9,
+          "left": 0.9497,
+          "right": 0.8941
+        },
+        {
+          "fold": 10,
+          "left": 0.9533,
+          "right": 0.8959
+        }
+      ]
+    },
+    {
+      "id": "nb-500-vs-two-rules",
+      "left": "nb-500",
+      "right": "two-rules",
+      "truth": "nb-500",
+      "gap": 0.0061,
+      "misleadingFolds": [
+        3,
+        5
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.9713,
+          "right": 0.9624
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.9785
+        },
+        {
+          "fold": 3,
+          "left": 0.9767,
+          "right": 0.9821
+        },
+        {
+          "fold": 4,
+          "left": 0.9695,
+          "right": 0.9642
+        },
+        {
+          "fold": 5,
+          "left": 0.9838,
+          "right": 0.9856
+        },
+        {
+          "fold": 6,
+          "left": 0.9767,
+          "right": 0.9677
+        },
+        {
+          "fold": 7,
+          "left": 0.982,
+          "right": 0.9695
+        },
+        {
+          "fold": 8,
+          "left": 0.982,
+          "right": 0.9713
+        },
+        {
+          "fold": 9,
+          "left": 0.9767,
+          "right": 0.9749
+        },
+        {
+          "fold": 10,
+          "left": 0.9695,
+          "right": 0.9587
+        }
+      ]
+    },
+    {
+      "id": "nb-500-vs-one-rule",
+      "left": "nb-500",
+      "right": "one-rule",
+      "truth": "nb-500",
+      "gap": 0.0072,
+      "misleadingFolds": [
+        3
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.9713,
+          "right": 0.957
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.9785
+        },
+        {
+          "fold": 3,
+          "left": 0.9767,
+          "right": 0.9839
+        },
+        {
+          "fold": 4,
+          "left": 0.9695,
+          "right": 0.9606
+        },
+        {
+          "fold": 5,
+          "left": 0.9838,
+          "right": 0.9803
+        },
+        {
+          "fold": 6,
+          "left": 0.9767,
+          "right": 0.9731
+        },
+        {
+          "fold": 7,
+          "left": 0.982,
+          "right": 0.9677
+        },
+        {
+          "fold": 8,
+          "left": 0.982,
+          "right": 0.9713
+        },
+        {
+          "fold": 9,
+          "left": 0.9767,
+          "right": 0.9749
+        },
+        {
+          "fold": 10,
+          "left": 0.9695,
+          "right": 0.9569
+        }
+      ]
+    },
+    {
+      "id": "nb-500-vs-all-rules",
+      "left": "nb-500",
+      "right": "all-rules",
+      "truth": "nb-500",
+      "gap": 0.0854,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.9713,
+          "right": 0.8835
+        },
+        {
+          "fold": 2,
+          "left": 0.9875,
+          "right": 0.8943
+        },
+        {
+          "fold": 3,
+          "left": 0.9767,
+          "right": 0.8835
+        },
+        {
+          "fold": 4,
+          "left": 0.9695,
+          "right": 0.8799
+        },
+        {
+          "fold": 5,
+          "left": 0.9838,
+          "right": 0.8869
+        },
+        {
+          "fold": 6,
+          "left": 0.9767,
+          "right": 0.9013
+        },
+        {
+          "fold": 7,
+          "left": 0.982,
+          "right": 0.9102
+        },
+        {
+          "fold": 8,
+          "left": 0.982,
+          "right": 0.8923
+        },
+        {
+          "fold": 9,
+          "left": 0.9767,
+          "right": 0.8941
+        },
+        {
+          "fold": 10,
+          "left": 0.9695,
+          "right": 0.8959
+        }
+      ]
+    },
+    {
+      "id": "two-rules-vs-one-rule",
+      "left": "two-rules",
+      "right": "one-rule",
+      "truth": "two-rules",
+      "gap": 0.0011,
+      "misleadingFolds": [
+        3,
+        6
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.9624,
+          "right": 0.957
+        },
+        {
+          "fold": 2,
+          "left": 0.9785,
+          "right": 0.9785
+        },
+        {
+          "fold": 3,
+          "left": 0.9821,
+          "right": 0.9839
+        },
+        {
+          "fold": 4,
+          "left": 0.9642,
+          "right": 0.9606
+        },
+        {
+          "fold": 5,
+          "left": 0.9856,
+          "right": 0.9803
+        },
+        {
+          "fold": 6,
+          "left": 0.9677,
+          "right": 0.9731
+        },
+        {
+          "fold": 7,
+          "left": 0.9695,
+          "right": 0.9677
+        },
+        {
+          "fold": 8,
+          "left": 0.9713,
+          "right": 0.9713
+        },
+        {
+          "fold": 9,
+          "left": 0.9749,
+          "right": 0.9749
+        },
+        {
+          "fold": 10,
+          "left": 0.9587,
+          "right": 0.9569
+        }
+      ]
+    },
+    {
+      "id": "two-rules-vs-all-rules",
+      "left": "two-rules",
+      "right": "all-rules",
+      "truth": "two-rules",
+      "gap": 0.0793,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.9624,
+          "right": 0.8835
+        },
+        {
+          "fold": 2,
+          "left": 0.9785,
+          "right": 0.8943
+        },
+        {
+          "fold": 3,
+          "left": 0.9821,
+          "right": 0.8835
+        },
+        {
+          "fold": 4,
+          "left": 0.9642,
+          "right": 0.8799
+        },
+        {
+          "fold": 5,
+          "left": 0.9856,
+          "right": 0.8869
+        },
+        {
+          "fold": 6,
+          "left": 0.9677,
+          "right": 0.9013
+        },
+        {
+          "fold": 7,
+          "left": 0.9695,
+          "right": 0.9102
+        },
+        {
+          "fold": 8,
+          "left": 0.9713,
+          "right": 0.8923
+        },
+        {
+          "fold": 9,
+          "left": 0.9749,
+          "right": 0.8941
+        },
+        {
+          "fold": 10,
+          "left": 0.9587,
+          "right": 0.8959
+        }
+      ]
+    },
+    {
+      "id": "one-rule-vs-all-rules",
+      "left": "one-rule",
+      "right": "all-rules",
+      "truth": "one-rule",
+      "gap": 0.0782,
+      "misleadingFolds": [],
+      "folds": [
+        {
+          "fold": 1,
+          "left": 0.957,
+          "right": 0.8835
+        },
+        {
+          "fold": 2,
+          "left": 0.9785,
+          "right": 0.8943
+        },
+        {
+          "fold": 3,
+          "left": 0.9839,
+          "right": 0.8835
+        },
+        {
+          "fold": 4,
+          "left": 0.9606,
+          "right": 0.8799
+        },
+        {
+          "fold": 5,
+          "left": 0.9803,
+          "right": 0.8869
+        },
+        {
+          "fold": 6,
+          "left": 0.9731,
+          "right": 0.9013
+        },
+        {
+          "fold": 7,
+          "left": 0.9677,
+          "right": 0.9102
+        },
+        {
+          "fold": 8,
+          "left": 0.9713,
+          "right": 0.8923
+        },
+        {
+          "fold": 9,
+          "left": 0.9749,
+          "right": 0.8941
+        },
+        {
+          "fold": 10,
+          "left": 0.9569,
+          "right": 0.8959
+        }
+      ]
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { PushbackFigure } from "@/components/machines/PushbackFigure";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -60,24 +61,26 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "These tools fail in four ways, over and over. Once you can name them, you stop being surprised. You also start checking the right thing instead of everything.",
-  },
-  {
-    say: "It invents. Names, citations, section numbers, settings that do not exist. Kalai and colleagues put it plainly: the training rewards a confident guess over an admission of not knowing. A model that says 'I do not know' scores worse on the tests it is graded on.",
+    say: "These tools fail in four ways, over and over. They invent things, they go stale, they cave when you push, and they cannot really do arithmetic. One of those four you can watch happen, live, so start there. Here is a fact nobody disputes, asked flat.",
     caption:
-      "Specificity is not evidence. A fake citation has page numbers because real citations have page numbers.",
+      "Two bars, the true answer and a false one. They stay on screen for the rest of this. All that changes is the sentence put in front of the model.",
   },
   {
-    say: "It goes stale. Its knowledge stops at a fixed date and it cannot tell the difference between the newest thing it saw and the newest thing there is. Anything with a price, a version or a leadership team is suspect.",
+    say: "First, just lean on the question a little. Do not assert anything, only sound sure. Confidence in the wording alone is enough to move the odds, and it moves them the wrong way.",
   },
   {
-    say: "It caves. Push back with nothing but confidence and it will often abandon a correct answer. Sharma and colleagues found this across five leading assistants. They also found that human raters sometimes prefer the agreeable answer to the right one, which is how it got there.",
+    say: "Now actually push. State the wrong answer first, as though it were settled, and then ask. Watch the bars cross.",
+    caption:
+      "That is caving. Nothing about the model changed between these three sentences. Only what it was told before the question.",
   },
   {
-    say: "And it cannot really do arithmetic. It produces text that looks like working out. Dziri and colleagues showed the accuracy falls off a cliff as the sums get bigger, because it is matching the shape of a calculation, not carrying one out.",
+    say: "Here is the part that matters more, and almost nobody shows it. Assert the right answer first instead, in exactly the same shape of sentence. It agrees just as hard.",
   },
   {
-    say: "Four modes. You have just been graded on all four under a fuse. Whichever one you were slowest on is the one that will get you at work.",
+    say: "So it is not being argued out of anything. It is copying whatever sits in front of it, whichever direction that points. Which means agreement after you push back tells you nothing at all, and you should push on answers you believe as well as ones you doubt. Try any of the eleven facts.",
+  },
+  {
+    say: "The other three modes are the same fault wearing different clothes. It invents because the training rewards a confident guess over an admission. It goes stale because its knowledge stops on a date it cannot see past. And it cannot carry a calculation, only imitate the look of one. The panels below take those apart.",
   },
 ];
 
@@ -141,7 +144,7 @@ export default function WhereItBreaksLesson() {
       </div>
 
       <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<PushbackFigure />} />
       </div>
 
       <DeeperRow video={video}>

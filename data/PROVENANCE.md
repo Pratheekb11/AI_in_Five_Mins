@@ -32,6 +32,7 @@ node data/scripts/build-logistic.mjs
 node data/scripts/build-tree.mjs
 node data/scripts/build-forest.mjs
 node data/scripts/build-clusters.mjs
+node data/scripts/build-curve.mjs
 node data/scripts/build-spam-bench.mjs
 node data/scripts/build-regression-data.mjs
 ```
@@ -242,6 +243,26 @@ Output should be byte-identical to what is committed — every script that sampl
 **On the picture:** the clustering is done in 50 dimensions and drawn at the same two projected coordinates the embeddings module uses. Dots that touch on screen are not necessarily close in the space, and the page says so.
 
 **On the game rounds:** each round is a real cluster, a real member of it, and three decoys taken from other clusters. Nothing is written by hand, and a test fails if any round's answer stops belonging to the cluster it claims.
+
+---
+
+## `public/data/curve.json`
+
+**Script:** `data/scripts/build-curve.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 10 — More data, or a better model?
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** four models trained at eight training set sizes from 20 to 4,459 messages, every one scored on the same 1,115 held out. Each point below the full set is the average of five different random draws of that many messages, because a single draw at twenty examples is mostly luck.
+
+**The finding:** the curves cross. Naive Bayes over the whole vocabulary scores 89.4% at twenty examples, seven points behind a single hand-written rule, and 98.7% at 4,459, the best on the page. The hand-written rule is a flat line at 96.8%, since it never looks at the training data at all.
+
+**On the game's offer:** a round offers the smallest measured size that is at least ten times what you have, or everything there is when no such size exists, and the file records how many times more that really is. The largest round offers 2.2 times, not ten, and the game prints 2.2.
 
 ---
 

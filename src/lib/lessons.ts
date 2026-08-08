@@ -332,6 +332,21 @@ export const LESSONS: Lesson[] = [
     feynman: "Does this group mean anything, or did I ask for it?",
   },
 
+  {
+    slug: "more-data-or-better-model",
+    track: "ml",
+    number: 10,
+    title: "More data, or a better model?",
+    standfirst:
+      "The argument every team has, settled by measurement. Both answers are right, at different points on the same curve.",
+    nugget: "Where you are on the curve decides it.",
+    machine: "Buy the Upgrade",
+    minutes: 8,
+    ink: "blue",
+    status: "ready",
+    feynman: "How much data do I have, and what is the next one worth?",
+  },
+
   // --------------------------------------------------------- down the rabbit hole --
   {
     slug: "what-is-ai",

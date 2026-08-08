@@ -31,8 +31,18 @@ import type { CrossvalData, CvModel } from "@/lib/game/crossval";
  */
 
 const W = 640;
-const AXIS_H = 150;
 const PAD = 34;
+
+/**
+ * The results axis is only as tall as the dots on it.
+ *
+ * Dots stack five deep, so ten folds need the full height and the first single
+ * fold needs almost none. A fixed height left most of a blank box above one
+ * dot for the first two steps, which reads as a chart that failed to draw.
+ */
+function axisHeight(dots: number): number {
+  return 62 + Math.min(5, Math.ceil(dots / 2)) * 12;
+}
 
 const STAGE_MODEL: Record<number, string> = {
   0: "learned",
@@ -97,6 +107,7 @@ export function FoldsFigure() {
   const shown = foldsShown(stage, total);
   const held = Math.min(shown, total) - 1;
   const done = model.folds.slice(0, shown);
+  const AXIS_H = axisHeight(shown);
 
   // The axis spans every fold of every model, so switching models does not
   // silently rescale and make one model's spread look like another's.

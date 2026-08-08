@@ -29,8 +29,19 @@ import type { Forest, ForestData } from "@/lib/game/forest";
  */
 
 const W = 640;
-const H = 150;
 const PAD = 34;
+
+/**
+ * The plot is only as tall as it needs to be.
+ *
+ * Dots stack seven deep, so sixty of them need the full height and one needs
+ * almost none. Keeping the box at its full size for the first step left a
+ * hand's width of blank paper above a single dot, which reads as something
+ * having failed to load.
+ */
+function heightFor(dots: number): number {
+  return 52 + Math.min(7, Math.ceil(dots / 9)) * 12;
+}
 
 const STAGE_FOREST: Record<number, string> = {
   0: "shallow",
@@ -95,14 +106,19 @@ export function ForestFigure() {
   const x = (v: number) => PAD + ((v - low) / (high - low)) * (W - PAD * 2);
 
   const example = data.examples[3] ?? data.examples[0];
+  const H = heightFor(shownTrees);
 
   return (
     <figure className="plate-flush overflow-hidden">
       <div className="border-ink/20 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b px-4 py-3">
-        <p className="label text-ink-faint">{forest.name}</p>
+        {/* At the first step only one of them is drawn, and a heading that
+            says sixty over a single dot reads as a bug. */}
         <p className="label text-ink-faint">
-          each dot is one tree, scored on {data.corpus.testSize} held-out
-          messages
+          {shownTrees === 1 ? `One of the ${forest.trees}` : forest.name}
+        </p>
+        <p className="label text-ink-faint">
+          {shownTrees === 1 ? "one dot" : "each dot"} is one tree, scored on{" "}
+          {data.corpus.testSize} held-out messages
         </p>
       </div>
 

@@ -34,22 +34,31 @@ export function Check({
   const total = scores.reduce<number>((sum, s) => sum + (s ?? 0), 0);
   const best = scoreFor(slug);
 
+  /**
+   * Settles one beat, and records the module once every beat has landed.
+   *
+   * The recording deliberately happens out here rather than inside the state
+   * updater. An updater has to be pure: React is free to run it during a
+   * render, and `recordScore` writes to the progress store, which notifies the
+   * header pill. Doing that from inside the updater meant updating one
+   * component while rendering another, which React reports as an error.
+   *
+   * Reading `scores` from this render is safe because every beat settles
+   * exactly once and each settle is a separate user action, so there is no
+   * batch in which two beats land against the same stale array.
+   */
   function settle(index: number, fraction: number) {
-    setScores((current) => {
-      if (current[index] !== null) return current;
+    if (scores[index] !== null) return;
 
-      const next = [...current];
-      next[index] = fraction;
+    const next = [...scores];
+    next[index] = fraction;
+    setScores(next);
 
-      /* Recorded here rather than in an effect: the React Compiler forbids
-         setState from an effect body, and the completed moment is an event. */
-      if (next.every((s) => s !== null)) {
-        const mean =
-          next.reduce<number>((sum, s) => sum + (s ?? 0), 0) / next.length;
-        recordScore(slug, mean);
-      }
-      return next;
-    });
+    if (next.every((s) => s !== null)) {
+      const mean =
+        next.reduce<number>((sum, s) => sum + (s ?? 0), 0) / next.length;
+      recordScore(slug, mean);
+    }
   }
 
   return (

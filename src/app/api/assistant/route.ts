@@ -40,6 +40,23 @@ const SYSTEMS: Record<string, string> = {
     "Answer normally and at normal length.",
 };
 
+/**
+ * Every turn is an object with the two fields, checked before anything reads
+ * them. `turns: [null]` used to reach `turn.role` and throw a 500 out of the
+ * handler, which is a worse answer to bad input than saying it is bad input.
+ */
+function isConversation(value: unknown): value is Turn[] {
+  if (!Array.isArray(value)) return false;
+  if (value.length === 0 || value.length > MAX_TURNS) return false;
+  return value.every(
+    (turn) =>
+      typeof turn === "object" &&
+      turn !== null &&
+      (turn.role === "user" || turn.role === "assistant") &&
+      typeof turn.content === "string",
+  );
+}
+
 export async function GET() {
   // Lets the games show an honest switched-off state without guessing.
   return Response.json({ configured: isConfigured() });
@@ -70,17 +87,31 @@ export async function POST(request: Request) {
 
   const payload = body as { game?: unknown; turns?: unknown };
   const game = typeof payload.game === "string" ? payload.game : "";
-  const system = SYSTEMS[game];
-  if (!system) {
+
+  /* `SYSTEMS[game]` on its own is not a membership test: every object inherits
+     `toString`, `constructor` and `__proto__`, all of which are truthy, so
+     `game: "toString"` used to walk straight past this guard and send an
+     upstream request with no system prompt at all. */
+  if (!Object.hasOwn(SYSTEMS, game)) {
     return Response.json({ error: "Unknown game." }, { status: 400 });
   }
+  const system = SYSTEMS[game];
 
-  if (!Array.isArray(payload.turns) || payload.turns.length > MAX_TURNS) {
+  if (!isConversation(payload.turns)) {
     return Response.json({ error: "Bad conversation." }, { status: 400 });
   }
 
-  const turns = payload.turns as Turn[];
-  const reply = await ask(turns, system);
+  /* `ask` validates lengths and roles and answers with a status rather than
+     throwing, but a caller is not owed a stack trace if anything else does. */
+  let reply;
+  try {
+    reply = await ask(payload.turns, system);
+  } catch {
+    return Response.json(
+      { error: "The assistant could not be reached." },
+      { status: 502 },
+    );
+  }
 
   if (!reply.ok) {
     return Response.json({ error: reply.error }, { status: reply.status });

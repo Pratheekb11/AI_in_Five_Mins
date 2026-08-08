@@ -203,7 +203,7 @@ export function GameShell({
             /* The padding is the tap target. As a bare label this was eleven
                pixels tall, which is a thumb's width away from unhittable on a
                phone; the negative margin keeps the header line where it was. */
-            className="label text-ink-faint hover:text-ink -my-2 cursor-pointer px-1 py-2 underline-offset-2 hover:underline"
+            className="tap label text-ink-faint hover:text-ink -my-2 cursor-pointer px-1 py-2 underline-offset-2 hover:underline"
           >
             {muted ? "sound off" : "sound on"}
           </button>

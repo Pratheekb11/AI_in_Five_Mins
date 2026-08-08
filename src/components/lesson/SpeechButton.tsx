@@ -44,7 +44,7 @@ export function SpeechButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={toggle}
-      className="label border-ink/40 hover:border-ink text-ink-soft hover:text-ink inline-flex shrink-0 items-center gap-2 rounded-[2px] border px-2.5 py-2 transition-colors"
+      className="tap label border-ink/40 hover:border-ink text-ink-soft hover:text-ink inline-flex shrink-0 items-center gap-2 rounded-[2px] border px-2.5 py-2 transition-colors"
       aria-label={speaking ? "Stop reading aloud" : "Read this aloud"}
     >
       <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">

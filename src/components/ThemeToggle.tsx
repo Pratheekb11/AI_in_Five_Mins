@@ -54,7 +54,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      className="label border-ink/40 hover:border-ink text-ink-soft hover:text-ink rounded-[2px] border px-2.5 py-2 transition-colors"
+      className="tap label border-ink/40 hover:border-ink text-ink-soft hover:text-ink rounded-[2px] border px-2.5 py-2 transition-colors"
       aria-label={
         theme === "dark" ? "Switch to light plate" : "Switch to dark plate"
       }

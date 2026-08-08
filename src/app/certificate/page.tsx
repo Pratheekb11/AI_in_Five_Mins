@@ -16,7 +16,7 @@ export default function CertificatePage() {
       <Engagement page="certificate" />
       <SiteHeader />
 
-      <main className="mx-auto max-w-3xl px-5 py-12 md:py-16">
+      <main id="content" className="mx-auto max-w-3xl px-5 py-12 md:py-16">
         <p className="label text-ink-faint mb-3">Proof, of a sort</p>
         <h1 className="display-lg mb-4">What you finished</h1>
         <p className="prose-measure text-ink-soft mb-9">

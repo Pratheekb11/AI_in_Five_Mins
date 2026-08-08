@@ -9,7 +9,18 @@ export function SiteHeader({
   showProgress?: boolean;
 }) {
   return (
-    <header className="border-ink/25 bg-paper/85 sticky top-0 z-30 border-b backdrop-blur-sm">
+    <>
+      {/* Every page opens with the same masthead, so a keyboard reader would
+          otherwise tab through it on every single one before reaching the
+          part they came for. */}
+      <a
+        href="#content"
+        className="skip-link plate misreg btn-primary font-display px-4 py-2.5 font-bold"
+      >
+        Skip to the page
+      </a>
+
+      <header className="border-ink/25 bg-paper/85 sticky top-0 z-30 border-b backdrop-blur-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
         <div className="flex min-w-0 items-center gap-4">
           {/* Spaced in the wordmark, closed up in the domain. Set solid, the
@@ -17,7 +28,7 @@ export function SiteHeader({
               whole thing reads as "AlinFive". */}
           <Link
             href="/"
-            className="font-display shrink-0 text-lg font-extrabold tracking-tight"
+            className="tap font-display shrink-0 text-lg font-extrabold tracking-tight"
           >
             AI in <span className="text-pink-text">Five</span>
           </Link>
@@ -34,6 +45,7 @@ export function SiteHeader({
           <ThemeToggle />
         </div>
       </div>
-    </header>
+      </header>
+    </>
   );
 }

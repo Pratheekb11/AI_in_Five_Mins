@@ -42,7 +42,7 @@ export default async function LessonPlaceholder(
     <>
       <SiteHeader />
 
-      <main className="mx-auto max-w-6xl px-5 py-14">
+      <main id="content" className="mx-auto max-w-6xl px-5 py-14">
         <div className="mb-5 flex flex-wrap items-center gap-3">
           <span
             className={`data ${ink.chip} rounded-[2px] border px-2 py-1 text-xs font-bold`}

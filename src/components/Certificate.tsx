@@ -97,12 +97,19 @@ export function Certificate({ spec }: { spec: CertificateSpec }) {
   const download = useCallback(async () => {
     const file = await blob();
     if (!file) return;
+    /* Firefox will not follow a click on an anchor that is not in the
+       document, and revoking the object URL in the same tick cancels the
+       download it just started. Both are why this used to save nothing there
+       and everything in Chrome. */
     const url = URL.createObjectURL(file);
     const link = document.createElement("a");
     link.href = url;
     link.download = fileNameFor(art);
+    link.style.display = "none";
+    document.body.append(link);
     link.click();
-    URL.revokeObjectURL(url);
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 10_000);
     setNote("Saved. Attach it to your post.");
   }, [art, blob]);
 

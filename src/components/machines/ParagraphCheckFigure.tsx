@@ -264,7 +264,7 @@ export function ParagraphCheckFigure() {
               : puzzle.url
           }
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           {puzzle.title} on {data.source.name}
         </a>

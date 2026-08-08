@@ -32,7 +32,7 @@ export function LessonShell({
       <Engagement page={lesson.slug} />
       <SiteHeader />
 
-      <main className="mx-auto max-w-6xl px-5">
+      <main id="content" className="mx-auto max-w-6xl px-5">
         <div className="py-10 md:py-14">
           <div className="mb-5 flex flex-wrap items-center gap-3">
             <span

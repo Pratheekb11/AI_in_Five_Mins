@@ -81,11 +81,34 @@ export function rateLimit(key: string): { ok: boolean; retryAfter: number } {
   return { ok: true, retryAfter: 0 };
 }
 
-/** Best guess at who is calling, for rate limiting only. Never stored. */
+/**
+ * Best guess at who is calling, for rate limiting only. Never stored.
+ *
+ * `x-forwarded-for` is a list a caller can start. A proxy APPENDS the address
+ * it saw, so the entry the platform wrote is the LAST one and everything
+ * before it is whatever the caller felt like sending. Reading the first entry,
+ * which is the usual advice and what this did, hands anybody a fresh rate
+ * limit bucket per request and with it the whole API bill.
+ *
+ * `x-real-ip` is set by the proxy and cannot be forged past it, so it is
+ * preferred where it exists; the last forwarded entry is the fallback.
+ */
 export function callerKey(request: Request): string {
+  const real = request.headers.get("x-real-ip");
+  if (real?.trim()) return real.trim();
+
   const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) return forwarded.split(",")[0].trim();
-  return request.headers.get("x-real-ip") ?? "unknown";
+  if (forwarded) {
+    const hops = forwarded
+      .split(",")
+      .map((hop) => hop.trim())
+      .filter(Boolean);
+    if (hops.length > 0) return hops[hops.length - 1];
+  }
+
+  /* No proxy said who this is. Everyone anonymous shares one bucket, which is
+     strict rather than loose, and is the right way round for a spend cap. */
+  return "unknown";
 }
 
 /* ------------------------------------------------------------------ call -- */

@@ -22,7 +22,7 @@ export default function Home() {
       <Engagement page="home" />
       <SiteHeader />
 
-      <main>
+      <main id="content">
         {/* Hero. The claim is made by a machine you can poke, not by a
             paragraph asserting it. */}
         <section className="mx-auto max-w-6xl px-5 pt-14 pb-16 md:pt-20">

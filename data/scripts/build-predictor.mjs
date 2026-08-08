@@ -418,7 +418,7 @@ const main = async () => {
       let response;
       for (let attempt = 0; attempt < 6; attempt++) {
         response = await fetch(url, {
-          headers: { "User-Agent": "LearnLoopAI/1.0 (educational)" },
+          headers: { "User-Agent": "AIinFive/1.0 (educational)" },
         });
         if (response.status !== 429) break;
         await new Promise((r) => setTimeout(r, 2000 * 2 ** attempt));

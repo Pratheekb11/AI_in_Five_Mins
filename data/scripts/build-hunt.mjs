@@ -32,7 +32,7 @@ import { fileURLToPath } from "node:url";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(HERE, "../../public/data/hunt.json");
 
-const AGENT = "LearnLoopAI/1.0 (educational)";
+const AGENT = "AIinFive/1.0 (educational)";
 /** How much of the article opening to use. Enough to hide three things in. */
 const CHARS = 700;
 

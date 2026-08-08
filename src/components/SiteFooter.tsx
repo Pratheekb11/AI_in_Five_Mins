@@ -23,7 +23,7 @@ export function SiteFooter() {
         <div className="grid gap-8 sm:grid-cols-[1fr_auto]">
           <div>
             <p className="font-display text-lg font-extrabold tracking-tight">
-              LearnLoop<span className="text-pink-text">AI</span>
+              AI in <span className="text-pink-text">Five</span>
             </p>
             <p className="prose-measure text-ink-soft mt-2 text-sm">
               Every token, vector and probability here is computed from a real

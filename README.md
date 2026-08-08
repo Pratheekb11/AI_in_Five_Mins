@@ -1,8 +1,8 @@
-# LearnLoopAI
+# AIinFive
 
-Eight short lessons that let you operate the machinery behind AI instead of reading about it.
+Twenty-five short lessons that let you operate the machinery behind AI instead of reading about it. Six chapters on using it well, three habits to take to work, six on the mechanism underneath, and ten on building the things from scratch.
 
-Each lesson is one interactive machine — a live tokenizer, a word chart you can search, a temperature dial on a real probability distribution — built for someone who keeps hearing *token*, *embedding* and *LLM* at work and wants a mental model they can actually use.
+Each lesson is one game you play before anything is explained, and one figure that moves — a live tokenizer, a decision boundary swinging into place, a threshold sliding through 1,115 real messages — built for someone who keeps hearing *token*, *embedding* and *overfitting* at work and wants a mental model they can actually use.
 
 ## The rule this project is built on
 

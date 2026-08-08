@@ -26,9 +26,13 @@ export default function Home() {
         {/* Hero. The claim is made by a machine you can poke, not by a
             paragraph asserting it. */}
         <section className="mx-auto max-w-6xl px-5 pt-14 pb-16 md:pt-20">
+          {/* The first thing anybody does here really is about five minutes:
+              one game, nine rounds. The whole set is longer and the chapter
+              cards say so, which is the point of leading with the honest small
+              number rather than the honest large one. */}
           <p className="label text-ink-faint mb-5">
-            {chapters.length} chapters · about {chapterMinutes} minutes · nothing to
-            sign up for
+            One game, about five minutes · {chapters.length} chapters in all ·
+            nothing to sign up for
           </p>
 
           <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
@@ -45,12 +49,13 @@ export default function Home() {
                 <p>
                   You are probably already using one of these things.
                   Nobody ever showed you what it is doing while it answers,
-                  so you are left guessing about when to trust it. Six
-                  short chapters fix that. One game each, about{" "}
+                  so you are left guessing about when to trust it. Start with
+                  one game, about five minutes, against a real model. Six short
+                  chapters follow if you want them, about{" "}
                   {/* The space after the count is explicit: written as plain
                   text it was eaten at the line break and rendered as
                   "44minutes". */}
-                  {chapterMinutes} minutes in total, and you play first and read
+                  {chapterMinutes} minutes in all, and you play first and read
                   afterwards.
                 </p>
               </div>
@@ -60,7 +65,7 @@ export default function Home() {
                   href={`/lessons/${chapters[0].slug}`}
                   className="plate misreg btn-primary font-display inline-block px-5 py-3 font-bold"
                 >
-                  Start chapter 1
+                  Play the first game
                 </Link>
               </div>
             </div>

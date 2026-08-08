@@ -251,7 +251,7 @@ export function asText(scene: SortScene): string {
     lines.push("");
   }
   lines.push(
-    "Sorted at LearnLoopAI. The sorting is mine; the evidence behind it is measured.",
+    "Sorted at AIinFive. The sorting is mine; the evidence behind it is measured.",
   );
   return lines.join("\n");
 }

@@ -8,6 +8,7 @@ import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { AnalogyBench } from "@/components/machines/AnalogyBench";
 import { AnalogyPlane } from "@/components/machines/AnalogyPlane";
+import { VectorStripFigure } from "@/components/machines/VectorStripFigure";
 import { WordChart } from "@/components/machines/WordChart";
 import { ANALOGY, analogy } from "@/lib/analogy";
 import { getLesson } from "@/lib/lessons";
@@ -68,18 +69,18 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "A model cannot do arithmetic on the word 'cat'. So before anything else happens, every word is turned into a list of numbers. Those numbers are coordinates for a point in space.",
+    say: "A model cannot do arithmetic on the word cat. So before anything else happens, every word is turned into a list of numbers. Here is that list, fifty of them, drawn as fifty little bars. Nobody chose what any of them mean.",
   },
   {
-    say: "Here that list is fifty numbers long. Nobody chose what any of them mean. They came out of counting which words appear near which other words, across six billion words of text.",
+    say: "Now put dog underneath it. The two patterns rhyme, and nothing arranged that. It came out of counting which words turn up near which other words, across six billion words of text.",
     caption:
-      "GloVe, trained on Wikipedia and newswire. The vectors in the box are the real published ones.",
+      "GloVe, trained on Wikipedia and newswire. The values in the strips are the real published ones.",
   },
   {
-    say: "And that counting is enough to put words that mean similar things close together. The pull you were fighting in the box was not a metaphor. It was the real cosine similarity between two of those fifty-number lists.",
+    say: "Now table, which rhymes with neither. The two numbers underneath are the measured angles between those lists. The pull you were fighting in the box was not a metaphor, it was that number.",
   },
   {
-    say: "Which gives you the strangest result in this whole subject. Because directions carry meaning, you can do arithmetic with words. Take king, subtract man, add woman, and look at what is nearest.",
+    say: "Which gives the strangest result in this whole subject. Because directions carry meaning, you can add and subtract the strips themselves. King, minus man, plus woman.",
   },
   {
     say: "Try it below on any words you like. And watch how often it does not work. The bench prints the real numbers, including the unimpressive ones, because a demonstration you can only run on four famous examples is not a demonstration.",
@@ -207,7 +208,7 @@ export default function EmbeddingsLesson() {
       </section>
 
       <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<VectorStripFigure />} />
       </div>
 
       <section className="pb-4">

@@ -1,4 +1,5 @@
 import { FailureBench } from "@/components/games/FailureBench";
+import { OneFaultFigure } from "@/components/machines/OneFaultFigure";
 import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
@@ -119,7 +120,7 @@ export default function WhyAiGetsThingsWrongLesson() {
       </div>
 
       <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<OneFaultFigure />} />
       </div>
 
       <DeeperRow video={video}>

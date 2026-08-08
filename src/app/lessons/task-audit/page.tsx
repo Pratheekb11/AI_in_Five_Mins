@@ -6,6 +6,7 @@ import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { SkillGapFigure } from "@/components/machines/SkillGapFigure";
 import { YourWeek } from "@/components/machines/YourWeek";
 import { BUCKETS } from "@/lib/game/sort";
 import type { CheckBeat } from "@/lib/check";
@@ -53,21 +54,21 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "The biggest field study so far watched five thousand customer support agents get an AI assistant. Productivity went up fourteen per cent on average. That average hides the whole story.",
+    say: "The biggest field study so far watched five thousand customer support agents get an AI assistant. Issues resolved per hour went up fourteen per cent. That is the number everybody quotes, and it is nobody's result.",
   },
   {
-    say: "Novices got thirty-four per cent faster. The experienced, highly skilled agents got almost nothing. The tool was spreading what the best people already did. If you are already doing it, there is nothing left to spread to you.",
+    say: "Split it by who the agents were. The newest got thirty-four per cent. The most experienced got a result the authors describe as minimal. The tool was spreading what the best people already did, so there was nothing left to spread to them.",
     caption:
       "Brynjolfsson, Li & Raymond, 2023. 5,179 agents, issues resolved per hour.",
   },
   {
-    say: "So the question is not whether these tools help. It is which of your tasks they help with. And that answer is personal, which is why nothing on this page marks your sorting.",
+    say: "Now a different study on one narrow task, writing an HTTP server. Fifty five point eight per cent faster. Narrow the job and the number climbs. Widen it back out to a whole role and it drops to fourteen, and then splits again.",
   },
   {
-    say: "Four honest buckets. Hand it over and skim. Let it draft and you finish. Think out loud with it while you do the work. Or keep it entirely.",
+    say: "So the question was never whether these tools help. It is which of your tasks they help with, and that sits somewhere between thirty-four per cent and nothing depending on the task and on you.",
   },
   {
-    say: "The useful output of that round was not the score. It was the list of tasks you stalled on. Those are the ones you have never actually decided about, and undecided is how a bad hand-over happens.",
+    say: "Which is why nothing on this page marks your sorting. The useful output of that round was not a score. It was the list of tasks you stalled on, because those are the ones you have never actually decided about, and undecided is how a bad hand-over happens.",
   },
 ];
 
@@ -131,7 +132,7 @@ export default function TaskAuditLesson() {
       </div>
 
       <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<SkillGapFigure />} />
       </div>
 
       <section className="plate mb-4 p-5 md:p-6">

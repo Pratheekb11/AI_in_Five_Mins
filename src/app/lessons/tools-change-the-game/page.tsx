@@ -6,6 +6,7 @@ import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { ProvenanceFigure } from "@/components/machines/ProvenanceFigure";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -55,21 +56,24 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "Everything so far has described a model on its own: a guesser with a fixed slab of text in front of it. Modern assistants are usually not that. They have been given tools.",
+    say: "Start with a question this model cannot answer. The capital of the United States. The right word is sitting sixteenth in its own ranking, and the word it actually wants to write is the.",
   },
   {
-    say: "A tool is a small program the model can ask for. Search the web. Run this code. Open this file. Four things can now happen behind a single reply, and the reply looks identical in all four cases.",
+    say: "Now hand it one sentence of source text and ask again. Nothing was learned. Nothing was trained. The answer it could not reach is now its first choice at ninety eight percent. That is the whole of what a search tool does.",
+  },
+  {
+    say: "It gets much worse than sixteenth. Ask it how plants make food and the word photosynthesis is eight hundred and ten places down the list. There is no hint here that it is stuck. It will write something confident either way.",
+  },
+  {
+    say: "Same trick, same result. One sentence of source in front of it and eight hundred and ten places collapse to first. Watch the marker rather than the percentage. The distance it travels is the point.",
+  },
+  {
+    say: "Then there is the door neither of those opens. Two digit addition, two hundred problems, none right. No sentence fixes this, because a sum was never written down somewhere to be recalled. It needs a calculator, which is exactly why one got bolted on.",
     caption:
       "Looked up · calculated · read · guessed. Only the first three involve anything outside the model being consulted.",
   },
   {
-    say: "This matters because it changes what the failures are. A model with a search tool is no longer stale, but it can still summarise the page wrongly. A model that ran code did not guess the number, but it may have written the wrong code.",
-  },
-  {
-    say: "So the useful question stops being 'is this right' and becomes 'which of the four just happened'. That tells you what could have gone wrong, which tells you what to check.",
-  },
-  {
-    say: "And you can simply ask. Did you look this up, or is it from memory? Show me the source. Any decent assistant will tell you, and if it will not, treat the answer as guessed.",
+    say: "So the useful question stops being is this right. It becomes which of those four just happened, because that tells you what could have gone wrong. And you can simply ask. Did you look this up, or is it from memory? Show me the source.",
   },
 ];
 
@@ -126,7 +130,7 @@ export default function ToolsChangeTheGameLesson() {
       </div>
 
       <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<ProvenanceFigure />} />
       </div>
 
       <DeeperRow video={video}>

@@ -5,6 +5,7 @@ import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { FitLineFigure } from "@/components/machines/FitLineFigure";
 import { GradientHill } from "@/components/machines/GradientHill";
 import { REGRESSION } from "@/lib/datasets";
 import { getLesson } from "@/lib/lessons";
@@ -43,17 +44,17 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "A model is a formula with adjustable numbers in it. That is the whole of what the word means. The one you just used had a single dial; a large language model has hundreds of billions of them.",
+    say: "Here is what the dial was really about. Every dot is one real sentence: how many characters it has, and how many tokens it came to. A model is a formula with adjustable numbers in it, and this one has a single dial.",
     caption: "tokens = dial × characters. One number to set, and nobody told it the answer.",
   },
   {
-    say: "Training is four steps on a loop. Measure how wrong you are. Work out which way is downhill. Take a small step. Do it again until stepping stops helping.",
+    say: "Set the dial badly on purpose and you get this line. The number underneath is how wrong it is across all one hundred and forty sentences. That number is the only feedback the machine ever gets.",
   },
   {
-    say: "Notice what it never had. It could not see the shape of the hill. It only knew whether the ground under its feet sloped up or down. Every model you have heard of is trained by feeling for the slope in the dark.",
+    say: "Six steps downhill. Measure how wrong you are, work out which way is down, take a small step, repeat. The line swings, and notice what it never had: it could not see the shape of the hill, only whether the ground under its feet sloped up or down.",
   },
   {
-    say: `And notice what came out. About ${REGRESSION.best.charsPerToken} characters per token. Nobody wrote that number down; it fell out of the measurements. Feed it different text and it settles somewhere else.`,
+    say: `Stepping stops helping here, and look what came out. About ${REGRESSION.best.charsPerToken} characters per token. Nobody wrote that number down; it fell out of the measurements. Feed it different text and it settles somewhere else.`,
   },
   {
     say: "Which is the sentence to keep from this page. A model's answers are downstream of the examples it was shown. Always, with no exceptions, at every scale.",
@@ -94,7 +95,7 @@ export default function HowModelsLearnLesson() {
       </div>
 
       <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<FitLineFigure />} />
       </div>
 
       <DeeperRow video={video}>

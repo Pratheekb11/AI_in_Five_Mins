@@ -109,7 +109,10 @@ export function TokenChopper() {
   const english = scripts?.languages.find((l) => l.code === "en");
 
   return (
-    <div className="plate">
+    /* Marked as the game section like every cabinet, even though this one is
+       not wrapped in GameShell, so the engagement measure can tell whether a
+       reader ever reached it. */
+    <div className="plate" data-section="game">
       <div className="border-ink/20 flex flex-wrap items-baseline justify-between gap-3 border-b px-5 py-3">
         <h3 className="display-md">Token Chopper</h3>
         <p className="label text-ink-faint">

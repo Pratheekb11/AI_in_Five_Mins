@@ -1,3 +1,4 @@
+import { Engagement } from "@/components/Engagement";
 import Link from "next/link";
 import { HeroDemo } from "@/components/HeroDemo";
 import { Reveal } from "@/components/Reveal";
@@ -17,6 +18,8 @@ export default function Home() {
 
   return (
     <>
+      {/* Visible time on the landing page, and how far down it held them. */}
+      <Engagement page="home" />
       <SiteHeader />
 
       <main>

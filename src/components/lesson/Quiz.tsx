@@ -110,7 +110,10 @@ export function Quiz({ slug, questions }: QuizProps) {
   }
 
   return (
-    <div className="space-y-5">
+    /* The rabbit-hole modules still end in a quiz rather than the beat-based
+       check, so it carries the same marker: reaching the end of a page is the
+       same event whichever component asks the question. */
+    <div className="space-y-5" data-section="check">
       <ol className="space-y-5">
         {questions.map((question, qi) => {
           const round = rounds[qi];

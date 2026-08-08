@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Engagement } from "@/components/Engagement";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
@@ -25,6 +26,9 @@ export function LessonShell({
 
   return (
     <>
+      {/* Counts visible time and how far down the page a reader got. Reports
+          once, on the way out, with nothing in it but this slug and a number. */}
+      <Engagement page={lesson.slug} />
       <SiteHeader />
 
       <main className="mx-auto max-w-6xl px-5">

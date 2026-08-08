@@ -98,7 +98,9 @@ export function GradientHill() {
   }
 
   return (
-    <div className="space-y-4">
+    /* This is the playable on its page even though it is filed as a machine,
+       so it carries the game marker for the engagement measure. */
+    <div className="space-y-4" data-section="game">
       <div className="grid gap-4 lg:grid-cols-2">
         <figure className="plate p-5">
           <figcaption className="mb-4">

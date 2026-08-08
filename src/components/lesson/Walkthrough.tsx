@@ -64,7 +64,7 @@ export function Walkthrough({
   const last = at === steps.length - 1;
 
   return (
-    <div className="plate overflow-hidden">
+    <div className="plate overflow-hidden" data-section="walkthrough">
       {/* progress ticks, printed, countable, and short enough to count */}
       <div className="border-ink/25 bg-paper-sunk flex items-center gap-3 border-b px-4 py-3">
         <span className="label text-ink-faint shrink-0">

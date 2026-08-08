@@ -30,10 +30,18 @@ export function DeeperRow({
   /** The mechanism panels, and anything else optional. */
   children: ReactNode;
 }) {
-  if (!video) return <div className="space-y-4 pb-4">{children}</div>;
+  if (!video)
+    return (
+      <div className="space-y-4 pb-4" data-section="deeper">
+        {children}
+      </div>
+    );
 
   return (
-    <div className="grid gap-4 pb-4 lg:grid-cols-[1fr_1.15fr] lg:items-start">
+    <div
+      className="grid gap-4 pb-4 lg:grid-cols-[1fr_1.15fr] lg:items-start"
+      data-section="deeper"
+    >
       <VideoPanel video={video} />
       <div className="space-y-4">{children}</div>
     </div>

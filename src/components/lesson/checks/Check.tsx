@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { CheckBeat } from "@/lib/check";
 import { useProgress } from "@/lib/progress";
+import { trackCheckCompleted } from "@/lib/telemetry";
 import { ChoiceBeatView } from "./ChoiceBeatView";
 import { FillBeatView } from "./FillBeatView";
 import { FlagBeatView } from "./FlagBeatView";
@@ -37,32 +38,44 @@ export function Check({
   /**
    * Settles one beat, and records the module once every beat has landed.
    *
-   * The recording deliberately happens out here rather than inside the state
-   * updater. An updater has to be pure: React is free to run it during a
-   * render, and `recordScore` writes to the progress store, which notifies the
-   * header pill. Doing that from inside the updater meant updating one
-   * component while rendering another, which React reports as an error.
+   * The bookkeeping lives in refs rather than in the rendered state, for two
+   * separate reasons that both bite.
    *
-   * Reading `scores` from this render is safe because every beat settles
-   * exactly once and each settle is a separate user action, so there is no
-   * batch in which two beats land against the same stale array.
+   * The recording cannot happen inside a state updater: an updater has to be
+   * pure, React is free to run it during a render, and `recordScore` writes to
+   * the progress store, which updates the header pill. Doing it there meant
+   * updating one component while rendering another, which React reports as an
+   * error.
+   *
+   * And it cannot depend on the state read during render either. Two beats can
+   * settle before React has re-rendered, and then both handlers see the same
+   * array, both believe they completed the set, and the module is recorded and
+   * reported twice. The refs are the single copy that is always current.
    */
+  const landed = useRef<(number | null)[]>(beats.map(() => null));
+  const reported = useRef(false);
+
   function settle(index: number, fraction: number) {
-    if (scores[index] !== null) return;
+    if (landed.current[index] !== null) return;
 
-    const next = [...scores];
-    next[index] = fraction;
-    setScores(next);
+    landed.current = landed.current.map((value, i) =>
+      i === index ? fraction : value,
+    );
+    setScores(landed.current);
 
-    if (next.every((s) => s !== null)) {
-      const mean =
-        next.reduce<number>((sum, s) => sum + (s ?? 0), 0) / next.length;
-      recordScore(slug, mean);
-    }
+    if (reported.current) return;
+    if (landed.current.some((value) => value === null)) return;
+
+    reported.current = true;
+    const mean =
+      landed.current.reduce<number>((sum, value) => sum + (value ?? 0), 0) /
+      landed.current.length;
+    recordScore(slug, mean);
+    trackCheckCompleted(slug, mean);
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5" data-section="check">
       <ol className="space-y-5">
         {beats.map((beat, i) => {
           const onSettled = (fraction: number) => settle(i, fraction);

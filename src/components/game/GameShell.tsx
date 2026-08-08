@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Nimo } from "@/components/nimo/Nimo";
 import type { Mood } from "@/components/nimo/moods";
 import { useBestScore } from "@/lib/game/useBestScore";
 import { playCue, useMuted } from "@/lib/game/sound";
+import { trackGameFinished, trackGameStarted } from "@/lib/telemetry";
 
 /**
  * The cabinet every game is mounted in.
@@ -71,6 +72,13 @@ function Rules({ how }: { how: HowToPlay }) {
   );
 }
 
+/** The lesson a game is sitting on, read off the URL at the moment of the
+ *  event. Nothing else about the reader is looked at. */
+function pageOf(): string {
+  if (typeof window === "undefined") return "unknown";
+  return window.location.pathname.replace("/lessons/", "") || "home";
+}
+
 export function GameShell({
   gameId,
   name,
@@ -112,8 +120,18 @@ export function GameShell({
   useEffect(() => {
     if (phase === "over" && gameId && typeof finalScore === "number") {
       submit(finalScore);
+      trackGameFinished(gameId, pageOf(), finalScore);
     }
   }, [phase, gameId, finalScore, submit]);
+
+  /* Wrapped so every cabinet reports the same two moments without each game
+     having to remember to. The page is read off the URL rather than threaded
+     through as a prop: it is the same thing the analytics page view already
+     records, and a game does not otherwise know which lesson it is on. */
+  const begin = useCallback(() => {
+    if (gameId) trackGameStarted(gameId, pageOf());
+    onStart();
+  }, [gameId, onStart]);
 
   const beatenBest =
     phase === "over" &&
@@ -159,7 +177,7 @@ export function GameShell({
   }, [phase, mood, beatenBest]);
 
   return (
-    <div className="plate scroll-mt-20 overflow-hidden" id="game">
+    <div className="plate scroll-mt-20 overflow-hidden" id="game" data-section="game">
       <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
         <span className="flex items-center gap-3">
           <span className="label">{name}</span>
@@ -257,7 +275,7 @@ export function GameShell({
                 ) : null}
                 <button
                   type="button"
-                  onClick={onStart}
+                  onClick={begin}
                   className="plate misreg btn-primary font-display px-6 py-3 text-lg font-bold"
                 >
                   {startLabel}
@@ -273,7 +291,7 @@ export function GameShell({
                 {again}
                 <button
                   type="button"
-                  onClick={onStart}
+                  onClick={begin}
                   className="plate misreg btn-primary font-display px-6 py-3 text-lg font-bold"
                 >
                   Go again

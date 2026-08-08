@@ -6,6 +6,7 @@ import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { ParagraphCheckFigure } from "@/components/machines/ParagraphCheckFigure";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -50,21 +51,21 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "Everyone agrees you should check AI output. Almost nobody does it consistently, and the reason is not laziness. It is that checking costs time, and a rule you cannot afford is a rule you will quietly stop following.",
+    say: "Read this the way you would read anything an assistant handed you. It is a real encyclopedia opening. Nothing about it wobbles, hesitates or hedges, and there is nothing on the page to tell you how much of it to believe.",
   },
   {
-    say: "So the round charged you. Every level of checking took seconds off your own clock. Under that pressure you find out what your real policy is, rather than the one you would say out loud.",
+    say: "Three things in it are wrong. That is the honest shape of the problem. Not a wall of nonsense you would spot in a second, but a good paragraph with a few bad words in it.",
   },
   {
-    say: "The rule that survives contact with a real week is simple. Match the check to the damage. What happens if this is wrong, and who finds out?",
+    say: "Here is the one that matters. A number in exactly the same shape as the right number. There is nothing to notice, because noticing would mean already knowing the answer.",
+  },
+  {
+    say: "The other two are more catchable, and that is the trap. Catching those two feels like checking. It is not checking, it is reading, and reading only ever finds the errors you already had the knowledge to find.",
+  },
+  {
+    say: "So checking cannot mean reading harder. It means picking the load-bearing specifics and looking them up at their source. Match the check to the damage: what happens if this is wrong, and who finds out?",
     caption:
       "Awkward: skim it. Costly: verify every load-bearing claim at its source. Serious: get a second pair of eyes, or do it again independently.",
-  },
-  {
-    say: "One outcome deserves more attention than the misses: the sentences you read straight past that were fine. Nothing went wrong, you felt fast and competent, and you learnt exactly the wrong lesson.",
-  },
-  {
-    say: "That is how every bad habit forms. It works, and works, and works, and then one Thursday it does not. And the one it fails on is never the one you would have chosen.",
   },
 ];
 
@@ -122,7 +123,7 @@ export default function VerificationHabitsLesson() {
       </div>
 
       <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<ParagraphCheckFigure />} />
       </div>
 
       <DeeperRow video={video}>

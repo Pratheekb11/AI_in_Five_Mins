@@ -272,6 +272,21 @@ export const LESSONS: Lesson[] = [
     feynman: "How much would that number move if I had split the data differently?",
   },
 
+  {
+    slug: "logistic-regression",
+    track: "ml",
+    number: 6,
+    title: "From a line to a probability",
+    standfirst:
+      "Two numbers per message, one straight line between them, and a curve that turns distance from that line into how sure the model is.",
+    nugget: "A classifier draws a line, then measures how far you are from it.",
+    machine: "Read the Score",
+    minutes: 9,
+    ink: "blue",
+    status: "ready",
+    feynman: "What is the model actually drawing, and what does its number mean?",
+  },
+
   // --------------------------------------------------------- down the rabbit hole --
   {
     slug: "what-is-ai",

@@ -28,6 +28,7 @@ node data/scripts/build-split.mjs
 node data/scripts/build-threshold.mjs
 node data/scripts/build-overfit.mjs
 node data/scripts/build-crossval.mjs
+node data/scripts/build-logistic.mjs
 node data/scripts/build-spam-bench.mjs
 node data/scripts/build-regression-data.mjs
 ```
@@ -155,6 +156,30 @@ Output should be byte-identical to what is committed — every script that sampl
 **On the pairs:** every pair of models is checked on every fold, and the folds whose verdict is the opposite of the ten-fold average are recorded. Those are what the game deals from. They were found by measurement, not chosen, and there are five such pairs.
 
 **Runtime:** about a minute. Every fold retrains from scratch, which is the honest way to do it.
+
+---
+
+## `public/data/logistic.json`
+
+**Script:** `data/scripts/build-logistic.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 6 — From a line to a probability
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** logistic regression on two features, message length and digit count, fitted by gradient descent for 400 steps on the 4,459 training messages. The weights are snapshotted 24 times across the run so the figure can animate the real descent. Final: 96.9% on training, 96.8% on the 1,115 held out.
+
+**Why two features:** so the entire model can be drawn. A bag of words scores higher and cannot be put on a page, and the module says so.
+
+**On scaling:** both features are standardised using the training messages only, so the held-out set is held out from the scaling too. The figure converts back before drawing, so its axes are in real characters and digits.
+
+**On the exported points:** every held-out message ships as `[length, digits, label, probability]`. The twelve game rounds are chosen as the nearest real message to each of twelve target probabilities spread across the range, rather than by rank, because most messages sit under five per cent and sampling by rank produced twelve identical-looking rounds.
+
+**On the printed messages:** any message containing seven or more consecutive digits is excluded from the game rounds, the same rule `build-spam-bench.mjs` uses, so no real phone number is reprinted.
 
 ---
 

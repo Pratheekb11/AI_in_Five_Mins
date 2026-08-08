@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nimo — AI Learning Platform Mascot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+    "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js",
+    "three/addons/exporters/OBJExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js",
+    "three/addons/exporters/GLTFExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js"
+  },
+  "integrity": {
+    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
+    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT",
+    "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js": "sha384-4rziNxOBZKQ69i+w+f89KJ55TCYquwchVbByQwmaOeIOXdOU2PLDn3kOfXHwIJC9",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js": "sha384-nbwtoZENJD3Vq+ACK0CuGQdPMuDWHkamC2KJD70EV5nfg6jQjfppKOea07YJN+N3",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js": "sha384-VofkvpG6HERhFCYbsUOHeNXBCqID2nfqkQqnVzE1jc/oPcz+qJ13ADdXH08hE+cQ"
+  }
+}
+</script>
+<style>
+  html, body { margin: 0; height: 100%; background: #f6f1ea; }
+  three-d-stage:not(:defined) { visibility: hidden; }
+  three-d-stage { width: 100vw; height: 100vh; display: block; }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#f6f1ea">
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="120" r="70" fill="#2f6f6a"/>
+    <ellipse cx="100" cy="140" rx="45" ry="55" fill="#f6ead6"/>
+    <circle cx="80" cy="110" r="18" fill="#fff"/>
+    <circle cx="120" cy="110" r="18" fill="#fff"/>
+    <circle cx="80" cy="110" r="8" fill="#1a1a1a"/>
+    <circle cx="120" cy="110" r="8" fill="#1a1a1a"/>
+    <path d="M100 125 L90 145 L110 145 Z" fill="#e8912f"/>
+  </svg>
+</template>
+</head>
+<body>
+<three-d-stage name="nimo-mascot" background="#f6f1ea"></three-d-stage>
+<script src="./three-d-stage.js"></script>
+<script type="module">
+import * as THREE from "three";
+
+const stage = document.querySelector('three-d-stage');
+const { THREE: T } = await stage.ready;
+
+const mats = {
+  brown: new THREE.MeshStandardMaterial({ name: 'otter_grey_brown', color: 0x6e5e4e, roughness: 0.75, metalness: 0.0 }),
+  brownDark: new THREE.MeshStandardMaterial({ name: 'otter_brown_dark', color: 0x4f4234, roughness: 0.78, metalness: 0.0 }),
+  face: new THREE.MeshStandardMaterial({ name: 'otter_pale_face_mask', color: 0xe6ddc8, roughness: 0.65, metalness: 0.0 }),
+  white: new THREE.MeshStandardMaterial({ name: 'eye_white', color: 0xfffdf6, roughness: 0.3, metalness: 0.0 }),
+  ink: new THREE.MeshStandardMaterial({ name: 'ink_pupil', color: 0x14100c, roughness: 0.25, metalness: 0.0 }),
+  nose: new THREE.MeshStandardMaterial({ name: 'nose_ink', color: 0x1c1712, roughness: 0.3, metalness: 0.05 }),
+  whisker: new THREE.MeshStandardMaterial({ name: 'whisker', color: 0xf3efe4, roughness: 0.5, metalness: 0.0 }),
+};
+
+const nimo = new THREE.Group();
+nimo.name = 'Nimo_Mascot';
+
+// --- chubby, plush-toy body sitting upright ---
+const bodyGroup = new THREE.Group();
+bodyGroup.name = 'body_group';
+
+const body = new THREE.Mesh(new THREE.SphereGeometry(0.34, 48, 40), mats.brown);
+body.name = 'body_grey_brown';
+body.scale.set(1.05, 1.1, 0.95);
+body.position.y = 0.3;
+body.castShadow = true;
+bodyGroup.add(body);
+
+const belly = new THREE.Mesh(new THREE.SphereGeometry(0.24, 40, 34), mats.face);
+belly.name = 'belly_pale';
+belly.scale.set(0.95, 1.15, 0.6);
+belly.position.set(0, 0.28, 0.2);
+belly.castShadow = true;
+bodyGroup.add(belly);
+
+// short, plump, tapering tail curled beside the body
+const tail = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.03, 0.42, 16, 5), mats.brownDark);
+tail.name = 'tail';
+tail.scale.set(1, 1, 0.7);
+tail.rotation.x = Math.PI / 2.1;
+tail.position.set(0, 0.16, -0.32);
+tail.castShadow = true;
+bodyGroup.add(tail);
+
+// stubby chubby arms with round paws held together at the chest
+function makeArmGroup(side) {
+  const pivot = new THREE.Group();
+  pivot.name = side === 1 ? 'arm_pivot_right' : 'arm_pivot_left';
+  pivot.position.set(side * 0.2, 0.22, 0.22);
+  const arm = new THREE.Mesh(new THREE.CapsuleGeometry(0.06, 0.08, 8, 16), mats.brown);
+  arm.name = side === 1 ? 'arm_right' : 'arm_left';
+  arm.position.y = -0.06;
+  arm.castShadow = true;
+  const paw = new THREE.Mesh(new THREE.SphereGeometry(0.06, 16, 14), mats.face);
+  paw.name = side === 1 ? 'paw_right' : 'paw_left';
+  paw.position.set(side * -0.04, -0.13, 0.03);
+  paw.castShadow = true;
+  pivot.add(arm, paw);
+  pivot.rotation.z = side * -0.35;
+  return pivot;
+}
+const armR = makeArmGroup(1);
+const armL = makeArmGroup(-1);
+bodyGroup.add(armR, armL);
+
+// short chubby legs / feet
+function makeFoot(side) {
+  const foot = new THREE.Mesh(new THREE.SphereGeometry(0.09, 16, 14), mats.brownDark);
+  foot.name = side === 1 ? 'foot_right' : 'foot_left';
+  foot.scale.set(1.15, 0.6, 1.2);
+  foot.position.set(side * 0.19, 0.03, 0.1);
+  foot.castShadow = true;
+  return foot;
+}
+bodyGroup.add(makeFoot(1), makeFoot(-1));
+
+nimo.add(bodyGroup);
+
+// --- big round head, small snout, huge expressive eyes ---
+const headGroup = new THREE.Group();
+headGroup.name = 'head_group';
+headGroup.position.set(0, 0.62, 0.08);
+
+const head = new THREE.Mesh(new THREE.SphereGeometry(0.3, 48, 40), mats.brown);
+head.name = 'head_grey_brown';
+head.scale.set(1.02, 0.95, 0.98);
+head.castShadow = true;
+headGroup.add(head);
+
+function makeEar(side) {
+  const ear = new THREE.Mesh(new THREE.SphereGeometry(0.055, 20, 16), mats.brownDark);
+  ear.name = side === 1 ? 'ear_right' : 'ear_left';
+  ear.position.set(side * 0.21, 0.16, -0.05);
+  ear.scale.set(1, 0.85, 0.55);
+  ear.castShadow = true;
+  return ear;
+}
+headGroup.add(makeEar(1), makeEar(-1));
+
+// pale mask-like face patch (signature small-clawed-otter look), rounded and soft
+const faceMask = new THREE.Mesh(new THREE.SphereGeometry(0.24, 36, 30), mats.face);
+faceMask.name = 'face_mask';
+faceMask.scale.set(0.92, 0.82, 0.65);
+faceMask.position.set(0, -0.02, 0.16);
+faceMask.castShadow = true;
+headGroup.add(faceMask);
+
+// small blunt muzzle bump
+const muzzle = new THREE.Mesh(new THREE.SphereGeometry(0.1, 24, 20), mats.face);
+muzzle.name = 'muzzle';
+muzzle.scale.set(0.9, 0.65, 0.85);
+muzzle.position.set(0, -0.09, 0.26);
+muzzle.castShadow = true;
+headGroup.add(muzzle);
+
+// big, round, expressive eyes set forward for a cute look
+function makeEye(side) {
+  const grp = new THREE.Group();
+  grp.name = side === 1 ? 'eye_right' : 'eye_left';
+  const white = new THREE.Mesh(new THREE.SphereGeometry(0.078, 24, 20), mats.white);
+  white.name = 'eye_white_ball';
+  const pupil = new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 14), mats.ink);
+  pupil.name = 'eye_pupil';
+  pupil.position.z = 0.058;
+  const highlight = new THREE.Mesh(new THREE.SphereGeometry(0.018, 10, 8), mats.white);
+  highlight.name = 'eye_highlight';
+  highlight.position.set(0.017, 0.017, 0.082);
+  grp.add(white, pupil, highlight);
+  grp.position.set(side * 0.115, 0.03, 0.22);
+  return grp;
+}
+headGroup.add(makeEye(1), makeEye(-1));
+
+const nose = new THREE.Mesh(new THREE.SphereGeometry(0.026, 14, 12), mats.nose);
+nose.name = 'nose';
+nose.scale.set(1.2, 0.85, 1);
+nose.position.set(0, -0.08, 0.34);
+nose.castShadow = true;
+headGroup.add(nose);
+
+function makeWhiskerSet(side) {
+  const grp = new THREE.Group();
+  grp.name = side === 1 ? 'whiskers_right' : 'whiskers_left';
+  for (let i = 0; i < 3; i++) {
+    const w = new THREE.Mesh(new THREE.CylinderGeometry(0.003, 0.003, 0.2, 5), mats.whisker);
+    w.name = 'whisker_' + (side === 1 ? 'r' : 'l') + i;
+    w.rotation.z = Math.PI / 2;
+    w.rotation.y = side * (0.3 + i * 0.16);
+    w.position.set(side * 0.07, -0.09 + i * 0.015, 0.3);
+    grp.add(w);
+  }
+  return grp;
+}
+headGroup.add(makeWhiskerSet(1), makeWhiskerSet(-1));
+
+nimo.add(headGroup);
+nimo.updateMatrixWorld(true);
+stage.setObject(nimo);
+
+// --- subtle, gentle idle: soft breathing + faint head tilt, no bouncing ---
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+  const breathe = 1 + Math.sin(t * 1.1) * 0.015;
+  body.scale.set(1.05 * breathe, 1.1, 0.95 * breathe);
+  headGroup.rotation.z = Math.sin(t * 0.5) * 0.035;
+  headGroup.rotation.y = Math.sin(t * 0.3) * 0.02;
+}
+animate();
+</script>
+</body>
+</html>

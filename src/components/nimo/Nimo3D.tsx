@@ -8,31 +8,30 @@ import { type Mood, POSES } from "./moods";
 /**
  * Nimo, in three dimensions.
  *
- * Rebuilt procedurally from the same primitives the original model was made
- * from, rather than loading the 2.8MB OBJ export. Same owl, a fraction of the
- * weight, and every joint is addressable, which is what lets him blink, tilt
- * toward the cursor and react to a wrong answer.
+ * Rebuilt procedurally from the primitives in `nimo-mascot.html`, rather than
+ * loading a multi-megabyte OBJ export. Same otter, a fraction of the weight,
+ * and every joint is addressable, which is what lets him blink, tilt toward
+ * the cursor and react to a wrong answer. Names and proportions follow the
+ * source file so the two can be compared side by side.
  *
- * His own colours are fixed and do not follow the theme. An owl does not change
- * species between light and dark mode; only the ground he sits on does. That
- * was the bug in the flat version, his cream belly went dark because it was
- * painted with a theme variable.
+ * His own colours are fixed and do not follow the theme. An otter does not
+ * change species between light and dark mode; only the ground he sits on does.
+ * That was the bug in the flat version, whose pale belly went dark because it
+ * was painted with a theme variable.
  *
- * Shading is toon-stepped with a hard outline so he reads as printed rather
- * than rendered, which is how he sits inside a risograph page without looking
- * pasted in from another project.
+ * Shading is toon-stepped so he reads as printed rather than rendered, which is
+ * how he sits inside a risograph page without looking pasted in from another
+ * project.
  */
 
 const C = {
-  teal: "#2f6f6a",
-  tealDark: "#1f4d49",
-  cream: "#f6ead6",
-  amber: "#e8912f",
-  white: "#ffffff",
-  ink: "#1a1a1a",
-  rim: "#2a2a2a",
-  book: "#d9552f",
-  pages: "#f3ecdd",
+  brown: "#6e5e4e",
+  brownDark: "#4f4234",
+  face: "#e6ddc8",
+  white: "#fffdf6",
+  ink: "#14100c",
+  nose: "#1c1712",
+  whisker: "#f3efe4",
 } as const;
 
 /** Three flat steps, enough to read as volume, few enough to read as print. */
@@ -48,20 +47,34 @@ function useToonGradient() {
 }
 
 /**
- * Where the group sits so the whole owl is centred on the origin. The model
- * runs from y 0 at the books to about y 1.6 at the ear tufts, so it has to be
- * pushed down by half its height. The bounce below ADDS to this, assigning
- * position.y outright was what floated his head out of frame.
+ * The source model is built at about 0.98 units tall, roughly half the height
+ * of the owl it replaces. Scaling here rather than rewriting every coordinate
+ * keeps this file directly comparable with `nimo-mascot.html`, and keeps the
+ * camera below unchanged.
+ *
+ * At this camera the frame is 2.0 units tall, so 1.6 leaves about a tenth of
+ * the height as air above his ears and below his feet. Going bigger clipped his
+ * feet on the first attempt.
  */
-const BASE_Y = -0.8;
+const SCALE = 1.6;
+
+/**
+ * Where the group sits so the whole otter is centred on the origin.
+ *
+ * His geometry runs from about y -0.07 at the underside of the body to y 0.91 at
+ * the crown, so the middle of him is at 0.42 in model units and this is that,
+ * scaled and negated. The bounce below ADDS to this. Assigning position.y
+ * outright is what floated the old mascot's head out of frame.
+ */
+const BASE_Y = -0.42 * SCALE;
 
 /**
  * The cursor's position on the page, in client coordinates.
  *
  * Deliberately not R3F's own `pointer`: that one is canvas-local and only
- * updates while the cursor is actually over the canvas, so the owl froze the
- * moment you moved away from him, which is exactly when you want him to turn
- * and watch you. A window listener sees the whole page.
+ * updates while the cursor is actually over the canvas, so he froze the moment
+ * you moved away from him, which is exactly when you want him to turn and watch
+ * you. A window listener sees the whole page.
  *
  * Kept in a ref rather than state because it changes on every mouse event and
  * nothing on the page needs to re-render when it does; only the next animation
@@ -82,14 +95,15 @@ function usePagePointer() {
 }
 
 /** How far the pupil can slide inside the eyeball before it hits the rim. */
-const PUPIL_REACH = 0.032;
+const PUPIL_REACH = 0.022;
 
-function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
+function Otter({ mood, follow }: { mood: Mood; follow: boolean }) {
   const gradient = useToonGradient();
   const root = useRef<THREE.Group>(null);
   const head = useRef<THREE.Group>(null);
-  const wingL = useRef<THREE.Group>(null);
-  const wingR = useRef<THREE.Group>(null);
+  const armL = useRef<THREE.Group>(null);
+  const armR = useRef<THREE.Group>(null);
+  const body = useRef<THREE.Mesh>(null);
   const lidL = useRef<THREE.Mesh>(null);
   const lidR = useRef<THREE.Mesh>(null);
   const pupilL = useRef<THREE.Group>(null);
@@ -105,18 +119,22 @@ function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
 
   const mat = useMemo(
     () => ({
-      teal: new THREE.MeshToonMaterial({ color: C.teal, gradientMap: gradient }),
-      tealDark: new THREE.MeshToonMaterial({
-        color: C.tealDark,
+      brown: new THREE.MeshToonMaterial({
+        color: C.brown,
         gradientMap: gradient,
       }),
-      cream: new THREE.MeshToonMaterial({ color: C.cream, gradientMap: gradient }),
-      amber: new THREE.MeshToonMaterial({ color: C.amber, gradientMap: gradient }),
-      white: new THREE.MeshToonMaterial({ color: C.white, gradientMap: gradient }),
+      brownDark: new THREE.MeshToonMaterial({
+        color: C.brownDark,
+        gradientMap: gradient,
+      }),
+      face: new THREE.MeshToonMaterial({ color: C.face, gradientMap: gradient }),
+      white: new THREE.MeshToonMaterial({
+        color: C.white,
+        gradientMap: gradient,
+      }),
       ink: new THREE.MeshBasicMaterial({ color: C.ink }),
-      rim: new THREE.MeshToonMaterial({ color: C.rim, gradientMap: gradient }),
-      book: new THREE.MeshToonMaterial({ color: C.book, gradientMap: gradient }),
-      pages: new THREE.MeshToonMaterial({ color: C.pages, gradientMap: gradient }),
+      nose: new THREE.MeshToonMaterial({ color: C.nose, gradientMap: gradient }),
+      whisker: new THREE.MeshBasicMaterial({ color: C.whisker }),
     }),
     [gradient],
   );
@@ -131,6 +149,12 @@ function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
         BASE_Y +
         Math.sin(t * 2.4) * pose.bounce +
         (mood === "celebrate" ? Math.abs(Math.sin(t * 7)) * 0.05 : 0);
+    }
+    // The source file breathes by scaling the body a hair. Kept, because it is
+    // what stops him reading as a still image while he waits for an answer.
+    if (body.current) {
+      const breathe = 1 + Math.sin(t * 1.1) * 0.015;
+      body.current.scale.set(1.05 * breathe, 1.1, 0.95 * breathe);
     }
 
     // --- where is the cursor, relative to his face? -----------------------
@@ -175,16 +199,20 @@ function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
         Math.min(1, delta * 6);
     }
 
-    // --- wings ------------------------------------------------------------
-    const flap =
-      pose.wings > 0.5 ? Math.sin(t * 12) * 0.35 * pose.wings : 0;
-    if (wingL.current) {
-      const want = -0.35 - pose.wings * 0.9 - flap;
-      wingL.current.rotation.z += (want - wingL.current.rotation.z) * Math.min(1, delta * 8);
+    // --- arms -------------------------------------------------------------
+    // An otter has paws rather than wings, so the mood's `wings` value drives
+    // how far they lift from the chest. At full lift he is clapping, which is
+    // the reaction the celebrate pose was always asking for.
+    const clap = pose.wings > 0.5 ? Math.sin(t * 12) * 0.3 * pose.wings : 0;
+    if (armL.current) {
+      const want = 0.35 + pose.wings * 0.9 + clap;
+      armL.current.rotation.z +=
+        (want - armL.current.rotation.z) * Math.min(1, delta * 8);
     }
-    if (wingR.current) {
-      const want = 0.35 + pose.wings * 0.9 + flap;
-      wingR.current.rotation.z += (want - wingR.current.rotation.z) * Math.min(1, delta * 8);
+    if (armR.current) {
+      const want = -0.35 - pose.wings * 0.9 - clap;
+      armR.current.rotation.z +=
+        (want - armR.current.rotation.z) * Math.min(1, delta * 8);
     }
 
     // --- blinking ---------------------------------------------------------
@@ -222,145 +250,150 @@ function Owl({ mood, follow }: { mood: Mood; follow: boolean }) {
     }
   });
 
+  /* Keys are prefixed rather than the bare side number: eyes and whiskers
+     are siblings in the head group, and two children keyed "1" is a React
+     error, not a style preference. */
   const eye = (side: 1 | -1) => (
-    <group key={side} position={[side * 0.12, 0.03, 0.3]}>
+    <group key={`eye${side}`} position={[side * 0.115, 0.03, 0.22]}>
       <mesh
         ref={side === 1 ? lidR : lidL}
         material={mat.white}
-        geometry={new THREE.SphereGeometry(0.1, 24, 20)}
+        geometry={new THREE.SphereGeometry(0.078, 24, 20)}
       />
       {/* Pupil and catchlight travel together, a highlight that stayed put
           while the pupil moved read as a smudge on the eye. */}
       <group ref={side === 1 ? pupilR : pupilL}>
-        <mesh position={[0, 0, 0.075]} material={mat.ink}>
+        <mesh position={[0, 0, 0.058]} material={mat.ink}>
           <sphereGeometry args={[0.05, 16, 14]} />
         </mesh>
-        <mesh position={[0.02, 0.025, 0.115]} material={mat.white}>
-          <sphereGeometry args={[0.016, 10, 8]} />
+        <mesh position={[0.017, 0.017, 0.082]} material={mat.white}>
+          <sphereGeometry args={[0.018, 10, 8]} />
         </mesh>
       </group>
     </group>
   );
 
-  return (
-    <group ref={root} position={[0, BASE_Y, 0]}>
-      {/* ------------------------------------------------------- perch --- */}
-      {[
-        { w: 0.62, h: 0.075, d: 0.46, y: 0, r: 0.05, m: mat.book },
-        { w: 0.56, h: 0.07, d: 0.42, y: 0.075, r: -0.08, m: mat.tealDark },
-        { w: 0.5, h: 0.065, d: 0.38, y: 0.145, r: 0.1, m: mat.book },
-      ].map((b, i) => (
-        <group key={i} position={[0, b.y, 0]} rotation={[0, b.r, 0]}>
-          <mesh position={[0, b.h / 2, 0]} material={b.m}>
-            <boxGeometry args={[b.w, b.h, b.d]} />
-          </mesh>
-          <mesh position={[0, b.h * 0.5, 0]} material={mat.pages}>
-            <boxGeometry args={[b.w * 0.94, b.h * 0.7, b.d * 0.94]} />
-          </mesh>
-        </group>
+  /** One arm, hinged at the shoulder so the paw swings with it. */
+  const arm = (side: 1 | -1) => (
+    <group
+      key={`arm${side}`}
+      ref={side === 1 ? armR : armL}
+      position={[side * 0.2, 0.22, 0.22]}
+      rotation={[0, 0, side * -0.35]}
+    >
+      <mesh position={[0, -0.06, 0]} material={mat.brown}>
+        <capsuleGeometry args={[0.06, 0.08, 8, 16]} />
+      </mesh>
+      <mesh position={[side * -0.04, -0.13, 0.03]} material={mat.face}>
+        <sphereGeometry args={[0.06, 16, 14]} />
+      </mesh>
+    </group>
+  );
+
+  /** Three whiskers a side, each a thin cylinder laid across the muzzle. */
+  const whiskers = (side: 1 | -1) => (
+    <group key={`whiskers${side}`}>
+      {[0, 1, 2].map((i) => (
+        <mesh
+          key={i}
+          position={[side * 0.07, -0.09 + i * 0.015, 0.3]}
+          rotation={[0, side * (0.3 + i * 0.16), Math.PI / 2]}
+          material={mat.whisker}
+        >
+          <cylinderGeometry args={[0.003, 0.003, 0.2, 5]} />
+        </mesh>
       ))}
+    </group>
+  );
 
+  return (
+    <group ref={root} position={[0, BASE_Y, 0]} scale={SCALE}>
       {/* -------------------------------------------------------- body --- */}
-      <group position={[0, 0.21, 0]}>
-        <mesh position={[0, 0.45, 0]} scale={[1, 1.12, 0.92]} material={mat.teal}>
-          <sphereGeometry args={[0.42, 40, 32]} />
-        </mesh>
-        <mesh
-          position={[0, 0.42, 0.2]}
-          scale={[1, 1.15, 0.72]}
-          material={mat.cream}
-        >
-          <sphereGeometry args={[0.3, 32, 28]} />
+      <group>
+        <mesh ref={body} position={[0, 0.3, 0]} scale={[1.05, 1.1, 0.95]} material={mat.brown}>
+          <sphereGeometry args={[0.34, 48, 40]} />
         </mesh>
 
-        {/* tail */}
+        {/* pale belly */}
+        <mesh position={[0, 0.28, 0.2]} scale={[0.95, 1.15, 0.6]} material={mat.face}>
+          <sphereGeometry args={[0.24, 40, 34]} />
+        </mesh>
+
+        {/* short, plump tail curled behind him */}
         <mesh
-          position={[0, 0.1, -0.42]}
+          position={[0, 0.16, -0.32]}
           rotation={[Math.PI / 2.1, 0, 0]}
-          material={mat.teal}
+          scale={[1, 1, 0.7]}
+          material={mat.brownDark}
         >
-          <coneGeometry args={[0.14, 0.3, 20]} />
+          <cylinderGeometry args={[0.1, 0.03, 0.42, 16, 5]} />
         </mesh>
 
-        {/* wings, hinged at the shoulder so they actually swing */}
-        <group ref={wingL} position={[-0.3, 0.5, -0.02]}>
-          <mesh position={[-0.08, -0.1, 0]} scale={[0.55, 1.05, 0.65]} material={mat.tealDark}>
-            <sphereGeometry args={[0.2, 20, 16]} />
-          </mesh>
-        </group>
-        <group ref={wingR} position={[0.3, 0.5, -0.02]}>
-          <mesh position={[0.08, -0.1, 0]} scale={[0.55, 1.05, 0.65]} material={mat.tealDark}>
-            <sphereGeometry args={[0.2, 20, 16]} />
-          </mesh>
-        </group>
+        {arm(1)}
+        {arm(-1)}
 
-        {/* feet */}
+        {/* stubby feet */}
         {[1, -1].map((s) => (
           <mesh
             key={s}
-            position={[s * 0.15, 0.02, 0.08]}
-            scale={[1.3, 0.6, 1]}
-            material={mat.amber}
+            position={[s * 0.19, 0.03, 0.1]}
+            scale={[1.15, 0.6, 1.2]}
+            material={mat.brownDark}
           >
-            <sphereGeometry args={[0.075, 14, 12]} />
+            <sphereGeometry args={[0.09, 16, 14]} />
           </mesh>
         ))}
       </group>
 
       {/* -------------------------------------------------------- head --- */}
-      <group ref={head} position={[0, 1.19, 0]}>
-        <mesh material={mat.teal}>
-          <sphereGeometry args={[0.34, 40, 32]} />
+      <group ref={head} position={[0, 0.62, 0.08]}>
+        <mesh scale={[1.02, 0.95, 0.98]} material={mat.brown}>
+          <sphereGeometry args={[0.3, 48, 40]} />
         </mesh>
 
-        {/* ear tufts */}
+        {/* small round ears */}
         {[1, -1].map((s) => (
           <mesh
             key={s}
-            position={[s * 0.16, 0.32, 0.02]}
-            rotation={[0, 0, s * -0.25]}
-            material={mat.tealDark}
+            position={[s * 0.21, 0.16, -0.05]}
+            scale={[1, 0.85, 0.55]}
+            material={mat.brownDark}
           >
-            <coneGeometry args={[0.06, 0.14, 14]} />
+            <sphereGeometry args={[0.055, 20, 16]} />
           </mesh>
         ))}
 
-        {/* facial disc */}
-        <mesh position={[0, -0.01, 0.2]} scale={[1, 1, 0.55]} material={mat.cream}>
-          <sphereGeometry args={[0.27, 32, 28]} />
+        {/* the pale mask that makes him read as an otter and not a bear */}
+        <mesh
+          position={[0, -0.02, 0.16]}
+          scale={[0.92, 0.82, 0.65]}
+          material={mat.face}
+        >
+          <sphereGeometry args={[0.24, 36, 30]} />
+        </mesh>
+
+        {/* blunt muzzle */}
+        <mesh
+          position={[0, -0.09, 0.26]}
+          scale={[0.9, 0.65, 0.85]}
+          material={mat.face}
+        >
+          <sphereGeometry args={[0.1, 24, 20]} />
         </mesh>
 
         {eye(1)}
         {eye(-1)}
 
-        {/* glasses */}
-        {[1, -1].map((s) => (
-          <mesh key={s} position={[s * 0.12, 0.03, 0.345]} material={mat.rim}>
-            <torusGeometry args={[0.135, 0.014, 10, 28]} />
-          </mesh>
-        ))}
-        <mesh position={[0, 0.03, 0.345]} rotation={[0, 0, Math.PI / 2]} material={mat.rim}>
-          <cylinderGeometry args={[0.012, 0.012, 0.1, 8]} />
-        </mesh>
-        {[1, -1].map((s) => (
-          <mesh
-            key={s}
-            position={[s * 0.22, 0.03, 0.28]}
-            rotation={[0, s * 0.5, Math.PI / 2]}
-            material={mat.rim}
-          >
-            <cylinderGeometry args={[0.012, 0.012, 0.16, 8]} />
-          </mesh>
-        ))}
-
-        {/* beak */}
         <mesh
-          position={[0, -0.08, 0.35]}
-          rotation={[Math.PI / 2.4, 0, 0]}
-          material={mat.amber}
+          position={[0, -0.08, 0.34]}
+          scale={[1.2, 0.85, 1]}
+          material={mat.nose}
         >
-          <coneGeometry args={[0.07, 0.14, 16]} />
+          <sphereGeometry args={[0.026, 14, 12]} />
         </mesh>
+
+        {whiskers(1)}
+        {whiskers(-1)}
       </group>
     </group>
   );
@@ -389,13 +422,12 @@ export function Nimo3D({
       className={className}
       style={{ height }}
       role="img"
-      aria-label={`Nimo the owl, ${mood}`}
+      aria-label={`Nimo the otter, ${mood}`}
     >
-      {/* Pulled in from 4.3: at that distance he sat in the middle of a lot of
-          empty box and read as a sticker. The model spans 1.6 units and this
-          leaves about a fifth of the frame as headroom, so the ear tufts and
-          the books both still clear the edge. Move the geometry and this
-          number has to be rechecked. */}
+      {/* The model spans about 0.93 units and is scaled to 1.75 above, so it
+          fills roughly the same frame the owl did at this distance. Move the
+          geometry or the scale and this number has to be rechecked: too close
+          and the ears clip, too far and he reads as a sticker. */}
       <Canvas
         camera={{ position: [0, 0, 3.5], fov: 32 }}
         dpr={[1, 2]}
@@ -405,7 +437,7 @@ export function Nimo3D({
         <ambientLight intensity={1.5} />
         <directionalLight position={[2.5, 4, 3]} intensity={2.4} />
         <directionalLight position={[-3, 1, -2]} intensity={0.7} />
-        <Owl mood={mood} follow={follow && !reduced} />
+        <Otter mood={mood} follow={follow && !reduced} />
       </Canvas>
     </div>
   );

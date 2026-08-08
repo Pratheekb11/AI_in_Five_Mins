@@ -1,10 +1,15 @@
 /**
  * Nimo's moods.
  *
- * One vocabulary shared by the 3D model and the flat printed version, so a
- * component can ask for a mood without knowing which Nimo it is going to get.
- * Every mood maps to a pose, not to a face swap, the tilt and the wings do
- * most of the work, which is what stops him reading as a sticker.
+ * One vocabulary shared by every place Nimo appears, so a component can ask
+ * for a mood without knowing which size of him it is going to get. Every mood
+ * maps to a pose, not to a face swap: the tilt and the arms do most of the
+ * work, which is what stops him reading as a sticker.
+ *
+ * The field names predate the otter, when Nimo was an owl. `wings` now drives
+ * how far his paws lift from his chest and `beak` is unused. They are left
+ * named as they are rather than renamed across every pose, because the numbers
+ * are tuned and the mapping is written down here.
  */
 
 export type Mood =
@@ -20,13 +25,13 @@ export type Pose = {
   tilt: number;
   /** Head nod, degrees. Positive looks up. */
   nod: number;
-  /** How far the wings lift, 0–1. */
+  /** How far the arms lift from the chest, 0–1. Was the wing lift. */
   wings: number;
   /** Eyelid closure, 0 open, 1 shut. */
   lids: number;
   /** Vertical bounce amplitude in model units. */
   bounce: number;
-  /** Beak open, 0–1. */
+  /** Unused since the owl. Kept so the tuned poses below stay untouched. */
   beak: number;
 };
 

@@ -71,8 +71,8 @@ export default function Home() {
             </div>
 
             <div className="space-y-4">
-              {/* One owl, and he introduces himself. NimoSays draws its own
-                  Nimo, so a separate hero owl above it put two on the page. */}
+              {/* One otter, and he introduces himself. NimoSays draws its own
+                  Nimo, so a separate hero mascot above it put two on the page. */}
               <NimoSays mood="curious" size={200} follow>
                 I am Nimo. Before anyone explains anything to you, play one
                 round against a real model and see how you do.

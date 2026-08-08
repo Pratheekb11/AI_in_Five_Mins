@@ -7,7 +7,7 @@ import { Nimo } from "./Nimo";
 /**
  * Nimo with something to say.
  *
- * The guide voice across the site: a small owl and a printed speech plate. Used
+ * The guide voice across the site: a small otter and a printed speech plate. Used
  * beside walkthroughs, on loading states, and wherever a page would otherwise
  * be a blank rectangle waiting for data.
  *

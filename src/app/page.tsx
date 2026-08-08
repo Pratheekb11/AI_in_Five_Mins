@@ -1,6 +1,7 @@
 import { Engagement } from "@/components/Engagement";
 import Link from "next/link";
 import { HeroReel } from "@/components/HeroReel";
+import { PathChooser, type PathSummary } from "@/components/PathChooser";
 import { Reveal } from "@/components/Reveal";
 import { TheLoop } from "@/components/TheLoop";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -15,6 +16,46 @@ export default function Home() {
   const how = lessonsIn("how");
   const ml = lessonsIn("ml");
   const chapterMinutes = chapters.reduce((n, l) => n + l.minutes, 0);
+  const mlMinutes = ml.reduce((n, l) => n + l.minutes, 0);
+
+  /* The two ways through the site, built from the syllabus rather than typed
+     out, so a module added anywhere lands here without anybody remembering to
+     come and update a number. The takeaways are the modules' own nuggets. */
+  const nuggets = (lessons: Lesson[]) =>
+    lessons.map((lesson) => lesson.nugget).filter((n) => n !== undefined);
+
+  const paths: PathSummary[] = [
+    {
+      id: "ai",
+      anchor: "#chapters",
+      eyebrow: "If you use these tools",
+      title: "The AI path",
+      promise:
+        "What the machine is doing while it answers you, so you can tell the moments it is reliable from the moments it is only fluent. Then three more modules to take to work.",
+      takeaways: nuggets(chapters).slice(0, 3),
+      moduleCount: chapters.length,
+      minutes: chapterMinutes,
+      href: `/lessons/${chapters[0].slug}`,
+      firstGame: chapters[0].machine,
+      certificate: "The Basics of AI",
+      ink: "blue",
+    },
+    {
+      id: "ml",
+      anchor: "#ml",
+      eyebrow: "If you want to build them",
+      title: "The ML path",
+      promise:
+        "How a machine learns anything at all, from the first idea to the mistakes that cost people money. One real dataset the whole way, and no maths past arithmetic.",
+      takeaways: nuggets(ml).slice(0, 3),
+      moduleCount: ml.length,
+      minutes: mlMinutes,
+      href: `/lessons/${ml[0].slug}`,
+      firstGame: ml[0].machine,
+      certificate: "The Basics of Machine Learning",
+      ink: "teal",
+    },
+  ];
 
   return (
     <>
@@ -91,9 +132,30 @@ export default function Home() {
           </div>
         </section>
 
+        {/* The fork, high up. Two different undertakings, said plainly, before
+            anybody has to scroll past four sections to find the second one. */}
+        <section className="border-ink/25 bg-paper-sunk border-t">
+          <div className="mx-auto max-w-6xl px-5 py-14">
+            <Reveal>
+              <p className="label text-ink-faint mb-3">Two paths from here</p>
+              <h2 className="display-lg mb-2">
+                Use one well, or build one yourself.
+              </h2>
+              <p className="prose-measure text-ink-soft mb-9">
+                Both start from the same place and neither assumes the other.
+                Take whichever is the reason you came, and every module on it
+                is a game first and an explanation second.
+              </p>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <PathChooser paths={paths} />
+            </Reveal>
+          </div>
+        </section>
+
         {/* Why anyone should care, said once, quietly, after they have already
             poked the demo. Stating the problem beats stating the product. */}
-        <section className="border-ink/25 bg-paper-sunk border-t">
+        <section className="border-ink/25 border-t">
           <div className="mx-auto max-w-6xl px-5 py-14">
             <Reveal>
               <p className="label text-ink-faint mb-3">Why this exists</p>
@@ -122,7 +184,7 @@ export default function Home() {
 
         {/* The site's central claim, running, before anyone is asked to read
             a word of it. */}
-        <section className="border-ink/25 border-t">
+        <section className="border-ink/25 bg-paper-sunk border-t">
           <div className="mx-auto max-w-6xl px-5 py-14">
             <Reveal>
               <p className="label text-ink-faint mb-3">
@@ -147,27 +209,27 @@ export default function Home() {
           id="chapters"
           track="chapter"
           lessons={chapters}
-          eyebrow="Start here, in order"
-          sunk
+          eyebrow="The AI path · start here, in order"
         />
         <TrackSection
           id="close"
           track="close"
           lessons={close}
-          eyebrow="Then take it to work"
-        />
-        <TrackSection
-          id="how"
-          track="how"
-          lessons={how}
-          eyebrow="Optional depth, reachable from inside the chapters"
+          eyebrow="The AI path · then take it to work"
           sunk
         />
         <TrackSection
           id="ml"
           track="ml"
           lessons={ml}
-          eyebrow="For anyone who wants to build the things"
+          eyebrow="The ML path · ten modules, one dataset"
+        />
+        <TrackSection
+          id="how"
+          track="how"
+          lessons={how}
+          eyebrow="Either path · optional depth, reachable from inside a module"
+          sunk
         />
 
         <section className="mx-auto max-w-6xl px-5 py-14">

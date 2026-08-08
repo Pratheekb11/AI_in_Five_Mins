@@ -8,20 +8,30 @@ import type { Feature, FeatureData } from "@/lib/game/features";
 /**
  * One pile of messages, cut in two, over and over by different questions.
  *
- * The pile is the object. It arrives whole, mixed, 13.4% spam, and every step
- * after that is the same pile cut by a different yes-or-no question. Because it
- * is never redrawn, the only thing there is to notice is how cleanly a
- * particular cut separates the colours, which is exactly the judgement the
- * chapter is teaching.
+ * The messages are drawn as individual dots and the dots are the object. They
+ * arrive as one mixed block and then fly into two piles, and when the question
+ * changes they fly again. Nothing is redrawn between steps: every dot keeps its
+ * identity through a shared layout animation, so the reader watches the same
+ * messages regroup rather than watching one chart replace another. A good
+ * feature is the one that leaves each landing pile visibly one colour, and
+ * that is a thing you can see happen rather than a number you are told.
  *
- * The order is chosen to break the intuition in the right sequence. The best
- * feature first, so the reader sees what a clean cut looks like. Then the word
- * everybody would have picked, which is not clean at all. Then a feature that
- * has nothing to do with the words in the message and beats it anyway. Then the
- * one that points the other way: "says I or me" catches almost no spam, and is
- * a genuinely useful feature for exactly that reason.
+ * Two bars would have carried the same information. They would not have
+ * carried the sorting, which is the actual idea: a feature is a question that
+ * moves messages into piles, and the piles are either purer than what you
+ * started with or they are not.
  *
- * Every count is from `features.json`, measured on the training split.
+ * SAMPLING, and why it is honest. There are 4,459 training messages and the
+ * figure draws 220 dots, so each dot stands for about twenty messages. The
+ * counts under each pile are the real ones; only the dots are scaled, the
+ * caption says so, and the proportions are rounded from the measured counts
+ * rather than invented.
+ *
+ * The order of the cuts breaks the intuition in sequence: the sharpest feature
+ * first so the reader knows what clean looks like, then the word everybody
+ * would have picked, which is not clean at all, then a question about nothing
+ * but length that beats it anyway, then one that works by pointing the other
+ * way.
  *
  * Stages:
  *   0  the pile, uncut
@@ -29,7 +39,7 @@ import type { Feature, FeatureData } from "@/lib/game/features";
  *   2  the one everybody reaches for first
  *   3  a question about nothing but length
  *   4  a feature that works by pointing the other way
- *   5  what a model is left holding
+ *   5  every candidate, cut the pile with any of them
  */
 
 const CUTS: Record<number, string> = {
@@ -40,43 +50,86 @@ const CUTS: Record<number, string> = {
   5: "i",
 };
 
-function Bar({
-  spam,
-  total,
+/** Dots on screen. Enough to see a proportion, few enough to animate. */
+const DOTS = 220;
+
+type Dot = { id: number; spam: boolean };
+
+type Piles = { yes: Dot[]; no: Dot[]; all: Dot[] };
+
+/**
+ * Builds the dots once and then decides, for a given cut, which pile each one
+ * lands in.
+ *
+ * Spam dots are handed out from the front of the list and ordinary ones from
+ * the back, so a dot never changes colour, only position. That is what makes
+ * the flight legible: you can follow one dot across a cut.
+ */
+function pilesFor(data: FeatureData, cut: Feature | undefined): Piles {
+  const { corpus } = data;
+  const spamDots = Math.round((corpus.spam / corpus.total) * DOTS);
+
+  const all: Dot[] = Array.from({ length: DOTS }, (_, id) => ({
+    id,
+    spam: id < spamDots,
+  }));
+
+  if (!cut) return { yes: [], no: [], all };
+
+  const scale = DOTS / corpus.trainSize;
+  const yesSpam = Math.round(cut.train.firesSpam * scale);
+  const yesHam = Math.round((cut.train.fires - cut.train.firesSpam) * scale);
+
+  const spam = all.filter((d) => d.spam);
+  const ham = all.filter((d) => !d.spam);
+
+  return {
+    yes: [...spam.slice(0, yesSpam), ...ham.slice(0, yesHam)],
+    no: [...spam.slice(yesSpam), ...ham.slice(yesHam)],
+    all,
+  };
+}
+
+function Swarm({
+  dots,
   still,
   label,
+  count,
+  spam,
 }: {
-  spam: number;
-  total: number;
+  dots: Dot[];
   still: boolean | null;
   label: string;
+  /** The real number of messages, not the number of dots. */
+  count: number;
+  spam: number;
 }) {
-  const share = total === 0 ? 0 : spam / total;
   return (
-    <div>
-      <div className="mb-1 flex flex-wrap items-baseline justify-between gap-x-3">
+    <div className="min-w-0 flex-1">
+      <div className="mb-1.5 flex flex-wrap items-baseline justify-between gap-x-3">
         <span className="text-[0.875rem] font-semibold">{label}</span>
         <span className="data text-ink-soft text-[0.8125rem] tabular-nums">
-          {total} messages · {(share * 100).toFixed(1)}% spam
+          {count} · {count === 0 ? "0.0" : ((spam / count) * 100).toFixed(1)}%
+          spam
         </span>
       </div>
-      <motion.span
-        layout={!still}
-        className="bg-paper-sunk border-ink/20 flex h-7 overflow-hidden rounded-[1px] border"
-      >
-        <motion.span
-          className="bg-pink block h-full"
-          initial={false}
-          animate={{ width: `${share * 100}%` }}
-          transition={{ duration: still ? 0 : 0.6, ease: "easeOut" }}
-        />
-        <motion.span
-          className="bg-blue block h-full"
-          initial={false}
-          animate={{ width: `${(1 - share) * 100}%` }}
-          transition={{ duration: still ? 0 : 0.6, ease: "easeOut" }}
-        />
-      </motion.span>
+      <div className="bg-paper-sunk border-ink/20 flex min-h-[4.5rem] flex-wrap content-start gap-[3px] rounded-[2px] border p-2">
+        {dots.map((dot) => (
+          <motion.span
+            key={dot.id}
+            layoutId={`msg-${dot.id}`}
+            layout={!still}
+            transition={
+              still
+                ? { duration: 0 }
+                : { type: "spring", stiffness: 260, damping: 26 }
+            }
+            className={`block h-2 w-2 rounded-[1px] ${
+              dot.spam ? "bg-pink" : "bg-blue"
+            }`}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -121,8 +174,10 @@ export function FeatureSplitFigure() {
   }
 
   const here = picked && picked.stage === stage ? picked.id : CUTS[stage];
-  const cut: Feature | undefined = data.features.find((f) => f.id === here);
+  const cut = data.features.find((f) => f.id === here);
   const { corpus } = data;
+  const piles = pilesFor(data, cut);
+  const trainSpam = Math.round(corpus.spam * (corpus.trainSize / corpus.total));
   const explore = stage >= 5;
 
   return (
@@ -137,52 +192,58 @@ export function FeatureSplitFigure() {
         </p>
       </div>
 
-      <div className="space-y-4 px-4 py-4">
-        <Bar
-          spam={Math.round(corpus.spam * (corpus.trainSize / corpus.total))}
-          total={corpus.trainSize}
-          still={still}
-          label="The pile you start with"
-        />
-
+      <div className="px-4 py-4">
         {cut ? (
-          <motion.div
-            layout={!still}
-            initial={still ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="border-ink/20 space-y-4 border-t pt-4"
-          >
-            <Bar
-              spam={cut.train.firesSpam}
-              total={cut.train.fires}
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <Swarm
+              dots={piles.yes}
               still={still}
               label="Answered yes"
+              count={cut.train.fires}
+              spam={cut.train.firesSpam}
             />
-            <Bar
-              spam={cut.train.quietSpam}
-              total={cut.train.quiet}
+            <Swarm
+              dots={piles.no}
               still={still}
               label="Answered no"
+              count={cut.train.quiet}
+              spam={cut.train.quietSpam}
             />
-
-            <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
-              <span className="label text-ink-faint">
-                Uncertainty removed
-                <span className="data text-pink-text ml-2 text-base font-bold">
-                  {cut.train.gain.toFixed(3)} bits
-                </span>
-              </span>
-              <span className="label text-ink-faint">
-                out of {corpus.baseEntropy.toFixed(3)} there were to remove
-              </span>
-            </div>
-          </motion.div>
+          </div>
         ) : (
-          <p className="prose-measure text-ink-soft text-[0.9375rem]">
-            {corpus.trainSize} real text messages, mixed. Roughly one in seven is
-            spam, and nothing about the pile tells you which. Every question you
-            can ask about a message cuts this bar in two, and a good question is
-            one whose two halves are less mixed than what it started with.
+          <Swarm
+            dots={piles.all}
+            still={still}
+            label="The pile you start with"
+            count={corpus.trainSize}
+            spam={trainSpam}
+          />
+        )}
+
+        {cut ? (
+          <div className="mt-4 flex flex-wrap items-baseline gap-x-6 gap-y-1">
+            <span className="label text-ink-faint">
+              Uncertainty removed
+              <motion.span
+                key={cut.id}
+                initial={still ? false : { opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="data text-pink-text ml-2 text-base font-bold"
+              >
+                {cut.train.gain.toFixed(3)} bits
+              </motion.span>
+            </span>
+            <span className="label text-ink-faint">
+              out of {corpus.baseEntropy.toFixed(3)} there were to remove
+            </span>
+          </div>
+        ) : (
+          <p className="prose-measure text-ink-soft mt-4 text-[0.9375rem]">
+            {corpus.trainSize} real text messages, mixed. Roughly one in seven
+            is spam, and nothing about the pile tells you which. Every question
+            you can ask about a message sorts these dots into two piles, and a
+            good question is one whose piles come out less mixed than what it
+            started with.
           </p>
         )}
       </div>
@@ -214,10 +275,10 @@ export function FeatureSplitFigure() {
       ) : null}
 
       <figcaption className="border-ink/20 text-ink-faint border-t px-4 py-2.5 text-[0.8125rem]">
-        {data.source.name}, {data.corpus.total} real messages. Counts are from
-        the {data.corpus.trainSize} training messages only, on the same seeded
-        split the rest of the site uses, so no feature is judged on the messages
-        it will later be tested against.
+        {data.source.name}, {data.corpus.total} real messages. The counts are
+        the real ones, measured on the {data.corpus.trainSize} training messages
+        alone. The dots are scaled: {DOTS} of them for those messages, so each
+        dot stands for about {Math.round(data.corpus.trainSize / DOTS)}.
       </figcaption>
     </figure>
   );

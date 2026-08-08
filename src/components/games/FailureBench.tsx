@@ -126,7 +126,7 @@ export function FailureBench() {
           "Choose the left or the right pan.",
           "The real measurement lands and the beam tilts to wherever the data actually put it.",
         ],
-        controls: "Click a pan, or press ← and →. Enter moves on.",
+        controls: "Tap or click a pan, or press ← and →. Enter moves on.",
         scoring: "60 plus a speed bonus, multiplied by your streak. The clock ends the specimen, not the round.",
       }}
       startLabel={bench ? "Load the bench" : "Loading the measurements…"}

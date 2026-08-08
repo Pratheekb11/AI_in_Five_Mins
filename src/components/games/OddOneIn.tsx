@@ -93,7 +93,7 @@ export function OddOneIn() {
           "Pick the candidate you think the algorithm also put there.",
           "The real answer arrives, along with which group each of the others landed in.",
         ],
-        controls: "Click a word, or press 1–4. Enter moves on.",
+        controls: "Tap or click a word, or press 1–4. Enter moves on.",
         scoring: "100 a round. Some groups are meaningful and some are not.",
       }}
       startLabel={data ? "See the first group" : "Loading the groups…"}

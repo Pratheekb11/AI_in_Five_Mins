@@ -72,7 +72,7 @@ export function PasteCheck() {
           "Choose: paste it as it is, strip the names and numbers first, or keep it out of the tool entirely.",
           "The category and the reasoning follow. There is no clock.",
         ],
-        controls: "Click a door, or press 1–3. Enter moves on.",
+        controls: "Tap or click a door, or press 1–3. Enter moves on.",
         scoring: "Sending something further out than it should go scores nothing. That is the mistake you cannot take back. Being too careful costs you a little.",
       }}
       startLabel="Open the first one"

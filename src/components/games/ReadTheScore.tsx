@@ -97,7 +97,7 @@ export function ReadTheScore() {
           "Pick a band, from almost certainly not to almost certainly spam.",
           "The model's real probability arrives, along with whether it was right.",
         ],
-        controls: "Click a band, or press 1–5. Enter moves on.",
+        controls: "Tap or click a band, or press 1–5. Enter moves on.",
         scoring: "100 for the right band, 40 for either side of it.",
       }}
       startLabel={data ? "Read the first one" : "Loading the messages…"}

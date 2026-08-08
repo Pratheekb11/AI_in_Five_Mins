@@ -102,7 +102,7 @@ export function ShowDontAsk() {
           "Five phrasings of the same request are listed. Pick the one you think works best.",
           "All five measured probabilities arrive at once, with how many times better than a bare question each one is.",
         ],
-        controls: "Click a phrasing, or press 1–5. Enter moves on.",
+        controls: "Tap or click a phrasing, or press 1–5. Enter moves on.",
         scoring: "120 for the winner, and more when the runner-up was close behind.",
       }}
       startLabel={data ? "Take the first one" : "Loading the measurements…"}

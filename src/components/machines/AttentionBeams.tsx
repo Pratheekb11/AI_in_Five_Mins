@@ -113,7 +113,8 @@ export function AttentionBeams({ driven }: { driven?: number }) {
   }, [sentence]);
 
   const head = useMemo(
-    () => (sentence ? pickHead(sentence, query) : { layer: 0, head: 0, score: 0 }),
+    () =>
+      sentence ? pickHead(sentence, query) : { layer: 0, head: 0, score: 0 },
     [sentence, query],
   );
   const weights = useMemo(
@@ -236,7 +237,12 @@ export function AttentionBeams({ driven }: { driven?: number }) {
         <div className="overflow-x-auto">
           <svg
             viewBox={`0 0 ${W} ${H}`}
-            className="block w-full min-w-[34rem]"
+            /* On a phone the figure scales down to fit rather than
+                sitting in a sideways scroller: the arcs are the whole point
+                and a reader who has to drag the box sideways to find them
+                sees an empty rectangle instead. Above that the fixed minimum
+                keeps the token boxes at a comfortable size. */
+            className="block w-full min-w-0 sm:min-w-[34rem]"
             role="img"
             aria-label={`Attention from the word ${boxes[query].label} to the words before it`}
           >
@@ -389,27 +395,27 @@ export function AttentionBeams({ driven }: { driven?: number }) {
           {beat >= 4 ? (
             <p className="text-ink-soft text-[0.9375rem]">
               That is an <strong>attention sink</strong>. A large share of
-              nearly every head landing on the first token regardless of what the
-              sentence says. The head drawn above is the exception, and
+              nearly every head landing on the first token regardless of what
+              the sentence says. The head drawn above is the exception, and
               deliberately so: it was chosen for attending elsewhere, and takes
               only {(sinkShare * 100).toFixed(0)}% itself. The{" "}
               {(sinkAverage * 100).toFixed(0)}% is the average across all of
-              them. It is documented and named (Xiao et al., 2023), and
-              it is the cheapest reminder available that a heat map is not a
-              mind: a head with nothing it needs this time still has to put its
-              weights somewhere, because the row is forced to add up to one.
+              them. It is documented and named (Xiao et al., 2023), and it is
+              the cheapest reminder available that a heat map is not a mind: a
+              head with nothing it needs this time still has to put its weights
+              somewhere, because the row is forced to add up to one.
             </p>
           ) : (
             <p className="text-ink-soft text-[0.9375rem]">
               Shown is layer {head.layer + 1}, head {head.head + 1}, out of{" "}
-              {data.model.layers * data.model.heads}, this is the one
-              that sends the most of &ldquo;{boxes[query].label}&rdquo;&rsquo;s
-              attention somewhere other than the first token or the word right
-              before it. Its strongest such target here is{" "}
+              {data.model.layers * data.model.heads}, this is the one that sends
+              the most of &ldquo;{boxes[query].label}&rdquo;&rsquo;s attention
+              somewhere other than the first token or the word right before it.
+              Its strongest such target here is{" "}
               <span className="font-data">{boxes[strongest]?.label}</span> at{" "}
               {(weights[strongest] * 100).toFixed(0)}%. The other{" "}
-              {data.model.layers * data.model.heads - 1} disagree, and
-              you can go through all of them further down.
+              {data.model.layers * data.model.heads - 1} disagree, and you can
+              go through all of them further down.
             </p>
           )}
         </div>

@@ -30,9 +30,18 @@ export default function Home() {
               one game, nine rounds. The whole set is longer and the chapter
               cards say so, which is the point of leading with the honest small
               number rather than the honest large one. */}
+          {/* Each clause holds together on its own line. Left to wrap
+              freely the tracked-out label broke mid-clause on a phone, which
+              read as three unrelated fragments rather than one promise. */}
           <p className="label text-ink-faint mb-5">
-            One game, about five minutes · {chapters.length} chapters in all ·
-            nothing to sign up for
+            <span className="whitespace-nowrap">
+              One game, about five minutes
+            </span>{" "}
+            ·{" "}
+            <span className="whitespace-nowrap">
+              {chapters.length} chapters in all
+            </span>{" "}
+            · <span className="whitespace-nowrap">nothing to sign up for</span>
           </p>
 
           <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
@@ -47,11 +56,11 @@ export default function Home() {
 
               <div className="prose-measure text-ink-soft mt-7 text-lg">
                 <p>
-                  You are probably already using one of these things.
-                  Nobody ever showed you what it is doing while it answers,
-                  so you are left guessing about when to trust it. Start with
-                  one game, about five minutes, against a real model. Six short
-                  chapters follow if you want them, about{" "}
+                  You are probably already using one of these things. Nobody
+                  ever showed you what it is doing while it answers, so you are
+                  left guessing about when to trust it. Start with one game,
+                  about five minutes, against a real model. Six short chapters
+                  follow if you want them, about{" "}
                   {/* The space after the count is explicit: written as plain
                   text it was eaten at the line break and rendered as
                   "44minutes". */}
@@ -102,9 +111,9 @@ export default function Home() {
                 </p>
                 <p>
                   What holds up is a plain picture of what the model is doing
-                  while it answers. That is what tells you when to lean on
-                  it and when to check it. It takes about an hour to pick up,
-                  and there is no maths and no jargon.
+                  while it answers. That is what tells you when to lean on it
+                  and when to check it. It takes about an hour to pick up, and
+                  there is no maths and no jargon.
                 </p>
               </div>
             </Reveal>
@@ -124,8 +133,8 @@ export default function Home() {
               </h2>
               <p className="prose-measure text-ink-soft mb-9">
                 It reads what it has written, picks the next word, adds it, and
-                reads again. That is the whole machine, and every strange
-                thing these tools do comes out of it.
+                reads again. That is the whole machine, and every strange thing
+                these tools do comes out of it.
               </p>
             </Reveal>
             <Reveal delay={0.08}>
@@ -166,8 +175,7 @@ export default function Home() {
           <p className="prose-measure text-ink-soft">
             Every token, vector and probability here is computed from a real
             model or a published dataset, and every page ends with the sources
-            it drew on. If a number cannot be traced, it does not
-            ship.
+            it drew on. If a number cannot be traced, it does not ship.
           </p>
         </section>
       </main>
@@ -208,46 +216,46 @@ function TrackSection({
             return (
               <li key={lesson.slug} className="flex">
                 <Reveal delay={Math.min(i, 5) * 0.05} className="flex w-full">
-                <Link
-                  href={`/lessons/${lesson.slug}`}
-                  className="plate misreg flex h-full flex-col p-4"
-                >
-                  <div className="mb-3 flex items-center justify-between gap-2">
-                    <span
-                      className={`data ${ink.chip} rounded-[2px] border px-1.5 py-0.5 text-xs font-bold`}
-                    >
-                      {String(lesson.number).padStart(2, "0")}
-                    </span>
-                    <span className="label text-ink-faint">
-                      {lesson.minutes}m
-                    </span>
-                  </div>
+                  <Link
+                    href={`/lessons/${lesson.slug}`}
+                    className="plate misreg flex h-full flex-col p-4"
+                  >
+                    <div className="mb-3 flex items-center justify-between gap-2">
+                      <span
+                        className={`data ${ink.chip} rounded-[2px] border px-1.5 py-0.5 text-xs font-bold`}
+                      >
+                        {String(lesson.number).padStart(2, "0")}
+                      </span>
+                      <span className="label text-ink-faint">
+                        {lesson.minutes}m
+                      </span>
+                    </div>
 
-                  <h3 className="font-display mb-2 text-lg leading-tight font-bold">
-                    {lesson.title}
-                  </h3>
-                  <p className="text-ink-soft grow text-sm">
-                    {lesson.standfirst}
-                  </p>
-
-                  {/* The one line you should still have a month later. */}
-                  {lesson.nugget ? (
-                    <p
-                      className={`${ink.chip} mt-3 rounded-[2px] border px-2 py-1 text-xs font-semibold`}
-                    >
-                      {lesson.nugget}
+                    <h3 className="font-display mb-2 text-lg leading-tight font-bold">
+                      {lesson.title}
+                    </h3>
+                    <p className="text-ink-soft grow text-sm">
+                      {lesson.standfirst}
                     </p>
-                  ) : null}
 
-                  <p className="border-ink/20 label text-ink-faint mt-4 flex items-center justify-between gap-2 border-t pt-3">
-                    <span className="truncate">{lesson.machine}</span>
-                    {lesson.status === "building" ? (
-                      <span className="shrink-0 opacity-70">Soon</span>
-                    ) : (
-                      <span className="text-teal-text shrink-0">Ready</span>
-                    )}
-                  </p>
-                </Link>
+                    {/* The one line you should still have a month later. */}
+                    {lesson.nugget ? (
+                      <p
+                        className={`${ink.chip} mt-3 rounded-[2px] border px-2 py-1 text-xs font-semibold`}
+                      >
+                        {lesson.nugget}
+                      </p>
+                    ) : null}
+
+                    <p className="border-ink/20 label text-ink-faint mt-4 flex items-center justify-between gap-2 border-t pt-3">
+                      <span className="truncate">{lesson.machine}</span>
+                      {lesson.status === "building" ? (
+                        <span className="shrink-0 opacity-70">Soon</span>
+                      ) : (
+                        <span className="text-teal-text shrink-0">Ready</span>
+                      )}
+                    </p>
+                  </Link>
                 </Reveal>
               </li>
             );

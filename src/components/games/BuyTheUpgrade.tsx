@@ -99,7 +99,7 @@ export function BuyTheUpgrade() {
           "Choose the extra data, or the best other model.",
           "Both were measured. The real gains arrive.",
         ],
-        controls: "Click a choice, or press 1 or 2. Enter moves on.",
+        controls: "Tap or click a choice, or press 1 or 2. Enter moves on.",
         scoring: "100 a round, and both count where the two are within a fifth of a point.",
       }}
       startLabel={data ? "Take the first budget" : "Loading the curves…"}

@@ -107,7 +107,7 @@ export function GrowTheTree() {
           "Pick the question you think separates it best.",
           "Every candidate's real information gain arrives.",
         ],
-        controls: "Click a question, or press its number. Enter moves on.",
+        controls: "Tap or click a question, or press its number. Enter moves on.",
         scoring: "100 for the best question, 50 for one worth nearly as much.",
       }}
       startLabel={data ? "Take the first split" : "Loading the tree…"}

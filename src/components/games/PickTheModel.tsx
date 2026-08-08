@@ -161,7 +161,7 @@ export function PickTheModel() {
           "Pick a curve. The training error is shown, and it always favours the wiggliest one.",
           "The held-out error arrives for all of them.",
         ],
-        controls: "Click a curve, or press its number. Enter moves on.",
+        controls: "Tap or click a curve, or press its number. Enter moves on.",
         scoring: "Up to 120 a round, full marks within 5% of the best available.",
       }}
       startLabel={data ? "Choose a curve" : "Loading the sentences…"}

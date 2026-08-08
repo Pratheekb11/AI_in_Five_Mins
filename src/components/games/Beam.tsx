@@ -101,7 +101,7 @@ export function Beam() {
           "Click the earlier word you think that head sends most of its attention to.",
           "The real row of weights comes up as bars. The first word is set aside, because it soaks up attention for reasons unrelated to meaning.",
         ],
-        controls: "Click a word.",
+        controls: "Tap or click a word.",
         scoring: "100 plus the weight that actually went there, plus a streak bonus.",
       }}
       startLabel={data ? "Fire the beam" : "Loading the weights…"}

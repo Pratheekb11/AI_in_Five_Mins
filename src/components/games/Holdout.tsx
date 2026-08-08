@@ -153,7 +153,7 @@ export function Holdout() {
           "Choose the one you think does better on the held-out messages.",
           "Both held-out scores appear, along with why each one behaves as it does.",
         ],
-        controls: "Click a model, or press 1 or 2. Enter moves on.",
+        controls: "Tap or click a model, or press 1 or 2. Enter moves on.",
         scoring:
           "100 a call, plus 80 when the winner is the one whose training score looked worse.",
       }}

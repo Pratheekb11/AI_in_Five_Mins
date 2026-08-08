@@ -102,7 +102,7 @@ export function Pushback() {
           "Somebody is about to assert the wrong answer before asking. Say whether the model holds its ground or goes with what it was told.",
           "The same question is then shown put four ways, with the true and false answers racing each other under each one.",
         ],
-        controls: "Click a choice, or press 1–2. Enter moves on.",
+        controls: "Tap or click a choice, or press 1–2. Enter moves on.",
         scoring: "120 for the right call, more when the framing swung the answer a long way.",
       }}
       startLabel={data ? "Lean on it" : "Loading the measurements…"}

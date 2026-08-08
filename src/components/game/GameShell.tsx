@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { Nimo } from "@/components/nimo/Nimo";
 import type { Mood } from "@/components/nimo/moods";
 import { useBestScore } from "@/lib/game/useBestScore";
@@ -20,7 +26,11 @@ import { trackGameFinished, trackGameStarted } from "@/lib/telemetry";
  * restart that takes one press and no confirmation.
  */
 
-export type Readout = { label: string; value: string | number; accent?: boolean };
+export type Readout = {
+  label: string;
+  value: string | number;
+  accent?: boolean;
+};
 
 /**
  * How to play, in the fewest words that still work.
@@ -177,7 +187,11 @@ export function GameShell({
   }, [phase, mood, beatenBest]);
 
   return (
-    <div className="plate scroll-mt-20 overflow-hidden" id="game" data-section="game">
+    <div
+      className="plate scroll-mt-20 overflow-hidden"
+      id="game"
+      data-section="game"
+    >
       <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
         <span className="flex items-center gap-3">
           <span className="label">{name}</span>
@@ -186,7 +200,10 @@ export function GameShell({
             onClick={toggleMuted}
             aria-pressed={muted}
             title={muted ? "Sound is off" : "Sound is on"}
-            className="label text-ink-faint hover:text-ink cursor-pointer underline-offset-2 hover:underline"
+            /* The padding is the tap target. As a bare label this was eleven
+               pixels tall, which is a thumb's width away from unhittable on a
+               phone; the negative margin keeps the header line where it was. */
+            className="label text-ink-faint hover:text-ink -my-2 cursor-pointer px-1 py-2 underline-offset-2 hover:underline"
           >
             {muted ? "sound off" : "sound on"}
           </button>
@@ -229,9 +246,7 @@ export function GameShell({
           rules and the debrief and are taller than the board itself, then
           settles back to the game's own height once play starts. Without this
           the overlay had to scroll inside a shorter box. */}
-      <div
-        className={`relative ${phase !== "playing" ? "min-h-[36rem]" : ""}`}
-      >
+      <div className={`relative ${phase !== "playing" ? "min-h-[36rem]" : ""}`}>
         {/* Nimo watches the round and reacts. He is the loudest feedback in
             the cabinet, which is most of why a miss stings enough to retry. */}
         <span className="pointer-events-none absolute -top-1 right-2 z-20 hidden md:block">
@@ -260,49 +275,45 @@ export function GameShell({
              behaves when there is not. */
           <div className="bg-paper/92 absolute inset-0 z-10 flex flex-col overflow-y-auto px-6 py-6 text-center backdrop-blur-[2px]">
             <div className="m-auto flex w-full flex-col items-center gap-4">
-            {phase === "ready" ? (
-              <>
-                <p className="prose-measure text-ink-soft text-[0.9375rem]">
-                  {instruction}
-                </p>
-                {howToPlay ? (
-                  <div className="plate-flush prose-measure w-full max-w-md px-4 py-3">
-                    <Rules how={howToPlay} />
-                  </div>
-                ) : null}
-                {gameId && best > 0 ? (
-                  <p className="label text-teal-text">Your best: {best}</p>
-                ) : null}
-                <button
-                  type="button"
-                  onClick={begin}
-                  className="plate misreg btn-primary font-display px-6 py-3 text-lg font-bold"
-                >
-                  {startLabel}
-                </button>
-              </>
-            ) : (
-              <>
-                {beatenBest ? (
-                  <p className="label text-teal-text">
-                    ★ New best ★
+              {phase === "ready" ? (
+                <>
+                  <p className="prose-measure text-ink-soft text-[0.9375rem]">
+                    {instruction}
                   </p>
-                ) : null}
-                {again}
-                <button
-                  type="button"
-                  onClick={begin}
-                  className="plate misreg btn-primary font-display px-6 py-3 text-lg font-bold"
-                >
-                  Go again
-                </button>
-                {gameId && best > 0 && !beatenBest ? (
-                  <p className="label text-ink-faint">
-                    Best so far: {best}
-                  </p>
-                ) : null}
-              </>
-            )}
+                  {howToPlay ? (
+                    <div className="plate-flush prose-measure w-full max-w-md px-4 py-3">
+                      <Rules how={howToPlay} />
+                    </div>
+                  ) : null}
+                  {gameId && best > 0 ? (
+                    <p className="label text-teal-text">Your best: {best}</p>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={begin}
+                    className="plate misreg btn-primary font-display px-6 py-3 text-lg font-bold"
+                  >
+                    {startLabel}
+                  </button>
+                </>
+              ) : (
+                <>
+                  {beatenBest ? (
+                    <p className="label text-teal-text">★ New best ★</p>
+                  ) : null}
+                  {again}
+                  <button
+                    type="button"
+                    onClick={begin}
+                    className="plate misreg btn-primary font-display px-6 py-3 text-lg font-bold"
+                  >
+                    Go again
+                  </button>
+                  {gameId && best > 0 && !beatenBest ? (
+                    <p className="label text-ink-faint">Best so far: {best}</p>
+                  ) : null}
+                </>
+              )}
             </div>
           </div>
         ) : null}

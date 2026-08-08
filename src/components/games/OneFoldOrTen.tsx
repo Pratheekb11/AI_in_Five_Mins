@@ -99,7 +99,7 @@ export function OneFoldOrTen() {
           "Pick the better model.",
           "All ten slices arrive, and their averages settle it.",
         ],
-        controls: "Click a model, or press 1 or 2. Enter moves on.",
+        controls: "Tap or click a model, or press 1 or 2. Enter moves on.",
         scoring:
           "100 a call, and 100 more for backing the model that lost on the slice you were shown.",
       }}

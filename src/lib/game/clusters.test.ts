@@ -33,10 +33,13 @@ describe("the clustering", () => {
     expect(data.points.length).toBe(data.words.length);
     for (const pass of data.history) {
       expect(pass.length).toBe(data.words.length);
-      for (const c of pass) {
-        expect(c).toBeGreaterThanOrEqual(0);
-        expect(c).toBeLessThan(data.k);
-      }
+      /* One assertion a pass, not one a word. Thirty-five passes over 1,851
+         words is sixty-five thousand expect() calls, which ran into the test
+         timeout on a loaded machine and checked nothing the predicate below
+         does not. */
+      expect(
+        pass.every((c) => Number.isInteger(c) && c >= 0 && c < data.k),
+      ).toBe(true);
     }
   });
 

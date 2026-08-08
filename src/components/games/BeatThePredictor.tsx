@@ -108,7 +108,7 @@ export function BeatThePredictor() {
           "Pick one of the four options. The machine has already picked, but you cannot see which.",
           "Its real probability for every option arrives as bars. Whoever chose the true word wins the round.",
         ],
-        controls: "Click an option, or press 1–4. Enter moves to the next round.",
+        controls: "Tap or click an option, or press 1–4. Enter moves to the next round.",
         scoring: "100 for a correct call. More when you are right and the machine was confidently wrong.",
       }}
       startLabel={data ? "Play the machine" : "Loading the odds…"}

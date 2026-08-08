@@ -101,7 +101,7 @@ export function ContextBudget() {
           "Press Run it. The real model runs on exactly what you built, and the meter shows its chance of producing the right answer.",
           "You only get four runs per question, so think before you spend one.",
         ],
-        controls: "Click cards and buttons.",
+        controls: "Tap or click cards and buttons.",
         scoring: "Based on how close you got to the best any combination can reach, plus any runs you did not need.",
       }}
       startLabel={data ? "Open the window" : "Loading the measurements…"}

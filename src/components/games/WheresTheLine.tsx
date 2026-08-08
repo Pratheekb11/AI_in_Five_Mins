@@ -112,7 +112,7 @@ export function WheresTheLine() {
           "Choose one of five places to put the line.",
           "The real counts arrive, and you are charged for your choice against the cheapest one available.",
         ],
-        controls: "Click a choice, or press 1–5. Enter moves on.",
+        controls: "Tap or click a choice, or press 1–5. Enter moves on.",
         scoring:
           "Up to 120 a round, full marks for the cheapest of the five choices offered.",
       }}

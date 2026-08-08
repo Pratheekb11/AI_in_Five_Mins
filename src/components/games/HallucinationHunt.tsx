@@ -101,7 +101,7 @@ export function HallucinationHunt() {
           "You get six flags for three errors, so clicking everything loses.",
           "Press “That is all I can see” when you are done, and the source wording appears in place of each change.",
         ],
-        controls: "Click words.",
+        controls: "Tap or click words.",
         scoring: "Harder errors are worth more, a wrong flag costs you, and the clock only affects the speed bonus. It never ends the round.",
       }}
       startLabel={data ? "Today's paragraph" : "Loading the paragraph…"}

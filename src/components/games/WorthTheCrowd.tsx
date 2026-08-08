@@ -97,7 +97,7 @@ export function WorthTheCrowd() {
           "Choose: nothing at all, a little, or a lot.",
           "The vote's real accuracy arrives, along with how often two of the trees disagree.",
         ],
-        controls: "Click a call, or press 1–3. Enter moves on.",
+        controls: "Tap or click a call, or press 1–3. Enter moves on.",
         scoring: "120 for the right band, 40 for the one next to it.",
       }}
       startLabel={data ? "Meet the first forest" : "Loading the forests…"}

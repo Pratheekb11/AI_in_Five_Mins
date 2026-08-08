@@ -103,7 +103,7 @@ export function ProvenanceDetective() {
           "Choose one of three doors: it already knows this, it needs the source handing to it, or it needs a real tool.",
           "The evidence arrives. You see what the model does cold, and what it does with the source in front of it.",
         ],
-        controls: "Click a door, or press 1–3. Enter moves on.",
+        controls: "Tap or click a door, or press 1–3. Enter moves on.",
         scoring: "100 a call, plus 80 for spotting a gap the model hides well.",
       }}
       startLabel={data ? "Open the case" : "Loading the evidence…"}

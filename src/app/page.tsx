@@ -12,6 +12,7 @@ export default function Home() {
   const chapters = lessonsIn("chapter");
   const close = lessonsIn("close");
   const how = lessonsIn("how");
+  const ml = lessonsIn("ml");
   const chapterMinutes = chapters.reduce((n, l) => n + l.minutes, 0);
 
   return (
@@ -144,6 +145,12 @@ export default function Home() {
           lessons={how}
           eyebrow="Optional depth, reachable from inside the chapters"
           sunk
+        />
+        <TrackSection
+          id="ml"
+          track="ml"
+          lessons={ml}
+          eyebrow="For anyone who wants to build the things"
         />
 
         <section className="mx-auto max-w-6xl px-5 py-14">

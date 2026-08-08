@@ -23,6 +23,7 @@ Then:
 
 ```bash
 node data/scripts/build-token-examples.mjs
+node data/scripts/build-features.mjs
 node data/scripts/build-spam-bench.mjs
 node data/scripts/build-regression-data.mjs
 ```
@@ -70,6 +71,26 @@ Output should be byte-identical to what is committed — every script that sampl
 **On fairness:** hand-written rules and the learned model are both scored on the same held-out 20%. Scoring the rules on the full corpus while scoring the model out-of-sample would have made the model look better than it is; the earlier draft of this script did that and was wrong.
 
 **On the displayed messages:** the twelve examples shown in the lesson are filtered to exclude any message containing a 7+ digit number, so no personal phone number is reprinted.
+
+---
+
+## `public/data/features.json`
+
+**Script:** `data/scripts/build-features.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 1 — Features and labels
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** for each of twelve candidate features, how many messages it fires on, how much of each resulting pile is spam, what share of all spam it catches, and the information gain in bits. Also what that one feature alone would score as a whole filter, on the held-out split.
+
+**On the split:** the same seed and the same 80/20 as `build-spam-bench.mjs`, deliberately, so a number here and a number on the what-is-ai page describe the same experiment. Gains are measured on the training messages only, so no feature is judged on the messages it is later tested against.
+
+**On the feature list:** the twelve were written before any of them were scored, and none was dropped for scoring badly. Several are there because they are plausible and weak, which is the entire point of the game.
 
 ---
 

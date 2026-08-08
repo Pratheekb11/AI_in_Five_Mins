@@ -1,0 +1,332 @@
+{
+  "generatedBy": "data/scripts/build-features.mjs",
+  "source": {
+    "name": "SMS Spam Collection v.1",
+    "authors": "Almeida, Gómez Hidalgo & Yamakami",
+    "url": "https://archive.ics.uci.edu/dataset/228/sms+spam+collection",
+    "licence": "Free to use with attribution to the authors' 2011 paper"
+  },
+  "corpus": {
+    "total": 5574,
+    "spam": 747,
+    "ham": 4827,
+    "trainSize": 4459,
+    "testSize": 1115,
+    "split": "80/20, seeded, identical to spam-bench.json",
+    "baseEntropy": 0.56835
+  },
+  "features": [
+    {
+      "id": "shortcode",
+      "label": "Has a five digit number in it",
+      "plain": "Numbers like 87121, the short codes premium services reply to.",
+      "train": {
+        "fires": 466,
+        "firesSpam": 464,
+        "quiet": 3993,
+        "quietSpam": 127,
+        "purity": 0.9957081545064378,
+        "leftoverRate": 0.03180565990483346,
+        "recall": 0.7851099830795262,
+        "gain": 0.37808
+      },
+      "test": {
+        "fires": 122,
+        "firesSpam": 121,
+        "quiet": 993,
+        "quietSpam": 35,
+        "purity": 0.9918032786885246,
+        "leftoverRate": 0.035246727089627394,
+        "recall": 0.7756410256410257,
+        "gain": 0.38052
+      },
+      "aloneAccuracy": 0.9677
+    },
+    {
+      "id": "reply",
+      "label": "Tells you to reply or call",
+      "plain": "An instruction, followed by digits.",
+      "train": {
+        "fires": 368,
+        "firesSpam": 367,
+        "quiet": 4091,
+        "quietSpam": 224,
+        "purity": 0.9972826086956522,
+        "leftoverRate": 0.054754338792471276,
+        "recall": 0.6209813874788495,
+        "gain": 0.28115
+      },
+      "test": {
+        "fires": 96,
+        "firesSpam": 96,
+        "quiet": 1019,
+        "quietSpam": 60,
+        "purity": 1,
+        "leftoverRate": 0.058881256133464184,
+        "recall": 0.6153846153846154,
+        "gain": 0.28882
+      },
+      "aloneAccuracy": 0.9462
+    },
+    {
+      "id": "money",
+      "label": "Mentions money",
+      "plain": "A currency symbol, or an amount in pounds.",
+      "train": {
+        "fires": 332,
+        "firesSpam": 316,
+        "quiet": 4127,
+        "quietSpam": 275,
+        "purity": 0.9518072289156626,
+        "leftoverRate": 0.06663435909861885,
+        "recall": 0.5346869712351946,
+        "gain": 0.21668
+      },
+      "test": {
+        "fires": 82,
+        "firesSpam": 78,
+        "quiet": 1033,
+        "quietSpam": 78,
+        "purity": 0.9512195121951219,
+        "leftoverRate": 0.0755082284607938,
+        "recall": 0.5,
+        "gain": 0.20557
+      },
+      "aloneAccuracy": 0.9265
+    },
+    {
+      "id": "long",
+      "label": "Longer than 120 characters",
+      "plain": "Nothing about the words. Just how much of the screen it fills.",
+      "train": {
+        "fires": 1132,
+        "firesSpam": 490,
+        "quiet": 3327,
+        "quietSpam": 101,
+        "purity": 0.43286219081272087,
+        "leftoverRate": 0.030357679591223326,
+        "recall": 0.8291032148900169,
+        "gain": 0.16743
+      },
+      "test": {
+        "fires": 303,
+        "firesSpam": 122,
+        "quiet": 812,
+        "quietSpam": 34,
+        "purity": 0.40264026402640263,
+        "leftoverRate": 0.04187192118226601,
+        "recall": 0.782051282051282,
+        "gain": 0.13708
+      },
+      "aloneAccuracy": 0.8072
+    },
+    {
+      "id": "prize",
+      "label": "Mentions winning something",
+      "plain": "Win, won, winner, prize, award, claim.",
+      "train": {
+        "fires": 219,
+        "firesSpam": 195,
+        "quiet": 4240,
+        "quietSpam": 396,
+        "purity": 0.8904109589041096,
+        "leftoverRate": 0.09339622641509433,
+        "recall": 0.3299492385786802,
+        "gain": 0.11416
+      },
+      "test": {
+        "fires": 49,
+        "firesSpam": 45,
+        "quiet": 1066,
+        "quietSpam": 111,
+        "purity": 0.9183673469387755,
+        "leftoverRate": 0.10412757973733583,
+        "recall": 0.28846153846153844,
+        "gain": 0.10531
+      },
+      "aloneAccuracy": 0.8969
+    },
+    {
+      "id": "shouting",
+      "label": "Two or more shouted words",
+      "plain": "Three letters or more, all capitals, twice over.",
+      "train": {
+        "fires": 427,
+        "firesSpam": 259,
+        "quiet": 4032,
+        "quietSpam": 332,
+        "purity": 0.6065573770491803,
+        "leftoverRate": 0.08234126984126984,
+        "recall": 0.43824027072758037,
+        "gain": 0.10069
+      },
+      "test": {
+        "fires": 107,
+        "firesSpam": 68,
+        "quiet": 1008,
+        "quietSpam": 88,
+        "purity": 0.6355140186915887,
+        "leftoverRate": 0.0873015873015873,
+        "recall": 0.4358974358974359,
+        "gain": 0.10681
+      },
+      "aloneAccuracy": 0.8861
+    },
+    {
+      "id": "i",
+      "label": "Says I or me",
+      "plain": "Somebody talking about themselves.",
+      "train": {
+        "fires": 2116,
+        "firesSpam": 49,
+        "quiet": 2343,
+        "quietSpam": 542,
+        "purity": 0.023156899810964082,
+        "leftoverRate": 0.23132735808792146,
+        "recall": 0.0829103214890017,
+        "gain": 0.07898
+      },
+      "test": {
+        "fires": 520,
+        "firesSpam": 12,
+        "quiet": 595,
+        "quietSpam": 144,
+        "purity": 0.023076923076923078,
+        "leftoverRate": 0.24201680672268908,
+        "recall": 0.07692307692307693,
+        "gain": 0.0841
+      },
+      "aloneAccuracy": 0.4152
+    },
+    {
+      "id": "url",
+      "label": "Contains a web address",
+      "plain": "Anything with www, http or a dot com in it.",
+      "train": {
+        "fires": 120,
+        "firesSpam": 110,
+        "quiet": 4339,
+        "quietSpam": 481,
+        "purity": 0.9166666666666666,
+        "leftoverRate": 0.1108550357225167,
+        "recall": 0.18612521150592218,
+        "gain": 0.06426
+      },
+      "test": {
+        "fires": 30,
+        "firesSpam": 26,
+        "quiet": 1085,
+        "quietSpam": 130,
+        "purity": 0.8666666666666667,
+        "leftoverRate": 0.11981566820276497,
+        "recall": 0.16666666666666666,
+        "gain": 0.05416
+      },
+      "aloneAccuracy": 0.8798
+    },
+    {
+      "id": "free",
+      "label": "Uses the word free",
+      "plain": "The word everybody thinks of first.",
+      "train": {
+        "fires": 185,
+        "firesSpam": 138,
+        "quiet": 4274,
+        "quietSpam": 453,
+        "purity": 0.745945945945946,
+        "leftoverRate": 0.10598970519419747,
+        "recall": 0.233502538071066,
+        "gain": 0.06298
+      },
+      "test": {
+        "fires": 44,
+        "firesSpam": 32,
+        "quiet": 1071,
+        "quietSpam": 124,
+        "purity": 0.7272727272727273,
+        "leftoverRate": 0.1157796451914099,
+        "recall": 0.20512820512820512,
+        "gain": 0.05394
+      },
+      "aloneAccuracy": 0.878
+    },
+    {
+      "id": "urgent",
+      "label": "Sounds urgent",
+      "plain": "Urgent, now, today, immediately, expires, last chance.",
+      "train": {
+        "fires": 564,
+        "firesSpam": 212,
+        "quiet": 3895,
+        "quietSpam": 379,
+        "purity": 0.375886524822695,
+        "leftoverRate": 0.09730423620025674,
+        "recall": 0.3587140439932318,
+        "gain": 0.0414
+      },
+      "test": {
+        "fires": 142,
+        "firesSpam": 59,
+        "quiet": 973,
+        "quietSpam": 97,
+        "purity": 0.4154929577464789,
+        "leftoverRate": 0.09969167523124357,
+        "recall": 0.3782051282051282,
+        "gain": 0.05087
+      },
+      "aloneAccuracy": 0.8386
+    },
+    {
+      "id": "smiley",
+      "label": "Has a smiley in it",
+      "plain": "The kind of thing a friend writes and a marketer does not.",
+      "train": {
+        "fires": 380,
+        "firesSpam": 24,
+        "quiet": 4079,
+        "quietSpam": 567,
+        "purity": 0.06315789473684211,
+        "leftoverRate": 0.13900465800441283,
+        "recall": 0.04060913705583756,
+        "gain": 0.00334
+      },
+      "test": {
+        "fires": 95,
+        "firesSpam": 4,
+        "quiet": 1020,
+        "quietSpam": 152,
+        "purity": 0.042105263157894736,
+        "leftoverRate": 0.14901960784313725,
+        "recall": 0.02564102564102564,
+        "gain": 0.00691
+      },
+      "aloneAccuracy": 0.7821
+    },
+    {
+      "id": "question",
+      "label": "Asks a question",
+      "plain": "Ends with, or contains, a question mark.",
+      "train": {
+        "fires": 983,
+        "firesSpam": 106,
+        "quiet": 3476,
+        "quietSpam": 485,
+        "purity": 0.10783316378433368,
+        "leftoverRate": 0.1395281933256617,
+        "recall": 0.1793570219966159,
+        "gain": 0.00113
+      },
+      "test": {
+        "fires": 241,
+        "firesSpam": 28,
+        "quiet": 874,
+        "quietSpam": 128,
+        "purity": 0.11618257261410789,
+        "leftoverRate": 0.14645308924485126,
+        "recall": 0.1794871794871795,
+        "gain": 0.00097
+      },
+      "aloneAccuracy": 0.6942
+    }
+  ]
+}

@@ -18,7 +18,7 @@ import type { Ink } from "./ink";
  */
 
 export type LessonStatus = "ready" | "building";
-export type Track = "chapter" | "close" | "how";
+export type Track = "chapter" | "close" | "how" | "ml";
 
 export type Lesson = {
   slug: string;
@@ -52,6 +52,11 @@ export const TRACKS: Record<Track, { title: string; blurb: string }> = {
     title: "Before you go",
     blurb:
       "The part you take to work. A puzzle that changes every day, your own week sorted into what you would hand over, and a hard look at what you are willing to paste in.",
+  },
+  ml: {
+    title: "Machine learning from scratch",
+    blurb:
+      "The craft underneath all of it, from the first idea to the mistakes that cost people money. Every module is one real dataset, one thing you predict before you are shown, and one number that settles it. No maths beyond arithmetic is assumed.",
   },
   how: {
     title: "Down the rabbit hole",
@@ -191,6 +196,22 @@ export const LESSONS: Lesson[] = [
     feynman: "If this tool vanished tomorrow, could I still do my job?",
   },
 
+  // ------------------------------------------- machine learning from scratch --
+  {
+    slug: "features-and-labels",
+    track: "ml",
+    number: 1,
+    title: "Features and labels",
+    standfirst:
+      "Before anything can be learned, the thing in front of you has to become numbers. What survives that translation is all a model will ever know.",
+    nugget: "A model sees your features, never your data.",
+    machine: "The Feature Bench",
+    minutes: 8,
+    ink: "blue",
+    status: "ready",
+    feynman: "What did my data turn into, and what got thrown away?",
+  },
+
   // --------------------------------------------------------- down the rabbit hole --
   {
     slug: "what-is-ai",
@@ -277,10 +298,16 @@ export function lessonsIn(track: Track): Lesson[] {
   return LESSONS.filter((l) => l.track === track);
 }
 
-/** The order somebody reading straight through would meet them in. */
-export const TRACK_ORDER: Track[] = ["chapter", "close", "how"];
+/**
+ * The order somebody reading straight through would meet them in.
+ *
+ * Machine learning sits after the rabbit hole rather than before it. The
+ * rabbit hole explains the machine you have been using all afternoon; this is
+ * a different and longer undertaking, and nobody arrives at it by accident.
+ */
+export const TRACK_ORDER: Track[] = ["chapter", "close", "how", "ml"];
 
-/** Every lesson, end to end, across the three tracks. */
+/** Every lesson, end to end, across the four tracks. */
 export const READING_ORDER: Lesson[] = TRACK_ORDER.flatMap(lessonsIn);
 
 /**

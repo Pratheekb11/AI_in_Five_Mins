@@ -176,11 +176,25 @@ export function AttentionBeams({ driven }: { driven?: number }) {
         ...boxes.slice(0, query).map((b) => arcLift(boxes[query].mid, b.mid)),
       )
     : 40;
-  const rowY = Math.round(maxLift + 22);
+
+  /*
+    The frame only reserves room for what is on it.
+
+    Sized for the finished picture from the first beat, this opened on a
+    sentence with three hundred empty pixels above it and a hundred below,
+    which is most of a screen of nothing at the exact moment somebody is
+    deciding whether to keep reading. The arcs claim their headroom when they
+    are drawn, the bars claim theirs when they are drawn, and the frame grows
+    into them.
+  */
+  const arcRoom = beat >= 2 ? maxLift : 26;
+  const barRoom = beat >= 3 ? BAR_GAP + BAR_MAX + LABEL_ROOM : BAR_GAP + 18;
+
+  const rowY = Math.round(arcRoom + 22);
   const W = boxes.length
     ? boxes[boxes.length - 1].x + boxes[boxes.length - 1].w + 10
     : 600;
-  const H = rowY + BOX_H + BAR_GAP + BAR_MAX + LABEL_ROOM;
+  const H = rowY + BOX_H + barRoom;
 
   if (!data || !sentence) {
     return (

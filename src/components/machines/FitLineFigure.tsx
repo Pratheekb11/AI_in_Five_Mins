@@ -29,7 +29,14 @@ import { gradientStep, meanSquaredError } from "@/lib/ml";
  *   1  a first guess, and how wrong it is
  *   2  a few steps downhill
  *   3  where it settles, and what that number is
- *   4  the same as three, while the closing point is made
+ *   4  the same procedure on half the sentences, settling somewhere else
+ *
+ * Stage four used to be stage three again, with a paragraph under it: the one
+ * beat that says "a model's answers are downstream of the examples it was
+ * shown" was the one beat where nothing moved. So it now shows exactly that.
+ * The long sentences go out, the same downhill step runs on what is left, and
+ * the line swings to 3.829 characters per token. Nothing is scripted there
+ * either — it is the same arithmetic on a smaller pile.
  */
 
 const { points, best, sampleSize, source } = REGRESSION;
@@ -47,6 +54,28 @@ function slopeAfter(steps: number): number {
   return slope;
 }
 
+/**
+ * The last stage refits on the shorter half of the same sentences.
+ *
+ * Run once, here, rather than in render: it is the same pure step the game
+ * runs, two thousand times, and the answer never changes. The cut is the
+ * median sentence length, so it is a property of the corpus rather than a
+ * number somebody chose to make the point land.
+ */
+const MEDIAN_CHARS = [...points.map((p) => p.chars)].sort((a, b) => a - b)[
+  Math.floor(points.length / 2)
+];
+
+const SHORT_POINTS = points.filter((p) => p.chars <= MEDIAN_CHARS);
+
+const SHORT_SLOPE = (() => {
+  let slope = START;
+  for (let i = 0; i < 2000; i++) {
+    slope = gradientStep(SHORT_POINTS, slope, RATE);
+  }
+  return slope;
+})();
+
 /** Plot box, in the SVG's own units. */
 const W = 640;
 const H = 300;
@@ -63,7 +92,13 @@ export function FitLineFigure() {
   const still = useReducedMotion();
 
   const settled = stage >= 3;
-  const slope = settled ? best.slope : slopeAfter(STEPS_BY_STAGE[stage] ?? 0);
+  /* Stage four is a different pile of examples, not a different procedure. */
+  const refit = stage >= 4;
+  const slope = refit
+    ? SHORT_SLOPE
+    : settled
+      ? best.slope
+      : slopeAfter(STEPS_BY_STAGE[stage] ?? 0);
   const error = meanSquaredError(points, slope);
   const showLine = stage >= 1;
 
@@ -104,15 +139,36 @@ export function FitLineFigure() {
           />
 
           {points.map((p, i) => (
-            <circle
+            <motion.circle
               key={i}
               cx={x(p.chars)}
               cy={y(p.tokens)}
               r={3}
               className="fill-blue"
-              opacity={0.55}
+              initial={false}
+              animate={{
+                opacity: refit && p.chars > MEDIAN_CHARS ? 0.1 : 0.55,
+              }}
+              transition={{ duration: still ? 0 : 0.5 }}
             />
           ))}
+
+          {/* Where it had settled on all of them, kept as a ghost so the
+              swing is a movement rather than a new picture. */}
+          {refit ? (
+            <motion.line
+              x1={x(0)}
+              y1={y(0)}
+              x2={x(maxChars)}
+              y2={y(best.slope * maxChars)}
+              className="stroke-ink/30"
+              strokeWidth={2}
+              strokeDasharray="5 5"
+              initial={still ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4 }}
+            />
+          ) : null}
 
           {/* One line, never replaced. It only ever swings. */}
           {showLine ? (
@@ -148,7 +204,7 @@ export function FitLineFigure() {
           </span>
         </div>
 
-        {settled ? (
+        {settled && !refit ? (
           <motion.p
             initial={still ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -158,6 +214,24 @@ export function FitLineFigure() {
             &nbsp;sentences of Victorian children&rsquo;s fiction, and feeding
             the same procedure different text settles it somewhere else. That is
             the whole of what training is, at every scale.
+          </motion.p>
+        ) : null}
+
+        {refit ? (
+          <motion.p
+            initial={still ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="prose-measure text-ink-soft mt-3 text-[0.9375rem]"
+          >
+            Same procedure, same starting guess, {SHORT_POINTS.length} sentences
+            instead of {sampleSize}: only the ones at or under{" "}
+            {MEDIAN_CHARS} characters. It settles at{" "}
+            <span className="data text-teal-text font-bold">
+              {(1 / SHORT_SLOPE).toFixed(3)}
+            </span>{" "}
+            instead of {best.charsPerToken}. The dashed line is where it had
+            stopped a moment ago. Nothing about the method changed. Only what it
+            was shown.
           </motion.p>
         ) : null}
       </div>

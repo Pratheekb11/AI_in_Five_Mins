@@ -94,7 +94,15 @@ const BEATS = [
     label: "Find the rule",
     says: `Now nobody writes a rule. The machine is shown labelled examples and finds the pattern itself, scoring ${(learned.accuracy * 100).toFixed(1)}%. That is the whole of what "AI" means here, and it is the only line that matters.`,
   },
+  {
+    label: "What it missed",
+    says: `${(learned.accuracy * 100).toFixed(1)}% is ${learned.missed} spam messages delivered and ${learned.falseAlarms} ordinary messages binned. A percentage hides both. The counts do not.`,
+  },
 ];
+
+/** The held-out spam, one square each. 145 caught, 11 through. */
+const TEST_SPAM = learned.caught + learned.missed;
+const TEST_HAM = learned.testSize - TEST_SPAM;
 
 export function WhatIsAI({ driven }: { driven?: number }) {
   const still = useReducedMotion();
@@ -116,8 +124,9 @@ export function WhatIsAI({ driven }: { driven?: number }) {
   // it with the walkthrough's own controls. Left alone, it plays itself.
   const at = driven === undefined ? beat : Math.min(driven, BEATS.length - 1);
 
-  /** How many bars are on screen at this beat. */
-  const showing = at === 0 ? 0 : at;
+  /** How many bars are on screen at this beat. Beats past the last machine
+      keep all three up and add to them rather than counting past the end. */
+  const showing = at === 0 ? 0 : Math.min(at, MACHINES.length);
 
   return (
     <div className="plate overflow-hidden">
@@ -200,6 +209,53 @@ export function WhatIsAI({ driven }: { driven?: number }) {
             );
           })}
         </ul>
+
+        {/* The last beat turns the winning percentage back into messages.
+            98.65% reads as finished; eleven squares of spam that got through
+            does not, and both are the same measurement. */}
+        {at >= 4 ? (
+          <motion.div
+            className="border-ink/20 mb-4 border-t pt-4"
+            initial={still ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <p className="label text-ink-faint mb-2">
+              The {TEST_SPAM} spam messages it was tested on
+            </p>
+            <div
+              className="flex flex-wrap gap-[3px]"
+              role="img"
+              aria-label={`${learned.caught} spam caught, ${learned.missed} delivered`}
+            >
+              {Array.from({ length: TEST_SPAM }, (_, i) => {
+                const missed = i >= learned.caught;
+                return (
+                  <motion.span
+                    key={i}
+                    className={`block h-2.5 w-2.5 rounded-[1px] ${
+                      missed ? "bg-pink" : "bg-teal"
+                    }`}
+                    initial={still ? false : { opacity: 0 }}
+                    animate={{ opacity: missed ? 1 : 0.55 }}
+                    transition={{
+                      duration: 0.2,
+                      delay: still ? 0 : Math.min(i, 60) * 0.006,
+                    }}
+                  />
+                );
+              })}
+            </div>
+            <p className="text-ink-soft mt-2 text-[0.8125rem]">
+              <span className="text-pink-text font-semibold">
+                {learned.missed} delivered
+              </span>{" "}
+              anyway. And {learned.falseAlarms} of the {TEST_HAM} ordinary
+              messages were binned, which for most people is the more expensive
+              mistake.
+            </p>
+          </motion.div>
+        ) : null}
 
         <p className="text-ink-faint mb-4 text-[0.75rem]">
           Bars start at 80%, not zero. The whole argument on this job happens

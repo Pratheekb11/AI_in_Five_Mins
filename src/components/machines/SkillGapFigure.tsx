@@ -12,6 +12,14 @@ import { useWalkthroughStep } from "@/components/lesson/Walkthrough";
  * result. The newest workers got more than twice it and the most experienced
  * got a result the authors describe as minimal.
  *
+ * The average row NEVER leaves. It used to: the headline bar exited and two
+ * new bars arrived in its place, which is a slideshow, and a reader who looks
+ * away for a second comes back with nothing to compare against. It stays, goes
+ * quiet, and from the moment it splits it also prints itself as a dashed rule
+ * down every bar underneath — so thirty four per cent is seen overshooting the
+ * average and "minimal" is seen falling short of it, rather than being two
+ * numbers you are asked to hold in your head.
+ *
  * The experienced row deliberately has no bar. The paper reports that group as
  * minimal rather than as a headline percentage, and drawing a bar of some
  * invented length would be putting a number in the reader's head that nobody
@@ -93,8 +101,8 @@ const TEXT: Record<Row["ink"], string> = {
 
 function rowsFor(stage: number): Row[] {
   if (stage <= 0) return [AVERAGE];
-  if (stage === 1) return SPLIT;
-  return [...SPLIT, NARROW];
+  if (stage === 1) return [AVERAGE, ...SPLIT];
+  return [AVERAGE, ...SPLIT, NARROW];
 }
 
 export function SkillGapFigure() {
@@ -113,19 +121,26 @@ export function SkillGapFigure() {
             ? "The number everybody quotes"
             : stage === 1
               ? "The two groups it was averaged from"
-              : "And what happens when the task gets narrow"}
+              : stage < 4
+                ? "And what happens when the task gets narrow"
+                : "And where that leaves your own week"}
         </p>
       </div>
 
       <div className="px-4 py-4">
         <ul className="space-y-4">
           <AnimatePresence initial={false} mode="popLayout">
-            {rows.map((row) => (
+            {rows.map((row) => {
+              /* Once the average has been taken apart it is context, not the
+                 subject. It stays on screen and stops competing. */
+              const quiet = row.id === "avg" && stage >= 1;
+
+              return (
               <motion.li
                 key={row.id}
                 layout={!still}
                 initial={still ? false : { opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: quiet ? 0.5 : 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.35 }}
               >
@@ -140,7 +155,7 @@ export function SkillGapFigure() {
                   </span>
                 </div>
 
-                <span className="bg-paper-sunk border-ink/20 block h-5 overflow-hidden rounded-[1px] border">
+                <span className="bg-paper-sunk border-ink/20 relative block h-5 overflow-hidden rounded-[1px] border">
                   {row.percent === null ? (
                     // No bar, because no figure was published for this group.
                     <span className="border-ink/40 ml-1 block h-full w-1 border-r border-dashed" />
@@ -155,13 +170,26 @@ export function SkillGapFigure() {
                       }}
                     />
                   )}
+
+                  {/* The average, printed straight down every bar under it. */}
+                  {stage >= 1 && row.id !== "avg" ? (
+                    <motion.span
+                      aria-hidden="true"
+                      className="border-ink absolute inset-y-0 border-l-2 border-dashed"
+                      style={{ left: `${(AVERAGE.percent! / AXIS) * 100}%` }}
+                      initial={still ? false : { opacity: 0 }}
+                      animate={{ opacity: 0.75 }}
+                      transition={{ duration: 0.4, delay: 0.3 }}
+                    />
+                  ) : null}
                 </span>
 
                 <p className="text-ink-faint mt-1 text-[0.8125rem]">
-                  {row.detail}
+                  {quiet ? "The line down every bar below is this number." : row.detail}
                 </p>
               </motion.li>
-            ))}
+              );
+            })}
           </AnimatePresence>
         </ul>
 
@@ -177,6 +205,50 @@ export function SkillGapFigure() {
             up. Widen it to a whole job and it comes back down to fourteen, and
             then splits.
           </motion.p>
+        ) : null}
+
+        {/* The last beat of the walkthrough is about the reader's own tasks,
+            and the figure used to draw nothing for it: stage three and stage
+            four were the identical picture. This is the honest shape of what
+            is known about them — a range between the two measured ends and no
+            number inside it. Yellow, because on this site yellow is the
+            learner's own input. */}
+        {stage >= 4 ? (
+          <motion.div
+            className="mt-5"
+            initial={still ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <div className="mb-1.5 flex flex-wrap items-baseline justify-between gap-x-3">
+              <span className="text-[0.9375rem] font-semibold">
+                Your own tasks
+              </span>
+              <span className="data text-yellow-text text-sm font-bold">
+                nobody has measured this
+              </span>
+            </div>
+
+            <span className="bg-paper-sunk border-ink/20 relative block h-5 overflow-hidden rounded-[1px] border">
+              <motion.span
+                className="bg-yellow/45 block h-full"
+                initial={still ? false : { width: 0 }}
+                animate={{ width: `${(34 / AXIS) * 100}%` }}
+                transition={{ duration: still ? 0 : 0.7, ease: "easeOut" }}
+              />
+              <span
+                aria-hidden="true"
+                className="border-ink absolute inset-y-0 border-l-2 border-dashed opacity-75"
+                style={{ left: `${(AVERAGE.percent! / AXIS) * 100}%` }}
+              />
+            </span>
+
+            <p className="text-ink-faint mt-1 text-[0.8125rem]">
+              Somewhere between minimal and thirty-four per cent, and which end
+              depends on the task and on you. That is the whole answer anybody
+              has.
+            </p>
+          </motion.div>
         ) : null}
 
         {stage >= 3 ? (

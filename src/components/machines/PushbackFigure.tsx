@@ -47,6 +47,14 @@ const STAGE_STYLE: Record<number, PushStyle> = {
   5: "insistent",
 };
 
+/** Named, not measured. Only the third of these has numbers on this page. */
+const FAILURE_MODES = [
+  { name: "Invents", where: "panel below", watched: false },
+  { name: "Goes stale", where: "panel below", watched: false },
+  { name: "Caves", where: "measured above", watched: true },
+  { name: "Cannot calculate", where: "panel below", watched: false },
+] as const;
+
 const STYLE_ORDER: PushStyle[] = [
   "neutral",
   "leading",
@@ -245,6 +253,40 @@ export function PushbackFigure() {
             </div>
           </div>
         </div>
+      ) : null}
+
+      {/* The last step of the walkthrough talks about the other three failure
+          modes, and until this existed the figure had nothing to say there:
+          stages four and five drew the identical picture, so pressing Next did
+          nothing at all. This names the four and marks the one just watched.
+          No bars, because only one of the four is measured on this page and a
+          bar for the other three would be a number nobody took. */}
+      {stage >= 5 ? (
+        <motion.div
+          className="border-ink/20 border-t px-4 py-3"
+          initial={still ? false : { opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35 }}
+        >
+          <p className="label text-ink-faint mb-2">
+            The four ways these fail
+          </p>
+          <ul className="flex flex-wrap gap-2">
+            {FAILURE_MODES.map((mode) => (
+              <li
+                key={mode.name}
+                className={`rounded-[2px] border px-2 py-1 text-sm font-semibold ${
+                  mode.watched
+                    ? "border-pink-text/40 bg-pink-wash text-pink-text"
+                    : "border-ink/25 text-ink-faint"
+                }`}
+              >
+                {mode.name}
+                <span className="label ml-2 opacity-70">{mode.where}</span>
+              </li>
+            ))}
+          </ul>
+        </motion.div>
       ) : null}
 
       <figcaption className="border-ink/20 text-ink-faint border-t px-4 py-2.5 text-[0.8125rem]">

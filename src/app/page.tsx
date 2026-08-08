@@ -1,6 +1,6 @@
 import { Engagement } from "@/components/Engagement";
 import Link from "next/link";
-import { HeroDemo } from "@/components/HeroDemo";
+import { HeroReel } from "@/components/HeroReel";
 import { Reveal } from "@/components/Reveal";
 import { TheLoop } from "@/components/TheLoop";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -86,7 +86,7 @@ export default function Home() {
                 I am Nimo. Before anyone explains anything to you, play one
                 round against a real model and see how you do.
               </NimoSays>
-              <HeroDemo />
+              <HeroReel />
             </div>
           </div>
         </section>

@@ -1,0 +1,1244 @@
+{
+  "generatedBy": "data/scripts/build-tree.mjs",
+  "source": {
+    "name": "SMS Spam Collection v.1",
+    "authors": "Almeida, Gómez Hidalgo & Yamakami",
+    "url": "https://archive.ics.uci.edu/dataset/228/sms+spam+collection",
+    "licence": "Free to use with attribution to the authors' 2011 paper"
+  },
+  "corpus": {
+    "total": 5574,
+    "trainSize": 4459,
+    "testSize": 1115,
+    "spamInTrain": 591
+  },
+  "features": [
+    {
+      "id": "shortcode",
+      "label": "Has a five digit number in it"
+    },
+    {
+      "id": "free",
+      "label": "Uses the word free"
+    },
+    {
+      "id": "money",
+      "label": "Mentions money"
+    },
+    {
+      "id": "prize",
+      "label": "Mentions winning something"
+    },
+    {
+      "id": "long",
+      "label": "Longer than 120 characters"
+    },
+    {
+      "id": "shouting",
+      "label": "Two or more shouted words"
+    },
+    {
+      "id": "urgent",
+      "label": "Sounds urgent"
+    },
+    {
+      "id": "url",
+      "label": "Contains a web address"
+    },
+    {
+      "id": "question",
+      "label": "Asks a question"
+    },
+    {
+      "id": "smiley",
+      "label": "Has a smiley in it"
+    },
+    {
+      "id": "reply",
+      "label": "Tells you to reply or call"
+    },
+    {
+      "id": "i",
+      "label": "Says I or me"
+    }
+  ],
+  "note": "Grown greedily on information gain, the same measure as the features module, applied again to each pile it creates.",
+  "tree": {
+    "size": 4459,
+    "spam": 591,
+    "purity": 0.1325,
+    "says": 0,
+    "entropy": 0.56437,
+    "ask": "shortcode",
+    "label": "Has a five digit number in it",
+    "gain": 0.37808,
+    "candidates": [
+      {
+        "id": "shortcode",
+        "label": "Has a five digit number in it",
+        "gain": 0.37808
+      },
+      {
+        "id": "reply",
+        "label": "Tells you to reply or call",
+        "gain": 0.28115
+      },
+      {
+        "id": "money",
+        "label": "Mentions money",
+        "gain": 0.21668
+      },
+      {
+        "id": "long",
+        "label": "Longer than 120 characters",
+        "gain": 0.16743
+      },
+      {
+        "id": "prize",
+        "label": "Mentions winning something",
+        "gain": 0.11416
+      },
+      {
+        "id": "shouting",
+        "label": "Two or more shouted words",
+        "gain": 0.10069
+      },
+      {
+        "id": "i",
+        "label": "Says I or me",
+        "gain": 0.07898
+      },
+      {
+        "id": "url",
+        "label": "Contains a web address",
+        "gain": 0.06426
+      },
+      {
+        "id": "free",
+        "label": "Uses the word free",
+        "gain": 0.06298
+      },
+      {
+        "id": "urgent",
+        "label": "Sounds urgent",
+        "gain": 0.0414
+      },
+      {
+        "id": "smiley",
+        "label": "Has a smiley in it",
+        "gain": 0.00334
+      },
+      {
+        "id": "question",
+        "label": "Asks a question",
+        "gain": 0.00113
+      }
+    ],
+    "yes": {
+      "size": 466,
+      "spam": 464,
+      "purity": 0.9957,
+      "says": 1,
+      "entropy": 0.03993,
+      "ask": "money",
+      "label": "Mentions money",
+      "gain": 0.00544,
+      "candidates": [
+        {
+          "id": "money",
+          "label": "Mentions money",
+          "gain": 0.00544
+        },
+        {
+          "id": "i",
+          "label": "Says I or me",
+          "gain": 0.00426
+        },
+        {
+          "id": "urgent",
+          "label": "Sounds urgent",
+          "gain": 0.00303
+        },
+        {
+          "id": "prize",
+          "label": "Mentions winning something",
+          "gain": 0.0028
+        },
+        {
+          "id": "long",
+          "label": "Longer than 120 characters",
+          "gain": 0.00217
+        },
+        {
+          "id": "free",
+          "label": "Uses the word free",
+          "gain": 0.00158
+        },
+        {
+          "id": "question",
+          "label": "Asks a question",
+          "gain": 0.00123
+        },
+        {
+          "id": "url",
+          "label": "Contains a web address",
+          "gain": 0.00115
+        },
+        {
+          "id": "reply",
+          "label": "Tells you to reply or call",
+          "gain": 0.00104
+        },
+        {
+          "id": "smiley",
+          "label": "Has a smiley in it",
+          "gain": 0.00024
+        },
+        {
+          "id": "shouting",
+          "label": "Two or more shouted words",
+          "gain": 0.00003
+        },
+        {
+          "id": "shortcode",
+          "label": "Has a five digit number in it",
+          "gain": 0
+        }
+      ],
+      "yes": {
+        "size": 272,
+        "spam": 272,
+        "purity": 1,
+        "says": 1,
+        "entropy": 0
+      },
+      "no": {
+        "size": 194,
+        "spam": 192,
+        "purity": 0.9897,
+        "says": 1,
+        "entropy": 0.08284,
+        "ask": "i",
+        "label": "Says I or me",
+        "gain": 0.00907,
+        "candidates": [
+          {
+            "id": "i",
+            "label": "Says I or me",
+            "gain": 0.00907
+          },
+          {
+            "id": "free",
+            "label": "Uses the word free",
+            "gain": 0.00634
+          },
+          {
+            "id": "urgent",
+            "label": "Sounds urgent",
+            "gain": 0.00446
+          },
+          {
+            "id": "question",
+            "label": "Asks a question",
+            "gain": 0.00375
+          },
+          {
+            "id": "url",
+            "label": "Contains a web address",
+            "gain": 0.00336
+          },
+          {
+            "id": "long",
+            "label": "Longer than 120 characters",
+            "gain": 0.00292
+          },
+          {
+            "id": "prize",
+            "label": "Mentions winning something",
+            "gain": 0.00251
+          },
+          {
+            "id": "reply",
+            "label": "Tells you to reply or call",
+            "gain": 0.00165
+          },
+          {
+            "id": "shouting",
+            "label": "Two or more shouted words",
+            "gain": 0.00092
+          },
+          {
+            "id": "smiley",
+            "label": "Has a smiley in it",
+            "gain": 0.00063
+          },
+          {
+            "id": "shortcode",
+            "label": "Has a five digit number in it",
+            "gain": 0
+          },
+          {
+            "id": "money",
+            "label": "Mentions money",
+            "gain": 0
+          }
+        ],
+        "yes": {
+          "size": 16,
+          "spam": 15,
+          "purity": 0.9375,
+          "says": 1,
+          "entropy": 0.33729
+        },
+        "no": {
+          "size": 178,
+          "spam": 177,
+          "purity": 0.9944,
+          "says": 1,
+          "entropy": 0.05008,
+          "ask": "free",
+          "label": "Uses the word free",
+          "gain": 0.00384,
+          "candidates": [
+            {
+              "id": "free",
+              "label": "Uses the word free",
+              "gain": 0.00384
+            },
+            {
+              "id": "shouting",
+              "label": "Two or more shouted words",
+              "gain": 0.00327
+            },
+            {
+              "id": "reply",
+              "label": "Tells you to reply or call",
+              "gain": 0.00262
+            },
+            {
+              "id": "urgent",
+              "label": "Sounds urgent",
+              "gain": 0.00219
+            },
+            {
+              "id": "question",
+              "label": "Asks a question",
+              "gain": 0.00207
+            },
+            {
+              "id": "long",
+              "label": "Longer than 120 characters",
+              "gain": 0.00201
+            },
+            {
+              "id": "url",
+              "label": "Contains a web address",
+              "gain": 0.00195
+            },
+            {
+              "id": "prize",
+              "label": "Mentions winning something",
+              "gain": 0.0015
+            },
+            {
+              "id": "smiley",
+              "label": "Has a smiley in it",
+              "gain": 0.00014
+            },
+            {
+              "id": "shortcode",
+              "label": "Has a five digit number in it",
+              "gain": 0
+            },
+            {
+              "id": "money",
+              "label": "Mentions money",
+              "gain": 0
+            },
+            {
+              "id": "i",
+              "label": "Says I or me",
+              "gain": 0
+            }
+          ],
+          "yes": {
+            "size": 67,
+            "spam": 67,
+            "purity": 1,
+            "says": 1,
+            "entropy": 0
+          },
+          "no": {
+            "size": 111,
+            "spam": 110,
+            "purity": 0.991,
+            "says": 1,
+            "entropy": 0.07415
+          }
+        }
+      }
+    },
+    "no": {
+      "size": 3993,
+      "spam": 127,
+      "purity": 0.0318,
+      "says": 0,
+      "entropy": 0.20337,
+      "ask": "money",
+      "label": "Mentions money",
+      "gain": 0.04542,
+      "candidates": [
+        {
+          "id": "money",
+          "label": "Mentions money",
+          "gain": 0.04542
+        },
+        {
+          "id": "long",
+          "label": "Longer than 120 characters",
+          "gain": 0.0343
+        },
+        {
+          "id": "url",
+          "label": "Contains a web address",
+          "gain": 0.03193
+        },
+        {
+          "id": "shouting",
+          "label": "Two or more shouted words",
+          "gain": 0.02522
+        },
+        {
+          "id": "free",
+          "label": "Uses the word free",
+          "gain": 0.02359
+        },
+        {
+          "id": "prize",
+          "label": "Mentions winning something",
+          "gain": 0.02111
+        },
+        {
+          "id": "i",
+          "label": "Says I or me",
+          "gain": 0.015
+        },
+        {
+          "id": "reply",
+          "label": "Tells you to reply or call",
+          "gain": 0.01388
+        },
+        {
+          "id": "urgent",
+          "label": "Sounds urgent",
+          "gain": 0.00486
+        },
+        {
+          "id": "smiley",
+          "label": "Has a smiley in it",
+          "gain": 0.00064
+        },
+        {
+          "id": "question",
+          "label": "Asks a question",
+          "gain": 0.00039
+        },
+        {
+          "id": "shortcode",
+          "label": "Has a five digit number in it",
+          "gain": 0
+        }
+      ],
+      "yes": {
+        "size": 60,
+        "spam": 44,
+        "purity": 0.7333,
+        "says": 1,
+        "entropy": 0.83664,
+        "ask": "long",
+        "label": "Longer than 120 characters",
+        "gain": 0.18218,
+        "candidates": [
+          {
+            "id": "long",
+            "label": "Longer than 120 characters",
+            "gain": 0.18218
+          },
+          {
+            "id": "shouting",
+            "label": "Two or more shouted words",
+            "gain": 0.13708
+          },
+          {
+            "id": "i",
+            "label": "Says I or me",
+            "gain": 0.12515
+          },
+          {
+            "id": "url",
+            "label": "Contains a web address",
+            "gain": 0.09238
+          },
+          {
+            "id": "free",
+            "label": "Uses the word free",
+            "gain": 0.04417
+          },
+          {
+            "id": "prize",
+            "label": "Mentions winning something",
+            "gain": 0.03705
+          },
+          {
+            "id": "urgent",
+            "label": "Sounds urgent",
+            "gain": 0.03034
+          },
+          {
+            "id": "reply",
+            "label": "Tells you to reply or call",
+            "gain": 0.02306
+          },
+          {
+            "id": "smiley",
+            "label": "Has a smiley in it",
+            "gain": 0.01521
+          },
+          {
+            "id": "question",
+            "label": "Asks a question",
+            "gain": 0.00278
+          },
+          {
+            "id": "shortcode",
+            "label": "Has a five digit number in it",
+            "gain": 0
+          },
+          {
+            "id": "money",
+            "label": "Mentions money",
+            "gain": 0
+          }
+        ],
+        "yes": {
+          "size": 45,
+          "spam": 39,
+          "purity": 0.8667,
+          "says": 1,
+          "entropy": 0.56651,
+          "ask": "i",
+          "label": "Says I or me",
+          "gain": 0.27885,
+          "candidates": [
+            {
+              "id": "i",
+              "label": "Says I or me",
+              "gain": 0.27885
+            },
+            {
+              "id": "shouting",
+              "label": "Two or more shouted words",
+              "gain": 0.05661
+            },
+            {
+              "id": "url",
+              "label": "Contains a web address",
+              "gain": 0.05243
+            },
+            {
+              "id": "urgent",
+              "label": "Sounds urgent",
+              "gain": 0.04649
+            },
+            {
+              "id": "question",
+              "label": "Asks a question",
+              "gain": 0.02971
+            },
+            {
+              "id": "reply",
+              "label": "Tells you to reply or call",
+              "gain": 0.01428
+            },
+            {
+              "id": "smiley",
+              "label": "Has a smiley in it",
+              "gain": 0.0094
+            },
+            {
+              "id": "free",
+              "label": "Uses the word free",
+              "gain": 0.00885
+            },
+            {
+              "id": "prize",
+              "label": "Mentions winning something",
+              "gain": 0.00391
+            },
+            {
+              "id": "shortcode",
+              "label": "Has a five digit number in it",
+              "gain": 0
+            },
+            {
+              "id": "money",
+              "label": "Mentions money",
+              "gain": 0
+            },
+            {
+              "id": "long",
+              "label": "Longer than 120 characters",
+              "gain": 0
+            }
+          ],
+          "yes": {
+            "size": 13,
+            "spam": 7,
+            "purity": 0.5385,
+            "says": 1,
+            "entropy": 0.99573
+          },
+          "no": {
+            "size": 32,
+            "spam": 32,
+            "purity": 1,
+            "says": 1,
+            "entropy": 0
+          }
+        },
+        "no": {
+          "size": 15,
+          "spam": 5,
+          "purity": 0.3333,
+          "says": 0,
+          "entropy": 0.9183
+        }
+      },
+      "no": {
+        "size": 3933,
+        "spam": 83,
+        "purity": 0.0211,
+        "says": 0,
+        "entropy": 0.14759,
+        "ask": "url",
+        "label": "Contains a web address",
+        "gain": 0.02231,
+        "candidates": [
+          {
+            "id": "url",
+            "label": "Contains a web address",
+            "gain": 0.02231
+          },
+          {
+            "id": "long",
+            "label": "Longer than 120 characters",
+            "gain": 0.01737
+          },
+          {
+            "id": "free",
+            "label": "Uses the word free",
+            "gain": 0.01576
+          },
+          {
+            "id": "shouting",
+            "label": "Two or more shouted words",
+            "gain": 0.01307
+          },
+          {
+            "id": "prize",
+            "label": "Mentions winning something",
+            "gain": 0.01255
+          },
+          {
+            "id": "reply",
+            "label": "Tells you to reply or call",
+            "gain": 0.01147
+          },
+          {
+            "id": "i",
+            "label": "Says I or me",
+            "gain": 0.01133
+          },
+          {
+            "id": "urgent",
+            "label": "Sounds urgent",
+            "gain": 0.00374
+          },
+          {
+            "id": "smiley",
+            "label": "Has a smiley in it",
+            "gain": 0.00042
+          },
+          {
+            "id": "question",
+            "label": "Asks a question",
+            "gain": 0.0001
+          },
+          {
+            "id": "shortcode",
+            "label": "Has a five digit number in it",
+            "gain": 0
+          },
+          {
+            "id": "money",
+            "label": "Mentions money",
+            "gain": 0
+          }
+        ],
+        "yes": {
+          "size": 30,
+          "spam": 20,
+          "purity": 0.6667,
+          "says": 1,
+          "entropy": 0.9183,
+          "ask": "urgent",
+          "label": "Sounds urgent",
+          "gain": 0.10917,
+          "candidates": [
+            {
+              "id": "urgent",
+              "label": "Sounds urgent",
+              "gain": 0.10917
+            },
+            {
+              "id": "prize",
+              "label": "Mentions winning something",
+              "gain": 0.08522
+            },
+            {
+              "id": "question",
+              "label": "Asks a question",
+              "gain": 0.08522
+            },
+            {
+              "id": "smiley",
+              "label": "Has a smiley in it",
+              "gain": 0.05451
+            },
+            {
+              "id": "free",
+              "label": "Uses the word free",
+              "gain": 0.05357
+            },
+            {
+              "id": "i",
+              "label": "Says I or me",
+              "gain": 0.0132
+            },
+            {
+              "id": "shouting",
+              "label": "Two or more shouted words",
+              "gain": 0.00712
+            },
+            {
+              "id": "long",
+              "label": "Longer than 120 characters",
+              "gain": 0.00228
+            },
+            {
+              "id": "shortcode",
+              "label": "Has a five digit number in it",
+              "gain": 0
+            },
+            {
+              "id": "money",
+              "label": "Mentions money",
+              "gain": 0
+            },
+            {
+              "id": "url",
+              "label": "Contains a web address",
+              "gain": 0
+            },
+            {
+              "id": "reply",
+              "label": "Tells you to reply or call",
+              "gain": 0
+            }
+          ],
+          "yes": {
+            "size": 5,
+            "spam": 5,
+            "purity": 1,
+            "says": 1,
+            "entropy": 0
+          },
+          "no": {
+            "size": 25,
+            "spam": 15,
+            "purity": 0.6,
+            "says": 1,
+            "entropy": 0.97095
+          }
+        },
+        "no": {
+          "size": 3903,
+          "spam": 63,
+          "purity": 0.0161,
+          "says": 0,
+          "entropy": 0.11919,
+          "ask": "free",
+          "label": "Uses the word free",
+          "gain": 0.01513,
+          "candidates": [
+            {
+              "id": "free",
+              "label": "Uses the word free",
+              "gain": 0.01513
+            },
+            {
+              "id": "reply",
+              "label": "Tells you to reply or call",
+              "gain": 0.0124
+            },
+            {
+              "id": "long",
+              "label": "Longer than 120 characters",
+              "gain": 0.01195
+            },
+            {
+              "id": "shouting",
+              "label": "Two or more shouted words",
+              "gain": 0.01091
+            },
+            {
+              "id": "prize",
+              "label": "Mentions winning something",
+              "gain": 0.00935
+            },
+            {
+              "id": "i",
+              "label": "Says I or me",
+              "gain": 0.00842
+            },
+            {
+              "id": "urgent",
+              "label": "Sounds urgent",
+              "gain": 0.00301
+            },
+            {
+              "id": "smiley",
+              "label": "Has a smiley in it",
+              "gain": 0.00013
+            },
+            {
+              "id": "question",
+              "label": "Asks a question",
+              "gain": 0.00009
+            },
+            {
+              "id": "shortcode",
+              "label": "Has a five digit number in it",
+              "gain": 0
+            },
+            {
+              "id": "money",
+              "label": "Mentions money",
+              "gain": 0
+            },
+            {
+              "id": "url",
+              "label": "Contains a web address",
+              "gain": 0
+            }
+          ],
+          "yes": {
+            "size": 60,
+            "spam": 18,
+            "purity": 0.3,
+            "says": 0,
+            "entropy": 0.88129
+          },
+          "no": {
+            "size": 3843,
+            "spam": 45,
+            "purity": 0.0117,
+            "says": 0,
+            "entropy": 0.09192
+          }
+        }
+      }
+    }
+  },
+  "depths": [
+    {
+      "depth": 1,
+      "leaves": 2,
+      "trainAccuracy": 0.9711,
+      "testAccuracy": 0.9677
+    },
+    {
+      "depth": 2,
+      "leaves": 4,
+      "trainAccuracy": 0.9773,
+      "testAccuracy": 0.9713
+    },
+    {
+      "depth": 3,
+      "leaves": 7,
+      "trainAccuracy": 0.9807,
+      "testAccuracy": 0.9767
+    },
+    {
+      "depth": 4,
+      "leaves": 11,
+      "trainAccuracy": 0.9807,
+      "testAccuracy": 0.9767
+    },
+    {
+      "depth": 5,
+      "leaves": 14,
+      "trainAccuracy": 0.9825,
+      "testAccuracy": 0.9785
+    },
+    {
+      "depth": 6,
+      "leaves": 17,
+      "trainAccuracy": 0.983,
+      "testAccuracy": 0.9776
+    },
+    {
+      "depth": 7,
+      "leaves": 20,
+      "trainAccuracy": 0.9839,
+      "testAccuracy": 0.9785
+    },
+    {
+      "depth": 8,
+      "leaves": 22,
+      "trainAccuracy": 0.9839,
+      "testAccuracy": 0.9785
+    },
+    {
+      "depth": 9,
+      "leaves": 24,
+      "trainAccuracy": 0.9839,
+      "testAccuracy": 0.9785
+    },
+    {
+      "depth": 10,
+      "leaves": 25,
+      "trainAccuracy": 0.9839,
+      "testAccuracy": 0.9785
+    },
+    {
+      "depth": 11,
+      "leaves": 26,
+      "trainAccuracy": 0.9839,
+      "testAccuracy": 0.9785
+    },
+    {
+      "depth": 12,
+      "leaves": 26,
+      "trainAccuracy": 0.9839,
+      "testAccuracy": 0.9785
+    }
+  ],
+  "best": {
+    "depth": 5,
+    "testAccuracy": 0.9785
+  },
+  "rounds": [
+    {
+      "id": "root",
+      "path": [],
+      "size": 4459,
+      "spam": 591,
+      "entropy": 0.56437,
+      "answer": "shortcode",
+      "candidates": [
+        {
+          "id": "shortcode",
+          "label": "Has a five digit number in it",
+          "gain": 0.37808
+        },
+        {
+          "id": "reply",
+          "label": "Tells you to reply or call",
+          "gain": 0.28115
+        },
+        {
+          "id": "money",
+          "label": "Mentions money",
+          "gain": 0.21668
+        },
+        {
+          "id": "long",
+          "label": "Longer than 120 characters",
+          "gain": 0.16743
+        },
+        {
+          "id": "prize",
+          "label": "Mentions winning something",
+          "gain": 0.11416
+        }
+      ]
+    },
+    {
+      "id": "yes",
+      "path": [
+        "yes"
+      ],
+      "size": 466,
+      "spam": 464,
+      "entropy": 0.03993,
+      "answer": "money",
+      "candidates": [
+        {
+          "id": "money",
+          "label": "Mentions money",
+          "gain": 0.00544
+        },
+        {
+          "id": "i",
+          "label": "Says I or me",
+          "gain": 0.00426
+        },
+        {
+          "id": "urgent",
+          "label": "Sounds urgent",
+          "gain": 0.00303
+        },
+        {
+          "id": "prize",
+          "label": "Mentions winning something",
+          "gain": 0.0028
+        },
+        {
+          "id": "long",
+          "label": "Longer than 120 characters",
+          "gain": 0.00217
+        }
+      ]
+    },
+    {
+      "id": "yes-no",
+      "path": [
+        "yes",
+        "no"
+      ],
+      "size": 194,
+      "spam": 192,
+      "entropy": 0.08284,
+      "answer": "i",
+      "candidates": [
+        {
+          "id": "i",
+          "label": "Says I or me",
+          "gain": 0.00907
+        },
+        {
+          "id": "free",
+          "label": "Uses the word free",
+          "gain": 0.00634
+        },
+        {
+          "id": "urgent",
+          "label": "Sounds urgent",
+          "gain": 0.00446
+        },
+        {
+          "id": "question",
+          "label": "Asks a question",
+          "gain": 0.00375
+        },
+        {
+          "id": "url",
+          "label": "Contains a web address",
+          "gain": 0.00336
+        }
+      ]
+    },
+    {
+      "id": "yes-no-no",
+      "path": [
+        "yes",
+        "no",
+        "no"
+      ],
+      "size": 178,
+      "spam": 177,
+      "entropy": 0.05008,
+      "answer": "free",
+      "candidates": [
+        {
+          "id": "free",
+          "label": "Uses the word free",
+          "gain": 0.00384
+        },
+        {
+          "id": "shouting",
+          "label": "Two or more shouted words",
+          "gain": 0.00327
+        },
+        {
+          "id": "reply",
+          "label": "Tells you to reply or call",
+          "gain": 0.00262
+        },
+        {
+          "id": "urgent",
+          "label": "Sounds urgent",
+          "gain": 0.00219
+        },
+        {
+          "id": "question",
+          "label": "Asks a question",
+          "gain": 0.00207
+        }
+      ]
+    },
+    {
+      "id": "no",
+      "path": [
+        "no"
+      ],
+      "size": 3993,
+      "spam": 127,
+      "entropy": 0.20337,
+      "answer": "money",
+      "candidates": [
+        {
+          "id": "money",
+          "label": "Mentions money",
+          "gain": 0.04542
+        },
+        {
+          "id": "long",
+          "label": "Longer than 120 characters",
+          "gain": 0.0343
+        },
+        {
+          "id": "url",
+          "label": "Contains a web address",
+          "gain": 0.03193
+        },
+        {
+          "id": "shouting",
+          "label": "Two or more shouted words",
+          "gain": 0.02522
+        },
+        {
+          "id": "free",
+          "label": "Uses the word free",
+          "gain": 0.02359
+        }
+      ]
+    },
+    {
+      "id": "no-yes",
+      "path": [
+        "no",
+        "yes"
+      ],
+      "size": 60,
+      "spam": 44,
+      "entropy": 0.83664,
+      "answer": "long",
+      "candidates": [
+        {
+          "id": "long",
+          "label": "Longer than 120 characters",
+          "gain": 0.18218
+        },
+        {
+          "id": "shouting",
+          "label": "Two or more shouted words",
+          "gain": 0.13708
+        },
+        {
+          "id": "i",
+          "label": "Says I or me",
+          "gain": 0.12515
+        },
+        {
+          "id": "url",
+          "label": "Contains a web address",
+          "gain": 0.09238
+        },
+        {
+          "id": "free",
+          "label": "Uses the word free",
+          "gain": 0.04417
+        }
+      ]
+    },
+    {
+      "id": "no-no",
+      "path": [
+        "no",
+        "no"
+      ],
+      "size": 3933,
+      "spam": 83,
+      "entropy": 0.14759,
+      "answer": "url",
+      "candidates": [
+        {
+          "id": "url",
+          "label": "Contains a web address",
+          "gain": 0.02231
+        },
+        {
+          "id": "long",
+          "label": "Longer than 120 characters",
+          "gain": 0.01737
+        },
+        {
+          "id": "free",
+          "label": "Uses the word free",
+          "gain": 0.01576
+        },
+        {
+          "id": "shouting",
+          "label": "Two or more shouted words",
+          "gain": 0.01307
+        },
+        {
+          "id": "prize",
+          "label": "Mentions winning something",
+          "gain": 0.01255
+        }
+      ]
+    },
+    {
+      "id": "no-no-yes",
+      "path": [
+        "no",
+        "no",
+        "yes"
+      ],
+      "size": 30,
+      "spam": 20,
+      "entropy": 0.9183,
+      "answer": "urgent",
+      "candidates": [
+        {
+          "id": "urgent",
+          "label": "Sounds urgent",
+          "gain": 0.10917
+        },
+        {
+          "id": "prize",
+          "label": "Mentions winning something",
+          "gain": 0.08522
+        },
+        {
+          "id": "question",
+          "label": "Asks a question",
+          "gain": 0.08522
+        },
+        {
+          "id": "smiley",
+          "label": "Has a smiley in it",
+          "gain": 0.05451
+        },
+        {
+          "id": "free",
+          "label": "Uses the word free",
+          "gain": 0.05357
+        }
+      ]
+    }
+  ]
+}

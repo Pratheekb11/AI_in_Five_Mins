@@ -287,6 +287,21 @@ export const LESSONS: Lesson[] = [
     feynman: "What is the model actually drawing, and what does its number mean?",
   },
 
+  {
+    slug: "decision-trees",
+    track: "ml",
+    number: 7,
+    title: "Twenty questions",
+    standfirst:
+      "Ask the question that removes most uncertainty, then ask again on each pile you are left with. That is a decision tree, and you can read one out loud.",
+    nugget: "The same measure, applied over and over.",
+    machine: "Grow the Tree",
+    minutes: 8,
+    ink: "yellow",
+    status: "ready",
+    feynman: "Could I explain this model's decision to the person it affects?",
+  },
+
   // --------------------------------------------------------- down the rabbit hole --
   {
     slug: "what-is-ai",

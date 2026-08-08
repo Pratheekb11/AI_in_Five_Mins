@@ -29,6 +29,7 @@ node data/scripts/build-threshold.mjs
 node data/scripts/build-overfit.mjs
 node data/scripts/build-crossval.mjs
 node data/scripts/build-logistic.mjs
+node data/scripts/build-tree.mjs
 node data/scripts/build-spam-bench.mjs
 node data/scripts/build-regression-data.mjs
 ```
@@ -180,6 +181,26 @@ Output should be byte-identical to what is committed — every script that sampl
 **On the exported points:** every held-out message ships as `[length, digits, label, probability]`. The twelve game rounds are chosen as the nearest real message to each of twelve target probabilities spread across the range, rather than by rank, because most messages sit under five per cent and sampling by rank produced twelve identical-looking rounds.
 
 **On the printed messages:** any message containing seven or more consecutive digits is excluded from the game rounds, the same rule `build-spam-bench.mjs` uses, so no real phone number is reprinted.
+
+---
+
+## `public/data/tree.json`
+
+**Script:** `data/scripts/build-tree.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 7 — Twenty questions
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** a decision tree grown greedily on information gain over the same twelve yes-or-no features as `features.json`, stopping at depth four for the figure, with a minimum of five messages a side. Every node records its pile, its chosen question, and what all twelve questions would have been worth there. The whole tree is then regrown at every depth from one to twelve and scored on the held-out messages.
+
+**On the depth curve:** held-out accuracy peaks at depth five and then flattens rather than collapsing. With twelve boolean features there is a hard limit on how much of the training set a tree can memorise, and the page says that instead of claiming a textbook collapse.
+
+**On the game nodes:** only nodes where the second best question is worth more than a quarter of the best are kept, because a node with an obvious answer teaches nothing.
 
 ---
 

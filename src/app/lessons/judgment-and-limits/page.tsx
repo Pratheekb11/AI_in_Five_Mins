@@ -6,6 +6,7 @@ import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { PasteAnatomyFigure } from "@/components/machines/PasteAnatomyFigure";
 import { KIND_LABEL, KIND_NOTE, PAYLOADS } from "@/lib/game/paste";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson, lessonsIn } from "@/lib/lessons";
@@ -63,21 +64,24 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "Two things are left, and they are the two nobody puts in a tutorial. What you are allowed to type into it, and what happens to you if you type everything into it.",
+    say: "Two things are left, and they are the two nobody puts in a tutorial. What you are allowed to type into it, and what happens to you if you type everything into it. Start with something ordinary you were about to paste.",
   },
   {
-    say: "Start with the first. When you paste, you are making a decision on somebody else's behalf. The customer whose complaint you pasted did not agree to that. Neither did the colleague in the screenshot.",
+    say: "Four pieces of that belong to somebody else. A name, an address, a phone number, an order reference. The customer who wrote it did not agree to any of this, and was not asked.",
     caption:
       "The law already draws these lines: personal data, and a stricter category for health, beliefs, politics, union membership and the rest.",
   },
   {
-    say: "Which is why the useful habit is smaller than a policy. Before pasting, ask: is any of this somebody else's to give away? Usually the identifiers were not the part you needed anyway. Strip them out and paste the substance.",
+    say: "So take them out. Look at what happened to the request underneath, which is nothing. The identifiers were never the part you needed help with, and that is true far more often than people expect.",
   },
   {
-    say: "Now the second thing. Lee and colleagues surveyed three hundred knowledge workers and found that the more confidence people had in the tool, the less critical thinking they did. Confidence in themselves ran the other way.",
+    say: "Two things do not get fixed this way. A diagnosis is not a name attached to some content, it is the content. A live key is the whole of the sensitive thing. Neither becomes safe by being anonymised.",
   },
   {
-    say: "There is early evidence the effect is not only about attention. Kosmyna and colleagues put people in EEG caps to write essays; the group using an LLM showed the weakest brain connectivity, the lowest sense of ownership of their own work, and struggled to quote back what they had just written. Small study, one task, and still a preprint. But the direction is worth taking seriously.",
+    say: "Which is why the useful habit is smaller than a policy. One question, before the paste. Most of the time the answer is no and the thing goes straight in, which is what makes the habit survivable.",
+  },
+  {
+    say: "Now the second thing. Lee and colleagues surveyed three hundred knowledge workers and found that the more confidence people had in the tool, the less critical thinking they did. Confidence in themselves ran the other way. Kosmyna and colleagues then put people in EEG caps to write essays, and the group using an assistant showed the weakest brain connectivity and could barely quote back what they had just written. Small study, one task, still a preprint.",
   },
   {
     say: "So the closing question of this whole track is not whether to use it. It is which of your abilities you are willing to let go rusty. And to answer that on purpose, rather than by drift.",
@@ -138,7 +142,7 @@ export default function JudgmentAndLimitsLesson() {
       </div>
 
       <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<PasteAnatomyFigure />} />
       </div>
 
       <section className="plate mb-4 p-5 md:p-6">
@@ -243,12 +247,12 @@ export default function JudgmentAndLimitsLesson() {
 
 
 
-      {/* The end of the track. Eight modules, eight questions worth keeping. */}
+      {/* The end of the track. Six chapters, six questions worth keeping. */}
       <section className="plate bg-teal-wash mb-4 p-5 md:p-6">
         <p className="label text-teal-text mb-3">That is the track</p>
-        <h2 className="display-lg mb-3">Eight questions, and you are done</h2>
+        <h2 className="display-lg mb-3">Six questions, and you are done</h2>
         <p className="prose-measure text-ink-soft mb-5">
-          None of this was about the technology. It was about eight questions
+          None of this was about the technology. It was about six questions
           worth asking in front of a chat window. If you can answer them in
           plain words, you understand these tools better than most people who
           use them every day.

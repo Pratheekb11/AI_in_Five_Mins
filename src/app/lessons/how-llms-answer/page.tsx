@@ -1,4 +1,5 @@
 import { Plinko } from "@/components/games/Plinko";
+import { TemperaturePairFigure } from "@/components/machines/TemperaturePairFigure";
 import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
@@ -51,15 +52,15 @@ const STEPS: Step[] = [
     say: "Here is the entire operation. The model reads everything so far, produces a score for every one of fifty thousand possible next tokens, picks one, adds it to the text, and starts again.",
   },
   {
-    say: "The scores you were playing with are real. Give it the opening of Genesis and one token takes ninety-nine per cent of the probability. Give it 'Once upon a' and the most likely token is at seven per cent. That is far less certain than a person would be.",
+    say: "The scores you were playing with are real. Put the two side by side. Give it the opening of Genesis and one token takes ninety-nine per cent. Give it Once upon a and the most likely token is at seven per cent. Same model, and far less certain than a person would be.",
     caption:
       "Both measured from the same model, on this page, with nothing rounded for effect.",
   },
   {
-    say: "Temperature is the only dial in that loop, and it does not know anything. It stretches the odds or flattens them. Cold means the top token nearly always wins; hot spreads the weight into the tail.",
+    say: "Temperature is the only dial in that loop, and it does not know anything. Turn it cold and watch: nothing happens on the left, because there was nothing left to sharpen. On the right it throws almost everything onto one token.",
   },
   {
-    say: "Which is why you cannot ask for creative and reliable at the same time. Those are the same dial pointing in opposite directions, and every assistant you use has already chosen a compromise for you.",
+    say: "Now turn it hot. The weight spreads into the tail on both sides. Which is why you cannot ask for creative and reliable at the same time: those are the same dial pointing in opposite directions, and every assistant you use has already chosen a compromise for you.",
   },
   {
     say: "And notice the thing that is missing from all of it. Nowhere in that loop is there a step that checks anything against the world. Look at the Paris prompt: the model puts thirty per cent on 'the' and under two per cent on 'France'. It is continuing a sentence, not answering a question.",
@@ -100,7 +101,7 @@ export default function HowLlmsAnswerLesson() {
       </div>
 
       <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<TemperaturePairFigure />} />
       </div>
 
       <DeeperRow video={video}>

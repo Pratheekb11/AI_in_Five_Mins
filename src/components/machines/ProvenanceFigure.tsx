@@ -188,7 +188,9 @@ export function ProvenanceFigure() {
                     shown.rank === 0 ? "bg-teal" : "bg-pink"
                   }`}
                   initial={false}
-                  animate={{ left: `calc(${trackPosition(shown.rank)}% - 3px)` }}
+                  animate={{
+                    left: `calc(${trackPosition(shown.rank)}% - 3px)`,
+                  }}
                   transition={{ duration: still ? 0 : 0.8, ease: "easeInOut" }}
                 />
               </span>
@@ -236,8 +238,8 @@ export function ProvenanceFigure() {
                 <span className="font-data bg-pink-wash text-pink-text rounded-[2px] px-1.5">
                   {visible(shown.topText)}
                 </span>
-                . Not a wrong fact. Just the likeliest next word, which is all it
-                was ever choosing.
+                . Not a wrong fact. Just the likeliest next word, which is all
+                it was ever choosing.
               </p>
             ) : (
               <p className="prose-measure text-ink-soft mt-3 text-[0.9375rem]">

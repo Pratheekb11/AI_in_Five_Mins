@@ -103,10 +103,7 @@ export function WhatIsAI({ driven }: { driven?: number }) {
 
   useEffect(() => {
     if (!running || driven !== undefined) return;
-    const id = setInterval(
-      () => setBeat((b) => (b + 1) % BEATS.length),
-      4200,
-    );
+    const id = setInterval(() => setBeat((b) => (b + 1) % BEATS.length), 4200);
     return () => clearInterval(id);
   }, [running, driven]);
 
@@ -256,9 +253,8 @@ export function WhatIsAI({ driven }: { driven?: number }) {
       <p className="border-ink/20 text-ink-faint border-t px-4 py-3 text-[0.8125rem]">
         {corpus.name}, {corpus.total.toLocaleString("en-US")} messages. All
         three scored on the same held-out split, and the {rules.length}{" "}
-        candidate
-        rules were written before any of them were tested. Nothing here is
-        rounded in anyone&rsquo;s favour.
+        candidate rules were written before any of them were tested. Nothing
+        here is rounded in anyone&rsquo;s favour.
       </p>
     </div>
   );

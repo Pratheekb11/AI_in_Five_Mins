@@ -69,16 +69,48 @@ const CHECK: CheckBeat[] = [
     prompt: "Which of these is a tree good for, and which not?",
     buckets: [
       { id: "good", label: "A good fit", hint: "plays to what a tree is" },
-      { id: "bad", label: "A poor fit", hint: "something else would do better" },
-      { id: "depends", label: "Depends on the features", hint: "not about the model" },
+      {
+        id: "bad",
+        label: "A poor fit",
+        hint: "something else would do better",
+      },
+      {
+        id: "depends",
+        label: "Depends on the features",
+        hint: "not about the model",
+      },
     ],
     items: [
-      { id: "explain", text: "A decision somebody must justify to a regulator", bucket: "good" },
-      { id: "mixed", text: "Data mixing categories, numbers and missing values", bucket: "good" },
-      { id: "diagonal", text: "A boundary that runs diagonally across two features", bucket: "bad" },
-      { id: "smooth", text: "Predicting a smoothly varying quantity", bucket: "bad" },
-      { id: "accuracy", text: "Getting the highest possible accuracy", bucket: "depends" },
-      { id: "speed", text: "Explaining one particular prediction quickly", bucket: "good" },
+      {
+        id: "explain",
+        text: "A decision somebody must justify to a regulator",
+        bucket: "good",
+      },
+      {
+        id: "mixed",
+        text: "Data mixing categories, numbers and missing values",
+        bucket: "good",
+      },
+      {
+        id: "diagonal",
+        text: "A boundary that runs diagonally across two features",
+        bucket: "bad",
+      },
+      {
+        id: "smooth",
+        text: "Predicting a smoothly varying quantity",
+        bucket: "bad",
+      },
+      {
+        id: "accuracy",
+        text: "Getting the highest possible accuracy",
+        bucket: "depends",
+      },
+      {
+        id: "speed",
+        text: "Explaining one particular prediction quickly",
+        bucket: "good",
+      },
     ],
     because:
       "A tree cuts along one feature at a time, so it draws staircases. A diagonal boundary takes it dozens of splits to approximate, and a smooth quantity comes out as steps. What it gives you in exchange is a model made of readable rules that handles awkward mixed data without complaint, and a straight answer to why did it decide that.",
@@ -158,14 +190,14 @@ export default function DecisionTreesLesson() {
           </p>
           <p>
             Hastie and colleagues treat this as the defining weakness of trees,
-            and it is the reason the next module exists. If a single tree wobbles
-            that much, grow a great many of them on slightly different data and
-            let them vote, and the wobble largely cancels.
+            and it is the reason the next module exists. If a single tree
+            wobbles that much, grow a great many of them on slightly different
+            data and let them vote, and the wobble largely cancels.
           </p>
           <p>
-            You can feel it in the game: several nodes have two candidates within
-            a few hundredths of a bit. Those are the nodes where the tree you
-            were shown is one of several equally reasonable trees.
+            You can feel it in the game: several nodes have two candidates
+            within a few hundredths of a bit. Those are the nodes where the tree
+            you were shown is one of several equally reasonable trees.
           </p>
         </MechanismPanel>
 

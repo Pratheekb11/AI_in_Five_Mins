@@ -182,7 +182,8 @@ export function HeroReel() {
   const answer = round.answerLabel;
 
   /* What sits in the blank right now. One element, three contents. */
-  const inBlank = beat === 0 ? "?" : beat === 1 || (beat === 2 && !knew) ? guess : answer;
+  const inBlank =
+    beat === 0 ? "?" : beat === 1 || (beat === 2 && !knew) ? guess : answer;
   const blankInk =
     beat === 0
       ? "bg-yellow-wash text-yellow-text"
@@ -265,7 +266,9 @@ export function HeroReel() {
                 settled ? "bg-teal" : "bg-pink"
               }`}
               initial={false}
-              animate={{ left: `${trackPosition(beat === 0 ? 0 : shownRank) * 100}%` }}
+              animate={{
+                left: `${trackPosition(beat === 0 ? 0 : shownRank) * 100}%`,
+              }}
               transition={
                 still
                   ? { duration: 0 }
@@ -287,7 +290,9 @@ export function HeroReel() {
             <motion.span
               className={`block h-full ${settled ? "bg-teal" : "bg-pink"}`}
               initial={false}
-              animate={{ width: beat === 0 ? "0%" : `${shownProbability * 100}%` }}
+              animate={{
+                width: beat === 0 ? "0%" : `${shownProbability * 100}%`,
+              }}
               transition={{ duration: still ? 0 : 0.55, ease: "easeOut" }}
             />
           </span>

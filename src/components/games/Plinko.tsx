@@ -118,8 +118,8 @@ export function Plinko() {
             {data.model.name}, real next-token odds. The dial reshapes the
             recorded logits and the slots are renormalised over the top {SLOTS}{" "}
             candidates. The rest of the{" "}
-            {prompt?.vocabSize.toLocaleString("en-US") ?? "50,257"} tokens are still
-            there in the model, just not on this board.
+            {prompt?.vocabSize.toLocaleString("en-US") ?? "50,257"} tokens are
+            still there in the model, just not on this board.
           </>
         ) : failed ? (
           <>The probabilities did not load.</>
@@ -153,7 +153,8 @@ export function Plinko() {
               {slots.map((candidate, i) => {
                 const w = weights[i] ?? 0;
                 const isTarget = i === scene.target;
-                const justLanded = last && last.at === scene.at && last.index === i;
+                const justLanded =
+                  last && last.at === scene.at && last.index === i;
                 return (
                   <li key={candidate.id} className="flex items-center gap-3">
                     <span
@@ -165,7 +166,11 @@ export function Plinko() {
                     </span>
                     <span
                       className={`h-4 rounded-[1px] ${
-                        isTarget ? "bg-teal" : justLanded ? "bg-pink" : "bg-blue"
+                        isTarget
+                          ? "bg-teal"
+                          : justLanded
+                            ? "bg-pink"
+                            : "bg-blue"
                       }`}
                       style={{ width: `${w * 72}%` }}
                       aria-hidden="true"

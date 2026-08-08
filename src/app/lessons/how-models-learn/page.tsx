@@ -45,7 +45,8 @@ const SOURCES: Source[] = [
 const STEPS: Step[] = [
   {
     say: "Here is what the dial was really about. Every dot is one real sentence: how many characters it has, and how many tokens it came to. A model is a formula with adjustable numbers in it, and this one has a single dial.",
-    caption: "tokens = dial × characters. One number to set, and nobody told it the answer.",
+    caption:
+      "tokens = dial × characters. One number to set, and nobody told it the answer.",
   },
   {
     say: "Set the dial badly on purpose and you get this line. The number underneath is how wrong it is across all one hundred and forty sentences. That number is the only feedback the machine ever gets.",
@@ -105,10 +106,10 @@ export default function HowModelsLearnLesson() {
         >
           <p>
             One dial makes a hill you could draw. A hundred billion dials make a
-            surface nobody can picture. The procedure does not care, because
-            it never looks at the whole surface anyway. At each step it
-            asks one question per dial: if I nudge this one, does the error go
-            up or down? Then it nudges them all a little, in the answer&rsquo;s
+            surface nobody can picture. The procedure does not care, because it
+            never looks at the whole surface anyway. At each step it asks one
+            question per dial: if I nudge this one, does the error go up or
+            down? Then it nudges them all a little, in the answer&rsquo;s
             direction.
           </p>
           <p>
@@ -154,8 +155,6 @@ export default function HowModelsLearnLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

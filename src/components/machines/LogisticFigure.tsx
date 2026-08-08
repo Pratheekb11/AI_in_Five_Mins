@@ -306,7 +306,8 @@ export function LogisticFigure() {
               A message sitting exactly on the line gets fifty per cent. Move
               away from it and the curve flattens quickly towards nought or one,
               which is why so few messages come back with a middling score. The
-              line answers yes or no. The curve is what turns that into how sure.
+              line answers yes or no. The curve is what turns that into how
+              sure.
             </p>
           </motion.div>
         ) : null}
@@ -323,9 +324,7 @@ export function LogisticFigure() {
             min={0}
             max={last}
             value={Math.max(0, Math.min(last, wanted))}
-            onChange={(e) =>
-              setScrub({ stage, at: Number(e.target.value) })
-            }
+            onChange={(e) => setScrub({ stage, at: Number(e.target.value) })}
             className="accent-pink w-full"
           />
           <div className="label text-ink-faint flex justify-between">

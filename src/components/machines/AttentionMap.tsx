@@ -174,8 +174,8 @@ export function AttentionMap() {
         <p className="text-ink-soft mt-5 text-[0.9375rem]">
           The empty upper triangle is the causal mask: a token is never allowed
           to look at what comes after it. And the dark first column is the
-          attention sink. Across every head and sentence here, an average
-          of <span className="data font-semibold">{(sink * 100).toFixed(0)}%</span>{" "}
+          attention sink. Across every head and sentence here, an average of{" "}
+          <span className="data font-semibold">{(sink * 100).toFixed(0)}%</span>{" "}
           of each row lands on the very first token.
         </p>
       </div>

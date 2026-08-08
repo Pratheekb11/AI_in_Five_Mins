@@ -55,7 +55,13 @@ export type PushRound = {
 };
 
 export type PushData = {
-  model: { id: string; name: string; url: string; licence: string; note: string };
+  model: {
+    id: string;
+    name: string;
+    url: string;
+    licence: string;
+    note: string;
+  };
   literature: { title: string; authors: string; url: string; note: string };
   styles: Record<PushStyle, string>;
   medianCavedTimes: number | null;

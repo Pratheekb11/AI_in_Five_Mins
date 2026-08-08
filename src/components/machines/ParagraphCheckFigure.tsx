@@ -3,7 +3,12 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import { useWalkthroughStep } from "@/components/lesson/Walkthrough";
-import { puzzleForDay, type HuntData, type Puzzle, type Span } from "@/lib/game/hunt";
+import {
+  puzzleForDay,
+  type HuntData,
+  type Puzzle,
+  type Span,
+} from "@/lib/game/hunt";
 import { useToday } from "@/lib/game/useToday";
 
 /**
@@ -78,7 +83,10 @@ function piecesOf(puzzle: Puzzle): Piece[] {
 
 /** The altered words as they sit in the paragraph, spacing included. */
 function alteredWords(puzzle: Puzzle, span: Span): string {
-  return puzzle.text.split(/\s+/).slice(span.first, span.last + 1).join(" ");
+  return puzzle.text
+    .split(/\s+/)
+    .slice(span.first, span.last + 1)
+    .join(" ");
 }
 
 function hardestOf(puzzle: Puzzle): Span {
@@ -260,7 +268,7 @@ export function ParagraphCheckFigure() {
         >
           {puzzle.title} on {data.source.name}
         </a>
-        {puzzle.revision ? `, revision ${puzzle.revision}` : ""}, {" "}
+        {puzzle.revision ? `, revision ${puzzle.revision}` : ""},{" "}
         {data.source.licence}. Every alteration was checked against that exact
         revision before this figure shipped.
       </figcaption>

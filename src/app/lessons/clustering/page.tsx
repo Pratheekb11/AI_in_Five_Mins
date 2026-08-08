@@ -27,8 +27,10 @@ const SOURCES: Source[] = [
     licence: "Public Domain Dedication and Licence v1.0",
   },
   {
-    title: "Some methods for classification and analysis of multivariate observations",
-    publisher: "J. MacQueen (Berkeley Symposium on Mathematical Statistics and Probability, 1967)",
+    title:
+      "Some methods for classification and analysis of multivariate observations",
+    publisher:
+      "J. MacQueen (Berkeley Symposium on Mathematical Statistics and Probability, 1967)",
     url: "https://projecteuclid.org/proceedings/berkeley-symposium-on-mathematical-statistics-and-probability/proceedings-of-the-fifth-berkeley-symposium-on-mathematical-statistics-and/Chapter/Some-methods-for-classification-and-analysis-of-multivariate-observations/bsmsp/1200512992",
     used: "The algorithm this page runs, and the name k-means, from the paper that introduced it.",
   },
@@ -81,13 +83,29 @@ const CHECK: CheckBeat[] = [
     kind: "sort",
     prompt: "Which of these can clustering actually tell you?",
     buckets: [
-      { id: "yes", label: "It can tell you this", hint: "falls out of the geometry" },
+      {
+        id: "yes",
+        label: "It can tell you this",
+        hint: "falls out of the geometry",
+      },
       { id: "no", label: "It cannot", hint: "you brought this with you" },
     ],
     items: [
-      { id: "near", text: "Which items sit near each other in your features", bucket: "yes" },
-      { id: "size", text: "How many items ended up in each group", bucket: "yes" },
-      { id: "outlier", text: "Which items sit far from everything", bucket: "yes" },
+      {
+        id: "near",
+        text: "Which items sit near each other in your features",
+        bucket: "yes",
+      },
+      {
+        id: "size",
+        text: "How many items ended up in each group",
+        bucket: "yes",
+      },
+      {
+        id: "outlier",
+        text: "Which items sit far from everything",
+        bucket: "yes",
+      },
       { id: "meaning", text: "What each group means", bucket: "no" },
       { id: "howmany", text: "How many groups there really are", bucket: "no" },
       { id: "why", text: "Why two items ended up together", bucket: "no" },
@@ -104,7 +122,9 @@ export default function ClusteringLesson() {
         claim={
           <>
             Ask for eight groups and you get eight,{" "}
-            <span className="text-pink-text">whether or not there are eight</span>
+            <span className="text-pink-text">
+              whether or not there are eight
+            </span>
             .
           </>
         }
@@ -153,9 +173,10 @@ export default function ClusteringLesson() {
         >
           <p>
             Every distance the algorithm used was computed across all fifty
-            numbers of each word vector. The two coordinates each dot is drawn at
-            are a projection, chosen to make an intelligible picture, and things
-            far apart in fifty dimensions can land on top of each other in two.
+            numbers of each word vector. The two coordinates each dot is drawn
+            at are a projection, chosen to make an intelligible picture, and
+            things far apart in fifty dimensions can land on top of each other
+            in two.
           </p>
           <p>
             So a dot of one colour sitting inside a patch of another is usually

@@ -156,7 +156,9 @@ export function OneFaultFigure() {
                 <li key={pan.label} className="flex items-center gap-3">
                   <span
                     className={`font-data w-40 shrink-0 truncate text-[0.8125rem] ${
-                      pan === winner ? "text-pink-text font-bold" : "text-ink-soft"
+                      pan === winner
+                        ? "text-pink-text font-bold"
+                        : "text-ink-soft"
                     }`}
                   >
                     {pan.label}
@@ -199,26 +201,25 @@ export function OneFaultFigure() {
                 animate={{ opacity: 1 }}
                 className="prose-measure mt-3 text-[0.9375rem] font-semibold"
               >
-                Three units, one instrument, and the same answer every time:
-                the thing was fitted to text. There is no true-or-false module
-                to repair, which is why these cannot be patched out one at a
-                time.
+                Three units, one instrument, and the same answer every time: the
+                thing was fitted to text. There is no true-or-false module to
+                repair, which is why these cannot be patched out one at a time.
               </motion.p>
             ) : null}
           </>
         ) : (
           <p className="prose-measure text-ink-soft text-[0.9375rem]">
             Three names, three teams, three fixes. Everything after this is the
-            same instrument measuring all three, because they are the same
-            thing seen from three angles.
+            same instrument measuring all three, because they are the same thing
+            seen from three angles.
           </p>
         )}
       </div>
 
       <figcaption className="border-ink/20 text-ink-faint border-t px-4 py-2.5 text-[0.8125rem]">
         Probabilities and entropies from a DistilGPT-2 forward pass; cosines
-        computed in your browser from GloVe vectors. The same two files the
-        game above runs on, and the same functions.
+        computed in your browser from GloVe vectors. The same two files the game
+        above runs on, and the same functions.
       </figcaption>
     </figure>
   );

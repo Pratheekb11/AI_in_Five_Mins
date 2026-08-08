@@ -232,9 +232,7 @@ export function PushbackFigure() {
                 <button
                   key={option.id}
                   type="button"
-                  onClick={() =>
-                    setPick({ stage, round: option.id, style })
-                  }
+                  onClick={() => setPick({ stage, round: option.id, style })}
                   className={`rounded-[2px] border px-2 py-1 text-xs transition-colors ${
                     option.id === round.id
                       ? "border-ink bg-paper-sunk font-semibold"

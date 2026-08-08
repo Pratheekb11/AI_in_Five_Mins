@@ -70,7 +70,8 @@ const CHECK: CheckBeat[] = [
     pairs: [
       {
         left: "The weights",
-        right: "Set which way the boundary tilts, and how much each feature counts",
+        right:
+          "Set which way the boundary tilts, and how much each feature counts",
       },
       {
         left: "The bias",
@@ -82,7 +83,8 @@ const CHECK: CheckBeat[] = [
       },
       {
         left: "The threshold",
-        right: "Turns that probability back into a decision, and is your choice",
+        right:
+          "Turns that probability back into a decision, and is your choice",
       },
     ],
     because:
@@ -90,7 +92,8 @@ const CHECK: CheckBeat[] = [
   },
   {
     kind: "choice",
-    prompt: "The digit weight came out at 3.47 and the length weight at 0.30. What does that tell you?",
+    prompt:
+      "The digit weight came out at 3.47 and the length weight at 0.30. What does that tell you?",
     options: [
       "That digits matter about eleven times as much as length, in the standardised units both were measured in",
       "That a message with three digits is eleven times more likely to be spam than a long message is",

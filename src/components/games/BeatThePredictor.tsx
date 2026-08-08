@@ -68,7 +68,12 @@ export function BeatThePredictor() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 120 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 120 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -108,8 +113,10 @@ export function BeatThePredictor() {
           "Pick one of the four options. The machine has already picked, but you cannot see which.",
           "Its real probability for every option arrives as bars. Whoever chose the true word wins the round.",
         ],
-        controls: "Tap or click an option, or press 1–4. Enter moves to the next round.",
-        scoring: "100 for a correct call. More when you are right and the machine was confidently wrong.",
+        controls:
+          "Tap or click an option, or press 1–4. Enter moves to the next round.",
+        scoring:
+          "100 for a correct call. More when you are right and the machine was confidently wrong.",
       }}
       startLabel={data ? "Play the machine" : "Loading the odds…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -146,10 +153,10 @@ export function BeatThePredictor() {
               : "It did not put a foot wrong against you this time. Go again, because act three is where it falls over."}
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
-            It won the ordinary sentences because that is exactly what it
-            is: a machine for guessing what usually comes next. It lost the book
-            and it lost the facts for the same reason. Nothing in it asks
-            what is true, only what is likely.
+            It won the ordinary sentences because that is exactly what it is: a
+            machine for guessing what usually comes next. It lost the book and
+            it lost the facts for the same reason. Nothing in it asks what is
+            true, only what is likely.
           </p>
         </div>
       }
@@ -157,10 +164,9 @@ export function BeatThePredictor() {
         data ? (
           <>
             Every percentage is {data.model.name}&rsquo;s own output, measured
-            over {data.measuredSentences} sentences from {data.corpus.name}{" "}
-            and printed unrounded. The wrong options are not invented.
-            They are tokens the model itself ranked highly for that
-            sentence.
+            over {data.measuredSentences} sentences from {data.corpus.name} and
+            printed unrounded. The wrong options are not invented. They are
+            tokens the model itself ranked highly for that sentence.
           </>
         ) : failed ? (
           <>The odds did not load.</>
@@ -242,7 +248,11 @@ export function BeatThePredictor() {
                         <span className="bg-paper-sunk border-ink/20 h-3 flex-1 overflow-hidden rounded-[1px] border">
                           <motion.span
                             className={`block h-full ${
-                              isTruth ? "bg-teal" : isMachine ? "bg-blue" : "bg-ink/30"
+                              isTruth
+                                ? "bg-teal"
+                                : isMachine
+                                  ? "bg-blue"
+                                  : "bg-ink/30"
                             }`}
                             initial={{ width: 0 }}
                             animate={{
@@ -286,7 +296,9 @@ export function BeatThePredictor() {
                     {result.upset
                       ? `You got it and the machine did not, and it was ${(
                           round.options[round.modelPick].probability * 100
-                        ).toFixed(0)}% sure. +${pointsFor(round, scene.picked!)}`
+                        ).toFixed(
+                          0,
+                        )}% sure. +${pointsFor(round, scene.picked!)}`
                       : result.you
                         ? `Right, and so was the machine. +${pointsFor(round, scene.picked!)}`
                         : result.model

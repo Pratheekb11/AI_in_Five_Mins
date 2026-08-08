@@ -61,7 +61,12 @@ export function OneFoldOrTen() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 30 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 30 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -137,11 +142,11 @@ export function OneFoldOrTen() {
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
             Half of those slices were chosen because they point the wrong way,
-            so this game is harder than life. In life the trouble is worse in one
-            respect: you cannot tell which kind of slice you are holding. Every
-            close comparison between two models needs more than one, and the
-            cheapest way to get more is to let every part of the data take its
-            turn being held out.
+            so this game is harder than life. In life the trouble is worse in
+            one respect: you cannot tell which kind of slice you are holding.
+            Every close comparison between two models needs more than one, and
+            the cheapest way to get more is to let every part of the data take
+            its turn being held out.
           </p>
         </div>
       }
@@ -245,8 +250,8 @@ export function OneFoldOrTen() {
                   }`}
                 >
                   {correct ? "Right." : "Not this time."}{" "}
-                  {modelOf(data, round.pair.truth).name} is better on average, by{" "}
-                  {(round.pair.gap * 100).toFixed(2)} points.
+                  {modelOf(data, round.pair.truth).name} is better on average,
+                  by {(round.pair.gap * 100).toFixed(2)} points.
                   {isMisleading(round)
                     ? " And the slice you were shown pointed the other way."
                     : ""}
@@ -263,7 +268,9 @@ export function OneFoldOrTen() {
                   onClick={carryOn}
                   className="btn-primary mt-4 px-4 py-2"
                 >
-                  {scene.at + 1 >= scene.rounds.length ? "Finish" : "Next slice"}
+                  {scene.at + 1 >= scene.rounds.length
+                    ? "Finish"
+                    : "Next slice"}
                 </button>
                 <span className="text-ink-faint ml-3 text-[0.8125rem]">
                   {pointsFor(round, scene.called ?? "")} points

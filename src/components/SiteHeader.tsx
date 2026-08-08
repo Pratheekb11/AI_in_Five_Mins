@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { ProgressPill } from "./ProgressPill";
+import { ResetProgress } from "./ResetProgress";
 import { ThemeToggle } from "./ThemeToggle";
 
-export function SiteHeader({ showProgress = true }: { showProgress?: boolean }) {
+export function SiteHeader({
+  showProgress = true,
+}: {
+  showProgress?: boolean;
+}) {
   return (
     <header className="border-ink/25 bg-paper/85 sticky top-0 z-30 border-b backdrop-blur-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
@@ -24,6 +29,8 @@ export function SiteHeader({ showProgress = true }: { showProgress?: boolean }) 
 
         <div className="flex shrink-0 items-center gap-3">
           {showProgress ? <ProgressPill /> : null}
+          {/* Both render nothing until there is progress to show or wipe. */}
+          {showProgress ? <ResetProgress /> : null}
           <ThemeToggle />
         </div>
       </div>

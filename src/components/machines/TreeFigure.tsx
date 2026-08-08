@@ -198,10 +198,10 @@ export function TreeFigure() {
           </ol>
         ) : (
           <p className="prose-measure text-ink-soft mt-3 text-[0.9375rem]">
-            {data.corpus.trainSize} training messages,{" "}
-            {data.corpus.spamInTrain} of them spam. One pile, thoroughly mixed.
-            A tree does exactly what the first module of this track did, and
-            then does it again to each pile it produces.
+            {data.corpus.trainSize} training messages, {data.corpus.spamInTrain}{" "}
+            of them spam. One pile, thoroughly mixed. A tree does exactly what
+            the first module of this track did, and then does it again to each
+            pile it produces.
           </p>
         )}
 
@@ -220,8 +220,7 @@ export function TreeFigure() {
                   key={key}
                   d={data.depths
                     .map((d, i) => {
-                      const px =
-                        20 + (i / (data.depths.length - 1)) * (W - 60);
+                      const px = 20 + (i / (data.depths.length - 1)) * (W - 60);
                       const py =
                         130 -
                         ((d[key] - bestShown) / (worstTest - bestShown)) * 110;
@@ -249,22 +248,23 @@ export function TreeFigure() {
             </svg>
             <p className="prose-measure text-ink-soft mt-2 text-[0.9375rem]">
               <span className="text-blue-text">Blue</span> is accuracy on the
-              messages it grew from, <span className="text-pink-text">pink</span>{" "}
-              on the ones it never saw. Held-out accuracy peaks at depth{" "}
-              {data.best.depth} with {(data.best.testAccuracy * 100).toFixed(2)}%
-              and then goes flat rather than falling off a cliff. This tree only
-              has twelve questions to draw on, so there is a limit to how much
-              of the training data it can memorise. Capacity is set by the
-              features, not only by the depth.
+              messages it grew from,{" "}
+              <span className="text-pink-text">pink</span> on the ones it never
+              saw. Held-out accuracy peaks at depth {data.best.depth} with{" "}
+              {(data.best.testAccuracy * 100).toFixed(2)}% and then goes flat
+              rather than falling off a cliff. This tree only has twelve
+              questions to draw on, so there is a limit to how much of the
+              training data it can memorise. Capacity is set by the features,
+              not only by the depth.
             </p>
           </motion.div>
         ) : null}
       </div>
 
       <figcaption className="border-ink/20 text-ink-faint border-t px-4 py-2.5 text-[0.8125rem]">
-        {data.source.name}. {data.note} Grown on {data.corpus.trainSize} training
-        messages and scored on the {data.corpus.testSize} held out, on the same
-        seeded split the rest of the site uses.
+        {data.source.name}. {data.note} Grown on {data.corpus.trainSize}{" "}
+        training messages and scored on the {data.corpus.testSize} held out, on
+        the same seeded split the rest of the site uses.
       </figcaption>
     </figure>
   );

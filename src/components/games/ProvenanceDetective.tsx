@@ -66,7 +66,10 @@ export function ProvenanceDetective() {
   const begin = useCallback(() => {
     if (!data) return;
     setScene(
-      startRound(data, Array.from({ length: 120 }, () => Math.random())),
+      startRound(
+        data,
+        Array.from({ length: 120 }, () => Math.random()),
+      ),
     );
     setPlaying(true);
   }, [data]);
@@ -139,12 +142,12 @@ export function ProvenanceDetective() {
             Best run: {scene.bestStreak}.
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
-            This is the habit worth keeping. Not &ldquo;is AI reliable&rdquo;
-            . That question has no answer. Ask instead which of the three
-            you are in. Recall, and it is probably fine. Something it would have
-            to look up, and it needs the source or it will invent one. Actual
-            work, and it needs a tool. The reply reads exactly the same in all
-            three cases, which is the reason you have to ask before you send.
+            This is the habit worth keeping. Not &ldquo;is AI reliable&rdquo; .
+            That question has no answer. Ask instead which of the three you are
+            in. Recall, and it is probably fine. Something it would have to look
+            up, and it needs the source or it will invent one. Actual work, and
+            it needs a tool. The reply reads exactly the same in all three
+            cases, which is the reason you have to ask before you send.
           </p>
         </div>
       }
@@ -256,7 +259,10 @@ export function ProvenanceDetective() {
                             ink: "bg-teal",
                           },
                         ].map((row, i) => (
-                          <li key={row.label} className="flex items-center gap-3">
+                          <li
+                            key={row.label}
+                            className="flex items-center gap-3"
+                          >
                             <span className="w-44 shrink-0 text-[0.875rem]">
                               {row.label}
                             </span>

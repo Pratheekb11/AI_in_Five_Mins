@@ -34,8 +34,7 @@ const SOURCES: Source[] = [
     used: "The interleaved reason-then-act loop that nearly every 'agent' you will meet is built on.",
   },
   {
-    title:
-      "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+    title: "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     publisher: "Lewis et al. (arXiv:2005.11401, 2020)",
     url: "https://arxiv.org/abs/2005.11401",
     used: "The method behind 'it searched and then answered', and the reason a retrieved answer can be attributed to a source.",
@@ -82,14 +81,26 @@ const CHECK: CheckBeat[] = [
     kind: "sort",
     prompt: "Which door does each request need?",
     buckets: [
-      { id: "knows", label: "It already knows", hint: "written down everywhere" },
+      {
+        id: "knows",
+        label: "It already knows",
+        hint: "written down everywhere",
+      },
       { id: "source", label: "Needs a source", hint: "changes, or is private" },
       { id: "tool", label: "Needs a tool", hint: "must be computed or done" },
     ],
     items: [
       { id: "capital", text: "What is the capital of India?", bucket: "knows" },
-      { id: "boil", text: "Why does water boil faster up a mountain?", bucket: "knows" },
-      { id: "price", text: "What does this laptop cost today?", bucket: "source" },
+      {
+        id: "boil",
+        text: "Why does water boil faster up a mountain?",
+        bucket: "knows",
+      },
+      {
+        id: "price",
+        text: "What does this laptop cost today?",
+        bucket: "source",
+      },
       { id: "policy", text: "What is our refund policy?", bucket: "source" },
       { id: "sum", text: "Total these 400 invoice rows", bucket: "tool" },
       { id: "email", text: "Send that summary to the team", bucket: "tool" },
@@ -144,8 +155,8 @@ export default function ToolsChangeTheGameLesson() {
             that text is addressed to a program rather than to you: a call, with
             arguments. The surrounding system spots it, runs the real search or
             the real code, and pastes the result back into the context. Then the
-            model reads its own context again, which now holds a genuine
-            answer, and writes your reply.
+            model reads its own context again, which now holds a genuine answer,
+            and writes your reply.
           </p>
           <p>
             Yao and colleagues formalised the loop as reason, act, observe,
@@ -170,16 +181,16 @@ export default function ToolsChangeTheGameLesson() {
           <p>
             Retrieval is the idea Lewis and colleagues published in 2020. It
             fetches real passages and puts them in the context before the model
-            writes. That genuinely fixes the stale-knowledge failure,
-            and it is why a searched answer can carry a link at all.
+            writes. That genuinely fixes the stale-knowledge failure, and it is
+            why a searched answer can carry a link at all.
           </p>
           <p>
             What it does not fix is the sentence the model then writes about
             those passages. It can overstate, merge two sources, or attach a
             real link to a claim the page never made. So the check is not
             &ldquo;is there a citation&rdquo;. It is &ldquo;does the citation
-            say this&rdquo;. Open one link. It takes seconds and it
-            catches the failure that survives every other precaution.
+            say this&rdquo;. Open one link. It takes seconds and it catches the
+            failure that survives every other precaution.
           </p>
         </MechanismPanel>
         <PracticeCard
@@ -197,8 +208,6 @@ export default function ToolsChangeTheGameLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

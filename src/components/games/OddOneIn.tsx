@@ -57,11 +57,19 @@ export function OddOneIn() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 20 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 20 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
-  const choose = useCallback((word: string) => setScene((s) => call(s, word)), []);
+  const choose = useCallback(
+    (word: string) => setScene((s) => call(s, word)),
+    [],
+  );
   const carryOn = useCallback(() => setScene((s) => next(s)), []);
 
   const round = current(scene);
@@ -133,8 +141,8 @@ export function OddOneIn() {
             the honest state of clustering. Nobody labelled anything. The
             algorithm was handed 1,851 vectors and the number eight, and it
             returned eight groups whether or not there were eight things to
-            find. Reading which of its groups mean something is the work, and
-            no measure of cluster quality does it for you.
+            find. Reading which of its groups mean something is the work, and no
+            measure of cluster quality does it for you.
           </p>
         </div>
       }
@@ -204,8 +212,7 @@ export function OddOneIn() {
                         animate={{ opacity: 1 }}
                         className="text-ink-faint mt-1 block text-[0.8125rem]"
                       >
-                        group{" "}
-                        {data.assignment[data.words.indexOf(word)] + 1}
+                        group {data.assignment[data.words.indexOf(word)] + 1}
                       </motion.span>
                     ) : null}
                   </button>
@@ -230,16 +237,18 @@ export function OddOneIn() {
                   {data.clusters[round.cluster].nearest.slice(0, 3).join(", ")}.
                 </p>
                 <p className="prose-measure text-ink-soft mt-1 text-[0.9375rem]">
-                  That group has {data.clusters[round.cluster].size} words in it,
-                  and nobody named it. It exists because those vectors sat nearer
-                  to each other than to anything else.
+                  That group has {data.clusters[round.cluster].size} words in
+                  it, and nobody named it. It exists because those vectors sat
+                  nearer to each other than to anything else.
                 </p>
                 <button
                   type="button"
                   onClick={carryOn}
                   className="btn-primary mt-4 px-4 py-2"
                 >
-                  {scene.at + 1 >= scene.rounds.length ? "Finish" : "Next group"}
+                  {scene.at + 1 >= scene.rounds.length
+                    ? "Finish"
+                    : "Next group"}
                 </button>
               </motion.div>
             ) : null}

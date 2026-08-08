@@ -32,9 +32,7 @@ export function Hook({
     <section className="border-ink/25 border-b pb-10">
       <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-end">
         <div>
-          <h2 className="display-lg hook-arrive mb-4">
-            {claim}
-          </h2>
+          <h2 className="display-lg hook-arrive mb-4">{claim}</h2>
           <p className="prose-measure text-ink-soft hook-arrive hook-arrive-1 text-lg">
             {sting}
           </p>

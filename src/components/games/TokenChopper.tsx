@@ -255,9 +255,7 @@ export function TokenChopper() {
                       width: `${Math.min(
                         100,
                         (language.tokens /
-                          Math.max(
-                            ...scripts.languages.map((l) => l.tokens),
-                          )) *
+                          Math.max(...scripts.languages.map((l) => l.tokens))) *
                           100,
                       )}%`,
                     }}
@@ -270,7 +268,9 @@ export function TokenChopper() {
                 </span>
                 <span
                   className={`data w-14 shrink-0 text-right text-xs tabular-nums ${
-                    language.timesEnglish > 1.5 ? "text-pink-text" : "text-ink-soft"
+                    language.timesEnglish > 1.5
+                      ? "text-pink-text"
+                      : "text-ink-soft"
                   }`}
                 >
                   {language.timesEnglish.toFixed(2)}×
@@ -281,11 +281,11 @@ export function TokenChopper() {
 
           <p className="prose-measure text-ink-faint mt-4 text-[0.8125rem]">
             Japanese is the one to think about. It needs four times the tokens
-            per character. But a Japanese character carries far more than
-            a Latin one, so per <em>idea</em> it is not four times worse. The
+            per character. But a Japanese character carries far more than a
+            Latin one, so per <em>idea</em> it is not four times worse. The
             Indic scripts have no such excuse: they are alphabetic like English,
             and they still cost close to twice as much. Measured{" "}
-            {scripts.measuredOn} against {scripts.corpus.name}, {" "}
+            {scripts.measuredOn} against {scripts.corpus.name},{" "}
             {scripts.corpus.licence}. Articles are written independently in each
             language, so these are comparable texts on one subject rather than
             translations.

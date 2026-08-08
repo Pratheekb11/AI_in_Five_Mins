@@ -66,10 +66,22 @@ export function TokenPriceFigure() {
     stage === 0
       ? { fill: "bg-blue-wash", text: "text-blue-text", edge: "border-blue/40" }
       : stage === 1
-        ? { fill: "bg-pink-wash", text: "text-pink-text", edge: "border-pink/40" }
+        ? {
+            fill: "bg-pink-wash",
+            text: "text-pink-text",
+            edge: "border-pink/40",
+          }
         : stage === 2
-          ? { fill: "bg-teal-wash", text: "text-teal-text", edge: "border-teal/40" }
-          : { fill: "bg-blue-wash", text: "text-blue-text", edge: "border-blue/40" };
+          ? {
+              fill: "bg-teal-wash",
+              text: "text-teal-text",
+              edge: "border-teal/40",
+            }
+          : {
+              fill: "bg-blue-wash",
+              text: "text-blue-text",
+              edge: "border-blue/40",
+            };
 
   const count = tiles.length;
   const unit = showLanguages
@@ -159,9 +171,7 @@ export function TokenPriceFigure() {
             <button
               key={option.language}
               type="button"
-              onClick={() =>
-                setPicked({ stage, language: option.language })
-              }
+              onClick={() => setPicked({ stage, language: option.language })}
               className={`font-data rounded-[2px] border px-2 py-1 text-xs transition-colors ${
                 option.language === language
                   ? "border-ink bg-paper-sunk"

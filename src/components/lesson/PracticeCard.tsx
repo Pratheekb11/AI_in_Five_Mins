@@ -24,8 +24,7 @@ export function PracticeCard({
       <h3 className="display-md mb-3">{title}</h3>
       <div className="prose-measure text-[0.9375rem]">{children}</div>
       <p className="border-ink/20 mt-4 border-t pt-3 text-[0.9375rem]">
-        <strong className="font-semibold">What to watch for:</strong>{" "}
-        {watchFor}
+        <strong className="font-semibold">What to watch for:</strong> {watchFor}
       </p>
     </section>
   );

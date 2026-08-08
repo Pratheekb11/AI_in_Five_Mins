@@ -295,7 +295,10 @@ export function newScene(
 
 /** A pointer is dragging the hopper to `x`. */
 export function steer(scene: PromptScene, x: number): PromptScene {
-  return { ...scene, aim: clamp(x, PAD + CATCHER_HALF, VIEW_W - PAD - CATCHER_HALF) };
+  return {
+    ...scene,
+    aim: clamp(x, PAD + CATCHER_HALF, VIEW_W - PAD - CATCHER_HALF),
+  };
 }
 
 export function release(scene: PromptScene): PromptScene {
@@ -446,7 +449,8 @@ export function advance(scene: PromptScene, delta: number): PromptScene {
         });
       } else {
         const isNew = !covered.has(piece.element);
-        const gained = (isNew ? SCORING.newElement : SCORING.repeatElement) + streak;
+        const gained =
+          (isNew ? SCORING.newElement : SCORING.repeatElement) + streak;
         score += gained;
         combo += 1;
         bestCombo = Math.max(bestCombo, combo);
@@ -508,11 +512,7 @@ export function advance(scene: PromptScene, delta: number): PromptScene {
   let spawnIn = scene.spawnIn - delta;
   let nextId = scene.nextId;
   if (spawnIn <= 0) {
-    const fragment = choose(
-      { ...scene, pieces: kept, caught },
-      covered,
-      rnd,
-    );
+    const fragment = choose({ ...scene, pieces: kept, caught }, covered, rnd);
     const half = halfWidth(fragment.text);
     kept.push({
       id: nextId,

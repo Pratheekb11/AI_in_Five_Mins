@@ -352,7 +352,6 @@ export function call(scene: BenchScene, side: "left" | "right"): BenchScene {
     return { ...scene, called: side, streak: 0 };
   }
 
-
   const speed = Math.round(SPEED_POINTS * (scene.fuse / FUSE));
   const streak = scene.streak + 1;
   return {

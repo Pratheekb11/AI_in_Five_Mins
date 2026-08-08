@@ -174,8 +174,7 @@ export default function PromptingAsDelegationLesson() {
             input contains a worked example of the thing you want, the most
             plausible continuation is another one of those. That is the whole
             mechanism. Brown and colleagues named it few-shot learning and
-            measured it in 2020, and nothing is being retrained when it
-            happens.
+            measured it in 2020, and nothing is being retrained when it happens.
           </p>
           <p>
             Which explains a habit worth building: keep the two or three best
@@ -209,8 +208,6 @@ export default function PromptingAsDelegationLesson() {
         </p>
         <PromptInspector />
       </section>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

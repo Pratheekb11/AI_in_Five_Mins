@@ -157,7 +157,9 @@ export function ThresholdFigure() {
   }
 
   const here =
-    slid && slid.stage === stage ? slid.value : STAGE_THRESHOLD[Math.min(stage, 5)];
+    slid && slid.stage === stage
+      ? slid.value
+      : STAGE_THRESHOLD[Math.min(stage, 5)];
   const drawn = stage >= 1;
   const counts = countAt(data.points, here);
   const lineX = xOf(here === 0 ? FLOOR : here);
@@ -211,7 +213,12 @@ export function ThresholdFigure() {
               animate={{ x: lineX }}
               transition={{ duration: still ? 0 : 0.7, ease: "easeInOut" }}
             >
-              <line y1={10} y2={H - 10} className="stroke-ink" strokeWidth={2} />
+              <line
+                y1={10}
+                y2={H - 10}
+                className="stroke-ink"
+                strokeWidth={2}
+              />
               <text
                 x={6}
                 y={20}
@@ -281,7 +288,9 @@ export function ThresholdFigure() {
                 >
                   {(readout.value * 100).toFixed(1)}%
                 </motion.p>
-                <p className="text-ink-faint text-[0.8125rem]">{readout.note}</p>
+                <p className="text-ink-faint text-[0.8125rem]">
+                  {readout.note}
+                </p>
               </div>
             ))}
           </div>
@@ -329,7 +338,9 @@ export function ThresholdFigure() {
             max={120}
             value={
               slid && slid.stage === stage
-                ? Math.round(((Math.log10(Math.max(FLOOR, here)) + 12) / 12) * 120)
+                ? Math.round(
+                    ((Math.log10(Math.max(FLOOR, here)) + 12) / 12) * 120,
+                  )
                 : Math.round(((Math.log10(0.5) + 12) / 12) * 120)
             }
             onChange={(e) =>

@@ -114,7 +114,8 @@ export function ClusterFigure() {
   const maxY = Math.max(...ys);
 
   const px = (v: number) => PAD + ((v - minX) / (maxX - minX)) * (W - PAD * 2);
-  const py = (v: number) => H - PAD - ((v - minY) / (maxY - minY)) * (H - PAD * 2);
+  const py = (v: number) =>
+    H - PAD - ((v - minY) / (maxY - minY)) * (H - PAD * 2);
 
   const moved =
     assignment && wanted > 0
@@ -150,7 +151,9 @@ export function ClusterFigure() {
               }
               initial={false}
               animate={{
-                opacity: assignment ? OPACITY[assignment[i] % OPACITY.length] : 0.3,
+                opacity: assignment
+                  ? OPACITY[assignment[i] % OPACITY.length]
+                  : 0.3,
               }}
               transition={{ duration: still ? 0 : 0.35 }}
             />
@@ -169,8 +172,8 @@ export function ClusterFigure() {
           <p className="prose-measure text-ink-soft mt-3 text-[0.9375rem]">
             Every word in the vocabulary, drawn at its own two coordinates.
             There are no labels here and nobody has told the algorithm what any
-            of these words mean. It will be given one number, {data.k}, and asked
-            to find that many groups.
+            of these words mean. It will be given one number, {data.k}, and
+            asked to find that many groups.
           </p>
         )}
 
@@ -218,7 +221,8 @@ export function ClusterFigure() {
                   .map((s, i) => {
                     const x = 24 + (i / (data.sweep.length - 1)) * (W - 60);
                     const yv =
-                      110 - ((s.inertia - bestInertia) / (worst - bestInertia)) * 90;
+                      110 -
+                      ((s.inertia - bestInertia) / (worst - bestInertia)) * 90;
                     return `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${yv.toFixed(1)}`;
                   })
                   .join(" ")}

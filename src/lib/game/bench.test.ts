@@ -38,7 +38,10 @@ const SPACE = decodeSpace(
 const BENCH = buildBench(LOGITS, SPACE);
 
 function level(bench: Weighing[] = BENCH): BenchScene {
-  return start(bench, bench.map(() => 0.5));
+  return start(
+    bench,
+    bench.map(() => 0.5),
+  );
 }
 
 describe("the bench", () => {
@@ -167,7 +170,10 @@ describe("shuffledBy", () => {
 
   it("does not touch the array it was handed", () => {
     const before = [...BENCH];
-    shuffledBy(BENCH, BENCH.map(() => 0.9));
+    shuffledBy(
+      BENCH,
+      BENCH.map(() => 0.9),
+    );
     expect(BENCH).toEqual(before);
   });
 });
@@ -277,7 +283,10 @@ describe("next", () => {
   });
 
   it("shows every failure at least once over a full round", () => {
-    let scene = start(BENCH, BENCH.map((_, i) => i / BENCH.length));
+    let scene = start(
+      BENCH,
+      BENCH.map((_, i) => i / BENCH.length),
+    );
     while (!scene.done) scene = next(call(scene, "left"));
     expect(scene.seen.length).toBeGreaterThanOrEqual(2);
   });

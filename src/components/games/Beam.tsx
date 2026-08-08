@@ -102,7 +102,8 @@ export function Beam() {
           "The real row of weights comes up as bars. The first word is set aside, because it soaks up attention for reasons unrelated to meaning.",
         ],
         controls: "Tap or click a word.",
-        scoring: "100 plus the weight that actually went there, plus a streak bonus.",
+        scoring:
+          "100 plus the weight that actually went there, plus a streak bonus.",
       }}
       startLabel={data ? "Fire the beam" : "Loading the weights…"}
       phase={phase}
@@ -135,9 +136,8 @@ export function Beam() {
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
             Hard, because there is no single rule to learn. Each head has ended
-            up doing its own job. Some track the word before, some hunt
-            for a matching noun, some do something nobody has a name for. All
-            {" "}
+            up doing its own job. Some track the word before, some hunt for a
+            matching noun, some do something nobody has a name for. All{" "}
             {data ? data.model.layers * data.model.heads : 72} of them run at
             once, and the model adds up what they all found.
           </p>
@@ -162,8 +162,8 @@ export function Beam() {
         {round ? (
           <>
             <p className="label text-ink-faint mb-3">
-              Layer {round.layer + 1}, head {round.head + 1}. Where does
-              the lit word look?
+              Layer {round.layer + 1}, head {round.head + 1}. Where does the lit
+              word look?
             </p>
 
             <p className="mb-5 flex flex-wrap gap-1.5">
@@ -175,8 +175,10 @@ export function Beam() {
 
                 let tone = "border-ink/20 bg-paper-sunk text-ink-faint";
                 if (isQuery) tone = "border-pink bg-pink-wash text-pink-text";
-                else if (isAnswer) tone = "border-teal bg-teal-wash text-teal-text";
-                else if (isPicked) tone = "border-pink bg-pink-wash text-pink-text";
+                else if (isAnswer)
+                  tone = "border-teal bg-teal-wash text-teal-text";
+                else if (isPicked)
+                  tone = "border-pink bg-pink-wash text-pink-text";
                 else if (selectable)
                   tone = "border-ink/40 bg-paper hover:border-ink text-ink";
 
@@ -200,7 +202,9 @@ export function Beam() {
               <div aria-live="polite">
                 <p
                   className={`mb-3 text-[0.9375rem] font-semibold ${
-                    picked === round.answer ? "text-teal-text" : "text-pink-text"
+                    picked === round.answer
+                      ? "text-teal-text"
+                      : "text-pink-text"
                   }`}
                 >
                   {picked === round.answer
@@ -209,30 +213,32 @@ export function Beam() {
                 </p>
 
                 <ul className="mb-4 space-y-1.5">
-                  {round.sentence.tokens.slice(0, round.query + 1).map((token, i) => (
-                    <li key={i} className="flex items-center gap-3">
-                      <span className="font-data w-24 shrink-0 truncate text-sm">
-                        {token.text.trim() || "␣"}
-                      </span>
-                      <span
-                        className={`h-3 rounded-[1px] ${
-                          i === 0
-                            ? "bg-yellow"
-                            : i === round.answer
-                              ? "bg-teal"
-                              : "bg-blue"
-                        }`}
-                        style={{ width: `${round.weights[i] * 70}%` }}
-                        aria-hidden="true"
-                      />
-                      <span className="data text-ink-soft text-xs tabular-nums">
-                        {(round.weights[i] * 100).toFixed(0)}%
-                      </span>
-                      {i === 0 ? (
-                        <span className="label text-yellow-text">sink</span>
-                      ) : null}
-                    </li>
-                  ))}
+                  {round.sentence.tokens
+                    .slice(0, round.query + 1)
+                    .map((token, i) => (
+                      <li key={i} className="flex items-center gap-3">
+                        <span className="font-data w-24 shrink-0 truncate text-sm">
+                          {token.text.trim() || "␣"}
+                        </span>
+                        <span
+                          className={`h-3 rounded-[1px] ${
+                            i === 0
+                              ? "bg-yellow"
+                              : i === round.answer
+                                ? "bg-teal"
+                                : "bg-blue"
+                          }`}
+                          style={{ width: `${round.weights[i] * 70}%` }}
+                          aria-hidden="true"
+                        />
+                        <span className="data text-ink-soft text-xs tabular-nums">
+                          {(round.weights[i] * 100).toFixed(0)}%
+                        </span>
+                        {i === 0 ? (
+                          <span className="label text-yellow-text">sink</span>
+                        ) : null}
+                      </li>
+                    ))}
                 </ul>
 
                 <button
@@ -245,8 +251,8 @@ export function Beam() {
               </div>
             ) : (
               <p className="text-ink-soft text-[0.9375rem]">
-                The lit word can only look backwards. Nothing in a
-                language model is allowed to see its own future.
+                The lit word can only look backwards. Nothing in a language
+                model is allowed to see its own future.
               </p>
             )}
           </>

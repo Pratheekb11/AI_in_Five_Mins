@@ -3,11 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import { useWalkthroughStep } from "@/components/lesson/Walkthrough";
-import {
-  type Candidate,
-  type OverfitData,
-  predict,
-} from "@/lib/game/overfit";
+import { type Candidate, type OverfitData, predict } from "@/lib/game/overfit";
 
 /**
  * One curve, bending further and further, over the same thirty sentences.
@@ -88,14 +84,18 @@ export function OverfitFigure() {
   }
 
   const wanted =
-    picked && picked.stage === stage ? picked.degree : STAGE_DEGREE[stage] ?? 11;
+    picked && picked.stage === stage
+      ? picked.degree
+      : (STAGE_DEGREE[stage] ?? 11);
   const fit: Candidate | undefined = data.degrees.find(
     (d) => d.degree === wanted,
   );
   const showHeldOut = stage >= 4;
   const showU = stage >= 5;
 
-  const maxChars = Math.max(...data.test.concat(data.train).map((p) => p.chars));
+  const maxChars = Math.max(
+    ...data.test.concat(data.train).map((p) => p.chars),
+  );
   const maxTokens =
     Math.max(...data.test.concat(data.train).map((p) => p.tokens)) * 1.25;
 
@@ -125,10 +125,12 @@ export function OverfitFigure() {
 
   /** Whether the fitted curve runs off the plot inside the range of the data. */
   const leavesThePlot = fit
-    ? Array.from({ length: 60 }, (_, i) => (i / 59) * maxChars).some((chars) => {
-        const value = predict(fit, chars, data.maxChars);
-        return value > maxTokens || value < 0;
-      })
+    ? Array.from({ length: 60 }, (_, i) => (i / 59) * maxChars).some(
+        (chars) => {
+          const value = predict(fit, chars, data.maxChars);
+          return value > maxTokens || value < 0;
+        },
+      )
     : false;
 
   return (
@@ -275,7 +277,8 @@ export function OverfitFigure() {
                 );
               })}
               {data.degrees.map((d, i) => {
-                const px = PAD + (i / (data.degrees.length - 1)) * (W - PAD * 2);
+                const px =
+                  PAD + (i / (data.degrees.length - 1)) * (W - PAD * 2);
                 return (
                   <text
                     key={d.degree}
@@ -294,8 +297,7 @@ export function OverfitFigure() {
               <span className="text-blue-text">Blue</span> is error on the
               sentences it fitted, and it only ever falls.{" "}
               <span className="text-pink-text">Pink</span> is error on the ones
-              it never saw, and it turns upward after degree{" "}
-              {data.best.degree}.
+              it never saw, and it turns upward after degree {data.best.degree}.
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {data.degrees.map((option) => (
@@ -319,8 +321,8 @@ export function OverfitFigure() {
 
       <figcaption className="border-ink/20 text-ink-faint border-t px-4 py-2.5 text-[0.8125rem]">
         {data.source.title} by {data.source.author}, {data.source.via}.{" "}
-        {data.note} Curves are least-squares fits computed offline and drawn from
-        their own coefficients. Degree twelve is missing because the fit is
+        {data.note} Curves are least-squares fits computed offline and drawn
+        from their own coefficients. Degree twelve is missing because the fit is
         singular at thirty points, which is its own kind of answer.
       </figcaption>
     </figure>

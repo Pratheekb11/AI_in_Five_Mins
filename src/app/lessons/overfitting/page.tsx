@@ -33,7 +33,8 @@ const SOURCES: Source[] = [
     used: "Chapter 7 on the bias and variance trade: why error on new data falls and then rises as a model gains freedom, and why the turning point moves with the amount of data.",
   },
   {
-    title: "Reconciling modern machine learning practice and the bias-variance trade-off",
+    title:
+      "Reconciling modern machine learning practice and the bias-variance trade-off",
     publisher: "Belkin, Hsu, Ma & Mandal (arXiv:1812.11118, 2018)",
     url: "https://arxiv.org/abs/1812.11118",
     used: "The caveat this page ends on: with very large models the curve can turn back down again, which is why the U is a rule of thumb rather than a law.",
@@ -81,16 +82,36 @@ const CHECK: CheckBeat[] = [
     kind: "sort",
     prompt: "Which way does each of these push?",
     buckets: [
-      { id: "more", label: "Lets you afford more model", hint: "the bend can be justified" },
-      { id: "less", label: "Means you can afford less", hint: "keep it simple" },
-      { id: "neither", label: "Neither, on its own", hint: "no information about capacity" },
+      {
+        id: "more",
+        label: "Lets you afford more model",
+        hint: "the bend can be justified",
+      },
+      {
+        id: "less",
+        label: "Means you can afford less",
+        hint: "keep it simple",
+      },
+      {
+        id: "neither",
+        label: "Neither, on its own",
+        hint: "no information about capacity",
+      },
     ],
     items: [
       { id: "data", text: "Ten times as many examples", bucket: "more" },
-      { id: "clean", text: "Much less noise in the measurements", bucket: "more" },
+      {
+        id: "clean",
+        text: "Much less noise in the measurements",
+        bucket: "more",
+      },
       { id: "tiny", text: "Only eight examples in total", bucket: "less" },
       { id: "noisy", text: "Labels that are often wrong", bucket: "less" },
-      { id: "train", text: "A lower error on the training data", bucket: "neither" },
+      {
+        id: "train",
+        text: "A lower error on the training data",
+        bucket: "neither",
+      },
       { id: "fast", text: "A faster computer", bucket: "neither" },
     ],
     because:
@@ -178,9 +199,7 @@ export default function OverfittingLesson() {
             to be rerun on half the examples, chosen at random, and compare the
             two results.
           </p>
-          <p>
-            If nobody can rerun it, that is the more useful finding.
-          </p>
+          <p>If nobody can rerun it, that is the more useful finding.</p>
         </PracticeCard>
       </DeeperRow>
 

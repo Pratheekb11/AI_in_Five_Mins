@@ -130,8 +130,16 @@ export function layout(round: Round): Body[] {
     return {
       word: b.word,
       sim: b.sim,
-      x: clamp(cx + Math.cos(angle) * radius * 1.35, PAD + half, VIEW_W - PAD - half),
-      y: clamp(cy + Math.sin(angle) * radius * 0.72, TOP + 14, VIEW_H - PAD - 14),
+      x: clamp(
+        cx + Math.cos(angle) * radius * 1.35,
+        PAD + half,
+        VIEW_W - PAD - half,
+      ),
+      y: clamp(
+        cy + Math.sin(angle) * radius * 0.72,
+        TOP + 14,
+        VIEW_H - PAD - 14,
+      ),
       vx: (Math.random() - 0.5) * 30,
       vy: (Math.random() - 0.5) * 30,
       half,
@@ -459,11 +467,7 @@ export function grab(scene: MagnetScene, rounds: Round[]): MagnetScene {
 }
 
 /** Pointer steering. */
-export function aimAt(
-  scene: MagnetScene,
-  x: number,
-  y: number,
-): MagnetScene {
+export function aimAt(scene: MagnetScene, x: number, y: number): MagnetScene {
   return { ...scene, aim: { x, y }, keys: { x: 0, y: 0 } };
 }
 

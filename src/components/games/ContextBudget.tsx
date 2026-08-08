@@ -62,7 +62,12 @@ export function ContextBudget() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, data.scenarios.map(() => Math.random())));
+    setScene(
+      startRound(
+        data,
+        data.scenarios.map(() => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -102,7 +107,8 @@ export function ContextBudget() {
           "You only get four runs per question, so think before you spend one.",
         ],
         controls: "Tap or click cards and buttons.",
-        scoring: "Based on how close you got to the best any combination can reach, plus any runs you did not need.",
+        scoring:
+          "Based on how close you got to the best any combination can reach, plus any runs you did not need.",
       }}
       startLabel={data ? "Open the window" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -217,7 +223,9 @@ export function ContextBudget() {
                       <li
                         key={i}
                         className={`border-ink/25 flex min-h-[2.5rem] items-center rounded-[2px] border border-dashed px-3 py-1.5 text-[0.875rem] ${
-                          card ? "bg-yellow-wash border-yellow border-solid" : ""
+                          card
+                            ? "bg-yellow-wash border-yellow border-solid"
+                            : ""
                         }`}
                       >
                         {card ? (

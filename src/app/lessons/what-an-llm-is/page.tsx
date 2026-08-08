@@ -129,10 +129,26 @@ const CHECK: CheckBeat[] = [
     ],
     items: [
       { id: "fluent", text: "It reads fluently and confidently", bucket: "no" },
-      { id: "prob", text: "The model put a high probability on it", bucket: "no" },
-      { id: "detail", text: "It gives a precise figure and a date", bucket: "no" },
-      { id: "again", text: "You asked again and got the same answer", bucket: "no" },
-      { id: "source", text: "You found the claim in a named source", bucket: "yes" },
+      {
+        id: "prob",
+        text: "The model put a high probability on it",
+        bucket: "no",
+      },
+      {
+        id: "detail",
+        text: "It gives a precise figure and a date",
+        bucket: "no",
+      },
+      {
+        id: "again",
+        text: "You asked again and got the same answer",
+        bucket: "no",
+      },
+      {
+        id: "source",
+        text: "You found the claim in a named source",
+        bucket: "yes",
+      },
       { id: "run", text: "You ran the calculation yourself", bucket: "yes" },
     ],
     because:
@@ -173,10 +189,7 @@ export default function WhatAnLlmIsLesson() {
       </div>
 
       <div className="pb-4">
-        <Walkthrough
-          steps={STEPS}
-          figure={<NextTokenFigure />}
-        />
+        <Walkthrough steps={STEPS} figure={<NextTokenFigure />} />
       </div>
 
       {/* The mechanism arrives here, straight after watching a guesser be
@@ -194,8 +207,9 @@ export default function WhatAnLlmIsLesson() {
           <p>
             Your text is first chopped into <strong>tokens</strong>, which are
             chunks of characters the model has memorised. Common words survive
-            whole. Rarer ones shatter: <span className="font-data">strawberry</span>{" "}
-            arrives as <span className="font-data">st</span> +{" "}
+            whole. Rarer ones shatter:{" "}
+            <span className="font-data">strawberry</span> arrives as{" "}
+            <span className="font-data">st</span> +{" "}
             <span className="font-data">raw</span> +{" "}
             <span className="font-data">berry</span>. The model then guesses the
             next <em>token</em>, adds it to the text, and guesses again. That
@@ -222,9 +236,9 @@ export default function WhatAnLlmIsLesson() {
             &ldquo;God created the heaven and the&rdquo;, and 30% sure of the
             word after &ldquo;Paris is the capital of&rdquo;. The second one was
             wrong. Both numbers came from the same place: counting what follows
-            what, across an enormous amount of text. Scale changes how often
-            it is right. It does not add a truth check, because there
-            is not one to add.
+            what, across an enormous amount of text. Scale changes how often it
+            is right. It does not add a truth check, because there is not one to
+            add.
           </p>
         </MechanismPanel>
         <PracticeCard
@@ -242,8 +256,6 @@ export default function WhatAnLlmIsLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

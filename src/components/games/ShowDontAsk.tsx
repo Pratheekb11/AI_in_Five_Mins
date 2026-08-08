@@ -61,7 +61,12 @@ export function ShowDontAsk() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 90 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 90 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -103,7 +108,8 @@ export function ShowDontAsk() {
           "All five measured probabilities arrive at once, with how many times better than a bare question each one is.",
         ],
         controls: "Tap or click a phrasing, or press 1–5. Enter moves on.",
-        scoring: "120 for the winner, and more when the runner-up was close behind.",
+        scoring:
+          "120 for the winner, and more when the runner-up was close behind.",
       }}
       startLabel={data ? "Take the first one" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -137,7 +143,10 @@ export function ShowDontAsk() {
           {data ? (
             <ul className="mb-3 space-y-1">
               {data.summary.map((row) => (
-                <li key={row.style} className="flex items-baseline gap-3 text-[0.9375rem]">
+                <li
+                  key={row.style}
+                  className="flex items-baseline gap-3 text-[0.9375rem]"
+                >
                   <span className="data w-16 shrink-0 tabular-nums">
                     {row.medianTimesBare}×
                   </span>
@@ -149,9 +158,9 @@ export function ShowDontAsk() {
           <p className="text-ink-soft text-[0.9375rem]">
             Telling it how to answer did almost nothing. Giving it a role to
             play did slightly less than nothing. Showing it one worked example
-            beat both on every single item. Delegation is not conversation
-            . If you want a particular shape of answer, put an example of
-            that shape in front of it.
+            beat both on every single item. Delegation is not conversation . If
+            you want a particular shape of answer, put an example of that shape
+            in front of it.
           </p>
         </div>
       }
@@ -159,9 +168,9 @@ export function ShowDontAsk() {
         data ? (
           <>
             Measured on {data.model.name}, a base model with no
-            instruction-following training at all, which is the point.
-            The assistant you use has had that training, so polite instructions
-            do work on it. What this shows is the floor: showing a pattern works
+            instruction-following training at all, which is the point. The
+            assistant you use has had that training, so polite instructions do
+            work on it. What this shows is the floor: showing a pattern works
             even on a model that is not trying to please you, which is why it
             keeps working when the polite phrasing quietly stops.
           </>
@@ -232,7 +241,11 @@ export function ShowDontAsk() {
                               animate={{
                                 width: `${(variant.probability / widest) * 100}%`,
                               }}
-                              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+                              transition={{
+                                duration: 0.7,
+                                delay: 0.2,
+                                ease: "easeOut",
+                              }}
                             />
                           </span>
                           <span className="data text-ink-soft w-20 shrink-0 text-right text-xs tabular-nums">
@@ -250,7 +263,9 @@ export function ShowDontAsk() {
                                   : "text-ink-soft"
                             }`}
                           >
-                            {multiple ? `${multiple.toFixed(multiple >= 10 ? 0 : 1)}×` : "-"}
+                            {multiple
+                              ? `${multiple.toFixed(multiple >= 10 ? 0 : 1)}×`
+                              : "-"}
                           </span>
                         </span>
                       ) : null}

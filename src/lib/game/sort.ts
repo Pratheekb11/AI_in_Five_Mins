@@ -137,34 +137,146 @@ export type SortTask = {
 };
 
 export const TASKS: readonly SortTask[] = [
-  { text: "Write the weekly team update", exposure: "inside", evidence: ["context"] },
-  { text: "Reply to a customer complaint", exposure: "outside", evidence: ["reads-fluent", "context"] },
-  { text: "Summarise a 40-page report you must act on", exposure: "inside", evidence: ["context", "reads-fluent"] },
-  { text: "Draft a job advert for your own team", exposure: "outside", evidence: ["context"] },
-  { text: "Decide who to promote", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Turn messy notes into clean meeting minutes", exposure: "inside", evidence: ["context"] },
-  { text: "Name a new internal project", exposure: "inside", evidence: ["guesses"] },
-  { text: "Write the numbers section of a board pack", exposure: "outside", evidence: ["needs-tool", "reads-fluent"] },
-  { text: "Rewrite a paragraph that reads badly", exposure: "inside", evidence: ["context"] },
-  { text: "Answer a legal question about your contract", exposure: "outside", evidence: ["needs-source", "reads-fluent"] },
-  { text: "Brainstorm ten angles for a talk", exposure: "inside", evidence: ["guesses"] },
-  { text: "Tell a colleague their work is not good enough", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Translate a message into a language you cannot read", exposure: "outside", evidence: ["reads-fluent"] },
-  { text: "Write test cases for code you wrote", exposure: "inside", evidence: ["context"] },
-  { text: "Set this quarter's priorities", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Draft a condolence note to a colleague", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Convert a spreadsheet into a chart", exposure: "inside", evidence: ["needs-tool"] },
-  { text: "Decide whether to fire a supplier", exposure: "outside", evidence: ["copies-you"] },
-  { text: "Write a first draft of a press release", exposure: "outside", evidence: ["context", "reads-fluent"] },
-  { text: "Explain a concept you half understand to your boss", exposure: "inside", evidence: ["guesses", "reads-fluent"] },
-  { text: "Catch the errors in your own argument", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Fill in a routine compliance form", exposure: "outside", evidence: ["needs-source"] },
-  { text: "Write the quote that goes to a client", exposure: "outside", evidence: ["needs-tool", "reads-fluent"] },
-  { text: "Plan the running order of a workshop", exposure: "inside", evidence: ["context"] },
-  { text: "Reply to a recruiter you are not interested in", exposure: "outside", evidence: ["context"] },
-  { text: "Decide what to cut when the deadline moves", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Tidy the formatting of a long document", exposure: "inside", evidence: ["context"] },
-  { text: "Write the apology after your team got it wrong", exposure: "outside", evidence: ["copies-you", "reads-fluent"] },
+  {
+    text: "Write the weekly team update",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Reply to a customer complaint",
+    exposure: "outside",
+    evidence: ["reads-fluent", "context"],
+  },
+  {
+    text: "Summarise a 40-page report you must act on",
+    exposure: "inside",
+    evidence: ["context", "reads-fluent"],
+  },
+  {
+    text: "Draft a job advert for your own team",
+    exposure: "outside",
+    evidence: ["context"],
+  },
+  {
+    text: "Decide who to promote",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Turn messy notes into clean meeting minutes",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Name a new internal project",
+    exposure: "inside",
+    evidence: ["guesses"],
+  },
+  {
+    text: "Write the numbers section of a board pack",
+    exposure: "outside",
+    evidence: ["needs-tool", "reads-fluent"],
+  },
+  {
+    text: "Rewrite a paragraph that reads badly",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Answer a legal question about your contract",
+    exposure: "outside",
+    evidence: ["needs-source", "reads-fluent"],
+  },
+  {
+    text: "Brainstorm ten angles for a talk",
+    exposure: "inside",
+    evidence: ["guesses"],
+  },
+  {
+    text: "Tell a colleague their work is not good enough",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Translate a message into a language you cannot read",
+    exposure: "outside",
+    evidence: ["reads-fluent"],
+  },
+  {
+    text: "Write test cases for code you wrote",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Set this quarter's priorities",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Draft a condolence note to a colleague",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Convert a spreadsheet into a chart",
+    exposure: "inside",
+    evidence: ["needs-tool"],
+  },
+  {
+    text: "Decide whether to fire a supplier",
+    exposure: "outside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Write a first draft of a press release",
+    exposure: "outside",
+    evidence: ["context", "reads-fluent"],
+  },
+  {
+    text: "Explain a concept you half understand to your boss",
+    exposure: "inside",
+    evidence: ["guesses", "reads-fluent"],
+  },
+  {
+    text: "Catch the errors in your own argument",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Fill in a routine compliance form",
+    exposure: "outside",
+    evidence: ["needs-source"],
+  },
+  {
+    text: "Write the quote that goes to a client",
+    exposure: "outside",
+    evidence: ["needs-tool", "reads-fluent"],
+  },
+  {
+    text: "Plan the running order of a workshop",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Reply to a recruiter you are not interested in",
+    exposure: "outside",
+    evidence: ["context"],
+  },
+  {
+    text: "Decide what to cut when the deadline moves",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Tidy the formatting of a long document",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Write the apology after your team got it wrong",
+    exposure: "outside",
+    evidence: ["copies-you", "reads-fluent"],
+  },
 ];
 
 /* ------------------------------------------------------------------ scene -- */
@@ -198,7 +310,10 @@ export function start(
   rolls: number[],
   count = 14,
 ): SortScene {
-  const theirs = shuffledBy(TASKS, rolls).slice(0, Math.max(0, count - mine.length));
+  const theirs = shuffledBy(TASKS, rolls).slice(
+    0,
+    Math.max(0, count - mine.length),
+  );
   return { ...newScene(), deck: [...mine, ...theirs] };
 }
 

@@ -98,7 +98,8 @@ export function useOwnTasks() {
     if (!trimmed) return;
     const current = read();
     if (current.length >= LIMIT) return;
-    if (current.some((t) => t.text.toLowerCase() === trimmed.toLowerCase())) return;
+    if (current.some((t) => t.text.toLowerCase() === trimmed.toLowerCase()))
+      return;
     write([...current, { text: trimmed, exposure, mine: true }]);
   }, []);
 

@@ -98,7 +98,8 @@ export function CurveFigure() {
   const sizes = data.sizes;
   const x = (size: number) =>
     PAD +
-    (Math.log10(size / sizes[0]) / Math.log10(sizes[sizes.length - 1] / sizes[0])) *
+    (Math.log10(size / sizes[0]) /
+      Math.log10(sizes[sizes.length - 1] / sizes[0])) *
       (W - PAD * 2);
   const y = (accuracy: number) =>
     H - PAD - ((accuracy - low) / (high - low)) * (H - PAD * 2);

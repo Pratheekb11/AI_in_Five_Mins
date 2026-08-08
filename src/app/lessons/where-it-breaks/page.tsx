@@ -87,7 +87,8 @@ const STEPS: Step[] = [
 const CHECK: CheckBeat[] = [
   {
     kind: "match",
-    prompt: "Match each thing you have seen it do with what is actually going on.",
+    prompt:
+      "Match each thing you have seen it do with what is actually going on.",
     pairs: [
       {
         left: "It cites a paper with author, year and page range",
@@ -95,11 +96,13 @@ const CHECK: CheckBeat[] = [
       },
       {
         left: "You say 'that is wrong' and it folds instantly",
-        right: "It is moving toward your apparent view, not re-checking anything",
+        right:
+          "It is moving toward your apparent view, not re-checking anything",
       },
       {
         left: "It quotes a price that was right two years ago",
-        right: "It was true on a date you cannot see, stated as if it were today",
+        right:
+          "It was true on a date you cannot see, stated as if it were today",
       },
       {
         left: "It is vaguest on the topic you know best",
@@ -177,8 +180,8 @@ export default function WhereItBreaksLesson() {
           <p>
             Dziri and colleagues tested this on multi-digit multiplication and
             two other tasks that need real step-by-step composition. Accuracy
-            held on small cases and fell away sharply as the problems grew. Their
-            conclusion: the models reduce multi-step reasoning to matching
+            held on small cases and fell away sharply as the problems grew.
+            Their conclusion: the models reduce multi-step reasoning to matching
             patterns of previously seen working, rather than carrying out the
             procedure.
           </p>
@@ -199,13 +202,11 @@ export default function WhereItBreaksLesson() {
             correctly.
           </p>
           <p>
-            Then say only this: <em>&ldquo;That is not right.&rdquo;</em>{" "}
-            No reason, no source, no correction. See what happens next.
+            Then say only this: <em>&ldquo;That is not right.&rdquo;</em> No
+            reason, no source, no correction. See what happens next.
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

@@ -63,7 +63,12 @@ export function WheresTheLine() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 20 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 20 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 

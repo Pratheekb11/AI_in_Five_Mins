@@ -115,7 +115,11 @@ export function ContextWindowFigure() {
   }
 
   const meterInk =
-    probability > 0.4 ? "bg-teal" : probability > 0.05 ? "bg-yellow" : "bg-pink";
+    probability > 0.4
+      ? "bg-teal"
+      : probability > 0.05
+        ? "bg-yellow"
+        : "bg-pink";
 
   return (
     <figure className="plate-flush overflow-hidden">
@@ -205,9 +209,7 @@ export function ContextWindowFigure() {
           {result ? (
             <p className="text-ink-faint mt-2 text-[0.8125rem]">
               Its own favourite continuation right now is &ldquo;
-              <span className="font-data">
-                {result.topText.trim() || "␣"}
-              </span>
+              <span className="font-data">{result.topText.trim() || "␣"}</span>
               &rdquo;, at {(result.topProbability * 100).toFixed(1)}%.
             </p>
           ) : null}
@@ -221,9 +223,9 @@ export function ContextWindowFigure() {
             animate={{ opacity: 1, y: 0 }}
             className="border-ink/20 prose-measure text-ink-soft mt-4 border-t pt-4 text-[0.9375rem]"
           >
-            Nothing above tells the reader the memo has gone, and the model
-            does not know it is missing either. It still writes a confident
-            sentence. The code in that sentence is now{" "}
+            Nothing above tells the reader the memo has gone, and the model does
+            not know it is missing either. It still writes a confident sentence.
+            The code in that sentence is now{" "}
             <span className="font-data">
               {result?.topText.trim() || "something else"}
             </span>

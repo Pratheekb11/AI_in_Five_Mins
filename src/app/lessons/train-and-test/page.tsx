@@ -157,11 +157,11 @@ export default function TrainAndTestLesson() {
             noise, and it still leaves 4,459 to learn from.
           </p>
           <p>
-            Make the test set too small and the score swings wildly depending
-            on which messages happened to land in it. Make it too big and the
-            model is starved. There is no correct answer, only a trade, and the
-            next module measures how much the answer moves when you change where
-            the wall goes.
+            Make the test set too small and the score swings wildly depending on
+            which messages happened to land in it. Make it too big and the model
+            is starved. There is no correct answer, only a trade, and the next
+            module measures how much the answer moves when you change where the
+            wall goes.
           </p>
           <p>
             One thing that is not a trade: the split has to be random. Sorting
@@ -181,9 +181,7 @@ export default function TrainAndTestLesson() {
             headline accuracy measured on, and had the model been trained on any
             of it.
           </p>
-          <p>
-            Then ask when that test data was last replaced.
-          </p>
+          <p>Then ask when that test data was last replaced.</p>
         </PracticeCard>
       </DeeperRow>
 

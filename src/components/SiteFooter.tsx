@@ -1,3 +1,4 @@
+import Link from "next/link";
 const CONTACT = [
   {
     label: "Email",
@@ -30,6 +31,16 @@ export function SiteFooter() {
               model or a published dataset. If a number cannot be traced, it
               does not ship.
             </p>
+            {/* The only permanent way back to a finished plate, since the
+                banner that offers it lives inside the track you finished. */}
+            <p className="text-ink-soft mt-3 text-sm">
+              <Link
+                href="/certificate"
+                className="underline underline-offset-2"
+              >
+                Your certificate
+              </Link>
+            </p>
           </div>
 
           <div>
@@ -43,7 +54,9 @@ export function SiteFooter() {
                   <a
                     href={item.href}
                     target={item.href.startsWith("http") ? "_blank" : undefined}
-                    rel={item.href.startsWith("http") ? "noreferrer" : undefined}
+                    rel={
+                      item.href.startsWith("http") ? "noreferrer" : undefined
+                    }
                     className="font-data decoration-ink/30 hover:decoration-ink text-sm underline underline-offset-4"
                   >
                     {item.handle}

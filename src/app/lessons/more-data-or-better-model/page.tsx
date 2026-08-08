@@ -27,7 +27,8 @@ const SOURCES: Source[] = [
     licence: "Free to use with attribution to the authors' 2011 paper",
   },
   {
-    title: "Scaling to Very Very Large Corpora for Natural Language Disambiguation",
+    title:
+      "Scaling to Very Very Large Corpora for Natural Language Disambiguation",
     publisher: "Banko & Brill (ACL 2001)",
     url: "https://aclanthology.org/P01-1005/",
     used: "The paper this argument usually gets quoted from: four learning algorithms whose ranking changes as the training data grows by orders of magnitude.",
@@ -79,16 +80,37 @@ const CHECK: CheckBeat[] = [
   },
   {
     kind: "sort",
-    prompt: "You are told an accuracy. Which of these do you need to know before it means anything?",
+    prompt:
+      "You are told an accuracy. Which of these do you need to know before it means anything?",
     buckets: [
-      { id: "need", label: "Need to know", hint: "changes what the number means" },
-      { id: "nice", label: "Useful, not essential", hint: "context, not meaning" },
+      {
+        id: "need",
+        label: "Need to know",
+        hint: "changes what the number means",
+      },
+      {
+        id: "nice",
+        label: "Useful, not essential",
+        hint: "context, not meaning",
+      },
     ],
     items: [
       { id: "which", text: "Which data it was measured on", bucket: "need" },
-      { id: "baseline", text: "What doing nothing would score", bucket: "need" },
-      { id: "howmuch", text: "How many examples it was trained on", bucket: "need" },
-      { id: "spread", text: "How much it moves between splits", bucket: "need" },
+      {
+        id: "baseline",
+        text: "What doing nothing would score",
+        bucket: "need",
+      },
+      {
+        id: "howmuch",
+        text: "How many examples it was trained on",
+        bucket: "need",
+      },
+      {
+        id: "spread",
+        text: "How much it moves between splits",
+        bucket: "need",
+      },
       { id: "name", text: "Which algorithm it is", bucket: "nice" },
       { id: "hardware", text: "How long it took to train", bucket: "nice" },
     ],
@@ -126,14 +148,15 @@ export default function MoreDataOrBetterModelLesson() {
           summary="Because each new example teaches less than the one before it, until they are mostly repeating what the model already knows."
         >
           <p>
-            The first hundred messages tell a model roughly what spam looks like.
-            The next thousand refine the edges. Somewhere past that most of what
-            arrives is a variation on something already seen, and the curve bends
-            towards whatever ceiling the features and the model allow.
+            The first hundred messages tell a model roughly what spam looks
+            like. The next thousand refine the edges. Somewhere past that most
+            of what arrives is a variation on something already seen, and the
+            curve bends towards whatever ceiling the features and the model
+            allow.
           </p>
           <p>
-            Which is why the honest question is never whether more data helps. It
-            is what the next tenfold is worth, and the curve you have already
+            Which is why the honest question is never whether more data helps.
+            It is what the next tenfold is worth, and the curve you have already
             measured is the only thing that can tell you.
           </p>
           <p>
@@ -149,24 +172,24 @@ export default function MoreDataOrBetterModelLesson() {
           summary="Half of it. The slogan is true on the left of the curve and quietly false on the right."
         >
           <p>
-            Banko and Brill&rsquo;s result in 2001 is the one usually cited: over
-            three orders of magnitude of training data, the ranking between
+            Banko and Brill&rsquo;s result in 2001 is the one usually cited:
+            over three orders of magnitude of training data, the ranking between
             algorithms changed, and the worst algorithm with the most data beat
             the best algorithm with the least. That is what the crossing on this
             page is.
           </p>
           <p>
-            What gets dropped in the retelling is the other half. Once you are on
-            the flat part, another tenfold buys almost nothing and the model
+            What gets dropped in the retelling is the other half. Once you are
+            on the flat part, another tenfold buys almost nothing and the model
             choice is worth several times as much. Both halves are visible here
             in one picture, which is the reason to draw it rather than argue
             about it.
           </p>
           <p>
             Zinkevich&rsquo;s ordering is the practical version: a heuristic
-            baseline first, then features and data, then sophistication. The flat
-            dashed line on this figure is what a heuristic baseline looks like,
-            and it beat two real models for the first hundred examples.
+            baseline first, then features and data, then sophistication. The
+            flat dashed line on this figure is what a heuristic baseline looks
+            like, and it beat two real models for the first hundred examples.
           </p>
         </MechanismPanel>
 
@@ -175,9 +198,9 @@ export default function MoreDataOrBetterModelLesson() {
           watchFor="Whether the last doubling of data moved the number more or less than the last change of model. That comparison, on your own data, settles an argument that otherwise runs on opinions."
         >
           <p>
-            Take any model somebody near you relies on and retrain it on a tenth,
-            a quarter, a half and all of the data. Four runs, one afternoon, one
-            chart.
+            Take any model somebody near you relies on and retrain it on a
+            tenth, a quarter, a half and all of the data. Four runs, one
+            afternoon, one chart.
           </p>
           <p>
             Then decide what to spend the next month on, with the chart in front

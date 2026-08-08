@@ -68,7 +68,9 @@ function Card({
       <p className="text-[1.0625rem] font-semibold">{model.name}</p>
       <p className="text-ink-soft mt-1 text-[0.875rem]">{model.how}</p>
 
-      <p className="label text-ink-faint mt-3">Scored on its own training data</p>
+      <p className="label text-ink-faint mt-3">
+        Scored on its own training data
+      </p>
       <p className="data text-[1.5rem] font-bold">
         {(model.train.accuracy * 100).toFixed(1)}%
       </p>
@@ -113,7 +115,12 @@ export function Holdout() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 40 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 40 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 

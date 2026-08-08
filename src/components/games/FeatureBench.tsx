@@ -127,7 +127,12 @@ export function FeatureBench() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 40 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 40 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -168,7 +173,8 @@ export function FeatureBench() {
           "The corpus pours out both piles, and the winner is the one that removed more bits.",
         ],
         controls: "Tap or click a feature, or press 1 or 2. Enter moves on.",
-        scoring: "100 a call, plus 60 when the two were within a hair of each other.",
+        scoring:
+          "100 a call, plus 60 when the two were within a hair of each other.",
       }}
       startLabel={data ? "Take the bench" : "Loading the corpus…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}

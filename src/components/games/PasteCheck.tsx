@@ -16,7 +16,13 @@ import {
   verdictFor,
   WHY_IT_MATTERS,
 } from "@/lib/game/check";
-import { type Door, DOORS, doorSpec, KIND_LABEL, KIND_NOTE } from "@/lib/game/paste";
+import {
+  type Door,
+  DOORS,
+  doorSpec,
+  KIND_LABEL,
+  KIND_NOTE,
+} from "@/lib/game/paste";
 
 /**
  * Would you paste it?
@@ -39,13 +45,17 @@ export function PasteCheck() {
     setPlaying(true);
   }, []);
 
-  const pick = useCallback((door: Door) => setScene((s) => choose(s, door)), []);
+  const pick = useCallback(
+    (door: Door) => setScene((s) => choose(s, door)),
+    [],
+  );
   const carryOn = useCallback(() => setScene((s) => next(s)), []);
 
   const payload = current(scene);
   const revealed = scene.chosen !== null;
   const answer = payload ? answerFor(payload) : null;
-  const verdict = payload && revealed ? verdictFor(payload, scene.chosen!) : null;
+  const verdict =
+    payload && revealed ? verdictFor(payload, scene.chosen!) : null;
 
   useEffect(() => {
     if (!playing || scene.done) return;
@@ -73,7 +83,8 @@ export function PasteCheck() {
           "The category and the reasoning follow. There is no clock.",
         ],
         controls: "Tap or click a door, or press 1–3. Enter moves on.",
-        scoring: "Sending something further out than it should go scores nothing. That is the mistake you cannot take back. Being too careful costs you a little.",
+        scoring:
+          "Sending something further out than it should go scores nothing. That is the mistake you cannot take back. Being too careful costs you a little.",
       }}
       startLabel="Open the first one"
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -113,9 +124,9 @@ export function PasteCheck() {
               : ""}
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
-            The useful habit is not a rule about AI. It is the question you would
-            ask about any outside supplier: whose data is this, and did they
-            agree to it going here?
+            The useful habit is not a rule about AI. It is the question you
+            would ask about any outside supplier: whose data is this, and did
+            they agree to it going here?
           </p>
         </div>
       }

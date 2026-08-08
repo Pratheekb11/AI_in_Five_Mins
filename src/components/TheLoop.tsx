@@ -206,8 +206,8 @@ export function TheLoop() {
           <p className="prose-measure text-ink-soft min-h-[3rem] text-[0.9375rem]">
             {repeating ? (
               <>
-                It has started repeating itself. That is what always taking
-                the likeliest word does. The likeliest continuation of a likely
+                It has started repeating itself. That is what always taking the
+                likeliest word does. The likeliest continuation of a likely
                 continuation is likelier still, so it falls into a groove.{" "}
                 <Link
                   href="/lessons/how-llms-answer"
@@ -215,7 +215,7 @@ export function TheLoop() {
                 >
                   That is measured here
                 </Link>
-              , and it is why real systems roll dice instead.
+                , and it is why real systems roll dice instead.
               </>
             ) : (
               <>

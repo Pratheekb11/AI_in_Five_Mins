@@ -70,7 +70,12 @@ export function GrowTheTree() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 20 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 20 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -107,7 +112,8 @@ export function GrowTheTree() {
           "Pick the question you think separates it best.",
           "Every candidate's real information gain arrives.",
         ],
-        controls: "Tap or click a question, or press its number. Enter moves on.",
+        controls:
+          "Tap or click a question, or press its number. Enter moves on.",
         scoring: "100 for the best question, 50 for one worth nearly as much.",
       }}
       startLabel={data ? "Take the first split" : "Loading the tree…"}
@@ -144,8 +150,8 @@ export function GrowTheTree() {
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
             That is the entire algorithm. There is no cleverness hidden
-            underneath it: at every node it tries all twelve questions, keeps the
-            one that removes most, and repeats on both piles. Which is why a
+            underneath it: at every node it tries all twelve questions, keeps
+            the one that removes most, and repeats on both piles. Which is why a
             tree can be read out loud, and why it is the model people reach for
             when somebody will have to justify a decision to a person.
           </p>
@@ -173,7 +179,9 @@ export function GrowTheTree() {
             </p>
             <p className="prose-measure mb-1 text-[1.0625rem]">
               <span className="data font-bold">{round.size}</span> messages,{" "}
-              <span className="data text-pink-text font-bold">{round.spam}</span>{" "}
+              <span className="data text-pink-text font-bold">
+                {round.spam}
+              </span>{" "}
               of them spam.
             </p>
             <p className="text-ink-soft mb-5 text-[0.9375rem]">
@@ -223,7 +231,9 @@ export function GrowTheTree() {
                       {revealed ? (
                         <motion.span
                           initial={{ width: 0 }}
-                          animate={{ width: `${(candidate.gain / widest) * 100}%` }}
+                          animate={{
+                            width: `${(candidate.gain / widest) * 100}%`,
+                          }}
                           transition={{ duration: 0.5, delay: i * 0.04 }}
                           className={`mt-2 block h-2 rounded-[1px] ${
                             won ? "bg-teal" : "bg-pink"

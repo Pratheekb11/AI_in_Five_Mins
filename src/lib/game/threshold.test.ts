@@ -119,8 +119,9 @@ describe("scoring", () => {
 
   it("wants opposite ends of the dial in opposite situations", () => {
     const cheapest = (id: string) =>
-      dialCosts(data, scenarioOf(id)).reduce((a, b) => (b.cost < a.cost ? b : a))
-        .id;
+      dialCosts(data, scenarioOf(id)).reduce((a, b) =>
+        b.cost < a.cost ? b : a,
+      ).id;
     expect(cheapest("bank")).toBe("lean-flag");
     expect(cheapest("hospital")).toBe("lean-leave");
   });

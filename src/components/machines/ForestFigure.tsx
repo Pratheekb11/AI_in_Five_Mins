@@ -91,7 +91,8 @@ export function ForestFigure() {
     );
   }
 
-  const wanted = picked && picked.stage === stage ? picked.id : STAGE_FOREST[stage];
+  const wanted =
+    picked && picked.stage === stage ? picked.id : STAGE_FOREST[stage];
   const forest: Forest =
     data.forests.find((f) => f.id === wanted) ?? data.forests[0];
 
@@ -239,7 +240,8 @@ export function ForestFigure() {
               <path
                 d={forest.running
                   .map((v, i) => {
-                    const px = PAD + (i / (forest.running.length - 1)) * (W - PAD * 2);
+                    const px =
+                      PAD + (i / (forest.running.length - 1)) * (W - PAD * 2);
                     const py = 96 - ((v - low) / (high - low)) * 80;
                     return `${i === 0 ? "M" : "L"}${px.toFixed(1)} ${py.toFixed(1)}`;
                   })
@@ -316,8 +318,8 @@ export function ForestFigure() {
       ) : null}
 
       <figcaption className="border-ink/20 text-ink-faint border-t px-4 py-2.5 text-[0.8125rem]">
-        {data.source.name}. {data.note} Disagreement is measured as how often two
-        trees in the same forest give different answers to the same held-out
+        {data.source.name}. {data.note} Disagreement is measured as how often
+        two trees in the same forest give different answers to the same held-out
         message.
       </figcaption>
     </figure>

@@ -24,7 +24,8 @@ const SOURCES: Source[] = [
   {
     title:
       "The Impact of Generative AI on Critical Thinking: Self-Reported Reductions in Cognitive Effort and Confidence Effects From a Survey of Knowledge Workers",
-    publisher: "Lee, Sarkar, Tankelevitch, Drosos, Rintel, Banks & Wilson (CHI 2025)",
+    publisher:
+      "Lee, Sarkar, Tankelevitch, Drosos, Rintel, Banks & Wilson (CHI 2025)",
     url: "https://advait.org/files/lee_2025_ai_critical_thinking_survey.pdf",
     used: "The finding that higher confidence in the tool predicts less critical thinking, and that the work of thinking shifts toward verifying what the tool produced.",
     licence: "CC BY 4.0",
@@ -74,7 +75,8 @@ const CHECK: CheckBeat[] = [
     kind: "flag",
     prompt:
       "An assistant drafted this for a client email. Tap what you would check at source before it goes out.",
-    instruction: "Three of these pieces need checking. The rest you can judge by reading.",
+    instruction:
+      "Three of these pieces need checking. The rest you can judge by reading.",
     parts: [
       { text: "Thanks for waiting." },
       { text: "here is where we landed." },
@@ -165,8 +167,8 @@ export default function VerificationHabitsLesson() {
             Arithmetic gets recomputed, in a calculator or by asking for code
             Dziri and colleagues showed that accuracy collapses as sums get
             bigger, and prose that looks like working out is not working out.
-            Citations get opened, not scanned. And anything with a date, a
-            price or a version gets checked against the source that owns it.
+            Citations get opened, not scanned. And anything with a date, a price
+            or a version gets checked against the source that owns it.
           </p>
           <p>
             What none of these are is asking the assistant to check itself.
@@ -189,8 +191,6 @@ export default function VerificationHabitsLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

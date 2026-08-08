@@ -108,8 +108,8 @@ export function GradientHill() {
               The guess, against the evidence
             </h3>
             <p className="text-ink-soft mt-1 text-sm">
-              {sampleSize} real sentences. Each dot is one sentence: how long it is,
-              against how many tokens it cost.
+              {sampleSize} real sentences. Each dot is one sentence: how long it
+              is, against how many tokens it cost.
             </p>
           </figcaption>
           <Scatter slope={slope} />
@@ -150,7 +150,10 @@ export function GradientHill() {
                 }}
                 className="accent-pink h-2 w-full"
               />
-              <output htmlFor="slope" className="data w-16 shrink-0 text-right text-xl font-bold">
+              <output
+                htmlFor="slope"
+                className="data w-16 shrink-0 text-right text-xl font-bold"
+              >
                 {slope.toFixed(3)}
               </output>
             </div>
@@ -235,8 +238,8 @@ export function GradientHill() {
             </span>
           ) : slopeAtBest ? (
             <span className="text-teal-text">
-              Settled. {best.charsPerToken} characters per token, and the
-              number nobody wrote down, recovered from {sampleSize} sentences by
+              Settled. {best.charsPerToken} characters per token, and the number
+              nobody wrote down, recovered from {sampleSize} sentences by
               nothing more than repeatedly stepping downhill.
             </span>
           ) : (
@@ -318,7 +321,13 @@ function Scatter({ slope }: { slope: number }) {
         strokeWidth={2.5}
       />
 
-      <text x={PAD.left} y={H - 8} className="data" fontSize={9} fill="var(--ink-faint)">
+      <text
+        x={PAD.left}
+        y={H - 8}
+        className="data"
+        fontSize={9}
+        fill="var(--ink-faint)"
+      >
         characters
       </text>
       <text

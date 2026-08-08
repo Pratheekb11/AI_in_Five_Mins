@@ -262,7 +262,10 @@ export function WordMagnet() {
       readouts={[
         { label: "Score", value: scene.score, accent: true },
         { label: "Streak", value: `×${scene.combo}` },
-        { label: "Caught", value: `${scene.caught}/${scene.caught + scene.missed}` },
+        {
+          label: "Caught",
+          value: `${scene.caught}/${scene.caught + scene.missed}`,
+        },
         { label: "Time", value: `${Math.ceil(scene.remaining)}s` },
       ]}
       again={
@@ -274,19 +277,19 @@ export function WordMagnet() {
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
             Every force in that box was a real cosine similarity across{" "}
-            {space?.dims ?? 50} dimensions. Nothing was arranged for effect
-            . When two words crowded together, it is because the numbers
-            put them together.
+            {space?.dims ?? 50} dimensions. Nothing was arranged for effect .
+            When two words crowded together, it is because the numbers put them
+            together.
           </p>
         </div>
       }
       footer={
         space ? (
           <>
-            {space.words.length.toLocaleString("en-US")} words from {space.source.name}.
-            Pull is the real cosine similarity;
-            anything under {NEUTRAL} is pushed away, which is almost every pair
-            of words there is.
+            {space.words.length.toLocaleString("en-US")} words from{" "}
+            {space.source.name}. Pull is the real cosine similarity; anything
+            under {NEUTRAL} is pushed away, which is almost every pair of words
+            there is.
           </>
         ) : failed ? (
           <>The word vectors did not load, so the field cannot be built.</>
@@ -444,17 +447,21 @@ export function WordMagnet() {
                 <>
                   <span className="font-semibold">{last.grabbed}</span>,
                   similarity{" "}
-                  <span className="font-data">{last.grabbedSim.toFixed(3)}</span>
+                  <span className="font-data">
+                    {last.grabbedSim.toFixed(3)}
+                  </span>
                   . That was the one.
                 </>
               ) : (
                 <>
                   You pulled{" "}
                   <span className="font-semibold">{last.grabbed}</span> at{" "}
-                  <span className="font-data">{last.grabbedSim.toFixed(3)}</span>
-                , not <span className="font-semibold">{last.target}</span> at{" "}
-                  <span className="font-data">{last.targetSim.toFixed(3)}</span>.
-                  The ring takes whatever is closest, not what you meant.
+                  <span className="font-data">
+                    {last.grabbedSim.toFixed(3)}
+                  </span>
+                  , not <span className="font-semibold">{last.target}</span> at{" "}
+                  <span className="font-data">{last.targetSim.toFixed(3)}</span>
+                  . The ring takes whatever is closest, not what you meant.
                 </>
               )}
             </p>

@@ -48,7 +48,8 @@ const SOURCES: Source[] = [
   {
     title:
       "The Impact of Generative AI on Critical Thinking: Self-Reported Reductions in Cognitive Effort and Confidence Effects From a Survey of Knowledge Workers",
-    publisher: "Lee, Sarkar, Tankelevitch, Drosos, Rintel, Banks & Wilson (CHI 2025)",
+    publisher:
+      "Lee, Sarkar, Tankelevitch, Drosos, Rintel, Banks & Wilson (CHI 2025)",
     url: "https://advait.org/files/lee_2025_ai_critical_thinking_survey.pdf",
     used: "319 knowledge workers, 936 first-hand examples: confidence in the tool predicts less critical thinking, confidence in yourself predicts more.",
     licence: "CC BY 4.0",
@@ -94,16 +95,40 @@ const CHECK: CheckBeat[] = [
     prompt: "Into a general-purpose chat window, at work. Which pile?",
     buckets: [
       { id: "fine", label: "Paste it", hint: "nothing at stake but your time" },
-      { id: "strip", label: "Strip it first", hint: "the details were never the hard part" },
+      {
+        id: "strip",
+        label: "Strip it first",
+        hint: "the details were never the hard part",
+      },
       { id: "no", label: "Keep it out", hint: "not yours to disclose" },
     ],
     items: [
-      { id: "draft", text: "A blog post you wrote, for a tidy-up", bucket: "fine" },
-      { id: "public", text: "A published annual report you want summarised", bucket: "fine" },
-      { id: "complaint", text: "A customer complaint, with their name and address", bucket: "strip" },
-      { id: "cv", text: "Three job applications you are comparing", bucket: "strip" },
+      {
+        id: "draft",
+        text: "A blog post you wrote, for a tidy-up",
+        bucket: "fine",
+      },
+      {
+        id: "public",
+        text: "A published annual report you want summarised",
+        bucket: "fine",
+      },
+      {
+        id: "complaint",
+        text: "A customer complaint, with their name and address",
+        bucket: "strip",
+      },
+      {
+        id: "cv",
+        text: "Three job applications you are comparing",
+        bucket: "strip",
+      },
       { id: "sick", text: "A colleague's sick note", bucket: "no" },
-      { id: "creds", text: "A config file with a live API key in it", bucket: "no" },
+      {
+        id: "creds",
+        text: "A config file with a live API key in it",
+        bucket: "no",
+      },
     ],
     because:
       "The middle pile is the one people get wrong. The identifiers in a complaint or an application are almost never the part you needed help with, so removing them costs ten seconds and buys you the same answer without making a disclosure decision on someone else's behalf. The last pile is different in kind. Health is special category data under Article 9, and a live key is a key. Neither becomes safe by being anonymised.",
@@ -129,7 +154,9 @@ export default function JudgmentAndLimitsLesson() {
         claim={
           <>
             Every paste is a decision you make{" "}
-            <span className="text-pink-text">on somebody else&rsquo;s behalf</span>
+            <span className="text-pink-text">
+              on somebody else&rsquo;s behalf
+            </span>
             .
           </>
         }
@@ -167,9 +194,9 @@ export default function JudgmentAndLimitsLesson() {
           The categories are the legal ones, cited below. What to do about them
           is this module&rsquo;s rule and a sensible default, not legal advice
           The binding answer is your employer&rsquo;s policy plus the terms of
-          the specific tool, and those two differ more than people expect. The deck is {PAYLOADS.length}{" "}
-          written examples; none is
-          anybody&rsquo;s real data.
+          the specific tool, and those two differ more than people expect. The
+          deck is {PAYLOADS.length} written examples; none is anybody&rsquo;s
+          real data.
         </p>
       </section>
 
@@ -210,8 +237,8 @@ export default function JudgmentAndLimitsLesson() {
             Lee and colleagues surveyed 319 knowledge workers about 936 real
             uses. Higher confidence in the AI predicted less critical thinking;
             higher confidence in one&rsquo;s own ability predicted more. That is
-            a correlation in self-reported data. It does not establish that
-            the tool caused anything.
+            a correlation in self-reported data. It does not establish that the
+            tool caused anything.
           </p>
           <p>
             Kosmyna and colleagues went further and measured. Fifty-four people
@@ -224,9 +251,9 @@ export default function JudgmentAndLimitsLesson() {
           </p>
           <p>
             What both justify is modest and practical. Keep doing some of the
-            work yourself, and specifically the part you would be embarrassed
-            to have lost. Write the first draft of the thing you care about
-            being good at. Use the tool to attack it afterwards.
+            work yourself, and specifically the part you would be embarrassed to
+            have lost. Write the first draft of the thing you care about being
+            good at. Use the tool to attack it afterwards.
           </p>
         </MechanismPanel>
         <PracticeCard
@@ -244,8 +271,6 @@ export default function JudgmentAndLimitsLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       {/* The end of the track. Six chapters, six questions worth keeping. */}
       <section className="plate bg-teal-wash mb-4 p-5 md:p-6">

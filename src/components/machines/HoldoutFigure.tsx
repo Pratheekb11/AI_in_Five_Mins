@@ -154,7 +154,10 @@ export function HoldoutFigure() {
     (data.corpus.trainSize / data.corpus.total) * DOTS,
   );
   const left = Array.from({ length: trainDots }, (_, i) => i);
-  const right = Array.from({ length: DOTS - trainDots }, (_, i) => i + trainDots);
+  const right = Array.from(
+    { length: DOTS - trainDots },
+    (_, i) => i + trainDots,
+  );
   const split = stage >= 1;
 
   return (

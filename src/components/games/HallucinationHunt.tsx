@@ -102,7 +102,8 @@ export function HallucinationHunt() {
           "Press “That is all I can see” when you are done, and the source wording appears in place of each change.",
         ],
         controls: "Tap or click words.",
-        scoring: "Harder errors are worth more, a wrong flag costs you, and the clock only affects the speed bonus. It never ends the round.",
+        scoring:
+          "Harder errors are worth more, a wrong flag costs you, and the clock only affects the speed bonus. It never ends the round.",
       }}
       startLabel={data ? "Today's paragraph" : "Loading the paragraph…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -159,7 +160,7 @@ export function HallucinationHunt() {
             >
               {puzzle.title}
             </a>
-            {puzzle.revision ? `, revision ${puzzle.revision}` : ""}, {" "}
+            {puzzle.revision ? `, revision ${puzzle.revision}` : ""},{" "}
             {data.source.licence}. Every alteration was checked against that
             exact revision before this page was built, so the answer key and the
             source cannot have drifted apart. Go and diff it yourself.
@@ -215,14 +216,15 @@ export function HallucinationHunt() {
                       {word}
                     </motion.button>
                     {shown && span && i === span.last ? (
-                      <>{" "}
-                      <motion.span
-                        initial={{ opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-teal-wash text-teal-text mx-1 rounded-[2px] px-1.5 font-semibold"
-                      >
-                        {span.original}
-                      </motion.span>
+                      <>
+                        {" "}
+                        <motion.span
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="bg-teal-wash text-teal-text mx-1 rounded-[2px] px-1.5 font-semibold"
+                        >
+                          {span.original}
+                        </motion.span>
                       </>
                     ) : null}{" "}
                   </span>
@@ -270,9 +272,9 @@ export function HallucinationHunt() {
                 {left.length > 0 ? (
                   <p className="text-ink-soft mt-3 text-[0.9375rem]">
                     The ones you missed read exactly as smoothly as the rest of
-                    the paragraph. That is the whole problem. There is no
-                    tell in the prose, because the prose was never the thing
-                    that made it true.
+                    the paragraph. That is the whole problem. There is no tell
+                    in the prose, because the prose was never the thing that
+                    made it true.
                   </p>
                 ) : null}
               </motion.div>

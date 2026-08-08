@@ -149,7 +149,10 @@ export function SkillGapFigure() {
                       className={`block h-full ${FILL[row.ink]}`}
                       initial={still ? false : { width: 0 }}
                       animate={{ width: `${(row.percent / AXIS) * 100}%` }}
-                      transition={{ duration: still ? 0 : 0.7, ease: "easeOut" }}
+                      transition={{
+                        duration: still ? 0 : 0.7,
+                        ease: "easeOut",
+                      }}
                     />
                   )}
                 </span>

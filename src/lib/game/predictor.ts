@@ -44,7 +44,13 @@ export type PredictorRound = {
 };
 
 export type PredictorData = {
-  model: { id: string; name: string; url: string; licence: string; note: string };
+  model: {
+    id: string;
+    name: string;
+    url: string;
+    licence: string;
+    note: string;
+  };
   corpus: { name: string; author: string; url: string; licence: string };
   optionCount: number;
   measuredSentences: number;
@@ -133,10 +139,7 @@ export function shuffledBy<T>(items: readonly T[], rolls: number[]): T[] {
  * a neighbouring act, the three-act shape is the teaching, so a round that
  * cannot hold it should be visibly wrong rather than quietly reshuffled.
  */
-export function deal(
-  data: PredictorData,
-  rolls: number[],
-): PredictorRound[] {
+export function deal(data: PredictorData, rolls: number[]): PredictorRound[] {
   const take = (kind: PredictorRound["kind"], n: number, offset: number) =>
     shuffledBy(
       data.rounds.filter((r) => r.kind === kind),

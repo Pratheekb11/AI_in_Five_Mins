@@ -103,8 +103,7 @@ export function Quiz({ slug, questions }: QuizProps) {
     const nowAnswered = next.filter((p) => p !== null).length;
     if (nowAnswered === questions.length) {
       const score =
-        next.filter((p, i) => p === rounds[i].answer).length /
-        questions.length;
+        next.filter((p, i) => p === rounds[i].answer).length / questions.length;
       recordScore(slug, score);
     }
   }
@@ -179,7 +178,9 @@ export function Quiz({ slug, questions }: QuizProps) {
         aria-live="polite"
       >
         <span className="label text-ink-faint">
-          {done ? "Lesson complete" : `${answered} of ${questions.length} answered`}
+          {done
+            ? "Lesson complete"
+            : `${answered} of ${questions.length} answered`}
         </span>
         <span className="data text-lg font-semibold">
           {correct} / {questions.length}

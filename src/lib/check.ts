@@ -13,12 +13,7 @@
  * against the same measured facts the module just showed you.
  */
 
-export type CheckBeat =
-  | ChoiceBeat
-  | SortBeat
-  | MatchBeat
-  | FlagBeat
-  | FillBeat;
+export type CheckBeat = ChoiceBeat | SortBeat | MatchBeat | FlagBeat | FillBeat;
 
 type Common = {
   /** The question, in the learner's words. */

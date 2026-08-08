@@ -93,7 +93,10 @@ export function promptOf(
 }
 
 /** The board's weights: the model's logits at this dial, over the kept slots. */
-export function boardWeights(prompt: LogitPrompt, temperature: number): number[] {
+export function boardWeights(
+  prompt: LogitPrompt,
+  temperature: number,
+): number[] {
   const full = atTemperature(prompt, temperature);
   const kept = full.slice(0, SLOTS);
   const total = kept.reduce((a, b) => a + b, 0);

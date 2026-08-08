@@ -269,7 +269,8 @@ export const LESSONS: Lesson[] = [
     minutes: 8,
     ink: "teal",
     status: "ready",
-    feynman: "How much would that number move if I had split the data differently?",
+    feynman:
+      "How much would that number move if I had split the data differently?",
   },
 
   {
@@ -284,7 +285,8 @@ export const LESSONS: Lesson[] = [
     minutes: 9,
     ink: "blue",
     status: "ready",
-    feynman: "What is the model actually drawing, and what does its number mean?",
+    feynman:
+      "What is the model actually drawing, and what does its number mean?",
   },
 
   {
@@ -423,7 +425,6 @@ export const LESSONS: Lesson[] = [
     status: "ready",
   },
 ];
-
 
 export function getLesson(slug: string): Lesson | undefined {
   return LESSONS.find((l) => l.slug === slug);

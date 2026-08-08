@@ -190,7 +190,10 @@ export function pointsFor(round: AnyRound, called: Verdict): number {
   return BASE_POINTS + (buried ? INSIGHT_POINTS : 0);
 }
 
-export function call(scene: ProvenanceScene, verdict: Verdict): ProvenanceScene {
+export function call(
+  scene: ProvenanceScene,
+  verdict: Verdict,
+): ProvenanceScene {
   const round = current(scene);
   if (!round || scene.done || scene.called !== null) return scene;
 

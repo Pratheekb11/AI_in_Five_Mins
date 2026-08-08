@@ -55,7 +55,8 @@ const SOURCES: Source[] = [
   {
     title:
       "Man is to Computer Programmer as Woman is to Homemaker? Debiasing Word Embeddings",
-    publisher: "Bolukbasi, Chang, Zou, Saligrama & Kalai (arXiv:1607.06520, 2016)",
+    publisher:
+      "Bolukbasi, Chang, Zou, Saligrama & Kalai (arXiv:1607.06520, 2016)",
     url: "https://arxiv.org/abs/1607.06520",
     used: "The measurement that the same arithmetic reproduces the stereotypes present in the training text.",
   },
@@ -89,7 +90,8 @@ const STEPS: Step[] = [
 
 const QUESTIONS: QuizQuestion[] = [
   {
-    prompt: "The same arithmetic gives stereotyped answers on some inputs. Why?",
+    prompt:
+      "The same arithmetic gives stereotyped answers on some inputs. Why?",
     options: [
       "A bug in the way the vectors are quantised and stored, which distorts the rarer directions in the space",
       "The vectors were built by counting real human text, so associations present in that text are present in the geometry",
@@ -126,8 +128,7 @@ export default function EmbeddingsLesson() {
 
         <div className="prose-measure text-ink-soft mb-8 space-y-4 text-lg">
           <p>
-            Give every word a list of {ANALOGY.dims}{" "}
-            numbers and you have given
+            Give every word a list of {ANALOGY.dims} numbers and you have given
             every word a position. Positions on their own would only buy you
             similarity: near means alike, far means unalike. What makes this
             idea powerful is the thing positions have that labels do not: the
@@ -136,18 +137,18 @@ export default function EmbeddingsLesson() {
           <p>
             Subtract one word&rsquo;s position from another&rsquo;s and you get
             a direction: not a word, but a displacement, a &ldquo;whatever it is
-            that turns this into that&rdquo;. The startling result is that
-            those displacements are reusable. Mikolov and colleagues found it in
-            2013, and you can reproduce it here on vectors anyone can
-            download. The step from <span className="font-data">man</span> to{" "}
+            that turns this into that&rdquo;. The startling result is that those
+            displacements are reusable. Mikolov and colleagues found it in 2013,
+            and you can reproduce it here on vectors anyone can download. The
+            step from <span className="font-data">man</span> to{" "}
             <span className="font-data">king</span> is very nearly the same step
             as the one from <span className="font-data">woman</span> to{" "}
             <span className="font-data">queen</span>, even though nothing in the
             training ever compared those two pairs.
           </p>
           <p>
-            Watch it happen. The figure draws one arrow, picks it up, and puts it
-            down somewhere else.
+            Watch it happen. The figure draws one arrow, picks it up, and puts
+            it down somewhere else.
           </p>
         </div>
 
@@ -171,8 +172,9 @@ export default function EmbeddingsLesson() {
           </p>
           <p>
             <strong>The inputs have to be excluded by hand.</strong> Ask for the
-            nearest word to <span className="font-data">king − man + woman</span>{" "}
-            without ruling anything out and the answer is{" "}
+            nearest word to{" "}
+            <span className="font-data">king − man + woman</span> without ruling
+            anything out and the answer is{" "}
             <span className="font-data">{royal.unfiltered.word}</span>, at{" "}
             {royal.unfiltered.similarity.toFixed(3)}, which is higher than{" "}
             {royal.answer.word}. The convention of dropping the three input
@@ -182,12 +184,13 @@ export default function EmbeddingsLesson() {
             demo from knowing the method.
           </p>
           <p>
-            And try the comparative one. <span className="font-data">bigger − big + small</span>{" "}
-            does not give <span className="font-data">smaller</span>. It gives{" "}
+            And try the comparative one.{" "}
+            <span className="font-data">bigger − big + small</span> does not
+            give <span className="font-data">smaller</span>. It gives{" "}
             <span className="font-data">{comparative.answer.word}</span>, with{" "}
             <span className="font-data">smaller</span> only{" "}
-            {ordinal(comparative.expectedRank ?? 0)}. The geometry is real, and it is
-            approximate, and both of those are true at once.
+            {ordinal(comparative.expectedRank ?? 0)}. The geometry is real, and
+            it is approximate, and both of those are true at once.
           </p>
         </div>
       </section>
@@ -198,9 +201,9 @@ export default function EmbeddingsLesson() {
         <h2 className="display-lg mb-2">Feel the pull between two words.</h2>
         <p className="prose-measure text-ink-soft mb-6">
           You have seen that distance in this space means something. Now guess
-          it. The magnet&rsquo;s strength is the real measured similarity between
-          the pair. Commit to a guess, then find out how wrong the intuition
-          is.
+          it. The magnet&rsquo;s strength is the real measured similarity
+          between the pair. Commit to a guess, then find out how wrong the
+          intuition is.
         </p>
         <div id="game">
           <WordMagnet />
@@ -225,8 +228,7 @@ export default function EmbeddingsLesson() {
         <h2 className="display-lg mb-2">Look up any word&rsquo;s neighbours</h2>
         <p className="prose-measure text-ink-soft mb-5">
           Type a word and see what the numbers put next to it, including the
-          neighbours you would not have guessed. Those are the interesting
-          ones.
+          neighbours you would not have guessed. Those are the interesting ones.
         </p>
         <WordChart />
       </section>
@@ -262,16 +264,16 @@ export default function EmbeddingsLesson() {
         >
           <p>
             Bolukbasi and colleagues showed in 2016 that the same word
-            arithmetic which lands near <em>queen</em> also produces occupational
-            stereotypes along a gender direction. That is not a bug in the
-            algorithm. The vectors are a compression of how words are used in
-            real text, so associations that exist in the text exist in the
-            geometry.
+            arithmetic which lands near <em>queen</em> also produces
+            occupational stereotypes along a gender direction. That is not a bug
+            in the algorithm. The vectors are a compression of how words are
+            used in real text, so associations that exist in the text exist in
+            the geometry.
           </p>
           <p>
-            Worth carrying forward: this is the raw material every language model
-            is built on. When a model produces a stereotyped assumption, the
-            first place to look is not its instructions. It is what the
+            Worth carrying forward: this is the raw material every language
+            model is built on. When a model produces a stereotyped assumption,
+            the first place to look is not its instructions. It is what the
             arrangement of the text it read already implied.
           </p>
         </MechanismPanel>
@@ -290,8 +292,6 @@ export default function EmbeddingsLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

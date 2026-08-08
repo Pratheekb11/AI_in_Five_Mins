@@ -62,7 +62,12 @@ export function Pushback() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 40 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 40 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -103,7 +108,8 @@ export function Pushback() {
           "The same question is then shown put four ways, with the true and false answers racing each other under each one.",
         ],
         controls: "Tap or click a choice, or press 1–2. Enter moves on.",
-        scoring: "120 for the right call, more when the framing swung the answer a long way.",
+        scoring:
+          "120 for the right call, more when the framing swung the answer a long way.",
       }}
       startLabel={data ? "Lean on it" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -151,8 +157,8 @@ export function Pushback() {
         data ? (
           <>
             Measured on {data.model.name}, which has had no training to be
-            agreeable. So this is not sycophancy itself. It is the
-            mechanism underneath it. For the behaviour in real assistants see{" "}
+            agreeable. So this is not sycophancy itself. It is the mechanism
+            underneath it. For the behaviour in real assistants see{" "}
             <a
               href={data.literature.url}
               target="_blank"
@@ -284,7 +290,9 @@ export function Pushback() {
                         (insistent?.wrong.probability ?? 0) * 100
                       ).toFixed(1)}% against ${(
                         (insistent?.right.probability ?? 0) * 100
-                      ).toFixed(1)}% for the truth. Look at the last row though: asserting the right answer works exactly as hard in the other direction. It is not agreeing with you. It is copying you.`
+                      ).toFixed(
+                        1,
+                      )}% for the truth. Look at the last row though: asserting the right answer works exactly as hard in the other direction. It is not agreeing with you. It is copying you.`
                     : "It held on this one. But look at how much the framing still moved both numbers. Nothing about the model changed between those four rows. Only the sentence in front of it did."}
                 </p>
                 <p className="text-ink-faint mb-3 text-[0.8125rem]">

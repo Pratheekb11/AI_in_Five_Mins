@@ -31,7 +31,8 @@ const SOURCES: Source[] = [
     used: "The measured result quoted throughout: across 5,179 customer support agents, access to an AI assistant raised issues resolved per hour by 14% on average, 34% for novice and low-skilled workers, with minimal impact on experienced and highly skilled ones.",
   },
   {
-    title: "The Impact of AI on Developer Productivity: Evidence from GitHub Copilot",
+    title:
+      "The Impact of AI on Developer Productivity: Evidence from GitHub Copilot",
     publisher: "Peng, Kalliamvakou, Cihon & Demirer (arXiv:2302.06590, 2023)",
     url: "https://arxiv.org/abs/2302.06590",
     used: "A controlled experiment on one narrow task, implementing an HTTP server in JavaScript, where the assisted group finished 55.8% faster.",
@@ -39,7 +40,8 @@ const SOURCES: Source[] = [
   {
     title:
       "The Impact of Generative AI on Critical Thinking: Self-Reported Reductions in Cognitive Effort and Confidence Effects From a Survey of Knowledge Workers",
-    publisher: "Lee, Sarkar, Tankelevitch, Drosos, Rintel, Banks & Wilson (CHI 2025)",
+    publisher:
+      "Lee, Sarkar, Tankelevitch, Drosos, Rintel, Banks & Wilson (CHI 2025)",
     url: "https://advait.org/files/lee_2025_ai_critical_thinking_survey.pdf",
     used: "The survey of 319 knowledge workers finding that higher confidence in the tool predicts less critical thinking, while higher confidence in yourself predicts more.",
     licence: "CC BY 4.0",
@@ -190,17 +192,16 @@ export default function TaskAuditLesson() {
           deeper="judgment-and-limits"
         >
           <p>
-            Lee and colleagues surveyed 319 knowledge workers about 936
-            real uses. The pattern they found is worth carrying: higher
-            confidence in the AI predicted <em>less</em> critical thinking,
-            while higher confidence in your own ability predicted{" "}
-            <em>more</em> of it.
+            Lee and colleagues surveyed 319 knowledge workers about 936 real
+            uses. The pattern they found is worth carrying: higher confidence in
+            the AI predicted <em>less</em> critical thinking, while higher
+            confidence in your own ability predicted <em>more</em> of it.
           </p>
           <p>
             Which is a warning about the hand-over bucket specifically. It is
-            the right bucket for plenty of work, but the tasks in it are
-            exactly the ones you have stopped reading carefully. The last
-            chapter of this track is about where that line sits.
+            the right bucket for plenty of work, but the tasks in it are exactly
+            the ones you have stopped reading carefully. The last chapter of
+            this track is about where that line sits.
           </p>
         </MechanismPanel>
         <PracticeCard
@@ -219,8 +220,6 @@ export default function TaskAuditLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

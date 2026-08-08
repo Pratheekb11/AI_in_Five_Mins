@@ -81,7 +81,12 @@ export function FailureBench() {
 
   const begin = useCallback(() => {
     if (!bench || bench.length === 0) return;
-    setScene(startRound(bench, bench.map(() => Math.random())));
+    setScene(
+      startRound(
+        bench,
+        bench.map(() => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [bench]);
 
@@ -127,7 +132,8 @@ export function FailureBench() {
           "The real measurement lands and the beam tilts to wherever the data actually put it.",
         ],
         controls: "Tap or click a pan, or press ← and →. Enter moves on.",
-        scoring: "60 plus a speed bonus, multiplied by your streak. The clock ends the specimen, not the round.",
+        scoring:
+          "60 plus a speed bonus, multiplied by your streak. The clock ends the specimen, not the round.",
       }}
       startLabel={bench ? "Load the bench" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -177,10 +183,10 @@ export function FailureBench() {
         bench ? (
           <>
             Every weight is computed when you press the button, from the same
-            two files the rest of this site uses: DistilGPT-2&rsquo;s
-            recorded next-token probabilities and GloVe vectors from six billion
-            words of 2014 text. Which specimens are on the bench is our choice.
-            Which way they tip is not.
+            two files the rest of this site uses: DistilGPT-2&rsquo;s recorded
+            next-token probabilities and GloVe vectors from six billion words of
+            2014 text. Which specimens are on the bench is our choice. Which way
+            they tip is not.
           </>
         ) : failed ? (
           <>The measurements did not load.</>

@@ -18,13 +18,7 @@ import { SortBeatView } from "./SortBeatView";
  * six items and a single choice count the same. Progress is recorded once every
  * beat has been settled, and only ever improves on itself.
  */
-export function Check({
-  slug,
-  beats,
-}: {
-  slug: string;
-  beats: CheckBeat[];
-}) {
+export function Check({ slug, beats }: { slug: string; beats: CheckBeat[] }) {
   const { recordScore, scoreFor } = useProgress();
   const [scores, setScores] = useState<(number | null)[]>(() =>
     beats.map(() => null),

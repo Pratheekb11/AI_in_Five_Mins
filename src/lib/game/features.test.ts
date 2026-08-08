@@ -61,7 +61,9 @@ describe("the claims the chapter makes out loud", () => {
   });
 
   it("has the five digit number as the sharpest cut, and a nearly pure pile", () => {
-    const best = [...data.features].sort((a, b) => b.train.gain - a.train.gain)[0];
+    const best = [...data.features].sort(
+      (a, b) => b.train.gain - a.train.gain,
+    )[0];
     expect(best.id).toBe("shortcode");
     expect(best.train.purity).toBeGreaterThan(0.95);
   });

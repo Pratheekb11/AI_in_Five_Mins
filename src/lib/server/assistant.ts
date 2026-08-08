@@ -100,7 +100,11 @@ export async function ask(
   }
 
   if (turns.length === 0 || turns.length > MAX_TURNS) {
-    return { ok: false, error: "That conversation is the wrong length.", status: 400 };
+    return {
+      ok: false,
+      error: "That conversation is the wrong length.",
+      status: 400,
+    };
   }
   for (const turn of turns) {
     if (turn.role !== "user" && turn.role !== "assistant") {
@@ -155,11 +159,19 @@ export async function ask(
       : "";
 
     if (!text) {
-      return { ok: false, error: "The assistant returned nothing.", status: 502 };
+      return {
+        ok: false,
+        error: "The assistant returned nothing.",
+        status: 502,
+      };
     }
 
     return { ok: true, text, stopReason: body?.stop_reason ?? null };
   } catch {
-    return { ok: false, error: "The assistant did not answer in time.", status: 504 };
+    return {
+      ok: false,
+      error: "The assistant did not answer in time.",
+      status: 504,
+    };
   }
 }

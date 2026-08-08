@@ -112,9 +112,8 @@ export default function WhatIsAiLesson() {
         <h2 className="display-lg mb-2">Messages worth reading</h2>
         <p className="prose-measure text-ink-soft mb-5">
           A filter is only as good as its hardest cases. These are real messages
-          from the corpus. Obvious spams, ones that slip past almost every
-          rule, ordinary messages that trip several, and ones that stay
-          clean.
+          from the corpus. Obvious spams, ones that slip past almost every rule,
+          ordinary messages that trip several, and ones that stay clean.
         </p>
         <ul className="grid gap-3 md:grid-cols-2">
           {SPAM_BENCH.examples.map((example, i) => (
@@ -154,8 +153,8 @@ export default function WhatIsAiLesson() {
             That is genuinely all of it, and it is worth sitting with. There is
             no representation of what spam <em>is</em> anywhere in there. It has
             found that shortcodes and prize language cluster in one pile of
-            examples. That is enough to be useful, and nowhere near enough to
-            be trusted unsupervised.
+            examples. That is enough to be useful, and nowhere near enough to be
+            trusted unsupervised.
           </p>
         </MechanismPanel>
 
@@ -164,18 +163,19 @@ export default function WhatIsAiLesson() {
           summary="Because when one answer is much more common, guessing that answer every time already looks good."
         >
           <p>
-            {SPAM_BENCH.corpus.spam} of the {SPAM_BENCH.corpus.total.toLocaleString("en-US")}{" "}
-            messages are spam, which is about one in seven. A filter that flags
-            nothing is right about everything else, which is{" "}
-            {pct(SPAM_BENCH.baseline.accuracy)} of the time.
+            {SPAM_BENCH.corpus.spam} of the{" "}
+            {SPAM_BENCH.corpus.total.toLocaleString("en-US")} messages are spam,
+            which is about one in seven. A filter that flags nothing is right
+            about everything else, which is {pct(SPAM_BENCH.baseline.accuracy)}{" "}
+            of the time.
           </p>
           <p>
             The two numbers that actually matter trade against each other: what
             got through, and what got wrongly flagged. The learned model missed{" "}
             {SPAM_BENCH.learned.missed} and wrongly flagged{" "}
             {SPAM_BENCH.learned.falseAlarms}. Which of those two hurts more
-            depends entirely on the job, and nobody can decide that for you
-            from an accuracy figure.
+            depends entirely on the job, and nobody can decide that for you from
+            an accuracy figure.
           </p>
         </MechanismPanel>
         <PracticeCard
@@ -194,8 +194,6 @@ export default function WhatIsAiLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

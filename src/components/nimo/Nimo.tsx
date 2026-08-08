@@ -13,13 +13,10 @@ import type { Mood } from "./moods";
  * Server rendering is off because the renderer needs a real canvas. That is the
  * one thing about him that cannot be prerendered.
  */
-const Nimo3D = dynamic(
-  () => import("./Nimo3D").then((m) => m.Nimo3D),
-  {
-    ssr: false,
-    loading: () => null,
-  },
-);
+const Nimo3D = dynamic(() => import("./Nimo3D").then((m) => m.Nimo3D), {
+  ssr: false,
+  loading: () => null,
+});
 
 export function Nimo({
   mood = "idle",

@@ -90,9 +90,21 @@ const CHECK: CheckBeat[] = [
       { id: "small-test", text: "A smaller held-out set", bucket: "shaky" },
       { id: "small-train", text: "Much less training data", bucket: "shaky" },
       { id: "rare", text: "A very rare class", bucket: "shaky" },
-      { id: "folds", text: "Averaging over ten folds instead of one split", bucket: "steady" },
-      { id: "more", text: "Ten times as many examples in total", bucket: "steady" },
-      { id: "rename", text: "Renaming the model in the report", bucket: "neither" },
+      {
+        id: "folds",
+        text: "Averaging over ten folds instead of one split",
+        bucket: "steady",
+      },
+      {
+        id: "more",
+        text: "Ten times as many examples in total",
+        bucket: "steady",
+      },
+      {
+        id: "rename",
+        text: "Renaming the model in the report",
+        bucket: "neither",
+      },
     ],
     because:
       "Everything that reduces how much evidence a single score rests on makes it move more: a small test set, a starved model, or a class so rare that a handful of cases decides the result. Averaging over folds does not make the model better, it makes your knowledge of it steadier, which is a different and quieter kind of progress.",
@@ -134,10 +146,10 @@ export default function CrossValidationLesson() {
             average is fine.
           </p>
           <p>
-            Kohavi tested this directly and ten came out as the practical
-            answer for datasets of ordinary size. It is a convention with a
-            reason behind it rather than a law, and for very small datasets
-            people go further and hold out one example at a time.
+            Kohavi tested this directly and ten came out as the practical answer
+            for datasets of ordinary size. It is a convention with a reason
+            behind it rather than a law, and for very small datasets people go
+            further and hold out one example at a time.
           </p>
           <p>
             The cost is real: ten folds means training ten times. That is

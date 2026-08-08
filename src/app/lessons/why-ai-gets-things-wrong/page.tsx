@@ -57,7 +57,8 @@ const SOURCES: Source[] = [
   },
   {
     title: "Lost in the Middle: How Language Models Use Long Contexts",
-    publisher: "Liu, Lin, Hewitt, Paranjape, Bevilacqua, Petroni & Liang (arXiv:2307.03172, 2023)",
+    publisher:
+      "Liu, Lin, Hewitt, Paranjape, Bevilacqua, Petroni & Liang (arXiv:2307.03172, 2023)",
     url: "https://arxiv.org/abs/2307.03172",
     used: "The measurement behind the forgetting panel: material in the middle of a long context is used least well.",
   },
@@ -138,9 +139,10 @@ export default function WhyAiGetsThingsWrongLesson() {
           <p>
             Worse, material inside the window is not used evenly. Liu and
             colleagues measured performance against where a needed fact sat in a
-            long context and found it lowest when the fact was in the middle
-            The ends of the context are used best. So &ldquo;I gave it the
-            document&rdquo; is not the same as &ldquo;it used the document&rdquo;.
+            long context and found it lowest when the fact was in the middle The
+            ends of the context are used best. So &ldquo;I gave it the
+            document&rdquo; is not the same as &ldquo;it used the
+            document&rdquo;.
           </p>
         </MechanismPanel>
 
@@ -152,15 +154,15 @@ export default function WhyAiGetsThingsWrongLesson() {
           <p>
             Kalai and colleagues make the argument plainly: if a model is graded
             on how often it is right, then on a question it is unsure about, a
-            guess scores something and &ldquo;I do not know&rdquo; scores
-            zero. Over millions of graded examples that pressure only points one
-            way.
+            guess scores something and &ldquo;I do not know&rdquo; scores zero.
+            Over millions of graded examples that pressure only points one way.
           </p>
           <p>
-            So the fluent, assured, wrong answer is not the model malfunctioning.
-            It is the model doing exactly what it was rewarded for. Which means
-            the fix is not a better model so much as a habit on your side: treat
-            confident phrasing as carrying no information, because it does not.
+            So the fluent, assured, wrong answer is not the model
+            malfunctioning. It is the model doing exactly what it was rewarded
+            for. Which means the fix is not a better model so much as a habit on
+            your side: treat confident phrasing as carrying no information,
+            because it does not.
           </p>
         </MechanismPanel>
 
@@ -199,8 +201,6 @@ export default function WhyAiGetsThingsWrongLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

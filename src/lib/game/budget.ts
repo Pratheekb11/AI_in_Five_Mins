@@ -80,9 +80,8 @@ export function resultFor(
 ): Combination | null {
   const key = [...chosen].sort().join("|");
   return (
-    scenario.combinations.find(
-      (c) => [...c.cards].sort().join("|") === key,
-    ) ?? null
+    scenario.combinations.find((c) => [...c.cards].sort().join("|") === key) ??
+    null
   );
 }
 

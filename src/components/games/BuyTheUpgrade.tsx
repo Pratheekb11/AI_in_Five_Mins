@@ -62,7 +62,12 @@ export function BuyTheUpgrade() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 20 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 20 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -100,7 +105,8 @@ export function BuyTheUpgrade() {
           "Both were measured. The real gains arrive.",
         ],
         controls: "Tap or click a choice, or press 1 or 2. Enter moves on.",
-        scoring: "100 a round, and both count where the two are within a fifth of a point.",
+        scoring:
+          "100 a round, and both count where the two are within a fifth of a point.",
       }}
       startLabel={data ? "Take the first budget" : "Loading the curves…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -138,8 +144,8 @@ export function BuyTheUpgrade() {
             There is no general answer, which is the finding. With twenty
             examples, data is worth thirteen points and no model can rescue you.
             With two thousand, everything left in the corpus buys a sixth of a
-            point and the model choice is worth six times that. Both facts came out of the
-            same corpus, and either one on its own would be a slogan.
+            point and the model choice is worth six times that. Both facts came
+            out of the same corpus, and either one on its own would be a slogan.
           </p>
         </div>
       }
@@ -225,7 +231,9 @@ export function BuyTheUpgrade() {
                         </span>
                         <span
                           className={`label block ${
-                            outcome.gain > 0 ? "text-teal-text" : "text-pink-text"
+                            outcome.gain > 0
+                              ? "text-teal-text"
+                              : "text-pink-text"
                           }`}
                         >
                           {outcome.gain >= 0 ? "+" : ""}
@@ -265,7 +273,9 @@ export function BuyTheUpgrade() {
                   onClick={carryOn}
                   className="btn-primary mt-4 px-4 py-2"
                 >
-                  {scene.at + 1 >= scene.rounds.length ? "Finish" : "Next budget"}
+                  {scene.at + 1 >= scene.rounds.length
+                    ? "Finish"
+                    : "Next budget"}
                 </button>
               </motion.div>
             ) : null}

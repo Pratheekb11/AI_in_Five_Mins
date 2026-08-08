@@ -181,10 +181,7 @@ function play(notes: Note[]) {
     const peak = note.level ?? 1;
     gain.gain.setValueAtTime(0.0001, now + note.at);
     gain.gain.exponentialRampToValueAtTime(peak, now + note.at + 0.008);
-    gain.gain.exponentialRampToValueAtTime(
-      0.0001,
-      now + note.at + note.length,
-    );
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + note.at + note.length);
 
     osc.connect(gain);
     gain.connect(master);
@@ -225,7 +222,8 @@ function playNoise(length: number, hz: number, level: number) {
 }
 
 const CUES: Record<Cue, () => void> = {
-  tap: () => play([{ hz: 880, at: 0, length: 0.05, level: 0.35, type: "square" }]),
+  tap: () =>
+    play([{ hz: 880, at: 0, length: 0.05, level: 0.35, type: "square" }]),
 
   // Two notes up. Short enough to fire on every correct answer without nagging.
   right: () =>
@@ -245,7 +243,9 @@ const CUES: Record<Cue, () => void> = {
 
   // A quiet upward sweep as the evidence lands.
   reveal: () =>
-    play([{ hz: 320, to: 720, at: 0, length: 0.28, level: 0.28, type: "sine" }]),
+    play([
+      { hz: 320, to: 720, at: 0, length: 0.28, level: 0.28, type: "sine" },
+    ]),
 
   start: () =>
     play([

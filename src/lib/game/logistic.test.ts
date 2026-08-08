@@ -47,12 +47,7 @@ describe("the model", () => {
 
   it("reproduces every shipped probability from the shipped weights", () => {
     for (const round of data.rounds) {
-      const computed = scoreOf(
-        data,
-        data.final,
-        round.length,
-        round.digits,
-      );
+      const computed = scoreOf(data, data.final, round.length, round.digits);
       expect(computed).toBeCloseTo(round.probability, 3);
     }
   });

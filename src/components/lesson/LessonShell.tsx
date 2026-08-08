@@ -7,6 +7,7 @@ import { inkClasses } from "@/lib/ink";
 import { type Lesson, neighbours, TRACKS } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { Sources } from "./Sources";
+import { TrackComplete } from "./TrackComplete";
 
 /**
  * The frame every lesson is printed in: masthead, the beats the caller passes
@@ -37,7 +38,8 @@ export function LessonShell({
             <span
               className={`data ${ink.chip} rounded-[2px] border px-2 py-1 text-xs font-bold`}
             >
-              {TRACKS[lesson.track].title} · {String(lesson.number).padStart(2, "0")}
+              {TRACKS[lesson.track].title} ·{" "}
+              {String(lesson.number).padStart(2, "0")}
             </span>
             <span className="label text-ink-faint">{lesson.machine}</span>
             <span className="label text-ink-faint">{lesson.minutes} min</span>
@@ -51,11 +53,17 @@ export function LessonShell({
 
         {children}
 
+        {/* Only ever on show once the whole track is behind them. */}
+        <TrackComplete track={lesson.track} />
+
         <Sources sources={sources} />
 
         <nav className="border-ink/20 grid gap-3 border-t py-10 sm:grid-cols-2">
           {previous ? (
-            <Link href={`/lessons/${previous.slug}`} className="plate misreg p-4">
+            <Link
+              href={`/lessons/${previous.slug}`}
+              className="plate misreg p-4"
+            >
               <span className="label text-ink-faint">Previous</span>
               <span className="font-display mt-1.5 block font-bold">
                 {previous.title}

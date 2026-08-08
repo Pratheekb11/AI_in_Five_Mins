@@ -17,7 +17,9 @@ export function VideoPanel({ video }: { video: Video }) {
   return (
     <figure className="plate overflow-hidden">
       <div className="border-ink/25 bg-paper-sunk border-b px-4 py-3">
-        <p className="label text-ink-faint">Optional: watch someone explain it</p>
+        <p className="label text-ink-faint">
+          Optional: watch someone explain it
+        </p>
       </div>
 
       <div className="relative aspect-video bg-paper-sunk">
@@ -47,7 +49,12 @@ export function VideoPanel({ video }: { video: Video }) {
             />
             <span className="absolute inset-0 flex items-center justify-center">
               <span className="plate misreg bg-pink flex h-16 w-16 items-center justify-center rounded-full">
-                <svg width="20" height="22" viewBox="0 0 20 22" aria-hidden="true">
+                <svg
+                  width="20"
+                  height="22"
+                  viewBox="0 0 20 22"
+                  aria-hidden="true"
+                >
                   <path d="M2 1 L19 11 L2 21 Z" fill="var(--paper)" />
                 </svg>
               </span>

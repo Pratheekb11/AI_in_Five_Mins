@@ -80,7 +80,8 @@ function Column({
       </p>
       <ul className="space-y-1.5">
         {prompt.candidates.slice(0, 8).map((candidate, i) => {
-          const marked = highlight !== undefined && candidate.text === highlight;
+          const marked =
+            highlight !== undefined && candidate.text === highlight;
           return (
             <li key={candidate.id} className="flex items-center gap-2">
               <span
@@ -235,10 +236,9 @@ export function TemperaturePairFigure() {
       </div>
 
       <figcaption className="border-ink/20 text-ink-faint border-t px-4 py-2.5 text-[0.8125rem]">
-        {data.model.name}, real scores from a forward pass, top{" "}
-        {data.topK} candidates per prompt. Percentages are shares of the whole
-        vocabulary, not of the candidates shown, so they stay comparable as the
-        dial moves.
+        {data.model.name}, real scores from a forward pass, top {data.topK}{" "}
+        candidates per prompt. Percentages are shares of the whole vocabulary,
+        not of the candidates shown, so they stay comparable as the dial moves.
       </figcaption>
     </figure>
   );

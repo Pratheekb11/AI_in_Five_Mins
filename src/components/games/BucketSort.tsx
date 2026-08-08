@@ -46,7 +46,12 @@ export function BucketSort() {
       evidence: ["context", "reads-fluent"],
       mine: true,
     }));
-    setScene(startSort(mine, Array.from({ length: 40 }, () => Math.random())));
+    setScene(
+      startSort(
+        mine,
+        Array.from({ length: 40 }, () => Math.random()),
+      ),
+    );
     setStarted(true);
   }, [own]);
 
@@ -188,7 +193,9 @@ export function BucketSort() {
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-ink-faint text-[0.875rem]">Nothing here.</p>
+                  <p className="text-ink-faint text-[0.875rem]">
+                    Nothing here.
+                  </p>
                 )}
               </div>
             ))}
@@ -216,8 +223,8 @@ export function BucketSort() {
           </div>
 
           <p className="text-ink-faint mt-4 text-[0.8125rem]">
-            Nothing here was sent anywhere. The sorting is yours; the findings it
-            was put beside are measured elsewhere on this site.
+            Nothing here was sent anywhere. The sorting is yours; the findings
+            it was put beside are measured elsewhere on this site.
           </p>
         </div>
       ) : task ? (

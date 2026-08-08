@@ -155,9 +155,9 @@ export function FitLineFigure() {
             className="prose-measure text-ink-soft mt-3 text-[0.9375rem]"
           >
             Nobody wrote {best.charsPerToken} down. It fell out of {sampleSize}
-            &nbsp;sentences of Victorian children&rsquo;s fiction, and
-            feeding the same procedure different text settles it somewhere else.
-            That is the whole of what training is, at every scale.
+            &nbsp;sentences of Victorian children&rsquo;s fiction, and feeding
+            the same procedure different text settles it somewhere else. That is
+            the whole of what training is, at every scale.
           </motion.p>
         ) : null}
       </div>

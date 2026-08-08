@@ -72,11 +72,36 @@ export type LogisticData = {
 /* ------------------------------------------------------------------ rules -- */
 
 export const BANDS = [
-  { id: "no", label: "Almost certainly not", means: "under one in ten", max: 0.1 },
-  { id: "lean-no", label: "Probably not", means: "one in ten to four in ten", max: 0.4 },
-  { id: "torn", label: "Genuinely torn", means: "four to six in ten", max: 0.6 },
-  { id: "lean-yes", label: "Probably spam", means: "six to nine in ten", max: 0.9 },
-  { id: "yes", label: "Almost certainly spam", means: "over nine in ten", max: 1.01 },
+  {
+    id: "no",
+    label: "Almost certainly not",
+    means: "under one in ten",
+    max: 0.1,
+  },
+  {
+    id: "lean-no",
+    label: "Probably not",
+    means: "one in ten to four in ten",
+    max: 0.4,
+  },
+  {
+    id: "torn",
+    label: "Genuinely torn",
+    means: "four to six in ten",
+    max: 0.6,
+  },
+  {
+    id: "lean-yes",
+    label: "Probably spam",
+    means: "six to nine in ten",
+    max: 0.9,
+  },
+  {
+    id: "yes",
+    label: "Almost certainly spam",
+    means: "over nine in ten",
+    max: 1.01,
+  },
 ] as const;
 
 export type BandId = (typeof BANDS)[number]["id"];

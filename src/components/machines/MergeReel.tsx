@@ -120,9 +120,7 @@ export function MergeReel() {
   return (
     <figure className="plate overflow-hidden">
       <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
-        <span className="label">
-          Byte-pair encoding, one merge at a time
-        </span>
+        <span className="label">Byte-pair encoding, one merge at a time</span>
         <span className="label text-ink-faint">
           {finished
             ? `${trace.steps.length} merges · ${trace.final.length} token${
@@ -172,7 +170,9 @@ export function MergeReel() {
             const inPair = i === pairAt || i === pairAt + 1;
             const closing = scene.joining && inPair;
             const justMerged =
-              scene.done > 0 && !scene.joining && i === trace.steps[scene.done - 1].at;
+              scene.done > 0 &&
+              !scene.joining &&
+              i === trace.steps[scene.done - 1].at;
 
             return (
               <motion.span
@@ -209,7 +209,8 @@ export function MergeReel() {
           {finished ? (
             <>
               <p className="mb-1.5 text-[1.0625rem]">
-                Done. <strong>{visible(trace.word)}</strong> reaches the model as{" "}
+                Done. <strong>{visible(trace.word)}</strong> reaches the model
+                as{" "}
                 <strong>
                   {trace.final.length} token
                   {trace.final.length === 1 ? "" : "s"}

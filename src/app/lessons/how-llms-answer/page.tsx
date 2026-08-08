@@ -69,7 +69,8 @@ const STEPS: Step[] = [
 
 const QUESTIONS: QuizQuestion[] = [
   {
-    prompt: "Where in this loop does the model check whether something is true?",
+    prompt:
+      "Where in this loop does the model check whether something is true?",
     options: [
       "Just before it picks the token",
       "At the end, before returning the answer",
@@ -115,13 +116,14 @@ export default function HowLlmsAnswerLesson() {
             sounds like it should be the best possible strategy. Holtzman and
             colleagues showed it is not: the output degenerates, loops and
             repeats itself, because the most likely continuation of a likely
-            continuation is likelier still, and the text collapses into a groove.
+            continuation is likelier still, and the text collapses into a
+            groove.
           </p>
           <p>
             So real systems sample instead, and usually cut off the long tail
-            first. Only the tokens that make up the top slice of probability
-            are eligible at all. The dial in the game is the simple
-            version of that machinery.
+            first. Only the tokens that make up the top slice of probability are
+            eligible at all. The dial in the game is the simple version of that
+            machinery.
           </p>
         </MechanismPanel>
 
@@ -133,9 +135,9 @@ export default function HowLlmsAnswerLesson() {
           <p>
             Any temperature above zero means the reply is one sample from a
             distribution, not the distribution itself. Two runs of the same
-            prompt are two rolls of the same dice. Once an early token
-            differs, everything after it is built on that difference, so
-            the answers can diverge completely.
+            prompt are two rolls of the same dice. Once an early token differs,
+            everything after it is built on that difference, so the answers can
+            diverge completely.
           </p>
           <p>
             There is a practical habit in that. If an answer matters, ask twice
@@ -154,13 +156,9 @@ export default function HowLlmsAnswerLesson() {
             three separate new chats. New chats, not follow-ups, so that each
             one starts from the same context.
           </p>
-          <p>
-            Line the three answers up and mark everything that differs.
-          </p>
+          <p>Line the three answers up and mark everything that differs.</p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

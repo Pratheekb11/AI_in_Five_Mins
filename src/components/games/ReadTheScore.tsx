@@ -61,7 +61,12 @@ export function ReadTheScore() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 20 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 20 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -158,14 +163,16 @@ export function ReadTheScore() {
       <div className="min-h-[24rem] p-5 md:p-6">
         {round ? (
           <>
-            <p className="label text-ink-faint mb-2">A message it has not seen</p>
+            <p className="label text-ink-faint mb-2">
+              A message it has not seen
+            </p>
             <p className="font-data prose-measure mb-3 text-[0.9375rem] whitespace-pre-wrap">
               {round.text}
             </p>
             <p className="text-ink-soft mb-5 text-[0.9375rem]">
-              <span className="data font-bold">{round.length}</span> characters ·{" "}
-              <span className="data font-bold">{round.digits}</span> digits. That
-              is everything the model gets.
+              <span className="data font-bold">{round.length}</span> characters
+              · <span className="data font-bold">{round.digits}</span> digits.
+              That is everything the model gets.
             </p>
 
             <div className="mb-5 grid gap-2 sm:grid-cols-5">

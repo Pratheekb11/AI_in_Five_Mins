@@ -61,13 +61,17 @@ function Sparkline({
 }) {
   const x = (chars: number) => PAD + (chars / maxChars) * (W - PAD * 2);
   const y = (tokens: number) =>
-    H - PAD - (Math.min(maxTokens, Math.max(0, tokens)) / maxTokens) * (H - PAD * 2);
+    H -
+    PAD -
+    (Math.min(maxTokens, Math.max(0, tokens)) / maxTokens) * (H - PAD * 2);
 
   const path: string[] = [];
   for (let i = 0; i <= 60; i++) {
     const chars = (i / 60) * maxChars;
     const value = predict(candidate, chars, maxChars);
-    path.push(`${i === 0 ? "M" : "L"}${x(chars).toFixed(1)} ${y(value).toFixed(1)}`);
+    path.push(
+      `${i === 0 ? "M" : "L"}${x(chars).toFixed(1)} ${y(value).toFixed(1)}`,
+    );
   }
 
   return (
@@ -90,7 +94,11 @@ function Sparkline({
           opacity={0.7}
         />
       ))}
-      <path d={path.join(" ")} className="stroke-pink fill-none" strokeWidth={2} />
+      <path
+        d={path.join(" ")}
+        className="stroke-pink fill-none"
+        strokeWidth={2}
+      />
     </svg>
   );
 }
@@ -120,7 +128,12 @@ export function PickTheModel() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 20 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 20 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -162,7 +175,8 @@ export function PickTheModel() {
           "The held-out error arrives for all of them.",
         ],
         controls: "Tap or click a curve, or press its number. Enter moves on.",
-        scoring: "Up to 120 a round, full marks within 5% of the best available.",
+        scoring:
+          "Up to 120 a round, full marks within 5% of the best available.",
       }}
       startLabel={data ? "Choose a curve" : "Loading the sentences…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -312,7 +326,9 @@ export function PickTheModel() {
                   onClick={carryOn}
                   className="btn-primary mt-4 px-4 py-2"
                 >
-                  {scene.at + 1 >= scene.rounds.length ? "Finish" : "Next round"}
+                  {scene.at + 1 >= scene.rounds.length
+                    ? "Finish"
+                    : "Next round"}
                 </button>
               </motion.div>
             ) : null}

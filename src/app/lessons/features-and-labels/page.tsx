@@ -73,18 +73,35 @@ const STEPS: Step[] = [
 const CHECK: CheckBeat[] = [
   {
     kind: "sort",
-    prompt: "You are building a model to predict which customers cancel. Which pile does each column belong in?",
+    prompt:
+      "You are building a model to predict which customers cancel. Which pile does each column belong in?",
     buckets: [
       { id: "feature", label: "A feature", hint: "something the model reads" },
       { id: "label", label: "The label", hint: "the thing you are predicting" },
-      { id: "leak", label: "Neither, it leaks", hint: "you only know it afterwards" },
+      {
+        id: "leak",
+        label: "Neither, it leaks",
+        hint: "you only know it afterwards",
+      },
     ],
     items: [
       { id: "months", text: "Months since they signed up", bucket: "feature" },
-      { id: "logins", text: "Logins in the last thirty days", bucket: "feature" },
+      {
+        id: "logins",
+        text: "Logins in the last thirty days",
+        bucket: "feature",
+      },
       { id: "cancelled", text: "Whether they cancelled", bucket: "label" },
-      { id: "reason", text: "The reason they gave for cancelling", bucket: "leak" },
-      { id: "refund", text: "Whether a cancellation refund was issued", bucket: "leak" },
+      {
+        id: "reason",
+        text: "The reason they gave for cancelling",
+        bucket: "leak",
+      },
+      {
+        id: "refund",
+        text: "Whether a cancellation refund was issued",
+        bucket: "leak",
+      },
       { id: "plan", text: "Which plan they are on", bucket: "feature" },
     ],
     because:

@@ -81,8 +81,9 @@ export function Engagement({ page }: { page: string }) {
     const observed = MARKERS.map((marker) => ({
       marker,
       node: document.querySelector(marker.match),
-    })).filter((entry): entry is { marker: (typeof MARKERS)[number]; node: Element } =>
-      Boolean(entry.node),
+    })).filter(
+      (entry): entry is { marker: (typeof MARKERS)[number]; node: Element } =>
+        Boolean(entry.node),
     );
 
     /* A section counts as reached once a quarter of it has been on screen.

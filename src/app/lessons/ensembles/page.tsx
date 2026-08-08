@@ -85,12 +85,32 @@ const CHECK: CheckBeat[] = [
       { id: "no", label: "Adds none", hint: "same model, again" },
     ],
     items: [
-      { id: "sample", text: "Give each model its own random sample of the data", bucket: "yes" },
-      { id: "features", text: "Let each split choose from a random subset of features", bucket: "yes" },
-      { id: "kinds", text: "Use a tree, a logistic model and a rule set together", bucket: "yes" },
-      { id: "copies", text: "Train the same model sixty times on the same data", bucket: "no" },
+      {
+        id: "sample",
+        text: "Give each model its own random sample of the data",
+        bucket: "yes",
+      },
+      {
+        id: "features",
+        text: "Let each split choose from a random subset of features",
+        bucket: "yes",
+      },
+      {
+        id: "kinds",
+        text: "Use a tree, a logistic model and a rule set together",
+        bucket: "yes",
+      },
+      {
+        id: "copies",
+        text: "Train the same model sixty times on the same data",
+        bucket: "no",
+      },
       { id: "rename", text: "Give the copies different names", bucket: "no" },
-      { id: "average", text: "Average sixty copies of one model's predictions", bucket: "no" },
+      {
+        id: "average",
+        text: "Average sixty copies of one model's predictions",
+        bucket: "no",
+      },
     ],
     because:
       "Independence has to come from somewhere: different data, different questions available, or a genuinely different kind of model. Copying a deterministic model produces copies, and averaging copies returns the original. This sounds obvious written down, and teams still ship ensembles of near-identical models and wonder why the gain never arrives.",
@@ -132,10 +152,10 @@ export default function EnsemblesLesson() {
           </p>
           <p>
             Which is why the arithmetic collapses the moment the errors stop
-            being independent. If all sixty are wrong on the same tenth, the vote
-            is wrong on that tenth too. Breiman&rsquo;s 1996 paper puts the
-            condition plainly: bagging helps unstable models, and does little for
-            stable ones.
+            being independent. If all sixty are wrong on the same tenth, the
+            vote is wrong on that tenth too. Breiman&rsquo;s 1996 paper puts the
+            condition plainly: bagging helps unstable models, and does little
+            for stable ones.
           </p>
           <p>
             It is also why trees are the classic ingredient. The previous module
@@ -178,9 +198,7 @@ export default function EnsemblesLesson() {
             between its members on real inputs. Not their accuracies. How often
             they differ from each other.
           </p>
-          <p>
-            Then ask where the independence was supposed to come from.
-          </p>
+          <p>Then ask where the independence was supposed to come from.</p>
         </PracticeCard>
       </DeeperRow>
 

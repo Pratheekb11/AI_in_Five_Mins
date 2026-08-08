@@ -99,7 +99,8 @@ export function FoldsFigure() {
     );
   }
 
-  const wanted = picked && picked.stage === stage ? picked.id : STAGE_MODEL[stage];
+  const wanted =
+    picked && picked.stage === stage ? picked.id : STAGE_MODEL[stage];
   const model: CvModel =
     data.models.find((m) => m.id === wanted) ?? data.models[0];
 
@@ -163,7 +164,11 @@ export function FoldsFigure() {
         </p>
 
         {/* The results. Each fold's dot lands and stays. */}
-        <svg viewBox={`0 0 ${W} ${AXIS_H}`} className="block w-full" aria-hidden>
+        <svg
+          viewBox={`0 0 ${W} ${AXIS_H}`}
+          className="block w-full"
+          aria-hidden
+        >
           <line
             x1={PAD}
             y1={AXIS_H - 30}
@@ -178,7 +183,10 @@ export function FoldsFigure() {
               animate={{ opacity: 1 }}
               x={x(model.mean - model.sd)}
               y={30}
-              width={Math.max(2, x(model.mean + model.sd) - x(model.mean - model.sd))}
+              width={Math.max(
+                2,
+                x(model.mean + model.sd) - x(model.mean - model.sd),
+              )}
               height={AXIS_H - 60}
               className="fill-teal"
               opacity={0.18}
@@ -190,7 +198,10 @@ export function FoldsFigure() {
               key={fold.fold}
               initial={still ? false : { opacity: 0, cy: 20 }}
               animate={{ opacity: 1, cy: AXIS_H - 30 - 6 - (i % 5) * 11 }}
-              transition={{ duration: still ? 0 : 0.4, delay: still ? 0 : i * 0.05 }}
+              transition={{
+                duration: still ? 0 : 0.4,
+                delay: still ? 0 : i * 0.05,
+              }}
               cx={x(fold.accuracy)}
               r={4}
               className="fill-pink"

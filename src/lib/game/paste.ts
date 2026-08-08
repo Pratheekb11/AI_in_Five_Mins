@@ -200,7 +200,8 @@ export const PAYLOADS: readonly Payload[] = [
   {
     text: "A photo of a colleague's face, to caption",
     kind: "special",
-    contains: "an image used to identify a person, which is biometric territory",
+    contains:
+      "an image used to identify a person, which is biometric territory",
   },
   {
     text: "A meeting agenda for a public webinar",
@@ -277,7 +278,13 @@ export type Judgement = {
   gained: number;
 };
 
-export type Pop = { x: number; y: number; text: string; life: number; ink: string };
+export type Pop = {
+  x: number;
+  y: number;
+  text: string;
+  life: number;
+  ink: string;
+};
 
 export type PasteScene = {
   seed: number;
@@ -325,7 +332,7 @@ function shuffled(count: number, rnd: () => number): number[] {
 export function newScene(seed: number, calm: boolean): PasteScene {
   const rnd = rng(seed || 1);
   return {
-    seed: (seed >>> 0) || 1,
+    seed: seed >>> 0 || 1,
     order: shuffled(PAYLOADS.length, rnd),
     at: 0,
     item: null,
@@ -349,7 +356,13 @@ export function newScene(seed: number, calm: boolean): PasteScene {
   };
 }
 
-function spray(x: number, y: number, ink: string, count: number, rnd: () => number): Chip[] {
+function spray(
+  x: number,
+  y: number,
+  ink: string,
+  count: number,
+  rnd: () => number,
+): Chip[] {
   const out: Chip[] = [];
   for (let i = 0; i < count; i++) {
     const angle = rnd() * Math.PI * 2;
@@ -411,7 +424,10 @@ export function advance(scene: PasteScene, delta: number): PasteScene {
 
   const item = base.item;
   if (item.x > ITEM_X) {
-    const x = Math.max(ITEM_X, item.x - (item.x - ITEM_X) * 11 * delta - 60 * delta);
+    const x = Math.max(
+      ITEM_X,
+      item.x - (item.x - ITEM_X) * 11 * delta - 60 * delta,
+    );
     return { ...base, item: { ...item, x } };
   }
 

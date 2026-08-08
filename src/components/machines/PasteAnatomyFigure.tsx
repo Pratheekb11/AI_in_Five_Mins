@@ -188,9 +188,9 @@ export function PasteAnatomyFigure() {
 
       <figcaption className="border-ink/20 text-ink-faint border-t px-4 py-2.5 text-[0.8125rem]">
         The example is written for this figure and is nobody&rsquo;s real data.
-        The categories are the legal ones, cited at the foot of the chapter. What
-        to do about them is this chapter&rsquo;s rule and a sensible default,
-        not legal advice.
+        The categories are the legal ones, cited at the foot of the chapter.
+        What to do about them is this chapter&rsquo;s rule and a sensible
+        default, not legal advice.
       </figcaption>
     </figure>
   );

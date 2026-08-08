@@ -100,7 +100,8 @@ const STEPS: Step[] = [
 const CHECK: CheckBeat[] = [
   {
     kind: "match",
-    prompt: "Pair each piece of text with the way the tokenizer actually cuts it.",
+    prompt:
+      "Pair each piece of text with the way the tokenizer actually cuts it.",
     pairs: [
       {
         left: `"${strawberry.text}"`,
@@ -108,7 +109,9 @@ const CHECK: CheckBeat[] = [
       },
       {
         left: `"${spaced.text}"`,
-        right: spaced.tokens.map((t) => t.text.trim()).join(" | ") + " (one token, space and all)",
+        right:
+          spaced.tokens.map((t) => t.text.trim()).join(" | ") +
+          " (one token, space and all)",
       },
       { left: '"unbelievable"', right: unbelievable.final.join(" | ") },
       { left: '"1000000"', right: million.pieces.join(" | ") },
@@ -118,7 +121,8 @@ const CHECK: CheckBeat[] = [
   },
   {
     kind: "choice",
-    prompt: "The same sentence in English or in Hindi. Which costs more to send?",
+    prompt:
+      "The same sentence in English or in Hindi. Which costs more to send?",
     options: [
       "English, because its words are longer on the page",
       `Hindi, by roughly ${(hindi.tokenCount / english.tokenCount).toFixed(1)} times`,
@@ -185,27 +189,29 @@ export default function TokensLesson() {
         <div className="prose-measure text-ink-soft mt-8 space-y-4 text-lg">
           <p>
             Watch <span className="font-data">unbelievable</span> in particular.
-            A human would cut it <span className="font-data">un·believ·able</span>
-            . The tokenizer produces{" "}
+            A human would cut it{" "}
+            <span className="font-data">un·believ·able</span>. The tokenizer
+            produces{" "}
             <span className="font-data">{unbelievable.final.join("·")}</span>,
             because <span className="font-data">{unbelievable.final[1]}</span>{" "}
             happened to be commoner than the meaningful piece. The split is a
             frequency accident, and the model has to work from it anyway.
           </p>
           <p>
-            And watch <span className="font-data">{rare.word}</span> shatter into{" "}
-            {rare.final.length}{" "}
-            pieces. Nothing about that name was common enough
-            to be worth an entry, so it arrives as debris. Rare names, technical
-            terms, new coinages and most of the world&rsquo;s languages all
-            arrive this way.
+            And watch <span className="font-data">{rare.word}</span> shatter
+            into {rare.final.length} pieces. Nothing about that name was common
+            enough to be worth an entry, so it arrives as debris. Rare names,
+            technical terms, new coinages and most of the world&rsquo;s
+            languages all arrive this way.
           </p>
         </div>
       </section>
 
       {/* ------------------------------------------------- three surprises --- */}
       <section className="border-ink/25 border-t py-10">
-        <h2 className="display-lg mb-4">Three consequences that catch people</h2>
+        <h2 className="display-lg mb-4">
+          Three consequences that catch people
+        </h2>
 
         <div className="grid gap-5 lg:grid-cols-3">
           <div className="plate p-5">
@@ -255,12 +261,11 @@ export default function TokensLesson() {
             </p>
             <p className="text-ink-soft text-[0.9375rem]">
               The same sentence costs {english.tokenCount} tokens in English and{" "}
-              {hindi.tokenCount}{" "}
-              in Hindi. You pay per token, your context fills per token, and you
-              wait per token. So the same conversation is measurably more
-              expensive in most of the world&rsquo;s languages. You can measure
-              it yourself in the walkthrough below, and Petrov and colleagues
-              measured it independently.
+              {hindi.tokenCount} in Hindi. You pay per token, your context fills
+              per token, and you wait per token. So the same conversation is
+              measurably more expensive in most of the world&rsquo;s languages.
+              You can measure it yourself in the walkthrough below, and Petrov
+              and colleagues measured it independently.
             </p>
           </div>
         </div>
@@ -294,17 +299,18 @@ export default function TokensLesson() {
             A tokenizer is not trying to understand the word. It is trying to
             turn unlimited text into a finite alphabet the model can do
             arithmetic on, without ever failing on an input it has not seen.
-            Byte-pair encoding does that with one guarantee: since it starts from
-            raw bytes, <em>any</em> string can be expressed, worst case one token
-            per byte. Emoji, code, a language the model has never met, a
+            Byte-pair encoding does that with one guarantee: since it starts
+            from raw bytes, <em>any</em> string can be expressed, worst case one
+            token per byte. Emoji, code, a language the model has never met, a
             password. All of it can be represented.
           </p>
           <p>
             The price is that the chunks carry no promise of meaning. Whatever
-            structure a word has, the model has to reconstruct from the pieces it
-            was handed, using what usually follows what. It mostly manages. Where
-            it does not, the failure looks stupid rather than subtle: counting
-            letters, spelling backwards, rhyming, and arithmetic on long numbers.
+            structure a word has, the model has to reconstruct from the pieces
+            it was handed, using what usually follows what. It mostly manages.
+            Where it does not, the failure looks stupid rather than subtle:
+            counting letters, spelling backwards, rhyming, and arithmetic on
+            long numbers.
           </p>
         </MechanismPanel>
 
@@ -347,8 +353,6 @@ export default function TokensLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

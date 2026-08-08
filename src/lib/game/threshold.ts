@@ -112,7 +112,8 @@ export function pointAt(data: ThresholdData, threshold: number): Point {
   let best = data.curve[0];
   for (const point of data.curve) {
     if (
-      Math.abs(point.threshold - threshold) < Math.abs(best.threshold - threshold)
+      Math.abs(point.threshold - threshold) <
+      Math.abs(best.threshold - threshold)
     ) {
       best = point;
     }

@@ -39,8 +39,9 @@ export function MatchBeatView({
   );
   const used = new Set(Object.values(state.pinned));
   const pool = rights.filter((text) => !used.has(text));
-  const right = beat.pairs.filter((p) => state.pinned[p.left] === p.right)
-    .length;
+  const right = beat.pairs.filter(
+    (p) => state.pinned[p.left] === p.right,
+  ).length;
 
   function pin(leftText: string) {
     if (state.checked || !state.held) return;

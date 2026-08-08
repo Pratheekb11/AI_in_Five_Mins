@@ -134,9 +134,7 @@ export function PhrasingFigure() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35 }}
                 className={`rounded-[2px] border px-3 py-2.5 ${
-                  isNew
-                    ? "border-ink bg-paper-sunk"
-                    : "border-ink/20"
+                  isNew ? "border-ink bg-paper-sunk" : "border-ink/20"
                 }`}
               >
                 <div className="mb-1.5 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
@@ -149,7 +147,9 @@ export function PhrasingFigure() {
                     }`}
                   >
                     {(variant.probability * 100).toFixed(2)}%
-                    {style === "bare" ? "" : ` · ${times.toFixed(times >= 10 ? 0 : 2)}×`}
+                    {style === "bare"
+                      ? ""
+                      : ` · ${times.toFixed(times >= 10 ? 0 : 2)}×`}
                   </span>
                 </div>
 

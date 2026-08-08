@@ -74,9 +74,7 @@ describe("the forests", () => {
       (a, b) => a.disagreement - b.disagreement,
     );
     // Least disagreement gains least; most disagreement gains most.
-    expect(sorted[0].gain).toBeLessThanOrEqual(
-      sorted[sorted.length - 1].gain,
-    );
+    expect(sorted[0].gain).toBeLessThanOrEqual(sorted[sorted.length - 1].gain);
   });
 
   it("beats every one of its own trees where the trees differ", () => {
@@ -87,7 +85,9 @@ describe("the forests", () => {
 
 describe("the examples", () => {
   it("spreads from near-unanimous to nearly tied", () => {
-    const splits = data.examples.map((e) => e.votesForSpam / data.treesPerForest);
+    const splits = data.examples.map(
+      (e) => e.votesForSpam / data.treesPerForest,
+    );
     expect(Math.min(...splits)).toBeLessThan(0.15);
     expect(Math.max(...splits)).toBeGreaterThan(0.85);
     expect(splits.some((s) => s > 0.4 && s < 0.6)).toBe(true);

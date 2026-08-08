@@ -123,9 +123,7 @@ export function Slug({
     dimmed ? "opacity-30" : "",
     selected ? "ring-2 ring-offset-1 ring-offset-paper-raised" : "",
     selected ? c.border : "",
-    interactive
-      ? "misreg cursor-pointer hover:z-10 hover:border-ink"
-      : "",
+    interactive ? "misreg cursor-pointer hover:z-10 hover:border-ink" : "",
   ]
     .filter(Boolean)
     .join(" ");

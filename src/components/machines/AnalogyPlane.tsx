@@ -27,7 +27,6 @@ import { ordinal } from "@/lib/ordinal";
 /** How long each beat holds before the next one starts. */
 const BEAT_MS = 2200;
 
-
 type Beat = 0 | 1 | 2 | 3;
 const BEATS: Beat[] = [0, 1, 2, 3];
 
@@ -311,10 +310,9 @@ export function AnalogyPlane() {
               </p>
               <p className="text-ink-soft text-[0.875rem]">
                 The dashed teal line is the gap: {row.answer.word} sits{" "}
-                {answer.offPlane.toFixed(2)}{" "}
-                away from this plane entirely. The
-                arrow does not land on the word. It lands close enough
-                that the word is the nearest of{" "}
+                {answer.offPlane.toFixed(2)} away from this plane entirely. The
+                arrow does not land on the word. It lands close enough that the
+                word is the nearest of{" "}
                 {ANALOGY.vocabulary.toLocaleString("en-US")}. Without the usual
                 convention of excluding the three input words, the nearest is{" "}
                 <span className="font-data">{row.unfiltered.word}</span>.

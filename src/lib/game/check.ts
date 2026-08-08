@@ -86,7 +86,10 @@ export function shuffledBy<T>(items: readonly T[], rolls: number[]): T[] {
 }
 
 export function start(rolls: number[]): CheckScene {
-  return { ...newScene(), deck: shuffledBy(PAYLOADS, rolls).slice(0, ROUND_SIZE) };
+  return {
+    ...newScene(),
+    deck: shuffledBy(PAYLOADS, rolls).slice(0, ROUND_SIZE),
+  };
 }
 
 export function current(scene: CheckScene): Payload | undefined {

@@ -87,7 +87,9 @@ describe("scoring", () => {
     const tricky = { pair, fold: pair.misleadingFolds[0] };
     const honest = {
       pair,
-      fold: pair.folds.map((f) => f.fold).find((f) => !pair.misleadingFolds.includes(f))!,
+      fold: pair.folds
+        .map((f) => f.fold)
+        .find((f) => !pair.misleadingFolds.includes(f))!,
     };
     expect(isMisleading(tricky)).toBe(true);
     expect(isMisleading(honest)).toBe(false);

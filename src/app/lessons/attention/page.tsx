@@ -100,7 +100,9 @@ export default function AttentionLesson() {
 
       {/* ------------------------------------------------ the explanation --- */}
       <section id="looking" className="py-10">
-        <p className="label text-ink-faint mb-3">The problem attention solves</p>
+        <p className="label text-ink-faint mb-3">
+          The problem attention solves
+        </p>
         <h2 className="display-lg mb-4">
           A word does not mean the same thing twice.
         </h2>
@@ -110,10 +112,10 @@ export default function AttentionLesson() {
             The previous module gave every word a fixed position in space. That
             buys a great deal, and it cannot buy this:{" "}
             <span className="font-data">bank</span> in a sentence about a river
-            and <span className="font-data">bank</span> in a sentence about money
-            have to end up somewhere different, and they start out identical.
-            Something has to move them apart, using nothing but the rest of the
-            sentence.
+            and <span className="font-data">bank</span> in a sentence about
+            money have to end up somewhere different, and they start out
+            identical. Something has to move them apart, using nothing but the
+            rest of the sentence.
           </p>
           <p>
             Attention is that something. Before settling what a word means here,
@@ -207,8 +209,8 @@ export default function AttentionLesson() {
             That messiness is worth having. Published attention pictures are
             usually the two or three heads that came out beautifully. This is
             all of them, including the ones doing something nobody has a name
-            for. That is the honest state of the art on what attention heads
-            are actually for.
+            for. That is the honest state of the art on what attention heads are
+            actually for.
           </p>
         </MechanismPanel>
         <PracticeCard
@@ -226,8 +228,6 @@ export default function AttentionLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

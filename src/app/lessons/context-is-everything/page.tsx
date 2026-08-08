@@ -74,15 +74,35 @@ const CHECK: CheckBeat[] = [
     prompt:
       "The right document is already in the context. Which of these extra cards can sit beside it without doing damage?",
     buckets: [
-      { id: "safe", label: "Barely moves the answer", hint: "clutter, but harmless" },
-      { id: "bad", label: "Wrecks the answer", hint: "competes with the right card" },
+      {
+        id: "safe",
+        label: "Barely moves the answer",
+        hint: "clutter, but harmless",
+      },
+      {
+        id: "bad",
+        label: "Wrecks the answer",
+        hint: "competes with the right card",
+      },
     ],
     items: [
       { id: "chat", text: "Small talk about the weekend", bucket: "safe" },
       { id: "policy", text: "An unrelated policy document", bucket: "safe" },
-      { id: "stale", text: "An instruction you later superseded", bucket: "bad" },
-      { id: "decoy", text: "A similar memo about a different case", bucket: "bad" },
-      { id: "example", text: "A worked example with a placeholder in it", bucket: "bad" },
+      {
+        id: "stale",
+        text: "An instruction you later superseded",
+        bucket: "bad",
+      },
+      {
+        id: "decoy",
+        text: "A similar memo about a different case",
+        bucket: "bad",
+      },
+      {
+        id: "example",
+        text: "A worked example with a placeholder in it",
+        bucket: "bad",
+      },
     ],
     because:
       "This was measured across all five scenarios in the game. Chit-chat and the unrelated policy land between 0.89× and 1.10× of the answer's probability. That is noise, and it is close to free. The other three are not noise. They are rivals. Each one holds something shaped like the answer. The worked example is the worst of them. In the wi-fi scenario it drags the right answer from 89.9% down to 3.8%, because the model copies the placeholder.",
@@ -184,8 +204,6 @@ export default function ContextIsEverythingLesson() {
           </p>
         </PracticeCard>
       </DeeperRow>
-
-
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

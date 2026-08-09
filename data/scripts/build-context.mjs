@@ -238,6 +238,49 @@ const main = async () => {
     };
   };
 
+  /**
+   * What the model actually says next, in words rather than in one token.
+   *
+   * A single argmax token is what this used to record, and it is unreadable:
+   * the wifi answer came back as "BL" and the invoice as "Q". A percentage
+   * cannot carry the lesson of this chapter either — watching the answer flip
+   * from "Thursday" to "Tuesday" because you added a helpful-looking card is
+   * the lesson, and nobody feels 89.9% falling to 3.8%.
+   *
+   * So the model is run forward greedily a few tokens and the continuation is
+   * kept. Greedy, not sampled, so this file is the same every time it is
+   * built. It stops at the first line break or sentence end, because anything
+   * past that is the model rambling rather than answering.
+   */
+  const MAX_SAID = 6;
+
+  const saysOf = async (context) => {
+    let said = "";
+    let running = context;
+
+    for (let step = 0; step < MAX_SAID; step++) {
+      const output = await model(await tokenizer(running));
+      const [, rows, vocab] = output.logits.dims;
+      const flat = output.logits.data;
+      const last = Array.from(flat.slice((rows - 1) * vocab, rows * vocab));
+
+      let bestId = 0;
+      for (let id = 1; id < last.length; id++) {
+        if (last[id] > last[bestId]) bestId = id;
+      }
+
+      const piece = tokenizer.decode([bestId]);
+      if (piece.includes("\n")) break;
+      said += piece;
+      running += piece;
+
+      // One clause is an answer. Two is the model going for a walk.
+      if (/[.!?,;:]/.test(piece)) break;
+    }
+
+    return said.trim();
+  };
+
   const scenarios = [];
 
   for (const scenario of SCENARIOS) {
@@ -258,6 +301,7 @@ const main = async () => {
         scenario.question;
 
       const result = await probabilityOf(context, scenario.answer);
+      const says = await saysOf(context);
       measured.push({
         tokens: result.tokens,
         cards: indices.map((i) => scenario.cards[i].id),
@@ -265,6 +309,8 @@ const main = async () => {
         rank: result.rank,
         topText: result.topText,
         topProbability: Number(result.topProbability.toFixed(6)),
+        /* The words it actually produces, which is what the game shows. */
+        says,
       });
 
       if (measured.length % 40 === 0) {

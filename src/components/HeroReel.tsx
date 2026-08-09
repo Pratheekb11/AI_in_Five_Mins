@@ -331,16 +331,23 @@ export function HeroReel() {
           </div>
 
           {/*
-            The rail is inset from the box it sits in.
+            The rail runs the width of the plate, first rank to thousandth.
 
-            The decade labels are centred under their own gridlines, and 1000th
-            is centred under a line at the far end, so the rail has to stop
-            short of the border or half that label falls outside it. It used to
-            be hung off the last line's left edge instead, which put it hard
-            against the plate edge and read as clipped.
+            It was inset by 28 pixels at both ends so that a centred "1000th"
+            could not fall outside the border. That fixed the label and broke
+            the thing the label is describing: the scale visibly stopped short
+            of its own box at both ends, and a marker sitting on rank one had
+            a gap to the left of it, which is the one place a rank scale must
+            not have a gap.
+
+            So the rail is full width and the two end labels stop being
+            centred instead — first hangs right, last hangs left, and the
+            decades in between stay centred on their own lines. The two pixels
+            of inset that remain are the marker's own half-width, so its head
+            never pokes out through the border.
           */}
           <div className="border-ink/25 bg-paper-sunk relative h-9 rounded-[2px] border">
-            <div className="absolute inset-y-0 right-7 left-7">
+            <div className="absolute inset-y-0 right-[7px] left-[7px]">
               {/* Where it has been. A flat tint, so the marker still reads on
                   top of it rather than fighting it. */}
               <motion.span
@@ -398,17 +405,29 @@ export function HeroReel() {
             </div>
           </div>
 
-          {/* The scale, centred under its own gridlines. */}
-          <div className="relative mx-7 h-5">
-            {DECADES.map((d) => (
-              <span
-                key={d}
-                className="data text-ink-faint absolute top-0 -translate-x-1/2 pt-1 text-[0.6875rem] whitespace-nowrap"
-                style={{ left: `${trackPosition(d - 1) * 100}%` }}
-              >
-                {ordinal(d)}
-              </span>
-            ))}
+          {/* The scale. Centred under its own gridline, except at the two
+              ends, where centring would hang half the label off the plate. */}
+          <div className="relative mx-[7px] h-5">
+            {DECADES.map((d, i) => {
+              const first = i === 0;
+              const last = i === DECADES.length - 1;
+
+              return (
+                <span
+                  key={d}
+                  className={`data text-ink-faint absolute top-0 pt-1 text-[0.6875rem] whitespace-nowrap ${
+                    first
+                      ? "translate-x-0"
+                      : last
+                        ? "-translate-x-full"
+                        : "-translate-x-1/2"
+                  }`}
+                  style={{ left: `${trackPosition(d - 1) * 100}%` }}
+                >
+                  {ordinal(d)}
+                </span>
+              );
+            })}
           </div>
         </div>
 

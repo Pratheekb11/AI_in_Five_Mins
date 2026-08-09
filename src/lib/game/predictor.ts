@@ -60,7 +60,19 @@ export type PredictorData = {
 /* ------------------------------------------------------------------ rules -- */
 
 /** Rounds per act. Three acts, nine rounds, well under five minutes. */
-export const ACT_SIZE = { phrase: 3, corpus: 3, fact: 3 } as const;
+/*
+  The acts, and how many rounds each one gets.
+
+  This used to be three of each, and the whole argument of the chapter lives in
+  the third act — the model answering "Paris is the capital of" with "the" at
+  30% while "France" sits at 1.7%. Three plus three meant that arrived at round
+  SEVEN, four rounds after most people have decided whether they care.
+
+  One round is enough to establish that the model is genuinely good at
+  ordinary phrasing, and one is enough to show it losing to real prose. The
+  surprise now lands on round three of four.
+*/
+export const ACT_SIZE = { phrase: 1, corpus: 1, fact: 2 } as const;
 export const ROUND_SIZE = ACT_SIZE.phrase + ACT_SIZE.corpus + ACT_SIZE.fact;
 
 const BASE_POINTS = 100;
@@ -118,6 +130,18 @@ export function newScene(): PredictorScene {
     bestStreak: 0,
     done: false,
   };
+}
+
+/**
+ * Ends the set where the player is standing.
+ *
+ * The rounds after the point has landed are practice, not teaching, and a
+ * fixed count of them reads as homework. Stopping early keeps the score
+ * earned so far and goes straight to the summary, so leaving is a finish
+ * rather than an abandonment.
+ */
+export function finish(scene: PredictorScene): PredictorScene {
+  return scene.done ? scene : { ...scene, done: true };
 }
 
 /** A shuffled copy, from one roll per position in [0, 1). */

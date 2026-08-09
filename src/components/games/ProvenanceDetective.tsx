@@ -7,6 +7,7 @@ import {
   answerFor,
   call,
   current,
+  finish,
   isSum,
   newScene,
   next,
@@ -76,6 +77,7 @@ export function ProvenanceDetective() {
 
   const choose = useCallback((v: Verdict) => setScene((s) => call(s, v)), []);
   const carryOn = useCallback(() => setScene((s) => next(s)), []);
+  const stopHere = useCallback(() => setScene((s) => finish(s)), []);
 
   const round = current(scene);
   const revealed = scene.called !== null;
@@ -310,15 +312,30 @@ export function ProvenanceDetective() {
                     </>
                   )}
 
-                  <button
-                    type="button"
-                    onClick={carryOn}
-                    className="plate misreg btn-primary font-display mt-4 px-5 py-2.5 font-bold"
-                  >
-                    {scene.at + 1 >= scene.rounds.length
-                      ? "See the result"
-                      : "Next case"}
-                  </button>
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={carryOn}
+                      className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
+                    >
+                      {scene.at + 1 >= scene.rounds.length
+                        ? "See the result"
+                        : "Next case"}
+                    </button>
+
+                    {/* The point is made by the third case. Everything after
+                        it is practice, and practice nobody chose reads as
+                        homework. */}
+                    {scene.at >= 2 && scene.at + 1 < scene.rounds.length ? (
+                      <button
+                        type="button"
+                        onClick={stopHere}
+                        className="label border-ink/40 hover:border-ink cursor-pointer rounded-[2px] border px-4 py-2.5"
+                      >
+                        I have got it
+                      </button>
+                    ) : null}
+                  </div>
                 </motion.div>
               ) : (
                 <p className="text-ink-soft text-[0.9375rem]">

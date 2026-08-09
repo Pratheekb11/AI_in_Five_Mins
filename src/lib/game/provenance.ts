@@ -69,7 +69,9 @@ export type ProvenanceData = {
 
 /* ------------------------------------------------------------------ rules -- */
 
-export const ROUND_SIZE = 8;
+/* Five, not eight. Eight was two minutes of the same decision, and the point
+   is made by the third: nobody's attention is the thing being taught here. */
+export const ROUND_SIZE = 5;
 /** How many of the round are sums. The rest are drawn from the fact pool. */
 export const SUM_ROUNDS = 2;
 
@@ -172,6 +174,18 @@ export function newScene(): ProvenanceScene {
     bestStreak: 0,
     done: false,
   };
+}
+
+/**
+ * Ends the set where the player is standing.
+ *
+ * The rounds after the point has landed are practice, not teaching, and a
+ * fixed count of them reads as homework. Stopping early keeps the score
+ * earned so far and goes straight to the summary, so leaving is a finish
+ * rather than an abandonment.
+ */
+export function finish(scene: ProvenanceScene): ProvenanceScene {
+  return scene.done ? scene : { ...scene, done: true };
 }
 
 export function start(data: ProvenanceData, rolls: number[]): ProvenanceScene {

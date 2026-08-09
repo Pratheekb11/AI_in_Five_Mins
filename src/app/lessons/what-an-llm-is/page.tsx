@@ -1,31 +1,29 @@
 import { BeatThePredictor } from "@/components/games/BeatThePredictor";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { NextTokenFigure } from "@/components/machines/NextTokenFigure";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("what-an-llm-is")!;
 const video = videoFor("what-an-llm-is")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {
     title: "DistilGPT-2",
     publisher: "Hugging Face",
     url: "https://huggingface.co/distilbert/distilgpt2",
-    used: "The machine you play against. Every percentage on the board is its own output for that sentence, measured and printed unrounded.",
+    used: "The machine you play against, and the model behind the figure in the walkthrough. Every percentage on both is its own output for that sentence, measured and printed unrounded.",
     licence: "Apache 2.0",
   },
   {
@@ -64,22 +62,28 @@ const SOURCES: Source[] = [
 const STEPS: Step[] = [
   {
     say: "A large language model does one thing. It looks at the text so far and guesses what comes next. Then it adds that guess to the text and guesses again.",
+    caption:
+      "Below is a real sentence, cut into the chunks the model actually reads, with the empty slot it has to fill. Watch that figure rather than replacing it. Every step from here changes it.",
   },
   {
-    say: "You just played a real one. In act one it beat you, and it should have. Ordinary sentences are exactly what a next-word guesser is for, and it was ninety-seven per cent sure of some of them.",
+    say: "Now the scores arrive. Give it the opening of Genesis and almost the whole weight lands on one word. This is the ground a next-word guesser is built for, and it is why it beat you in act one.",
     caption:
       "Nothing was rigged in its favour there. Those are its own odds on its own strongest ground.",
   },
   {
-    say: "Then act two, and it fell apart. Same machine, same confidence, but the right answer was a specific word a specific author chose — and it does not know the story. It knows what usually follows.",
-  },
-  {
-    say: "Act three is the one worth remembering. Asked where Paris is the capital of, it put thirty per cent on the word 'the' and under two per cent on France. It is not lying and it is not broken. It is finishing a sentence, and the shape of the sentence beat the fact.",
+    say: "Same machine, different sentence. You know what follows 'Once upon a'. The model's best guess is worth about seven per cent, and the rest is spread thin. Being obvious to a person and being likely to a model are different things.",
     caption:
-      "Watch that it never sounds any less sure when it is wrong. That is the part that costs people money.",
+      "That is act two in one picture. The confidence did not drop, only the odds did, and you cannot hear odds in a sentence.",
   },
   {
-    say: "Now scale it up. Thousands of words of context, more text than a person could read in a thousand lifetimes. The guessing gets good enough to look like knowing — and the failure mode does not change, it just gets harder to spot.",
+    say: "Act three is the one worth remembering. Asked to finish 'Paris is the capital of', it puts thirty per cent on the word 'the' and under two per cent on France. It is not lying and it is not broken. It is finishing a sentence, and the shape of the sentence beat the fact.",
+    caption:
+      "The true answer is marked in the figure. Notice that it never sounds any less sure when it is wrong. That is the part that costs people money.",
+  },
+  {
+    say: "Then one of them is drawn, added to the text, and the whole thing runs again. Temperature is the only dial in that loop, and it does not know anything. Now scale it up to more text than a person could read in a thousand lifetimes. The guessing gets good enough to look like knowing, and the failure does not go away. It just gets harder to spot.",
+    caption:
+      "Drag the dial and draw a few. Nothing in the loop ever checks a claim, at any setting.",
   },
 ];
 
@@ -94,7 +98,7 @@ const CHECK: CheckBeat[] = [
       { blank: "true" },
       " one. Where it has read little, ",
       { blank: "plausible" },
-      " is all that is left — and it still reads perfectly fluently.",
+      " is all that is left, and it still reads perfectly fluently.",
     ],
     options: [
       { id: "likeliest", text: "likeliest" },
@@ -104,7 +108,7 @@ const CHECK: CheckBeat[] = [
       { id: "shortest", text: "shortest" },
     ],
     because:
-      "Two of those words are doing all the work. Likeliest is what the machine optimises; true is what you wanted; and they come apart exactly where the training text ran thin. Nothing in the loop ever checks a claim, so there is no verified option to pick.",
+      "Two of those words are doing all the work. Likeliest is what the machine aims for, true is what you wanted, and they come apart exactly where the training text ran thin. Nothing in the loop ever checks a claim, so there is no verified option to pick.",
   },
   {
     kind: "sort",
@@ -123,14 +127,30 @@ const CHECK: CheckBeat[] = [
     ],
     items: [
       { id: "fluent", text: "It reads fluently and confidently", bucket: "no" },
-      { id: "prob", text: "The model put a high probability on it", bucket: "no" },
-      { id: "detail", text: "It gives a precise figure and a date", bucket: "no" },
-      { id: "again", text: "You asked again and got the same answer", bucket: "no" },
-      { id: "source", text: "You found the claim in a named source", bucket: "yes" },
+      {
+        id: "prob",
+        text: "The model put a high probability on it",
+        bucket: "no",
+      },
+      {
+        id: "detail",
+        text: "It gives a precise figure and a date",
+        bucket: "no",
+      },
+      {
+        id: "again",
+        text: "You asked again and got the same answer",
+        bucket: "no",
+      },
+      {
+        id: "source",
+        text: "You found the claim in a named source",
+        bucket: "yes",
+      },
       { id: "run", text: "You ran the calculation yourself", bucket: "yes" },
     ],
     because:
-      "Only the last two leave the conversation. Everything above them is produced by the same process that produces the answer, so it cannot be evidence about the answer — including asking twice, which just runs the same machine on nearly the same text.",
+      "Only the last two leave the conversation. Everything above them comes out of the same process that produced the answer, so none of it can be evidence about the answer. That includes asking twice, which just runs the same machine on nearly the same text.",
   },
   {
     kind: "choice",
@@ -143,7 +163,7 @@ const CHECK: CheckBeat[] = [
     ],
     answer: 1,
     because:
-      "The two are separate quantities. It was 30% sure of 'the' after 'Paris is the capital of' — a high number, and a wrong answer. That gap does not close as models get bigger; it gets harder to spot, because a bigger model is wrong more fluently.",
+      "Confidence and truth are separate things. It was 30% sure of 'the' after 'Paris is the capital of': a high number, and a wrong answer. That gap does not close as models get bigger. It gets harder to spot, because a bigger model is wrong more fluently.",
   },
 ];
 
@@ -158,7 +178,7 @@ export default function WhatAnLlmIsLesson() {
             its life.
           </>
         }
-        sting="Nine rounds, head to head against a real language model. It will beat you at ordinary sentences, because guessing what usually comes next is the whole of what it is. Stay for act three, where the likeliest answer and the true one come apart."
+        sting="Nine rounds, head to head against a real language model. It will beat you at ordinary sentences, because guessing what comes next is all it does. Stay for act three, where the likeliest answer and the true one come apart."
         cta="Take it on"
       />
 
@@ -166,14 +186,13 @@ export default function WhatAnLlmIsLesson() {
         <BeatThePredictor />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
-        <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
+      <div className="pb-4">
+        <Walkthrough steps={STEPS} figure={<NextTokenFigure />} />
       </div>
 
       {/* The mechanism arrives here, straight after watching a guesser be
-          confidently wrong — not in a chapter they have to get through first. */}
-      <div className="space-y-4 pb-4">
+          confidently wrong, not in a chapter they have to get through first. */}
+      <DeeperRow video={video}>
         <MechanismPanel
           question="If it is guessing, what is it guessing about?"
           summary="Not words. It works in chunks of characters called tokens, and it picks one at a time."
@@ -184,14 +203,15 @@ export default function WhatAnLlmIsLesson() {
             has whole words in it. A real model does not see words at all.
           </p>
           <p>
-            Your text is first chopped into <strong>tokens</strong> &mdash;
+            Your text is first chopped into <strong>tokens</strong>, which are
             chunks of characters the model has memorised. Common words survive
-            whole. Rarer ones shatter: <span className="font-data">strawberry</span>{" "}
-            arrives as <span className="font-data">st</span> +{" "}
+            whole. Rarer ones shatter:{" "}
+            <span className="font-data">strawberry</span> arrives as{" "}
+            <span className="font-data">st</span> +{" "}
             <span className="font-data">raw</span> +{" "}
             <span className="font-data">berry</span>. The model then guesses the
             next <em>token</em>, adds it to the text, and guesses again. That
-            loop is the entire operation.
+            loop is the whole operation.
           </p>
           <p>
             This is also why these tools are strangely bad at counting the
@@ -211,27 +231,17 @@ export default function WhatAnLlmIsLesson() {
           </p>
           <p>
             You watched that happen. It was 99% sure of the word after
-            &ldquo;God created the heaven and the&rdquo; and 30% sure of the
-            word after &ldquo;Paris is the capital of&rdquo; &mdash; and the
-            second one was wrong. Both numbers came from the same place:
-            counting what follows what, over an enormous amount of text. Scale
-            changes how often it is right. It does not add a truth check,
-            because there isn&rsquo;t one to add.
+            &ldquo;God created the heaven and the&rdquo;, and 30% sure of the
+            word after &ldquo;Paris is the capital of&rdquo;. The second one was
+            wrong. Both numbers came from the same place: counting what follows
+            what, across an enormous amount of text. Scale changes how often it
+            is right. It does not add a truth check, because there is not one to
+            add.
           </p>
         </MechanismPanel>
-      </div>
-
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="Because it is not looking anything up. It is writing whatever sounds most like a right answer, based on all the text it has read. When it has read a lot about something, sounding right and being right are the same thing. When it has not, it still writes something that sounds right — and there is nothing inside it that notices the difference."
-        />
-      </div>
-
-      <div className="pb-4">
         <PracticeCard
           title="Make it invent something"
-          watchFor="How confident it sounds. There is no wobble in the writing when it is making things up — the sentences are just as smooth as when it is right."
+          watchFor="How confident it sounds. There is no wobble in the writing when it is making things up. The sentences are just as smooth as when it is right."
         >
           <p>
             Ask any AI assistant a detailed question about something genuinely
@@ -243,7 +253,7 @@ export default function WhatAnLlmIsLesson() {
             Then check one specific detail it gave you against a real source.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

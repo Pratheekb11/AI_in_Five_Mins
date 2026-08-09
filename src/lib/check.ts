@@ -1,24 +1,8 @@
 /**
  * The shapes a post-lesson check can take.
- *
- * Three multiple-choice questions per module was the whole check for every one
- * of the fifteen lessons, and a learner told us plainly that answering them got
- * annoying. They were right, and the fault was not the questions: it was that
- * after a module built on doing something, the check asked you to sit still and
- * pick A, B or C for the fifteenth time.
- *
- * So a check is now a short sequence of *beats* of different kinds. At most one
- * of them is multiple choice. The rest ask for something with your hands —
- * sorting, pairing, flagging, filling a gap — and every one of them is judged
- * against the same measured facts the module just showed you.
  */
 
-export type CheckBeat =
-  | ChoiceBeat
-  | SortBeat
-  | MatchBeat
-  | FlagBeat
-  | FillBeat;
+export type CheckBeat = ChoiceBeat | SortBeat | MatchBeat | FlagBeat | FillBeat;
 
 type Common = {
   /** The question, in the learner's words. */
@@ -52,7 +36,7 @@ export type MatchBeat = Common & {
 /** A passage where some parts are false. Tap the ones that are. */
 export type FlagBeat = Common & {
   kind: "flag";
-  /** How many wrong parts there are, told up front — this is not a hunt. */
+  /** How many wrong parts there are, told up front, this is not a hunt. */
   instruction: string;
   parts: { text: string; wrong?: boolean }[];
 };

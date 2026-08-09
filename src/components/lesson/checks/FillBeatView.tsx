@@ -78,7 +78,8 @@ export function FillBeatView({
     >
       <p className="text-[1.0625rem] leading-loose">
         {beat.segments.map((segment, i) => {
-          if (typeof segment === "string") return <span key={i}>{segment}</span>;
+          if (typeof segment === "string")
+            return <span key={i}>{segment}</span>;
 
           const chosen = state.filled[segment.blank];
           const correct = chosen === segment.blank;
@@ -115,10 +116,7 @@ export function FillBeatView({
 
       {state.checked ? (
         <p className="label text-ink-faint mt-3">
-          {blanks
-            .map((b) => `${textOf(b.blank)}`)
-            .join(" · ")}{" "}
-          — in that order.
+          {blanks.map((b) => `${textOf(b.blank)}`).join(" · ")} , in that order.
         </p>
       ) : pool.length > 0 ? (
         <div className="border-ink/25 bg-paper-sunk mt-4 flex flex-wrap gap-2 rounded-[2px] border border-dashed p-3">

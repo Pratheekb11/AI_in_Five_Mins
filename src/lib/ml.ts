@@ -2,7 +2,7 @@
  * The small pieces of real maths the lessons run.
  *
  * Everything here is pure and unit-testable, and the lessons import it rather
- * than reimplementing it inline — when a learner drags a slider and watches an
+ * than reimplementing it inline, when a learner drags a slider and watches an
  * error move, that is these functions running, not an animation of them.
  */
 
@@ -12,7 +12,7 @@ export type Point = { chars: number; tokens: number };
  * Mean squared error for the one-parameter model `tokens ≈ slope × chars`.
  *
  * Squared rather than absolute error because squaring is what makes the error
- * curve a smooth bowl with a single lowest point — which is the thing lesson 2
+ * curve a smooth bowl with a single lowest point, which is the thing lesson 2
  * is really about.
  */
 export function meanSquaredError(points: Point[], slope: number): number {
@@ -26,7 +26,7 @@ export function meanSquaredError(points: Point[], slope: number): number {
 }
 
 /**
- * The slope of the error curve at `slope` — which way is downhill, and how
+ * The slope of the error curve at `slope`, which way is downhill, and how
  * steeply. This is the derivative of `meanSquaredError` with respect to slope.
  */
 export function gradient(points: Point[], slope: number): number {
@@ -40,11 +40,6 @@ export function gradient(points: Point[], slope: number): number {
 
 /**
  * One step downhill.
- *
- * The learning rate has to be small because the inputs are character counts in
- * the hundreds, so the gradient is large; too big a step overshoots the bottom
- * and the error climbs instead. That failure is worth showing, so the rate is a
- * parameter rather than a constant.
  */
 export function gradientStep(
   points: Point[],

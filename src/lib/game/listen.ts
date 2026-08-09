@@ -1,29 +1,5 @@
 /**
- * The rules of Show, Don't Ask — as pure functions.
- *
- * One goal, five ways of phrasing it, and one call: which phrasing actually
- * gets the thing you want out of the model? Then the measured probabilities
- * arrive for all five at once.
- *
- * The measurement is in `data/scripts/build-listen.mjs`, and it came out
- * unambiguous. Against just asking the question:
- *
- *   an instruction about how to answer    1.65x   — near enough nothing
- *   a role to play                        1.02x   — indistinguishable from nothing
- *   the same thing shown as a pattern   125.46x   — best on all fourteen goals
-
- * (Medians over fourteen goals. The component reads these from the data file
- * rather than from this comment, so adding goals cannot leave the page quoting
- * a stale figure — which it briefly did.)
- *
- * WHAT THIS DOES AND DOES NOT SHOW. It is measured on a base model, which has
- * had no training to follow instructions. Modern assistants have had exactly
- * that training, so "answer in one word" does work on them. What this shows is
- * the floor: showing a pattern works even on a model that is not trying to
- * please you, which is why it is the technique that keeps working when the
- * polite phrasing quietly stops. The page says all of this.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
+ * The rules of Show, Don't Ask, as pure functions.
  */
 
 /* ------------------------------------------------------------------ types -- */
@@ -37,6 +13,9 @@ export type Variant = {
   probability: number;
   rank: number;
   topText: string;
+  /** The words it actually produces, greedily decoded. Optional so a data
+   *  file built before this existed still reads. */
+  says?: string;
 };
 
 export type ListenRound = {

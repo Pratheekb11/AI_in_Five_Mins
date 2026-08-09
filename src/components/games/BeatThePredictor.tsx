@@ -6,6 +6,7 @@ import { GameShell } from "@/components/game/GameShell";
 import {
   actOf,
   current,
+  finish,
   newScene,
   next,
   pick,
@@ -19,18 +20,9 @@ import {
 
 /**
  * Beat the Predictor.
- *
- * A sentence with the last word cut off, four options, and the machine picking
- * at the same time as you. Commit, and the model's real probabilities animate
- * in as bars underneath your choice.
- *
- * The bars are the teaching and they have to move. A static chart reads as an
- * illustration; a bar that grows to 97% under an answer you did not choose
- * reads as being beaten. Everything else on screen is deliberately still so
- * that the only motion in the room is the evidence arriving.
  */
 
-/** "1st", "2nd", "148th" — a rank reads better than an index to a person. */
+/** "1st", "2nd", "148th", a rank reads better than an index to a person. */
 function ordinal(n: number): string {
   const tens = n % 100;
   if (tens >= 11 && tens <= 13) return `${n.toLocaleString("en-US")}th`;
@@ -68,12 +60,18 @@ export function BeatThePredictor() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 120 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 120 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
   const choose = useCallback((i: number) => setScene((s) => pick(s, i)), []);
   const carryOn = useCallback(() => setScene((s) => next(s)), []);
+  const stopHere = useCallback(() => setScene((s) => finish(s)), []);
 
   const round = current(scene);
   const revealed = scene.picked !== null;
@@ -100,7 +98,7 @@ export function BeatThePredictor() {
     <GameShell
       gameId="beat-the-predictor"
       name="Beat the Predictor"
-      instruction="A sentence, with its last word taken away. You pick one of four. The machine picks at the same time, and then its real odds arrive as bars. Nine rounds, and it is not the same game all the way through."
+      instruction="A sentence with its last word taken away. You pick one of four. The machine picks at the same time, and then its real odds arrive as bars. Nine rounds, and it is not the same game all the way through."
       howToPlay={{
         goal: "Guess the missing word more often than the machine does.",
         steps: [
@@ -108,8 +106,10 @@ export function BeatThePredictor() {
           "Pick one of the four options. The machine has already picked, but you cannot see which.",
           "Its real probability for every option arrives as bars. Whoever chose the true word wins the round.",
         ],
-        controls: "Click an option, or press 1–4. Enter moves to the next round.",
-        scoring: "100 for a correct call. More when you are right and the machine was confidently wrong.",
+        controls:
+          "Tap or click an option, or press 1–4. Enter moves to the next round.",
+        scoring:
+          "100 for a correct call. More when you are right and the machine was confidently wrong.",
       }}
       startLabel={data ? "Play the machine" : "Loading the odds…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -143,13 +143,13 @@ export function BeatThePredictor() {
           <p className="text-ink-soft mb-2 text-[0.9375rem]">
             {scene.upsets > 0
               ? `${scene.upsets} ${scene.upsets === 1 ? "round" : "rounds"} where you were right and it was confidently wrong.`
-              : "It did not put a foot wrong against you this time. Go again — act three is where it falls over."}
+              : "It did not put a foot wrong against you this time. Go again, because act three is where it falls over."}
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
-            It won the ordinary sentences because that is precisely what it is:
-            a machine for guessing what usually comes next. It lost the book,
-            and it lost the facts, for the same reason. Nothing in it is asking
-            what is true &mdash; only what is likely.
+            It won the ordinary sentences because that is exactly what it is: a
+            machine for guessing what usually comes next. It lost the book and
+            it lost the facts for the same reason. Nothing in it asks what is
+            true, only what is likely.
           </p>
         </div>
       }
@@ -157,9 +157,9 @@ export function BeatThePredictor() {
         data ? (
           <>
             Every percentage is {data.model.name}&rsquo;s own output, measured
-            over {data.measuredSentences} sentences from {data.corpus.name}{" "}
-            and printed unrounded. The wrong options are not invented &mdash; they
-            are tokens the model itself ranked highly for that sentence.
+            over {data.measuredSentences} sentences from {data.corpus.name} and
+            printed unrounded. The wrong options are not invented. They are
+            tokens the model itself ranked highly for that sentence.
           </>
         ) : failed ? (
           <>The odds did not load.</>
@@ -241,7 +241,11 @@ export function BeatThePredictor() {
                         <span className="bg-paper-sunk border-ink/20 h-3 flex-1 overflow-hidden rounded-[1px] border">
                           <motion.span
                             className={`block h-full ${
-                              isTruth ? "bg-teal" : isMachine ? "bg-blue" : "bg-ink/30"
+                              isTruth
+                                ? "bg-teal"
+                                : isMachine
+                                  ? "bg-blue"
+                                  : "bg-ink/30"
                             }`}
                             initial={{ width: 0 }}
                             animate={{
@@ -261,7 +265,7 @@ export function BeatThePredictor() {
                             ? `${(option.probability * 100).toFixed(
                                 option.probability < 0.01 ? 3 : 1,
                               )}%`
-                            : "—"}
+                            : "-"}
                         </span>
                       </span>
                     </button>
@@ -283,9 +287,11 @@ export function BeatThePredictor() {
                     }`}
                   >
                     {result.upset
-                      ? `You got it, the machine did not — and it was ${(
+                      ? `You got it and the machine did not, and it was ${(
                           round.options[round.modelPick].probability * 100
-                        ).toFixed(0)}% sure. +${pointsFor(round, scene.picked!)}`
+                        ).toFixed(
+                          0,
+                        )}% sure. +${pointsFor(round, scene.picked!)}`
                       : result.you
                         ? `Right, and so was the machine. +${pointsFor(round, scene.picked!)}`
                         : result.model
@@ -316,20 +322,36 @@ export function BeatThePredictor() {
                       </>
                     ) : null}
                   </p>
-                  <button
-                    type="button"
-                    onClick={carryOn}
-                    className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
-                  >
-                    {scene.at + 1 >= scene.rounds.length
-                      ? "See the result"
-                      : "Next round"}
-                  </button>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={carryOn}
+                      className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
+                    >
+                      {scene.at + 1 >= scene.rounds.length
+                        ? "See the result"
+                        : "Next round"}
+                    </button>
+
+                    {/* Once the confidently-wrong act has landed, the rest is
+                        practice rather than teaching. A visible way out is why
+                        people stay longer, not why they leave sooner. */}
+                    {round.kind === "fact" &&
+                    scene.at + 1 < scene.rounds.length ? (
+                      <button
+                        type="button"
+                        onClick={stopHere}
+                        className="label border-ink/40 hover:border-ink cursor-pointer rounded-[2px] border px-4 py-2.5"
+                      >
+                        I have got it
+                      </button>
+                    ) : null}
+                  </div>
                 </motion.div>
               ) : (
                 <p className="text-ink-soft text-[0.9375rem]">
                   Pick one. Keys 1&ndash;4 work too. The machine has already
-                  chosen &mdash; you just cannot see it yet.
+                  chosen, you just cannot see it yet.
                 </p>
               )}
             </div>

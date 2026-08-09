@@ -5,11 +5,6 @@ import { useProgress } from "@/lib/progress";
 
 /**
  * The check beat.
- *
- * Answering reveals the reasoning immediately, whether the answer was right or
- * wrong — the explanation is the teaching, and withholding it until the end
- * would waste the moment the learner most wants it. There is no penalty and no
- * timer; this is a check, not an exam.
  */
 
 export type QuizQuestion = {
@@ -44,15 +39,6 @@ function seedOf(text: string): number {
 
 /**
  * Deal the options into a fixed but unguessable order.
- *
- * Written because the answers had drifted into a pattern nobody intended: 44 of
- * 49 questions across the site had their correct option second, the other 5
- * had it third, and not one had it first. That is a quiz you can score full
- * marks on without reading a single question, which is worse than no quiz.
- *
- * Ordering by a hash of the prompt rather than by chance keeps it deterministic
- * — no impure call during render, no hydration mismatch — while spreading the
- * answers across every position.
  */
 function dealt(question: QuizQuestion): {
   options: string[];
@@ -80,7 +66,7 @@ function dealt(question: QuizQuestion): {
 }
 
 export function Quiz({ slug, questions }: QuizProps) {
-  const { complete, scoreFor } = useProgress();
+  const { recordScore, scoreFor } = useProgress();
   const [picks, setPicks] = useState<(number | null)[]>(() =>
     questions.map(() => null),
   );
@@ -103,14 +89,16 @@ export function Quiz({ slug, questions }: QuizProps) {
     const nowAnswered = next.filter((p) => p !== null).length;
     if (nowAnswered === questions.length) {
       const score =
-        next.filter((p, i) => p === rounds[i].answer).length /
-        questions.length;
-      complete(slug, score);
+        next.filter((p, i) => p === rounds[i].answer).length / questions.length;
+      recordScore(slug, score);
     }
   }
 
   return (
-    <div className="space-y-5">
+    /* The rabbit-hole modules still end in a quiz rather than the beat-based
+       check, so it carries the same marker: reaching the end of a page is the
+       same event whichever component asks the question. */
+    <div className="space-y-5" data-section="check">
       <ol className="space-y-5">
         {questions.map((question, qi) => {
           const round = rounds[qi];
@@ -176,7 +164,9 @@ export function Quiz({ slug, questions }: QuizProps) {
         aria-live="polite"
       >
         <span className="label text-ink-faint">
-          {done ? "Lesson complete" : `${answered} of ${questions.length} answered`}
+          {done
+            ? "Lesson complete"
+            : `${answered} of ${questions.length} answered`}
         </span>
         <span className="data text-lg font-semibold">
           {correct} / {questions.length}

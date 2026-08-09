@@ -11,23 +11,6 @@ import {
 
 /**
  * One word looking back at the others.
- *
- * The module already had a heat map of all seventy-two heads, which is the
- * right thing to have and the wrong thing to meet first: a grid of grey squares
- * is not an idea, it is a result. This figure is the idea. A single word, a
- * single head, and arcs reaching back to the words it draws from — thick where
- * it takes a lot, thin where it takes little.
- *
- * The beats are ordered so that each one answers the question the last one
- * raises. Why can it only reach backwards? Because of the mask. How much is "a
- * lot"? Because the weights are a share of one. Why is the first token always
- * fat? Because of a known artefact with a name, which is also the moment to say
- * that a heat map is not a mind.
- *
- * The head shown by default is not chosen for looking good. It is the head that
- * sends the largest share of this word's attention somewhere other than the
- * first token or the word immediately before it — computed here, from the real
- * weights, and named on screen so it can be checked.
  */
 
 const BEAT_MS = 2600;
@@ -48,11 +31,6 @@ type Pick = { layer: number; head: number; score: number };
 /**
  * The head that most strongly connects this word to something that is neither
  * the sentence's first token nor its own immediate neighbour.
- *
- * Both exclusions are mechanical rather than aesthetic. Position zero attracts
- * weight in nearly every head for reasons unrelated to meaning, and the
- * previous token is the trivially available one — a head attending to either
- * tells you nothing about whether attention resolves anything.
  */
 function pickHead(sentence: AttentionSentence, query: number): Pick {
   let best: Pick = { layer: 0, head: 0, score: -1 };
@@ -67,7 +45,7 @@ function pickHead(sentence: AttentionSentence, query: number): Pick {
   return best;
 }
 
-export function AttentionBeams() {
+export function AttentionBeams({ driven }: { driven?: number }) {
   const still = useReducedMotion();
   const [data, setData] = useState<AttentionData | null>(null);
   const [pick, setPick] = useState(0);
@@ -85,19 +63,23 @@ export function AttentionBeams() {
   }, []);
 
   useEffect(() => {
-    if (!playing) return;
+    if (!playing || driven !== undefined) return;
     const id = setTimeout(
       () => setAt((n) => (n + 1 < BEATS.length ? n + 1 : n)),
       still ? 600 : BEAT_MS,
     );
     return () => clearTimeout(id);
-  }, [playing, at, still]);
+  }, [playing, at, still, driven]);
 
   const choose = useCallback((n: number) => {
     setPick(n);
     setAt(0);
     setPlaying(true);
   }, []);
+
+  // Driven from a walkthrough, the reader advances the beats with the
+  // walkthrough's own controls and the machine keeps its own clock out of it.
+  const beat = driven === undefined ? at : Math.min(driven, BEATS.length - 1);
 
   const sentence = data?.sentences[pick] ?? null;
 
@@ -109,7 +91,8 @@ export function AttentionBeams() {
   }, [sentence]);
 
   const head = useMemo(
-    () => (sentence ? pickHead(sentence, query) : { layer: 0, head: 0, score: 0 }),
+    () =>
+      sentence ? pickHead(sentence, query) : { layer: 0, head: 0, score: 0 },
     [sentence, query],
   );
   const weights = useMemo(
@@ -119,11 +102,6 @@ export function AttentionBeams() {
 
   /**
    * What the first token takes, averaged over every head, for this same word.
-   *
-   * Needed because the head on show is by construction the one that attends
-   * *away* from the sink, so quoting its own first-token share would make the
-   * sink look like nothing. The claim is about the population of heads, so the
-   * number has to be about the population too.
    */
   const sinkAverage = useMemo(() => {
     if (!sentence) return 0;
@@ -142,7 +120,7 @@ export function AttentionBeams() {
   const boxes = useMemo(() => {
     // A plain loop rather than a map with a running cursor: the compiler
     // rejects reassigning a variable captured by the callback, and it is right
-    // to — the closure would outlive the render.
+    // to, the closure would outlive the render.
     const out: { label: string; x: number; w: number; mid: number }[] = [];
     let cursor = 10;
     for (const token of sentence?.tokens ?? []) {
@@ -156,11 +134,6 @@ export function AttentionBeams() {
 
   /**
    * The frame is sized to its contents rather than fixed.
-   *
-   * A constant height left a third of the box empty above short arcs and clipped
-   * both the tallest arc and the percentage under the heaviest bar on long ones.
-   * The tallest arc is the one spanning the most tokens, so that span sets the
-   * headroom and everything else follows from it.
    */
   const arcLift = (from: number, to: number) =>
     Math.max(40, Math.abs(from - to) * 0.45);
@@ -171,11 +144,18 @@ export function AttentionBeams() {
         ...boxes.slice(0, query).map((b) => arcLift(boxes[query].mid, b.mid)),
       )
     : 40;
-  const rowY = Math.round(maxLift + 22);
+
+  /*
+    The frame only reserves room for what is on it.
+  */
+  const arcRoom = beat >= 2 ? maxLift : 26;
+  const barRoom = beat >= 3 ? BAR_GAP + BAR_MAX + LABEL_ROOM : BAR_GAP + 18;
+
+  const rowY = Math.round(arcRoom + 22);
   const W = boxes.length
     ? boxes[boxes.length - 1].x + boxes[boxes.length - 1].w + 10
     : 600;
-  const H = rowY + BOX_H + BAR_GAP + BAR_MAX + LABEL_ROOM;
+  const H = rowY + BOX_H + barRoom;
 
   if (!data || !sentence) {
     return (
@@ -195,7 +175,7 @@ export function AttentionBeams() {
 
   const captions = [
     `${sentence.tokens.length} tokens. Nothing here yet knows what any of them refer to.`,
-    `Take the word “${boxes[query].label}”. It is allowed to look at everything before it, and at nothing after it — ever.`,
+    `Take the word “${boxes[query].label}”. It is allowed to look at everything before it, and at nothing after it. Ever.`,
     `It looks back at all of them at once, and takes more from some than others. Thickness is how much.`,
     `Those amounts are a share of one. They are computed from this sentence, not looked up in a rule.`,
     `Now look at the first token across all ${data?.model.layers ?? 6} × ${data?.model.heads ?? 12} heads: on average it takes ${(sinkAverage * 100).toFixed(0)}% of this word's attention, for reasons nothing to do with meaning.`,
@@ -206,7 +186,7 @@ export function AttentionBeams() {
       <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
         <span className="label">One word, looking back</span>
         <span className="label text-ink-faint">
-          layer {head.layer + 1} · head {head.head + 1} · beat {at + 1} of{" "}
+          layer {head.layer + 1} · head {head.head + 1} · beat {beat + 1} of{" "}
           {BEATS.length}
         </span>
       </div>
@@ -232,7 +212,12 @@ export function AttentionBeams() {
         <div className="overflow-x-auto">
           <svg
             viewBox={`0 0 ${W} ${H}`}
-            className="block w-full min-w-[34rem]"
+            /* On a phone the figure scales down to fit rather than
+                sitting in a sideways scroller: the arcs are the whole point
+                and a reader who has to drag the box sideways to find them
+                sees an empty rectangle instead. Above that the fixed minimum
+                keeps the token boxes at a comfortable size. */
+            className="block w-full min-w-0 sm:min-w-[34rem]"
             role="img"
             aria-label={`Attention from the word ${boxes[query].label} to the words before it`}
           >
@@ -262,8 +247,8 @@ export function AttentionBeams() {
                   opacity={0.28 + share * 0.6}
                   initial={false}
                   animate={{
-                    pathLength: at >= 2 ? 1 : 0,
-                    opacity: at >= 2 ? 0.28 + share * 0.6 : 0,
+                    pathLength: beat >= 2 ? 1 : 0,
+                    opacity: beat >= 2 ? 0.28 + share * 0.6 : 0,
                   }}
                   transition={{
                     duration: still ? 0 : 0.7,
@@ -282,7 +267,7 @@ export function AttentionBeams() {
                 <motion.g
                   key={i}
                   initial={false}
-                  animate={{ opacity: masked && at >= 1 ? 0.22 : 1 }}
+                  animate={{ opacity: masked && beat >= 1 ? 0.22 : 1 }}
                   transition={{ duration: still ? 0 : 0.4 }}
                 >
                   <rect
@@ -318,18 +303,18 @@ export function AttentionBeams() {
                     initial={false}
                     animate={{
                       height:
-                        at >= 3 && i < query
+                        beat >= 3 && i < query
                           ? (weights[i] / maxWeight) * BAR_MAX
                           : 0,
                       y: rowY + BOX_H + BAR_GAP,
-                      opacity: at >= 3 && i < query ? 1 : 0,
+                      opacity: beat >= 3 && i < query ? 1 : 0,
                     }}
                     transition={{
                       duration: still ? 0 : 0.5,
                       delay: still ? 0 : i * 0.04,
                     }}
                   />
-                  {at >= 3 && i < query ? (
+                  {beat >= 3 && i < query ? (
                     <motion.text
                       x={b.mid}
                       y={
@@ -353,10 +338,10 @@ export function AttentionBeams() {
             })}
 
             {/* The mask, said out loud rather than merely implied by dimming. */}
-            {at >= 1 && query < boxes.length - 1 ? (
+            {beat >= 1 && query < boxes.length - 1 ? (
               /* Anchored to the right edge of the frame rather than to the
                  first masked token, which pushed the label off the canvas on
-                 the longer sentences — and below the row, where the arcs are
+                 the longer sentences, and below the row, where the arcs are
                  not. */
               <motion.text
                 x={W - 10}
@@ -373,37 +358,39 @@ export function AttentionBeams() {
         </div>
 
         <p
-          className="border-ink/20 mt-2 min-h-[3.25rem] border-t pt-3 text-[1.0625rem]"
+          className={`border-ink/20 mt-2 min-h-[3.25rem] border-t pt-3 text-[1.0625rem] ${
+            driven === undefined ? "" : "hidden"
+          }`}
           aria-live="polite"
         >
-          {captions[at]}
+          {captions[beat]}
         </p>
 
         <div className="border-ink/20 bg-paper-sunk mt-3 rounded-[2px] border p-4">
-          {at >= 4 ? (
+          {beat >= 4 ? (
             <p className="text-ink-soft text-[0.9375rem]">
-              That is an <strong>attention sink</strong> — a large share of
-              nearly every head landing on the first token regardless of what the
-              sentence says. The head drawn above is the exception, and
+              That is an <strong>attention sink</strong>. A large share of
+              nearly every head landing on the first token regardless of what
+              the sentence says. The head drawn above is the exception, and
               deliberately so: it was chosen for attending elsewhere, and takes
               only {(sinkShare * 100).toFixed(0)}% itself. The{" "}
               {(sinkAverage * 100).toFixed(0)}% is the average across all of
-              them. It is documented and named (Xiao et al., 2023), and
-              it is the cheapest reminder available that a heat map is not a
-              mind: a head with nothing it needs this time still has to put its
-              weights somewhere, because the row is forced to add up to one.
+              them. It is documented and named (Xiao et al., 2023), and it is
+              the cheapest reminder available that a heat map is not a mind: a
+              head with nothing it needs this time still has to put its weights
+              somewhere, because the row is forced to add up to one.
             </p>
           ) : (
             <p className="text-ink-soft text-[0.9375rem]">
-              Shown is layer {head.layer + 1}, head {head.head + 1} — of{" "}
-              {data.model.layers * data.model.heads}, this is the one
-              that sends the most of &ldquo;{boxes[query].label}&rdquo;&rsquo;s
-              attention somewhere other than the first token or the word right
-              before it. Its strongest such target here is{" "}
+              Shown is layer {head.layer + 1}, head {head.head + 1}, out of{" "}
+              {data.model.layers * data.model.heads}, this is the one that sends
+              the most of &ldquo;{boxes[query].label}&rdquo;&rsquo;s attention
+              somewhere other than the first token or the word right before it.
+              Its strongest such target here is{" "}
               <span className="font-data">{boxes[strongest]?.label}</span> at{" "}
               {(weights[strongest] * 100).toFixed(0)}%. The other{" "}
-              {data.model.layers * data.model.heads - 1} disagree, and
-              you can go through all of them further down.
+              {data.model.layers * data.model.heads - 1} disagree, and you can
+              go through all of them further down.
             </p>
           )}
         </div>
@@ -412,11 +399,13 @@ export function AttentionBeams() {
           <p className="text-ink-faint text-[0.8125rem]">
             {data.model.name}, real weights from a verified forward pass.
           </p>
-          <span className="flex shrink-0 gap-2">
+          <span
+            className={`flex shrink-0 gap-2 ${driven === undefined ? "" : "hidden"}`}
+          >
             <button
               type="button"
               onClick={() => setPlaying((p) => !p)}
-              disabled={at >= BEATS.length - 1}
+              disabled={beat >= BEATS.length - 1}
               className="plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
             >
               {playing ? "Pause" : "Play"}
@@ -427,7 +416,7 @@ export function AttentionBeams() {
                 setPlaying(false);
                 setAt((n) => Math.min(BEATS.length - 1, n + 1));
               }}
-              disabled={at >= BEATS.length - 1}
+              disabled={beat >= BEATS.length - 1}
               className="plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
             >
               Next beat

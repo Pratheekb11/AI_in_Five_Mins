@@ -32,7 +32,7 @@ import { fileURLToPath } from "node:url";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(HERE, "../../public/data/hunt.json");
 
-const AGENT = "LearnLoopAI/1.0 (educational)";
+const AGENT = "AIinFive/1.0 (educational)";
 /** How much of the article opening to use. Enough to hide three things in. */
 const CHARS = 700;
 
@@ -134,7 +134,7 @@ const PUZZLES = [
         original: "a species of baleen whale",
         altered: "a species of toothed whale",
         difficulty: "hard",
-        why: "Baleen, not toothed — the two are the major division of whales, and getting it backwards is a real error that reads fluently.",
+        why: "Baleen, not toothed. Those two are the major division of whales, and getting it backwards is a real error that reads fluently.",
       },
     ],
   },
@@ -146,7 +146,7 @@ const PUZZLES = [
         original: "The first walls date to the 7th century BC",
         altered: "The first walls date to the 2nd century AD",
         difficulty: "medium",
-        why: "7th century BC — roughly nine hundred years earlier than the altered date, and on the other side of the era boundary.",
+        why: "7th century BC, roughly nine hundred years earlier than the altered date, and on the other side of the era boundary.",
       },
       {
         original: "the best-known sections were built by the Ming dynasty (1368–1644)",
@@ -205,7 +205,7 @@ const PUZZLES = [
       { original: "it is the largest hot desert in the world",
         altered: "it is the largest desert in the world",
         difficulty: "hard",
-        why: "Largest *hot* desert. Antarctica is a larger desert overall, and the sentence right after this one says so — dropping one word makes the passage contradict itself." },
+        why: "Largest *hot* desert. Antarctica is a larger desert overall, and the sentence right after this one says so. Dropping one word makes the passage contradict itself." },
       { original: "With an area of 9,200,000 square kilometres",
         altered: "With an area of 2,900,000 square kilometres",
         difficulty: "medium",
@@ -231,7 +231,7 @@ const PUZZLES = [
       { original: "with two wheels attached to a frame, one behind the other",
         altered: "with three wheels attached to a frame, one behind the other",
         difficulty: "obvious",
-        why: "Two wheels — it is in the word. Three would be a tricycle." },
+        why: "Two wheels. It is in the word. Three would be a tricycle." },
     ],
   },
   {

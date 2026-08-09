@@ -1,23 +1,21 @@
 import { Plinko } from "@/components/games/Plinko";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { TemperaturePairFigure } from "@/components/machines/TemperaturePairFigure";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("how-llms-answer")!;
 const video = videoFor("how-llms-answer")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {
@@ -31,7 +29,7 @@ const SOURCES: Source[] = [
     title: "The Curious Case of Neural Text Degeneration",
     publisher: "Holtzman, Buys, Du, Forbes & Choi (arXiv:1904.09751, 2019)",
     url: "https://arxiv.org/abs/1904.09751",
-    used: "Why always taking the most likely token produces flat, repetitive text — and where sampling settings came from.",
+    used: "Why always taking the most likely token produces flat, repetitive text, and where sampling settings came from.",
   },
   {
     title: "Why Language Models Hallucinate",
@@ -52,15 +50,15 @@ const STEPS: Step[] = [
     say: "Here is the entire operation. The model reads everything so far, produces a score for every one of fifty thousand possible next tokens, picks one, adds it to the text, and starts again.",
   },
   {
-    say: "The scores you were playing with are real. Give it the opening of Genesis and one token takes 99% of the probability. Give it 'Once upon a' and the most likely token is at seven per cent — far less certain than a person would be.",
+    say: "The scores you were playing with are real. Put the two side by side. Give it the opening of Genesis and one token takes ninety-nine per cent. Give it Once upon a and the most likely token is at seven per cent. Same model, and far less certain than a person would be.",
     caption:
       "Both measured from the same model, on this page, with nothing rounded for effect.",
   },
   {
-    say: "Temperature is the only dial in that loop, and it does not know anything. It stretches the odds or flattens them. Cold means the top token nearly always wins; hot spreads the weight into the tail.",
+    say: "Temperature is the only dial in that loop, and it does not know anything. Turn it cold and watch: nothing happens on the left, because there was nothing left to sharpen. On the right it throws almost everything onto one token.",
   },
   {
-    say: "Which is why you cannot ask for creative and reliable at the same time. Those are the same dial pointing in opposite directions, and every assistant you use has already chosen a compromise for you.",
+    say: "Now turn it hot. The weight spreads into the tail on both sides. Which is why you cannot ask for creative and reliable at the same time: those are the same dial pointing in opposite directions, and every assistant you use has already chosen a compromise for you.",
   },
   {
     say: "And notice the thing that is missing from all of it. Nowhere in that loop is there a step that checks anything against the world. Look at the Paris prompt: the model puts thirty per cent on 'the' and under two per cent on 'France'. It is continuing a sentence, not answering a question.",
@@ -69,11 +67,12 @@ const STEPS: Step[] = [
 
 const QUESTIONS: QuizQuestion[] = [
   {
-    prompt: "Where in this loop does the model check whether something is true?",
+    prompt:
+      "Where in this loop does the model check whether something is true?",
     options: [
       "Just before it picks the token",
       "At the end, before returning the answer",
-      "Nowhere — there is no such step",
+      "Nowhere. There is no such step",
     ],
     answer: 2,
     because:
@@ -92,7 +91,7 @@ export default function HowLlmsAnswerLesson() {
             thousand sides, once per token.
           </>
         }
-        sting="These are a real model's real odds, recorded and printed unrounded. You get one control — the dial that loads the dice — and a target to hit. Finding out that you cannot have both reliable and surprising is the point of the round."
+        sting="These are a real model's real odds, recorded and printed unrounded. You get one control, the dial that loads the dice, and a target to hit. Finding out that you cannot have both reliable and surprising is the point of the round."
         cta="Load the odds"
       />
 
@@ -100,12 +99,11 @@ export default function HowLlmsAnswerLesson() {
         <Plinko />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
-        <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
+      <div className="pb-4">
+        <Walkthrough steps={STEPS} figure={<TemperaturePairFigure />} />
       </div>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Why not always take the most likely token?"
           summary="Because the result is flat, repetitive text. That was measured, and it is why sampling exists at all."
@@ -116,13 +114,14 @@ export default function HowLlmsAnswerLesson() {
             sounds like it should be the best possible strategy. Holtzman and
             colleagues showed it is not: the output degenerates, loops and
             repeats itself, because the most likely continuation of a likely
-            continuation is likelier still, and the text collapses into a groove.
+            continuation is likelier still, and the text collapses into a
+            groove.
           </p>
           <p>
             So real systems sample instead, and usually cut off the long tail
-            first &mdash; only the tokens that make up the top slice of
-            probability are eligible at all. The dial in the game is the simple
-            version of that machinery.
+            first. Only the tokens that make up the top slice of probability are
+            eligible at all. The dial in the game is the simple version of that
+            machinery.
           </p>
         </MechanismPanel>
 
@@ -134,9 +133,9 @@ export default function HowLlmsAnswerLesson() {
           <p>
             Any temperature above zero means the reply is one sample from a
             distribution, not the distribution itself. Two runs of the same
-            prompt are two rolls of the same dice &mdash; and once an early
-            token differs, everything after it is conditioned on that difference,
-            so the answers can diverge completely.
+            prompt are two rolls of the same dice. Once an early token differs,
+            everything after it is built on that difference, so the answers can
+            diverge completely.
           </p>
           <p>
             There is a practical habit in that. If an answer matters, ask twice
@@ -146,30 +145,18 @@ export default function HowLlmsAnswerLesson() {
             of these systems.
           </p>
         </MechanismPanel>
-      </div>
-
-      <div className="pb-4">
-        <FeynmanCheck
-          question="Why do I get a different answer if I ask the same thing twice?"
-          answer="Because it does not pick the next word, it draws it. At each step it scores every possible next chunk of text and then takes a weighted random pick — so two runs are two draws. There is a dial that decides how strongly the odds favour the top choice, and even at its most predictable, one early difference changes everything downstream. Where two runs agree, it was confident. Where they differ is where it was guessing."
-        />
-      </div>
-
-      <div className="pb-4">
         <PracticeCard
           title="Ask the same question in three fresh chats"
           watchFor="Which parts come back identical and which parts move. The stable parts are where the model is confident; the parts that change every time are the parts you need to check yourself."
         >
           <p>
             Take a question from your own work with a factual answer. Ask it in
-            three separate new chats &mdash; new chats, not follow-ups, so each
-            starts from the same context.
+            three separate new chats. New chats, not follow-ups, so that each
+            one starts from the same context.
           </p>
-          <p>
-            Line the three answers up and mark everything that differs.
-          </p>
+          <p>Line the three answers up and mark everything that differs.</p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

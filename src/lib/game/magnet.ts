@@ -1,15 +1,5 @@
 /**
  * The rules of Magnet, as pure functions.
- *
- * A field of words drifts in a box. The player steers a magnet carrying one
- * word; every other word is pushed or pulled by a force proportional to its
- * real cosine similarity to that word, measured across all fifty dimensions of
- * the GloVe vectors. Nothing here knows about embeddings — the component hands
- * in a `Round` with the similarities already measured, and this file only turns
- * them into motion.
- *
- * Every frame produces a new scene. The bodies are copied before they are
- * moved, so nothing the caller passed in is ever mutated.
  */
 
 import type { Chip } from "@/components/game/assets";
@@ -89,7 +79,7 @@ export const RING = 76;
 
 /**
  * The similarity a word has to beat to be attracted at all. Below it the
- * magnet pushes the word away — which is most of the vocabulary, because most
+ * magnet pushes the word away, which is most of the vocabulary, because most
  * pairs of words have nothing to do with each other.
  */
 export const NEUTRAL = 0.3;
@@ -130,8 +120,16 @@ export function layout(round: Round): Body[] {
     return {
       word: b.word,
       sim: b.sim,
-      x: clamp(cx + Math.cos(angle) * radius * 1.35, PAD + half, VIEW_W - PAD - half),
-      y: clamp(cy + Math.sin(angle) * radius * 0.72, TOP + 14, VIEW_H - PAD - 14),
+      x: clamp(
+        cx + Math.cos(angle) * radius * 1.35,
+        PAD + half,
+        VIEW_W - PAD - half,
+      ),
+      y: clamp(
+        cy + Math.sin(angle) * radius * 0.72,
+        TOP + 14,
+        VIEW_H - PAD - 14,
+      ),
       vx: (Math.random() - 0.5) * 30,
       vy: (Math.random() - 0.5) * 30,
       half,
@@ -265,7 +263,7 @@ export function advance(
     b.y += b.vy * delta;
   }
 
-  // Chips shove each other rather than overlapping — printed type has to stay
+  // Chips shove each other rather than overlapping, printed type has to stay
   // readable, and the jostling is what makes a crowd round the magnet feel
   // like a crowd.
   for (let i = 0; i < bodies.length; i++) {
@@ -419,7 +417,7 @@ export function grab(scene: MagnetScene, rounds: Round[]): MagnetScene {
   const gained = 40 + target.rank * 15 + scene.combo * 10;
   const combo = scene.combo + 1;
 
-  // Next target — and once a magnet word's targets are used up, a new word
+  // Next target, and once a magnet word's targets are used up, a new word
   // goes on the magnet and the field is rebuilt around it.
   let roundIndex = scene.roundIndex;
   let targetIndex = scene.targetIndex + 1;
@@ -459,11 +457,7 @@ export function grab(scene: MagnetScene, rounds: Round[]): MagnetScene {
 }
 
 /** Pointer steering. */
-export function aimAt(
-  scene: MagnetScene,
-  x: number,
-  y: number,
-): MagnetScene {
+export function aimAt(scene: MagnetScene, x: number, y: number): MagnetScene {
   return { ...scene, aim: { x, y }, keys: { x: 0, y: 0 } };
 }
 

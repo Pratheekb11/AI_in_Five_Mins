@@ -21,14 +21,6 @@ import { useToday } from "@/lib/game/useToday";
 
 /**
  * Hallucination Hunt.
- *
- * A real paragraph from a real encyclopedia with three things quietly changed,
- * and six flags to spend. Everybody gets the same paragraph on the same day,
- * which is the bit that brings people back.
- *
- * The flagged words settle in rather than snapping, and a found alteration is
- * struck through and replaced by what the source actually says. Seeing the true
- * wording arrive in place of the false one is the moment the round is for.
  */
 
 let cached: Promise<HuntData> | null = null;
@@ -92,7 +84,7 @@ export function HallucinationHunt() {
     <GameShell
       gameId="hallucination-hunt"
       name="Hallucination Hunt"
-      instruction="A real paragraph from a real encyclopedia, with three things quietly changed. Click the words you do not believe. Six flags for three errors — so clicking everything loses. Everyone gets the same paragraph today."
+      instruction="A real paragraph from a real encyclopedia, with three things quietly changed. Click the words you do not believe. You get six flags for three errors, so clicking everything loses. Everyone gets the same paragraph today."
       howToPlay={{
         goal: "Find the three things that were changed, without flagging anything true.",
         steps: [
@@ -101,8 +93,9 @@ export function HallucinationHunt() {
           "You get six flags for three errors, so clicking everything loses.",
           "Press “That is all I can see” when you are done, and the source wording appears in place of each change.",
         ],
-        controls: "Click words.",
-        scoring: "Harder errors are worth more, a wrong flag costs you, and the clock only affects the speed bonus — it never ends the round.",
+        controls: "Tap or click words.",
+        scoring:
+          "Harder errors are worth more, a wrong flag costs you, and the clock only affects the speed bonus. It never ends the round.",
       }}
       startLabel={data ? "Today's paragraph" : "Loading the paragraph…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -159,7 +152,7 @@ export function HallucinationHunt() {
             >
               {puzzle.title}
             </a>
-            {puzzle.revision ? `, revision ${puzzle.revision}` : ""}, {" "}
+            {puzzle.revision ? `, revision ${puzzle.revision}` : ""},{" "}
             {data.source.licence}. Every alteration was checked against that
             exact revision before this page was built, so the answer key and the
             source cannot have drifted apart. Go and diff it yourself.
@@ -180,7 +173,7 @@ export function HallucinationHunt() {
               </p>
               {scene.clock <= 0 && !scene.done ? (
                 <p className="label text-yellow-text">
-                  Clock done — no rush, the bonus is just gone
+                  Clock done. No rush, the bonus is just gone
                 </p>
               ) : null}
             </div>
@@ -215,14 +208,15 @@ export function HallucinationHunt() {
                       {word}
                     </motion.button>
                     {shown && span && i === span.last ? (
-                      <>{" "}
-                      <motion.span
-                        initial={{ opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-teal-wash text-teal-text mx-1 rounded-[2px] px-1.5 font-semibold"
-                      >
-                        {span.original}
-                      </motion.span>
+                      <>
+                        {" "}
+                        <motion.span
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="bg-teal-wash text-teal-text mx-1 rounded-[2px] px-1.5 font-semibold"
+                        >
+                          {span.original}
+                        </motion.span>
                       </>
                     ) : null}{" "}
                   </span>
@@ -270,9 +264,9 @@ export function HallucinationHunt() {
                 {left.length > 0 ? (
                   <p className="text-ink-soft mt-3 text-[0.9375rem]">
                     The ones you missed read exactly as smoothly as the rest of
-                    the paragraph. That is the whole problem &mdash; there is no
-                    tell in the prose, because the prose was never the thing
-                    that made it true.
+                    the paragraph. That is the whole problem. There is no tell
+                    in the prose, because the prose was never the thing that
+                    made it true.
                   </p>
                 ) : null}
               </motion.div>

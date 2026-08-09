@@ -12,22 +12,7 @@ import {
 import { loadScripts, type ScriptData } from "@/lib/scripts";
 
 /**
- * Token Chopper — type anything, watch it shatter.
- *
- * Not a round-based game. It is an instrument: whatever you type is cut, live,
- * by the real `o200k_base` merge table, and the tiles rearrange themselves as
- * you go. The teaching happens the moment you try something and the count does
- * not do what you expected.
- *
- * Three of those moments are set up for you. "strawberry" comes apart into
- * three pieces rather than ten letters, which is the whole reason these things
- * cannot count letters. A line of Kannada or Hindi costs roughly twice the
- * tokens of the same length of English, which is a bill nobody mentions. And
- * emoji cost several tokens each.
- *
- * Everything is measured in the browser as you type. The comparison table is
- * measured too, offline, over the same number of characters of Wikipedia in
- * each language, with the article revision recorded.
+ * Token Chopper, type anything, watch it shatter.
  */
 
 type Encoding = Awaited<ReturnType<typeof loadEncoding>>;
@@ -38,7 +23,7 @@ const TRIES: { label: string; text: string; note: string }[] = [
   {
     label: "strawberry",
     text: "strawberry",
-    note: "Ten letters. Count the tiles — this is exactly why it miscounts the r's.",
+    note: "Ten letters. Count the tiles. This is exactly why it miscounts the r's.",
   },
   {
     label: "A sentence",
@@ -109,7 +94,10 @@ export function TokenChopper() {
   const english = scripts?.languages.find((l) => l.code === "en");
 
   return (
-    <div className="plate">
+    /* Marked as the game section like every cabinet, even though this one is
+       not wrapped in GameShell, so the engagement measure can tell whether a
+       reader ever reached it. */
+    <div className="plate" data-section="game">
       <div className="border-ink/20 flex flex-wrap items-baseline justify-between gap-3 border-b px-5 py-3">
         <h3 className="display-md">Token Chopper</h3>
         <p className="label text-ink-faint">
@@ -152,7 +140,7 @@ export function TokenChopper() {
         </div>
 
         {/* The tiles. They move, because the point is that your text is being
-            taken apart — a still picture of the result does not say that. */}
+            taken apart, a still picture of the result does not say that. */}
         <div className="bg-paper-sunk border-ink/20 mb-4 min-h-[6rem] rounded-[2px] border p-3">
           {encoding ? (
             tokens.length > 0 ? (
@@ -196,7 +184,7 @@ export function TokenChopper() {
             { label: "Tokens", value: tokens.length },
             {
               label: "Chars / token",
-              value: perToken > 0 ? perToken.toFixed(2) : "—",
+              value: perToken > 0 ? perToken.toFixed(2) : "-",
             },
           ].map((readout) => (
             <div key={readout.label} className="plate-flush px-3 py-2">
@@ -252,9 +240,7 @@ export function TokenChopper() {
                       width: `${Math.min(
                         100,
                         (language.tokens /
-                          Math.max(
-                            ...scripts.languages.map((l) => l.tokens),
-                          )) *
+                          Math.max(...scripts.languages.map((l) => l.tokens))) *
                           100,
                       )}%`,
                     }}
@@ -267,7 +253,9 @@ export function TokenChopper() {
                 </span>
                 <span
                   className={`data w-14 shrink-0 text-right text-xs tabular-nums ${
-                    language.timesEnglish > 1.5 ? "text-pink-text" : "text-ink-soft"
+                    language.timesEnglish > 1.5
+                      ? "text-pink-text"
+                      : "text-ink-soft"
                   }`}
                 >
                   {language.timesEnglish.toFixed(2)}×
@@ -278,11 +266,11 @@ export function TokenChopper() {
 
           <p className="prose-measure text-ink-faint mt-4 text-[0.8125rem]">
             Japanese is the one to think about. It needs four times the tokens
-            per character &mdash; but a Japanese character carries far more than
-            a Latin one, so per <em>idea</em> it is not four times worse. The
+            per character. But a Japanese character carries far more than a
+            Latin one, so per <em>idea</em> it is not four times worse. The
             Indic scripts have no such excuse: they are alphabetic like English,
             and they still cost close to twice as much. Measured{" "}
-            {scripts.measuredOn} against {scripts.corpus.name}, {" "}
+            {scripts.measuredOn} against {scripts.corpus.name},{" "}
             {scripts.corpus.licence}. Articles are written independently in each
             language, so these are comparable texts on one subject rather than
             translations.

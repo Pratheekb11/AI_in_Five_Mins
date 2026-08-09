@@ -1,8 +1,8 @@
-# LearnLoopAI
+# AIinFive
 
-Eight short lessons that let you operate the machinery behind AI instead of reading about it.
+Twenty-five short lessons that let you operate the machinery behind AI instead of reading about it. Six chapters on using it well, three habits to take to work, six on the mechanism underneath, and ten on building the things from scratch.
 
-Each lesson is one interactive machine — a live tokenizer, a word chart you can search, a temperature dial on a real probability distribution — built for someone who keeps hearing *token*, *embedding* and *LLM* at work and wants a mental model they can actually use.
+Each lesson is one game you play before anything is explained, and one figure that moves — a live tokenizer, a decision boundary swinging into place, a threshold sliding through 1,115 real messages — built for someone who keeps hearing *token*, *embedding* and *overfitting* at work and wants a mental model they can actually use.
 
 ## The rule this project is built on
 
@@ -56,3 +56,38 @@ Progress is kept in `localStorage`. There is no account system and no server; th
 ## Status
 
 Early. The design system, the token strip and the live tokenizer are in place; the eight lessons are being built in order.
+
+## Deploying
+
+```bash
+npm run build && npm start          # a Next server, which serves the
+                                    # security headers in next.config.ts
+STATIC_EXPORT=1 npm run build       # writes out/, for any static host
+```
+
+The site has no server-side code, so either works. If you take the static
+route, the headers in `next.config.ts` are **not** applied — a static export
+has nothing to apply them — and the host has to send them instead, through
+`vercel.json`, a Netlify `_headers` file or an nginx block. Skipping that
+quietly drops the content security policy, the frame refusal and HSTS.
+
+Set `NEXT_PUBLIC_SITE_URL` once there is a real domain; see `.env.example`.
+Regenerate the social card with `node data/scripts/build-og.mjs`.
+
+## Rights
+
+Copyright © Pratheek B. All rights reserved. No licence is granted to copy,
+modify, redistribute or host this code or the lesson text.
+
+The material the lessons are built on is a different matter and keeps its own
+terms: the SMS Spam Collection, GloVe vectors, Project Gutenberg texts and the
+Wikipedia paragraphs each carry their own licence, and each is named with its
+source, licence and revision both in `data/PROVENANCE.md` and at the foot of
+the page that uses it.
+
+## Privacy
+
+There are no accounts and no database. Progress lives in the reader's own
+browser and never leaves it; the analytics are cookieless page counts plus four
+events carrying nothing but a lesson slug and a number the site produced. The
+`/privacy` page says all of this to a reader in full.

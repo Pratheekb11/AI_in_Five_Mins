@@ -22,14 +22,6 @@ import { Nimo } from "@/components/nimo/Nimo";
 
 /**
  * The Bucket Sort.
- *
- * Not scored, not timed, and it does not tell you that you were wrong. Which of
- * your own tasks you will hand over depends on things no website knows. What it
- * can do is put the measurement next to the choice, so the judgement is yours
- * but the evidence is not vague.
- *
- * The card sliding away and the next one arriving is the only motion here. It
- * is a considered exercise and it should feel like one.
  */
 
 export function BucketSort() {
@@ -46,7 +38,12 @@ export function BucketSort() {
       evidence: ["context", "reads-fluent"],
       mine: true,
     }));
-    setScene(startSort(mine, Array.from({ length: 40 }, () => Math.random())));
+    setScene(
+      startSort(
+        mine,
+        Array.from({ length: 40 }, () => Math.random()),
+      ),
+    );
     setStarted(true);
   }, [own]);
 
@@ -82,7 +79,10 @@ export function BucketSort() {
   const map = mapOf(scene);
 
   return (
-    <div className="plate">
+    /* Marked as the game section like every cabinet, even though this one is
+       not wrapped in GameShell, so the engagement measure can tell whether a
+       reader ever reached it. */
+    <div className="plate" data-section="game">
       <div className="border-ink/20 flex flex-wrap items-baseline justify-between gap-3 border-b px-5 py-3">
         <h3 className="display-md">The Bucket Sort</h3>
         <p className="label text-ink-faint">
@@ -99,7 +99,7 @@ export function BucketSort() {
             <p className="prose-measure text-[1.0625rem]">
               This one does not score you. Which of your tasks you are willing
               to hand over depends on your job and on what happens when it is
-              wrong &mdash; and I do not know either. What I can do is put the
+              wrong, and I do not know either. What I can do is put the
               measurement next to each choice. Add a few of your own first; the
               generic ones are only there to start you off.
             </p>
@@ -185,7 +185,9 @@ export function BucketSort() {
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-ink-faint text-[0.875rem]">Nothing here.</p>
+                  <p className="text-ink-faint text-[0.875rem]">
+                    Nothing here.
+                  </p>
                 )}
               </div>
             ))}
@@ -213,8 +215,8 @@ export function BucketSort() {
           </div>
 
           <p className="text-ink-faint mt-4 text-[0.8125rem]">
-            Nothing here was sent anywhere. The sorting is yours; the findings it
-            was put beside are measured elsewhere on this site.
+            Nothing here was sent anywhere. The sorting is yours; the findings
+            it was put beside are measured elsewhere on this site.
           </p>
         </div>
       ) : task ? (
@@ -271,7 +273,7 @@ export function BucketSort() {
                 animate={{ opacity: 1, y: 0 }}
               >
                 <p className="label text-ink-faint mb-2">
-                  What we measured that bears on this &mdash; the pairing is our
+                  What we measured that bears on this. The pairing is our
                   judgement, the numbers are not
                 </p>
                 <ul className="mb-3 space-y-2">

@@ -20,18 +20,13 @@ import {
 
 /**
  * The rules of Plinko.
- *
- * Two fixtures. The real `logits.json` is used for anything about shape and
- * invariants, because that is what actually ships. A tiny synthetic prompt with
- * round logits is used where the test needs an arithmetic result that can be
- * worked out by hand — it is a test fixture and never reaches a page.
  */
 
 const REAL: LogitData = JSON.parse(
   readFileSync("public/data/logits.json", "utf8"),
 );
 
-/** log(4), log(2), log(1) — so at temperature 1 the odds are 4 : 2 : 1. */
+/** log(4), log(2), log(1), so at temperature 1 the odds are 4 : 2 : 1. */
 const TOY: LogitPrompt = {
   id: "toy",
   text: "toy",
@@ -92,7 +87,7 @@ describe("boardWeights", () => {
     expect(boardWeights(TOY, 2)[2]).toBeGreaterThan(boardWeights(TOY, 1)[2]);
   });
 
-  it("keeps the ranking whatever the dial does — temperature never reorders", () => {
+  it("keeps the ranking whatever the dial does, temperature never reorders", () => {
     for (const t of [MIN_T, 0.7, 1, 1.4, MAX_T]) {
       const w = boardWeights(REAL.prompts[0], t);
       for (let i = 1; i < w.length; i++) {
@@ -146,7 +141,7 @@ describe("targetFor", () => {
 
 describe("orderFrom", () => {
   it("is a permutation, losing and repeating nothing", () => {
-    const rolls = Array.from({ length: 9 }, (_, i) => (i * 7) % 10 / 10);
+    const rolls = Array.from({ length: 9 }, (_, i) => ((i * 7) % 10) / 10);
     const order = orderFrom(9, rolls);
     expect([...order].sort((a, b) => a - b)).toEqual([
       0, 1, 2, 3, 4, 5, 6, 7, 8,
@@ -216,14 +211,18 @@ describe("drop", () => {
 
   it("never lets a burst of clicks drive the ball count negative", () => {
     // The bug this reducer exists to prevent: forty clicks before a re-render.
-    let scene = start(REAL, REAL.prompts.map(() => 0.5), 0.5);
+    let scene = start(
+      REAL,
+      REAL.prompts.map(() => 0.5),
+      0.5,
+    );
     for (let i = 0; i < 200; i++) scene = drop(REAL, scene, 0.5, 0.5);
     expect(scene.dropsLeft).toBeGreaterThanOrEqual(0);
     expect(scene.done).toBe(true);
     expect(scene.balls).toBe(REAL.prompts.length * DROPS);
   });
 
-  it("is pure — running it twice on the same scene gives the same scene", () => {
+  it("is pure, running it twice on the same scene gives the same scene", () => {
     const s = playing({ target: 1 });
     expect(drop(TOY_DATA, s, 0.7, 0.3)).toEqual(drop(TOY_DATA, s, 0.7, 0.3));
   });
@@ -236,7 +235,11 @@ describe("drop", () => {
   });
 
   it("moves to the next prompt when the balls run out, and refills them", () => {
-    let scene = start(REAL, REAL.prompts.map(() => 0.5), 0.5);
+    let scene = start(
+      REAL,
+      REAL.prompts.map(() => 0.5),
+      0.5,
+    );
     const first = promptOf(REAL, scene);
     for (let i = 0; i < DROPS; i++) scene = drop(REAL, scene, 0.5, 0.5);
     expect(scene.at).toBe(1);
@@ -246,7 +249,11 @@ describe("drop", () => {
   });
 
   it("ends the round after the last prompt rather than wrapping round", () => {
-    let scene = start(REAL, REAL.prompts.map(() => 0.5), 0.5);
+    let scene = start(
+      REAL,
+      REAL.prompts.map(() => 0.5),
+      0.5,
+    );
     for (let i = 0; i < REAL.prompts.length * DROPS; i++) {
       scene = drop(REAL, scene, 0.5, 0.5);
     }
@@ -255,7 +262,11 @@ describe("drop", () => {
   });
 
   it("keeps the token it landed on, so the message survives a prompt change", () => {
-    let scene = start(REAL, REAL.prompts.map(() => 0.5), 0.5);
+    let scene = start(
+      REAL,
+      REAL.prompts.map(() => 0.5),
+      0.5,
+    );
     const prompt = promptOf(REAL, scene)!;
     scene = drop(REAL, scene, 0.5, 0.5);
     const landed = scene.history[0];

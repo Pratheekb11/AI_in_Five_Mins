@@ -16,18 +16,16 @@ import {
   verdictFor,
   WHY_IT_MATTERS,
 } from "@/lib/game/check";
-import { type Door, DOORS, doorSpec, KIND_LABEL, KIND_NOTE } from "@/lib/game/paste";
+import {
+  type Door,
+  DOORS,
+  doorSpec,
+  KIND_LABEL,
+  KIND_NOTE,
+} from "@/lib/game/paste";
 
 /**
  * Would you paste it?
- *
- * One item at a time, no clock. The old version gave people forty-five seconds
- * to decide whether a document could leave their organisation, which trains
- * exactly the reflex you do not want.
- *
- * The scoring is asymmetric on purpose and says so: sending something further
- * out than it should go is the expensive mistake, and holding back something
- * that was fine costs you the tool rather than the data.
  */
 
 export function PasteCheck() {
@@ -39,13 +37,17 @@ export function PasteCheck() {
     setPlaying(true);
   }, []);
 
-  const pick = useCallback((door: Door) => setScene((s) => choose(s, door)), []);
+  const pick = useCallback(
+    (door: Door) => setScene((s) => choose(s, door)),
+    [],
+  );
   const carryOn = useCallback(() => setScene((s) => next(s)), []);
 
   const payload = current(scene);
   const revealed = scene.chosen !== null;
   const answer = payload ? answerFor(payload) : null;
-  const verdict = payload && revealed ? verdictFor(payload, scene.chosen!) : null;
+  const verdict =
+    payload && revealed ? verdictFor(payload, scene.chosen!) : null;
 
   useEffect(() => {
     if (!playing || scene.done) return;
@@ -64,7 +66,7 @@ export function PasteCheck() {
     <GameShell
       gameId="paste-check"
       name="Would you paste it?"
-      instruction="One thing at a time, and no clock — deciding whether something may leave your organisation is not a reflex test. Say what you would do with it. Sending something further out than it should go costs you everything; holding back something harmless only costs you the tool."
+      instruction="One thing at a time, and no clock. Deciding whether something may leave your organisation is not a reflex test. Say what you would do with it. Sending something further out than it should go costs you everything; holding back something harmless only costs you the tool."
       howToPlay={{
         goal: "Decide what you would actually do with each thing before pasting it in.",
         steps: [
@@ -72,8 +74,9 @@ export function PasteCheck() {
           "Choose: paste it as it is, strip the names and numbers first, or keep it out of the tool entirely.",
           "The category and the reasoning follow. There is no clock.",
         ],
-        controls: "Click a door, or press 1–3. Enter moves on.",
-        scoring: "Sending something further out than it should go scores nothing — that is the mistake you cannot take back. Being too careful costs you a little.",
+        controls: "Tap or click a door, or press 1–3. Enter moves on.",
+        scoring:
+          "Sending something further out than it should go scores nothing. That is the mistake you cannot take back. Being too careful costs you a little.",
       }}
       startLabel="Open the first one"
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -109,20 +112,20 @@ export function PasteCheck() {
               ? `${scene.leaked} ${scene.leaked === 1 ? "item" : "items"} sent further out than it should have gone. That is the one that cannot be taken back.`
               : "Nothing went further out than it should have."}
             {scene.overCautious > 0
-              ? ` ${scene.overCautious} held back that would have been fine — worth knowing too, because a tool nobody is allowed to use is not a safe tool, it is an unused one.`
+              ? ` ${scene.overCautious} held back that would have been fine. That is worth knowing too, because a tool nobody is allowed to use is not a safe tool. It is an unused one.`
               : ""}
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
-            The useful habit is not a rule about AI. It is the question you would
-            ask about any outside supplier: whose data is this, and did they
-            agree to it going here?
+            The useful habit is not a rule about AI. It is the question you
+            would ask about any outside supplier: whose data is this, and did
+            they agree to it going here?
           </p>
         </div>
       }
       footer={
         <>
           The routing rule scored against is this module&rsquo;s own policy, not
-          a measurement &mdash; you cannot measure whether something ought to be
+          a measurement. You cannot measure whether something ought to be
           pasted. The legal category is not ours to invent though: see{" "}
           <a
             href={LAW.url}
@@ -218,7 +221,7 @@ export function PasteCheck() {
                     }`}
                   >
                     {verdict === "right"
-                      ? `${doorSpec(answer!).label} — yes.`
+                      ? `${doorSpec(answer!).label}. Yes.`
                       : verdict === "leak"
                         ? `That sends it further out than it should go. The call here is “${doorSpec(answer!).label}”.`
                         : verdict === "cautious"
@@ -261,7 +264,7 @@ export function PasteCheck() {
                 </motion.div>
               ) : (
                 <p className="text-ink-soft text-[0.9375rem]">
-                  Keys 1&ndash;3 work. Take as long as you like &mdash; that is
+                  Keys 1&ndash;3 work. Take as long as you like, because that is
                   rather the point.
                 </p>
               )}

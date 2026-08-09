@@ -1,0 +1,248 @@
+{
+  "generatedBy": "data/scripts/build-split.mjs",
+  "source": {
+    "name": "SMS Spam Collection v.1",
+    "authors": "Almeida, Gómez Hidalgo & Yamakami",
+    "url": "https://archive.ics.uci.edu/dataset/228/sms+spam+collection",
+    "licence": "Free to use with attribution to the authors' 2011 paper"
+  },
+  "corpus": {
+    "total": 5574,
+    "spam": 747,
+    "trainSize": 4459,
+    "testSize": 1115,
+    "split": "80/20, seeded, identical to spam-bench.json and features.json"
+  },
+  "models": [
+    {
+      "id": "memoriser",
+      "name": "The memoriser",
+      "how": "Keeps every training message and its answer. Anything it has not seen before, it calls ordinary.",
+      "why": "Nothing was learned about spam. The training score is a receipt for the filing, not a measure of skill.",
+      "train": {
+        "caught": 591,
+        "falseAlarms": 0,
+        "missed": 0,
+        "correct": 4459,
+        "total": 4459,
+        "accuracy": 1
+      },
+      "test": {
+        "caught": 36,
+        "falseAlarms": 0,
+        "missed": 120,
+        "correct": 995,
+        "total": 1115,
+        "accuracy": 0.8924
+      },
+      "gap": 0.1076
+    },
+    {
+      "id": "nearest",
+      "name": "Whichever message it looks most like",
+      "how": "Keeps every training message and copies the answer of the one with the most words in common.",
+      "why": "The other way to memorise. Its own training messages match themselves perfectly, so the training score is a hundred per cent and says nothing.",
+      "train": {
+        "caught": 591,
+        "falseAlarms": 0,
+        "missed": 0,
+        "correct": 4459,
+        "total": 4459,
+        "accuracy": 1
+      },
+      "test": {
+        "caught": 139,
+        "falseAlarms": 3,
+        "missed": 17,
+        "correct": 1095,
+        "total": 1115,
+        "accuracy": 0.9821
+      },
+      "gap": 0.0179
+    },
+    {
+      "id": "always-spam",
+      "name": "Flags everything",
+      "how": "Calls every single message spam.",
+      "why": "It catches all the spam, which sounds like success until you notice it catches everything else too. The same score on both halves, and useless on both.",
+      "train": {
+        "caught": 591,
+        "falseAlarms": 3868,
+        "missed": 0,
+        "correct": 591,
+        "total": 4459,
+        "accuracy": 0.1325
+      },
+      "test": {
+        "caught": 156,
+        "falseAlarms": 959,
+        "missed": 0,
+        "correct": 156,
+        "total": 1115,
+        "accuracy": 0.1399
+      },
+      "gap": -0.0074
+    },
+    {
+      "id": "all-rules",
+      "name": "Five hand-written rules, any of them",
+      "how": "Flags a message if any of five reasonable rules fire.",
+      "why": "Written by a person, so there is nothing to memorise and the two scores sit on top of each other. Rules do not overfit. They just are not very good.",
+      "train": {
+        "caught": 540,
+        "falseAlarms": 429,
+        "missed": 51,
+        "correct": 3979,
+        "total": 4459,
+        "accuracy": 0.8924
+      },
+      "test": {
+        "caught": 136,
+        "falseAlarms": 101,
+        "missed": 20,
+        "correct": 994,
+        "total": 1115,
+        "accuracy": 0.8915
+      },
+      "gap": 0.0009
+    },
+    {
+      "id": "nb-200",
+      "name": "The same model, on two hundred examples",
+      "how": "The same naive Bayes, shown the first two hundred training messages.",
+      "why": "Four times the examples, and it has begun to travel. Nothing about the method changed.",
+      "train": {
+        "caught": 404,
+        "falseAlarms": 7,
+        "missed": 187,
+        "correct": 4265,
+        "total": 4459,
+        "accuracy": 0.9565
+      },
+      "test": {
+        "caught": 106,
+        "falseAlarms": 0,
+        "missed": 50,
+        "correct": 1065,
+        "total": 1115,
+        "accuracy": 0.9552
+      },
+      "gap": 0.0013
+    },
+    {
+      "id": "nb-1000",
+      "name": "The same model, on a thousand examples",
+      "how": "The same naive Bayes, shown the first thousand training messages.",
+      "why": "Closing on the full model. The way to fix a model that has not learned enough is usually to show it more, not to make it cleverer.",
+      "train": {
+        "caught": 541,
+        "falseAlarms": 13,
+        "missed": 50,
+        "correct": 4396,
+        "total": 4459,
+        "accuracy": 0.9859
+      },
+      "test": {
+        "caught": 135,
+        "falseAlarms": 2,
+        "missed": 21,
+        "correct": 1092,
+        "total": 1115,
+        "accuracy": 0.9794
+      },
+      "gap": 0.0065
+    },
+    {
+      "id": "always-ham",
+      "name": "Calls everything ordinary",
+      "how": "Never flags anything, ever.",
+      "why": "Most messages are not spam, so doing nothing scores well on both halves. A high score is not evidence of anything on its own.",
+      "train": {
+        "caught": 0,
+        "falseAlarms": 0,
+        "missed": 591,
+        "correct": 3868,
+        "total": 4459,
+        "accuracy": 0.8675
+      },
+      "test": {
+        "caught": 0,
+        "falseAlarms": 0,
+        "missed": 156,
+        "correct": 959,
+        "total": 1115,
+        "accuracy": 0.8601
+      },
+      "gap": 0.0074
+    },
+    {
+      "id": "one-rule",
+      "name": "One hand-written rule",
+      "how": "Flags anything containing a run of five or more digits.",
+      "why": "A person wrote it, so there was nothing to memorise. It scores about the same on both halves, which is what a rule that generalises looks like.",
+      "train": {
+        "caught": 464,
+        "falseAlarms": 2,
+        "missed": 127,
+        "correct": 4330,
+        "total": 4459,
+        "accuracy": 0.9711
+      },
+      "test": {
+        "caught": 121,
+        "falseAlarms": 1,
+        "missed": 35,
+        "correct": 1079,
+        "total": 1115,
+        "accuracy": 0.9677
+      },
+      "gap": 0.0034
+    },
+    {
+      "id": "learned",
+      "name": "Learned from the examples",
+      "how": "Multinomial naive Bayes over the words, trained on the training half only.",
+      "why": "It really did learn something transferable, and it still does a little better on the messages it studied. A small gap is normal and is not a scandal.",
+      "train": {
+        "caught": 575,
+        "falseAlarms": 13,
+        "missed": 16,
+        "correct": 4430,
+        "total": 4459,
+        "accuracy": 0.9935
+      },
+      "test": {
+        "caught": 145,
+        "falseAlarms": 4,
+        "missed": 11,
+        "correct": 1100,
+        "total": 1115,
+        "accuracy": 0.9865
+      },
+      "gap": 0.007
+    },
+    {
+      "id": "tiny",
+      "name": "The same model, on fifty examples",
+      "how": "The same naive Bayes, but shown only the first fifty training messages.",
+      "why": "Too little to learn from, so it leans on whatever those fifty happened to contain. Small training sets produce confident models that do not travel.",
+      "train": {
+        "caught": 97,
+        "falseAlarms": 2,
+        "missed": 494,
+        "correct": 3963,
+        "total": 4459,
+        "accuracy": 0.8888
+      },
+      "test": {
+        "caught": 29,
+        "falseAlarms": 0,
+        "missed": 127,
+        "correct": 988,
+        "total": 1115,
+        "accuracy": 0.8861
+      },
+      "gap": 0.0027
+    }
+  ]
+}

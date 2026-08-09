@@ -1,0 +1,5413 @@
+{
+  "generatedBy": "data/scripts/build-threshold.mjs",
+  "source": {
+    "name": "SMS Spam Collection v.1",
+    "authors": "Almeida, Gómez Hidalgo & Yamakami",
+    "url": "https://archive.ics.uci.edu/dataset/228/sms+spam+collection",
+    "licence": "Free to use with attribution to the authors' 2011 paper"
+  },
+  "model": {
+    "name": "Multinomial naive Bayes, add-one smoothing, bag of words",
+    "note": "Trained once on the 4,459 training messages. Every count below is from the 1,115 it never saw."
+  },
+  "corpus": {
+    "total": 5574,
+    "trainSize": 4459,
+    "testSize": 1115,
+    "spamInTest": 156,
+    "hamInTest": 959
+  },
+  "curve": [
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 798,
+      "missed": 1,
+      "leftAlone": 161,
+      "accuracy": 0.2834,
+      "precision": 0.1626,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 790,
+      "missed": 1,
+      "leftAlone": 169,
+      "accuracy": 0.2906,
+      "precision": 0.164,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 785,
+      "missed": 1,
+      "leftAlone": 174,
+      "accuracy": 0.2951,
+      "precision": 0.1649,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 768,
+      "missed": 1,
+      "leftAlone": 191,
+      "accuracy": 0.3103,
+      "precision": 0.1679,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 758,
+      "missed": 1,
+      "leftAlone": 201,
+      "accuracy": 0.3193,
+      "precision": 0.1698,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 744,
+      "missed": 1,
+      "leftAlone": 215,
+      "accuracy": 0.3318,
+      "precision": 0.1724,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 733,
+      "missed": 1,
+      "leftAlone": 226,
+      "accuracy": 0.3417,
+      "precision": 0.1745,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 722,
+      "missed": 1,
+      "leftAlone": 237,
+      "accuracy": 0.3516,
+      "precision": 0.1767,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 710,
+      "missed": 1,
+      "leftAlone": 249,
+      "accuracy": 0.3623,
+      "precision": 0.1792,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 690,
+      "missed": 1,
+      "leftAlone": 269,
+      "accuracy": 0.3803,
+      "precision": 0.1834,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 672,
+      "missed": 1,
+      "leftAlone": 287,
+      "accuracy": 0.3964,
+      "precision": 0.1874,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 652,
+      "missed": 1,
+      "leftAlone": 307,
+      "accuracy": 0.4143,
+      "precision": 0.1921,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 635,
+      "missed": 1,
+      "leftAlone": 324,
+      "accuracy": 0.4296,
+      "precision": 0.1962,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 621,
+      "missed": 1,
+      "leftAlone": 338,
+      "accuracy": 0.4422,
+      "precision": 0.1997,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 599,
+      "missed": 1,
+      "leftAlone": 360,
+      "accuracy": 0.4619,
+      "precision": 0.2056,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 587,
+      "missed": 1,
+      "leftAlone": 372,
+      "accuracy": 0.4726,
+      "precision": 0.2089,
+      "recall": 0.9936
+    },
+    {
+      "threshold": 0,
+      "caught": 154,
+      "falseAlarms": 567,
+      "missed": 2,
+      "leftAlone": 392,
+      "accuracy": 0.4897,
+      "precision": 0.2136,
+      "recall": 0.9872
+    },
+    {
+      "threshold": 0,
+      "caught": 154,
+      "falseAlarms": 544,
+      "missed": 2,
+      "leftAlone": 415,
+      "accuracy": 0.5103,
+      "precision": 0.2206,
+      "recall": 0.9872
+    },
+    {
+      "threshold": 0,
+      "caught": 153,
+      "falseAlarms": 519,
+      "missed": 3,
+      "leftAlone": 440,
+      "accuracy": 0.5318,
+      "precision": 0.2277,
+      "recall": 0.9808
+    },
+    {
+      "threshold": 0,
+      "caught": 152,
+      "falseAlarms": 487,
+      "missed": 4,
+      "leftAlone": 472,
+      "accuracy": 0.5596,
+      "precision": 0.2379,
+      "recall": 0.9744
+    },
+    {
+      "threshold": 0,
+      "caught": 152,
+      "falseAlarms": 461,
+      "missed": 4,
+      "leftAlone": 498,
+      "accuracy": 0.583,
+      "precision": 0.248,
+      "recall": 0.9744
+    },
+    {
+      "threshold": 0,
+      "caught": 152,
+      "falseAlarms": 435,
+      "missed": 4,
+      "leftAlone": 524,
+      "accuracy": 0.6063,
+      "precision": 0.2589,
+      "recall": 0.9744
+    },
+    {
+      "threshold": 0,
+      "caught": 152,
+      "falseAlarms": 404,
+      "missed": 4,
+      "leftAlone": 555,
+      "accuracy": 0.6341,
+      "precision": 0.2734,
+      "recall": 0.9744
+    },
+    {
+      "threshold": 0,
+      "caught": 152,
+      "falseAlarms": 375,
+      "missed": 4,
+      "leftAlone": 584,
+      "accuracy": 0.6601,
+      "precision": 0.2884,
+      "recall": 0.9744
+    },
+    {
+      "threshold": 0,
+      "caught": 152,
+      "falseAlarms": 343,
+      "missed": 4,
+      "leftAlone": 616,
+      "accuracy": 0.6888,
+      "precision": 0.3071,
+      "recall": 0.9744
+    },
+    {
+      "threshold": 0,
+      "caught": 151,
+      "falseAlarms": 312,
+      "missed": 5,
+      "leftAlone": 647,
+      "accuracy": 0.7157,
+      "precision": 0.3261,
+      "recall": 0.9679
+    },
+    {
+      "threshold": 0.0001,
+      "caught": 151,
+      "falseAlarms": 284,
+      "missed": 5,
+      "leftAlone": 675,
+      "accuracy": 0.7408,
+      "precision": 0.3471,
+      "recall": 0.9679
+    },
+    {
+      "threshold": 0.0001,
+      "caught": 151,
+      "falseAlarms": 245,
+      "missed": 5,
+      "leftAlone": 714,
+      "accuracy": 0.7758,
+      "precision": 0.3813,
+      "recall": 0.9679
+    },
+    {
+      "threshold": 0.0003,
+      "caught": 151,
+      "falseAlarms": 207,
+      "missed": 5,
+      "leftAlone": 752,
+      "accuracy": 0.8099,
+      "precision": 0.4218,
+      "recall": 0.9679
+    },
+    {
+      "threshold": 0.0005,
+      "caught": 151,
+      "falseAlarms": 172,
+      "missed": 5,
+      "leftAlone": 787,
+      "accuracy": 0.8413,
+      "precision": 0.4675,
+      "recall": 0.9679
+    },
+    {
+      "threshold": 0.001,
+      "caught": 151,
+      "falseAlarms": 135,
+      "missed": 5,
+      "leftAlone": 824,
+      "accuracy": 0.8744,
+      "precision": 0.528,
+      "recall": 0.9679
+    },
+    {
+      "threshold": 0.002,
+      "caught": 151,
+      "falseAlarms": 99,
+      "missed": 5,
+      "leftAlone": 860,
+      "accuracy": 0.9067,
+      "precision": 0.604,
+      "recall": 0.9679
+    },
+    {
+      "threshold": 0.004,
+      "caught": 151,
+      "falseAlarms": 77,
+      "missed": 5,
+      "leftAlone": 882,
+      "accuracy": 0.9265,
+      "precision": 0.6623,
+      "recall": 0.9679
+    },
+    {
+      "threshold": 0.0079,
+      "caught": 151,
+      "falseAlarms": 58,
+      "missed": 5,
+      "leftAlone": 901,
+      "accuracy": 0.9435,
+      "precision": 0.7225,
+      "recall": 0.9679
+    },
+    {
+      "threshold": 0.0158,
+      "caught": 151,
+      "falseAlarms": 38,
+      "missed": 5,
+      "leftAlone": 921,
+      "accuracy": 0.9614,
+      "precision": 0.7989,
+      "recall": 0.9679
+    },
+    {
+      "threshold": 0.0316,
+      "caught": 149,
+      "falseAlarms": 27,
+      "missed": 7,
+      "leftAlone": 932,
+      "accuracy": 0.9695,
+      "precision": 0.8466,
+      "recall": 0.9551
+    },
+    {
+      "threshold": 0.05,
+      "caught": 149,
+      "falseAlarms": 23,
+      "missed": 7,
+      "leftAlone": 936,
+      "accuracy": 0.9731,
+      "precision": 0.8663,
+      "recall": 0.9551
+    },
+    {
+      "threshold": 0.0631,
+      "caught": 149,
+      "falseAlarms": 20,
+      "missed": 7,
+      "leftAlone": 939,
+      "accuracy": 0.9758,
+      "precision": 0.8817,
+      "recall": 0.9551
+    },
+    {
+      "threshold": 0.0999,
+      "caught": 148,
+      "falseAlarms": 18,
+      "missed": 8,
+      "leftAlone": 941,
+      "accuracy": 0.9767,
+      "precision": 0.8916,
+      "recall": 0.9487
+    },
+    {
+      "threshold": 0.1259,
+      "caught": 148,
+      "falseAlarms": 17,
+      "missed": 8,
+      "leftAlone": 942,
+      "accuracy": 0.9776,
+      "precision": 0.897,
+      "recall": 0.9487
+    },
+    {
+      "threshold": 0.1499,
+      "caught": 148,
+      "falseAlarms": 13,
+      "missed": 8,
+      "leftAlone": 946,
+      "accuracy": 0.9812,
+      "precision": 0.9193,
+      "recall": 0.9487
+    },
+    {
+      "threshold": 0.1998,
+      "caught": 147,
+      "falseAlarms": 12,
+      "missed": 9,
+      "leftAlone": 947,
+      "accuracy": 0.9812,
+      "precision": 0.9245,
+      "recall": 0.9423
+    },
+    {
+      "threshold": 0.2497,
+      "caught": 147,
+      "falseAlarms": 10,
+      "missed": 9,
+      "leftAlone": 949,
+      "accuracy": 0.983,
+      "precision": 0.9363,
+      "recall": 0.9423
+    },
+    {
+      "threshold": 0.2512,
+      "caught": 147,
+      "falseAlarms": 10,
+      "missed": 9,
+      "leftAlone": 949,
+      "accuracy": 0.983,
+      "precision": 0.9363,
+      "recall": 0.9423
+    },
+    {
+      "threshold": 0.2997,
+      "caught": 147,
+      "falseAlarms": 9,
+      "missed": 9,
+      "leftAlone": 950,
+      "accuracy": 0.9839,
+      "precision": 0.9423,
+      "recall": 0.9423
+    },
+    {
+      "threshold": 0.3497,
+      "caught": 146,
+      "falseAlarms": 9,
+      "missed": 10,
+      "leftAlone": 950,
+      "accuracy": 0.983,
+      "precision": 0.9419,
+      "recall": 0.9359
+    },
+    {
+      "threshold": 0.3996,
+      "caught": 145,
+      "falseAlarms": 8,
+      "missed": 11,
+      "leftAlone": 951,
+      "accuracy": 0.983,
+      "precision": 0.9477,
+      "recall": 0.9295
+    },
+    {
+      "threshold": 0.4496,
+      "caught": 145,
+      "falseAlarms": 5,
+      "missed": 11,
+      "leftAlone": 954,
+      "accuracy": 0.9857,
+      "precision": 0.9667,
+      "recall": 0.9295
+    },
+    {
+      "threshold": 0.4995,
+      "caught": 145,
+      "falseAlarms": 4,
+      "missed": 11,
+      "leftAlone": 955,
+      "accuracy": 0.9865,
+      "precision": 0.9732,
+      "recall": 0.9295
+    },
+    {
+      "threshold": 0.5012,
+      "caught": 145,
+      "falseAlarms": 4,
+      "missed": 11,
+      "leftAlone": 955,
+      "accuracy": 0.9865,
+      "precision": 0.9732,
+      "recall": 0.9295
+    },
+    {
+      "threshold": 0.5494,
+      "caught": 144,
+      "falseAlarms": 3,
+      "missed": 12,
+      "leftAlone": 956,
+      "accuracy": 0.9865,
+      "precision": 0.9796,
+      "recall": 0.9231
+    },
+    {
+      "threshold": 0.5994,
+      "caught": 144,
+      "falseAlarms": 2,
+      "missed": 12,
+      "leftAlone": 957,
+      "accuracy": 0.9874,
+      "precision": 0.9863,
+      "recall": 0.9231
+    },
+    {
+      "threshold": 0.6493,
+      "caught": 143,
+      "falseAlarms": 2,
+      "missed": 13,
+      "leftAlone": 957,
+      "accuracy": 0.9865,
+      "precision": 0.9862,
+      "recall": 0.9167
+    },
+    {
+      "threshold": 0.6838,
+      "caught": 143,
+      "falseAlarms": 2,
+      "missed": 13,
+      "leftAlone": 957,
+      "accuracy": 0.9865,
+      "precision": 0.9862,
+      "recall": 0.9167
+    },
+    {
+      "threshold": 0.6993,
+      "caught": 143,
+      "falseAlarms": 2,
+      "missed": 13,
+      "leftAlone": 957,
+      "accuracy": 0.9865,
+      "precision": 0.9862,
+      "recall": 0.9167
+    },
+    {
+      "threshold": 0.7492,
+      "caught": 142,
+      "falseAlarms": 0,
+      "missed": 14,
+      "leftAlone": 959,
+      "accuracy": 0.9874,
+      "precision": 1,
+      "recall": 0.9103
+    },
+    {
+      "threshold": 0.7992,
+      "caught": 142,
+      "falseAlarms": 0,
+      "missed": 14,
+      "leftAlone": 959,
+      "accuracy": 0.9874,
+      "precision": 1,
+      "recall": 0.9103
+    },
+    {
+      "threshold": 0.8492,
+      "caught": 142,
+      "falseAlarms": 0,
+      "missed": 14,
+      "leftAlone": 959,
+      "accuracy": 0.9874,
+      "precision": 1,
+      "recall": 0.9103
+    },
+    {
+      "threshold": 0.8991,
+      "caught": 142,
+      "falseAlarms": 0,
+      "missed": 14,
+      "leftAlone": 959,
+      "accuracy": 0.9874,
+      "precision": 1,
+      "recall": 0.9103
+    },
+    {
+      "threshold": 0.9,
+      "caught": 142,
+      "falseAlarms": 0,
+      "missed": 14,
+      "leftAlone": 959,
+      "accuracy": 0.9874,
+      "precision": 1,
+      "recall": 0.9103
+    },
+    {
+      "threshold": 0.9491,
+      "caught": 140,
+      "falseAlarms": 0,
+      "missed": 16,
+      "leftAlone": 959,
+      "accuracy": 0.9857,
+      "precision": 1,
+      "recall": 0.8974
+    },
+    {
+      "threshold": 0.9684,
+      "caught": 139,
+      "falseAlarms": 0,
+      "missed": 17,
+      "leftAlone": 959,
+      "accuracy": 0.9848,
+      "precision": 1,
+      "recall": 0.891
+    },
+    {
+      "threshold": 0.99,
+      "caught": 138,
+      "falseAlarms": 0,
+      "missed": 18,
+      "leftAlone": 959,
+      "accuracy": 0.9839,
+      "precision": 1,
+      "recall": 0.8846
+    },
+    {
+      "threshold": 0.9968,
+      "caught": 136,
+      "falseAlarms": 0,
+      "missed": 20,
+      "leftAlone": 959,
+      "accuracy": 0.9821,
+      "precision": 1,
+      "recall": 0.8718
+    },
+    {
+      "threshold": 0.999,
+      "caught": 135,
+      "falseAlarms": 0,
+      "missed": 21,
+      "leftAlone": 959,
+      "accuracy": 0.9812,
+      "precision": 1,
+      "recall": 0.8654
+    },
+    {
+      "threshold": 0.999,
+      "caught": 135,
+      "falseAlarms": 0,
+      "missed": 21,
+      "leftAlone": 959,
+      "accuracy": 0.9812,
+      "precision": 1,
+      "recall": 0.8654
+    },
+    {
+      "threshold": 0.9997,
+      "caught": 132,
+      "falseAlarms": 0,
+      "missed": 24,
+      "leftAlone": 959,
+      "accuracy": 0.9785,
+      "precision": 1,
+      "recall": 0.8462
+    },
+    {
+      "threshold": 0.9999,
+      "caught": 132,
+      "falseAlarms": 0,
+      "missed": 24,
+      "leftAlone": 959,
+      "accuracy": 0.9785,
+      "precision": 1,
+      "recall": 0.8462
+    },
+    {
+      "threshold": 1,
+      "caught": 128,
+      "falseAlarms": 0,
+      "missed": 28,
+      "leftAlone": 959,
+      "accuracy": 0.9749,
+      "precision": 1,
+      "recall": 0.8205
+    },
+    {
+      "threshold": 1,
+      "caught": 125,
+      "falseAlarms": 0,
+      "missed": 31,
+      "leftAlone": 959,
+      "accuracy": 0.9722,
+      "precision": 1,
+      "recall": 0.8013
+    },
+    {
+      "threshold": 1,
+      "caught": 123,
+      "falseAlarms": 0,
+      "missed": 33,
+      "leftAlone": 959,
+      "accuracy": 0.9704,
+      "precision": 1,
+      "recall": 0.7885
+    },
+    {
+      "threshold": 1,
+      "caught": 122,
+      "falseAlarms": 0,
+      "missed": 34,
+      "leftAlone": 959,
+      "accuracy": 0.9695,
+      "precision": 1,
+      "recall": 0.7821
+    },
+    {
+      "threshold": 1,
+      "caught": 118,
+      "falseAlarms": 0,
+      "missed": 38,
+      "leftAlone": 959,
+      "accuracy": 0.9659,
+      "precision": 1,
+      "recall": 0.7564
+    },
+    {
+      "threshold": 1,
+      "caught": 116,
+      "falseAlarms": 0,
+      "missed": 40,
+      "leftAlone": 959,
+      "accuracy": 0.9641,
+      "precision": 1,
+      "recall": 0.7436
+    },
+    {
+      "threshold": 1,
+      "caught": 113,
+      "falseAlarms": 0,
+      "missed": 43,
+      "leftAlone": 959,
+      "accuracy": 0.9614,
+      "precision": 1,
+      "recall": 0.7244
+    },
+    {
+      "threshold": 1,
+      "caught": 111,
+      "falseAlarms": 0,
+      "missed": 45,
+      "leftAlone": 959,
+      "accuracy": 0.9596,
+      "precision": 1,
+      "recall": 0.7115
+    },
+    {
+      "threshold": 1,
+      "caught": 109,
+      "falseAlarms": 0,
+      "missed": 47,
+      "leftAlone": 959,
+      "accuracy": 0.9578,
+      "precision": 1,
+      "recall": 0.6987
+    },
+    {
+      "threshold": 1,
+      "caught": 108,
+      "falseAlarms": 0,
+      "missed": 48,
+      "leftAlone": 959,
+      "accuracy": 0.957,
+      "precision": 1,
+      "recall": 0.6923
+    },
+    {
+      "threshold": 1,
+      "caught": 107,
+      "falseAlarms": 0,
+      "missed": 49,
+      "leftAlone": 959,
+      "accuracy": 0.9561,
+      "precision": 1,
+      "recall": 0.6859
+    },
+    {
+      "threshold": 1,
+      "caught": 106,
+      "falseAlarms": 0,
+      "missed": 50,
+      "leftAlone": 959,
+      "accuracy": 0.9552,
+      "precision": 1,
+      "recall": 0.6795
+    },
+    {
+      "threshold": 1,
+      "caught": 77,
+      "falseAlarms": 0,
+      "missed": 79,
+      "leftAlone": 959,
+      "accuracy": 0.9291,
+      "precision": 1,
+      "recall": 0.4936
+    }
+  ],
+  "stops": [
+    {
+      "id": "everything",
+      "label": "Flag anything with the faintest smell of spam",
+      "at": 1e-12,
+      "threshold": 0,
+      "caught": 155,
+      "falseAlarms": 798,
+      "missed": 1,
+      "leftAlone": 161,
+      "accuracy": 0.2834,
+      "precision": 0.1626,
+      "recall": 0.9936
+    },
+    {
+      "id": "half",
+      "label": "The line nobody chose: one half",
+      "at": 0.5,
+      "threshold": 0.5,
+      "caught": 145,
+      "falseAlarms": 4,
+      "missed": 11,
+      "leftAlone": 955,
+      "accuracy": 0.9865,
+      "precision": 0.9732,
+      "recall": 0.9295
+    },
+    {
+      "id": "cautious",
+      "label": "Only flag what it is nearly certain about",
+      "at": 0.999999999,
+      "threshold": 1,
+      "caught": 108,
+      "falseAlarms": 0,
+      "missed": 48,
+      "leftAlone": 959,
+      "accuracy": 0.957,
+      "precision": 1,
+      "recall": 0.6923
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "inbox",
+      "title": "Your own phone",
+      "says": "A spam that gets through is a mild annoyance. A real message sent to the spam folder is a missed dentist appointment.",
+      "missedCost": 1,
+      "falseAlarmCost": 8,
+      "best": {
+        "threshold": 0.7492,
+        "caught": 142,
+        "falseAlarms": 0,
+        "missed": 14,
+        "leftAlone": 959,
+        "accuracy": 0.9874,
+        "precision": 1,
+        "recall": 0.9103,
+        "cost": 14
+      },
+      "worstCost": 6385
+    },
+    {
+      "id": "bank",
+      "title": "A bank's fraud alerts",
+      "says": "Missing a fraudulent message costs real money. Flagging a genuine one costs a customer five minutes.",
+      "missedCost": 20,
+      "falseAlarmCost": 1,
+      "best": {
+        "threshold": 0.0158,
+        "caught": 151,
+        "falseAlarms": 38,
+        "missed": 5,
+        "leftAlone": 921,
+        "accuracy": 0.9614,
+        "precision": 0.7989,
+        "recall": 0.9679,
+        "cost": 138
+      },
+      "worstCost": 1580
+    },
+    {
+      "id": "marketing",
+      "title": "A company's shared inbox",
+      "says": "Both cost about the same: somebody deals with it either way.",
+      "missedCost": 1,
+      "falseAlarmCost": 1,
+      "best": {
+        "threshold": 0.5994,
+        "caught": 144,
+        "falseAlarms": 2,
+        "missed": 12,
+        "leftAlone": 957,
+        "accuracy": 0.9874,
+        "precision": 0.9863,
+        "recall": 0.9231,
+        "cost": 14
+      },
+      "worstCost": 799
+    },
+    {
+      "id": "hospital",
+      "title": "A hospital paging system",
+      "says": "A blocked message can be a life. A spam getting through wastes a few seconds.",
+      "missedCost": 1,
+      "falseAlarmCost": 60,
+      "best": {
+        "threshold": 0.7492,
+        "caught": 142,
+        "falseAlarms": 0,
+        "missed": 14,
+        "leftAlone": 959,
+        "accuracy": 0.9874,
+        "precision": 1,
+        "recall": 0.9103,
+        "cost": 14
+      },
+      "worstCost": 47881
+    }
+  ],
+  "points": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.00001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000876,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.71216,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000463,
+      0
+    ],
+    [
+      0.000032,
+      0
+    ],
+    [
+      0.000011,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.012299,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000022,
+      0
+    ],
+    [
+      0.000044,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000241,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.00059,
+      0
+    ],
+    [
+      0.024711,
+      0
+    ],
+    [
+      0.000115,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.019075,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.400557,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.00025,
+      0
+    ],
+    [
+      0.126242,
+      0
+    ],
+    [
+      0.999999,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.009176,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000162,
+      0
+    ],
+    [
+      0.977251,
+      1
+    ],
+    [
+      0.025959,
+      0
+    ],
+    [
+      0.000073,
+      0
+    ],
+    [
+      0.00114,
+      0
+    ],
+    [
+      0.000004,
+      0
+    ],
+    [
+      0.000019,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.01041,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000024,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000736,
+      0
+    ],
+    [
+      0.000946,
+      0
+    ],
+    [
+      0.000093,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.999999,
+      1
+    ],
+    [
+      0.216541,
+      0
+    ],
+    [
+      0.000487,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000023,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001689,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.00001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      0.000042,
+      0
+    ],
+    [
+      0.03755,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.402519,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000153,
+      0
+    ],
+    [
+      0.000078,
+      0
+    ],
+    [
+      0.000418,
+      0
+    ],
+    [
+      0.001708,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.005336,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.017084,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000012,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000164,
+      0
+    ],
+    [
+      0.000165,
+      0
+    ],
+    [
+      0.001035,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.145426,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.005988,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000214,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.001144,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.999994,
+      1
+    ],
+    [
+      0.000011,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000021,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.011377,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000009,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000405,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000041,
+      0
+    ],
+    [
+      0.999999,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.005038,
+      0
+    ],
+    [
+      0.000062,
+      0
+    ],
+    [
+      0.00001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.967692,
+      1
+    ],
+    [
+      0.000023,
+      0
+    ],
+    [
+      0.000078,
+      0
+    ],
+    [
+      0.00001,
+      0
+    ],
+    [
+      0.000263,
+      0
+    ],
+    [
+      0.001083,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000143,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000204,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000005,
+      0
+    ],
+    [
+      0.00009,
+      0
+    ],
+    [
+      0.000018,
+      0
+    ],
+    [
+      0.000014,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000005,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.003977,
+      0
+    ],
+    [
+      0.000654,
+      0
+    ],
+    [
+      0.000017,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000175,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000058,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.991373,
+      1
+    ],
+    [
+      0.001651,
+      0
+    ],
+    [
+      0.000164,
+      0
+    ],
+    [
+      0.062464,
+      0
+    ],
+    [
+      0.000082,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000256,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.003264,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000106,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000061,
+      0
+    ],
+    [
+      0.000143,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000033,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000375,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001075,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.002693,
+      0
+    ],
+    [
+      0.000146,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.047606,
+      0
+    ],
+    [
+      0.000013,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001731,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000005,
+      0
+    ],
+    [
+      0.000013,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.004818,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000157,
+      0
+    ],
+    [
+      0.001022,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001379,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000008,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000023,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0.000127,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000053,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0.000182,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.005738,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000005,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.0004,
+      0
+    ],
+    [
+      0.000344,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.444295,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.000032,
+      0
+    ],
+    [
+      0.000324,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000392,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000499,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.006107,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.004714,
+      0
+    ],
+    [
+      0.090175,
+      1
+    ],
+    [
+      0.000004,
+      0
+    ],
+    [
+      0.001606,
+      0
+    ],
+    [
+      0.000283,
+      0
+    ],
+    [
+      0.001214,
+      0
+    ],
+    [
+      0.999046,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000107,
+      0
+    ],
+    [
+      0.564655,
+      0
+    ],
+    [
+      0.000667,
+      0
+    ],
+    [
+      0.000604,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000091,
+      0
+    ],
+    [
+      0.000158,
+      0
+    ],
+    [
+      0.015463,
+      0
+    ],
+    [
+      0.000543,
+      0
+    ],
+    [
+      0.000004,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000964,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0.000325,
+      0
+    ],
+    [
+      0.734539,
+      1
+    ],
+    [
+      0.000811,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.002952,
+      0
+    ],
+    [
+      0.00001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.0001,
+      0
+    ],
+    [
+      0.000048,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.026799,
+      0
+    ],
+    [
+      0.000768,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000971,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000188,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.745463,
+      0
+    ],
+    [
+      0.000168,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.025088,
+      1
+    ],
+    [
+      0.000083,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000031,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000069,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000019,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000098,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.99999,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.019243,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001861,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000009,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000168,
+      0
+    ],
+    [
+      0.000087,
+      0
+    ],
+    [
+      0.000004,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.002384,
+      0
+    ],
+    [
+      0.002364,
+      0
+    ],
+    [
+      0.999902,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.00257,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000341,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000463,
+      0
+    ],
+    [
+      0.000004,
+      0
+    ],
+    [
+      0.000736,
+      0
+    ],
+    [
+      0.998657,
+      1
+    ],
+    [
+      0.000131,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001348,
+      0
+    ],
+    [
+      0.003305,
+      0
+    ],
+    [
+      0.000326,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000515,
+      0
+    ],
+    [
+      0.000857,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.000102,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0.000023,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000015,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.001497,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.000019,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000109,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000125,
+      0
+    ],
+    [
+      0.00085,
+      0
+    ],
+    [
+      0.000068,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000776,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.928148,
+      1
+    ],
+    [
+      0.000261,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000126,
+      0
+    ],
+    [
+      0.000019,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000012,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.999304,
+      1
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000006,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0.000303,
+      0
+    ],
+    [
+      0.002199,
+      0
+    ],
+    [
+      0.022338,
+      0
+    ],
+    [
+      0.000138,
+      0
+    ],
+    [
+      0.020582,
+      0
+    ],
+    [
+      0.079833,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000005,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000005,
+      0
+    ],
+    [
+      0.000033,
+      0
+    ],
+    [
+      0.000143,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000007,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.545304,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000063,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.036699,
+      0
+    ],
+    [
+      0.005879,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.195767,
+      0
+    ],
+    [
+      0.000014,
+      0
+    ],
+    [
+      0.005232,
+      0
+    ],
+    [
+      0.00058,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0.010074,
+      0
+    ],
+    [
+      0.000013,
+      0
+    ],
+    [
+      0.197546,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000004,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000012,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.999921,
+      1
+    ],
+    [
+      0.000007,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000062,
+      0
+    ],
+    [
+      0.000007,
+      0
+    ],
+    [
+      0.015648,
+      0
+    ],
+    [
+      0.00034,
+      0
+    ],
+    [
+      0.000165,
+      0
+    ],
+    [
+      0.00024,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0.006228,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.020499,
+      0
+    ],
+    [
+      0.000008,
+      0
+    ],
+    [
+      0.000979,
+      0
+    ],
+    [
+      0.600475,
+      1
+    ],
+    [
+      0.01576,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.126242,
+      0
+    ],
+    [
+      0.000072,
+      0
+    ],
+    [
+      0.00079,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.996164,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000039,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000473,
+      0
+    ],
+    [
+      0.000013,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000029,
+      0
+    ],
+    [
+      0.003751,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.013384,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000042,
+      0
+    ],
+    [
+      0.000085,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.00114,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.476922,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000436,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.002317,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.00014,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.033223,
+      0
+    ],
+    [
+      0.02618,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000468,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.000015,
+      0
+    ],
+    [
+      0.000154,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000361,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.000954,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.012405,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.00001,
+      0
+    ],
+    [
+      0.999985,
+      1
+    ],
+    [
+      0.000033,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000337,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000083,
+      0
+    ],
+    [
+      0.000029,
+      0
+    ],
+    [
+      0.00001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.011043,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001474,
+      0
+    ],
+    [
+      0.000801,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001996,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000028,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.004392,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000052,
+      0
+    ],
+    [
+      0.000049,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.051985,
+      0
+    ],
+    [
+      0.000004,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000013,
+      0
+    ],
+    [
+      0.001273,
+      0
+    ],
+    [
+      0.000032,
+      0
+    ],
+    [
+      0.000012,
+      0
+    ],
+    [
+      0.999978,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      0.000112,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.00024,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.011534,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.009847,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000017,
+      0
+    ],
+    [
+      0.000245,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.350087,
+      0
+    ],
+    [
+      0.000341,
+      0
+    ],
+    [
+      0.000035,
+      0
+    ],
+    [
+      0.000883,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0.003628,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000006,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0.239974,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.065237,
+      0
+    ],
+    [
+      0.000075,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0.000258,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.009392,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000013,
+      0
+    ],
+    [
+      0.003198,
+      0
+    ],
+    [
+      0.000006,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001676,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.00004,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.131081,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.323851,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000038,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.00001,
+      0
+    ],
+    [
+      0.00118,
+      0
+    ],
+    [
+      0.000205,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000117,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000024,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000004,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001011,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000085,
+      0
+    ],
+    [
+      0.913486,
+      1
+    ],
+    [
+      0.00227,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000607,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000008,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0.004153,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.001873,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000333,
+      0
+    ],
+    [
+      0.000007,
+      0
+    ],
+    [
+      0.000274,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.007903,
+      0
+    ],
+    [
+      0.000004,
+      0
+    ],
+    [
+      0.00873,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000005,
+      0
+    ],
+    [
+      0.00002,
+      0
+    ],
+    [
+      0.000004,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.01237,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000024,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000049,
+      0
+    ],
+    [
+      0.000799,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000411,
+      0
+    ],
+    [
+      0.000185,
+      0
+    ],
+    [
+      0.000018,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000084,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000053,
+      0
+    ],
+    [
+      0.999999,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000008,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000101,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.00024,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000674,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000005,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.296802,
+      0
+    ],
+    [
+      0.001172,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.01685,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.001501,
+      0
+    ],
+    [
+      0.000075,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.99999,
+      1
+    ],
+    [
+      0.000033,
+      0
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001836,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000612,
+      0
+    ],
+    [
+      0.000235,
+      0
+    ],
+    [
+      0.000008,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.010656,
+      0
+    ],
+    [
+      0.003537,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000104,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0.000035,
+      0
+    ],
+    [
+      0.999955,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000007,
+      0
+    ],
+    [
+      0.00121,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.005232,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.001678,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000481,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.007126,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.015053,
+      0
+    ],
+    [
+      0.00014,
+      0
+    ],
+    [
+      0.0002,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.003585,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000296,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000017,
+      0
+    ],
+    [
+      0.056794,
+      0
+    ],
+    [
+      0.001278,
+      0
+    ],
+    [
+      0.001013,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001584,
+      0
+    ],
+    [
+      0.003248,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.999916,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000006,
+      0
+    ],
+    [
+      0.007914,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.000097,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.003827,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.00008,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000366,
+      0
+    ],
+    [
+      0.000673,
+      0
+    ],
+    [
+      0.000923,
+      0
+    ],
+    [
+      0.000723,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0.029231,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000191,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000006,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.011971,
+      0
+    ],
+    [
+      0.000112,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000013,
+      0
+    ],
+    [
+      0.00008,
+      0
+    ],
+    [
+      0.000011,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000017,
+      0
+    ],
+    [
+      0.000029,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000041,
+      0
+    ],
+    [
+      0.000045,
+      0
+    ],
+    [
+      0.000274,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000008,
+      0
+    ],
+    [
+      0.000852,
+      0
+    ],
+    [
+      0.000012,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000024,
+      0
+    ],
+    [
+      0.006828,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.001897,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000644,
+      0
+    ],
+    [
+      0.001119,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.002697,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000068,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000333,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      0.000517,
+      0
+    ],
+    [
+      0.000726,
+      0
+    ],
+    [
+      0.00099,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000064,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000027,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.548348,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000024,
+      0
+    ],
+    [
+      0.002272,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000024,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000002,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000003,
+      0
+    ],
+    [
+      0.999627,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.003331,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000029,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.00051,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000025,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.118757,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000001,
+      0
+    ],
+    [
+      0.001171,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000024,
+      0
+    ],
+    [
+      0.349858,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000012,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000581,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.010966,
+      0
+    ],
+    [
+      0.001212,
+      0
+    ],
+    [
+      0.006366,
+      0
+    ],
+    [
+      0.001127,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0.000182,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000219,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.000091,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0.005232,
+      0
+    ],
+    [
+      0,
+      0
+    ]
+  ]
+}

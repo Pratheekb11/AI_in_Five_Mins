@@ -1,24 +1,22 @@
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { FitLineFigure } from "@/components/machines/FitLineFigure";
 import { GradientHill } from "@/components/machines/GradientHill";
 import { REGRESSION } from "@/lib/datasets";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("how-models-learn")!;
 const video = videoFor("how-models-learn")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {
@@ -32,7 +30,7 @@ const SOURCES: Source[] = [
     title: "A Stochastic Approximation Method",
     publisher: "Robbins & Monro, Annals of Mathematical Statistics (1951)",
     url: "https://projecteuclid.org/journals/annals-of-mathematical-statistics/volume-22/issue-3/A-Stochastic-Approximation-Method/10.1214/aoms/1177729586.full",
-    used: "The origin of stepping toward an answer using noisy estimates — the ancestor of the procedure this page runs.",
+    used: "The origin of stepping toward an answer using noisy estimates. It is the ancestor of the procedure this page runs.",
   },
   {
     title: "Learning representations by back-propagating errors",
@@ -44,20 +42,21 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "A model is a formula with adjustable numbers in it. That is the whole of what the word means. The one you just used had a single dial; a large language model has hundreds of billions of them.",
-    caption: "tokens = dial × characters. One number to set, and nobody told it the answer.",
+    say: "Here is what the dial was really about. Every dot is one real sentence: how many characters it has, and how many tokens it came to. A model is a formula with adjustable numbers in it, and this one has a single dial.",
+    caption:
+      "tokens = dial × characters. One number to set, and nobody told it the answer.",
   },
   {
-    say: "Training is four steps on a loop. Measure how wrong you are. Work out which way is downhill. Take a small step. Do it again until stepping stops helping.",
+    say: "Set the dial badly on purpose and you get this line. The number underneath is how wrong it is across all one hundred and forty sentences. That number is the only feedback the machine ever gets.",
   },
   {
-    say: "Notice what it never had. It could not see the shape of the hill — only whether the ground under its feet slopes up or down. Every model you have heard of is trained by feeling for the slope in the dark.",
+    say: "Six steps downhill. Measure how wrong you are, work out which way is down, take a small step, repeat. The line swings, and notice what it never had: it could not see the shape of the hill, only whether the ground under its feet sloped up or down.",
   },
   {
-    say: `And notice what came out. About ${REGRESSION.best.charsPerToken} characters per token. Nobody wrote that number down; it fell out of the measurements. Feed it different text and it settles somewhere else.`,
+    say: `Stepping stops helping here, and look what came out. About ${REGRESSION.best.charsPerToken} characters per token. Nobody wrote that number down; it fell out of the measurements. Feed it different text and it settles somewhere else.`,
   },
   {
-    say: "Which is the sentence to keep from this page. A model's answers are downstream of the examples it was shown — always, with no exceptions, at every scale.",
+    say: "Which is the sentence to keep from this page. A model's answers are downstream of the examples it was shown. Always, with no exceptions, at every scale.",
   },
 ];
 
@@ -71,7 +70,7 @@ const QUESTIONS: QuizQuestion[] = [
     ],
     answer: 1,
     because:
-      "Nobody wrote it down. It came out of the measurements, and it is specific to English prose — as you saw with tokens, the same procedure on Hindi or Japanese text would settle somewhere quite different.",
+      "Nobody wrote it down. It came out of the measurements, and it is specific to English prose. As you saw with tokens, the same procedure on Hindi or Japanese text would settle somewhere quite different.",
   },
 ];
 
@@ -86,7 +85,7 @@ export default function HowModelsLearnLesson() {
             .
           </>
         }
-        sting={`One dial, ${REGRESSION.sampleSize} real sentences, and no view of the hill — only whether the ground under your feet slopes up or down. Find the bottom by hand first. It is harder than it looks, and then you get to hand it over.`}
+        sting={`One dial, ${REGRESSION.sampleSize} real sentences, and no view of the hill. All you get is whether the ground under your feet slopes up or down. Find the bottom by hand first. It is harder than it looks, and then you get to hand it over.`}
         cta="Take the wheel"
       />
 
@@ -94,27 +93,26 @@ export default function HowModelsLearnLesson() {
         <GradientHill />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
-        <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
+      <div className="pb-4">
+        <Walkthrough steps={STEPS} figure={<FitLineFigure />} />
       </div>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Where do the billions of dials come from?"
           summary="Same procedure, more numbers. The step is worked out for every dial at once."
         >
           <p>
             One dial makes a hill you could draw. A hundred billion dials make a
-            surface nobody can picture &mdash; but the procedure does not care,
-            because it never looks at the whole surface anyway. At each step it
-            asks one question per dial: if I nudge this one, does the error go
-            up or down? Then it nudges them all a little, in the answer&rsquo;s
+            surface nobody can picture. The procedure does not care, because it
+            never looks at the whole surface anyway. At each step it asks one
+            question per dial: if I nudge this one, does the error go up or
+            down? Then it nudges them all a little, in the answer&rsquo;s
             direction.
           </p>
           <p>
             Rumelhart, Hinton and Williams gave that its efficient form in 1986
-            &mdash; working the slope backwards through a network so all the
+            by working the slope backwards through a network, so that all the
             dials get their answer in one pass. Everything since has been the
             same idea with more arithmetic behind it.
           </p>
@@ -136,22 +134,12 @@ export default function HowModelsLearnLesson() {
             It also explains the training cut-off. Absorbing anything new means
             running this whole procedure again over the whole corpus, which
             costs real money and time. That is why a model&rsquo;s knowledge
-            stops on a date &mdash; not because anyone chose to freeze it.
+            stops on a date. It is not because anyone chose to freeze it.
           </p>
         </MechanismPanel>
-      </div>
-
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="It means some numbers got adjusted. The model is a formula with dials in it; training shows it examples, measures how wrong it is, and turns each dial a little in whichever direction makes it less wrong. Do that a few million times and the dials end up in positions that fit the examples well. Nothing was memorised and nothing was understood — the examples are gone, and only their effect on the dials is left."
-        />
-      </div>
-
-      <div className="pb-4">
         <PracticeCard
           title="Find out what your assistant was shown"
-          watchFor="Whether it can tell you its own cut-off, and whether it hedges about it. It has no way to check the date from the inside — anything it says about now is a guess dressed as a fact."
+          watchFor="Whether it can tell you its own cut-off, and whether it hedges about it. It has no way to check the date from the inside. Anything it says about now is a guess dressed up as a fact."
         >
           <p>
             Ask an assistant when its training data ends. Then ask it about
@@ -160,11 +148,11 @@ export default function HowModelsLearnLesson() {
           </p>
           <p>
             Then ask it something where the answer depends on which text it was
-            trained on &mdash; a regional spelling, a contested date, a term
-            used differently in different fields.
+            trained on. A regional spelling, a contested date, or a term used
+            differently in different fields.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

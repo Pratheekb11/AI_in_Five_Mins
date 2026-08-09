@@ -1,25 +1,22 @@
 import { Beam } from "@/components/games/Beam";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { AttentionBeams } from "@/components/machines/AttentionBeams";
+import { AttentionBeamsFigure } from "@/components/machines/AttentionBeamsFigure";
 import { AttentionMap } from "@/components/machines/AttentionMap";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("attention")!;
 const video = videoFor("attention")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {
@@ -32,7 +29,7 @@ const SOURCES: Source[] = [
     title: "DistilGPT-2",
     publisher: "Hugging Face",
     url: "https://huggingface.co/distilbert/distilgpt2",
-    used: "The model the attention weights on this page were extracted from — six layers, twelve heads, 82 million parameters.",
+    used: "The model the attention weights on this page were extracted from. Six layers, twelve heads, 82 million parameters.",
     licence: "Apache 2.0",
   },
   {
@@ -59,13 +56,13 @@ const STEPS: Step[] = [
       "Which is why the top-right of every map is empty: nothing may look at its own future.",
   },
   {
-    say: "How much it pulls from each one is a weight, and those weights are what you were guessing. They are not fixed rules — they are computed on the spot, from the sentence in front of it.",
+    say: "How much it pulls from each one is a weight, and those weights are what you were guessing. They are not fixed rules. They are computed on the spot, from the sentence in front of it.",
   },
   {
     say: "And there is not one set of them. This small model runs twelve heads in every one of six layers, seventy-two in total, all at once. They plainly do not agree with each other, which is the point of having more than one.",
   },
   {
-    say: "One thing to notice before you go. That heavy first column is an attention sink — a large share of nearly every head landing on the first token for no reason to do with meaning. It is a known, named artefact, and it is a good reminder that a heat map is not a mind.",
+    say: "One thing to notice before you go. That heavy first column is an attention sink. A large share of nearly every head lands on the first token, for no reason to do with meaning. It is a known, named artefact, and it is a good reminder that a heat map is not a mind.",
   },
 ];
 
@@ -74,7 +71,7 @@ const QUESTIONS: QuizQuestion[] = [
     prompt: "Why is the top-right of every map empty?",
     options: [
       "Those weights exist but come out too small to be worth drawing at the scale used here",
-      "The causal mask — a token is never allowed to attend to anything that comes after it",
+      "The causal mask. A token is never allowed to attend to anything that comes after it",
       "The sentences are too short to fill the grid, so the corner is left blank",
     ],
     answer: 1,
@@ -94,14 +91,16 @@ export default function AttentionLesson() {
             .
           </>
         }
-        sting="That is the whole invention that made modern AI work, and you can watch it happen. Every weight below was pulled out of a real model by running its published parameters forward — and checked against the reference implementation before it was allowed on this page."
+        sting="That is the whole invention that made modern AI work, and you can watch it happen. Every weight below was pulled out of a real model by running its published parameters forward. Each one was checked against the reference implementation before it was allowed on this page."
         cta="Watch one word do it"
         target="#looking"
       />
 
       {/* ------------------------------------------------ the explanation --- */}
       <section id="looking" className="py-10">
-        <p className="label text-ink-faint mb-3">The problem attention solves</p>
+        <p className="label text-ink-faint mb-3">
+          The problem attention solves
+        </p>
         <h2 className="display-lg mb-4">
           A word does not mean the same thing twice.
         </h2>
@@ -111,27 +110,27 @@ export default function AttentionLesson() {
             The previous module gave every word a fixed position in space. That
             buys a great deal, and it cannot buy this:{" "}
             <span className="font-data">bank</span> in a sentence about a river
-            and <span className="font-data">bank</span> in a sentence about money
-            have to end up somewhere different, and they start out identical.
-            Something has to move them apart, using nothing but the rest of the
-            sentence.
+            and <span className="font-data">bank</span> in a sentence about
+            money have to end up somewhere different, and they start out
+            identical. Something has to move them apart, using nothing but the
+            rest of the sentence.
           </p>
           <p>
             Attention is that something. Before settling what a word means here,
             every position gets to look back over everything earlier in the text
             and pull in a share of each one. How much it takes from each is a
-            weight, and the weights are not rules anybody wrote &mdash; they are
+            weight, and the weights are not rules anybody wrote. They are
             computed on the spot, from the sentence in front of it. That is why
             the same word can resolve two ways in two sentences with no extra
             machinery.
           </p>
           <p>
-            One word, one head, five beats. Then the same thing seventy-two times
-            over.
+            One word, one head, five beats, and you set the pace. Then the same
+            thing seventy-two times over, further down.
           </p>
         </div>
 
-        <AttentionBeams />
+        <Walkthrough steps={STEPS} figure={<AttentionBeamsFigure />} />
 
         <div className="prose-measure text-ink-soft mt-8 space-y-4 text-lg">
           <p>
@@ -158,21 +157,16 @@ export default function AttentionLesson() {
         </div>
       </section>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
-        <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
-      </div>
-
       <section className="pb-4">
         <h2 className="display-lg mb-2">All seventy-two heads</h2>
         <p className="prose-measure text-ink-soft mb-5">
           Scrub through the layers and heads. What is worth noticing is not any
-          single map &mdash; it is how little they resemble each other.
+          single map. It is how little they resemble each other.
         </p>
         <AttentionMap />
       </section>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Where do the weights come from?"
           summary="Each word produces a question and a label. The weight is how well one word's question matches another's label."
@@ -192,14 +186,14 @@ export default function AttentionLesson() {
             head with nothing to look for still has to spend its attention
             somewhere. The mask is applied before the squashing, which is why
             the future is not merely unlikely but impossible. And the three
-            projections are learnt during training &mdash; nobody assigned a
-            head its job.
+            projections are learnt during training. Nobody assigned a head its
+            job.
           </p>
         </MechanismPanel>
 
         <MechanismPanel
           question="Is this a small model? Does that matter?"
-          summary="Very. It is 82 million parameters — thousands of times smaller than a production model."
+          summary="Very. It is 82 million parameters, which is thousands of times smaller than a production model."
           deeper="what-an-llm-is"
         >
           <p>
@@ -213,23 +207,13 @@ export default function AttentionLesson() {
             That messiness is worth having. Published attention pictures are
             usually the two or three heads that came out beautifully. This is
             all of them, including the ones doing something nobody has a name
-            for &mdash; which is the honest state of the art on what attention
-            heads are actually for.
+            for. That is the honest state of the art on what attention heads are
+            actually for.
           </p>
         </MechanismPanel>
-      </div>
-
-      <div className="pb-4">
-        <FeynmanCheck
-          question="How does a model work out which word 'it' refers to?"
-          answer="Every word gets to look back at all the words before it and take a bit of each one. How much it takes from each is worked out fresh for this sentence, not from a rule somebody wrote. So when the model reaches 'it', it pulls hardest from whichever earlier word fits — and because that mixing is computed on the spot, the same word can come out pointing at different things in different sentences."
-        />
-      </div>
-
-      <div className="pb-4">
         <PracticeCard
           title="Write a sentence that breaks it"
-          watchFor="That you can change the answer without changing a single word of the structure — only the meaning. Nothing in the grammar tells the model which way to go, so whatever resolves it came out of the training text."
+          watchFor="That you can change the answer by changing only the meaning, not a single word of the structure. Nothing in the grammar tells the model which way to go, so whatever resolves it came out of the training text."
         >
           <p>
             Take the pair of sentences in the map above about the trophy and the
@@ -241,7 +225,7 @@ export default function AttentionLesson() {
             means.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

@@ -1,14 +1,5 @@
 /**
  * The rules of Assembly line, as pure functions.
- *
- * Fragments of an instruction ride a belt downward. The player steers a hopper
- * along the bottom and keeps the parts that do work — role, goal, constraints,
- * format, example — while letting the filler fall past. What they keep is
- * assembled into a real prompt at the end and measured with a real tokenizer.
- *
- * Everything here is pure. Randomness comes from a seed carried in the scene,
- * so a frame is a function of the previous frame and nothing else, and every
- * frame returns new objects rather than editing the ones it was handed.
  */
 
 import type { Chip } from "@/components/game/assets";
@@ -45,7 +36,7 @@ export const ELEMENTS: ElementSpec[] = [
   {
     key: "constraints",
     label: "Constraints",
-    asks: "What are the limits — length, tone, what to avoid?",
+    asks: "What are the limits? Length, tone, what to avoid?",
     missing:
       "Without them nothing is out of bounds, so length and tone land wherever they land.",
   },
@@ -97,7 +88,7 @@ export const SCENARIOS: Scenario[] = [
       { text: "Keep the customer's name.", element: "constraints" },
       { text: "Plain text, no headings.", element: "format" },
       { text: "Three short paragraphs.", element: "format" },
-      { text: "Good: 'Sorry — here's why.'", element: "example" },
+      { text: "Good: 'Sorry, here is why.'", element: "example" },
       { text: "Like: 'We can swap it free.'", element: "example" },
     ],
   },
@@ -131,24 +122,24 @@ export const SCENARIOS: Scenario[] = [
       { text: "Under 150 words.", element: "constraints" },
       { text: "Numbered steps at the end.", element: "format" },
       { text: "Two paragraphs, then steps.", element: "format" },
-      { text: "Like: 'The file isn't there.'", element: "example" },
+      { text: "Like: 'The file is not there.'", element: "example" },
       { text: "Good: 'Nothing is broken.'", element: "example" },
     ],
   },
 ];
 
 /**
- * Filler. Every one of these is real writing habit — politeness, urgency,
- * flattery, hedging — and none of it tells the reader anything about the job.
+ * Filler. Every one of these is real writing habit, politeness, urgency,
+ * flattery, hedging, and none of it tells the reader anything about the job.
  */
 export const FILLER: string[] = [
   "please",
   "ASAP",
   "thanks!!!",
   "kindly",
-  "you're the best",
+  "you are the best",
   "as you know",
-  "if that's ok",
+  "if that is ok",
   "just a quick one",
   "sorry to bother you",
   "super important!!",
@@ -164,7 +155,7 @@ export const VIEW_W = 560;
 export const VIEW_H = 390;
 export const PAD = 14;
 export const RAIL = 12;
-/** The height of the hopper's mouth — where a fragment is caught. */
+/** The height of the hopper's mouth, where a fragment is caught. */
 export const CATCH_Y = 288;
 export const CATCH_DEPTH = 26;
 export const CATCHER_HALF = 50;
@@ -295,7 +286,10 @@ export function newScene(
 
 /** A pointer is dragging the hopper to `x`. */
 export function steer(scene: PromptScene, x: number): PromptScene {
-  return { ...scene, aim: clamp(x, PAD + CATCHER_HALF, VIEW_W - PAD - CATCHER_HALF) };
+  return {
+    ...scene,
+    aim: clamp(x, PAD + CATCHER_HALF, VIEW_W - PAD - CATCHER_HALF),
+  };
 }
 
 export function release(scene: PromptScene): PromptScene {
@@ -382,7 +376,7 @@ export function advance(scene: PromptScene, delta: number): PromptScene {
   const catcher = { ...scene.catcher };
   if (scene.aim !== null) {
     // A spring rather than a jump, so the hopper carries momentum and a late
-    // correction overshoots — which is the whole feel of the thing.
+    // correction overshoots, which is the whole feel of the thing.
     catcher.vx += ((scene.aim - catcher.x) * 38 - catcher.vx * 11) * delta;
   } else if (scene.keys !== 0) {
     catcher.vx += (scene.keys * THRUST - catcher.vx * 3) * delta;
@@ -446,7 +440,8 @@ export function advance(scene: PromptScene, delta: number): PromptScene {
         });
       } else {
         const isNew = !covered.has(piece.element);
-        const gained = (isNew ? SCORING.newElement : SCORING.repeatElement) + streak;
+        const gained =
+          (isNew ? SCORING.newElement : SCORING.repeatElement) + streak;
         score += gained;
         combo += 1;
         bestCombo = Math.max(bestCombo, combo);
@@ -508,11 +503,7 @@ export function advance(scene: PromptScene, delta: number): PromptScene {
   let spawnIn = scene.spawnIn - delta;
   let nextId = scene.nextId;
   if (spawnIn <= 0) {
-    const fragment = choose(
-      { ...scene, pieces: kept, caught },
-      covered,
-      rnd,
-    );
+    const fragment = choose({ ...scene, pieces: kept, caught }, covered, rnd);
     const half = halfWidth(fragment.text);
     kept.push({
       id: nextId,
@@ -622,14 +613,14 @@ export type Signal = {
 
 const PATTERNS: Record<ElementKey, RegExp[]> = {
   role: [
-    /\b(?:you are|you're|act as|respond as|your role is|imagine you are|pretend to be)\b[^.!?\n]{0,44}/i,
+    /\b(?:you are|you are|act as|respond as|your role is|imagine you are|pretend to be)\b[^.!?\n]{0,44}/i,
   ],
   goal: [
     /\b(?:your task is|your job is|i want you to|i need you to|i'd like you to)\b[^.!?\n]{0,44}/i,
     /(?:^|[.!?\n]\s*)(?:write|rewrite|summari[sz]e|list|explain|draft|compare|translate|fix|review|plan|generate|create|analy[sz]e|extract|classify|suggest|outline|describe|check|convert|edit|shorten|expand|reply|answer|rank|score|turn)\b[^.!?\n]{0,44}/i,
   ],
   constraints: [
-    /\b(?:under|no more than|at most|fewer than|within|do not|don't|never|avoid|must not|only use|only include|at least|between \d|word limit|no longer than|keep it)\b[^.!?\n]{0,44}/i,
+    /\b(?:under|no more than|at most|fewer than|within|do not|do not|never|avoid|must not|only use|only include|at least|between \d|word limit|no longer than|keep it)\b[^.!?\n]{0,44}/i,
     /\b\d+\s*(?:words?|sentences?|bullets?|characters?|paragraphs?|items?|lines?|steps?)\b/i,
   ],
   format: [

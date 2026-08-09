@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -49,3 +50,11 @@ AGENTS.original.md
 
 # large source corpora — regenerate with the scripts in data/scripts
 /data/raw/
+
+# Mascot working files. `nimo-mascot.html` is the source geometry Nimo is
+# rebuilt from and is committed; the rest are exports from the tool that
+# produced it and are not.
+/.thumbnail
+/screenshots/
+/three-d-stage.js
+/Nimo the Fox Mascot.html

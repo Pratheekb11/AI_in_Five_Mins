@@ -1,13 +1,5 @@
 /**
  * Game art.
- *
- * Everything is drawn as SVG paths in the site's print system: flat spot inks,
- * hard edges, visible halftone, no gradients and no glow. The pieces are meant
- * to look cut and printed rather than rendered — a guillotine blade, a strip of
- * paper with sprocket holes, chips of paper flying off a cut.
- *
- * Drawn rather than fetched so they inherit the theme: every fill is a CSS
- * variable, so the same blade prints correctly on both plates.
  */
 
 /** A dot screen any shape can be filled with. Register once per SVG. */
@@ -37,7 +29,7 @@ export function HalftoneDefs({ id = "halftone" }: { id?: string }) {
 }
 
 /**
- * The cutting blade. A heavy angled wedge with a bright edge — the one part of
+ * The cutting blade. A heavy angled wedge with a bright edge, the one part of
  * the frame that should read as dangerous.
  */
 export function Blade({
@@ -71,7 +63,7 @@ export function Blade({
         fill="var(--paper)"
         fillOpacity={0.25}
       />
-      {/* body — an angled wedge, heavier on the left like a guillotine */}
+      {/* body, an angled wedge, heavier on the left like a guillotine */}
       <path
         d={`M -10 ${-height} L 10 ${-height} L 10 -8 L 0 2 L -10 -8 Z`}
         fill={armed ? "var(--pink)" : "var(--ink-faint)"}
@@ -97,7 +89,7 @@ export function Blade({
 
 /**
  * A strip of paper running through the press, with sprocket holes punched down
- * both edges. The holes are what sell the motion — they give the eye something
+ * both edges. The holes are what sell the motion, they give the eye something
  * repeating to track.
  */
 export function PaperStrip({
@@ -194,7 +186,7 @@ export function Chips({ chips }: { chips: Chip[] }) {
 }
 
 /**
- * A printed ball — solid ink with a halftone shoulder, so it reads as a
+ * A printed ball, solid ink with a halftone shoulder, so it reads as a
  * physical object rolling rather than a dot moving.
  */
 export function InkBall({
@@ -225,7 +217,7 @@ export function InkBall({
 
 /**
  * Hatched ground under a curve. Printed hillsides get hatching rather than a
- * fill — it keeps the curve itself the darkest line on the plate.
+ * fill, it keeps the curve itself the darkest line on the plate.
  */
 export function HatchedGround({
   path,

@@ -1,27 +1,29 @@
 import { HallucinationHunt } from "@/components/games/HallucinationHunt";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { ParagraphCheckFigure } from "@/components/machines/ParagraphCheckFigure";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
+import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("verification-habits")!;
+const video = videoFor("verification-habits")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {
     title:
       "The Impact of Generative AI on Critical Thinking: Self-Reported Reductions in Cognitive Effort and Confidence Effects From a Survey of Knowledge Workers",
-    publisher: "Lee, Sarkar, Tankelevitch, Drosos, Rintel, Banks & Wilson (CHI 2025)",
+    publisher:
+      "Lee, Sarkar, Tankelevitch, Drosos, Rintel, Banks & Wilson (CHI 2025)",
     url: "https://advait.org/files/lee_2025_ai_critical_thinking_survey.pdf",
     used: "The finding that higher confidence in the tool predicts less critical thinking, and that the work of thinking shifts toward verifying what the tool produced.",
     licence: "CC BY 4.0",
@@ -48,21 +50,21 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "Everyone agrees you should check AI output. Almost nobody does it consistently, and the reason is not laziness. It is that checking costs time, and a rule you cannot afford is a rule you will quietly stop following.",
+    say: "Read this the way you would read anything an assistant handed you. It is a real encyclopedia opening. Nothing about it wobbles, hesitates or hedges, and there is nothing on the page to tell you how much of it to believe.",
   },
   {
-    say: "So the round charged you. Every level of checking took seconds off your own clock. Under that pressure you find out what your real policy is, rather than the one you would say out loud.",
+    say: "Three things in it are wrong. That is the honest shape of the problem. Not a wall of nonsense you would spot in a second, but a good paragraph with a few bad words in it.",
   },
   {
-    say: "The rule that survives contact with a real week is simple. Match the check to the damage. What happens if this is wrong, and who finds out?",
+    say: "Here is the one that matters. A number in exactly the same shape as the right number. There is nothing to notice, because noticing would mean already knowing the answer.",
+  },
+  {
+    say: "The other two are more catchable, and that is the trap. Catching those two feels like checking. It is not checking, it is reading, and reading only ever finds the errors you already had the knowledge to find.",
+  },
+  {
+    say: "So checking cannot mean reading harder. It means picking the load-bearing specifics and looking them up at their source. Match the check to the damage: what happens if this is wrong, and who finds out?",
     caption:
-      "Awkward — skim it. Costly — verify every load-bearing claim at its source. Serious — a second pair of eyes, or do it again independently.",
-  },
-  {
-    say: "One outcome deserves more attention than the misses: the sentences you read straight past that were fine. Nothing went wrong, you felt fast and competent, and you learnt exactly the wrong lesson.",
-  },
-  {
-    say: "That is how every bad habit forms. It works, and works, and works, and then one Thursday it does not — and the one it does not work on is never the one you would have chosen.",
+      "Awkward: skim it. Costly: verify every load-bearing claim at its source. Serious: get a second pair of eyes, or do it again independently.",
   },
 ];
 
@@ -71,9 +73,10 @@ const CHECK: CheckBeat[] = [
     kind: "flag",
     prompt:
       "An assistant drafted this for a client email. Tap what you would check at source before it goes out.",
-    instruction: "Three of these pieces need checking. The rest you can judge by reading.",
+    instruction:
+      "Three of these pieces need checking. The rest you can judge by reading.",
     parts: [
-      { text: "Thanks for waiting —" },
+      { text: "Thanks for waiting." },
       { text: "here is where we landed." },
       { text: "The regulation came into force on 17 March 2023,", wrong: true },
       { text: "which is why the deadline matters." },
@@ -84,7 +87,7 @@ const CHECK: CheckBeat[] = [
       { text: "This is set out in Article 12 of the Act.", wrong: true },
     ],
     because:
-      "A date, a figure and a citation. They are the three shapes the machine produces most fluently when it has least to go on, and each is a thirty-second lookup. Everything else in the draft is tone, judgement or a fact about your own company — things you can settle by reading, because you are the source.",
+      "A date, a figure and a citation. They are the three shapes the machine produces most fluently when it has least to go on, and each is a thirty-second lookup. Everything else in the draft is tone, judgement, or a fact about your own company. You can settle those by reading, because you are the source.",
   },
   {
     kind: "choice",
@@ -92,12 +95,12 @@ const CHECK: CheckBeat[] = [
       "You ask the assistant 'are you sure about that?' and it says yes. What have you learnt?",
     options: [
       "That the answer is probably right, since it has now been confirmed a second time",
-      "Nothing — its agreement is not independent of your question",
+      "Nothing. Its agreement is not independent of your question",
       "That it has gone back and re-checked its sources before agreeing with you",
     ],
     answer: 1,
     because:
-      "Sharma and colleagues measured how readily these systems move toward the user's apparent view. A yes after 'are you sure' and a change of answer after 'that's wrong' are the same behaviour. Confirmation has to come from outside the conversation.",
+      "Sharma and colleagues measured how readily these systems move toward the user's apparent view. A yes after 'are you sure' and a change of answer after 'that is wrong' are the same behaviour. Confirmation has to come from outside the conversation.",
   },
 ];
 
@@ -120,10 +123,10 @@ export default function VerificationHabitsLesson() {
       </div>
 
       <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<ParagraphCheckFigure />} />
       </div>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Why does a wrong answer feel safe to send?"
           summary="Nothing in the writing marks it. And the more you trust the tool, the less of it you read."
@@ -140,9 +143,9 @@ export default function VerificationHabitsLesson() {
             Lee and colleagues supply the human half. Across 319 knowledge
             workers, higher confidence in the AI predicted less critical
             thinking; higher confidence in one&rsquo;s own ability predicted
-            more. Trust and scrutiny trade off directly &mdash; which means the
-            tasks you have handed over longest are the ones you are now reading
-            least carefully.
+            more. Trust and scrutiny trade off directly. That means the tasks
+            you have handed over longest are the ones you are now reading least
+            carefully.
           </p>
         </MechanismPanel>
 
@@ -160,10 +163,10 @@ export default function VerificationHabitsLesson() {
           <p>
             Three specifics never make the &ldquo;probably fine&rdquo; list.
             Arithmetic gets recomputed, in a calculator or by asking for code
-            &mdash; Dziri and colleagues showed accuracy collapses as sums get
+            Dziri and colleagues showed that accuracy collapses as sums get
             bigger, and prose that looks like working out is not working out.
-            Citations get opened, not scanned. And anything with a date, a
-            price or a version gets checked against the source that owns it.
+            Citations get opened, not scanned. And anything with a date, a price
+            or a version gets checked against the source that owns it.
           </p>
           <p>
             What none of these are is asking the assistant to check itself.
@@ -171,19 +174,9 @@ export default function VerificationHabitsLesson() {
             inside it, agreement is the cheapest thing on offer.
           </p>
         </MechanismPanel>
-      </div>
-
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="I ask who sees it and what it costs to undo. If it stays with me, a read-through is plenty. If it goes to a customer or a decision, I check every specific claim against the thing it came from. If somebody could be harmed or the money is real, I do not check it — I have somebody qualified check it, or I do it again myself from scratch. And I stay suspicious of the ones I got away with, because nothing going wrong is not the same as nothing being wrong."
-        />
-      </div>
-
-      <div className="pb-4">
         <PracticeCard
           title="Find the load-bearing sentence"
-          watchFor="How often the sentence everything rests on is a specific — a figure, a date, a named source — rather than an argument. That is not a coincidence, and it is the shortest route to a check that is actually worth the time."
+          watchFor="How often the sentence everything rests on is a specific rather than an argument. A figure, a date, a named source. That is not a coincidence, and it is the shortest route to a check that is worth the time."
         >
           <p>
             Take the last substantial thing an assistant produced for you. Read
@@ -195,7 +188,7 @@ export default function VerificationHabitsLesson() {
             you would have caught it if it had been wrong.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

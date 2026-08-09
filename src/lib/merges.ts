@@ -2,15 +2,6 @@ import raw from "@data/merges.json";
 
 /**
  * Typed view over the generated merge traces.
- *
- * Produced by data/scripts/build-merges.mjs, which replays tiktoken's own
- * byte-pair merge loop against the published o200k_base rank table and then
- * checks the result token-for-token against the tokenizer. If those two ever
- * disagree the script throws rather than writing the file, so anything readable
- * from here has already been checked against the real encoder.
- *
- * Small enough (16KB) to ship with the page rather than fetch, which is why the
- * figure has no loading state.
  */
 
 export type MergeStep = {

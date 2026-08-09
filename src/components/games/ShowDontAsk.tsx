@@ -20,15 +20,6 @@ import {
 
 /**
  * Show, Don't Ask.
- *
- * One goal, five phrasings, and a call to make before any evidence appears.
- * Then all five measured probabilities arrive at once as bars, and the gap
- * between "please answer in one word" and a worked example is more than a
- * hundred times over.
- *
- * The bars land together rather than one at a time, because the comparison is
- * the point — you are meant to see the pattern phrasing tower over the polite
- * one, not read five numbers in sequence.
  */
 
 let cached: Promise<ListenData> | null = null;
@@ -61,7 +52,12 @@ export function ShowDontAsk() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 90 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 90 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -94,7 +90,7 @@ export function ShowDontAsk() {
     <GameShell
       gameId="show-dont-ask"
       name="Show, Don't Ask"
-      instruction="One thing you want out of the model, and five ways of asking for it. Pick the phrasing that actually gets it — then watch all five measured at once. Most of what people tell you about prompting turns out not to survive this."
+      instruction="One thing you want out of the model, and five ways of asking for it. Pick the phrasing that you think gets it, then watch all five measured at once. Most of what people tell you about prompting turns out not to survive this."
       howToPlay={{
         goal: "Pick the phrasing that actually gets what you asked for.",
         steps: [
@@ -102,8 +98,9 @@ export function ShowDontAsk() {
           "Five phrasings of the same request are listed. Pick the one you think works best.",
           "All five measured probabilities arrive at once, with how many times better than a bare question each one is.",
         ],
-        controls: "Click a phrasing, or press 1–5. Enter moves on.",
-        scoring: "120 for the winner, and more when the runner-up was close behind.",
+        controls: "Tap or click a phrasing, or press 1–5. Enter moves on.",
+        scoring:
+          "120 for the winner, and more when the runner-up was close behind.",
       }}
       startLabel={data ? "Take the first one" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -137,7 +134,10 @@ export function ShowDontAsk() {
           {data ? (
             <ul className="mb-3 space-y-1">
               {data.summary.map((row) => (
-                <li key={row.style} className="flex items-baseline gap-3 text-[0.9375rem]">
+                <li
+                  key={row.style}
+                  className="flex items-baseline gap-3 text-[0.9375rem]"
+                >
                   <span className="data w-16 shrink-0 tabular-nums">
                     {row.medianTimesBare}×
                   </span>
@@ -149,9 +149,9 @@ export function ShowDontAsk() {
           <p className="text-ink-soft text-[0.9375rem]">
             Telling it how to answer did almost nothing. Giving it a role to
             play did slightly less than nothing. Showing it one worked example
-            beat both on every single item. Delegation is not conversation
-            &mdash; if you want a particular shape of answer, put an example of
-            that shape in front of it.
+            beat both on every single item. Delegation is not conversation . If
+            you want a particular shape of answer, put an example of that shape
+            in front of it.
           </p>
         </div>
       }
@@ -159,9 +159,9 @@ export function ShowDontAsk() {
         data ? (
           <>
             Measured on {data.model.name}, a base model with no
-            instruction-following training at all &mdash; which is the point.
-            The assistant you use has had that training, so polite instructions
-            do work on it. What this shows is the floor: showing a pattern works
+            instruction-following training at all, which is the point. The
+            assistant you use has had that training, so polite instructions do
+            work on it. What this shows is the floor: showing a pattern works
             even on a model that is not trying to please you, which is why it
             keeps working when the polite phrasing quietly stops.
           </>
@@ -232,7 +232,11 @@ export function ShowDontAsk() {
                               animate={{
                                 width: `${(variant.probability / widest) * 100}%`,
                               }}
-                              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+                              transition={{
+                                duration: 0.7,
+                                delay: 0.2,
+                                ease: "easeOut",
+                              }}
                             />
                           </span>
                           <span className="data text-ink-soft w-20 shrink-0 text-right text-xs tabular-nums">
@@ -250,7 +254,9 @@ export function ShowDontAsk() {
                                   : "text-ink-soft"
                             }`}
                           >
-                            {multiple ? `${multiple.toFixed(multiple >= 10 ? 0 : 1)}×` : "—"}
+                            {multiple
+                              ? `${multiple.toFixed(multiple >= 10 ? 0 : 1)}×`
+                              : "-"}
                           </span>
                         </span>
                       ) : null}
@@ -276,16 +282,39 @@ export function ShowDontAsk() {
                       ? `Right. +${pointsFor(round, scene.picked!)}`
                       : "Not that one."}
                   </p>
+                  {/* What each phrasing actually got back. Asking politely
+                      returns an empty line, and printing that blank is worth
+                      more than any number beside it. */}
+                  <ul className="mb-3 space-y-1.5">
+                    {round.variants.map((variant) => {
+                      const said = (variant.says ?? variant.topText)
+                        .replace(/\n/g, "")
+                        .trim();
+                      const won = variant.id === winner.id;
+                      return (
+                        <li
+                          key={variant.id}
+                          className="flex flex-wrap items-baseline gap-x-3 text-[0.9375rem]"
+                        >
+                          <span className="label text-ink-faint w-28 shrink-0">
+                            {variant.style}
+                          </span>
+                          <span
+                            className={`data rounded-[2px] border px-1.5 py-0.5 text-sm font-bold ${
+                              won
+                                ? "border-teal-text/40 bg-teal-wash text-teal-text"
+                                : "border-ink/25 text-ink-faint"
+                            }`}
+                          >
+                            {said || "said nothing at all"}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                   <p className="prose-measure text-ink-soft mb-3 text-[0.9375rem]">
-                    The winner was the phrasing that stopped asking and started
-                    showing. Its own next word was &ldquo;
-                    {winner.topText.replace(/\n/g, "⏎").trim() || "␣"}&rdquo;,
-                    against &ldquo;
-                    {round.variants
-                      .find((v) => v.style === "bare")
-                      ?.topText.replace(/\n/g, "⏎")
-                      .trim() || "␣"}
-                    &rdquo; for the bare question.
+                    The one that worked stopped asking and started showing.
+                    Politeness and job titles got a blank line.
                   </p>
                   <button
                     type="button"

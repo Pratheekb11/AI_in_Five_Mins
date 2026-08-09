@@ -1,26 +1,5 @@
 /**
  * The rules of the Failure bench, as pure functions.
- *
- * Three failures that get talked about as if they were three different bugs —
- * making things up, sounding certain while wrong, and carrying prejudice — and
- * one cause underneath all of them: the thing was fitted to text, and text is
- * not the world.
- *
- * The bench proves that rather than asserting it. Each specimen is a real
- * measurement on data already shipped with this site, and the player calls
- * which way it went before it is weighed.
- *
- * HONESTY, and this one matters more here than anywhere else on the site.
- * Which specimens go on the bench is an editorial choice and is listed below
- * with no numbers in it. Every number comes out of `logits.json` or
- * `embeddings.json` at run time, computed by the same functions the rest of the
- * site uses. Nothing is typed in by hand, so nothing can drift, and a specimen
- * that stopped being true would fail loudly rather than keep printing an old
- * figure. Two of the specimens contradict the point they look like they are
- * making — they are kept precisely because they do.
- *
- * PURITY. The reducer never rolls a die. Draws are made by the caller and
- * passed in as numbers, so a state updater running twice changes nothing.
  */
 
 import { similarity, type EmbeddingSpace } from "@/lib/embeddings";
@@ -59,7 +38,7 @@ export const FAILURES: Record<Failure, { name: string; blurb: string }> = {
   inheritance: {
     name: "Carries what it read",
     blurb:
-      "The associations in the training text end up in the model. Not as opinions — as geometry.",
+      "The associations in the training text end up in the model. Not as opinions, but as geometry.",
   },
 };
 
@@ -108,7 +87,7 @@ export const SPECIMENS: readonly SpecimenSpec[] = [
     a: " France",
     b: " London",
     ask: "The right answer, or a wrong capital city?",
-    tell: "The right answer does win here — by a whisker. That margin is the entire distance between the model being right and the model naming another city with total composure.",
+    tell: "The right answer does win here, by a whisker. That margin is the entire distance between the model being right and the model naming another city with total composure.",
   },
   {
     kind: "fabrication",
@@ -124,14 +103,14 @@ export const SPECIMENS: readonly SpecimenSpec[] = [
     a: " earth",
     b: " Earth",
     ask: "Text it has read thousands of times. Which capitalisation won?",
-    tell: "When the phrase really is memorised, the distribution collapses onto one token and the runner-up is nowhere. That is what confidence looks like from the inside — and it is rare.",
+    tell: "When the phrase really is memorised, the distribution collapses onto one token and the runner-up is nowhere. That is what confidence looks like from the inside, and it is rare.",
   },
   {
     kind: "confidence",
     a: "fact",
     b: "open",
     ask: "Which one was the model more certain about?",
-    tell: "It was more certain about the one it gets wrong. Certainty is measured over its own guesses about text — nothing in it is a measure of being right.",
+    tell: "It was more certain about the one it gets wrong. Certainty is measured over its own guesses about text. Nothing in it is a measure of being right.",
   },
   {
     kind: "confidence",
@@ -178,7 +157,7 @@ export const SPECIMENS: readonly SpecimenSpec[] = [
     a: "she",
     b: "he",
     ask: "Which is “secretary” nearer in that text?",
-    tell: "Not the way the stereotype predicts. This corpus is half newswire, and in newswire a secretary is usually a Secretary of State. The measurement is of a particular pile of text — swap the pile and you swap the answer, which is the honest version of this whole subject.",
+    tell: "Not the way the stereotype predicts. This corpus is half newswire, and in newswire a secretary is usually a Secretary of State. The measurement is of a particular pile of text. Swap the pile and you swap the answer, which is the honest version of this whole subject.",
   },
   {
     kind: "inheritance",
@@ -352,7 +331,6 @@ export function call(scene: BenchScene, side: "left" | "right"): BenchScene {
     return { ...scene, called: side, streak: 0 };
   }
 
-
   const speed = Math.round(SPEED_POINTS * (scene.fuse / FUSE));
   const streak = scene.streak + 1;
   return {
@@ -369,7 +347,7 @@ export function call(scene: BenchScene, side: "left" | "right"): BenchScene {
  * On to the next specimen.
  *
  * The failure this one demonstrated is recorded here rather than in `call`,
- * because the measurement is shown either way — a player who guessed wrong has
+ * because the measurement is shown either way, a player who guessed wrong has
  * still watched it weighed.
  */
 export function next(scene: BenchScene): BenchScene {

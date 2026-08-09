@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Mascot scratch files, gitignored, kept only as source geometry.
+    "three-d-stage.js",
   ]),
 ]);
 

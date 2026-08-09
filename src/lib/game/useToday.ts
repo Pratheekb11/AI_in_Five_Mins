@@ -4,12 +4,6 @@ import { useSyncExternalStore } from "react";
 
 /**
  * Today's date as YYYY-MM-DD, in the reader's own timezone.
- *
- * Read through `useSyncExternalStore` rather than an effect, for two reasons.
- * The clock is impure, so it cannot be touched during render; and the server
- * has no business guessing which day it is where the reader is, so the server
- * snapshot is empty and the date arrives on hydration. Components render a
- * neutral state until then.
  */
 
 function subscribe() {

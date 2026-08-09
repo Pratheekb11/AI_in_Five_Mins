@@ -1,22 +1,5 @@
 /**
- * Would you paste it? — the untimed rebuild.
- *
- * The content is unchanged and comes from `paste.ts`: the four categories, the
- * three doors, and twenty-six things somebody might reasonably consider pasting
- * into an assistant. What has gone is the forty-five second clock and the
- * flying cards. Deciding whether a document may leave your organisation is not
- * a reflex test, and dressing it up as one taught the wrong instinct.
- *
- * HONESTY, and it matters here more than most places. The routing rule this
- * scores against is a policy, not a measurement — you cannot measure whether
- * something ought to be pasted. What is not a policy is the legal category:
- * special category data is defined in Article 9 of the GDPR, and the page links
- * to the text rather than paraphrasing it and hoping.
- *
- * The other half is not policy either. Context Budget measured that whatever
- * you put in the window is most of what comes out, and Pushback measured that
- * it gets copied. "What you paste becomes part of what it produces" is a thing
- * this site demonstrated, not a thing it asserts here.
+ * Would you paste it?, the untimed rebuild.
  */
 
 import { CORRECT, type Door, type Kind, type Payload, PAYLOADS } from "./paste";
@@ -25,7 +8,7 @@ export const ROUND_SIZE = 8;
 
 /** Where the legal category actually comes from. Verified, not remembered. */
 export const LAW = {
-  article: "Article 9, UK and EU GDPR — special categories of personal data",
+  article: "Article 9, UK and EU GDPR: special categories of personal data",
   url: "https://gdpr-info.eu/art-9-gdpr/",
   guidance: "ICO guidance on special category data",
   guidanceUrl:
@@ -38,7 +21,7 @@ export const WHY_IT_MATTERS = [
     where: "Context Budget",
     slug: "context-is-everything",
     finding:
-      "Whatever goes in the window is most of what comes out — enough that one unhelpful card dropped the right answer from 89.9% to 3.8%.",
+      "Whatever goes in the window is most of what comes out. One unhelpful card dropped the right answer from 89.9% to 3.8%.",
   },
   {
     where: "Pushback",
@@ -86,7 +69,10 @@ export function shuffledBy<T>(items: readonly T[], rolls: number[]): T[] {
 }
 
 export function start(rolls: number[]): CheckScene {
-  return { ...newScene(), deck: shuffledBy(PAYLOADS, rolls).slice(0, ROUND_SIZE) };
+  return {
+    ...newScene(),
+    deck: shuffledBy(PAYLOADS, rolls).slice(0, ROUND_SIZE),
+  };
 }
 
 export function current(scene: CheckScene): Payload | undefined {

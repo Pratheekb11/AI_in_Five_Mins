@@ -1,33 +1,30 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { Nimo } from "@/components/nimo/Nimo";
 import type { Mood } from "@/components/nimo/moods";
 import { useBestScore } from "@/lib/game/useBestScore";
 import { playCue, useMuted } from "@/lib/game/sound";
+import { trackGameFinished, trackGameStarted } from "@/lib/telemetry";
 
 /**
  * The cabinet every game is mounted in.
- *
- * Rounds are deliberately under a minute, so losing costs nothing and going
- * again is the obvious move. That is the whole design: the teaching happens on
- * the third replay, not the first, so everything here exists to make the third
- * replay feel like the player's own idea.
- *
- * The levers are the boring proven ones — a visible personal best, a loud
- * moment when it is beaten, the score kept on screen while you play, and a
- * restart that takes one press and no confirmation.
  */
 
-export type Readout = { label: string; value: string | number; accent?: boolean };
+export type Readout = {
+  label: string;
+  value: string | number;
+  accent?: boolean;
+};
 
 /**
  * How to play, in the fewest words that still work.
- *
- * Every cabinet takes one. The instruction paragraph explains why the game
- * exists, which is a different job from telling somebody which key to press —
- * and readers were bouncing off games because only the first job was being
- * done.
  */
 export type HowToPlay = {
   /** What winning looks like, in one line. */
@@ -71,6 +68,13 @@ function Rules({ how }: { how: HowToPlay }) {
   );
 }
 
+/** The lesson a game is sitting on, read off the URL at the moment of the
+ *  event. Nothing else about the reader is looked at. */
+function pageOf(): string {
+  if (typeof window === "undefined") return "unknown";
+  return window.location.pathname.replace("/lessons/", "") || "home";
+}
+
 export function GameShell({
   gameId,
   name,
@@ -99,7 +103,7 @@ export function GameShell({
   /** The score to record when the round ends. */
   finalScore?: number;
   again?: ReactNode;
-  /** Nimo's live reaction — games raise this on a hit, a miss or a streak. */
+  /** Nimo's live reaction, games raise this on a hit, a miss or a streak. */
   mood?: Mood;
   children: ReactNode;
   footer?: ReactNode;
@@ -108,12 +112,22 @@ export function GameShell({
   const [rulesOpen, setRulesOpen] = useState(false);
   const [muted, toggleMuted] = useMuted();
 
-  // Recorded when the round ends, not while it runs — a best is a result.
+  // Recorded when the round ends, not while it runs, a best is a result.
   useEffect(() => {
     if (phase === "over" && gameId && typeof finalScore === "number") {
       submit(finalScore);
+      trackGameFinished(gameId, pageOf(), finalScore);
     }
   }, [phase, gameId, finalScore, submit]);
+
+  /* Wrapped so every cabinet reports the same two moments without each game
+     having to remember to. The page is read off the URL rather than threaded
+     through as a prop: it is the same thing the analytics page view already
+     records, and a game does not otherwise know which lesson it is on. */
+  const begin = useCallback(() => {
+    if (gameId) trackGameStarted(gameId, pageOf());
+    onStart();
+  }, [gameId, onStart]);
 
   const beatenBest =
     phase === "over" &&
@@ -127,7 +141,7 @@ export function GameShell({
   //
   // Refs hold the previous values rather than state, because a cue is a side
   // effect and turning one into a render would be a loop. They are written and
-  // read only inside effects — never during render.
+  // read only inside effects, never during render.
   const lastMood = useRef<Mood | null>(null);
   const lastPhase = useRef<Phase | null>(null);
 
@@ -159,7 +173,11 @@ export function GameShell({
   }, [phase, mood, beatenBest]);
 
   return (
-    <div className="plate scroll-mt-20 overflow-hidden" id="game">
+    <div
+      className="plate scroll-mt-20 overflow-hidden"
+      id="game"
+      data-section="game"
+    >
       <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
         <span className="flex items-center gap-3">
           <span className="label">{name}</span>
@@ -168,7 +186,10 @@ export function GameShell({
             onClick={toggleMuted}
             aria-pressed={muted}
             title={muted ? "Sound is off" : "Sound is on"}
-            className="label text-ink-faint hover:text-ink cursor-pointer underline-offset-2 hover:underline"
+            /* The padding is the tap target. As a bare label this was eleven
+               pixels tall, which is a thumb's width away from unhittable on a
+               phone; the negative margin keeps the header line where it was. */
+            className="tap label text-ink-faint hover:text-ink -my-2 cursor-pointer px-1 py-2 underline-offset-2 hover:underline"
           >
             {muted ? "sound off" : "sound on"}
           </button>
@@ -211,9 +232,7 @@ export function GameShell({
           rules and the debrief and are taller than the board itself, then
           settles back to the game's own height once play starts. Without this
           the overlay had to scroll inside a shorter box. */}
-      <div
-        className={`relative ${phase !== "playing" ? "min-h-[36rem]" : ""}`}
-      >
+      <div className={`relative ${phase !== "playing" ? "min-h-[36rem]" : ""}`}>
         {/* Nimo watches the round and reacts. He is the loudest feedback in
             the cabinet, which is most of why a miss stings enough to retry. */}
         <span className="pointer-events-none absolute -top-1 right-2 z-20 hidden md:block">
@@ -236,55 +255,51 @@ export function GameShell({
         {phase !== "playing" ? (
           /* `m-auto` on the inner column rather than `justify-center` on the
              overlay. Centring a flex column that overflows its scroll container
-             pushes the top out of reach — the how-to-play panel made the ready
+             pushes the top out of reach, the how-to-play panel made the ready
              screen taller than the cabinet and its heading was clipped with no
              way to scroll back to it. `m-auto` centres when there is room and
              behaves when there is not. */
           <div className="bg-paper/92 absolute inset-0 z-10 flex flex-col overflow-y-auto px-6 py-6 text-center backdrop-blur-[2px]">
             <div className="m-auto flex w-full flex-col items-center gap-4">
-            {phase === "ready" ? (
-              <>
-                <p className="prose-measure text-ink-soft text-[0.9375rem]">
-                  {instruction}
-                </p>
-                {howToPlay ? (
-                  <div className="plate-flush prose-measure w-full max-w-md px-4 py-3">
-                    <Rules how={howToPlay} />
-                  </div>
-                ) : null}
-                {gameId && best > 0 ? (
-                  <p className="label text-teal-text">Your best: {best}</p>
-                ) : null}
-                <button
-                  type="button"
-                  onClick={onStart}
-                  className="plate misreg btn-primary font-display px-6 py-3 text-lg font-bold"
-                >
-                  {startLabel}
-                </button>
-              </>
-            ) : (
-              <>
-                {beatenBest ? (
-                  <p className="label text-teal-text">
-                    ★ New best ★
+              {phase === "ready" ? (
+                <>
+                  <p className="prose-measure text-ink-soft text-[0.9375rem]">
+                    {instruction}
                   </p>
-                ) : null}
-                {again}
-                <button
-                  type="button"
-                  onClick={onStart}
-                  className="plate misreg btn-primary font-display px-6 py-3 text-lg font-bold"
-                >
-                  Go again
-                </button>
-                {gameId && best > 0 && !beatenBest ? (
-                  <p className="label text-ink-faint">
-                    Best so far: {best}
-                  </p>
-                ) : null}
-              </>
-            )}
+                  {howToPlay ? (
+                    <div className="plate-flush prose-measure w-full max-w-md px-4 py-3">
+                      <Rules how={howToPlay} />
+                    </div>
+                  ) : null}
+                  {gameId && best > 0 ? (
+                    <p className="label text-teal-text">Your best: {best}</p>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={begin}
+                    className="plate misreg btn-primary font-display px-6 py-3 text-lg font-bold"
+                  >
+                    {startLabel}
+                  </button>
+                </>
+              ) : (
+                <>
+                  {beatenBest ? (
+                    <p className="label text-teal-text">★ New best ★</p>
+                  ) : null}
+                  {again}
+                  <button
+                    type="button"
+                    onClick={begin}
+                    className="plate misreg btn-primary font-display px-6 py-3 text-lg font-bold"
+                  >
+                    Go again
+                  </button>
+                  {gameId && best > 0 && !beatenBest ? (
+                    <p className="label text-ink-faint">Best so far: {best}</p>
+                  ) : null}
+                </>
+              )}
             </div>
           </div>
         ) : null}

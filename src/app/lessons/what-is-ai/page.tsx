@@ -1,24 +1,21 @@
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { WhatIsAI } from "@/components/machines/WhatIsAI";
+import { SpamBenchFigure } from "@/components/machines/SpamBenchFigure";
 import { SPAM_BENCH } from "@/lib/datasets";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("what-is-ai")!;
 const video = videoFor("what-is-ai")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const pct = (n: number) => `${(n * 100).toFixed(1)}%`;
 
@@ -53,17 +50,17 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "Almost all software follows rules a person wrote. If the message contains a shortcode, flag it. That approach built most of the computing you use, and it has one requirement: somebody has to know the rule in advance.",
+    say: `Here is the job. ${SPAM_BENCH.corpus.total.toLocaleString("en-US")} real text messages, ${SPAM_BENCH.corpus.spam.toLocaleString("en-US")} of them spam. Sort them. Every machine below gets scored on the same messages it has never seen.`,
   },
   {
-    say: "What people call AI is the other approach. Nobody tells it the rule. It is shown thousands of examples with the answer attached and works out the pattern itself.",
-    caption: `The model on this page was given ${SPAM_BENCH.learned.trainSize.toLocaleString("en-US")} labelled messages and nothing else — no word list, no hints.`,
+    say: `Start with the number that should worry you. A filter that flags nothing at all scores ${pct(SPAM_BENCH.baseline.accuracy)}, because most messages are not spam. It catches no spam whatsoever. A single accuracy figure can be almost meaningless.`,
   },
   {
-    say: `And look how close it was. The best hand-written rules reach about ${pct(SPAM_BENCH.bestSubset.accuracy)} on the held-out messages. The learned model reaches ${pct(SPAM_BENCH.learned.accuracy)}. Under a point and a half apart.`,
+    say: `Now ordinary software. A person reads the messages and writes ${SPAM_BENCH.bestSubset.rules.length} rules: if it contains a shortcode, flag it. That is how most computing you use was built, and it needs somebody to know the rule in advance. It reaches ${pct(SPAM_BENCH.bestSubset.accuracy)}.`,
   },
   {
-    say: `Now the number that should worry you. Flagging nothing at all — a filter that does not exist — scores ${pct(SPAM_BENCH.baseline.accuracy)}, because most messages are not spam. A single accuracy figure can be almost meaningless.`,
+    say: `Now the other approach, the one people call AI. Nobody writes a rule. It is shown labelled examples and finds the pattern itself, and it reaches ${pct(SPAM_BENCH.learned.accuracy)}. That difference, who wrote the rule, is the whole of what the word means here.`,
+    caption: `The model was given ${SPAM_BENCH.learned.trainSize.toLocaleString("en-US")} labelled messages and nothing else. No word list, no hints.`,
   },
   {
     say: "So the useful questions are never about the algorithm. What was it shown? What did it miss? What did it wrongly flag? Those three questions carry you through every AI claim you will ever read.",
@@ -74,8 +71,8 @@ const QUESTIONS: QuizQuestion[] = [
   {
     prompt: "A spam filter reports 86% accuracy. Should you be impressed?",
     options: [
-      "Yes — a score that high means it is catching very nearly all of the spam that arrives",
-      "No — flagging nothing at all scores about that, because most messages are not spam",
+      "Yes. A score that high means it is catching very nearly all of the spam that arrives",
+      "No. Flagging nothing at all scores about that, because most messages are not spam",
       "There is no way to tell without knowing the programming language",
     ],
     answer: 1,
@@ -101,26 +98,20 @@ export default function WhatIsAiLesson() {
             of the machine-learning model.
           </>
         }
-        sting={`On ${SPAM_BENCH.corpus.total.toLocaleString("en-US")} real text messages, scored on the same held-out split. Watch the three of them go up — including the one that does nothing at all and still scores 86%, which is the number that should worry you.`}
+        sting={`On ${SPAM_BENCH.corpus.total.toLocaleString("en-US")} real text messages, scored on the same held-out split. Watch the three of them go up, including the one that does nothing at all and still scores 86%. That is the number that should worry you.`}
         cta="Watch it run"
       />
 
       <div className="py-4">
-        <WhatIsAI />
-      </div>
-
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
-        <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
+        <Walkthrough steps={STEPS} figure={<SpamBenchFigure />} />
       </div>
 
       <section className="pb-4">
         <h2 className="display-lg mb-2">Messages worth reading</h2>
         <p className="prose-measure text-ink-soft mb-5">
           A filter is only as good as its hardest cases. These are real messages
-          from the corpus &mdash; obvious spams, ones that slip past almost
-          every rule, ordinary messages that trip several, and ones that stay
-          clean.
+          from the corpus. Obvious spams, ones that slip past almost every rule,
+          ordinary messages that trip several, and ones that stay clean.
         </p>
         <ul className="grid gap-3 md:grid-cols-2">
           {SPAM_BENCH.examples.map((example, i) => (
@@ -143,10 +134,10 @@ export default function WhatIsAiLesson() {
         </ul>
       </section>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="How did it find the pattern without being told?"
-          summary="It counted. Which words turn up in which kind of message, and how often — then it multiplied."
+          summary="It counted. Which words turn up in which kind of message, and how often. Then it multiplied."
           deeper="how-models-learn"
         >
           <p>
@@ -160,8 +151,8 @@ export default function WhatIsAiLesson() {
             That is genuinely all of it, and it is worth sitting with. There is
             no representation of what spam <em>is</em> anywhere in there. It has
             found that shortcodes and prize language cluster in one pile of
-            examples &mdash; and that is enough to be useful, and nowhere near
-            enough to be trusted unsupervised.
+            examples. That is enough to be useful, and nowhere near enough to be
+            trusted unsupervised.
           </p>
         </MechanismPanel>
 
@@ -170,30 +161,21 @@ export default function WhatIsAiLesson() {
           summary="Because when one answer is much more common, guessing that answer every time already looks good."
         >
           <p>
-            {SPAM_BENCH.corpus.spam} of the {SPAM_BENCH.corpus.total.toLocaleString("en-US")}{" "}
-            messages are spam &mdash; about one in seven. A filter that flags
-            nothing is right about everything else, which is{" "}
-            {pct(SPAM_BENCH.baseline.accuracy)} of the time.
+            {SPAM_BENCH.corpus.spam} of the{" "}
+            {SPAM_BENCH.corpus.total.toLocaleString("en-US")} messages are spam,
+            which is about one in seven. A filter that flags nothing is right
+            about everything else, which is {pct(SPAM_BENCH.baseline.accuracy)}{" "}
+            of the time.
           </p>
           <p>
             The two numbers that actually matter trade against each other: what
             got through, and what got wrongly flagged. The learned model missed{" "}
             {SPAM_BENCH.learned.missed} and wrongly flagged{" "}
             {SPAM_BENCH.learned.falseAlarms}. Which of those two hurts more
-            depends entirely on the job &mdash; and nobody can decide that for
-            you from an accuracy figure.
+            depends entirely on the job, and nobody can decide that for you from
+            an accuracy figure.
           </p>
         </MechanismPanel>
-      </div>
-
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="Ordinary software does what somebody wrote down. Somebody had to think of the rule first. What we call AI works the other way round: you show it thousands of examples with the answers attached, and it finds the pattern itself. Nobody has to know the rule in advance, and nobody can read it afterwards either — which is the trade you are making."
-        />
-      </div>
-
-      <div className="pb-4">
         <PracticeCard
           title="Ask the two questions that make AI news readable"
           watchFor="How often neither question is answered anywhere in the article. That absence is usually the story."
@@ -209,7 +191,7 @@ export default function WhatIsAiLesson() {
             flagged.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

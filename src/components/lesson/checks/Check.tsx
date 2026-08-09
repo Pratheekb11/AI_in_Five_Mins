@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { CheckBeat } from "@/lib/check";
 import { useProgress } from "@/lib/progress";
+import { trackCheckCompleted } from "@/lib/telemetry";
 import { ChoiceBeatView } from "./ChoiceBeatView";
 import { FillBeatView } from "./FillBeatView";
 import { FlagBeatView } from "./FlagBeatView";
@@ -12,19 +13,9 @@ import { SortBeatView } from "./SortBeatView";
 /**
  * The check at the end of a module: two or three beats, at most one of them
  * multiple choice.
- *
- * Score is the mean of the beats rather than a count of questions, so a sort of
- * six items and a single choice count the same. Progress is recorded once every
- * beat has been settled, and only ever improves on itself.
  */
-export function Check({
-  slug,
-  beats,
-}: {
-  slug: string;
-  beats: CheckBeat[];
-}) {
-  const { complete, scoreFor } = useProgress();
+export function Check({ slug, beats }: { slug: string; beats: CheckBeat[] }) {
+  const { recordScore, scoreFor } = useProgress();
   const [scores, setScores] = useState<(number | null)[]>(() =>
     beats.map(() => null),
   );
@@ -34,26 +25,33 @@ export function Check({
   const total = scores.reduce<number>((sum, s) => sum + (s ?? 0), 0);
   const best = scoreFor(slug);
 
+  /**
+   * Settles one beat, and records the module once every beat has landed.
+   */
+  const landed = useRef<(number | null)[]>(beats.map(() => null));
+  const reported = useRef(false);
+
   function settle(index: number, fraction: number) {
-    setScores((current) => {
-      if (current[index] !== null) return current;
+    if (landed.current[index] !== null) return;
 
-      const next = [...current];
-      next[index] = fraction;
+    landed.current = landed.current.map((value, i) =>
+      i === index ? fraction : value,
+    );
+    setScores(landed.current);
 
-      /* Recorded here rather than in an effect: the React Compiler forbids
-         setState from an effect body, and the completed moment is an event. */
-      if (next.every((s) => s !== null)) {
-        const mean =
-          next.reduce<number>((sum, s) => sum + (s ?? 0), 0) / next.length;
-        complete(slug, mean);
-      }
-      return next;
-    });
+    if (reported.current) return;
+    if (landed.current.some((value) => value === null)) return;
+
+    reported.current = true;
+    const mean =
+      landed.current.reduce<number>((sum, value) => sum + (value ?? 0), 0) /
+      landed.current.length;
+    recordScore(slug, mean);
+    trackCheckCompleted(slug, mean);
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5" data-section="check">
       <ol className="space-y-5">
         {beats.map((beat, i) => {
           const onSettled = (fraction: number) => settle(i, fraction);

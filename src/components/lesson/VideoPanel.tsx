@@ -5,11 +5,6 @@ import type { Video } from "@/lib/videos";
 
 /**
  * An optional video, loaded only if asked for.
- *
- * Shows YouTube's thumbnail behind a play button and swaps in the iframe on
- * click. Embedding the player up front would pull several hundred kilobytes of
- * third-party script into a page whose whole argument is that it runs in your
- * browser — and most learners come for the game, not the video.
  */
 export function VideoPanel({ video }: { video: Video }) {
   const [playing, setPlaying] = useState(false);
@@ -17,7 +12,9 @@ export function VideoPanel({ video }: { video: Video }) {
   return (
     <figure className="plate overflow-hidden">
       <div className="border-ink/25 bg-paper-sunk border-b px-4 py-3">
-        <p className="label text-ink-faint">Optional — watch it explained</p>
+        <p className="label text-ink-faint">
+          Optional: watch someone explain it
+        </p>
       </div>
 
       <div className="relative aspect-video bg-paper-sunk">
@@ -47,7 +44,12 @@ export function VideoPanel({ video }: { video: Video }) {
             />
             <span className="absolute inset-0 flex items-center justify-center">
               <span className="plate misreg bg-pink flex h-16 w-16 items-center justify-center rounded-full">
-                <svg width="20" height="22" viewBox="0 0 20 22" aria-hidden="true">
+                <svg
+                  width="20"
+                  height="22"
+                  viewBox="0 0 20 22"
+                  aria-hidden="true"
+                >
                   <path d="M2 1 L19 11 L2 21 Z" fill="var(--paper)" />
                 </svg>
               </span>

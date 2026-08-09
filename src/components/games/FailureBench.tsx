@@ -22,18 +22,7 @@ import { type EmbeddingSpace, loadEmbeddings } from "@/lib/embeddings";
 import { type LogitData, loadLogits } from "@/lib/logits";
 
 /**
- * Failure bench — call it before it is weighed.
- *
- * A specimen lands on the balance and you have nine seconds to say which pan
- * goes down. Then the real measurement drops in and the beam tilts to wherever
- * the data actually put it.
- *
- * Every specimen is a live computation over data already on this site. That is
- * what makes the game worth playing rather than reading: you commit to an
- * instinct, and then the arithmetic disagrees with you in public.
- *
- * Rules live in `@/lib/game/bench`. All this file does is draw the scale and
- * turn keys and clicks into calls.
+ * Failure bench, call it before it is weighed.
  */
 
 const SCALE_W = 560;
@@ -81,7 +70,12 @@ export function FailureBench() {
 
   const begin = useCallback(() => {
     if (!bench || bench.length === 0) return;
-    setScene(startRound(bench, bench.map(() => Math.random())));
+    setScene(
+      startRound(
+        bench,
+        bench.map(() => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [bench]);
 
@@ -118,7 +112,7 @@ export function FailureBench() {
     <GameShell
       gameId="failure-bench"
       name="Failure bench"
-      instruction="A specimen goes on the balance and you say which pan drops — before it is weighed. Every weight is a live measurement on data already on this site, so when your instinct loses, it loses to arithmetic. Arrow keys, or click a pan."
+      instruction="A specimen goes on the balance and you say which pan drops, before it is weighed. Every weight is a live measurement on data already on this site, so when your instinct loses, it loses to arithmetic. Arrow keys, or click a pan."
       howToPlay={{
         goal: "Call which pan of the balance drops, before the specimen is weighed.",
         steps: [
@@ -126,8 +120,9 @@ export function FailureBench() {
           "Choose the left or the right pan.",
           "The real measurement lands and the beam tilts to wherever the data actually put it.",
         ],
-        controls: "Click a pan, or press ← and →. Enter moves on.",
-        scoring: "60 plus a speed bonus, multiplied by your streak. The clock ends the specimen, not the round.",
+        controls: "Tap or click a pan, or press ← and →. Enter moves on.",
+        scoring:
+          "60 plus a speed bonus, multiplied by your streak. The clock ends the specimen, not the round.",
       }}
       startLabel={bench ? "Load the bench" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -177,10 +172,10 @@ export function FailureBench() {
         bench ? (
           <>
             Every weight is computed when you press the button, from the same
-            two files the rest of this site uses &mdash; DistilGPT-2&rsquo;s
-            recorded next-token probabilities and GloVe vectors from six billion
-            words of 2014 text. Which specimens are on the bench is our choice.
-            Which way they tip is not.
+            two files the rest of this site uses: DistilGPT-2&rsquo;s recorded
+            next-token probabilities and GloVe vectors from six billion words of
+            2014 text. Which specimens are on the bench is our choice. Which way
+            they tip is not.
           </>
         ) : failed ? (
           <>The measurements did not load.</>
@@ -330,7 +325,7 @@ export function FailureBench() {
                     }`}
                   >
                     {scene.called === "timeout"
-                      ? "Out of time — the bench weighed it without you."
+                      ? "Out of time. The bench weighed it without you."
                       : correct
                         ? "Called it."
                         : "Wrong pan."}
@@ -350,7 +345,7 @@ export function FailureBench() {
                 </>
               ) : (
                 <p className="text-ink-soft text-[0.9375rem]">
-                  Call it fast &mdash; the clock is worth points, and your first
+                  Call it fast. The clock is worth points, and your first
                   instinct is the one worth testing.
                 </p>
               )}

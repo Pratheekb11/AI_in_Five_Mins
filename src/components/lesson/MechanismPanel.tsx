@@ -4,15 +4,6 @@ import { getLesson } from "@/lib/lessons";
 
 /**
  * The mechanism, delivered just in time.
- *
- * Mechanism is not front-loaded anywhere on this site. There is no "how AI
- * works" chapter to get through before the useful part. Instead each mechanism
- * is attached to the symptom that makes somebody want it: the learner watches
- * the thing invent an answer, and *then* gets told what next-token prediction
- * is, while they are still annoyed about it.
- *
- * Closed by default. Curiosity that has already been provoked will open it;
- * curiosity that hasn't should not be made to scroll past a wall of it.
  */
 export function MechanismPanel({
   question,
@@ -22,7 +13,7 @@ export function MechanismPanel({
 }: {
   /** Phrased as the question the learner is asking right now. */
   question: string;
-  /** One line, visible while closed — enough to decide whether to open. */
+  /** One line, visible while closed, enough to decide whether to open. */
   summary: string;
   children: ReactNode;
   /** Slug of the module that takes this apart properly, if there is one. */
@@ -63,7 +54,7 @@ export function MechanismPanel({
               href={`/lessons/${target.slug}`}
               className="font-display decoration-ink/30 hover:decoration-ink font-bold underline underline-offset-4"
             >
-              Take it apart yourself &mdash; {target.title}
+              Take it apart yourself: {target.title}
             </Link>
             <span className="text-ink-faint mt-1 block text-sm">
               {target.machine} · {target.minutes} min. Optional.

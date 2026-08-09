@@ -5,20 +5,13 @@ import type { Exposure } from "@/lib/game/sort";
 
 /**
  * What is stored is only what the reader typed. The evidence tags a sorting
- * card carries are attached when the round is dealt, not saved here — they are
+ * card carries are attached when the round is dealt, not saved here, they are
  * ours to change without invalidating somebody's saved list.
  */
 export type OwnTask = { text: string; exposure: Exposure; mine: true };
 
 /**
  * The tasks you typed in yourself, kept in localStorage.
- *
- * The deck that ships with the module is generic on purpose, and generic is
- * exactly what a personal audit must not be. These are the ones that make the
- * round about your week — so they survive a reload, and they come back the
- * next time you play.
- *
- * Nothing is sent anywhere. It is your list, on your machine.
  */
 
 const KEY = "llai-own-tasks";
@@ -85,7 +78,7 @@ function write(next: OwnTask[]) {
       JSON.stringify(next.map(({ text, exposure }) => ({ text, exposure }))),
     );
   } catch {
-    // Private browsing — the list just will not survive a reload.
+    // Private browsing, the list just will not survive a reload.
   }
   window.dispatchEvent(new Event(EVENT));
 }
@@ -98,7 +91,8 @@ export function useOwnTasks() {
     if (!trimmed) return;
     const current = read();
     if (current.length >= LIMIT) return;
-    if (current.some((t) => t.text.toLowerCase() === trimmed.toLowerCase())) return;
+    if (current.some((t) => t.text.toLowerCase() === trimmed.toLowerCase()))
+      return;
     write([...current, { text: trimmed, exposure, mine: true }]);
   }, []);
 

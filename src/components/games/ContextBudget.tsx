@@ -20,16 +20,7 @@ import {
 } from "@/lib/game/budget";
 
 /**
- * Context Budget — five slots, and everything you put in one costs you.
- *
- * Pick what the model gets to see, press Run, and a real measurement comes
- * back: the probability the model puts on the correct answer given exactly
- * that context. Every combination was measured offline against the real model,
- * so nothing here is a simulation of what would happen.
- *
- * The meter has to move for this to land. Watching a bar fall from 90% to 4%
- * because you added the most helpful-looking card in the pile is the entire
- * lesson, and it is not a lesson anybody believes from a sentence.
+ * Context Budget, five slots, and everything you put in one costs you.
  */
 
 let cached: Promise<ContextData> | null = null;
@@ -62,7 +53,12 @@ export function ContextBudget() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, data.scenarios.map(() => Math.random())));
+    setScene(
+      startRound(
+        data,
+        data.scenarios.map(() => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -86,23 +82,35 @@ export function ContextBudget() {
   const ceiling = scenario ? ceilingFor(scenario) : null;
   const pending = scenario ? resultFor(scenario, scene.chosen) : null;
   const shown = scene.shown;
+
+  /* What it actually said, and whether that is the answer. `says` is the
+     greedy continuation; `topText` is the single token it fell back from, so
+     a data file built before the continuation existed still reads. */
+  const said = shown ? (shown.says ?? shown.topText).trim() : "";
+  /* Against `answer`, which is the string that was scored, not `answerLabel`,
+     which is written for a human: the platform round is labelled "platform 9"
+     and the model says "9 at twenty past six", which is correct. */
+  const rightAnswer =
+    !!scenario &&
+    said.toLowerCase().startsWith(scenario.answer.trim().toLowerCase());
   const spent = scene.runsLeft <= 0;
 
   return (
     <GameShell
       gameId="context-budget"
       name="Context Budget"
-      instruction="Five slots. A pile of cards. One question. Decide what the model gets to see, then run it — and the number that comes back is the real model's probability of producing the real answer from exactly the context you built. Four runs per question."
+      instruction="Five slots, a pile of cards, one question. You decide what the model gets to see, then you run it, and a real model finishes the sentence in front of you from exactly the context you built. Watch which cards change its answer. You get four runs per question."
       howToPlay={{
         goal: "Get the model to produce the right answer, using five slots.",
         steps: [
           "Read the question at the top.",
           "Click cards from the pile to put them in the window. Click again to take one out.",
-          "Press Run it. The real model is run on exactly what you built, and the meter shows its chance of producing the right answer.",
-          "Four runs per question — so think before you spend one.",
+          "Press Run it. The real model runs on exactly what you built, and it finishes the sentence in front of you.",
+          "You only get four runs per question, so think before you spend one.",
         ],
-        controls: "Click cards and buttons.",
-        scoring: "Based on how close you got to the best any combination can reach, plus whatever runs you did not need.",
+        controls: "Tap or click cards and buttons.",
+        scoring:
+          "Based on how close you got to the best any combination can reach, plus any runs you did not need.",
       }}
       startLabel={data ? "Open the window" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -132,23 +140,23 @@ export function ContextBudget() {
             {scene.solved} of {scene.order.length} filled well
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
-            The document with the answer in it was almost the whole game
-            &mdash; without it nothing else got you anywhere. And the card that
-            did the most damage was the example of a good answer, because its
-            placeholder is what the model copied. The most helpful-looking thing
-            in the pile was the worst thing to include. Relevance, not volume.
+            The document with the answer in it was almost the whole game.
+            Without it, nothing else got you anywhere. And the card that did the
+            most damage was the example of a good answer, because the model
+            copied its placeholder. The most helpful-looking thing in the pile
+            was the worst thing to include. Relevance, not volume.
           </p>
         </div>
       }
       footer={
         data ? (
           <>
-            Every number is measured: {data.model.name}{" "}
-            was run on the context
-            those cards make, and the figure is the probability it produces the
-            whole correct answer. The cards themselves are written for the game
-            &mdash; there is no public corpus of plausible decoy memos &mdash;
-            and the answer being scored is the one the relevant card states.
+            Every number is measured. {data.model.name} was run on the context
+            those cards make, and the figure is its probability of producing the
+            whole correct answer. The cards themselves were written for the
+            game, because there is no public collection of plausible decoy
+            memos, and the answer being scored is the one the relevant card
+            states.
           </>
         ) : failed ? (
           <>The measurements did not load.</>
@@ -172,7 +180,7 @@ export function ContextBudget() {
             <div className="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
               <div>
                 <p className="label text-ink-faint mb-2">
-                  The pile &mdash; click to put a card in the window
+                  The pile: click a card to put it in the window
                 </p>
                 <ul className="space-y-2">
                   {scenario.cards.map((card) => {
@@ -207,7 +215,7 @@ export function ContextBudget() {
 
               <div>
                 <p className="label text-ink-faint mb-2">
-                  The window &mdash; {slots} slots
+                  The window: {slots} slots
                 </p>
                 <ul className="mb-4 space-y-1.5">
                   {Array.from({ length: slots }, (_, i) => {
@@ -217,7 +225,9 @@ export function ContextBudget() {
                       <li
                         key={i}
                         className={`border-ink/25 flex min-h-[2.5rem] items-center rounded-[2px] border border-dashed px-3 py-1.5 text-[0.875rem] ${
-                          card ? "bg-yellow-wash border-yellow border-solid" : ""
+                          card
+                            ? "bg-yellow-wash border-yellow border-solid"
+                            : ""
                         }`}
                       >
                         {card ? (
@@ -230,38 +240,71 @@ export function ContextBudget() {
                   })}
                 </ul>
 
-                {/* The meter. Its job is to move. */}
+                {/*
+                  What it says, not what it scores.
+                */}
                 <div className="plate-flush mb-3 px-3 py-3">
-                  <p className="label text-ink-faint mb-1">
-                    Chance it produces &ldquo;{scenario.answerLabel}&rdquo;
+                  <p className="label text-ink-faint mb-2">
+                    What it says next
                   </p>
-                  <p className="data mb-2 text-[1.75rem] tabular-nums">
-                    {shown ? `${(shown.probability * 100).toFixed(1)}%` : "—"}
+
+                  <p className="prose-measure mb-1 text-[1.0625rem]">
+                    <span className="text-ink-soft">{scenario.question}</span>{" "}
+                    {shown ? (
+                      <motion.span
+                        key={said}
+                        className={`data rounded-[2px] border px-1.5 py-0.5 font-bold ${
+                          rightAnswer
+                            ? "border-teal-text/40 bg-teal-wash text-teal-text"
+                            : "border-pink-text/40 bg-pink-wash text-pink-text"
+                        }`}
+                        initial={{ opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.28 }}
+                      >
+                        {said || "\u2423"}
+                      </motion.span>
+                    ) : (
+                      <span className="border-ink/30 text-ink-faint rounded-[2px] border border-dashed px-3 py-0.5">
+                        ?
+                      </span>
+                    )}
                   </p>
-                  <span className="bg-paper-sunk border-ink/20 block h-4 overflow-hidden rounded-[1px] border">
-                    <motion.span
-                      className={`block h-full ${
-                        !shown
-                          ? "bg-ink/20"
-                          : shown.probability > 0.5
-                            ? "bg-teal"
-                            : shown.probability > 0.15
-                              ? "bg-yellow"
-                              : "bg-pink"
-                      }`}
-                      initial={false}
-                      animate={{
-                        width: shown ? `${shown.probability * 100}%` : "0%",
-                      }}
-                      transition={{ duration: 0.65, ease: "easeOut" }}
-                    />
-                  </span>
-                  {shown ? (
-                    <p className="text-ink-faint mt-2 text-[0.8125rem]">
-                      Its own favourite continuation was &ldquo;
-                      {shown.topText.trim() || "␣"}&rdquo;.
+
+                  {shown && !rightAnswer ? (
+                    <p className="text-ink-faint mb-2 text-[0.8125rem]">
+                      The right answer is{" "}
+                      <span className="data">{scenario.answerLabel}</span>. It
+                      is not being asked to guess — it is being asked to read.
                     </p>
                   ) : null}
+
+                  <div className="mt-3 flex items-center gap-3">
+                    <span className="label text-ink-faint shrink-0">
+                      Chance of &ldquo;{scenario.answerLabel}&rdquo;
+                    </span>
+                    <span className="bg-paper-sunk border-ink/20 block h-3 grow overflow-hidden rounded-[1px] border">
+                      <motion.span
+                        className={`block h-full ${
+                          !shown
+                            ? "bg-ink/20"
+                            : shown.probability > 0.5
+                              ? "bg-teal"
+                              : shown.probability > 0.15
+                                ? "bg-yellow"
+                                : "bg-pink"
+                        }`}
+                        initial={false}
+                        animate={{
+                          width: shown ? `${shown.probability * 100}%` : "0%",
+                        }}
+                        transition={{ duration: 0.65, ease: "easeOut" }}
+                      />
+                    </span>
+                    <span className="data shrink-0 tabular-nums">
+                      {shown ? `${(shown.probability * 100).toFixed(1)}%` : "-"}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="flex flex-wrap gap-2">

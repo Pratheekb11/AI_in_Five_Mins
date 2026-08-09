@@ -12,13 +12,6 @@ import { ENCODING_NAME, loadEncoding } from "@/lib/tokenizer";
 /**
  * Paste an instruction; see which of the five parts are structurally there and
  * what it costs to send.
- *
- * Two very different claims are on screen here and they are labelled
- * differently on purpose. The token count is a measurement: the real
- * `o200k_base` encoder runs in the browser and the number is exact. The five
- * checks are a keyword match, and the panel says so and shows the words it
- * matched on, so a reader can overrule it. Nothing here judges whether the
- * prompt is any good — no model is called and none is imitated.
  */
 
 const HINTS: Record<ElementKey, string> = {
@@ -111,7 +104,7 @@ export function PromptInspector() {
       <p className="text-ink-faint mt-2 text-sm">
         Tokens measured with the real{" "}
         <span className="font-data">{ENCODING_NAME}</span> encoding
-        {encoding ? "" : " — the merge table is still loading"}. That number is
+        {encoding ? "" : " (the merge table is still loading)"}. That number is
         exact. The five checks below are not.
       </p>
 
@@ -123,7 +116,7 @@ export function PromptInspector() {
 
       <p className="border-ink/20 text-ink-soft mt-5 border-t pt-4 text-sm">
         <strong className="font-semibold">How this check works:</strong> it
-        looks for the phrasings these five parts usually take in English &mdash;
+        looks for the phrasings these five parts usually take in English.
         &ldquo;you are&rdquo;, a verb at the start of a sentence, a word limit,
         the name of a format, &ldquo;for example&rdquo;. It is a pattern match,
         not comprehension. It will miss a constraint you phrased unusually, and
@@ -144,7 +137,7 @@ function Row({ signal }: { signal: Signal }) {
           signal.present ? "text-teal-text" : "text-pink-text"
         }`}
       >
-        {signal.present ? spec.label : `${spec.label} — none`}
+        {signal.present ? spec.label : `${spec.label}: none`}
       </span>
 
       {signal.present ? (

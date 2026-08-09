@@ -5,8 +5,8 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 /**
  * Reads a lesson step aloud.
  *
- * Uses the browser's built-in speech synthesis — no service, no key, no
- * network. Where it isn't available the button simply doesn't render, because
+ * Uses the browser's built-in speech synthesis, no service, no key, no
+ * network. Where it is not available the button simply does not render, because
  * a control that does nothing is worse than no control.
  */
 export function SpeechButton({ text }: { text: string }) {
@@ -22,7 +22,7 @@ export function SpeechButton({ text }: { text: string }) {
 
   // A new step should not carry on being read in the old step's voice. The
   // spoken text is part of the key below, so switching steps remounts this
-  // component and the cleanup above cancels — no setState from an effect.
+  // component and the cleanup above cancels, no setState from an effect.
   if (!supported) return null;
 
   function toggle() {
@@ -44,7 +44,7 @@ export function SpeechButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={toggle}
-      className="label border-ink/40 hover:border-ink text-ink-soft hover:text-ink inline-flex shrink-0 items-center gap-2 rounded-[2px] border px-2.5 py-2 transition-colors"
+      className="tap label border-ink/40 hover:border-ink text-ink-soft hover:text-ink inline-flex shrink-0 items-center gap-2 rounded-[2px] border px-2.5 py-2 transition-colors"
       aria-label={speaking ? "Stop reading aloud" : "Read this aloud"}
     >
       <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">

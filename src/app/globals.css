@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
-  LearnLoopAI — risograph print system.
+  AIinFive — risograph print system.
 
   The whole site is styled as a two-to-four-ink risograph print of a technical
   manual: flat spot colours, no gradients, no glow, visible halftone, and a
@@ -61,6 +61,10 @@
      both themes, so a strip can never fade its own labels out. */
   --weight-ceiling: 0.62;
 
+  /* Behind the one dialog on the site. Dark in both themes: it is a scrim,
+     and a pale one over a dark page reads as a flash rather than a dimming. */
+  --scrim: #17171fc4;
+
   --halftone: #17171f;
   --halftone-opacity: 0.055;
 
@@ -102,10 +106,21 @@
   --on-blue: #0a0a0e;
   --on-yellow: #17171f;
 
+  --scrim: #05050899;
+
   --halftone: #ece9e1;
   --halftone-opacity: 0.05;
 }
 
+/*
+  Somebody who has never touched the toggle gets dark from their operating
+  system, and that has to be the SAME dark. This block once carried its own
+  brighter inks and, worse, left `--on-blue` and `--on-yellow` at their light
+  values: cream type on a light blue button, 2.27:1, for every reader whose
+  machine is dark and who never pressed anything. Every declaration below is a
+  copy of the block above, and `globals.test.ts` fails if the two drift apart
+  again.
+*/
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
@@ -115,13 +130,13 @@
     --paper-sunk: #0d0d12;
     --ink: #ece9e1;
     --ink-soft: #a9a6a0;
-    --ink-faint: #74726e;
+    --ink-faint: #918f8a;
     --rule: #ece9e12e;
 
-    --blue: #7d93ff;
-    --pink: #ff6fa3;
-    --yellow: #f5c542;
-    --teal: #3cc7b4;
+    --blue: #5570e8;
+    --pink: #e8477f;
+    --yellow: #b0861e;
+    --teal: #0f9e8d;
 
     --blue-wash: #1c2450;
     --pink-wash: #3d1a2c;
@@ -132,6 +147,11 @@
     --pink-text: #ff85b3;
     --yellow-text: #f7d071;
     --teal-text: #55d8c6;
+
+    --on-blue: #0a0a0e;
+    --on-yellow: #17171f;
+
+    --scrim: #05050899;
 
     --halftone: #ece9e1;
     --halftone-opacity: 0.05;
@@ -341,6 +361,51 @@
   background: var(--blue);
   color: var(--on-blue);
   border-color: var(--ink);
+}
+
+/*
+  A control small enough to read but too small to hit.
+  
+  Several of the site's controls are set in the label face, which puts them
+  around 27 to 30 pixels tall — over the 24px floor and well under the 44px a
+  thumb actually wants. Rather than fatten them everywhere and unbalance the
+  masthead, the target is grown only where the pointer is coarse, and grown
+  through the invisible half: the box keeps its drawn size and the hit area
+  spreads out from the middle.
+*/
+@media (pointer: coarse) {
+  .tap {
+    position: relative;
+  }
+
+  .tap::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+}
+
+/*
+  Straight past the masthead, for anyone arriving on the keyboard.
+
+  Off the top of the page until it takes focus, at which point it is an
+  ordinary plate sitting over everything.
+*/
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0.75rem;
+  z-index: 60;
+  transform: translateY(-140%);
+  transition: transform 120ms ease-out;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0.75rem);
 }
 
 /* Thin, printed-looking scrollbars on the horizontal token rails. */

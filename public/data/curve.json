@@ -1,0 +1,330 @@
+{
+  "generatedBy": "data/scripts/build-curve.mjs",
+  "source": {
+    "name": "SMS Spam Collection v.1",
+    "authors": "Almeida, Gómez Hidalgo & Yamakami",
+    "url": "https://archive.ics.uci.edu/dataset/228/sms+spam+collection",
+    "licence": "Free to use with attribution to the authors' 2011 paper"
+  },
+  "corpus": {
+    "total": 5574,
+    "trainSize": 4459,
+    "testSize": 1115
+  },
+  "note": "Every point is the average of 5 different random draws of that many training messages, all scored on the same 1115 held-out messages.",
+  "sizes": [
+    20,
+    50,
+    100,
+    250,
+    500,
+    1000,
+    2000,
+    4459
+  ],
+  "repeats": 5,
+  "curves": [
+    {
+      "id": "one-rule",
+      "name": "One hand-written rule",
+      "how": "Flags anything with five or more digits in a row. It ignores the training data entirely.",
+      "points": [
+        {
+          "size": 20,
+          "accuracy": 0.9677,
+          "spread": 0,
+          "draws": 5
+        },
+        {
+          "size": 50,
+          "accuracy": 0.9677,
+          "spread": 0,
+          "draws": 5
+        },
+        {
+          "size": 100,
+          "accuracy": 0.9677,
+          "spread": 0,
+          "draws": 5
+        },
+        {
+          "size": 250,
+          "accuracy": 0.9677,
+          "spread": 0,
+          "draws": 5
+        },
+        {
+          "size": 500,
+          "accuracy": 0.9677,
+          "spread": 0,
+          "draws": 5
+        },
+        {
+          "size": 1000,
+          "accuracy": 0.9677,
+          "spread": 0,
+          "draws": 5
+        },
+        {
+          "size": 2000,
+          "accuracy": 0.9677,
+          "spread": 0,
+          "draws": 5
+        },
+        {
+          "size": 4459,
+          "accuracy": 0.9677,
+          "spread": 0,
+          "draws": 1
+        }
+      ],
+      "atSmallest": 0.9677,
+      "atLargest": 0.9677
+    },
+    {
+      "id": "tree",
+      "name": "A small decision tree",
+      "how": "Four questions deep, grown on whatever it is given, from the same twelve features.",
+      "points": [
+        {
+          "size": 20,
+          "accuracy": 0.8389,
+          "spread": 0.0529,
+          "draws": 5
+        },
+        {
+          "size": 50,
+          "accuracy": 0.9618,
+          "spread": 0.0296,
+          "draws": 5
+        },
+        {
+          "size": 100,
+          "accuracy": 0.9677,
+          "spread": 0,
+          "draws": 5
+        },
+        {
+          "size": 250,
+          "accuracy": 0.9695,
+          "spread": 0.0036,
+          "draws": 5
+        },
+        {
+          "size": 500,
+          "accuracy": 0.9724,
+          "spread": 0.0072,
+          "draws": 5
+        },
+        {
+          "size": 1000,
+          "accuracy": 0.972,
+          "spread": 0.0081,
+          "draws": 5
+        },
+        {
+          "size": 2000,
+          "accuracy": 0.9752,
+          "spread": 0.0054,
+          "draws": 5
+        },
+        {
+          "size": 4459,
+          "accuracy": 0.9767,
+          "spread": 0,
+          "draws": 1
+        }
+      ],
+      "atSmallest": 0.8389,
+      "atLargest": 0.9767
+    },
+    {
+      "id": "twelve-features",
+      "name": "All twelve features, learned",
+      "how": "Naive Bayes over the twelve yes-or-no features rather than over the words.",
+      "points": [
+        {
+          "size": 20,
+          "accuracy": 0.9684,
+          "spread": 0.0152,
+          "draws": 5
+        },
+        {
+          "size": 50,
+          "accuracy": 0.9772,
+          "spread": 0.009,
+          "draws": 5
+        },
+        {
+          "size": 100,
+          "accuracy": 0.977,
+          "spread": 0.0027,
+          "draws": 5
+        },
+        {
+          "size": 250,
+          "accuracy": 0.9799,
+          "spread": 0.0054,
+          "draws": 5
+        },
+        {
+          "size": 500,
+          "accuracy": 0.9799,
+          "spread": 0.0045,
+          "draws": 5
+        },
+        {
+          "size": 1000,
+          "accuracy": 0.9806,
+          "spread": 0.0063,
+          "draws": 5
+        },
+        {
+          "size": 2000,
+          "accuracy": 0.983,
+          "spread": 0.0036,
+          "draws": 5
+        },
+        {
+          "size": 4459,
+          "accuracy": 0.983,
+          "spread": 0,
+          "draws": 1
+        }
+      ],
+      "atSmallest": 0.9684,
+      "atLargest": 0.983
+    },
+    {
+      "id": "words",
+      "name": "Every word, learned",
+      "how": "Naive Bayes over the whole vocabulary. The most capacity here, and the most to learn from.",
+      "points": [
+        {
+          "size": 20,
+          "accuracy": 0.8942,
+          "spread": 0.0574,
+          "draws": 5
+        },
+        {
+          "size": 50,
+          "accuracy": 0.9299,
+          "spread": 0.0143,
+          "draws": 5
+        },
+        {
+          "size": 100,
+          "accuracy": 0.9535,
+          "spread": 0.0188,
+          "draws": 5
+        },
+        {
+          "size": 250,
+          "accuracy": 0.9666,
+          "spread": 0.0072,
+          "draws": 5
+        },
+        {
+          "size": 500,
+          "accuracy": 0.9742,
+          "spread": 0.0108,
+          "draws": 5
+        },
+        {
+          "size": 1000,
+          "accuracy": 0.9792,
+          "spread": 0.0036,
+          "draws": 5
+        },
+        {
+          "size": 2000,
+          "accuracy": 0.9842,
+          "spread": 0.0027,
+          "draws": 5
+        },
+        {
+          "size": 4459,
+          "accuracy": 0.9865,
+          "spread": 0,
+          "draws": 1
+        }
+      ],
+      "atSmallest": 0.8942,
+      "atLargest": 0.9865
+    }
+  ],
+  "rounds": [
+    {
+      "id": "n20",
+      "size": 20,
+      "startModel": "tree",
+      "startAccuracy": 0.8389,
+      "moreData": {
+        "size": 250,
+        "times": 12.5,
+        "accuracy": 0.9695,
+        "gain": 0.1306
+      },
+      "betterModel": {
+        "id": "twelve-features",
+        "name": "All twelve features, learned",
+        "accuracy": 0.9684,
+        "gain": 0.1295
+      }
+    },
+    {
+      "id": "n100",
+      "size": 100,
+      "startModel": "tree",
+      "startAccuracy": 0.9677,
+      "moreData": {
+        "size": 1000,
+        "times": 10,
+        "accuracy": 0.972,
+        "gain": 0.0043
+      },
+      "betterModel": {
+        "id": "twelve-features",
+        "name": "All twelve features, learned",
+        "accuracy": 0.977,
+        "gain": 0.0093
+      }
+    },
+    {
+      "id": "n500",
+      "size": 500,
+      "startModel": "tree",
+      "startAccuracy": 0.9724,
+      "moreData": {
+        "size": 4459,
+        "times": 8.9,
+        "accuracy": 0.9767,
+        "gain": 0.0043
+      },
+      "betterModel": {
+        "id": "twelve-features",
+        "name": "All twelve features, learned",
+        "accuracy": 0.9799,
+        "gain": 0.0075
+      }
+    },
+    {
+      "id": "n2000",
+      "size": 2000,
+      "startModel": "tree",
+      "startAccuracy": 0.9752,
+      "moreData": {
+        "size": 4459,
+        "times": 2.2,
+        "accuracy": 0.9767,
+        "gain": 0.0015
+      },
+      "betterModel": {
+        "id": "words",
+        "name": "Every word, learned",
+        "accuracy": 0.9842,
+        "gain": 0.009
+      }
+    }
+  ]
+}

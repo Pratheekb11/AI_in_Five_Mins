@@ -1,21 +1,23 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useState } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import { Nimo } from "@/components/nimo/Nimo";
 import { SpeechButton } from "./SpeechButton";
 
 /**
  * A lesson, one idea at a time.
- *
- * Replaces the wall of prose the first version of this site shipped. Each step
- * is a couple of sentences and, usually, something to look at; the learner
- * advances when they are ready. Nothing scrolls out of reach and nothing has to
- * be read before the interesting part.
- *
- * Every step can be read aloud, so the text is written to be heard as well as
- * seen — short sentences, no parentheticals, no bullet fragments.
  */
+
+/**
+ * Which step the walkthrough is on, published to whatever figure it is hosting.
+ */
+const StepContext = createContext(0);
+
+/** Read by a figure so it can animate itself from one step to the next. */
+export function useWalkthroughStep(): number {
+  return useContext(StepContext);
+}
 
 export type Step = {
   /** Two or three sentences. This is also what gets spoken. */
@@ -26,15 +28,25 @@ export type Step = {
   caption?: string;
 };
 
-export function Walkthrough({ steps }: { steps: Step[] }) {
+export function Walkthrough({
+  steps,
+  figure,
+}: {
+  steps: Step[];
+  /**
+   * One figure for the whole walkthrough, which reads the current step out of
+   * `useWalkthroughStep`.
+   */
+  figure?: ReactNode;
+}) {
   const [at, setAt] = useState(0);
   const still = useReducedMotion();
   const step = steps[at];
   const last = at === steps.length - 1;
 
   return (
-    <div className="plate overflow-hidden">
-      {/* progress ticks — printed, countable, and short enough to count */}
+    <div className="plate overflow-hidden" data-section="walkthrough">
+      {/* progress ticks, printed, countable, and short enough to count */}
       <div className="border-ink/25 bg-paper-sunk flex items-center gap-3 border-b px-4 py-3">
         <span className="label text-ink-faint shrink-0">
           {at + 1} / {steps.length}
@@ -83,6 +95,14 @@ export function Walkthrough({ steps }: { steps: Step[] }) {
           </div>
         </div>
 
+        {/* The persistent figure sits outside AnimatePresence on purpose. It
+            must survive the step change in order to animate through it. */}
+        {figure ? (
+          <StepContext.Provider value={at}>
+            <div className="mb-4">{figure}</div>
+          </StepContext.Provider>
+        ) : null}
+
         <AnimatePresence mode="wait">
           <motion.div
             key={at}
@@ -91,7 +111,9 @@ export function Walkthrough({ steps }: { steps: Step[] }) {
             exit={still ? undefined : { opacity: 0 }}
             transition={{ duration: 0.28, delay: still ? 0 : 0.06 }}
           >
-            {step.show ? <div className="mb-4">{step.show}</div> : null}
+            {!figure && step.show ? (
+              <div className="mb-4">{step.show}</div>
+            ) : null}
 
             {step.caption ? (
               <p className="text-ink-faint mb-4 text-sm">{step.caption}</p>
@@ -118,7 +140,7 @@ export function Walkthrough({ steps }: { steps: Step[] }) {
               Next
             </button>
           ) : (
-            <span className="label text-teal-text">That&rsquo;s the idea</span>
+            <span className="label text-teal-text">That is the idea</span>
           )}
         </div>
       </div>

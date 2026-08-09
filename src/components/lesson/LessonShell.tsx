@@ -1,11 +1,15 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Engagement } from "@/components/Engagement";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
 import { type Lesson, neighbours, TRACKS } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { Sources } from "./Sources";
+import { TrackCelebration } from "./TrackCelebration";
+import { TrackComplete } from "./TrackComplete";
+import { TrackGaps } from "./TrackGaps";
 
 /**
  * The frame every lesson is printed in: masthead, the beats the caller passes
@@ -25,15 +29,19 @@ export function LessonShell({
 
   return (
     <>
+      {/* Counts visible time and how far down the page a reader got. Reports
+          once, on the way out, with nothing in it but this slug and a number. */}
+      <Engagement page={lesson.slug} />
       <SiteHeader />
 
-      <main className="mx-auto max-w-6xl px-5">
+      <main id="content" className="mx-auto max-w-6xl px-5">
         <div className="py-10 md:py-14">
           <div className="mb-5 flex flex-wrap items-center gap-3">
             <span
               className={`data ${ink.chip} rounded-[2px] border px-2 py-1 text-xs font-bold`}
             >
-              {TRACKS[lesson.track].title} · {String(lesson.number).padStart(2, "0")}
+              {TRACKS[lesson.track].title} ·{" "}
+              {String(lesson.number).padStart(2, "0")}
             </span>
             <span className="label text-ink-faint">{lesson.machine}</span>
             <span className="label text-ink-faint">{lesson.minutes} min</span>
@@ -47,11 +55,21 @@ export function LessonShell({
 
         {children}
 
+        {/* Which of this track's modules they have gone past, once they have
+            finished this one and so are deciding what to do next. */}
+        <TrackGaps lesson={lesson} />
+
+        {/* Only ever on show once the whole track is behind them. */}
+        <TrackComplete track={lesson.track} />
+
         <Sources sources={sources} />
 
         <nav className="border-ink/20 grid gap-3 border-t py-10 sm:grid-cols-2">
           {previous ? (
-            <Link href={`/lessons/${previous.slug}`} className="plate misreg p-4">
+            <Link
+              href={`/lessons/${previous.slug}`}
+              className="plate misreg p-4"
+            >
               <span className="label text-ink-faint">Previous</span>
               <span className="font-display mt-1.5 block font-bold">
                 {previous.title}
@@ -61,7 +79,7 @@ export function LessonShell({
             <Link href="/" className="plate misreg p-4">
               <span className="label text-ink-faint">Back to</span>
               <span className="font-display mt-1.5 block font-bold">
-                All eight machines
+                All the chapters
               </span>
             </Link>
           )}
@@ -71,14 +89,25 @@ export function LessonShell({
               href={`/lessons/${next.slug}`}
               className="plate misreg p-4 sm:text-right"
             >
-              <span className="label text-ink-faint">Next</span>
+              {/* Crossing into the closers or the rabbit hole is a change of
+                  register, not just the next page, so it gets named. */}
+              <span className="label text-ink-faint">
+                {next.track === lesson.track
+                  ? "Next"
+                  : `Next · ${TRACKS[next.track].title}`}
+              </span>
               <span className="font-display mt-1.5 block font-bold">
                 {next.title}
               </span>
+              {next.track === lesson.track ? null : (
+                <span className="text-ink-soft mt-1.5 block text-[0.9375rem]">
+                  {TRACKS[next.track].blurb}
+                </span>
+              )}
             </Link>
           ) : (
             <Link href="/" className="plate misreg p-4 sm:text-right">
-              <span className="label text-ink-faint">That&rsquo;s the set</span>
+              <span className="label text-ink-faint">That is the set</span>
               <span className="font-display mt-1.5 block font-bold">
                 Back to the start
               </span>
@@ -86,6 +115,9 @@ export function LessonShell({
           )}
         </nav>
       </main>
+
+      {/* Finishing a track is the one thing here worth interrupting for. */}
+      <TrackCelebration />
 
       <SiteFooter />
     </>

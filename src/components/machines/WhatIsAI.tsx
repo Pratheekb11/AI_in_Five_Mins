@@ -6,25 +6,6 @@ import { SPAM_BENCH } from "@/lib/datasets";
 
 /**
  * What the word "AI" is actually pointing at.
- *
- * The distinction is genuinely simple and almost never drawn: in ordinary
- * software a person writes the rule, and in this kind of software nobody does
- * — the rule is found from examples. Everything else people argue about
- * follows from that one difference.
- *
- * So it is shown rather than asserted, on one real job. The same 5,574 real SMS
- * messages, the same held-out test set, three machines:
- *
- *   flag nothing        86.01%   the trap
- *   three written rules 97.31%   somebody sat down and thought
- *   learned from data   98.65%   nobody wrote a rule at all
- *
- * The middle bar is the one people underrate and the first is the one that
- * should worry them: a machine that does nothing at all scores 86% on this
- * job, which is why an accuracy figure on its own tells you nothing. That beat
- * is given its own moment instead of being a footnote.
- *
- * Every number is from `spam-bench.json`, measured on the same split.
  */
 
 const { corpus, baseline, bestSubset, learned, rules } = SPAM_BENCH;
@@ -92,31 +73,41 @@ const BEATS = [
   },
   {
     label: "Find the rule",
-    says: `Now nobody writes a rule. The machine is shown labelled examples and finds the pattern itself — ${(learned.accuracy * 100).toFixed(1)}%. That is the whole of what "AI" means here, and it is the only line that matters.`,
+    says: `Now nobody writes a rule. The machine is shown labelled examples and finds the pattern itself, scoring ${(learned.accuracy * 100).toFixed(1)}%. That is the whole of what "AI" means here, and it is the only line that matters.`,
+  },
+  {
+    label: "What it missed",
+    says: `${(learned.accuracy * 100).toFixed(1)}% is ${learned.missed} spam messages delivered and ${learned.falseAlarms} ordinary messages binned. A percentage hides both. The counts do not.`,
   },
 ];
 
-export function WhatIsAI() {
+/** The held-out spam, one square each. 145 caught, 11 through. */
+const TEST_SPAM = learned.caught + learned.missed;
+const TEST_HAM = learned.testSize - TEST_SPAM;
+
+export function WhatIsAI({ driven }: { driven?: number }) {
   const still = useReducedMotion();
   const [beat, setBeat] = useState(0);
   const [running, setRunning] = useState(true);
 
   useEffect(() => {
-    if (!running) return;
-    const id = setInterval(
-      () => setBeat((b) => (b + 1) % BEATS.length),
-      4200,
-    );
+    if (!running || driven !== undefined) return;
+    const id = setInterval(() => setBeat((b) => (b + 1) % BEATS.length), 4200);
     return () => clearInterval(id);
-  }, [running]);
+  }, [running, driven]);
 
   const step = useCallback(() => {
     setRunning(false);
     setBeat((b) => (b + 1) % BEATS.length);
   }, []);
 
-  /** How many bars are on screen at this beat. */
-  const showing = beat === 0 ? 0 : beat;
+  // Driven from outside, this is a walkthrough figure and the reader advances
+  // it with the walkthrough's own controls. Left alone, it plays itself.
+  const at = driven === undefined ? beat : Math.min(driven, BEATS.length - 1);
+
+  /** How many bars are on screen at this beat. Beats past the last machine
+      keep all three up and add to them rather than counting past the end. */
+  const showing = at === 0 ? 0 : Math.min(at, MACHINES.length);
 
   return (
     <div className="plate overflow-hidden">
@@ -127,13 +118,13 @@ export function WhatIsAI() {
             <span key={b.label} className="flex items-center gap-1.5">
               <span
                 className={`h-2 w-2 rounded-full transition-colors ${
-                  i === beat ? "bg-pink" : "bg-ink/20"
+                  i === at ? "bg-pink" : "bg-ink/20"
                 }`}
                 aria-hidden="true"
               />
               <span
                 className={`label transition-colors ${
-                  i === beat ? "text-pink-text" : "text-ink-faint"
+                  i === at ? "text-pink-text" : "text-ink-faint"
                 }`}
               >
                 {b.label}
@@ -200,52 +191,107 @@ export function WhatIsAI() {
           })}
         </ul>
 
+        {/* The last beat turns the winning percentage back into messages.
+            98.65% reads as finished; eleven squares of spam that got through
+            does not, and both are the same measurement. */}
+        {at >= 4 ? (
+          <motion.div
+            className="border-ink/20 mb-4 border-t pt-4"
+            initial={still ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <p className="label text-ink-faint mb-2">
+              The {TEST_SPAM} spam messages it was tested on
+            </p>
+            <div
+              className="flex flex-wrap gap-[3px]"
+              role="img"
+              aria-label={`${learned.caught} spam caught, ${learned.missed} delivered`}
+            >
+              {Array.from({ length: TEST_SPAM }, (_, i) => {
+                const missed = i >= learned.caught;
+                return (
+                  <motion.span
+                    key={i}
+                    className={`block h-2.5 w-2.5 rounded-[1px] ${
+                      missed ? "bg-pink" : "bg-teal"
+                    }`}
+                    initial={still ? false : { opacity: 0 }}
+                    animate={{ opacity: missed ? 1 : 0.55 }}
+                    transition={{
+                      duration: 0.2,
+                      delay: still ? 0 : Math.min(i, 60) * 0.006,
+                    }}
+                  />
+                );
+              })}
+            </div>
+            <p className="text-ink-soft mt-2 text-[0.8125rem]">
+              <span className="text-pink-text font-semibold">
+                {learned.missed} delivered
+              </span>{" "}
+              anyway. And {learned.falseAlarms} of the {TEST_HAM} ordinary
+              messages were binned, which for most people is the more expensive
+              mistake.
+            </p>
+          </motion.div>
+        ) : null}
+
         <p className="text-ink-faint mb-4 text-[0.75rem]">
           Bars start at 80%, not zero. The whole argument on this job happens
           between 86% and 99%, and a bar drawn from zero hides it.
         </p>
 
-        <div className="border-ink/20 flex flex-wrap items-center justify-between gap-3 border-t pt-4">
+        {/* Driven from a walkthrough, the walkthrough is already saying this
+            in Nimo's voice a few lines above. Two copies of the same sentence
+            on one screen is worse than none. */}
+        <div
+          className={`border-ink/20 flex flex-wrap items-center justify-between gap-3 border-t pt-4 ${
+            driven === undefined ? "" : "hidden"
+          }`}
+        >
           <p
             className="prose-measure text-ink-soft min-h-[3.5rem] text-[0.9375rem]"
             aria-live="polite"
           >
             <motion.span
-              key={beat}
+              key={at}
               initial={still ? false : { opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25 }}
               className="block"
             >
-              {BEATS[beat].says}
+              {BEATS[at].says}
             </motion.span>
           </p>
 
-          <span className="flex shrink-0 gap-2">
-            <button
-              type="button"
-              onClick={() => setRunning((r) => !r)}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
-            >
-              {running ? "Pause" : "Play"}
-            </button>
-            <button
-              type="button"
-              onClick={step}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
-            >
-              Step
-            </button>
-          </span>
+          {driven === undefined ? (
+            <span className="flex shrink-0 gap-2">
+              <button
+                type="button"
+                onClick={() => setRunning((r) => !r)}
+                className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
+              >
+                {running ? "Pause" : "Play"}
+              </button>
+              <button
+                type="button"
+                onClick={step}
+                className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
+              >
+                Step
+              </button>
+            </span>
+          ) : null}
         </div>
       </div>
 
       <p className="border-ink/20 text-ink-faint border-t px-4 py-3 text-[0.8125rem]">
         {corpus.name}, {corpus.total.toLocaleString("en-US")} messages. All
         three scored on the same held-out split, and the {rules.length}{" "}
-        candidate
-        rules were written before any of them were tested. Nothing here is
-        rounded in anyone&rsquo;s favour.
+        candidate rules were written before any of them were tested. Nothing
+        here is rounded in anyone&rsquo;s favour.
       </p>
     </div>
   );

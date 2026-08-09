@@ -1,24 +1,5 @@
 /**
  * The rules of Beat the Predictor, as pure functions.
- *
- * A sentence with its last word cut off, four options, and a machine playing
- * against you. You both pick. Then the model's real probabilities come up as
- * bars and you find out who was right.
- *
- * The round is built in three acts, and the order is the argument:
- *
- *   1. COMMON PHRASES. The model is excellent here and will usually beat you,
- *      because this is exactly what a next-word predictor is for.
- *   2. A REAL BOOK. Carroll's actual words, with the model's three favourite
- *      continuations beside them. The model nearly always takes one of its
- *      favourites, and you win by having read the sentence.
- *   3. FACTS. The last act, where the likeliest continuation and the true one
- *      come apart, and the machine is confidently, measurably wrong.
- *
- * Nobody is told which act they are in until it is over.
- *
- * PURITY. Draws are made by the caller and passed in as numbers, so a state
- * updater running twice changes nothing.
  */
 
 /* ------------------------------------------------------------------ types -- */
@@ -32,7 +13,7 @@ export type PredictorRound = {
   options: Option[];
   /** Index of the true continuation. */
   truth: number;
-  /** Index the model would take — its highest-probability option. */
+  /** Index the model would take, its highest-probability option. */
   modelPick: number;
   /** Where the truth sat in the model's whole 50,257-token ranking. */
   answerRank: number;
@@ -44,7 +25,13 @@ export type PredictorRound = {
 };
 
 export type PredictorData = {
-  model: { id: string; name: string; url: string; licence: string; note: string };
+  model: {
+    id: string;
+    name: string;
+    url: string;
+    licence: string;
+    note: string;
+  };
   corpus: { name: string; author: string; url: string; licence: string };
   optionCount: number;
   measuredSentences: number;
@@ -54,7 +41,10 @@ export type PredictorData = {
 /* ------------------------------------------------------------------ rules -- */
 
 /** Rounds per act. Three acts, nine rounds, well under five minutes. */
-export const ACT_SIZE = { phrase: 3, corpus: 3, fact: 3 } as const;
+/*
+  The acts, and how many rounds each one gets.
+*/
+export const ACT_SIZE = { phrase: 1, corpus: 1, fact: 2 } as const;
 export const ROUND_SIZE = ACT_SIZE.phrase + ACT_SIZE.corpus + ACT_SIZE.fact;
 
 const BASE_POINTS = 100;
@@ -114,6 +104,13 @@ export function newScene(): PredictorScene {
   };
 }
 
+/**
+ * Ends the set where the player is standing.
+ */
+export function finish(scene: PredictorScene): PredictorScene {
+  return scene.done ? scene : { ...scene, done: true };
+}
+
 /** A shuffled copy, from one roll per position in [0, 1). */
 export function shuffledBy<T>(items: readonly T[], rolls: number[]): T[] {
   const out = [...items];
@@ -130,13 +127,10 @@ export function shuffledBy<T>(items: readonly T[], rolls: number[]): T[] {
  * Deals a round: three of each act, in act order.
  *
  * If an act is short of material the round is shorter rather than padded from
- * a neighbouring act — the three-act shape is the teaching, so a round that
+ * a neighbouring act, the three-act shape is the teaching, so a round that
  * cannot hold it should be visibly wrong rather than quietly reshuffled.
  */
-export function deal(
-  data: PredictorData,
-  rolls: number[],
-): PredictorRound[] {
+export function deal(data: PredictorData, rolls: number[]): PredictorRound[] {
   const take = (kind: PredictorRound["kind"], n: number, offset: number) =>
     shuffledBy(
       data.rounds.filter((r) => r.kind === kind),

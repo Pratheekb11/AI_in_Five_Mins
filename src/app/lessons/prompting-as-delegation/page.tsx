@@ -1,26 +1,24 @@
 import { ShowDontAsk } from "@/components/games/ShowDontAsk";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { PhrasingFigure } from "@/components/machines/PhrasingFigure";
 import { PromptInspector } from "@/components/machines/PromptInspector";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { ENCODING_NAME } from "@/lib/tokenizer";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("prompting-as-delegation")!;
 const video = videoFor("prompting-as-delegation")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {
@@ -59,21 +57,25 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "Stop thinking of it as a search box. Think of it as a sharp new colleague on their first morning. They have read enormously widely. They know nothing at all about you, your job, or what good looks like here.",
-  },
-  {
-    say: "So write what you would have to write if you were handing the job to that person and then leaving the building. Not a question. A brief.",
-  },
-  {
-    say: "Five things do the work. Who they are. What you want done. The limits. The shape the answer should arrive in. And one example of good.",
+    say: "Stop thinking of it as a search box. Think of it as a sharp new colleague on their first morning. They have read enormously widely. They know nothing at all about you, your job, or what good looks like here. Start with the plainest possible version of the ask.",
     caption:
-      "Role · Goal · Constraints · Format · Example. You rarely need all five — you need to know which one you left out.",
+      "Watch the rows below rather than waiting for a new picture. Each step measures one more way of asking for the very same thing.",
   },
   {
-    say: "Everything else you typed is manners. Please, thanks, urgent, you're brilliant. None of it is harmful and none of it is doing any work — the role-play phrasing measured slightly worse than saying nothing at all.",
+    say: "Now the one almost everybody believes in. Tell it that it is an expert. Give it a role to play. Watch what that does to the odds of getting the answer you wanted.",
+    caption:
+      "Nothing. It is not harmful, and it is not doing any work either. Across all fourteen goals, role-play measured slightly worse than saying nothing at all.",
   },
   {
-    say: "Here is the test that replaces all of this advice. Read your prompt back and ask: if I sent only this to a competent stranger, would they produce what I actually want? If the answer is no, you already know which part is missing.",
+    say: "Next, actually instruct it. Say how you want the answer to come back. This one does move the number, which is worth knowing, but look at how far it moves it.",
+  },
+  {
+    say: "Now stop describing what you want and show it instead. One worked example of the shape you are after, and then your real question. That is the whole trick, and the bar has to be rescaled to fit it.",
+  },
+  {
+    say: "Five things do the work when you brief somebody. Who they are, what you want done, the limits, the shape the answer should arrive in, and one example of good. The example is the one people leave out, and it is the one that is doing the lifting.",
+    caption:
+      "Read your prompt back and ask: if I sent only this to a competent stranger, would they produce what I actually want? If not, you already know which part is missing.",
   },
 ];
 
@@ -97,7 +99,7 @@ const CHECK: CheckBeat[] = [
       { text: "soon", wrong: true },
     ],
     because:
-      "Short, professional, punchy and soon are the four words carrying your standards, and none of them survives leaving your head. Everything else in the request is checkable by someone who has never met you. Replace the four with a number, a shape and a deadline — under 100 words, five bullets, no adjectives, by 2pm — and the same request becomes something a stranger could deliver.",
+      "Short, professional, punchy and soon are the four words carrying your standards, and none of them survives leaving your head. Everything else in the request is checkable by someone who has never met you. Replace those four with a number, a shape and a deadline. Under 100 words, five bullets, no adjectives, by 2pm. Now the same request is something a stranger could deliver.",
   },
   {
     kind: "choice",
@@ -110,7 +112,7 @@ const CHECK: CheckBeat[] = [
     ],
     answer: 2,
     because:
-      "That single question catches almost everything: unstated audience, unstated length, unstated format, unstated standard of good. It works because the model genuinely is a stranger — everything obvious to you about this job is invisible to it.",
+      "That single question catches almost everything: unstated audience, unstated length, unstated format, unstated standard of good. It works because the model really is a stranger. Everything that is obvious to you about this job is invisible to it.",
   },
 ];
 
@@ -124,7 +126,7 @@ export default function PromptingAsDelegationLesson() {
             <span className="text-yellow-text">does no work at all</span>.
           </>
         }
-        sting="Not the bit you would guess, either. Across fourteen goals, telling it how to answer moved the odds by 1.65 times and telling it that it is an expert by 1.02 — which is to say, not at all. Showing it one worked example moved them by 125, and won every single goal. Five phrasings of the same request, and you pick the one that actually lands."
+        sting="Not the bit you would guess, either. Across fourteen goals, telling it how to answer moved the odds by 1.65 times. Telling it that it is an expert moved them by 1.02, which is to say not at all. Showing it one worked example moved them by 125, and won every single goal. Five phrasings of the same request, and you pick the one that lands."
         cta="Take the first one"
       />
 
@@ -132,15 +134,14 @@ export default function PromptingAsDelegationLesson() {
         <ShowDontAsk />
       </div>
 
-      <div className="grid gap-4 pb-4 lg:grid-cols-[1.35fr_1fr]">
-        <Walkthrough steps={STEPS} />
-        <VideoPanel video={video} />
+      <div className="pb-4">
+        <Walkthrough steps={STEPS} figure={<PhrasingFigure />} />
       </div>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Does the politeness actually cost me anything?"
-          summary="It costs tokens and instructs nobody. That is the honest answer — the game charges you for it to force you to read."
+          summary="It costs tokens and instructs nobody. That is the honest answer. The game charges you for it so that you have to read it."
           deeper="tokens"
         >
           <p>
@@ -170,9 +171,8 @@ export default function PromptingAsDelegationLesson() {
             The model produces text that plausibly continues its input. If its
             input contains a worked example of the thing you want, the most
             plausible continuation is another one of those. That is the whole
-            mechanism &mdash; Brown and colleagues named it few-shot learning
-            and measured it in 2020, and nothing is being retrained when it
-            happens.
+            mechanism. Brown and colleagues named it few-shot learning and
+            measured it in 2020, and nothing is being retrained when it happens.
           </p>
           <p>
             Which explains a habit worth building: keep the two or three best
@@ -181,26 +181,6 @@ export default function PromptingAsDelegationLesson() {
             A paragraph you actually approved of does not.
           </p>
         </MechanismPanel>
-      </div>
-
-      <section className="pb-4">
-        <h2 className="display-lg mb-2">Now check one of your own</h2>
-        <p className="prose-measure text-ink-soft mb-5">
-          Paste in a prompt you have really sent. This is a keyword check, not
-          comprehension &mdash; it shows you what it matched on so you can
-          overrule it. Judging the evidence yourself is the point.
-        </p>
-        <PromptInspector />
-      </section>
-
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="Ask it the way you would ask a capable person who has just joined and knows nothing about your world. Say who they should be, what you want done, what the limits are, what shape the answer should come in, and show one example of a good one. Then read it back and ask whether a stranger given only that would produce what you want. If not, you have found the missing part — and it is almost never the politeness."
-        />
-      </div>
-
-      <div className="pb-4">
         <PracticeCard
           title="Send the bad one first, on purpose"
           watchFor="How much of the gap between the two answers came from adding an example, rather than from adding more description. That ratio surprises most people."
@@ -215,7 +195,17 @@ export default function PromptingAsDelegationLesson() {
             side by side.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
+
+      <section className="pb-4">
+        <h2 className="display-lg mb-2">Now check one of your own</h2>
+        <p className="prose-measure text-ink-soft mb-5">
+          Paste in a prompt you have really sent. This is a keyword check, not
+          comprehension. It shows you what it matched on, so that you can
+          overrule it. Judging the evidence yourself is the point.
+        </p>
+        <PromptInspector />
+      </section>
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>

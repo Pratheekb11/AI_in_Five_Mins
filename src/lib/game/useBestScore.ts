@@ -60,7 +60,7 @@ export function useBestScore(gameId: string) {
       try {
         localStorage.setItem(KEY, JSON.stringify(next));
       } catch {
-        // Private browsing — the best just won't survive a reload.
+        // Private browsing, the best just will not survive a reload.
       }
       window.dispatchEvent(new Event(EVENT));
       return true;

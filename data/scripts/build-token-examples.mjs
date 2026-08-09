@@ -62,7 +62,7 @@ const CURIOSITIES = [
   {
     id: "code",
     text: "const total = items.reduce((a, b) => a + b, 0);",
-    note: "Code tokenizes densely — common syntax has its own tokens.",
+    note: "Code tokenizes densely: common syntax has its own tokens.",
   },
   {
     id: "emoji",

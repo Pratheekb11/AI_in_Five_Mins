@@ -30,7 +30,7 @@ import { encode } from "gpt-tokenizer/encoding/o200k_base";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(HERE, "../../public/data/scripts.json");
 
-const AGENT = "LearnLoopAI/1.0 (educational; contact via site)";
+const AGENT = "AIinFive/1.0 (educational; contact via site)";
 
 /**
  * One subject, written up independently in each language.

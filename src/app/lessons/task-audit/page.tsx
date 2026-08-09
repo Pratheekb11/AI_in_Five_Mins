@@ -1,23 +1,24 @@
 import { BucketSort } from "@/components/games/BucketSort";
-import { FeynmanCheck } from "@/components/lesson/FeynmanCheck";
+import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
 import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { SkillGapFigure } from "@/components/machines/SkillGapFigure";
 import { YourWeek } from "@/components/machines/YourWeek";
 import { BUCKETS } from "@/lib/game/sort";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
+import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("task-audit")!;
+const video = videoFor("task-audit")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {
@@ -28,15 +29,17 @@ const SOURCES: Source[] = [
     used: "The measured result quoted throughout: across 5,179 customer support agents, access to an AI assistant raised issues resolved per hour by 14% on average, 34% for novice and low-skilled workers, with minimal impact on experienced and highly skilled ones.",
   },
   {
-    title: "The Impact of AI on Developer Productivity: Evidence from GitHub Copilot",
+    title:
+      "The Impact of AI on Developer Productivity: Evidence from GitHub Copilot",
     publisher: "Peng, Kalliamvakou, Cihon & Demirer (arXiv:2302.06590, 2023)",
     url: "https://arxiv.org/abs/2302.06590",
-    used: "A controlled experiment on one narrow task — implementing an HTTP server in JavaScript — where the assisted group finished 55.8% faster.",
+    used: "A controlled experiment on one narrow task, implementing an HTTP server in JavaScript, where the assisted group finished 55.8% faster.",
   },
   {
     title:
       "The Impact of Generative AI on Critical Thinking: Self-Reported Reductions in Cognitive Effort and Confidence Effects From a Survey of Knowledge Workers",
-    publisher: "Lee, Sarkar, Tankelevitch, Drosos, Rintel, Banks & Wilson (CHI 2025)",
+    publisher:
+      "Lee, Sarkar, Tankelevitch, Drosos, Rintel, Banks & Wilson (CHI 2025)",
     url: "https://advait.org/files/lee_2025_ai_critical_thinking_survey.pdf",
     used: "The survey of 319 knowledge workers finding that higher confidence in the tool predicts less critical thinking, while higher confidence in yourself predicts more.",
     licence: "CC BY 4.0",
@@ -51,21 +54,21 @@ const SOURCES: Source[] = [
 
 const STEPS: Step[] = [
   {
-    say: "The biggest field study so far watched five thousand customer support agents get an AI assistant. Productivity went up fourteen per cent on average. That average hides the whole story.",
+    say: "The biggest field study so far watched five thousand customer support agents get an AI assistant. Issues resolved per hour went up fourteen per cent. That is the number everybody quotes, and it is nobody's result.",
   },
   {
-    say: "Novices got thirty-four per cent faster. The experienced, highly skilled agents got almost nothing. The tool was spreading what the best people already did — and if you are already doing it, there is nothing to spread to you.",
+    say: "Split it by who the agents were. The newest got thirty-four per cent. The most experienced got a result the authors describe as minimal. The tool was spreading what the best people already did, so there was nothing left to spread to them.",
     caption:
       "Brynjolfsson, Li & Raymond, 2023. 5,179 agents, issues resolved per hour.",
   },
   {
-    say: "So the question is not whether these tools help. It is which of your tasks they help with. And that answer is personal, which is why nothing on this page marks your sorting.",
+    say: "Now a different study on one narrow task, writing an HTTP server. Fifty five point eight per cent faster. Narrow the job and the number climbs. Widen it back out to a whole role and it drops to fourteen, and then splits again.",
   },
   {
-    say: "Four honest buckets. Hand it over and skim. Let it draft and you finish. Think out loud with it while you do the work. Or keep it entirely.",
+    say: "So the question was never whether these tools help. It is which of your tasks they help with, and that sits somewhere between thirty-four per cent and nothing depending on the task and on you.",
   },
   {
-    say: "The useful output of that round was not the score. It was the list of tasks you stalled on. Those are the ones you have never actually decided about — and undecided is how a bad hand-over happens.",
+    say: "Which is why nothing on this page marks your sorting. The useful output of that round was not a score. It was the list of tasks you stalled on, because those are the ones you have never actually decided about, and undecided is how a bad hand-over happens.",
   },
 ];
 
@@ -90,14 +93,14 @@ const CHECK: CheckBeat[] = [
       { id: "d2", text: "reversed" },
     ],
     because:
-      "Brynjolfsson, Li and Raymond, 2023. The shape of those three numbers is the whole finding: the tool spreads what the strongest workers already do, so it is worth a great deal where you are new and close to nothing where you are already the person others copy. That is a claim about measured averages, not about you — which is why the audit is yours to do.",
+      "Brynjolfsson, Li and Raymond, 2023. The shape of those three numbers is the whole finding. The tool spreads what the strongest workers already do. So it is worth a great deal where you are new, and close to nothing where you are already the person others copy. That is a claim about measured averages, not about you. Which is why the audit is yours to do.",
   },
   {
     kind: "choice",
     prompt: "Why does a task you cannot sort in six seconds matter?",
     options: [
       "It means the task is simply not important enough to be worth sorting into either bucket",
-      "It means you have not decided — and undecided is what gets handed over badly under time pressure",
+      "It means you have not decided, and undecided is what gets handed over badly under time pressure",
       "It means the task is too complicated for AI to be much use on it yet",
     ],
     answer: 1,
@@ -116,7 +119,7 @@ export default function TaskAuditLesson() {
             <span className="text-teal-text">almost nothing</span>.
           </>
         }
-        sting="Novices got 34% faster. The average was 14%. The experts, statistically, got a rounding error — because the tool spreads what the best people already do, and they were already doing it. So the only question that matters is which of your tasks sit on the wrong side of that line."
+        sting="Novices got 34% faster. The average was 14%. The experts, statistically, got a rounding error. The tool spreads what the best people already do, and they were already doing it. So the only question that matters is which of your tasks sit on the wrong side of that line."
         cta="Sort your week"
       />
 
@@ -129,7 +132,7 @@ export default function TaskAuditLesson() {
       </div>
 
       <div className="pb-4">
-        <Walkthrough steps={STEPS} />
+        <Walkthrough steps={STEPS} figure={<SkillGapFigure />} />
       </div>
 
       <section className="plate mb-4 p-5 md:p-6">
@@ -153,7 +156,7 @@ export default function TaskAuditLesson() {
         </dl>
       </section>
 
-      <div className="space-y-4 pb-4">
+      <DeeperRow video={video}>
         <MechanismPanel
           question="Why would the experts gain so little?"
           summary="The tool raises work toward a good average. If you are already above that average, there is nothing to raise."
@@ -170,8 +173,8 @@ export default function TaskAuditLesson() {
             It also tells you where the value is hiding: not in the work you are
             proud of, but in the competent, unremarkable work you produce
             because it has to exist. And in the work that sits just outside what
-            you know how to do &mdash; the language you cannot read, the format
-            you have never written.
+            you know how to do. The language you cannot read, the format you
+            have never written.
           </p>
           <p>
             One caution about generalising. That study is one job, one company,
@@ -187,32 +190,21 @@ export default function TaskAuditLesson() {
           deeper="judgment-and-limits"
         >
           <p>
-            Lee and colleagues surveyed 319 knowledge workers about 936
-            real uses. The pattern they found is worth carrying: higher
-            confidence in the AI predicted <em>less</em> critical thinking,
-            while higher confidence in your own ability predicted{" "}
-            <em>more</em> of it.
+            Lee and colleagues surveyed 319 knowledge workers about 936 real
+            uses. The pattern they found is worth carrying: higher confidence in
+            the AI predicted <em>less</em> critical thinking, while higher
+            confidence in your own ability predicted <em>more</em> of it.
           </p>
           <p>
             Which is a warning about the hand-over bucket specifically. It is
-            the right bucket for plenty of work &mdash; but the tasks in it are
-            precisely the ones you have stopped reading carefully. The last
-            module of this track is about where that line sits.
+            the right bucket for plenty of work, but the tasks in it are exactly
+            the ones you have stopped reading carefully. The last chapter of
+            this track is about where that line sits.
           </p>
         </MechanismPanel>
-      </div>
-
-      <div className="pb-4">
-        <FeynmanCheck
-          question={lesson.feynman!}
-          answer="The ones where being wrong reaches somebody outside, and where I would not have caught it because I never really read the output. It is not embarrassing to have a machine draft a status note. It is embarrassing to have sent a client a number I never checked, and it is worse to have sent something in my own voice that I did not mean. That is the line: not what it can do, but what I would still be able to stand behind afterwards."
-        />
-      </div>
-
-      <div className="pb-4">
         <PracticeCard
           title="Keep a hand-over log for one week"
-          watchFor="How often the answer was 'I didn't check'. That number, not the time saved, is the honest measure of whether the hand-over was a good one."
+          watchFor="How often the answer was 'I did not check'. That number, not the time saved, is the honest measure of whether the hand-over was a good one."
         >
           <p>
             Every time you hand something to an assistant this week, write one
@@ -225,7 +217,7 @@ export default function TaskAuditLesson() {
             one you sorted today.
           </p>
         </PracticeCard>
-      </div>
+      </DeeperRow>
 
       <div className="py-10">
         <h2 className="display-lg mb-5">Check yourself</h2>
@@ -237,10 +229,10 @@ export default function TaskAuditLesson() {
 
 /** One honest question per bucket, printed after the sorting is done. */
 const TESTS: Record<string, string> = {
-  hand: "Would I notice if this came back wrong? If the honest answer is no, this is not a hand-over — it is a hope.",
+  hand: "Would I notice if this came back wrong? If the honest answer is no, this is not a hand-over. It is a hope.",
   draft:
     "Do I know what good looks like here? If yes, a first draft saves you the blank page and costs you nothing.",
   think:
-    "Am I trying to produce something, or work something out? For working out, the value is being argued with — so ask it to attack your reasoning, not to agree.",
+    "Am I trying to produce something, or work something out? For working out, the value is being argued with. So ask it to attack your reasoning, not to agree with it.",
   keep: "Is this the judgement people rely on me for, or something with my name on it in a way I would have to defend? Then keep it.",
 };

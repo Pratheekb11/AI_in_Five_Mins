@@ -7,26 +7,10 @@ import { ordinal } from "@/lib/ordinal";
 
 /**
  * Word arithmetic, drawn.
- *
- * The claim "you can subtract man from king and add woman" is easy to state and
- * almost impossible to believe from a list of numbers. It is obvious the moment
- * you see it: one arrow, copied, moved somewhere else, landing near a word that
- * nobody put there.
- *
- * The plane is not a flattening of the whole space — it is the plane spanned by
- * this analogy's own two difference vectors. That matters, and the figure says
- * so: the three input words and the arithmetic result lie in it exactly, so the
- * parallelogram is real rather than an artist's impression. The answer word does
- * not, and the amount by which it misses is printed rather than hidden.
- *
- * Which is the honest version of this demonstration. The arrow does not land ON
- * queen. It lands near enough that queen is the closest word in fifty thousand,
- * and the cosine underneath is what actually carries the claim.
  */
 
 /** How long each beat holds before the next one starts. */
 const BEAT_MS = 2200;
-
 
 type Beat = 0 | 1 | 2 | 3;
 const BEATS: Beat[] = [0, 1, 2, 3];
@@ -203,7 +187,7 @@ export function AnalogyPlane() {
           />
 
           {/* Arrow two: the same displacement, translated to c. This is the
-              whole idea, so it is animated as a move rather than drawn afresh —
+              whole idea, so it is animated as a move rather than drawn afresh,
               it slides from the first arrow's position to the second. */}
           <motion.line
             x1={A.cx}
@@ -237,7 +221,7 @@ export function AnalogyPlane() {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           />
 
-          {/* The gap between the answer and the arithmetic — drawn, not hidden,
+          {/* The gap between the answer and the arithmetic, drawn, not hidden,
               because the arrow does not land on the word. */}
           <motion.line
             x1={R.cx}
@@ -302,7 +286,7 @@ export function AnalogyPlane() {
                 {row.expect && row.expect !== row.answer.word ? (
                   <>
                     {" "}
-                    &mdash; and note it is not{" "}
+                    . And note that it is not{" "}
                     <span className="font-data">{row.expect}</span>, which comes{" "}
                     {ordinal(row.expectedRank ?? 0)} at{" "}
                     {row.expectedSimilarity?.toFixed(3)}.
@@ -311,10 +295,9 @@ export function AnalogyPlane() {
               </p>
               <p className="text-ink-soft text-[0.875rem]">
                 The dashed teal line is the gap: {row.answer.word} sits{" "}
-                {answer.offPlane.toFixed(2)}{" "}
-                away from this plane entirely. The
-                arrow does not land on the word &mdash; it lands close enough
-                that the word is the nearest of{" "}
+                {answer.offPlane.toFixed(2)} away from this plane entirely. The
+                arrow does not land on the word. It lands close enough that the
+                word is the nearest of{" "}
                 {ANALOGY.vocabulary.toLocaleString("en-US")}. Without the usual
                 convention of excluding the three input words, the nearest is{" "}
                 <span className="font-data">{row.unfiltered.word}</span>.
@@ -327,7 +310,7 @@ export function AnalogyPlane() {
 
         <div className="border-ink/20 mt-4 flex flex-wrap items-center justify-between gap-3 border-t pt-4">
           <p className="text-ink-faint text-[0.8125rem]">
-            {ANALOGY.source.name}, measured &mdash; not an illustration.
+            {ANALOGY.source.name}, measured. Not an illustration.
           </p>
           <span className="flex shrink-0 gap-2">
             <button

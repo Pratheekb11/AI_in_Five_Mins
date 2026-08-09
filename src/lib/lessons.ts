@@ -2,23 +2,15 @@ import type { Ink } from "./ink";
 
 /**
  * The syllabus: six chapters, three closers, and the rabbit hole.
- *
- * **The six chapters** are the spine and are meant to be played in order. Each
- * one is a single idea with a single game, and each game is a real measurement
- * you can be wrong about before you see it. One sitting, start to finish.
- *
- * **Before you go** is the part you take to work: a daily puzzle, your own week
- * sorted, and what you are willing to paste in.
- *
- * **Down the rabbit hole** is optional depth. Every one of these is linked from the
- * moment inside a chapter where you would actually want it, so nobody should ever
- * need to come here first.
- *
- * This registry is the single source of truth for navigation and progress.
  */
 
 export type LessonStatus = "ready" | "building";
-export type Track = "chapter" | "close" | "how";
+
+/*
+  Nothing is "building" right now, and while that stays true there is no
+  `lessons/[slug]` route.
+*/
+export type Track = "chapter" | "close" | "how" | "ml";
 
 export type Lesson = {
   slug: string;
@@ -46,17 +38,22 @@ export const TRACKS: Record<Track, { title: string; blurb: string }> = {
   chapter: {
     title: "The six chapters",
     blurb:
-      "The whole thing, in order, in about an hour. Every chapter is one idea and one game, and every game is a real measurement you get to be wrong about before you see it.",
+      "The whole thing, in order, in about an hour. Each chapter is one idea and one game, and every game makes you commit to a guess before it shows you what a real model actually did.",
   },
   close: {
     title: "Before you go",
     blurb:
-      "The part you take to work. A puzzle that changes daily, your own week sorted into what you would hand over, and a hard look at what you are willing to paste in.",
+      "The part you take to work. A puzzle that changes every day, your own week sorted into what you would hand over, and a hard look at what you are willing to paste in.",
+  },
+  ml: {
+    title: "Machine learning from scratch",
+    blurb:
+      "The craft underneath all of it, from the first idea to the mistakes that cost people money. Every module is one real dataset, one thing you predict before you are shown, and one number that settles it. No maths beyond arithmetic is assumed.",
   },
   how: {
     title: "Down the rabbit hole",
     blurb:
-      "Optional depth, as far down as you care to go. Each of these is linked from the moment inside a chapter where you would actually want it, so you should never need to come here first. Real tokenizers, real word vectors, real probabilities.",
+      "Optional depth, as far down as you care to go. Every one of these is linked from the moment inside a chapter where you would actually want it, so you should never need to start here. Real tokenizers, real word vectors, real probabilities.",
   },
 };
 
@@ -95,7 +92,7 @@ export const LESSONS: Lesson[] = [
     number: 3,
     title: "Context is everything",
     standfirst:
-      "It knows what is in front of it right now. Your prompt, this chat, your attachments. Nothing else.",
+      "It only knows what is in front of it right now: your prompt, this chat, your attachments. Nothing else.",
     nugget: "No context, no chance.",
     machine: "Context Budget",
     minutes: 7,
@@ -109,8 +106,8 @@ export const LESSONS: Lesson[] = [
     number: 4,
     title: "Prompting as delegation",
     standfirst:
-      "Treat it like a sharp new intern. Role, goal, constraints, format, and an example of good.",
-    nugget: "Delegate, don't converse.",
+      "Treat it like a sharp new intern. Give it a role, a goal, constraints, a format, and an example of what good looks like.",
+    nugget: "Delegate, do not converse.",
     machine: "Show, Don't Ask",
     minutes: 8,
     ink: "yellow",
@@ -169,7 +166,7 @@ export const LESSONS: Lesson[] = [
     title: "The task audit",
     standfirst:
       "Sort your own week into four buckets. That list is your personal map of what to hand over.",
-    nugget: "Your own week, sorted — and no score for it.",
+    nugget: "It helps most where you are weakest.",
     machine: "The Bucket Sort",
     minutes: 8,
     ink: "teal",
@@ -182,13 +179,166 @@ export const LESSONS: Lesson[] = [
     number: 3,
     title: "Judgment and limits",
     standfirst:
-      "What you paste is data you have shared. And there is a line between using a tool and outsourcing your thinking.",
-    nugget: "What you paste is data you have shared.",
-    machine: "Would you paste it?",
+      "Pasting is disclosing. And there is a line between using a tool and outsourcing your thinking.",
+    nugget: "Anything you paste, you have already shared.",
+    machine: "The Paste Test",
     minutes: 8,
     ink: "pink",
     status: "ready",
     feynman: "If this tool vanished tomorrow, could I still do my job?",
+  },
+
+  // ------------------------------------------- machine learning from scratch --
+  {
+    slug: "features-and-labels",
+    track: "ml",
+    number: 1,
+    title: "Features and labels",
+    standfirst:
+      "Before anything can be learned, the thing in front of you has to become numbers. What survives that translation is all a model will ever know.",
+    nugget: "A model sees your features, never your data.",
+    machine: "The Feature Bench",
+    minutes: 8,
+    ink: "blue",
+    status: "ready",
+    feynman: "What did my data turn into, and what got thrown away?",
+  },
+
+  {
+    slug: "train-and-test",
+    track: "ml",
+    number: 2,
+    title: "Train and test",
+    standfirst:
+      "A model scored on the data it studied is a student marking their own homework. Lock some of it away before you start, or you will never know what you have.",
+    nugget: "A perfect training score is the signature of memorising.",
+    machine: "The Holdout",
+    minutes: 8,
+    ink: "teal",
+    status: "ready",
+    feynman: "Which data was that accuracy measured on?",
+  },
+
+  {
+    slug: "accuracy-is-a-liar",
+    track: "ml",
+    number: 3,
+    title: "Accuracy is a liar",
+    standfirst:
+      "A model does not decide. It scores, and somebody draws a line. Move the line and every number you report moves with it, in opposite directions.",
+    nugget: "Which mistake would you rather make?",
+    machine: "Where's the Line",
+    minutes: 9,
+    ink: "pink",
+    status: "ready",
+    feynman: "Precision or recall, and which one does this job need?",
+  },
+
+  {
+    slug: "overfitting",
+    track: "ml",
+    number: 4,
+    title: "Overfitting",
+    standfirst:
+      "Give a model enough freedom and it will explain your examples perfectly, including the parts of them that were accidents.",
+    nugget: "How much model you can afford depends on how much data you have.",
+    machine: "Pick the Model",
+    minutes: 9,
+    ink: "yellow",
+    status: "ready",
+    feynman: "Did it find a pattern, or memorise these particular examples?",
+  },
+
+  {
+    slug: "cross-validation",
+    track: "ml",
+    number: 5,
+    title: "How sure is that number?",
+    standfirst:
+      "One split gives one accuracy, and it is a sample of size one. Hold out a different slice and the number moves, sometimes far enough to change your mind.",
+    nugget: "A single score has a wobble, and nobody prints it.",
+    machine: "One Fold or Ten",
+    minutes: 8,
+    ink: "teal",
+    status: "ready",
+    feynman:
+      "How much would that number move if I had split the data differently?",
+  },
+
+  {
+    slug: "logistic-regression",
+    track: "ml",
+    number: 6,
+    title: "From a line to a probability",
+    standfirst:
+      "Two numbers per message, one straight line between them, and a curve that turns distance from that line into how sure the model is.",
+    nugget: "A classifier draws a line, then measures how far you are from it.",
+    machine: "Read the Score",
+    minutes: 9,
+    ink: "blue",
+    status: "ready",
+    feynman:
+      "What is the model actually drawing, and what does its number mean?",
+  },
+
+  {
+    slug: "decision-trees",
+    track: "ml",
+    number: 7,
+    title: "Twenty questions",
+    standfirst:
+      "Ask the question that removes most uncertainty, then ask again on each pile you are left with. That is a decision tree, and you can read one out loud.",
+    nugget: "The same measure, applied over and over.",
+    machine: "Grow the Tree",
+    minutes: 8,
+    ink: "yellow",
+    status: "ready",
+    feynman: "Could I explain this model's decision to the person it affects?",
+  },
+
+  {
+    slug: "ensembles",
+    track: "ml",
+    number: 8,
+    title: "Many weak opinions",
+    standfirst:
+      "Sixty poor models voting beat one good one, but only if they disagree with each other. A crowd of identical models is one model.",
+    nugget: "A vote spends disagreement.",
+    machine: "Worth the Crowd",
+    minutes: 8,
+    ink: "teal",
+    status: "ready",
+    feynman: "Do these models make the same mistakes, or different ones?",
+  },
+
+  {
+    slug: "clustering",
+    track: "ml",
+    number: 9,
+    title: "Learning with no labels",
+    standfirst:
+      "Nobody says what anything means. The algorithm is given vectors and a number, and it returns that many groups whether or not there are that many things to find.",
+    nugget: "With no labels, there is nothing to be right about.",
+    machine: "Odd One In",
+    minutes: 8,
+    ink: "pink",
+    status: "ready",
+    feynman: "Does this group mean anything, or did I ask for it?",
+  },
+
+  {
+    slug: "more-data-or-better-model",
+    track: "ml",
+    number: 10,
+    title: "More data, or a better model?",
+    standfirst:
+      "The argument every team has, settled by measurement. Both answers are right, at different points on the same curve.",
+    nugget: "Where you are on the curve decides it.",
+    machine: "Buy the Upgrade",
+    minutes: 8,
+    ink: "blue",
+    status: "ready",
+    feynman: "How much data do I have, and what is the next one worth?",
   },
 
   // --------------------------------------------------------- down the rabbit hole --
@@ -260,14 +410,13 @@ export const LESSONS: Lesson[] = [
     number: 6,
     title: "Why the failures happen",
     standfirst:
-      "The mechanics behind forgetting, making things up, and inherited bias — each one measured.",
-    machine: "Failure bench",
+      "The mechanics behind forgetting, making things up, and inherited bias, and each one is measured.",
+    machine: "Failure Bench",
     minutes: 10,
     ink: "teal",
     status: "ready",
   },
 ];
-
 
 export function getLesson(slug: string): Lesson | undefined {
   return LESSONS.find((l) => l.slug === slug);
@@ -277,18 +426,30 @@ export function lessonsIn(track: Track): Lesson[] {
   return LESSONS.filter((l) => l.track === track);
 }
 
-/** Previous and next within the same track — tracks are read end to end. */
+/**
+ * The order somebody reading straight through would meet them in.
+ *
+ * Machine learning sits after the rabbit hole rather than before it. The
+ * rabbit hole explains the machine you have been using all afternoon; this is
+ * a different and longer undertaking, and nobody arrives at it by accident.
+ */
+export const TRACK_ORDER: Track[] = ["chapter", "close", "how", "ml"];
+
+/** Every lesson, end to end, across the four tracks. */
+export const READING_ORDER: Lesson[] = TRACK_ORDER.flatMap(lessonsIn);
+
+/**
+ * Previous and next, read across the whole syllabus rather than within a track.
+ */
 export function neighbours(slug: string): {
   previous?: Lesson;
   next?: Lesson;
 } {
-  const lesson = getLesson(slug);
-  if (!lesson) return {};
-  const siblings = lessonsIn(lesson.track);
-  const i = siblings.findIndex((l) => l.slug === slug);
+  const i = READING_ORDER.findIndex((l) => l.slug === slug);
+  if (i < 0) return {};
   return {
-    previous: i > 0 ? siblings[i - 1] : undefined,
-    next: i < siblings.length - 1 ? siblings[i + 1] : undefined,
+    previous: i > 0 ? READING_ORDER[i - 1] : undefined,
+    next: i < READING_ORDER.length - 1 ? READING_ORDER[i + 1] : undefined,
   };
 }
 

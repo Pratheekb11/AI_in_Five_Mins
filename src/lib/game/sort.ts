@@ -1,24 +1,5 @@
 /**
- * The Bucket Sort — the endgame, and deliberately not a game.
- *
- * Everything else on the site measures something and then scores you against
- * it. This one cannot and does not. Which of your own tasks you are willing to
- * hand over depends on your job, your risk, and what happens to you when it is
- * wrong, and nobody building a website knows any of that. So there is no timer,
- * no throughput, no right answer and no score.
- *
- * What it does instead is connect each choice to something the site actually
- * measured. Put "answer a legal question about your contract" in the hand-over
- * tray and you are told, with the number, that the same model ranked the true
- * answer 811th until the source was in front of it. The judgement stays yours;
- * the evidence stops being vague.
- *
- * The mapping from a task to the evidence that bears on it is our editorial
- * call and is labelled as such wherever it appears. The measurements it points
- * at are not.
- *
- * The output is a written map you can copy out and keep, because a sorting
- * exercise you cannot take away with you was a waste of your afternoon.
+ * The Bucket Sort, the endgame, and deliberately not a game.
  */
 
 /* ---------------------------------------------------------------- buckets -- */
@@ -92,7 +73,7 @@ export const EVIDENCE: Record<
   },
   "needs-source": {
     finding:
-      "Cold, it ranked the right answer 811th out of 50,257. With the source in front of it, 98.6%. Nothing about the model changed — only what it could see.",
+      "Cold, it ranked the right answer 811th out of 50,257. With the source in front of it, 98.6%. Nothing about the model changed. Only what it could see.",
     where: "Provenance Detective",
     slug: "tools-change-the-game",
   },
@@ -110,7 +91,7 @@ export const EVIDENCE: Record<
   },
   context: {
     finding:
-      "What you put in front of it is most of the answer — and the most helpful-looking card in the pile, a worked example, dropped the right answer from 89.9% to 3.8%.",
+      "What you put in front of it is most of the answer. The most helpful-looking card in the pile, a worked example, dropped the right answer from 89.9% to 3.8%.",
     where: "Context Budget",
     slug: "context-is-everything",
   },
@@ -137,34 +118,146 @@ export type SortTask = {
 };
 
 export const TASKS: readonly SortTask[] = [
-  { text: "Write the weekly team update", exposure: "inside", evidence: ["context"] },
-  { text: "Reply to a customer complaint", exposure: "outside", evidence: ["reads-fluent", "context"] },
-  { text: "Summarise a 40-page report you must act on", exposure: "inside", evidence: ["context", "reads-fluent"] },
-  { text: "Draft a job advert for your own team", exposure: "outside", evidence: ["context"] },
-  { text: "Decide who to promote", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Turn messy notes into clean meeting minutes", exposure: "inside", evidence: ["context"] },
-  { text: "Name a new internal project", exposure: "inside", evidence: ["guesses"] },
-  { text: "Write the numbers section of a board pack", exposure: "outside", evidence: ["needs-tool", "reads-fluent"] },
-  { text: "Rewrite a paragraph that reads badly", exposure: "inside", evidence: ["context"] },
-  { text: "Answer a legal question about your contract", exposure: "outside", evidence: ["needs-source", "reads-fluent"] },
-  { text: "Brainstorm ten angles for a talk", exposure: "inside", evidence: ["guesses"] },
-  { text: "Tell a colleague their work is not good enough", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Translate a message into a language you cannot read", exposure: "outside", evidence: ["reads-fluent"] },
-  { text: "Write test cases for code you wrote", exposure: "inside", evidence: ["context"] },
-  { text: "Set this quarter's priorities", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Draft a condolence note to a colleague", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Convert a spreadsheet into a chart", exposure: "inside", evidence: ["needs-tool"] },
-  { text: "Decide whether to fire a supplier", exposure: "outside", evidence: ["copies-you"] },
-  { text: "Write a first draft of a press release", exposure: "outside", evidence: ["context", "reads-fluent"] },
-  { text: "Explain a concept you half understand to your boss", exposure: "inside", evidence: ["guesses", "reads-fluent"] },
-  { text: "Catch the errors in your own argument", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Fill in a routine compliance form", exposure: "outside", evidence: ["needs-source"] },
-  { text: "Write the quote that goes to a client", exposure: "outside", evidence: ["needs-tool", "reads-fluent"] },
-  { text: "Plan the running order of a workshop", exposure: "inside", evidence: ["context"] },
-  { text: "Reply to a recruiter you are not interested in", exposure: "outside", evidence: ["context"] },
-  { text: "Decide what to cut when the deadline moves", exposure: "inside", evidence: ["copies-you"] },
-  { text: "Tidy the formatting of a long document", exposure: "inside", evidence: ["context"] },
-  { text: "Write the apology after your team got it wrong", exposure: "outside", evidence: ["copies-you", "reads-fluent"] },
+  {
+    text: "Write the weekly team update",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Reply to a customer complaint",
+    exposure: "outside",
+    evidence: ["reads-fluent", "context"],
+  },
+  {
+    text: "Summarise a 40-page report you must act on",
+    exposure: "inside",
+    evidence: ["context", "reads-fluent"],
+  },
+  {
+    text: "Draft a job advert for your own team",
+    exposure: "outside",
+    evidence: ["context"],
+  },
+  {
+    text: "Decide who to promote",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Turn messy notes into clean meeting minutes",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Name a new internal project",
+    exposure: "inside",
+    evidence: ["guesses"],
+  },
+  {
+    text: "Write the numbers section of a board pack",
+    exposure: "outside",
+    evidence: ["needs-tool", "reads-fluent"],
+  },
+  {
+    text: "Rewrite a paragraph that reads badly",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Answer a legal question about your contract",
+    exposure: "outside",
+    evidence: ["needs-source", "reads-fluent"],
+  },
+  {
+    text: "Brainstorm ten angles for a talk",
+    exposure: "inside",
+    evidence: ["guesses"],
+  },
+  {
+    text: "Tell a colleague their work is not good enough",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Translate a message into a language you cannot read",
+    exposure: "outside",
+    evidence: ["reads-fluent"],
+  },
+  {
+    text: "Write test cases for code you wrote",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Set this quarter's priorities",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Draft a condolence note to a colleague",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Convert a spreadsheet into a chart",
+    exposure: "inside",
+    evidence: ["needs-tool"],
+  },
+  {
+    text: "Decide whether to fire a supplier",
+    exposure: "outside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Write a first draft of a press release",
+    exposure: "outside",
+    evidence: ["context", "reads-fluent"],
+  },
+  {
+    text: "Explain a concept you half understand to your boss",
+    exposure: "inside",
+    evidence: ["guesses", "reads-fluent"],
+  },
+  {
+    text: "Catch the errors in your own argument",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Fill in a routine compliance form",
+    exposure: "outside",
+    evidence: ["needs-source"],
+  },
+  {
+    text: "Write the quote that goes to a client",
+    exposure: "outside",
+    evidence: ["needs-tool", "reads-fluent"],
+  },
+  {
+    text: "Plan the running order of a workshop",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Reply to a recruiter you are not interested in",
+    exposure: "outside",
+    evidence: ["context"],
+  },
+  {
+    text: "Decide what to cut when the deadline moves",
+    exposure: "inside",
+    evidence: ["copies-you"],
+  },
+  {
+    text: "Tidy the formatting of a long document",
+    exposure: "inside",
+    evidence: ["context"],
+  },
+  {
+    text: "Write the apology after your team got it wrong",
+    exposure: "outside",
+    evidence: ["copies-you", "reads-fluent"],
+  },
 ];
 
 /* ------------------------------------------------------------------ scene -- */
@@ -192,13 +285,16 @@ export function shuffledBy<T>(items: readonly T[], rolls: number[]): T[] {
   return out;
 }
 
-/** Your own tasks first — the generic ones are only there to prime the pump. */
+/** Your own tasks first, the generic ones are only there to prime the pump. */
 export function start(
   mine: readonly SortTask[],
   rolls: number[],
   count = 14,
 ): SortScene {
-  const theirs = shuffledBy(TASKS, rolls).slice(0, Math.max(0, count - mine.length));
+  const theirs = shuffledBy(TASKS, rolls).slice(
+    0,
+    Math.max(0, count - mine.length),
+  );
   return { ...newScene(), deck: [...mine, ...theirs] };
 }
 
@@ -246,12 +342,12 @@ export function asText(scene: SortScene): string {
   for (const bucket of BUCKETS) {
     const tasks = map[bucket.id];
     if (tasks.length === 0) continue;
-    lines.push(`${bucket.label} — ${bucket.means}`);
+    lines.push(`${bucket.label}: ${bucket.means}`);
     for (const task of tasks) lines.push(`  - ${task.text}`);
     lines.push("");
   }
   lines.push(
-    "Sorted at LearnLoopAI. The sorting is mine; the evidence behind it is measured.",
+    "Sorted at AIinFive. The sorting is mine; the evidence behind it is measured.",
   );
   return lines.join("\n");
 }

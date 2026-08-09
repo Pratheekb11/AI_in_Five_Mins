@@ -1,303 +1,157 @@
-"use client";
-
-import { type Mood, POSES } from "./moods";
+import type { Mood } from "./moods";
 
 /**
- * Nimo, printed.
- *
- * The same owl as the 3D model — teal feathers, cream facial disc, amber beak,
- * round dark glasses, perched on a stack of books — redrawn as flat shapes with
- * hard outlines so he belongs on the page rather than sitting on top of it.
- *
- * Used where the 3D renderer would be too much — small inline appearances and
- * loading states. He costs nothing here.
- *
- * His colours are literal, not theme variables. An owl does not change species
- * between light and dark mode, and painting his cream belly with `--paper`
- * turned him into a dark smudge on the dark plate.
- *
- * Moods move the head, wings and lids rather than swapping a face, so the same
- * drawing carries every expression.
+ * Nimo, flat.
  */
+
+const BROWN = "#7a6552";
+const BROWN_DARK = "#57453a";
+const FACE = "#efe6d2";
+const WHITE = "#fffdf6";
+const NOSE = "#1c1712";
+const FRAME = "#2a2a2a";
+const BOOK = "#dd2a72";
+const BOOK_TEAL = "#009180";
+
+/** Brow angle and mouth curve per mood, in the same units as the drawing. */
+const FACE_BY_MOOD: Record<Mood, { brow: number; smile: number }> = {
+  idle: { brow: 0, smile: 0.02 },
+  curious: { brow: -8, smile: 0.03 },
+  think: { brow: -14, smile: 0 },
+  cheer: { brow: 6, smile: 0.06 },
+  celebrate: { brow: 10, smile: 0.07 },
+  wince: { brow: 14, smile: -0.03 },
+};
 
 export function NimoFlat({
   mood = "idle",
-  size = 96,
+  height = 110,
   className = "",
-  showPerch = true,
 }: {
   mood?: Mood;
-  size?: number;
+  height?: number;
   className?: string;
-  /** The book stack. Dropped when he is inline beside text. */
-  showPerch?: boolean;
 }) {
-  const pose = POSES[mood];
-  const lid = pose.lids;
+  const { brow, smile } = FACE_BY_MOOD[mood] ?? FACE_BY_MOOD.idle;
+
+  /* One unit is the same `s` the canvas version scales by, so every number
+     below can be read straight across from `drawNimo`. */
+  const s = 100;
+  const cx = 0;
+  const cy = 0;
 
   return (
     <svg
-      viewBox="0 0 120 140"
-      width={size}
-      height={(size * 140) / 120}
+      /* Tall enough for the whole book stack: the lowest book runs to 1.06
+         units and a box that stopped at 0.85 sliced it in half. */
+      viewBox="-90 -105 180 222"
+      height={height}
       className={className}
       role="img"
-      aria-label={`Nimo the owl, ${mood}`}
+      aria-label="Nimo, a small otter in round glasses, sitting on a stack of books"
     >
-      <defs>
-        <pattern
-          id="nimo-dots"
-          width="4"
-          height="4"
-          patternUnits="userSpaceOnUse"
-          patternTransform="rotate(45)"
-        >
-          <circle cx="1" cy="1" r="0.9" fill="#1a1a1a" fillOpacity="0.16" />
-        </pattern>
-      </defs>
+      {/* Books first: he sits on them. */}
+      <rect x={-0.6 * s} y={0.94 * s} width={1.2 * s} height={0.12 * s} fill={BOOK} />
+      <rect x={-0.55 * s} y={0.81 * s} width={1.1 * s} height={0.12 * s} fill={BOOK_TEAL} />
+      <rect x={-0.5 * s} y={0.68 * s} width={1.0 * s} height={0.12 * s} fill={BOOK} />
 
-      <g
-        style={{
-          transform: `translateY(${-pose.bounce * 90}px)`,
-          transition: "transform 380ms cubic-bezier(.2,.8,.3,1)",
-        }}
-      >
-        {/* ---------------------------------------------------------- body -- */}
-        {/* tail */}
-        <path
-          d="M60 108 L48 126 L72 126 Z"
-          fill="#2f6f6a"
-          stroke="#1a1a1a"
-          strokeWidth="2.4"
-          strokeLinejoin="round"
-        />
+      {/* Tail, out to his left, so the silhouette says otter. */}
+      <ellipse
+        cx={0}
+        cy={0}
+        rx={0.34 * s}
+        ry={0.13 * s}
+        fill={BROWN_DARK}
+        transform={`translate(${cx - 0.52 * s} ${cy + 0.3 * s}) rotate(-28.6)`}
+      />
 
-        {/* wings — they lift with the mood */}
-        {[-1, 1].map((side) => (
-          <g
-            key={side}
-            style={{
-              transformOrigin: `${60 + side * 22}px 86px`,
-              transform: `rotate(${side * (18 + pose.wings * 46)}deg)`,
-              transition: "transform 320ms cubic-bezier(.2,.8,.3,1)",
-            }}
-          >
-            <ellipse
-              cx={60 + side * 26}
-              cy={92}
-              rx="11"
-              ry="21"
-              fill="#2f6f6a"
-              stroke="#1a1a1a"
-              strokeWidth="2.4"
-            />
-            <ellipse
-              cx={60 + side * 26}
-              cy={92}
-              rx="11"
-              ry="21"
-              fill="url(#nimo-dots)"
-            />
-          </g>
-        ))}
+      {/* Body, belly, feet. */}
+      <ellipse cx={cx} cy={cy + 0.24 * s} rx={0.52 * s} ry={0.546 * s} fill={BROWN} />
+      <ellipse cx={cx} cy={cy + 0.3 * s} rx={0.34 * s} ry={0.391 * s} fill={FACE} />
+      <ellipse cx={cx - 0.34 * s} cy={cy + 0.62 * s} rx={0.15 * s} ry={0.09 * s} fill={BROWN_DARK} />
+      <ellipse cx={cx + 0.34 * s} cy={cy + 0.62 * s} rx={0.15 * s} ry={0.09 * s} fill={BROWN_DARK} />
 
-        {/* torso */}
-        <ellipse
-          cx="60"
-          cy="90"
-          rx="30"
-          ry="32"
-          fill="#2f6f6a"
-          stroke="#1a1a1a"
-          strokeWidth="2.6"
-        />
-        <ellipse cx="60" cy="90" rx="30" ry="32" fill="url(#nimo-dots)" />
+      {/* Ears, then head, then muzzle. */}
+      <circle cx={cx - 0.4 * s} cy={cy - 0.52 * s} r={0.13 * s} fill={BROWN_DARK} />
+      <circle cx={cx + 0.4 * s} cy={cy - 0.52 * s} r={0.13 * s} fill={BROWN_DARK} />
+      <ellipse cx={cx} cy={cy - 0.34 * s} rx={0.46 * s} ry={0.432 * s} fill={BROWN} />
+      <ellipse cx={cx} cy={cy - 0.22 * s} rx={0.3 * s} ry={0.216 * s} fill={FACE} />
 
-        {/* cream belly */}
-        <ellipse
-          cx="60"
-          cy="95"
-          rx="19"
-          ry="24"
-          fill="#f6ead6"
-          stroke="#1a1a1a"
-          strokeWidth="2"
-        />
-
-        {/* feet */}
-        {showPerch
-          ? [-1, 1].map((side) => (
-              <ellipse
-                key={side}
-                cx={60 + side * 11}
-                cy="121"
-                rx="8"
-                ry="4.5"
-                fill="#e8912f"
-                stroke="#1a1a1a"
-                strokeWidth="2"
-              />
-            ))
-          : null}
-
-        {/* ---------------------------------------------------------- head -- */}
-        <g
-          style={{
-            transformOrigin: "60px 58px",
-            transform: `rotate(${pose.tilt}deg) translateY(${-pose.nod * 0.16}px)`,
-            transition: "transform 320ms cubic-bezier(.2,.8,.3,1)",
-          }}
-        >
-          {/* ear tufts */}
-          {[-1, 1].map((side) => (
-            <path
-              key={side}
-              d={`M${60 + side * 15} 33 L${60 + side * 23} 16 L${60 + side * 27} 36 Z`}
-              fill="#2f6f6a"
-              stroke="#1a1a1a"
-              strokeWidth="2.2"
-              strokeLinejoin="round"
-            />
-          ))}
-
-          {/* skull */}
-          <circle
-            cx="60"
-            cy="52"
-            r="30"
-            fill="#2f6f6a"
-            stroke="#1a1a1a"
-            strokeWidth="2.6"
-          />
-          <circle cx="60" cy="52" r="30" fill="url(#nimo-dots)" />
-
-          {/* facial disc */}
-          <ellipse
-            cx="60"
-            cy="56"
-            rx="24"
-            ry="21"
-            fill="#f6ead6"
-            stroke="#1a1a1a"
-            strokeWidth="2"
-          />
-
-          {/* eyes behind the glasses */}
-          {[-1, 1].map((side) => (
-            <g key={side}>
-              <circle
-                cx={60 + side * 11}
-                cy="52"
-                r="8.5"
-                fill="#ffffff"
-                stroke="#1a1a1a"
-                strokeWidth="1.8"
-              />
-              <circle
-                cx={60 + side * 11}
-                cy={52 + pose.nod * 0.06}
-                r="4.2"
-                fill="#1a1a1a"
-              />
-              <circle
-                cx={60 + side * 11 + 1.6}
-                cy="50"
-                r="1.5"
-                fill="#ffffff"
-              />
-              {/* eyelid — drops for wince and think */}
-              {lid > 0.02 ? (
-                <path
-                  d={`M${60 + side * 11 - 8.5} 52 a8.5 8.5 0 0 1 17 0 Z`}
-                  fill="#2f6f6a"
-                  stroke="#1a1a1a"
-                  strokeWidth="1.6"
-                  style={{
-                    transformOrigin: `${60 + side * 11}px 52px`,
-                    transform: `scaleY(${lid * 2})`,
-                    transition: "transform 240ms ease",
-                  }}
-                />
-              ) : null}
-            </g>
-          ))}
-
-          {/* round glasses, drawn over the eyes */}
-          {[-1, 1].map((side) => (
-            <circle
-              key={side}
-              cx={60 + side * 11}
-              cy="52"
-              r="11"
-              fill="none"
-              stroke="#1a1a1a"
-              strokeWidth="2.4"
-            />
-          ))}
+      {/* Whiskers, under the glasses so the frames read on top. */}
+      {[-1, 1].map((side) =>
+        [0, 1, 2].map((i) => (
           <line
-            x1="49"
-            y1="52"
-            x2="71"
-            y2="52"
-            stroke="#1a1a1a"
-            strokeWidth="2.2"
+            key={`${side}-${i}`}
+            x1={cx + side * 0.06 * s}
+            y1={cy - 0.18 * s + i * 0.035 * s}
+            x2={cx + side * 0.42 * s}
+            y2={cy - 0.26 * s + i * 0.07 * s}
+            stroke={FACE}
+            strokeWidth={0.014 * s}
+            strokeLinecap="round"
           />
-          {[-1, 1].map((side) => (
-            <line
-              key={side}
-              x1={60 + side * 22}
-              y1="52"
-              x2={60 + side * 30}
-              y2="49"
-              stroke="#1a1a1a"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-            />
-          ))}
+        )),
+      )}
 
-          {/* beak — opens on cheer and celebrate */}
-          <path
-            d={
-              pose.beak > 0.4
-                ? "M54 66 L66 66 L60 78 Z"
-                : "M55 65 L65 65 L60 73 Z"
-            }
-            fill="#e8912f"
-            stroke="#1a1a1a"
-            strokeWidth="2.2"
-            strokeLinejoin="round"
+      {/* Eyes. */}
+      {[-1, 1].map((side) => (
+        <g key={side}>
+          <circle cx={cx + side * 0.17 * s} cy={cy - 0.38 * s} r={0.12 * s} fill={WHITE} />
+          <circle cx={cx + side * 0.17 * s} cy={cy - 0.38 * s} r={0.075 * s} fill="#17171f" />
+          <circle
+            cx={cx + side * 0.17 * s + 0.025 * s}
+            cy={cy - 0.41 * s}
+            r={0.025 * s}
+            fill={WHITE}
           />
         </g>
+      ))}
 
-        {/* --------------------------------------------------------- perch -- */}
-        {showPerch ? (
-          <g>
-            {[
-              { y: 132, w: 46, ink: "var(--pink)" },
-              { y: 126, w: 41, ink: "var(--blue)" },
-            ].map((book) => (
-              <g key={book.y}>
-                <rect
-                  x={60 - book.w / 2}
-                  y={book.y}
-                  width={book.w}
-                  height="6"
-                  fill={book.ink}
-                  stroke="#1a1a1a"
-                  strokeWidth="2"
-                />
-                <rect
-                  x={60 - book.w / 2 + 2}
-                  y={book.y + 1.5}
-                  width={book.w - 4}
-                  height="3"
-                  fill="#f6ead6"
-                />
-              </g>
-            ))}
-          </g>
-        ) : null}
-      </g>
+      {/* The brow is the whole of the mood. */}
+      {[-1, 1].map((side) => (
+        <line
+          key={side}
+          x1={cx + side * 0.05 * s}
+          y1={cy - 0.55 * s}
+          x2={cx + side * 0.29 * s}
+          y2={cy - 0.55 * s}
+          stroke={BROWN_DARK}
+          strokeWidth={0.035 * s}
+          strokeLinecap="round"
+          transform={`rotate(${side * brow} ${cx + side * 0.17 * s} ${cy - 0.55 * s})`}
+        />
+      ))}
+
+      {/* Glasses: two rings and a bridge, the thing that makes him him. */}
+      {[-1, 1].map((side) => (
+        <circle
+          key={side}
+          cx={cx + side * 0.17 * s}
+          cy={cy - 0.38 * s}
+          r={0.15 * s}
+          fill="none"
+          stroke={FRAME}
+          strokeWidth={0.028 * s}
+        />
+      ))}
+      <line
+        x1={cx - 0.02 * s}
+        y1={cy - 0.38 * s}
+        x2={cx + 0.02 * s}
+        y2={cy - 0.38 * s}
+        stroke={FRAME}
+        strokeWidth={0.028 * s}
+      />
+
+      {/* Nose, then a mouth that carries the rest of the mood. */}
+      <ellipse cx={cx} cy={cy - 0.2 * s} rx={0.045 * s} ry={0.034 * s} fill={NOSE} />
+      <path
+        d={`M ${cx - 0.09 * s} ${cy - 0.14 * s} Q ${cx} ${cy - 0.14 * s + smile * s} ${cx + 0.09 * s} ${cy - 0.14 * s}`}
+        fill="none"
+        stroke={NOSE}
+        strokeWidth={0.018 * s}
+        strokeLinecap="round"
+      />
     </svg>
   );
 }

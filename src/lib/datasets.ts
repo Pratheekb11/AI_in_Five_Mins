@@ -4,7 +4,7 @@ import type { Point } from "./ml";
 
 /**
  * Typed views over the generated datasets. Both files are produced by scripts
- * in data/scripts from corpora that are not committed — see data/PROVENANCE.md
+ * in data/scripts from corpora that are not committed, see data/PROVENANCE.md
  * for what they are and how to fetch them.
  */
 

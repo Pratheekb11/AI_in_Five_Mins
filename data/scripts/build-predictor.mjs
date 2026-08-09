@@ -100,13 +100,13 @@ const FACT_PROMPTS = [
     fact: "Tokyo is the capital of Japan.",
     article: "Tokyo" },
   { id: "canberra", text: "The capital of Australia is", truth: " Canberra",
-    fact: "Canberra is the capital of Australia — not Sydney, which is the largest city.",
+    fact: "Canberra is the capital of Australia, not Sydney, which is the largest city.",
     article: "Canberra" },
   { id: "brasilia", text: "The capital of Brazil is", truth: " Bras",
-    fact: "Brasília is the capital of Brazil — not Rio de Janeiro, which was the capital until 1960.",
+    fact: "Brasília is the capital of Brazil, not Rio de Janeiro, which was the capital until 1960.",
     article: "Brasília" },
   { id: "ottawa", text: "The capital of Canada is", truth: " Ottawa",
-    fact: "Ottawa is the capital of Canada — not Toronto, which is the largest city.",
+    fact: "Ottawa is the capital of Canada, not Toronto, which is the largest city.",
     article: "Ottawa" },
   { id: "nile", text: "The longest river in Africa is the", truth: " Nile",
     fact: "The Nile is the longest river in Africa.",
@@ -391,7 +391,7 @@ const main = async () => {
       ...round,
       kind: "phrase",
       because:
-        "The right answer is the ordinary completion of an extremely common phrase — which is exactly the territory where a next-word predictor is strong.",
+        "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong.",
     });
     console.log(
       `  ${prompt.id}: truth rank ${round.answerRank} at ${(round.options[round.truth].probability * 100).toFixed(1)}%${round.trapped ? "  <- model misses" : "  <- model wins"}`,
@@ -418,7 +418,7 @@ const main = async () => {
       let response;
       for (let attempt = 0; attempt < 6; attempt++) {
         response = await fetch(url, {
-          headers: { "User-Agent": "LearnLoopAI/1.0 (educational)" },
+          headers: { "User-Agent": "AIinFive/1.0 (educational)" },
         });
         if (response.status !== 429) break;
         await new Promise((r) => setTimeout(r, 2000 * 2 ** attempt));

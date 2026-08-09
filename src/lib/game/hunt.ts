@@ -1,21 +1,5 @@
 /**
  * The rules of Hallucination Hunt, as pure functions.
- *
- * A real paragraph with three things wrong in it. Click the words you do not
- * believe. You get six flags for three errors, so guessing at everything costs
- * you the round.
- *
- * The paragraphs are the openings of real Wikipedia articles and the
- * alterations were checked against the cited revision before shipping — see
- * `data/scripts/build-hunt.mjs`. That matters more here than anywhere else on
- * the site: a spot-the-error game with an unreliable answer key teaches people
- * to distrust the wrong things.
- *
- * The clock is deliberately not a fail state. It stops the speed bonus and
- * nothing else, because the skill being drilled is careful reading and putting
- * a guillotine on careful reading trains the opposite habit.
- *
- * PURITY. The date and any draws come from the caller.
  */
 
 /* ------------------------------------------------------------------ types -- */

@@ -20,14 +20,7 @@ import {
 } from "@/lib/game/pushback";
 
 /**
- * Pushback — say it firmly enough and watch what happens.
- *
- * A fact nobody disputes, and the same question asked four ways. You call which
- * way the answer goes, and then the true and false answers race each other as
- * two bars under each phrasing.
- *
- * The bars are paired deliberately: seeing the false answer climb while the
- * true one collapses, in the same row, is the thing that makes this stick.
+ * Pushback, say it firmly enough and watch what happens.
  */
 
 let cached: Promise<PushData> | null = null;
@@ -62,7 +55,12 @@ export function Pushback() {
 
   const begin = useCallback(() => {
     if (!data) return;
-    setScene(startRound(data, Array.from({ length: 40 }, () => Math.random())));
+    setScene(
+      startRound(
+        data,
+        Array.from({ length: 40 }, () => Math.random()),
+      ),
+    );
     setPlaying(true);
   }, [data]);
 
@@ -94,7 +92,7 @@ export function Pushback() {
     <GameShell
       gameId="pushback"
       name="Pushback"
-      instruction="A fact nobody disputes, and the same question put four ways — flat, with a nudge, with the wrong answer asserted first, and with the right one asserted first. Call which way it goes before you see the numbers."
+      instruction="A fact nobody disputes, and the same question put four ways: flat, with a nudge, with the wrong answer asserted first, and with the right one asserted first. Call which way it goes before you see the numbers."
       howToPlay={{
         goal: "Predict what the model does when somebody insists on a wrong answer.",
         steps: [
@@ -102,8 +100,9 @@ export function Pushback() {
           "Somebody is about to assert the wrong answer before asking. Say whether the model holds its ground or goes with what it was told.",
           "The same question is then shown put four ways, with the true and false answers racing each other under each one.",
         ],
-        controls: "Click a choice, or press 1–2. Enter moves on.",
-        scoring: "120 for the right call, more when the framing swung the answer a long way.",
+        controls: "Tap or click a choice, or press 1–2. Enter moves on.",
+        scoring:
+          "120 for the right call, more when the framing swung the answer a long way.",
       }}
       startLabel={data ? "Lean on it" : "Loading the measurements…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
@@ -137,7 +136,7 @@ export function Pushback() {
           <p className="text-ink-soft mb-2 text-[0.9375rem]">
             Put the false answer in front of it and the false answer wins. Put
             the true one there and the true one wins, just as hard. It is not
-            being persuaded by you &mdash; it is copying you.
+            being persuaded by you. It is copying you.
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
             Which is the practical bit: when a model agrees with you, that is
@@ -151,8 +150,8 @@ export function Pushback() {
         data ? (
           <>
             Measured on {data.model.name}, which has had no training to be
-            agreeable &mdash; so this is not sycophancy itself, it is the
-            mechanism underneath it. For the behaviour in real assistants see{" "}
+            agreeable. So this is not sycophancy itself. It is the mechanism
+            underneath it. For the behaviour in real assistants see{" "}
             <a
               href={data.literature.url}
               target="_blank"
@@ -219,7 +218,7 @@ export function Pushback() {
                 >
                   {correct
                     ? `${GUESSES[outcome!].label}. +${pointsFor(round, scene.guessed!)}`
-                    : `Actually — ${GUESSES[outcome!].label.toLowerCase()}.`}
+                    : `Actually, ${GUESSES[outcome!].label.toLowerCase()}.`}
                 </p>
 
                 <ul className="mb-4 space-y-3">
@@ -228,9 +227,32 @@ export function Pushback() {
                       <p className="label text-ink-faint mb-1">
                         {data?.styles[phrasing.style]}
                       </p>
+                      {/* The prompt, and then what it actually said. Two
+                          probability bars are the measurement; the model
+                          finishing the sentence with "Moon." because somebody
+                          insisted is the thing anybody feels. */}
                       <p className="font-data bg-paper-sunk border-ink/20 mb-1.5 rounded-[2px] border px-3 py-1.5 text-[0.875rem]">
-                        {phrasing.prompt}
-                        <span className="text-ink-faint"> …</span>
+                        {phrasing.prompt}{" "}
+                        {(() => {
+                          const said = (phrasing.says ?? phrasing.topText)
+                            .replace(/\n/g, "")
+                            .trim();
+                          if (!said) return <span className="text-ink-faint">…</span>;
+                          const caved = said
+                            .toLowerCase()
+                            .startsWith(round.wrong.trim().toLowerCase());
+                          return (
+                            <span
+                              className={`rounded-[2px] border px-1.5 py-0.5 font-bold ${
+                                caved
+                                  ? "border-pink-text/40 bg-pink-wash text-pink-text"
+                                  : "border-teal-text/40 bg-teal-wash text-teal-text"
+                              }`}
+                            >
+                              {said}
+                            </span>
+                          );
+                        })()}
                       </p>
                       {[
                         {
@@ -284,8 +306,10 @@ export function Pushback() {
                         (insistent?.wrong.probability ?? 0) * 100
                       ).toFixed(1)}% against ${(
                         (insistent?.right.probability ?? 0) * 100
-                      ).toFixed(1)}% for the truth. Look at the last row though: asserting the right answer works exactly as hard in the other direction. It is not agreeing with you. It is copying you.`
-                    : "It held on this one — but look at how much the framing still moved both numbers. Nothing about the model changed between those four rows. Only the sentence in front of it did."}
+                      ).toFixed(
+                        1,
+                      )}% for the truth. Look at the last row though: asserting the right answer works exactly as hard in the other direction. It is not agreeing with you. It is copying you.`
+                    : "It held on this one. But look at how much the framing still moved both numbers. Nothing about the model changed between those four rows. Only the sentence in front of it did."}
                 </p>
                 <p className="text-ink-faint mb-3 text-[0.8125rem]">
                   <a

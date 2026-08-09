@@ -1,26 +1,5 @@
 /**
  * The rules of Provenance Detective, as pure functions.
- *
- * One question at a time, and one call to make before you see anything: can
- * this thing answer it from memory, does it need the source handing to it, or
- * does it need a tool that can actually do the work?
- *
- * That is the last practical habit the site teaches, and it is the one that
- * survives contact with a real job. You do not need to know how attention
- * works to use these tools well. You do need to know which of those three
- * situations you are in, because the failure looks identical in all three.
- *
- * Every round is measured. `bare` is the model asked cold; `sourced` is the
- * same question with the fact placed in front of it, which is what a search
- * tool or a document upload actually does. Which bucket a question belongs in
- * was decided by that measurement, not chosen in advance — guessing which facts
- * a model happens to know is precisely the mistake being taught.
- *
- * The arithmetic round is separate and is not a probability. It is an accuracy:
- * the model was given 200 seeded two-digit sums and read greedily, and what it
- * got right was counted.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */
@@ -69,7 +48,9 @@ export type ProvenanceData = {
 
 /* ------------------------------------------------------------------ rules -- */
 
-export const ROUND_SIZE = 8;
+/* Five, not eight. Eight was two minutes of the same decision, and the point
+   is made by the third: nobody's attention is the thing being taught here. */
+export const ROUND_SIZE = 5;
 /** How many of the round are sums. The rest are drawn from the fact pool. */
 export const SUM_ROUNDS = 2;
 
@@ -97,7 +78,7 @@ export const VERDICTS: Record<Verdict, { label: string; blurb: string }> = {
 
 /* ---------------------------------------------------------------- rounds -- */
 
-/** A sum round carries no probabilities — it is scored on measured accuracy. */
+/** A sum round carries no probabilities, it is scored on measured accuracy. */
 export type SumRound = {
   id: string;
   kind: "tool";
@@ -174,6 +155,13 @@ export function newScene(): ProvenanceScene {
   };
 }
 
+/**
+ * Ends the set where the player is standing.
+ */
+export function finish(scene: ProvenanceScene): ProvenanceScene {
+  return scene.done ? scene : { ...scene, done: true };
+}
+
 export function start(data: ProvenanceData, rolls: number[]): ProvenanceScene {
   return { ...newScene(), rounds: deal(data, rolls) };
 }
@@ -190,7 +178,10 @@ export function pointsFor(round: AnyRound, called: Verdict): number {
   return BASE_POINTS + (buried ? INSIGHT_POINTS : 0);
 }
 
-export function call(scene: ProvenanceScene, verdict: Verdict): ProvenanceScene {
+export function call(
+  scene: ProvenanceScene,
+  verdict: Verdict,
+): ProvenanceScene {
   const round = current(scene);
   if (!round || scene.done || scene.called !== null) return scene;
 

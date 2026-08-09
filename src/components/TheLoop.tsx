@@ -6,22 +6,6 @@ import { useCallback, useEffect, useState } from "react";
 
 /**
  * A sentence being written, one word at a time, by a real model.
- *
- * The first version of this panel showed four beats against a handful of
- * unrelated prompts and rolled to a different sentence each cycle. It was
- * unreadable, and fairly called meaningless: the one thing the loop claims is
- * that the model adds a word and goes again, and that is exactly what changing
- * the sentence every cycle hides.
- *
- * So now there is one sentence and it grows. Each tick appends the word the
- * model actually chose, the panel shows the handful of words it weighed up
- * before choosing, and the text on screen is the text the next step is about to
- * read. Nothing is staged: every step in `loop.json` is a real forward pass
- * over whatever the step before it produced.
- *
- * The repetition that sets in on some chains is not a bug in the recording. It
- * is what always taking the likeliest word does, it has a name, and the panel
- * points at the module that measures it rather than hiding it.
  */
 
 type Candidate = { text: string; probability: number };
@@ -136,7 +120,7 @@ export function TheLoop() {
         {/* The sentence. This is the whole point: it gets longer, and what it
             says next is decided by what it already says. */}
         <p className="label text-ink-faint mb-2">
-          What it has written so far &mdash; and what it is about to add
+          What it has written so far, and what it is about to add
         </p>
         <p className="font-data bg-paper-sunk border-ink/20 mb-6 min-h-[6rem] rounded-[2px] border px-4 py-3 text-[1.0625rem] leading-relaxed">
           <span className="text-ink-soft">{written}</span>
@@ -152,7 +136,7 @@ export function TheLoop() {
         </p>
 
         <p className="label text-ink-faint mb-2">
-          The words it weighed up before picking &mdash; out of{" "}
+          The words it weighed up before picking, out of{" "}
           {data.vocabSize.toLocaleString("en-US")}
         </p>
         <ul className="mb-5 space-y-1.5">
@@ -207,9 +191,8 @@ export function TheLoop() {
             {repeating ? (
               <>
                 It has started repeating itself. That is what always taking the
-                likeliest word does &mdash; the likeliest continuation of a
-                likely continuation is likelier still, and it falls into a
-                groove.{" "}
+                likeliest word does. The likeliest continuation of a likely
+                continuation is likelier still, so it falls into a groove.{" "}
                 <Link
                   href="/lessons/how-llms-answer"
                   className="underline underline-offset-2"
@@ -256,9 +239,9 @@ export function TheLoop() {
       </div>
 
       <p className="border-ink/20 text-ink-faint border-t px-4 py-3 text-[0.8125rem]">
-        {data.model.name}, and every step is a real run over the text the step
-        before it produced &mdash; not a script. It always takes its top choice
-        here, so this exact sentence comes back every time and you can check it.
+        {data.model.name}. Every step is a real run over the text the step
+        before it produced, not a script. It always takes its top choice here,
+        so this exact sentence comes back every time and you can check it.
       </p>
     </div>
   );

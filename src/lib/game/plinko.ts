@@ -1,21 +1,5 @@
 /**
  * The rules of Plinko, as pure functions.
- *
- * A real prompt, a real model's real odds on the next token, and one control:
- * the temperature dial. You are told which token to land on and given eight
- * balls to do it with. Cold makes the top token near-certain and the machine
- * boring; hot gives the tail a chance and makes nothing reliable. Discovering
- * that those are the same dial pointing opposite ways is the entire lesson,
- * and losing four balls in a row teaches it better than a diagram does.
- *
- * HONESTY. Nothing here invents a probability. Every weight comes from the
- * logits recorded in `logits.json`, rescaled by the dial and renormalised over
- * the candidates on the board — which the page states plainly, because the
- * board holds six of the model's 50,257 tokens.
- *
- * PURITY. The reducer never rolls a die. Draws are made by the caller in the
- * event handler and passed in as plain numbers, so `drop` is a function of its
- * arguments alone and is safe to run twice in a state updater.
  */
 
 import { atTemperature, type LogitData, type LogitPrompt } from "@/lib/logits";
@@ -65,7 +49,7 @@ export type PlinkoScene = {
   done: boolean;
 };
 
-/** The scene before a round starts — no prompt, nothing to drop into. */
+/** The scene before a round starts, no prompt, nothing to drop into. */
 export function newScene(): PlinkoScene {
   return {
     order: [],
@@ -93,7 +77,10 @@ export function promptOf(
 }
 
 /** The board's weights: the model's logits at this dial, over the kept slots. */
-export function boardWeights(prompt: LogitPrompt, temperature: number): number[] {
+export function boardWeights(
+  prompt: LogitPrompt,
+  temperature: number,
+): number[] {
   const full = atTemperature(prompt, temperature);
   const kept = full.slice(0, SLOTS);
   const total = kept.reduce((a, b) => a + b, 0);
@@ -156,11 +143,6 @@ export function setTemperature(
 
 /**
  * One ball.
- *
- * `roll` places the ball, `targetRoll` picks the next prompt's target. Both are
- * drawn by the caller. The guard is on the scene rather than on a closed-over
- * copy of it, so a burst of clicks in a single tick cannot spend more balls
- * than the round has.
  */
 export function drop(
   data: LogitData,

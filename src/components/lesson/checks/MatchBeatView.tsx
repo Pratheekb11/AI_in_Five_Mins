@@ -6,11 +6,6 @@ import { BeatFrame } from "./BeatFrame";
 
 /**
  * Match the following: fixed rows on the left, a dealt pool on the right.
- *
- * The pool shrinks as answers are pinned, which means the last pair is free.
- * That is deliberate — the point of the beat is the reasoning about the first
- * few, and leaving one impossible-to-get-wrong pair at the end is a kinder
- * ending than a lucky guess deciding the score.
  */
 
 type State = {
@@ -39,8 +34,9 @@ export function MatchBeatView({
   );
   const used = new Set(Object.values(state.pinned));
   const pool = rights.filter((text) => !used.has(text));
-  const right = beat.pairs.filter((p) => state.pinned[p.left] === p.right)
-    .length;
+  const right = beat.pairs.filter(
+    (p) => state.pinned[p.left] === p.right,
+  ).length;
 
   function pin(leftText: string) {
     if (state.checked || !state.held) return;

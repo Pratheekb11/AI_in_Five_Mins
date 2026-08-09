@@ -1,24 +1,5 @@
 /**
  * The rules of Context Budget, as pure functions.
- *
- * Five slots, a pile of cards, and one question. You decide what the model gets
- * to see. Then you run it, and the number that comes back is the probability
- * the real model puts on the real answer given exactly the context you built.
- *
- * Every combination was measured offline — see `data/scripts/build-context.mjs`
- * — so pressing Run is a lookup of a real measurement rather than a simulation.
- *
- * What the measurements turned out to say, which is not what most people expect:
- *
- *   - The relevant document is nearly the whole game. Without it the answer sits
- *     at zero however many other cards you add.
- *   - A decoy that looks relevant and says something else roughly halves it.
- *   - The card that does the most damage is the "example of a good answer",
- *     because its placeholder value is what gets copied. The most helpful-
- *     looking card in the pile is the worst one to include.
- *   - Chit-chat is close to harmless. Volume is not the problem; relevance is.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */
@@ -39,6 +20,10 @@ export type Combination = {
   tokens: number;
   rank: number;
   topText: string;
+  /**
+   * The words the model actually produces next, greedily decoded.
+   */
+  says?: string;
   topProbability: number;
 };
 
@@ -70,7 +55,10 @@ export const KIND_NAMES: Record<CardKind, string> = {
   noise: "Harmless chatter",
   stale: "Out of date, and says so",
   decoy: "Looks relevant, says something else",
-  example: "A worked example, with a made-up value in it",
+  /* Short, because the card in this slot is already labelled "A worked
+     example, with a made-up value in it" and the effects list printed the
+     same sentence twice on the same line. */
+  example: "A pattern to copy",
 };
 
 /** The measured result for a set of cards, or null if it was never measured. */
@@ -80,9 +68,8 @@ export function resultFor(
 ): Combination | null {
   const key = [...chosen].sort().join("|");
   return (
-    scenario.combinations.find(
-      (c) => [...c.cards].sort().join("|") === key,
-    ) ?? null
+    scenario.combinations.find((c) => [...c.cards].sort().join("|") === key) ??
+    null
   );
 }
 
@@ -200,7 +187,7 @@ export function clear(scene: BudgetScene): BudgetScene {
  * Run it.
  *
  * Score is the best probability reached, so a good first guess is worth as much
- * as a lucky fourth — and the runs are there to make you think, not to be spent.
+ * as a lucky fourth, and the runs are there to make you think, not to be spent.
  */
 export function run(scene: BudgetScene, scenario: Scenario): BudgetScene {
   if (scene.done || scene.runsLeft <= 0) return scene;

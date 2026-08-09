@@ -526,7 +526,7 @@
     },
     {
       "id": "code",
-      "note": "Code tokenizes densely — common syntax has its own tokens.",
+      "note": "Code tokenizes densely: common syntax has its own tokens.",
       "text": "const total = items.reduce((a, b) => a + b, 0);",
       "chars": 47,
       "tokenCount": 18,

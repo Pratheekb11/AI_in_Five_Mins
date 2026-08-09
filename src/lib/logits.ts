@@ -4,7 +4,7 @@
  * The measured next-token distributions.
  *
  * Every probability in `logits.json` is DistilGPT-2's own output for the prompt
- * beside it. This file loads them and reshapes them for the temperature dial —
+ * beside it. This file loads them and reshapes them for the temperature dial,
  * it never invents a candidate and never smooths a distribution.
  */
 

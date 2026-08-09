@@ -11,12 +11,6 @@ import {
 
 /**
  * A map of 1,851 words, and a search that ignores it.
- *
- * The dots are a two-dimensional projection of fifty-dimensional vectors, so
- * the map is a shadow: words that look adjacent on screen are often unrelated,
- * and true neighbours are often flung apart. That gap is the lesson, not a
- * defect to hide — so the neighbour list is computed in all fifty dimensions
- * and shown next to the map that disagrees with it.
  */
 
 const GROUP_INK: Record<string, string> = {
@@ -113,7 +107,7 @@ export function WordChart() {
       <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
         <figure className="plate p-4">
           <figcaption className="label text-ink-faint mb-3">
-            The map — 50 dimensions flattened to 2
+            The map: 50 dimensions flattened to 2
           </figcaption>
           {!space ? (
             <div className="flex justify-center py-16">
@@ -180,14 +174,14 @@ export function WordChart() {
 
         <div className="plate p-5">
           <p className="label text-ink-faint mb-3">
-            Nearest — measured in all 50
+            Nearest, measured in all 50
           </p>
 
           {!space ? (
             <p className="text-ink-faint text-sm">Loading…</p>
           ) : !result?.found ? (
             <p className="text-ink-soft text-sm">
-              <span className="font-data">{result?.word || "—"}</span> is not in
+              <span className="font-data">{result?.word || "-"}</span> is not in
               this vocabulary. It holds 1,851 common words, not all 400,000
               GloVe ships. Try one of the suggestions.
             </p>
@@ -218,7 +212,7 @@ export function WordChart() {
           <p className="border-ink/20 text-ink-soft mt-4 border-t pt-3 text-sm">
             Look at where these land on the map. Some sit right next to the
             highlighted word; others are across the page. The list is right and
-            the map is lying — flattening fifty dimensions into two has to throw
+            the map is lying. Flattening fifty dimensions into two has to throw
             something away.
           </p>
         </div>

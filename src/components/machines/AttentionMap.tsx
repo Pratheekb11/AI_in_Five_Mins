@@ -10,11 +10,6 @@ import {
 
 /**
  * The whole grid, for anyone who wants to go looking.
- *
- * Seventy-two heads over four sentences, every cell a real weight. The point
- * of leaving it browsable is that the heads are visibly not doing the same
- * job as each other, and no caption makes that as convincing as scrubbing
- * through them does.
  */
 export function AttentionMap() {
   const [data, setData] = useState<AttentionData | null>(null);
@@ -174,8 +169,8 @@ export function AttentionMap() {
         <p className="text-ink-soft mt-5 text-[0.9375rem]">
           The empty upper triangle is the causal mask: a token is never allowed
           to look at what comes after it. And the dark first column is the
-          attention sink &mdash; across every head and sentence here, an average
-          of <span className="data font-semibold">{(sink * 100).toFixed(0)}%</span>{" "}
+          attention sink. Across every head and sentence here, an average of{" "}
+          <span className="data font-semibold">{(sink * 100).toFixed(0)}%</span>{" "}
           of each row lands on the very first token.
         </p>
       </div>

@@ -23,6 +23,16 @@ Then:
 
 ```bash
 node data/scripts/build-token-examples.mjs
+node data/scripts/build-features.mjs
+node data/scripts/build-split.mjs
+node data/scripts/build-threshold.mjs
+node data/scripts/build-overfit.mjs
+node data/scripts/build-crossval.mjs
+node data/scripts/build-logistic.mjs
+node data/scripts/build-tree.mjs
+node data/scripts/build-forest.mjs
+node data/scripts/build-clusters.mjs
+node data/scripts/build-curve.mjs
 node data/scripts/build-spam-bench.mjs
 node data/scripts/build-regression-data.mjs
 ```
@@ -73,6 +83,189 @@ Output should be byte-identical to what is committed — every script that sampl
 
 ---
 
+## `public/data/features.json`
+
+**Script:** `data/scripts/build-features.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 1 — Features and labels
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** for each of twelve candidate features, how many messages it fires on, how much of each resulting pile is spam, what share of all spam it catches, and the information gain in bits. Also what that one feature alone would score as a whole filter, on the held-out split.
+
+**On the split:** the same seed and the same 80/20 as `build-spam-bench.mjs`, deliberately, so a number here and a number on the what-is-ai page describe the same experiment. Gains are measured on the training messages only, so no feature is judged on the messages it is later tested against.
+
+**On the feature list:** the twelve were written before any of them were scored, and none was dropped for scoring badly. Several are there because they are plausible and weak, which is the entire point of the game.
+
+---
+
+## `public/data/split.json`
+
+**Script:** `data/scripts/build-split.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 2 — Train and test
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** ten models trained on the 4,459 training messages and scored twice, on those and on the 1,115 held out. Two of them memorise on purpose — a lookup table of every training message, and nearest neighbour by word overlap — and both score exactly 100% in training, which is the point of the chapter. Three are naive Bayes on 50, 200 and 1,000 examples, to show that a small honest gap can still mean a bad model.
+
+**On the split:** same seed and same 80/20 as `build-spam-bench.mjs` and `build-features.mjs`. Every number about this corpus anywhere on the site describes one experiment.
+
+**Runtime:** about fifteen seconds, nearly all of it the nearest-neighbour model comparing every test message against every training message.
+
+---
+
+## `public/data/threshold.json`
+
+**Script:** `data/scripts/build-threshold.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 3 — Accuracy is a liar
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** naive Bayes is trained once on the 4,459 training messages and asked for a spam *probability* on each of the 1,115 held out. The threshold is then swept across the whole range and the four counts recorded at each position, along with accuracy, precision and recall. Four costed scenarios are evaluated against every point on that sweep to find the cheapest line for each.
+
+**On the sweep:** thresholds are sampled densely at both extremes because the scorer is extremely confident — 910 of the 1,115 messages land below one in a hundred. A linear sweep spends almost every step in a region where nothing changes.
+
+**On the exported points:** every held-out message ships as `[probability, label]`, rounded to six decimals, so the figure can draw the real distribution and recount from the dots it drew rather than trusting a stored summary.
+
+---
+
+## `public/data/crossval.json`
+
+**Script:** `data/scripts/build-crossval.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 5 — How sure is that number?
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** seven models put through ten-fold cross-validation — the corpus is shuffled once at the site's usual seed, dealt into ten blocks, and each block takes a turn being held out while the other nine train. Seventy separate trainings. Per-fold accuracy, mean and standard deviation for each model.
+
+**On the pairs:** every pair of models is checked on every fold, and the folds whose verdict is the opposite of the ten-fold average are recorded. Those are what the game deals from. They were found by measurement, not chosen, and there are five such pairs.
+
+**Runtime:** about a minute. Every fold retrains from scratch, which is the honest way to do it.
+
+---
+
+## `public/data/logistic.json`
+
+**Script:** `data/scripts/build-logistic.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 6 — From a line to a probability
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** logistic regression on two features, message length and digit count, fitted by gradient descent for 400 steps on the 4,459 training messages. The weights are snapshotted 24 times across the run so the figure can animate the real descent. Final: 96.9% on training, 96.8% on the 1,115 held out.
+
+**Why two features:** so the entire model can be drawn. A bag of words scores higher and cannot be put on a page, and the module says so.
+
+**On scaling:** both features are standardised using the training messages only, so the held-out set is held out from the scaling too. The figure converts back before drawing, so its axes are in real characters and digits.
+
+**On the exported points:** every held-out message ships as `[length, digits, label, probability]`. The twelve game rounds are chosen as the nearest real message to each of twelve target probabilities spread across the range, rather than by rank, because most messages sit under five per cent and sampling by rank produced twelve identical-looking rounds.
+
+**On the printed messages:** any message containing seven or more consecutive digits is excluded from the game rounds, the same rule `build-spam-bench.mjs` uses, so no real phone number is reprinted.
+
+---
+
+## `public/data/tree.json`
+
+**Script:** `data/scripts/build-tree.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 7 — Twenty questions
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** a decision tree grown greedily on information gain over the same twelve yes-or-no features as `features.json`, stopping at depth four for the figure, with a minimum of five messages a side. Every node records its pile, its chosen question, and what all twelve questions would have been worth there. The whole tree is then regrown at every depth from one to twelve and scored on the held-out messages.
+
+**On the depth curve:** held-out accuracy peaks at depth five and then flattens rather than collapsing. With twelve boolean features there is a hard limit on how much of the training set a tree can memorise, and the page says that instead of claiming a textbook collapse.
+
+**On the game nodes:** only nodes where the second best question is worth more than a quarter of the best are kept, because a node with an obvious answer teaches nothing.
+
+---
+
+## `public/data/forest.json`
+
+**Script:** `data/scripts/build-forest.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 8 — Many weak opinions
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** four forests of 60 trees each, all on the same training messages and scored on the same held-out ones. They differ only in depth, how many features each split may choose from, and whether each tree gets its own bootstrap sample. For each: every tree's own accuracy, the majority vote's accuracy as trees are added one at a time, and how often two trees in the same forest disagree.
+
+**On the control:** the fourth forest is built with no randomness at all, so its sixty trees are identical, its disagreement is exactly zero and its vote gains exactly nothing. That is the point of it, and the tests fail if it ever stops being identical.
+
+**On the example messages:** six held-out messages chosen for their vote splits, from near-unanimous to nearly tied, excluding anything with seven or more consecutive digits.
+
+---
+
+## `public/data/clusters.json`
+
+**Script:** `data/scripts/build-clusters.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 9 — Learning with no labels
+
+| | |
+|---|---|
+| Source | `public/data/embeddings.json`, itself built from [GloVe 6B](https://nlp.stanford.edu/projects/glove/) |
+| Licence | Public Domain Dedication and Licence v1.0 |
+
+**What is computed:** k-means over all 50 dimensions of the 1,851 shipped word vectors, with k-means++ seeding at a fixed seed. Every word's cluster at every pass is exported, so the figure animates the real convergence: 35 passes, and no word changes on the last one. Also a sweep of k from 2 to 20 for the inertia curve.
+
+**On the picture:** the clustering is done in 50 dimensions and drawn at the same two projected coordinates the embeddings module uses. Dots that touch on screen are not necessarily close in the space, and the page says so.
+
+**On the game rounds:** each round is a real cluster, a real member of it, and three decoys taken from other clusters. Nothing is written by hand, and a test fails if any round's answer stops belonging to the cluster it claims.
+
+---
+
+## `public/data/curve.json`
+
+**Script:** `data/scripts/build-curve.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 10 — More data, or a better model?
+
+| | |
+|---|---|
+| Source | [SMS Spam Collection v.1](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — the same 5,574 messages as `spam-bench.json` |
+| Cite | Almeida, Gómez Hidalgo & Yamakami, *Contributions to the Study of SMS Spam Filtering: New Collection and Results*, ACM DOCENG 2011 |
+| Licence | Free to use; the authors ask to be cited |
+
+**What is computed:** four models trained at eight training set sizes from 20 to 4,459 messages, every one scored on the same 1,115 held out. Each point below the full set is the average of five different random draws of that many messages, because a single draw at twenty examples is mostly luck.
+
+**The finding:** the curves cross. Naive Bayes over the whole vocabulary scores 89.4% at twenty examples, seven points behind a single hand-written rule, and 98.7% at 4,459, the best on the page. The hand-written rule is a flat line at 96.8%, since it never looks at the training data at all.
+
+**On the game's offer:** a round offers the smallest measured size that is at least ten times what you have, or everything there is when no such size exists, and the file records how many times more that really is. The largest round offers 2.2 times, not ten, and the game prints 2.2.
+
+---
+
 ## `public/data/regression.json`
 
 **Script:** `data/scripts/build-regression-data.mjs`
@@ -88,6 +281,27 @@ Output should be byte-identical to what is committed — every script that sampl
 **What is computed:** 140 sentences sampled at a fixed seed from the book with the Gutenberg header and licence removed, each measured for character count and true token count; the least-squares slope through the origin; and a sweep of the error curve.
 
 The figure the lesson lands on — about 4.08 characters per token — is a property of this text, recovered by gradient descent in the browser rather than asserted. It happens to agree with the widely quoted rule of thumb for English, which is a good sanity check and not the reason it is stated.
+
+---
+
+## `public/data/overfit.json`
+
+**Script:** `data/scripts/build-overfit.mjs`
+**Generated:** 8 August 2026
+**Used by:** Machine learning 4 — Overfitting
+
+| | |
+|---|---|
+| Source | `public/data/regression.json`, itself built from [Alice's Adventures in Wonderland](https://www.gutenberg.org/ebooks/11) |
+| Licence | Public domain |
+
+**What is computed:** polynomials of degree 0 to 12 fitted by ordinary least squares to a seeded sample of 30 of the 140 sentences, each scored on the 110 held out. Then six more sweeps at training sizes 8, 12, 20, 30, 60 and 110, for the game.
+
+**Why 30:** the failure is a small-sample failure. With all 140 sentences the wiggling still happens and the picture is muddier. The page states the sample size everywhere rather than hiding it.
+
+**On degree 12:** the fit is singular at 30 points and is dropped rather than approximated. The figure caption says so.
+
+**On scaling:** character counts are divided by the largest before fitting, because a twelfth power of several hundred overflows the useful range of a double. The figure scales back before drawing, so the axes are in real characters and tokens.
 
 ## DistilGPT-2 weights — `attention.json` and `logits.json`
 

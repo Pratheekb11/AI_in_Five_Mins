@@ -13,16 +13,9 @@
  * on is a worse surprise than keeping them.
  */
 
-/** Keys holding something the learner earned, made or told us. */
-const RECORD_KEYS = [
-  "llai-progress",
-  "llai-best",
-  "llai-own-tasks",
-  "llai-name",
-] as const;
+import { RECORD_KEYS } from "./storageKeys";
 
-/** Keys kept across a reset, listed so the decision is visible. */
-export const KEPT_KEYS = ["llai-theme", "llai-muted"] as const;
+export { KEPT_KEYS, RECORD_KEYS } from "./storageKeys";
 
 export function clearLocalRecord() {
   for (const key of RECORD_KEYS) {

@@ -13,6 +13,7 @@ import type { ReactNode } from "react";
 import * as THREE from "three";
 import { playCue } from "@/lib/game/sound";
 import { type Mood, POSES } from "./moods";
+import { NimoFlat } from "./NimoFlat";
 
 /**
  * Nimo, in three dimensions.
@@ -825,7 +826,7 @@ export function Nimo3D({
        above, which fills the frame at this distance. Move the geometry or
        the scale and this camera has to be rechecked: too close and the ears
        clip, too far and he reads as a sticker. */
-    <CanvasGuard>
+    <CanvasGuard mood={mood} height={height}>
       <Canvas
         camera={{ position: [0, 0, 3.5], fov: 32 }}
         dpr={[1, 2]}
@@ -906,12 +907,16 @@ export function Nimo3D({
  * Without this the throw takes the whole page down: the mascot is decoration,
  * and decoration is never allowed to lose somebody the chapter they came for.
  * The sized box around it stays, so nothing below jumps.
+ *
+ * It used to render nothing, which left an empty rectangle where the character
+ * of the site should be. It now falls back to the flat otter: same animal,
+ * same glasses, no renderer.
  */
 class CanvasGuard extends Component<
-  { children: ReactNode },
+  { children: ReactNode; mood: Mood; height: number },
   { failed: boolean }
 > {
-  constructor(props: { children: ReactNode }) {
+  constructor(props: { children: ReactNode; mood: Mood; height: number }) {
     super(props);
     this.state = { failed: false };
   }
@@ -921,6 +926,13 @@ class CanvasGuard extends Component<
   }
 
   render() {
-    return this.state.failed ? null : this.props.children;
+    if (!this.state.failed) return this.props.children;
+    return (
+      <NimoFlat
+        mood={this.props.mood}
+        height={this.props.height}
+        className="mx-auto block"
+      />
+    );
   }
 }

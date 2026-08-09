@@ -18,6 +18,20 @@ import type { Ink } from "./ink";
  */
 
 export type LessonStatus = "ready" | "building";
+
+/*
+  Nothing is "building" right now, and while that stays true there is no
+  `lessons/[slug]` route.
+
+  It existed as a holding page for a lesson that was in the registry without a
+  folder of its own, and it generated exactly zero pages once the last one
+  shipped. An empty dynamic route is also the one thing that stops
+  `STATIC_EXPORT=1 npm run build` from finishing, because a static export
+  cannot have a route with no parameters to render. Mark a lesson `building`
+  again and it wants that folder back — `git show 17727af -- 'src/app/lessons/[slug]'`
+  has it, and it needs `dynamicParams = false` and a non-empty
+  `generateStaticParams` to keep the export working.
+*/
 export type Track = "chapter" | "close" | "how" | "ml";
 
 export type Lesson = {

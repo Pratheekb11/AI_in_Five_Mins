@@ -6,12 +6,17 @@ import type { Mood } from "./moods";
 /**
  * Nimo, everywhere.
  *
- * The 3D renderer is a few hundred kilobytes, so it is code-split and only
- * fetched once a Nimo is actually on screen. Until it arrives the space is held
- * open at the right size, so nothing on the page jumps when he lands.
+ * The 3D renderer is code-split and only fetched once a Nimo is actually on
+ * screen, and server rendering is off because it needs a real canvas.
  *
- * Server rendering is off because the renderer needs a real canvas. That is the
- * one thing about him that cannot be prerendered.
+ * MEASURED, so the cost is at least known: the renderer's chunk is 232 KB
+ * gzipped, which is more than half the JavaScript a lesson page downloads —
+ * the privacy page, the only one without him, ships 212 KB against a lesson's
+ * 460 KB. It is paid on every device, phones included, because he is the
+ * character of the site rather than an ornament on it and a flat stand-in on
+ * the screen most people arrive on is the wrong trade. `NimoFlat` exists for
+ * the one case where there is no choice: a device that refuses a WebGL
+ * context at all, where the alternative is no otter.
  */
 const Nimo3D = dynamic(() => import("./Nimo3D").then((m) => m.Nimo3D), {
   ssr: false,

@@ -55,7 +55,9 @@ export function SiteFooter() {
                     href={item.href}
                     target={item.href.startsWith("http") ? "_blank" : undefined}
                     rel={
-                      item.href.startsWith("http") ? "noreferrer" : undefined
+                      item.href.startsWith("http")
+                        ? "noreferrer noopener"
+                        : undefined
                     }
                     className="font-data decoration-ink/30 hover:decoration-ink text-sm underline underline-offset-4"
                   >
@@ -67,9 +69,17 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <p className="border-ink/20 text-ink-faint mt-8 flex flex-wrap items-center gap-x-1.5 border-t pt-5 text-sm">
-          Made with <span aria-label="love">❤️</span> by Pratheek B
-        </p>
+        <div className="border-ink/20 mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t pt-5">
+          <p className="text-ink-faint flex flex-wrap items-center gap-x-1.5 text-sm">
+            Made with <span aria-label="love">❤️</span> by Pratheek B
+          </p>
+          <p className="text-ink-faint flex flex-wrap items-center gap-x-4 text-sm">
+            <Link href="/privacy" className="underline underline-offset-2">
+              What this site keeps
+            </Link>
+            <span>&copy; {new Date().getFullYear()} Pratheek B</span>
+          </p>
+        </div>
       </div>
     </footer>
   );

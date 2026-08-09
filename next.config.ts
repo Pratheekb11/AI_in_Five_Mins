@@ -47,9 +47,28 @@ const CSP = [
   "upgrade-insecure-requests",
 ].join("; ");
 
+/**
+ * The site has no server left.
+ *
+ * There was one route, the assistant endpoint two unbuilt games would have
+ * needed, and nothing ever called it. With it gone every page is a file, so
+ * `STATIC_EXPORT=1 npm run build` writes `out/` and the whole thing can be
+ * served from any static host.
+ *
+ * THE CATCH, because it is the security posture and not a detail: the headers
+ * below are applied by a Next server. A static export has no server, so
+ * whatever is hosting the files has to send them instead — `vercel.json`,
+ * Netlify `_headers`, an nginx block. Export without doing that and the CSP,
+ * the frame refusal and HSTS all silently vanish. The default build keeps the
+ * server and needs no such care.
+ */
+const STATIC = process.env.STATIC_EXPORT === "1";
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  ...(STATIC ? { output: "export" as const } : {}),
 
+  // Not called during a static export; the host has to serve these.
   async headers() {
     return [
       {

@@ -98,7 +98,7 @@ export function BeatThePredictor() {
     <GameShell
       gameId="beat-the-predictor"
       name="Beat the Predictor"
-      instruction="A sentence with its last word taken away. You pick one of four. The machine picks at the same time, and then its real odds arrive as bars. Nine rounds, and it is not the same game all the way through."
+      instruction="A sentence with its last word taken away. You pick one of four. The machine picks at the same time, and then its real odds arrive as bars. Four rounds, and it is not the same game all the way through."
       howToPlay={{
         goal: "Guess the missing word more often than the machine does.",
         steps: [

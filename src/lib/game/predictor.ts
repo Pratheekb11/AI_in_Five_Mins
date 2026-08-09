@@ -40,7 +40,7 @@ export type PredictorData = {
 
 /* ------------------------------------------------------------------ rules -- */
 
-/** Rounds per act. Three acts, nine rounds, well under five minutes. */
+/** Rounds per act. Three acts, four rounds, well under two minutes. */
 /*
   The acts, and how many rounds each one gets.
 */

@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { Nimo } from "@/components/nimo/Nimo";
 import { SpeechButton } from "./SpeechButton";
+import { StageAdvance, useStage } from "./stage/LessonStage";
 
 /**
  * A lesson, one idea at a time.
@@ -41,11 +42,15 @@ export function Walkthrough({
 }) {
   const [at, setAt] = useState(0);
   const still = useReducedMotion();
+  const stage = useStage();
   const step = steps[at];
   const last = at === steps.length - 1;
 
   return (
-    <div className="plate overflow-hidden" data-section="walkthrough">
+    <div
+      className={`plate ${stage ? "" : "overflow-hidden"}`}
+      data-section="walkthrough"
+    >
       {/* progress ticks, printed, countable, and short enough to count */}
       <div className="border-ink/25 bg-paper-sunk flex items-center gap-3 border-b px-4 py-3">
         <span className="label text-ink-faint shrink-0">
@@ -121,7 +126,11 @@ export function Walkthrough({
           </motion.div>
         </AnimatePresence>
 
-        <div className="border-ink/20 flex items-center justify-between gap-3 border-t pt-4">
+        <div
+          className={`border-ink/20 flex items-center justify-between gap-3 border-t pt-4 ${
+            stage ? "bg-paper-raised sticky bottom-0 -mx-5 -mb-5 px-5 pb-5 md:-mx-6 md:-mb-6 md:px-6 md:pb-6" : ""
+          }`}
+        >
           <button
             type="button"
             onClick={() => setAt((n) => Math.max(0, n - 1))}
@@ -139,6 +148,9 @@ export function Walkthrough({
             >
               Next
             </button>
+          ) : stage ? (
+            /* Out of steps, so the walkthrough's own Next becomes the deck's. */
+            <StageAdvance label="That is the idea" />
           ) : (
             <span className="label text-teal-text">That is the idea</span>
           )}

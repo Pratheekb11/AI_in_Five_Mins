@@ -10,6 +10,7 @@ export function MechanismPanel({
   summary,
   children,
   deeper,
+  open,
 }: {
   /** Phrased as the question the learner is asking right now. */
   question: string;
@@ -18,11 +19,14 @@ export function MechanismPanel({
   children: ReactNode;
   /** Slug of the module that takes this apart properly, if there is one. */
   deeper?: string;
+  /** Open on arrival. A deck gives the panel a screen of its own, so there is
+      nothing for it to be collapsed out of the way of. */
+  open?: boolean;
 }) {
   const target = deeper ? getLesson(deeper) : undefined;
 
   return (
-    <details className="plate group overflow-hidden">
+    <details className="plate group overflow-hidden" open={open}>
       <summary className="hover:bg-paper-sunk cursor-pointer list-none px-5 py-4 transition-colors md:px-6">
         <span className="flex items-start gap-4">
           <span

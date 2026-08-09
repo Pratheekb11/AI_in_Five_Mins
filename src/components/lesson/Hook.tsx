@@ -1,4 +1,7 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useStage } from "./stage/LessonStage";
 
 /**
  * The first thing on a module, and the only job it has is to make somebody
@@ -20,6 +23,8 @@ export function Hook({
   cta?: string;
   target?: string;
 }) {
+  const stage = useStage();
+
   return (
     <section className="border-ink/25 border-b pb-10">
       <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-end">
@@ -29,10 +34,9 @@ export function Hook({
             {sting}
           </p>
 
-          <a
-            href={target}
-            className="plate misreg btn-primary font-display hook-arrive hook-arrive-2 mt-7 inline-flex items-center gap-3 px-6 py-3.5 text-lg font-bold"
-          >
+          {/* In a deck there is no anchor to jump to: the game is the next
+              beat, so the same button turns the page. */}
+          <CtaButton target={target} onAdvance={stage?.next}>
             {cta}
             <svg width="16" height="14" viewBox="0 0 16 14" aria-hidden="true">
               <path
@@ -44,11 +48,38 @@ export function Hook({
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </CtaButton>
         </div>
 
         {children ? <div>{children}</div> : null}
       </div>
     </section>
+  );
+}
+
+/** One control, drawn as a link on a scrolling page and a button in a deck. */
+function CtaButton({
+  target,
+  onAdvance,
+  children,
+}: {
+  target: string;
+  onAdvance?: () => void;
+  children: ReactNode;
+}) {
+  const className =
+    "plate misreg btn-primary font-display hook-arrive hook-arrive-2 mt-7 inline-flex items-center gap-3 px-6 py-3.5 text-lg font-bold";
+
+  if (onAdvance)
+    return (
+      <button type="button" onClick={onAdvance} className={className}>
+        {children}
+      </button>
+    );
+
+  return (
+    <a href={target} className={className}>
+      {children}
+    </a>
   );
 }

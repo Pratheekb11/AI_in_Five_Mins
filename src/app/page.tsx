@@ -82,7 +82,7 @@ export default function Home() {
             paragraph asserting it. */}
         <section className="mx-auto max-w-6xl px-5 pt-14 pb-16 md:pt-20">
           {/* The first thing anybody does here really is about five minutes:
-              one game, nine rounds. The whole set is longer and the chapter
+              one game, four rounds. The whole set is longer and the chapter
               cards say so, which is the point of leading with the honest small
               number rather than the honest large one. */}
           {/* Each clause holds together on its own line. Left to wrap

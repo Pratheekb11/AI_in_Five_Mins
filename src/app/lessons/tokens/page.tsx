@@ -1,9 +1,6 @@
 import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
-import {
-  LessonStageShell,
-  type Beat,
-} from "@/components/lesson/stage";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -156,157 +153,130 @@ export default function TokensLesson() {
     },
     {
       id: "vocabulary",
-      cta: "So how were they grown?",
+      cta: "Show me it happening",
       node: (
         <>
           <p className="label text-ink-faint mb-3">Where tokens come from</p>
           <h2 className="display-lg mb-4">
             Nobody chose these chunks. They were counted into existence.
           </h2>
-          <p className="prose-measure text-ink-soft text-lg">
-            A model has a fixed vocabulary. The encoding used here has{" "}
-            {MERGES.vocabularySize.toLocaleString("en-US")} entries, and every
-            piece of text you send has to be expressed in them. That vocabulary
-            was not written by linguists. It was <em>grown</em>, by an algorithm
-            with no notion of words, prefixes or meaning.
-          </p>
+          <div className="prose-measure text-ink-soft space-y-4 text-lg">
+            <p>
+              A model has a fixed vocabulary. The encoding used here has{" "}
+              {MERGES.vocabularySize.toLocaleString("en-US")} entries, and every
+              piece of text you send has to be expressed in them. That
+              vocabulary was not written by linguists. It was <em>grown</em>, by
+              an algorithm with no notion of words, prefixes or meaning.
+            </p>
+            <p>
+              It starts with raw bytes: no words, not even letters, just{" "}
+              {bare.bytes} separate things for a {bare.bytes}-letter word. Then
+              it repeats one move. Find the pair of neighbours that occurs most
+              often across the whole training corpus, and glue it into a single
+              new entry. Do that a couple of hundred thousand times and the
+              frequent chunks of English end up as single units. Everything rare
+              stays in fragments.
+            </p>
+          </div>
         </>
-      ),
-    },
-    {
-      id: "algorithm",
-      cta: "Show me it happening",
-      node: (
-        <div className="prose-measure text-ink-soft space-y-4 text-lg">
-          <p>
-            It starts with raw bytes: no words, not even letters, just{" "}
-            {bare.bytes} separate things for a {bare.bytes}-letter word. Then it
-            repeats one move. Find the pair of neighbours that occurs most often
-            across the whole training corpus, and glue it into a single new
-            entry. Do that a couple of hundred thousand times and the frequent
-            chunks of English end up as single units. Chunks like{" "}
-            <span className="font-data">the</span>,{" "}
-            <span className="font-data">ing</span> and{" "}
-            <span className="font-data"> straw</span>. Everything rare stays in
-            fragments.
-          </p>
-          <p>
-            That is byte-pair encoding, and what comes next is not an
-            illustration of it. It is the real merge table, replaying the real
-            merges in the real order.
-          </p>
-        </div>
       ),
     },
     {
       id: "merges",
-      cta: "Two worth staring at",
-      node: <MergeReel />,
-    },
-    {
-      id: "merge-notes",
       cta: "What this costs you",
       node: (
-        <div className="prose-measure text-ink-soft space-y-4 text-lg">
-          <p>
-            Watch <span className="font-data">unbelievable</span> in particular.
-            A human would cut it{" "}
-            <span className="font-data">un\u00b7believ\u00b7able</span>. The
-            tokenizer produces{" "}
-            <span className="font-data">{unbelievable.final.join("\u00b7")}</span>
-            , because{" "}
-            <span className="font-data">{unbelievable.final[1]}</span> happened
-            to be commoner than the meaningful piece. The split is a frequency
-            accident, and the model has to work from it anyway.
-          </p>
-          <p>
-            And watch <span className="font-data">{rare.word}</span> shatter
-            into {rare.final.length} pieces. Nothing about that name was common
-            enough to be worth an entry, so it arrives as debris. Rare names,
-            technical terms, new coinages and most of the world&rsquo;s
-            languages all arrive this way.
-          </p>
-        </div>
-      ),
-    },
-    {
-      id: "space",
-      cta: "Next surprise",
-      node: (
         <>
-          <p className="label text-ink-faint mb-3">
-            Consequence 1 of 3 &middot; The leading space
-          </p>
-          <div className="plate p-5 md:p-6">
-            <div className="mb-4">
-              <TokenStrip
-                items={withSpace.final.map((t) => ({ text: t, ink: "teal" }))}
-                size="md"
-              />
-            </div>
-            <p className="prose-measure text-ink-soft">
-              <span className="font-data">strawberry</span> costs{" "}
-              {bare.final.length} tokens. A <em>space</em> then the same word
-              costs {withSpace.final.length}. The space is part of the token
-              after it, so the word in the middle of a sentence and the word at
-              the start are different objects to the model.
+          <MergeReel />
+          <div className="prose-measure text-ink-soft mt-6 space-y-4">
+            <p>
+              Watch <span className="font-data">unbelievable</span> in
+              particular. A human would cut it{" "}
+              <span className="font-data">un\u00b7believ\u00b7able</span>. The
+              tokenizer produces{" "}
+              <span className="font-data">
+                {unbelievable.final.join("\u00b7")}
+              </span>
+              , because{" "}
+              <span className="font-data">{unbelievable.final[1]}</span>{" "}
+              happened to be commoner than the meaningful piece. The split is a
+              frequency accident, and the model has to work from it anyway.
+            </p>
+            <p>
+              And <span className="font-data">{rare.word}</span> shatters into{" "}
+              {rare.final.length} pieces. Nothing about that name was common
+              enough to be worth an entry, so it arrives as debris. Rare names,
+              technical terms, new coinages and most of the world&rsquo;s
+              languages all arrive this way.
             </p>
           </div>
         </>
       ),
     },
     {
-      id: "numbers",
-      cta: "Next surprise",
-      node: (
-        <>
-          <p className="label text-ink-faint mb-3">
-            Consequence 2 of 3 &middot; Numbers
-          </p>
-          <div className="plate p-5 md:p-6">
-            <div className="mb-4 space-y-1.5">
-              {[year, pi, million].map((n) => (
-                <div key={n.text} className="flex items-center gap-2">
-                  <span className="font-data text-ink-faint w-20 shrink-0 text-sm">
-                    {n.text}
-                  </span>
-                  <TokenStrip
-                    items={n.pieces.map((p) => ({ text: p, ink: "pink" }))}
-                    size="sm"
-                  />
-                </div>
-              ))}
-            </div>
-            <p className="prose-measure text-ink-soft">
-              Digit runs are cut into groups of at most three, then merged by
-              frequency. A million arrives as{" "}
-              <span className="font-data">{million.pieces.join("|")}</span>. The
-              boundaries have nothing to do with place value.
-            </p>
-          </div>
-        </>
-      ),
-    },
-    {
-      id: "languages",
+      id: "consequences",
       cta: "Let me try it",
       node: (
         <>
-          <p className="label text-ink-faint mb-3">
-            Consequence 3 of 3 &middot; Your language
-          </p>
-          <div className="plate p-5 md:p-6">
-            <p className="data mb-3 text-5xl font-bold">
-              {(hindi.tokenCount / english.tokenCount).toFixed(1)}&times;
-            </p>
-            <p className="prose-measure text-ink-soft">
-              The same sentence costs {english.tokenCount} tokens in English and{" "}
-              {hindi.tokenCount} in Hindi. You pay per token, your context fills
-              per token, and you wait per token. So the same conversation is
-              measurably more expensive in most of the world&rsquo;s languages.
-              You can measure it yourself in a moment, and Petrov and colleagues
-              measured it independently.
-            </p>
+          <h2 className="display-lg mb-5">
+            Three consequences that catch people
+          </h2>
+          <div className="grid gap-4 lg:grid-cols-3">
+            <div className="plate p-5">
+              <p className="label text-ink-faint mb-3">1. The leading space</p>
+              <div className="mb-3">
+                <TokenStrip
+                  items={withSpace.final.map((t) => ({ text: t, ink: "teal" }))}
+                  size="md"
+                />
+              </div>
+              <p className="text-ink-soft text-[0.9375rem]">
+                <span className="font-data">strawberry</span> costs{" "}
+                {bare.final.length} tokens. A <em>space</em> then the same word
+                costs {withSpace.final.length}. The space is part of the token
+                after it, so the word mid-sentence and the word at the start are
+                different objects to the model.
+              </p>
+            </div>
+
+            <div className="plate p-5">
+              <p className="label text-ink-faint mb-3">2. Numbers</p>
+              <div className="mb-3 space-y-1.5">
+                {[year, pi, million].map((n) => (
+                  <div key={n.text} className="flex items-center gap-2">
+                    <span className="font-data text-ink-faint w-20 shrink-0 text-sm">
+                      {n.text}
+                    </span>
+                    <TokenStrip
+                      items={n.pieces.map((piece) => ({
+                        text: piece,
+                        ink: "pink",
+                      }))}
+                      size="sm"
+                    />
+                  </div>
+                ))}
+              </div>
+              <p className="text-ink-soft text-[0.9375rem]">
+                Digit runs are cut into groups of at most three, then merged by
+                frequency. A million arrives as{" "}
+                <span className="font-data">{million.pieces.join("|")}</span>.
+                The boundaries have nothing to do with place value.
+              </p>
+            </div>
+
+            <div className="plate p-5">
+              <p className="label text-ink-faint mb-3">3. Your language</p>
+              <p className="data mb-2 text-3xl font-bold">
+                {(hindi.tokenCount / english.tokenCount).toFixed(1)}&times;
+              </p>
+              <p className="text-ink-soft text-[0.9375rem]">
+                The same sentence costs {english.tokenCount} tokens in English
+                and {hindi.tokenCount} in Hindi. You pay per token, your context
+                fills per token, and you wait per token. So the same
+                conversation is measurably more expensive in most of the
+                world&rsquo;s languages.
+              </p>
+            </div>
           </div>
         </>
       ),
@@ -332,111 +302,100 @@ export default function TokensLesson() {
       selfAdvance: true,
       node: <Walkthrough steps={STEPS} figure={<TokenPriceFigure />} />,
     },
-    {
-      id: "why-it-works",
-      cta: "And the cost gap?",
-      node: (
-        <div data-section="deeper">
-          <MechanismPanel
-            open
-            question="If the split is this crude, how does it ever work?"
-            summary="Because the model never needed the letters. It needed something it could count, and chunks are countable."
-            deeper="what-an-llm-is"
-          >
-            <p>
-              A tokenizer is not trying to understand the word. It is trying to
-              turn unlimited text into a finite alphabet the model can do
-              arithmetic on, without ever failing on an input it has not seen.
-              Byte-pair encoding does that with one guarantee: since it starts
-              from raw bytes, <em>any</em> string can be expressed, worst case
-              one token per byte. Emoji, code, a language the model has never
-              met, a password. All of it can be represented.
-            </p>
-            <p>
-              The price is that the chunks carry no promise of meaning. Whatever
-              structure a word has, the model has to reconstruct from the pieces
-              it was handed, using what usually follows what. It mostly manages.
-              Where it does not, the failure looks stupid rather than subtle:
-              counting letters, spelling backwards, rhyming, and arithmetic on
-              long numbers.
-            </p>
-          </MechanismPanel>
-        </div>
-      ),
-    },
-    {
-      id: "neighbours",
-      cta: "Show me someone saying it",
-      node: (
-        <div data-section="deeper">
-          <MechanismPanel
-            open
-            question="Why does the same word cost different amounts in different places?"
-            summary="Because the token depends on what sits next to it. Spacing, capitals and punctuation all change the split."
-            deeper="context-is-everything"
-          >
-            <p>
-              The merge loop runs over the text as written, so anything that
-              changes the neighbours changes the outcome.{" "}
-              <span className="font-data">strawberry</span>,{" "}
-              <span className="font-data">&nbsp;strawberry</span>,{" "}
-              <span className="font-data">Strawberry</span> and{" "}
-              <span className="font-data">STRAWBERRY</span> are four different
-              sequences of ids, not four forms of one word. The model learns to
-              treat them similarly because they appear in similar places, not
-              because anything told it they were related.
-            </p>
-            <p>
-              This is also why the same paragraph can cost noticeably more after
-              a reformat, and why stripping a trailing space from a prompt
-              sometimes changes an answer. Nothing mystical is happening. A
-              different split is a different input.
-            </p>
-          </MechanismPanel>
-        </div>
-      ),
-    },
-    {
-      id: "video",
-      cta: "Give me something to try",
-      node: (
-        <div data-section="deeper">
-          <VideoPanel video={video} />
-        </div>
-      ),
-    },
-    {
-      id: "practice",
-      cta: "Check what stuck",
-      node: (
-        <PracticeCard
-          title="Make an assistant contradict itself about spelling"
-          watchFor="That the confident wrong answer and the correct one arrive in the same tone. Nothing in how it writes tells you which one you are looking at. That is the habit worth taking away, and it is what the next chapters are about."
-        >
-          <p>
-            Ask any assistant: <em>how many r&rsquo;s are in strawberry?</em>{" "}
-            Then ask it to spell the word out one letter at a time, numbering
-            each, and count again.
-          </p>
-          <p>
-            Most will get it wrong the first way and right the second. Forcing
-            the letters onto separate lines forces them into separate tokens.
-            You have handed it the thing the tokenizer took away.
-          </p>
-        </PracticeCard>
-      ),
-    },
-    {
-      id: "check",
-      cta: "Done",
-      node: (
-        <>
-          <h2 className="display-lg mb-5">Check yourself</h2>
-          <Check slug={lesson.slug} beats={CHECK} />
-        </>
-      ),
-    },
   ];
 
-  return <LessonStageShell lesson={lesson} sources={SOURCES} beats={beats} />;
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
+        <MechanismPanel
+          question="If the split is this crude, how does it ever work?"
+          summary="Because the model never needed the letters. It needed something it could count, and chunks are countable."
+          deeper="what-an-llm-is"
+        >
+          <p>
+            A tokenizer is not trying to understand the word. It is trying to
+            turn unlimited text into a finite alphabet the model can do
+            arithmetic on, without ever failing on an input it has not seen.
+            Byte-pair encoding does that with one guarantee: since it starts
+            from raw bytes, <em>any</em> string can be expressed, worst case one
+            token per byte. Emoji, code, a language the model has never met, a
+            password. All of it can be represented.
+          </p>
+          <p>
+            The price is that the chunks carry no promise of meaning. Whatever
+            structure a word has, the model has to reconstruct from the pieces
+            it was handed, using what usually follows what. It mostly manages.
+            Where it does not, the failure looks stupid rather than subtle:
+            counting letters, spelling backwards, rhyming, and arithmetic on
+            long numbers.
+          </p>
+        </MechanismPanel>
+        <MechanismPanel
+          question="Why does the same word cost different amounts in different places?"
+          summary="Because the token depends on what sits next to it. Spacing, capitals and punctuation all change the split."
+          deeper="context-is-everything"
+        >
+          <p>
+            The merge loop runs over the text as written, so anything that
+            changes the neighbours changes the outcome.{" "}
+            <span className="font-data">strawberry</span>,{" "}
+            <span className="font-data">&nbsp;strawberry</span>,{" "}
+            <span className="font-data">Strawberry</span> and{" "}
+            <span className="font-data">STRAWBERRY</span> are four different
+            sequences of ids, not four forms of one word. The model learns to
+            treat them similarly because they appear in similar places, not
+            because anything told it they were related.
+          </p>
+          <p>
+            This is also why the same paragraph can cost noticeably more after a
+            reformat, and why stripping a trailing space from a prompt sometimes
+            changes an answer. Nothing mystical is happening. A different split
+            is a different input.
+          </p>
+        </MechanismPanel>
+        <Fold
+          title="Watch somebody explain it"
+          note="Tokens, from the people who build them."
+        >
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Two questions, and it contradicts itself between them."
+        >
+          <PracticeCard
+            title="Make an assistant contradict itself about spelling"
+            watchFor="That the confident wrong answer and the correct one arrive in the same tone. Nothing in how it writes tells you which one you are looking at. That is the habit worth taking away, and it is what the next chapters are about."
+          >
+            <p>
+              Ask any assistant: <em>how many r&rsquo;s are in strawberry?</em>{" "}
+              Then ask it to spell the word out one letter at a time, numbering
+              each, and count again.
+            </p>
+            <p>
+              Most will get it wrong the first way and right the second. Forcing
+              the letters onto separate lines forces them into separate tokens.
+              You have handed it the thing the tokenizer took away.
+            </p>
+          </PracticeCard>
+        </Fold>
+      </div>
+
+      <Fold
+        title="Check yourself"
+        note="Two beats. It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
+  );
 }

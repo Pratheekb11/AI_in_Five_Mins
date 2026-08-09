@@ -1,10 +1,7 @@
 import { BeatThePredictor } from "@/components/games/BeatThePredictor";
 import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
-import {
-  LessonStageShell,
-  type Beat,
-} from "@/components/lesson/stage";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -171,8 +168,8 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function WhatAnLlmIsLesson() {
-  /* One idea per screen. Nothing below the fold, because there is no fold:
-     the tap that answers a beat is the tap that turns to the next one. */
+  /* The spine, and only the spine. Everything optional waits under a fold on
+     the last screen, below the way into chapter two. */
   const beats: Beat[] = [
     {
       id: "hook",
@@ -201,111 +198,98 @@ export default function WhatAnLlmIsLesson() {
       selfAdvance: true,
       node: <Walkthrough steps={STEPS} figure={<NextTokenFigure />} />,
     },
-    {
-      id: "tokens",
-      cta: "And the confidence?",
-      node: (
-        <div data-section="deeper">
-          <MechanismPanel
-            open
-            question="If it is guessing, what is it guessing about?"
-            summary="Not words. It works in chunks of characters called tokens, and it picks one at a time."
-            deeper="tokens"
-          >
-            <p>
-              The machine you played against guessed whole words, because a book
-              has whole words in it. A real model does not see words at all.
-            </p>
-            <p>
-              Your text is first chopped into <strong>tokens</strong>, which are
-              chunks of characters the model has memorised. Common words survive
-              whole. Rarer ones shatter:{" "}
-              <span className="font-data">strawberry</span> arrives as{" "}
-              <span className="font-data">st</span> +{" "}
-              <span className="font-data">raw</span> +{" "}
-              <span className="font-data">berry</span>. The model then guesses
-              the next <em>token</em>, adds it to the text, and guesses again.
-              That loop is the whole operation.
-            </p>
-            <p>
-              This is also why these tools are strangely bad at counting the
-              letters in a word. The letters were never separate things it saw.
-            </p>
-          </MechanismPanel>
-        </div>
-      ),
-    },
-    {
-      id: "confidence",
-      cta: "Show me someone saying it",
-      node: (
-        <div data-section="deeper">
-          <MechanismPanel
-            open
-            question="Why is it so confident when it is wrong?"
-            summary="Nothing inside it measures truth. It only ever ranks what sounds likely to come next."
-            deeper="how-llms-answer"
-          >
-            <p>
-              At every step the model produces a score for every possible next
-              token, and picks from the top. Notice what is missing from that
-              description: any check against the world.
-            </p>
-            <p>
-              You watched that happen. It was 99% sure of the word after
-              &ldquo;God created the heaven and the&rdquo;, and 30% sure of the
-              word after &ldquo;Paris is the capital of&rdquo;. The second one
-              was wrong. Both numbers came from the same place: counting what
-              follows what, across an enormous amount of text. Scale changes how
-              often it is right. It does not add a truth check, because there is
-              not one to add.
-            </p>
-          </MechanismPanel>
-        </div>
-      ),
-    },
-    {
-      id: "video",
-      cta: "Give me something to try",
-      node: (
-        <div data-section="deeper">
-          <VideoPanel video={video} />
-        </div>
-      ),
-    },
-    {
-      id: "practice",
-      cta: "Check what stuck",
-      node: (
-        <PracticeCard
-          title="Make it invent something"
-          watchFor="How confident it sounds. There is no wobble in the writing when it is making things up. The sentences are just as smooth as when it is right."
-        >
-          <p>
-            Ask any AI assistant a detailed question about something genuinely
-            obscure and local. The history of a small street near you. A
-            specific dish from your grandmother&rsquo;s region. A minor local
-            election result from years ago.
-          </p>
-          <p>
-            Then check one specific detail it gave you against a real source.
-          </p>
-        </PracticeCard>
-      ),
-    },
-    {
-      id: "check",
-      cta: "Done",
-      node: (
-        <>
-          <h2 className="display-lg mb-5">Check yourself</h2>
-          <Check slug={lesson.slug} beats={CHECK} />
-        </>
-      ),
-    },
   ];
 
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
+        <MechanismPanel
+          question="If it is guessing, what is it guessing about?"
+          summary="Not words. It works in chunks of characters called tokens, and it picks one at a time."
+          deeper="tokens"
+        >
+          <p>
+            The machine you played against guessed whole words, because a book
+            has whole words in it. A real model does not see words at all.
+          </p>
+          <p>
+            Your text is first chopped into <strong>tokens</strong>, which are
+            chunks of characters the model has memorised. Common words survive
+            whole. Rarer ones shatter:{" "}
+            <span className="font-data">strawberry</span> arrives as{" "}
+            <span className="font-data">st</span> +{" "}
+            <span className="font-data">raw</span> +{" "}
+            <span className="font-data">berry</span>. The model then guesses the
+            next <em>token</em>, adds it to the text, and guesses again. That
+            loop is the whole operation.
+          </p>
+          <p>
+            This is also why these tools are strangely bad at counting the
+            letters in a word. The letters were never separate things it saw.
+          </p>
+        </MechanismPanel>
+        <MechanismPanel
+          question="Why is it so confident when it is wrong?"
+          summary="Nothing inside it measures truth. It only ever ranks what sounds likely to come next."
+          deeper="how-llms-answer"
+        >
+          <p>
+            At every step the model produces a score for every possible next
+            token, and picks from the top. Notice what is missing from that
+            description: any check against the world.
+          </p>
+          <p>
+            You watched that happen. It was 99% sure of the word after
+            &ldquo;God created the heaven and the&rdquo;, and 30% sure of the
+            word after &ldquo;Paris is the capital of&rdquo;. The second one was
+            wrong. Both numbers came from the same place: counting what follows
+            what, across an enormous amount of text. Scale changes how often it
+            is right. It does not add a truth check, because there is not one to
+            add.
+          </p>
+        </MechanismPanel>
+        <Fold
+          title="Watch somebody explain it"
+          note="IBM, on why a fluent answer and a true one are different things."
+        >
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Five minutes, and it is the part that actually sticks."
+        >
+          <PracticeCard
+            title="Make it invent something"
+            watchFor="How confident it sounds. There is no wobble in the writing when it is making things up. The sentences are just as smooth as when it is right."
+          >
+            <p>
+              Ask any AI assistant a detailed question about something genuinely
+              obscure and local. The history of a small street near you. A
+              specific dish from your grandmother&rsquo;s region. A minor local
+              election result from years ago.
+            </p>
+            <p>
+              Then check one specific detail it gave you against a real source.
+            </p>
+          </PracticeCard>
+        </Fold>
+      </div>
+
+      <Fold
+        title="Check yourself"
+        note="Two beats. It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
   return (
-    <LessonStageShell lesson={lesson} sources={SOURCES} beats={beats} />
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

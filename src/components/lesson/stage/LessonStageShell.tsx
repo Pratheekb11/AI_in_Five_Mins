@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { Engagement } from "@/components/Engagement";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
@@ -18,10 +19,13 @@ export function LessonStageShell({
   lesson,
   sources,
   beats,
+  tail,
 }: {
   lesson: Lesson;
   sources: Source[];
   beats: Beat[];
+  /** Everything optional, folded under the way onward on the last screen. */
+  tail?: ReactNode;
 }) {
   const { next } = neighbours(lesson.slug);
   const ink = inkClasses[lesson.ink];
@@ -70,6 +74,8 @@ export function LessonStageShell({
             Back to the start
           </Link>
         )}
+
+        {tail ? <div className="mt-10 space-y-4 text-left">{tail}</div> : null}
 
         <div className="mt-8 text-left">
           <Sources sources={sources} />

@@ -14,6 +14,7 @@ export const RECORD_KEYS = [
   "llai-best",
   "llai-own-tasks",
   "llai-name",
+  "llai-celebrated",
 ] as const;
 
 /**

@@ -61,6 +61,10 @@
      both themes, so a strip can never fade its own labels out. */
   --weight-ceiling: 0.62;
 
+  /* Behind the one dialog on the site. Dark in both themes: it is a scrim,
+     and a pale one over a dark page reads as a flash rather than a dimming. */
+  --scrim: #17171fc4;
+
   --halftone: #17171f;
   --halftone-opacity: 0.055;
 
@@ -101,6 +105,8 @@
      lighter — the opposite of the light theme. */
   --on-blue: #0a0a0e;
   --on-yellow: #17171f;
+
+  --scrim: #05050899;
 
   --halftone: #ece9e1;
   --halftone-opacity: 0.05;
@@ -144,6 +150,8 @@
 
     --on-blue: #0a0a0e;
     --on-yellow: #17171f;
+
+    --scrim: #05050899;
 
     --halftone: #ece9e1;
     --halftone-opacity: 0.05;

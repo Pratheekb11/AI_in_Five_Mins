@@ -42,6 +42,10 @@ const STORED = [
     key: "llai-name",
     what: "The name you asked to have printed on a certificate, if you asked.",
   },
+  {
+    key: "llai-celebrated",
+    what: "Which finishes have already been celebrated, so it happens once.",
+  },
   { key: "llai-theme", what: "Light or dark." },
   { key: "llai-muted", what: "Whether the game sounds are off." },
 ];

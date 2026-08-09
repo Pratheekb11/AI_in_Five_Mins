@@ -1,6 +1,12 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "motion/react";
 import { useEffect, useState } from "react";
 
 /**
@@ -56,6 +62,40 @@ const BEATS = [1500, 2300, 2900, 3400] as const;
  *  fits inside it, and the decade ticks are what make 811th legible as a
  *  distance rather than as a big number. */
 const DECADES = [1, 10, 100, 1000];
+
+/**
+ * One decade gridline, which lights as the marker reaches it.
+ *
+ * A component of its own rather than a hook inside a `.map`: the tick has to
+ * watch the marker's position, and hooks called from a callback are a rule of
+ * hooks violation even when the array is a constant.
+ */
+function DecadeTick({
+  at,
+  travelled,
+}: {
+  /** Where this tick sits on the rail, 0 to 1. */
+  at: number;
+  /** The marker's live position, 0 to 1. */
+  travelled: ReturnType<typeof useSpring>;
+}) {
+  /* Passed ticks darken and thicken; ones still ahead stay faint. Watching
+     them switch on one after another is what turns 811th into a distance
+     rather than a number.
+
+     They are drawn in ink rather than in the run's own colour: the trail
+     behind the marker is a tint of that colour, and a teal gridline on a teal
+     tint is a gridline you cannot see. */
+  const opacity = useTransform(travelled, (v) => (v >= at - 0.001 ? 0.55 : 0.16));
+  const width = useTransform(travelled, (v) => (v >= at - 0.001 ? 2 : 1));
+
+  return (
+    <motion.span
+      className="bg-ink absolute top-0 bottom-0"
+      style={{ left: `${at * 100}%`, opacity, width }}
+    />
+  );
+}
 
 let cached: Promise<ProvenanceData> | null = null;
 
@@ -163,7 +203,47 @@ export function HeroReel() {
     return () => clearTimeout(id);
   }, [beat, reel.length]);
 
+  /*
+    One spring drives the whole instrument.
+
+    The marker's position, the length of the trail behind it, which gridlines
+    have lit, and the number counting up in the corner are all read off this
+    single value, because they are all the same fact: how far down its own
+    ranking the true answer was. Deriving the number from the position rather
+    than animating them separately means they cannot disagree even for a
+    frame, and the arithmetic is exact — `trackPosition` is a log and this is
+    its inverse, so the count lands on the measured rank rather than near it.
+  */
+  const travelled = useSpring(0, {
+    stiffness: 64,
+    damping: 16,
+    restDelta: 0.0002,
+  });
+
   const round = reel[at];
+  const knewNow = round ? round.bare.rank === 0 : false;
+  const rankNow = round
+    ? beat >= 3
+      ? round.sourced.rank
+      : knewNow
+        ? 0
+        : round.bare.rank
+    : 0;
+  const target = round && beat > 0 ? trackPosition(rankNow) : 0;
+
+  useEffect(() => {
+    /* Setting a motion value is not setting state, so this is allowed in an
+       effect where a `setState` would not be. */
+    if (still) travelled.jump(target);
+    else travelled.set(target);
+  }, [travelled, target, still]);
+
+  const markerLeft = useTransform(travelled, (v) => `${v * 100}%`);
+  const trailWidth = useTransform(travelled, (v) => `${v * 100}%`);
+  /* The inverse of `trackPosition`, so the counter reads the marker. */
+  const liveRank = useTransform(travelled, (v) =>
+    ordinal(Math.round(10 ** (v * 3) - 1) + 1),
+  );
 
   if (!round || !data) {
     return (
@@ -177,7 +257,7 @@ export function HeroReel() {
   }
 
   /** True where the model's own first choice already is the right answer. */
-  const knew = round.bare.rank === 0;
+  const knew = knewNow;
   const guess = round.bare.topText.trim() || "␣";
   const answer = round.answerLabel;
 
@@ -191,8 +271,8 @@ export function HeroReel() {
         ? "bg-teal-wash text-teal-text"
         : "bg-pink-wash text-pink-text";
 
-  /* Where the marker is, and how confident the model is, at this beat. */
-  const shownRank = beat >= 3 ? round.sourced.rank : knew ? 0 : round.bare.rank;
+  /* How confident the model is at this beat. Where the marker is lives above
+     the guard, because the spring that drives it has to. */
   const shownProbability =
     beat >= 3 ? round.sourced.probability : round.bare.probability;
   const settled = beat >= 3 || knew;
@@ -244,52 +324,92 @@ export function HeroReel() {
                 settled ? "text-teal-text" : "text-pink-text"
               }`}
             >
-              {beat === 0 ? "—" : ordinal(shownRank + 1)}
+              {/* Counts as the marker travels, because it IS the marker: the
+                  same spring, read back through the inverse of the log. */}
+              {beat === 0 ? "—" : <motion.span>{liveRank}</motion.span>}
             </span>
           </div>
 
+          {/*
+            The rail is inset from the box it sits in.
+
+            The decade labels are centred under their own gridlines, and 1000th
+            is centred under a line at the far end, so the rail has to stop
+            short of the border or half that label falls outside it. It used to
+            be hung off the last line's left edge instead, which put it hard
+            against the plate edge and read as clipped.
+          */}
           <div className="border-ink/25 bg-paper-sunk relative h-9 rounded-[2px] border">
-            {DECADES.map((d, i) => {
-              /* The last tick sits at 100%, so a label hung off its left edge
-                 runs past the end of the track and gets clipped: "1000th"
-                 printed as "100" on the first thing anybody sees. The final
-                 label hangs the other way. */
-              const last = i === DECADES.length - 1;
+            <div className="absolute inset-y-0 right-7 left-7">
+              {/* Where it has been. A flat tint, so the marker still reads on
+                  top of it rather than fighting it. */}
+              <motion.span
+                className={`absolute top-0 bottom-0 left-0 ${
+                  settled ? "bg-teal-wash" : "bg-pink-wash"
+                }`}
+                style={{ width: trailWidth }}
+              />
 
-              return (
-                <span
+              {DECADES.map((d) => (
+                <DecadeTick
                   key={d}
-                  className="border-ink/20 absolute top-0 bottom-0 border-l"
-                  style={{ left: `${trackPosition(d - 1) * 100}%` }}
-                >
-                  <span
-                    className={`data text-ink-faint absolute top-full pt-1 text-[0.6875rem] whitespace-nowrap ${
-                      last ? "right-1" : "left-1"
-                    }`}
-                  >
-                    {ordinal(d)}
-                  </span>
-                </span>
-              );
-            })}
+                  at={trackPosition(d - 1)}
+                  travelled={travelled}
+                />
+              ))}
 
-            <motion.span
-              className={`absolute top-1 bottom-1 w-1.5 rounded-[1px] ${
-                settled ? "bg-teal" : "bg-pink"
-              }`}
-              initial={false}
-              animate={{
-                left: `${trackPosition(beat === 0 ? 0 : shownRank) * 100}%`,
-              }}
-              transition={
-                still
-                  ? { duration: 0 }
-                  : { type: "spring", stiffness: 90, damping: 18 }
-              }
-              style={{ opacity: beat === 0 ? 0.25 : 1 }}
-            />
+              {/* Nothing has been measured yet, so a bar sweeps the rail
+                  rather than sitting somewhere it has not earned. Hard edges,
+                  one flat ink: this is a print, not a scanner. */}
+              {beat === 0 && !still ? (
+                <motion.span
+                  className="bg-ink/20 absolute top-1.5 bottom-1.5 w-8 rounded-[1px]"
+                  initial={{ left: "0%", x: "-100%" }}
+                  animate={{ left: "100%", x: "0%" }}
+                  transition={{
+                    duration: 1.1,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                />
+              ) : null}
+
+              {/* The marker. A head you can see and a stem that says exactly
+                  which gridline it is standing on. */}
+              <motion.span
+                className="absolute top-0 bottom-0"
+                style={{ left: markerLeft, opacity: beat === 0 ? 0 : 1 }}
+              >
+                <span
+                  className={`border-ink absolute top-1 bottom-1 -left-[4px] w-2 rounded-[1px] border ${
+                    settled ? "bg-teal" : "bg-pink"
+                  }`}
+                />
+                <motion.span
+                  key={`${round.id}-${beat}-head`}
+                  className={`border-ink absolute -top-[4px] -left-[6px] h-3 w-3 rotate-45 border ${
+                    settled ? "bg-teal" : "bg-pink"
+                  }`}
+                  initial={still ? false : { scale: 0.2 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 18 }}
+                />
+              </motion.span>
+            </div>
           </div>
-          <div className="h-4" />
+
+          {/* The scale, centred under its own gridlines. */}
+          <div className="relative mx-7 h-5">
+            {DECADES.map((d) => (
+              <span
+                key={d}
+                className="data text-ink-faint absolute top-0 -translate-x-1/2 pt-1 text-[0.6875rem] whitespace-nowrap"
+                style={{ left: `${trackPosition(d - 1) * 100}%` }}
+              >
+                {ordinal(d)}
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* How sure it was. Near-empty then full is the whole story, so the

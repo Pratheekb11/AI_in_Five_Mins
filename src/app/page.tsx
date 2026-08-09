@@ -1,7 +1,11 @@
 import { Engagement } from "@/components/Engagement";
 import Link from "next/link";
 import { HeroReel } from "@/components/HeroReel";
-import { PathChooser, type PathSummary } from "@/components/PathChooser";
+import {
+  PathChooser,
+  type PathAside,
+  type PathSummary,
+} from "@/components/PathChooser";
 import { Reveal } from "@/components/Reveal";
 import { TheLoop } from "@/components/TheLoop";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -56,6 +60,16 @@ export default function Home() {
       ink: "teal",
     },
   ];
+
+  /* Not a path. The rabbit hole hangs under both of them, which is why it is
+     drawn as a rung between the two roads rather than as a third road. */
+  const aside: PathAside = {
+    title: TRACKS.how.title,
+    blurb:
+      "Tokens, vectors, attention, and why it gets things wrong. Every one is linked from the moment inside a module where you would actually want it, so you never have to start here.",
+    moduleCount: how.length,
+    anchor: "#how",
+  };
 
   return (
     <>
@@ -144,11 +158,13 @@ export default function Home() {
               <p className="prose-measure text-ink-soft mb-9">
                 Both start from the same place and neither assumes the other.
                 Take whichever is the reason you came, and every module on it
-                is a game first and an explanation second.
+                is a game first and an explanation second. Underneath both
+                there is a third set on how the machine actually works, which
+                nothing requires you to read.
               </p>
             </Reveal>
             <Reveal delay={0.08}>
-              <PathChooser paths={paths} />
+              <PathChooser paths={paths} aside={aside} />
             </Reveal>
           </div>
         </section>

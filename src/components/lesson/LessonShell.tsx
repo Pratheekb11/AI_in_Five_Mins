@@ -7,7 +7,9 @@ import { inkClasses } from "@/lib/ink";
 import { type Lesson, neighbours, TRACKS } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { Sources } from "./Sources";
+import { TrackCelebration } from "./TrackCelebration";
 import { TrackComplete } from "./TrackComplete";
+import { TrackGaps } from "./TrackGaps";
 
 /**
  * The frame every lesson is printed in: masthead, the beats the caller passes
@@ -52,6 +54,10 @@ export function LessonShell({
         </div>
 
         {children}
+
+        {/* Which of this track's modules they have gone past, once they have
+            finished this one and so are deciding what to do next. */}
+        <TrackGaps lesson={lesson} />
 
         {/* Only ever on show once the whole track is behind them. */}
         <TrackComplete track={lesson.track} />
@@ -109,6 +115,9 @@ export function LessonShell({
           )}
         </nav>
       </main>
+
+      {/* Finishing a track is the one thing here worth interrupting for. */}
+      <TrackCelebration />
 
       <SiteFooter />
     </>

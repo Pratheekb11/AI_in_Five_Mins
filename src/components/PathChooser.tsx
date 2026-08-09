@@ -40,6 +40,21 @@ export type PathSummary = {
   ink: "blue" | "teal";
 };
 
+/**
+ * The third thing, which is not a path.
+ *
+ * The rabbit hole is optional depth reachable from inside either path, and a
+ * page that drew two roads and named two paths implied it did not exist. It
+ * is not a third card, because presenting it as a third route to choose
+ * between is exactly the mistake — it is a rung between the two.
+ */
+export type PathAside = {
+  title: string;
+  blurb: string;
+  moduleCount: number;
+  anchor: string;
+};
+
 const INK = {
   blue: {
     stroke: "var(--blue)",
@@ -119,12 +134,14 @@ function road(layout: Layout, count: number, endY: number): string {
 
 function Roads({
   paths,
+  aside,
   lit,
   still,
   layout,
   className,
 }: {
   paths: PathSummary[];
+  aside?: PathAside;
   lit: string | null;
   still: boolean;
   layout: Layout;
@@ -154,6 +171,48 @@ function Roads({
       >
         here
       </text>
+
+      {/* The rung: a dashed connector between the two roads, because the
+          rabbit hole is reachable from either and is not a third road. Placed
+          two ticks in, where both roads are straight and neither has ended. */}
+      {aside ? (
+        <motion.g
+          initial={still ? undefined : { opacity: 0 }}
+          whileInView={still ? undefined : { opacity: 1 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.4, delay: 1.1 }}
+        >
+          <line
+            x1={tickX(layout, 2)}
+            y1={layout.topY + layout.tickHeight / 2}
+            x2={tickX(layout, 2)}
+            y2={layout.bottomY - layout.tickHeight / 2}
+            stroke="var(--ink)"
+            strokeWidth={1.5}
+            strokeDasharray="4 4"
+            opacity={0.45}
+          />
+          <rect
+            x={tickX(layout, 2) - 4}
+            y={midY - 4}
+            width={8}
+            height={8}
+            fill="var(--paper)"
+            stroke="var(--ink)"
+            strokeWidth={1.5}
+            opacity={0.75}
+          />
+          <text
+            x={tickX(layout, 2) + 10}
+            y={midY + 4}
+            className="data"
+            fontSize={layout.fontSize}
+            fill="var(--ink-faint)"
+          >
+            {aside.moduleCount} optional
+          </text>
+        </motion.g>
+      ) : null}
 
       {paths.map((path, i) => {
         const dim = lit !== null && lit !== path.id;
@@ -218,7 +277,13 @@ function Roads({
   );
 }
 
-export function PathChooser({ paths }: { paths: PathSummary[] }) {
+export function PathChooser({
+  paths,
+  aside,
+}: {
+  paths: PathSummary[];
+  aside?: PathAside;
+}) {
   const still = useReducedMotion() ?? false;
   const [lit, setLit] = useState<string | null>(null);
 
@@ -226,6 +291,7 @@ export function PathChooser({ paths }: { paths: PathSummary[] }) {
     <div>
       <Roads
         paths={paths}
+        aside={aside}
         lit={lit}
         still={still}
         layout={NARROW}
@@ -233,6 +299,7 @@ export function PathChooser({ paths }: { paths: PathSummary[] }) {
       />
       <Roads
         paths={paths}
+        aside={aside}
         lit={lit}
         still={still}
         layout={WIDE}
@@ -301,6 +368,28 @@ export function PathChooser({ paths }: { paths: PathSummary[] }) {
           );
         })}
       </div>
+
+      {/* Quieter than the two plates on purpose: this is not a third thing to
+          choose, it is what is underneath both of them. */}
+      {aside ? (
+        <div className="border-ink/25 mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 rounded-[2px] border border-dashed p-4">
+          <div className="prose-measure">
+            <p className="label text-ink-faint mb-1">
+              Under either path · optional
+            </p>
+            <p className="font-display mb-1 font-bold">
+              {aside.title} · {aside.moduleCount} modules
+            </p>
+            <p className="text-ink-soft text-sm">{aside.blurb}</p>
+          </div>
+          <Link
+            href={aside.anchor}
+            className="font-display border-ink/40 hover:border-ink shrink-0 rounded-[2px] border px-4 py-2.5 font-bold"
+          >
+            See the {aside.moduleCount}
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 }

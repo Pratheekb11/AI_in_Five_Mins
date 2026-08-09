@@ -1,7 +1,7 @@
 import { Beam } from "@/components/games/Beam";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
@@ -81,58 +81,76 @@ const QUESTIONS: QuizQuestion[] = [
 ];
 
 export default function AttentionLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            Before it decides what a word means, every word{" "}
-            <span className="text-pink-text">looks back at all the others</span>
-            .
-          </>
-        }
-        sting="That is the whole invention that made modern AI work, and you can watch it happen. Every weight below was pulled out of a real model by running its published parameters forward. Each one was checked against the reference implementation before it was allowed on this page."
-        cta="Watch one word do it"
-        target="#looking"
-      />
-
-      {/* ------------------------------------------------ the explanation --- */}
-      <section id="looking" className="py-10">
-        <p className="label text-ink-faint mb-3">
-          The problem attention solves
-        </p>
-        <h2 className="display-lg mb-4">
-          A word does not mean the same thing twice.
-        </h2>
-
-        <div className="prose-measure text-ink-soft mb-8 space-y-4 text-lg">
-          <p>
-            The previous module gave every word a fixed position in space. That
-            buys a great deal, and it cannot buy this:{" "}
-            <span className="font-data">bank</span> in a sentence about a river
-            and <span className="font-data">bank</span> in a sentence about
-            money have to end up somewhere different, and they start out
-            identical. Something has to move them apart, using nothing but the
-            rest of the sentence.
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              Before it decides what a word means, every word{" "}
+              <span className="text-pink-text">
+                looks back at all the others
+              </span>
+              .
+            </>
+          }
+          sting="That is the whole invention that made modern AI work, and you can watch it happen. Every weight below was pulled out of a real model by running its published parameters forward. Each one was checked against the reference implementation before it was allowed on this page."
+          cta="Watch one word do it"
+          target="#looking"
+        />
+      ),
+    },
+    {
+      id: "problem",
+      cta: "Watch one word do it",
+      node: (
+        <section id="looking" className="py-10">
+          <p className="label text-ink-faint mb-3">
+            The problem attention solves
           </p>
-          <p>
-            Attention is that something. Before settling what a word means here,
-            every position gets to look back over everything earlier in the text
-            and pull in a share of each one. How much it takes from each is a
-            weight, and the weights are not rules anybody wrote. They are
-            computed on the spot, from the sentence in front of it. That is why
-            the same word can resolve two ways in two sentences with no extra
-            machinery.
-          </p>
-          <p>
-            One word, one head, five beats, and you set the pace. Then the same
-            thing seventy-two times over, further down.
-          </p>
-        </div>
+          <h2 className="display-lg mb-4">
+            A word does not mean the same thing twice.
+          </h2>
 
-        <Walkthrough steps={STEPS} figure={<AttentionBeamsFigure />} />
-
-        <div className="prose-measure text-ink-soft mt-8 space-y-4 text-lg">
+          <div className="prose-measure text-ink-soft mb-8 space-y-4 text-lg">
+            <p>
+              The previous module gave every word a fixed position in space.
+              That buys a great deal, and it cannot buy this:{" "}
+              <span className="font-data">bank</span> in a sentence about a
+              river and <span className="font-data">bank</span> in a sentence
+              about money have to end up somewhere different, and they start out
+              identical. Something has to move them apart, using nothing but the
+              rest of the sentence.
+            </p>
+            <p>
+              Attention is that something. Before settling what a word means
+              here, every position gets to look back over everything earlier in
+              the text and pull in a share of each one. How much it takes from
+              each is a weight, and the weights are not rules anybody wrote.
+              They are computed on the spot, from the sentence in front of it.
+              That is why the same word can resolve two ways in two sentences
+              with no extra machinery.
+            </p>
+            <p>
+              One word, one head, five beats, and you set the pace. Then the
+              same thing seventy-two times over, further down.
+            </p>
+          </div>
+        </section>
+      ),
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<AttentionBeamsFigure />} />,
+    },
+    {
+      id: "carry",
+      cta: "Now you try",
+      node: (
+        <div className="prose-measure text-ink-soft space-y-4 text-lg">
           <p>
             Three things in that figure are worth carrying: it can only reach
             backwards, the amounts are a share of one, and a great deal of that
@@ -141,32 +159,45 @@ export default function AttentionLesson() {
             way to hold the whole subject.
           </p>
         </div>
-      </section>
+      ),
+    },
+    {
+      id: "beam",
+      cta: "All the heads",
+      node: (
+        <>
+          <p className="label text-ink-faint mb-3">Now you try</p>
+          <h2 className="display-lg mb-2">Guess where the beam goes.</h2>
+          <p className="prose-measure text-ink-soft mb-6">
+            You have seen one head resolve one word. Commit to a prediction on a
+            head you have not seen, and the real extracted weights will tell you
+            how you did.
+          </p>
+          <div id="game">
+            <Beam />
+          </div>
+        </>
+      ),
+    },
+    {
+      id: "attention-map",
+      cta: "What is going on",
+      node: (
+        <>
+          <h2 className="display-lg mb-2">All seventy-two heads</h2>
+          <p className="prose-measure text-ink-soft mb-5">
+            Scrub through the layers and heads. What is worth noticing is not
+            any single map. It is how little they resemble each other.
+          </p>
+          <AttentionMap />
+        </>
+      ),
+    },
+  ];
 
-      {/* --------------------------------------------------------- the game --- */}
-      <section className="border-ink/25 border-t py-10">
-        <p className="label text-ink-faint mb-3">Now you try</p>
-        <h2 className="display-lg mb-2">Guess where the beam goes.</h2>
-        <p className="prose-measure text-ink-soft mb-6">
-          You have seen one head resolve one word. Commit to a prediction on a
-          head you have not seen, and the real extracted weights will tell you
-          how you did.
-        </p>
-        <div id="game">
-          <Beam />
-        </div>
-      </section>
-
-      <section className="pb-4">
-        <h2 className="display-lg mb-2">All seventy-two heads</h2>
-        <p className="prose-measure text-ink-soft mb-5">
-          Scrub through the layers and heads. What is worth noticing is not any
-          single map. It is how little they resemble each other.
-        </p>
-        <AttentionMap />
-      </section>
-
-      <DeeperRow video={video}>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Where do the weights come from?"
           summary="Each word produces a question and a label. The weight is how well one word's question matches another's label."
@@ -190,7 +221,6 @@ export default function AttentionLesson() {
             job.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="Is this a small model? Does that matter?"
           summary="Very. It is 82 million parameters, which is thousands of times smaller than a production model."
@@ -211,26 +241,45 @@ export default function AttentionLesson() {
             actually for.
           </p>
         </MechanismPanel>
-        <PracticeCard
-          title="Write a sentence that breaks it"
-          watchFor="That you can change the answer by changing only the meaning, not a single word of the structure. Nothing in the grammar tells the model which way to go, so whatever resolves it came out of the training text."
+        <Fold title="Watch somebody explain it" note={video.why}>
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Give it a sentence where one word decides another."
         >
-          <p>
-            Take the pair of sentences in the map above about the trophy and the
-            suitcase. Write your own pair with the same shape, where a single
-            adjective flips which noun the pronoun refers to.
-          </p>
-          <p>
-            Then give both to an assistant and ask which thing the pronoun
-            means.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+          <PracticeCard
+            title="Write a sentence that breaks it"
+            watchFor="That you can change the answer by changing only the meaning, not a single word of the structure. Nothing in the grammar tells the model which way to go, so whatever resolves it came out of the training text."
+          >
+            <p>
+              Take the pair of sentences in the map above about the trophy and
+              the suitcase. Write your own pair with the same shape, where a
+              single adjective flips which noun the pronoun refers to.
+            </p>
+            <p>
+              Then give both to an assistant and ask which thing the pronoun
+              means.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

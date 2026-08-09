@@ -69,7 +69,10 @@ export function LessonStage({ beats }: { beats: Beat[] }) {
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       const el = e.target as HTMLElement | null;
-      if (el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)))
+      if (
+        el &&
+        (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))
+      )
         return;
       if (e.key === "ArrowRight") next();
       else if (e.key === "ArrowLeft") back();
@@ -97,7 +100,10 @@ export function LessonStage({ beats }: { beats: Beat[] }) {
         <div className="min-h-0 grow overflow-x-hidden overflow-y-auto">
           <div className="mx-auto flex min-h-full w-full max-w-5xl flex-col px-5 py-6">
             {beats.map((beat, i) => (
-              <div key={beat.id} className={i === at ? "my-auto block" : "hidden"}>
+              <div
+                key={beat.id}
+                className={i === at ? "my-auto block" : "hidden"}
+              >
                 <motion.div
                   /* Keyed on the index so re-entering a beat replays its
                      arrival, and so the deck reads as a page turn.
@@ -196,7 +202,7 @@ function StageRail({
           type="button"
           onClick={onBack}
           disabled={at === 0}
-          className="label text-ink-faint shrink-0 rounded-[2px] px-2 py-1.5 disabled:opacity-35"
+          className="tap label text-ink-faint shrink-0 rounded-[2px] px-3 py-2.5 disabled:opacity-35"
         >
           &larr; Back
         </button>
@@ -210,14 +216,16 @@ function StageRail({
               /* Only backwards. Jumping ahead would hand over the answer to a
                  beat that has not been played yet. */
               onClick={i < at ? () => onJump(i) : undefined}
-              className="bg-ink/15 h-1.5 flex-1 overflow-hidden rounded-[1px]"
+              className="tap flex h-1.5 flex-1 rounded-[1px]"
             >
-              <motion.span
-                className="bg-pink block h-full origin-left"
-                initial={false}
-                animate={{ scaleX: i <= at ? 1 : 0 }}
-                transition={{ duration: still ? 0 : 0.3, ease: "easeOut" }}
-              />
+              <span className="bg-ink/15 block h-full w-full overflow-hidden rounded-[1px]">
+                <motion.span
+                  className="bg-pink block h-full origin-left"
+                  initial={false}
+                  animate={{ scaleX: i <= at ? 1 : 0 }}
+                  transition={{ duration: still ? 0 : 0.3, ease: "easeOut" }}
+                />
+              </span>
             </button>
           ))}
         </span>

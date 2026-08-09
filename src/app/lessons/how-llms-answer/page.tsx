@@ -1,8 +1,8 @@
 import { Plinko } from "@/components/games/Plinko";
 import { TemperaturePairFigure } from "@/components/machines/TemperaturePairFigure";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
@@ -81,29 +81,39 @@ const QUESTIONS: QuizQuestion[] = [
 ];
 
 export default function HowLlmsAnswerLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            It does not choose a word. It{" "}
-            <span className="text-yellow-text">rolls loaded dice</span>, fifty
-            thousand sides, once per token.
-          </>
-        }
-        sting="These are a real model's real odds, recorded and printed unrounded. You get one control, the dial that loads the dice, and a target to hit. Finding out that you cannot have both reliable and surprising is the point of the round."
-        cta="Load the odds"
-      />
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              It does not choose a word. It{" "}
+              <span className="text-yellow-text">rolls loaded dice</span>, fifty
+              thousand sides, once per token.
+            </>
+          }
+          sting="These are a real model's real odds, recorded and printed unrounded. You get one control, the dial that loads the dice, and a target to hit. Finding out that you cannot have both reliable and surprising is the point of the round."
+          cta="Load the odds"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "What the dice are",
+      node: <Plinko />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<TemperaturePairFigure />} />,
+    },
+  ];
 
-      <div className="py-4">
-        <Plinko />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<TemperaturePairFigure />} />
-      </div>
-
-      <DeeperRow video={video}>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Why not always take the most likely token?"
           summary="Because the result is flat, repetitive text. That was measured, and it is why sampling exists at all."
@@ -124,7 +134,6 @@ export default function HowLlmsAnswerLesson() {
             machinery.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="So why does the same question give me different answers?"
           summary="Because a token is drawn, not chosen. Run it twice and you drew twice."
@@ -145,23 +154,42 @@ export default function HowLlmsAnswerLesson() {
             of these systems.
           </p>
         </MechanismPanel>
-        <PracticeCard
-          title="Ask the same question in three fresh chats"
-          watchFor="Which parts come back identical and which parts move. The stable parts are where the model is confident; the parts that change every time are the parts you need to check yourself."
+        <Fold title="Watch somebody explain it" note={video.why}>
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Ask the same question twice and compare the wording."
         >
-          <p>
-            Take a question from your own work with a factual answer. Ask it in
-            three separate new chats. New chats, not follow-ups, so that each
-            one starts from the same context.
-          </p>
-          <p>Line the three answers up and mark everything that differs.</p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+          <PracticeCard
+            title="Ask the same question in three fresh chats"
+            watchFor="Which parts come back identical and which parts move. The stable parts are where the model is confident; the parts that change every time are the parts you need to check yourself."
+          >
+            <p>
+              Take a question from your own work with a factual answer. Ask it
+              in three separate new chats. New chats, not follow-ups, so that
+              each one starts from the same context.
+            </p>
+            <p>Line the three answers up and mark everything that differs.</p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

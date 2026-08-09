@@ -1,6 +1,6 @@
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
@@ -75,29 +75,41 @@ const QUESTIONS: QuizQuestion[] = [
 ];
 
 export default function HowModelsLearnLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            Learning, in every AI system ever built, is{" "}
-            <span className="text-teal-text">rolling downhill in the dark</span>
-            .
-          </>
-        }
-        sting={`One dial, ${REGRESSION.sampleSize} real sentences, and no view of the hill. All you get is whether the ground under your feet slopes up or down. Find the bottom by hand first. It is harder than it looks, and then you get to hand it over.`}
-        cta="Take the wheel"
-      />
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              Learning, in every AI system ever built, is{" "}
+              <span className="text-teal-text">
+                rolling downhill in the dark
+              </span>
+              .
+            </>
+          }
+          sting={`One dial, ${REGRESSION.sampleSize} real sentences, and no view of the hill. All you get is whether the ground under your feet slopes up or down. Find the bottom by hand first. It is harder than it looks, and then you get to hand it over.`}
+          cta="Take the wheel"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "What that hill was",
+      node: <GradientHill />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<FitLineFigure />} />,
+    },
+  ];
 
-      <div className="py-4">
-        <GradientHill />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<FitLineFigure />} />
-      </div>
-
-      <DeeperRow video={video}>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Where do the billions of dials come from?"
           summary="Same procedure, more numbers. The step is worked out for every dial at once."
@@ -117,7 +129,6 @@ export default function HowModelsLearnLesson() {
             same idea with more arithmetic behind it.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="If nothing is stored, why does it seem to know things?"
           summary="Because the examples changed the numbers. The effect survives; the examples do not."
@@ -137,27 +148,46 @@ export default function HowModelsLearnLesson() {
             stops on a date. It is not because anyone chose to freeze it.
           </p>
         </MechanismPanel>
-        <PracticeCard
-          title="Find out what your assistant was shown"
-          watchFor="Whether it can tell you its own cut-off, and whether it hedges about it. It has no way to check the date from the inside. Anything it says about now is a guess dressed up as a fact."
+        <Fold title="Watch somebody explain it" note={video.why}>
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Watch a model be confidently wrong about its own training."
         >
-          <p>
-            Ask an assistant when its training data ends. Then ask it about
-            something that happened after that date and watch what it does with
-            the gap.
-          </p>
-          <p>
-            Then ask it something where the answer depends on which text it was
-            trained on. A regional spelling, a contested date, or a term used
-            differently in different fields.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+          <PracticeCard
+            title="Find out what your assistant was shown"
+            watchFor="Whether it can tell you its own cut-off, and whether it hedges about it. It has no way to check the date from the inside. Anything it says about now is a guess dressed up as a fact."
+          >
+            <p>
+              Ask an assistant when its training data ends. Then ask it about
+              something that happened after that date and watch what it does
+              with the gap.
+            </p>
+            <p>
+              Then ask it something where the answer depends on which text it
+              was trained on. A regional spelling, a contested date, or a term
+              used differently in different fields.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

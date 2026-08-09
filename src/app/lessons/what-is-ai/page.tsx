@@ -1,6 +1,6 @@
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
@@ -81,60 +81,77 @@ const QUESTIONS: QuizQuestion[] = [
 ];
 
 export default function WhatIsAiLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              {SPAM_BENCH.bestSubset.rules.length} rules you could write on a
+              napkin get within{" "}
+              <span className="text-blue-text">
+                {(
+                  (SPAM_BENCH.learned.accuracy -
+                    SPAM_BENCH.bestSubset.accuracy) *
+                  100
+                ).toFixed(1)}{" "}
+                points
+              </span>{" "}
+              of the machine-learning model.
+            </>
+          }
+          sting={`On ${SPAM_BENCH.corpus.total.toLocaleString("en-US")} real text messages, scored on the same held-out split. Watch the three of them go up, including the one that does nothing at all and still scores 86%. That is the number that should worry you.`}
+          cta="Watch it run"
+        />
+      ),
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<SpamBenchFigure />} />,
+    },
+  ];
+
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
+        <Fold
+          title="Messages worth reading"
+          note="The held-out half, and what each rule caught."
+        >
           <>
-            {SPAM_BENCH.bestSubset.rules.length} rules you could write on a
-            napkin get within{" "}
-            <span className="text-blue-text">
-              {(
-                (SPAM_BENCH.learned.accuracy - SPAM_BENCH.bestSubset.accuracy) *
-                100
-              ).toFixed(1)}{" "}
-              points
-            </span>{" "}
-            of the machine-learning model.
-          </>
-        }
-        sting={`On ${SPAM_BENCH.corpus.total.toLocaleString("en-US")} real text messages, scored on the same held-out split. Watch the three of them go up, including the one that does nothing at all and still scores 86%. That is the number that should worry you.`}
-        cta="Watch it run"
-      />
-
-      <div className="py-4">
-        <Walkthrough steps={STEPS} figure={<SpamBenchFigure />} />
-      </div>
-
-      <section className="pb-4">
-        <h2 className="display-lg mb-2">Messages worth reading</h2>
-        <p className="prose-measure text-ink-soft mb-5">
-          A filter is only as good as its hardest cases. These are real messages
-          from the corpus. Obvious spams, ones that slip past almost every rule,
-          ordinary messages that trip several, and ones that stay clean.
-        </p>
-        <ul className="grid gap-3 md:grid-cols-2">
-          {SPAM_BENCH.examples.map((example, i) => (
-            <li
-              key={i}
-              className={`plate-flush p-4 ${
-                example.spam ? "bg-pink-wash" : "bg-paper-raised"
-              }`}
-            >
-              <p className="label mb-2">
-                <span
-                  className={example.spam ? "text-pink-text" : "text-teal-text"}
+            <h2 className="display-lg mb-2">Messages worth reading</h2>
+            <p className="prose-measure text-ink-soft mb-5">
+              A filter is only as good as its hardest cases. These are real
+              messages from the corpus. Obvious spams, ones that slip past
+              almost every rule, ordinary messages that trip several, and ones
+              that stay clean.
+            </p>
+            <ul className="grid gap-3 md:grid-cols-2">
+              {SPAM_BENCH.examples.map((example, i) => (
+                <li
+                  key={i}
+                  className={`plate-flush p-4 ${
+                    example.spam ? "bg-pink-wash" : "bg-paper-raised"
+                  }`}
                 >
-                  {example.spam ? "Spam" : "Ordinary"}
-                </span>
-              </p>
-              <p className="text-[0.9375rem] break-words">{example.body}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <DeeperRow video={video}>
+                  <p className="label mb-2">
+                    <span
+                      className={
+                        example.spam ? "text-pink-text" : "text-teal-text"
+                      }
+                    >
+                      {example.spam ? "Spam" : "Ordinary"}
+                    </span>
+                  </p>
+                  <p className="text-[0.9375rem] break-words">{example.body}</p>
+                </li>
+              ))}
+            </ul>
+          </>
+        </Fold>
         <MechanismPanel
           question="How did it find the pattern without being told?"
           summary="It counted. Which words turn up in which kind of message, and how often. Then it multiplied."
@@ -155,7 +172,6 @@ export default function WhatIsAiLesson() {
             trusted unsupervised.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="Why does a single accuracy number mislead?"
           summary="Because when one answer is much more common, guessing that answer every time already looks good."
@@ -176,27 +192,46 @@ export default function WhatIsAiLesson() {
             an accuracy figure.
           </p>
         </MechanismPanel>
-        <PracticeCard
-          title="Ask the two questions that make AI news readable"
-          watchFor="How often neither question is answered anywhere in the article. That absence is usually the story."
+        <Fold title="Watch somebody explain it" note={video.why}>
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Find the rule you would have written first."
         >
-          <p>
-            Next time you read a claim that an AI system achieves some
-            percentage at something, ask two things before anything else. What
-            was it shown to learn from? And what does the same score look like
-            for the laziest possible answer?
-          </p>
-          <p>
-            Then look for the errors: what it missed, and what it wrongly
-            flagged.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+          <PracticeCard
+            title="Ask the two questions that make AI news readable"
+            watchFor="How often neither question is answered anywhere in the article. That absence is usually the story."
+          >
+            <p>
+              Next time you read a claim that an AI system achieves some
+              percentage at something, ask two things before anything else. What
+              was it shown to learn from? And what does the same score look like
+              for the laziest possible answer?
+            </p>
+            <p>
+              Then look for the errors: what it missed, and what it wrongly
+              flagged.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

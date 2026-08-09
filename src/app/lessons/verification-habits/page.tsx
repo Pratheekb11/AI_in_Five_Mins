@@ -1,7 +1,7 @@
 import { HallucinationHunt } from "@/components/games/HallucinationHunt";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -105,28 +105,38 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function VerificationHabitsLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            &ldquo;Check everything&rdquo; and &ldquo;check nothing&rdquo; end
-            up as <span className="text-yellow-text">the same policy</span>.
-          </>
-        }
-        sting="So stop trying to check everything and get good at spotting the thing worth checking. Below is a real encyclopedia paragraph with three things quietly changed in it. Six flags, three errors, and everybody gets the same paragraph today."
-        cta="Hunt today's paragraph"
-      />
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              &ldquo;Check everything&rdquo; and &ldquo;check nothing&rdquo; end
+              up as <span className="text-yellow-text">the same policy</span>.
+            </>
+          }
+          sting="So stop trying to check everything and get good at spotting the thing worth checking. Below is a real encyclopedia paragraph with three things quietly changed in it. Six flags, three errors, and everybody gets the same paragraph today."
+          cta="Hunt today's paragraph"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "What that tested",
+      node: <HallucinationHunt />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<ParagraphCheckFigure />} />,
+    },
+  ];
 
-      <div className="py-4">
-        <HallucinationHunt />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<ParagraphCheckFigure />} />
-      </div>
-
-      <DeeperRow video={video}>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Why does a wrong answer feel safe to send?"
           summary="Nothing in the writing marks it. And the more you trust the tool, the less of it you read."
@@ -148,7 +158,6 @@ export default function VerificationHabitsLesson() {
             carefully.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="What do I check first, when I only have a minute?"
           summary="The load-bearing specifics: numbers, names, dates, citations, and anything you would be quoted on."
@@ -174,26 +183,45 @@ export default function VerificationHabitsLesson() {
             inside it, agreement is the cheapest thing on offer.
           </p>
         </MechanismPanel>
-        <PracticeCard
-          title="Find the load-bearing sentence"
-          watchFor="How often the sentence everything rests on is a specific rather than an argument. A figure, a date, a named source. That is not a coincidence, and it is the shortest route to a check that is worth the time."
+        <Fold title="Watch somebody explain it" note={video.why}>
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Read laterally on something you already believe."
         >
-          <p>
-            Take the last substantial thing an assistant produced for you. Read
-            it once and underline the single sentence that everything else
-            depends on.
-          </p>
-          <p>
-            Check that one sentence at its source. Then decide honestly whether
-            you would have caught it if it had been wrong.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Find the load-bearing sentence"
+            watchFor="How often the sentence everything rests on is a specific rather than an argument. A figure, a date, a named source. That is not a coincidence, and it is the shortest route to a check that is worth the time."
+          >
+            <p>
+              Take the last substantial thing an assistant produced for you.
+              Read it once and underline the single sentence that everything
+              else depends on.
+            </p>
+            <p>
+              Check that one sentence at its source. Then decide honestly
+              whether you would have caught it if it had been wrong.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

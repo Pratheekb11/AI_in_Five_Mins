@@ -153,7 +153,7 @@ export default function TokensLesson() {
     },
     {
       id: "vocabulary",
-      cta: "Show me it happening",
+      cta: "Watch it happen",
       node: (
         <>
           <p className="label text-ink-faint mb-3">Where tokens come from</p>

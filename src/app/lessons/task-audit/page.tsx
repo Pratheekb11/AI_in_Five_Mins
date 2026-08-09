@@ -1,7 +1,7 @@
 import { BucketSort } from "@/components/games/BucketSort";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -110,53 +110,65 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function TaskAuditLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              In the biggest study of this so far, the experienced workers
+              gained <span className="text-teal-text">almost nothing</span>.
+            </>
+          }
+          sting="Novices got 34% faster. The average was 14%. The experts, statistically, got a rounding error. The tool spreads what the best people already do, and they were already doing it. So the only question that matters is which of your tasks sit on the wrong side of that line."
+          cta="Sort your week"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "Now your own week",
+      node: <BucketSort />,
+    },
+    {
+      id: "your-week",
+      cta: "Now the evidence",
+      node: <YourWeek />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<SkillGapFigure />} />,
+    },
+  ];
+
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
+        <Fold title="The four buckets, and the honest test for each">
           <>
-            In the biggest study of this so far, the experienced workers gained{" "}
-            <span className="text-teal-text">almost nothing</span>.
+            <p className="label text-ink-faint mb-4">
+              The four buckets, and the honest test for each
+            </p>
+            <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+              {BUCKETS.map((bucket) => (
+                <div key={bucket.id}>
+                  <dt className="font-display text-base font-bold">
+                    {bucket.label}
+                    <span className="text-ink-faint ml-2 text-sm font-normal">
+                      {bucket.means}
+                    </span>
+                  </dt>
+                  <dd className="text-ink-soft mt-1 text-[0.9375rem]">
+                    {TESTS[bucket.id]}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </>
-        }
-        sting="Novices got 34% faster. The average was 14%. The experts, statistically, got a rounding error. The tool spreads what the best people already do, and they were already doing it. So the only question that matters is which of your tasks sit on the wrong side of that line."
-        cta="Sort your week"
-      />
-
-      <div className="py-4">
-        <BucketSort />
-      </div>
-
-      <div className="pb-4">
-        <YourWeek />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<SkillGapFigure />} />
-      </div>
-
-      <section className="plate mb-4 p-5 md:p-6">
-        <p className="label text-ink-faint mb-4">
-          The four buckets, and the honest test for each
-        </p>
-        <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
-          {BUCKETS.map((bucket) => (
-            <div key={bucket.id}>
-              <dt className="font-display text-base font-bold">
-                {bucket.label}
-                <span className="text-ink-faint ml-2 text-sm font-normal">
-                  {bucket.means}
-                </span>
-              </dt>
-              <dd className="text-ink-soft mt-1 text-[0.9375rem]">
-                {TESTS[bucket.id]}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      <DeeperRow video={video}>
+        </Fold>
         <MechanismPanel
           question="Why would the experts gain so little?"
           summary="The tool raises work toward a good average. If you are already above that average, there is nothing to raise."
@@ -183,7 +195,6 @@ export default function TaskAuditLesson() {
             narrow. Neither result is a promise about your Tuesday.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="Is there a downside to handing over the easy things?"
           summary="Measured, yes: the more you trust the tool, the less you check it."
@@ -202,28 +213,47 @@ export default function TaskAuditLesson() {
             this track is about where that line sits.
           </p>
         </MechanismPanel>
-        <PracticeCard
-          title="Keep a hand-over log for one week"
-          watchFor="How often the answer was 'I did not check'. That number, not the time saved, is the honest measure of whether the hand-over was a good one."
+        <Fold title="Watch somebody explain it" note={video.why}>
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Sort one real week, not a typical one."
         >
-          <p>
-            Every time you hand something to an assistant this week, write one
-            line: the task, and whether you checked the output before it went
-            anywhere.
-          </p>
-          <p>
-            On Friday, come back and add the tasks you did yourself but wish you
-            had not. That is your real map, and it will not look much like the
-            one you sorted today.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Keep a hand-over log for one week"
+            watchFor="How often the answer was 'I did not check'. That number, not the time saved, is the honest measure of whether the hand-over was a good one."
+          >
+            <p>
+              Every time you hand something to an assistant this week, write one
+              line: the task, and whether you checked the output before it went
+              anywhere.
+            </p>
+            <p>
+              On Friday, come back and add the tasks you did yourself but wish
+              you had not. That is your real map, and it will not look much like
+              the one you sorted today.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }
 

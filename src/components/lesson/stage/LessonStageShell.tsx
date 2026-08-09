@@ -7,6 +7,8 @@ import { type Lesson, neighbours, TRACKS } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { Sources } from "../Sources";
 import { TrackCelebration } from "../TrackCelebration";
+import { TrackComplete } from "../TrackComplete";
+import { TrackGaps } from "../TrackGaps";
 import { LessonStage, type Beat } from "./LessonStage";
 import { StageComplete } from "./StageComplete";
 
@@ -74,6 +76,14 @@ export function LessonStageShell({
             Back to the start
           </Link>
         )}
+
+        {/* Both of these draw nothing until they have something to say, and
+            the closing screen is where somebody is deciding what to do next —
+            which is the whole reason they exist. */}
+        <div className="text-left">
+          <TrackComplete track={lesson.track} />
+          <TrackGaps lesson={lesson} />
+        </div>
 
         {tail ? <div className="mt-10 space-y-4 text-left">{tail}</div> : null}
 

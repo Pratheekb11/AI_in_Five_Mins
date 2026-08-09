@@ -113,7 +113,7 @@ export function WhatIsAI({ driven }: { driven?: number }) {
     <div className="plate overflow-hidden">
       <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
         <span className="label">Same job, three machines</span>
-        <span className="flex items-center gap-3">
+        <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
           {BEATS.map((b, i) => (
             <span key={b.label} className="flex items-center gap-1.5">
               <span

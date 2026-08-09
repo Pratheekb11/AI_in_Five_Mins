@@ -1,8 +1,8 @@
 import { FailureBench } from "@/components/games/FailureBench";
 import { OneFaultFigure } from "@/components/machines/OneFaultFigure";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
@@ -101,28 +101,38 @@ const QUESTIONS: QuizQuestion[] = [
 ];
 
 export default function WhyAiGetsThingsWrongLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            Three famous failures. <span className="text-pink-text">One</span>{" "}
-            cause, and you can weigh it.
-          </>
-        }
-        sting="Making things up, sounding sure while wrong, carrying the biases of its training text. All three are treated everywhere as separate bugs. Put them on a balance and they turn out to be the same fact three times over. Every weight below is measured when you press the button, from data already on this site."
-        cta="Load the bench"
-      />
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              Three famous failures. <span className="text-pink-text">One</span>{" "}
+              cause, and you can weigh it.
+            </>
+          }
+          sting="Making things up, sounding sure while wrong, carrying the biases of its training text. All three are treated everywhere as separate bugs. Put them on a balance and they turn out to be the same fact three times over. Every weight below is measured when you press the button, from data already on this site."
+          cta="Load the bench"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "Weigh it yourself",
+      node: <FailureBench />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<OneFaultFigure />} />,
+    },
+  ];
 
-      <div className="py-4">
-        <FailureBench />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<OneFaultFigure />} />
-      </div>
-
-      <DeeperRow video={video}>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="What about forgetting? That is the failure I actually hit."
           summary="Different mechanism, and the one failure here with a hard limit behind it: everything has to fit in a fixed window."
@@ -143,7 +153,6 @@ export default function WhyAiGetsThingsWrongLesson() {
             document&rdquo;.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="Why cannot they just train the confidence out of it?"
           summary="Because the training rewards a confident guess and punishes an admission of not knowing."
@@ -163,7 +172,6 @@ export default function WhyAiGetsThingsWrongLesson() {
             because it does not.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="If the bias is in the numbers, can it be subtracted out?"
           summary="People have tried. It moves rather than leaves."
@@ -184,26 +192,45 @@ export default function WhyAiGetsThingsWrongLesson() {
             people the words describe.
           </p>
         </MechanismPanel>
-        <PracticeCard
-          title="Find your own Paris"
-          watchFor="Whether the wrong answer arrives in a different tone from the right ones. It will not. That sameness is the thing worth remembering. You cannot hear the difference, so you have to check instead of listen."
+        <Fold title="Watch somebody explain it" note={video.why}>
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Reproduce one of the three failures on a real assistant."
         >
-          <p>
-            Ask an assistant something narrow and checkable from your own field
-            A specific figure, a date, a clause number. Something you know cold
-            and a general model would have read very little about.
-          </p>
-          <p>
-            Ask it three times in fresh chats, then check each answer against
-            the real source.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+          <PracticeCard
+            title="Find your own Paris"
+            watchFor="Whether the wrong answer arrives in a different tone from the right ones. It will not. That sameness is the thing worth remembering. You cannot hear the difference, so you have to check instead of listen."
+          >
+            <p>
+              Ask an assistant something narrow and checkable from your own
+              field A specific figure, a date, a clause number. Something you
+              know cold and a general model would have read very little about.
+            </p>
+            <p>
+              Ask it three times in fresh chats, then check each answer against
+              the real source.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Quiz slug={lesson.slug} questions={QUESTIONS} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

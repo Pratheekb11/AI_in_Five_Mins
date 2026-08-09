@@ -54,9 +54,13 @@ export function LessonStageShell({
           >
             <span>
               <span className="label block opacity-80">
-                {next.track === lesson.track
-                  ? "Next chapter"
-                  : `Next · ${TRACKS[next.track].title}`}
+                {/* Only one track has chapters in it. The closers and the
+                    rabbit hole are modules, so they just say next. */}
+                {next.track !== lesson.track
+                  ? `Next · ${TRACKS[next.track].title}`
+                  : lesson.track === "chapter"
+                    ? "Next chapter"
+                    : "Next"}
               </span>
               {next.title}
             </span>
@@ -72,7 +76,10 @@ export function LessonStageShell({
             </svg>
           </Link>
         ) : (
-          <Link href="/" className="plate misreg btn-primary font-display inline-block px-6 py-4 text-lg font-bold">
+          <Link
+            href="/"
+            className="plate misreg btn-primary font-display inline-block px-6 py-4 text-lg font-bold"
+          >
             Back to the start
           </Link>
         )}

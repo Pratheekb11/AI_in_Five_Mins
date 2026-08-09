@@ -249,17 +249,29 @@ export function HeroReel() {
           </div>
 
           <div className="border-ink/25 bg-paper-sunk relative h-9 rounded-[2px] border">
-            {DECADES.map((d) => (
-              <span
-                key={d}
-                className="border-ink/20 absolute top-0 bottom-0 border-l"
-                style={{ left: `${trackPosition(d - 1) * 100}%` }}
-              >
-                <span className="data text-ink-faint absolute top-full left-1 pt-1 text-[0.6875rem] whitespace-nowrap">
-                  {ordinal(d)}
+            {DECADES.map((d, i) => {
+              /* The last tick sits at 100%, so a label hung off its left edge
+                 runs past the end of the track and gets clipped: "1000th"
+                 printed as "100" on the first thing anybody sees. The final
+                 label hangs the other way. */
+              const last = i === DECADES.length - 1;
+
+              return (
+                <span
+                  key={d}
+                  className="border-ink/20 absolute top-0 bottom-0 border-l"
+                  style={{ left: `${trackPosition(d - 1) * 100}%` }}
+                >
+                  <span
+                    className={`data text-ink-faint absolute top-full pt-1 text-[0.6875rem] whitespace-nowrap ${
+                      last ? "right-1" : "left-1"
+                    }`}
+                  >
+                    {ordinal(d)}
+                  </span>
                 </span>
-              </span>
-            ))}
+              );
+            })}
 
             <motion.span
               className={`absolute top-1 bottom-1 w-1.5 rounded-[1px] ${

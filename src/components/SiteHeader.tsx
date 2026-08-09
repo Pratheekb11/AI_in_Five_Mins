@@ -33,8 +33,8 @@ export function SiteHeader({
             AI in <span className="text-pink-text">Five</span>
           </Link>
 
-          <span className="border-ink/20 label text-ink-faint hidden items-center gap-1.5 border-l pl-4 sm:flex">
-            Made with <span aria-label="love">❤️</span> by Pratheek B
+          <span className="border-ink/20 label text-ink-faint hidden items-center border-l pl-4 sm:flex">
+            By Pratheek B
           </span>
         </div>
 

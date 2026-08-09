@@ -37,6 +37,7 @@ export const metadata: Metadata = {
     template: "%s · AIinFive",
   },
   description: DESCRIPTION,
+  alternates: { canonical: "/" },
   applicationName: "AIinFive",
   authors: [{ name: "Pratheek B" }],
   openGraph: {

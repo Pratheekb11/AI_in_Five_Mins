@@ -3,12 +3,14 @@ import { CertificatesView } from "@/components/CertificatesView";
 import { Engagement } from "@/components/Engagement";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Your certificate",
   description:
     "Print what you finished, with your name on it, and take it wherever you like.",
-};
+  path: "/certificate",
+});
 
 export default function CertificatePage() {
   return (

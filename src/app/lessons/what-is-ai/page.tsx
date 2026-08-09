@@ -10,14 +10,12 @@ import { SPAM_BENCH } from "@/lib/datasets";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("what-is-ai")!;
 const video = videoFor("what-is-ai")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const pct = (n: number) => `${(n * 100).toFixed(1)}%`;
 

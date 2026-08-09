@@ -11,14 +11,12 @@ import { REGRESSION } from "@/lib/datasets";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("how-models-learn")!;
 const video = videoFor("how-models-learn")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {

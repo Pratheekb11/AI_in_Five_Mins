@@ -3,12 +3,14 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { KEPT_KEYS } from "@/lib/storageKeys";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "What this site keeps",
   description:
     "Everything AIinFive stores, where it stores it, and how to wipe it. There are no accounts and nothing identifying is ever sent.",
-};
+  path: "/privacy",
+});
 
 /**
  * The privacy page.

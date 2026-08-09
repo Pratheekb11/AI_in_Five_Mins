@@ -11,14 +11,12 @@ import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("tools-change-the-game")!;
 const video = videoFor("tools-change-the-game")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {

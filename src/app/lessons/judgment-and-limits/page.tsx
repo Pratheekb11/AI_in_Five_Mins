@@ -11,14 +11,12 @@ import { KIND_LABEL, KIND_NOTE, PAYLOADS } from "@/lib/game/paste";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson, lessonsIn } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("judgment-and-limits")!;
 const track = lessonsIn("chapter");
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {

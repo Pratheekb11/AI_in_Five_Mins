@@ -10,14 +10,12 @@ import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("how-llms-answer")!;
 const video = videoFor("how-llms-answer")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {

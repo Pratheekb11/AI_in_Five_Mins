@@ -15,14 +15,12 @@ import { MERGES, numberSplit, traceFor } from "@/lib/merges";
 import type { Source } from "@/lib/sources";
 import { TOKEN_EXAMPLES } from "@/lib/tokenExamples";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("tokens")!;
 const video = videoFor("tokens")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const strawberry = TOKEN_EXAMPLES.curiosities.find(
   (c) => c.id === "strawberry",

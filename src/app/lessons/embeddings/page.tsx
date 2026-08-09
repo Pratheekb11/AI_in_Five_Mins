@@ -15,6 +15,7 @@ import { getLesson } from "@/lib/lessons";
 import { ordinal } from "@/lib/ordinal";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("embeddings")!;
 const video = videoFor("embeddings")!;
@@ -27,10 +28,7 @@ const royalAnswerPoint = royal.points.find(
   (p) => p.word === royal.answer.word,
 )!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {

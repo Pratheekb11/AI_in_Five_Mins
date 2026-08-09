@@ -10,13 +10,11 @@ import { HoldoutFigure } from "@/components/machines/HoldoutFigure";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
+import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("train-and-test")!;
 
-export const metadata = {
-  title: lesson.title,
-  description: lesson.standfirst,
-};
+export const metadata = lessonMetadata(lesson);
 
 const SOURCES: Source[] = [
   {

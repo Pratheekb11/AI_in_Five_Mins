@@ -671,6 +671,36 @@ function Otter({
   );
 }
 
+/**
+ * Whether a node is on screen, for pausing the renderer that draws into it.
+ *
+ * A lesson page mounts two Nimos, one in the cabinet and one in the
+ * walkthrough, and both used to run a WebGL loop for ever whether or not they
+ * were anywhere near the viewport. Measured on the production build under
+ * software rendering, an idle lesson page held 22 frames a second with both
+ * running; on a phone that is battery going nowhere.
+ *
+ * The observer's callback is an event, not effect-body work, which is why the
+ * state may be set from it.
+ */
+function useOnScreen(node: HTMLElement | null): boolean {
+  const [onScreen, setOnScreen] = useState(true);
+
+  useEffect(() => {
+    if (!node || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      (entries) => setOnScreen(entries.some((entry) => entry.isIntersecting)),
+      /* A little early, so he is already moving by the time he is looked at. */
+      { rootMargin: "200px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [node]);
+
+  return onScreen;
+}
+
 export function Nimo3D({
   mood = "idle",
   follow = true,
@@ -757,6 +787,11 @@ export function Nimo3D({
     [],
   );
 
+  /* A callback ref rather than useRef: reading a ref during render is a
+     compiler error here, and the observer needs the node as state anyway. */
+  const [frame, setFrame] = useState<HTMLElement | null>(null);
+  const onScreen = useOnScreen(frame);
+
   const scene = (
     /* With the books he spans about 1.12 units and is scaled by SCALE
        above, which fills the frame at this distance. Move the geometry or
@@ -767,7 +802,9 @@ export function Nimo3D({
         camera={{ position: [0, 0, 3.5], fov: 32 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
-        frameloop={reduced ? "demand" : "always"}
+        /* Off screen he stops entirely; a paused canvas keeps its last frame,
+           so nothing blanks and nothing is redrawn for nobody. */
+        frameloop={reduced || !onScreen ? "demand" : "always"}
       >
         <ambientLight intensity={1.5} />
         <directionalLight position={[2.5, 4, 3]} intensity={2.4} />
@@ -780,6 +817,7 @@ export function Nimo3D({
   if (!interactive) {
     return (
       <div
+        ref={setFrame}
         className={className}
         style={{ height }}
         role="img"
@@ -791,7 +829,7 @@ export function Nimo3D({
   }
 
   return (
-    <div className={`relative ${className}`} style={{ height }}>
+    <div ref={setFrame} className={`relative ${className}`} style={{ height }}>
       {/* A real button, not a div with a click handler: he is now something
           you can do a thing to, so he belongs in the tab order and says what
           he does. Enter waves, holding space spins, same as the pointer. */}

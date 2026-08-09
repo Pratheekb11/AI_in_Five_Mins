@@ -2,7 +2,8 @@
  * The rules of Context Budget, as pure functions.
  *
  * Five slots, a pile of cards, and one question. You decide what the model gets
- * to see. Then you run it, and the number that comes back is the probability
+ * to see. Then you run it, and the model finishes the sentence. The number
+ * underneath is the probability
  * the real model puts on the real answer given exactly the context you built.
  *
  * Every combination was measured offline, see `data/scripts/build-context.mjs`
@@ -39,6 +40,16 @@ export type Combination = {
   tokens: number;
   rank: number;
   topText: string;
+  /**
+   * The words the model actually produces next, greedily decoded.
+   *
+   * `topText` is one byte-pair token, which is unreadable on some answers —
+   * BLUEHERON comes back as "BL". This is the continuation, and it is what
+   * the game shows, because "it says Tuesday" is a thing a person feels and
+   * "0.49%" is not. Optional so the game still runs against a `context.json`
+   * built before this existed.
+   */
+  says?: string;
   topProbability: number;
 };
 
@@ -70,7 +81,10 @@ export const KIND_NAMES: Record<CardKind, string> = {
   noise: "Harmless chatter",
   stale: "Out of date, and says so",
   decoy: "Looks relevant, says something else",
-  example: "A worked example, with a made-up value in it",
+  /* Short, because the card in this slot is already labelled "A worked
+     example, with a made-up value in it" and the effects list printed the
+     same sentence twice on the same line. */
+  example: "A pattern to copy",
 };
 
 /** The measured result for a set of cards, or null if it was never measured. */

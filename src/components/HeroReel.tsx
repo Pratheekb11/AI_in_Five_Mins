@@ -55,8 +55,19 @@ type ProvenanceData = {
   rounds: Round[];
 };
 
-/** ask, guess, rank, source. How long each holds, in milliseconds. */
-const BEATS = [1500, 2300, 2900, 3400] as const;
+/**
+ * ask, guess, rank, source. How long each holds, in milliseconds.
+ *
+ * These were roughly a third shorter and the panel outran its own reader: the
+ * sentences under the track run to about twenty words, which is five or six
+ * seconds for somebody reading casually rather than studying, and the beat
+ * changed before they got to the end of it. A hero nobody can finish reading
+ * is decoration.
+ *
+ * The first beat is only the question, so it can stay short. The three that
+ * carry an explanation get the time that explanation takes.
+ */
+const BEATS = [2000, 4200, 4200, 5000] as const;
 
 /** The rank track runs 1st to 1000th on a log scale. Everything measured
  *  fits inside it, and the decade ticks are what make 811th legible as a
@@ -294,7 +305,18 @@ export function HeroReel() {
       </div>
 
       <div className="p-5 md:p-6">
-        {/* The sentence, with the blank that everything else is about. */}
+        {/*
+          The sentence, with the blank that everything else is about.
+
+          The word in the blank is LABELLED, and that label is not decoration.
+          For two of the four beats this panel prints a sentence that is
+          plainly false — "Penicillin was discovered by Alexander K" — because
+          that is what the model actually says, and the point of the panel is
+          that it says it confidently. The explanation underneath makes that
+          clear to anybody who reads it, and the people this site is for scan.
+          Without a tag on the word itself, the site looks like it is asserting
+          nonsense; with one, the same frame reads as evidence.
+        */}
         <p className="prose-measure mb-1 min-h-[4.5rem] text-[1.0625rem] leading-relaxed sm:text-[1.125rem]">
           <span className="text-ink-soft">{round.question} </span>
           <span className="relative inline-block align-baseline">
@@ -310,8 +332,51 @@ export function HeroReel() {
                 {inBlank}
               </motion.span>
             </AnimatePresence>
+
           </span>
         </p>
+
+        {/*
+          The verdict, in a word, in bold.
+
+          It sat on the blank itself, which read beautifully until the blank
+          fell near the end of a line and the chip ran straight off the plate.
+          Under the sentence it is always inside the panel and still lands on
+          the same beat as the word it is judging.
+
+          It has to say WRONG. Two of these four beats print a sentence that is
+          plainly false — "Penicillin was discovered by Alexander K" — because
+          that is what the model actually says. The explanation underneath is
+          clear to anyone who reads it and the people this site is for scan.
+        */}
+        <div className="mb-1 min-h-[1.75rem]">
+          <AnimatePresence mode="wait" initial={false}>
+            {/* Only where a verdict is the news. Beat two is about WHERE the
+                true answer ranked, and the line under the track already says
+                so; stamping "right" on it there was answering a question
+                nobody had asked. */}
+            {beat === 1 || beat === 3 ? (
+              <motion.span
+                key={`${round.id}-${beat}-tag`}
+                className={`data inline-block rounded-[2px] border px-2 py-0.5 text-[0.6875rem] font-bold ${
+                  beat === 3 || knew
+                    ? "border-teal-text/40 bg-teal-wash text-teal-text"
+                    : "border-pink-text/40 bg-pink-wash text-pink-text"
+                }`}
+                initial={still ? false : { opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={still ? undefined : { opacity: 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                {beat === 3
+                  ? "RIGHT — once it was given the source"
+                  : knew
+                    ? "RIGHT — and it got there on its own"
+                    : "WRONG — this is the model's guess"}
+              </motion.span>
+            ) : null}
+          </AnimatePresence>
+        </div>
 
         {/* The rank track. One marker, one track, the whole way through. */}
         <div className="mt-5 mb-4">

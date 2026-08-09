@@ -353,10 +353,7 @@ export default function TokensLesson() {
             is a different input.
           </p>
         </MechanismPanel>
-        <Fold
-          title="Watch somebody explain it"
-          note="Tokens, from the people who build them."
-        >
+        <Fold title="Watch somebody explain it" note={video.why}>
           <VideoPanel video={video} />
         </Fold>
         <Fold

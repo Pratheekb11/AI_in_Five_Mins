@@ -72,7 +72,12 @@ function CtaButton({
 
   if (onAdvance)
     return (
-      <button type="button" onClick={onAdvance} className={className}>
+      <button
+        type="button"
+        onClick={onAdvance}
+        data-stage-next=""
+        className={className}
+      >
         {children}
       </button>
     );

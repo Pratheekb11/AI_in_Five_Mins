@@ -248,10 +248,7 @@ export default function WhatAnLlmIsLesson() {
             add.
           </p>
         </MechanismPanel>
-        <Fold
-          title="Watch somebody explain it"
-          note="IBM, on why a fluent answer and a true one are different things."
-        >
+        <Fold title="Watch somebody explain it" note={video.why}>
           <VideoPanel video={video} />
         </Fold>
         <Fold

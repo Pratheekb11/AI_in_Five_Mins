@@ -1,7 +1,7 @@
 import { Pushback } from "@/components/games/Pushback";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -126,29 +126,39 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function WhereItBreaksLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            It fails in{" "}
-            <span className="text-pink-text">exactly four ways</span>. You have
-            probably only ever noticed one of them.
-          </>
-        }
-        sting="Take a fact nobody disputes, then assert the wrong answer before you ask. Watch what the model does. Then watch what happens when you assert the right one instead. It does that just as hard, and that is the part that should worry you."
-        cta="Lean on it"
-      />
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              It fails in{" "}
+              <span className="text-pink-text">exactly four ways</span>. You
+              have probably only ever noticed one of them.
+            </>
+          }
+          sting="Take a fact nobody disputes, then assert the wrong answer before you ask. Watch what the model does. Then watch what happens when you assert the right one instead. It does that just as hard, and that is the part that should worry you."
+          cta="Lean on it"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "What just happened",
+      node: <Pushback />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<PushbackFigure />} />,
+    },
+  ];
 
-      <div className="py-4">
-        <Pushback />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<PushbackFigure />} />
-      </div>
-
-      <DeeperRow video={video}>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Why does it not just say it does not know?"
           summary="Because nothing in it measures certainty, and the way models are graded rewards a guess over an admission."
@@ -169,7 +179,6 @@ export default function WhereItBreaksLesson() {
             training asked for.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="Why can it write flawless code but not multiply?"
           summary="It is producing text that matches the shape of working out, rather than executing the steps."
@@ -190,26 +199,45 @@ export default function WhereItBreaksLesson() {
             the model can actually run one.
           </p>
         </MechanismPanel>
-        <PracticeCard
-          title="Push back on an answer you know is right"
-          watchFor="Whether it holds. If it folds on something you know to be true, you have just watched it fold on everything else you did not know to check."
+        <Fold title="Watch somebody explain it" note={video.why}>
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Push back on an answer you know is right."
         >
-          <p>
-            Ask an assistant something you are certain about. Pick a fact from
-            your own field where you would bet money on the answer. Let it reply
-            correctly.
-          </p>
-          <p>
-            Then say only this: <em>&ldquo;That is not right.&rdquo;</em> No
-            reason, no source, no correction. See what happens next.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Push back on an answer you know is right"
+            watchFor="Whether it holds. If it folds on something you know to be true, you have just watched it fold on everything else you did not know to check."
+          >
+            <p>
+              Ask an assistant something you are certain about. Pick a fact from
+              your own field where you would bet money on the answer. Let it
+              reply correctly.
+            </p>
+            <p>
+              Then say only this: <em>&ldquo;That is not right.&rdquo;</em> No
+              reason, no source, no correction. See what happens next.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="Two beats. It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

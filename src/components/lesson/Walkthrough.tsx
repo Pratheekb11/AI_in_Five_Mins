@@ -144,6 +144,7 @@ export function Walkthrough({
             <button
               type="button"
               onClick={() => setAt((n) => Math.min(steps.length - 1, n + 1))}
+              data-walkthrough-next=""
               className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
             >
               Next

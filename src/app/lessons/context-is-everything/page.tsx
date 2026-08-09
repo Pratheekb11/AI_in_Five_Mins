@@ -1,7 +1,7 @@
 import { ContextBudget } from "@/components/games/ContextBudget";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -120,31 +120,39 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function ContextIsEverythingLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            It does not remember your conversation. It{" "}
-            <span className="text-teal-text">re-reads all of it</span>, from the
-            top, every single time.
-          </>
-        }
-        sting="So what is in front of it is the whole job. You get five slots and a pile of cards: the document, the chit-chat, the decoy, the helpful-looking example. Then a real model is run on exactly what you built. One of those cards drops the right answer from 89.9% to 3.8%, and it is not the one you would guess."
-        cta="Open the window"
-      />
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              It does not remember your conversation. It{" "}
+              <span className="text-teal-text">re-reads all of it</span>, from
+              the top, every single time.
+            </>
+          }
+          sting="So what is in front of it is the whole job. You get five slots and a pile of cards: the document, the chit-chat, the decoy, the helpful-looking example. Then a real model is run on exactly what you built. One of those cards drops the right answer from 89.9% to 3.8%, and it is not the one you would guess."
+          cta="Open the window"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "What just happened",
+      node: <ContextBudget />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<ContextWindowFigure />} />,
+    },
+  ];
 
-      <div className="py-4">
-        <ContextBudget />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<ContextWindowFigure />} />
-      </div>
-
-      {/* Both panels land after the window has already cost the player
-          something they needed. The question they are asking now is "why". */}
-      <DeeperRow video={video}>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="A fixed length of what, exactly?"
           summary="Not words, and not characters. The window is counted in tokens, which are the chunks a model actually reads."
@@ -165,7 +173,6 @@ export default function ContextIsEverythingLesson() {
             same window as the conversation, and it competes for the same room.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="If it is all still in there, why does it miss things?"
           summary="Being inside the window is not the same as being used. Position within it measurably changes the odds."
@@ -186,27 +193,46 @@ export default function ContextIsEverythingLesson() {
             machine. You are moving that paragraph out of the middle.
           </p>
         </MechanismPanel>
-        <PracticeCard
-          title="Make it drop something"
-          watchFor="That it never says 'I have lost that'. It either answers from what is left, or it fills the gap with something plausible. The silence is the whole problem. You have to notice the loss yourself."
+        <Fold title="Watch somebody explain it" note={video.why}>
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Make it drop something, in a chat you already have."
         >
-          <p>
-            Open a long chat you already have, one that has run for dozens of
-            messages. Near the top, find a specific instruction or detail you
-            gave it early on. Now ask about that exact detail without repeating
-            it.
-          </p>
-          <p>
-            Then start a fresh chat, paste in four lines summarising what
-            matters, and ask the same question. Compare the two answers.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Make it drop something"
+            watchFor="That it never says 'I have lost that'. It either answers from what is left, or it fills the gap with something plausible. The silence is the whole problem. You have to notice the loss yourself."
+          >
+            <p>
+              Open a long chat you already have, one that has run for dozens of
+              messages. Near the top, find a specific instruction or detail you
+              gave it early on. Now ask about that exact detail without
+              repeating it.
+            </p>
+            <p>
+              Then start a fresh chat, paste in four lines summarising what
+              matters, and ask the same question. Compare the two answers.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="Two beats. It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

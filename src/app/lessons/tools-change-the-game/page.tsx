@@ -1,7 +1,7 @@
 import { ProvenanceDetective } from "@/components/games/ProvenanceDetective";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -121,28 +121,38 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function ToolsChangeTheGameLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            Four completely different things can happen behind one reply.{" "}
-            <span className="text-blue-text">All four look the same.</span>
-          </>
-        }
-        sting="It looked it up. It ran code. It opened your file. Or it just wrote something. The confidence, the tone and the formatting are identical in every case. So knowing which one you asked for is the whole of knowing how far to trust the answer."
-        cta="Open the case"
-      />
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              Four completely different things can happen behind one reply.{" "}
+              <span className="text-blue-text">All four look the same.</span>
+            </>
+          }
+          sting="It looked it up. It ran code. It opened your file. Or it just wrote something. The confidence, the tone and the formatting are identical in every case. So knowing which one you asked for is the whole of knowing how far to trust the answer."
+          cta="Open the case"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "What just happened",
+      node: <ProvenanceDetective />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<ProvenanceFigure />} />,
+    },
+  ];
 
-      <div className="py-4">
-        <ProvenanceDetective />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<ProvenanceFigure />} />
-      </div>
-
-      <DeeperRow video={video}>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="How does a text predictor 'run' anything?"
           summary="It does not. It writes out a request to call a tool, and a program around it does the running."
@@ -170,7 +180,6 @@ export default function ToolsChangeTheGameLesson() {
             spends the space you had.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="If it searched, is the answer safe?"
           summary="Safer, and not safe. Retrieval fixes staleness. It does not fix summarising."
@@ -191,26 +200,45 @@ export default function ToolsChangeTheGameLesson() {
             failure that survives every other precaution.
           </p>
         </MechanismPanel>
-        <PracticeCard
-          title="Ask the same question twice"
-          watchFor="How similar the two answers look. The guessed one is not vaguer or more hesitant. That is the whole problem. Then open the link on the searched one and check it says what the answer claims."
+        <Fold title="Watch somebody explain it" note={video.why}>
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Ask the same question twice, one with a tool."
         >
-          <p>
-            Pick something that has changed recently in your field: a price, a
-            version number, a rule. Ask an assistant with search turned off, and
-            keep the answer.
-          </p>
-          <p>
-            Now ask the same question with search on, and ask it to name its
-            source.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Ask the same question twice"
+            watchFor="How similar the two answers look. The guessed one is not vaguer or more hesitant. That is the whole problem. Then open the link on the searched one and check it says what the answer claims."
+          >
+            <p>
+              Pick something that has changed recently in your field: a price, a
+              version number, a rule. Ask an assistant with search turned off,
+              and keep the answer.
+            </p>
+            <p>
+              Now ask the same question with search on, and ask it to name its
+              source.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="Two beats. It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

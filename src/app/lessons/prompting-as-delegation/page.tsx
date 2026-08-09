@@ -1,7 +1,7 @@
 import { ShowDontAsk } from "@/components/games/ShowDontAsk";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
+import { VideoPanel } from "@/components/lesson/VideoPanel";
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -117,28 +117,53 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function PromptingAsDelegationLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            Most of what you type into it{" "}
-            <span className="text-yellow-text">does no work at all</span>.
-          </>
-        }
-        sting="Not the bit you would guess, either. Across fourteen goals, telling it how to answer moved the odds by 1.65 times. Telling it that it is an expert moved them by 1.02, which is to say not at all. Showing it one worked example moved them by 125, and won every single goal. Five phrasings of the same request, and you pick the one that lands."
-        cta="Take the first one"
-      />
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              Most of what you type into it{" "}
+              <span className="text-yellow-text">does no work at all</span>.
+            </>
+          }
+          sting="Not the bit you would guess, either. Across fourteen goals, telling it how to answer moved the odds by 1.65 times. Telling it that it is an expert moved them by 1.02, which is to say not at all. Showing it one worked example moved them by 125, and won every single goal. Five phrasings of the same request, and you pick the one that lands."
+          cta="Take the first one"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "What just happened",
+      node: <ShowDontAsk />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<PhrasingFigure />} />,
+    },
+    {
+      id: "your-own",
+      cta: "That is the chapter",
+      node: (
+        <>
+          <h2 className="display-lg mb-2">Now check one of your own</h2>
+          <p className="prose-measure text-ink-soft mb-5">
+            Paste in a prompt you have really sent. This is a keyword check, not
+            comprehension. It shows you what it matched on, so that you can
+            overrule it. Judging the evidence yourself is the point.
+          </p>
+          <PromptInspector />
+        </>
+      ),
+    },
+  ];
 
-      <div className="py-4">
-        <ShowDontAsk />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<PhrasingFigure />} />
-      </div>
-
-      <DeeperRow video={video}>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Does the politeness actually cost me anything?"
           summary="It costs tokens and instructs nobody. That is the honest answer. The game charges you for it so that you have to read it."
@@ -161,7 +186,6 @@ export default function PromptingAsDelegationLesson() {
             never notice that they never said how long the answer should be.
           </p>
         </MechanismPanel>
-
         <MechanismPanel
           question="Why does an example beat describing what I want?"
           summary="The model is continuing a pattern it can see. An example is the pattern; an adjective is a hope."
@@ -181,36 +205,45 @@ export default function PromptingAsDelegationLesson() {
             A paragraph you actually approved of does not.
           </p>
         </MechanismPanel>
-        <PracticeCard
-          title="Send the bad one first, on purpose"
-          watchFor="How much of the gap between the two answers came from adding an example, rather than from adding more description. That ratio surprises most people."
+        <Fold title="Watch somebody explain it" note={video.why}>
+          <VideoPanel video={video} />
+        </Fold>
+        <Fold
+          title="Go and try this on a real assistant"
+          note="Send the bad one first, on purpose."
         >
-          <p>
-            Take a real task from this week. Ask for it in one lazy line, the
-            way you normally would, and keep the answer.
-          </p>
-          <p>
-            Now, in a fresh chat, write the same request as a brief: role, goal,
-            constraints, format, and one example of good. Put the two answers
-            side by side.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <section className="pb-4">
-        <h2 className="display-lg mb-2">Now check one of your own</h2>
-        <p className="prose-measure text-ink-soft mb-5">
-          Paste in a prompt you have really sent. This is a keyword check, not
-          comprehension. It shows you what it matched on, so that you can
-          overrule it. Judging the evidence yourself is the point.
-        </p>
-        <PromptInspector />
-      </section>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Send the bad one first, on purpose"
+            watchFor="How much of the gap between the two answers came from adding an example, rather than from adding more description. That ratio surprises most people."
+          >
+            <p>
+              Take a real task from this week. Ask for it in one lazy line, the
+              way you normally would, and keep the answer.
+            </p>
+            <p>
+              Now, in a fresh chat, write the same request as a brief: role,
+              goal, constraints, format, and one example of good. Put the two
+              answers side by side.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="Two beats. It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

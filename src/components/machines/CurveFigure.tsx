@@ -7,24 +7,6 @@ import type { Curve, CurveData } from "@/lib/game/curve";
 
 /**
  * Four learning curves on one axis, arriving one at a time, and crossing.
- *
- * The axis never changes and no curve is ever removed, which is what makes the
- * crossing readable: the model that starts worst finishes best, and you can see
- * the exact amount of data at which that stops being a trade and starts being
- * obvious.
- *
- * The flat line is the argument in one stroke. A hand-written rule ignores the
- * training data entirely, so its curve is a horizontal line, and every learned
- * model spends the first few hundred examples climbing towards it. Below that
- * crossing, learning from data is worse than not bothering.
- *
- * Stages:
- *   0  the rule that ignores the data
- *   1  a small tree, learning
- *   2  twelve features, learned
- *   3  every word, learned, which starts worst
- *   4  where the curves cross
- *   5  what ten times the data is worth, at each point
  */
 
 const W = 640;

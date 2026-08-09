@@ -7,28 +7,6 @@ import type { LogisticData, Snapshot } from "@/lib/game/logistic";
 
 /**
  * Every message as a point, and one line swinging into place among them.
- *
- * Two features means the entire model fits on a plane, which is the only reason
- * this module exists at this point in the track: a bag of words does better and
- * cannot be drawn, and a reader who has never seen a decision boundary move has
- * to take the whole subject on trust.
- *
- * The line is not an illustration. Its position at each step is the real
- * weights, saved every seventeen steps of the real gradient descent, so what
- * the reader watches is the training run that produced the number underneath.
- *
- * The last stage is the other half of the idea. A line alone gives a yes or a
- * no; logistic regression turns distance from the line into a probability, and
- * the sigmoid is drawn with the held-out messages laid along it so the shape is
- * populated rather than decorative.
- *
- * Stages:
- *   0  every message, as a point
- *   1  a line, before it has learned anything
- *   2  part way through training
- *   3  where it settles
- *   4  distance from the line becomes a probability
- *   5  scrub through the training run
  */
 
 const W = 620;

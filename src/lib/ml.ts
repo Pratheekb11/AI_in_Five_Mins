@@ -40,11 +40,6 @@ export function gradient(points: Point[], slope: number): number {
 
 /**
  * One step downhill.
- *
- * The learning rate has to be small because the inputs are character counts in
- * the hundreds, so the gradient is large; too big a step overshoots the bottom
- * and the error climbs instead. That failure is worth showing, so the rate is a
- * parameter rather than a constant.
  */
 export function gradientStep(
   points: Point[],

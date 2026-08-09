@@ -13,10 +13,6 @@ import { SortBeatView } from "./SortBeatView";
 /**
  * The check at the end of a module: two or three beats, at most one of them
  * multiple choice.
- *
- * Score is the mean of the beats rather than a count of questions, so a sort of
- * six items and a single choice count the same. Progress is recorded once every
- * beat has been settled, and only ever improves on itself.
  */
 export function Check({ slug, beats }: { slug: string; beats: CheckBeat[] }) {
   const { recordScore, scoreFor } = useProgress();
@@ -31,20 +27,6 @@ export function Check({ slug, beats }: { slug: string; beats: CheckBeat[] }) {
 
   /**
    * Settles one beat, and records the module once every beat has landed.
-   *
-   * The bookkeeping lives in refs rather than in the rendered state, for two
-   * separate reasons that both bite.
-   *
-   * The recording cannot happen inside a state updater: an updater has to be
-   * pure, React is free to run it during a render, and `recordScore` writes to
-   * the progress store, which updates the header pill. Doing it there meant
-   * updating one component while rendering another, which React reports as an
-   * error.
-   *
-   * And it cannot depend on the state read during render either. Two beats can
-   * settle before React has re-rendered, and then both handlers see the same
-   * array, both believe they completed the set, and the module is recorded and
-   * reported twice. The refs are the single copy that is always current.
    */
   const landed = useRef<(number | null)[]>(beats.map(() => null));
   const reported = useRef(false);

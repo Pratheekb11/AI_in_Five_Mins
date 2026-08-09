@@ -2,11 +2,6 @@ import type { ReactNode } from "react";
 
 /**
  * Something to go and do with a real AI tool, away from this site.
- *
- * The practical track only works if the ideas get tested against a real
- * assistant. These are written as a single concrete instruction rather than a
- * suggestion, because "try experimenting with prompts" is advice nobody has
- * ever acted on.
  */
 export function PracticeCard({
   title,

@@ -9,33 +9,6 @@ import type { LogitData } from "@/lib/logits";
 
 /**
  * Three faults everybody names separately, on one instrument.
- *
- * The chapter's claim is that making things up, sounding certain and carrying
- * prejudice are not three bugs. They are one fact about how the thing was made,
- * seen from three angles. An argument like that is easy to assert and hard to
- * believe, so the figure does it structurally: the same two-pan comparison
- * stays on screen the whole way through and only its contents change.
- *
- * Fabrication is measured in probability, certainty in bits, inherited
- * association in cosine. Three different units, one instrument, and the reader
- * watches the same needle answer all three. If they were separate faults they
- * would not fit in the same box.
- *
- * The last specimen is the one that stops this being a lecture. Secretary
- * leans the other way, because half the corpus is newswire and in newswire a
- * secretary is a Secretary of State. The measurement is of a particular pile of
- * text, and anybody who says these systems are biased full stop, without
- * saying what they were fitted on, is not measuring anything.
- *
- * Every value is computed here from the same two files the game uses.
- *
- * Stages:
- *   0  the three names
- *   1  making things up
- *   2  sounding certain
- *   3  carrying an association
- *   4  the same measurement, pointing the other way
- *   5  what that means
  */
 
 const NAMES = [

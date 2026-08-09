@@ -21,11 +21,6 @@ import {
 
 /**
  * The Failure bench.
- *
- * The point of most of these is not the reducer at all, it is that every
- * specimen on the bench still measures the way the page says it does. If a
- * data file is regenerated and a specimen stops tipping, or starts tipping the
- * other way, the run fails here rather than quietly teaching something untrue.
  */
 
 const LOGITS: LogitData = JSON.parse(

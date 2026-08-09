@@ -4,11 +4,6 @@ import { useSyncExternalStore } from "react";
 
 /**
  * The learner's name, asked for exactly once, when there is finally a reason.
- *
- * Nothing on this site needs to know who anybody is, so nothing asks until
- * somebody wants their name printed on something. It stays in this browser: it
- * is never sent anywhere, never attached to a telemetry event, and it goes
- * when they press Reset.
  */
 
 const KEY = "llai-name";

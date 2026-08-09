@@ -11,23 +11,6 @@ import {
 
 /**
  * One word looking back at the others.
- *
- * The module already had a heat map of all seventy-two heads, which is the
- * right thing to have and the wrong thing to meet first: a grid of grey squares
- * is not an idea, it is a result. This figure is the idea. A single word, a
- * single head, and arcs reaching back to the words it draws from, thick where
- * it takes a lot, thin where it takes little.
- *
- * The beats are ordered so that each one answers the question the last one
- * raises. Why can it only reach backwards? Because of the mask. How much is "a
- * lot"? Because the weights are a share of one. Why is the first token always
- * fat? Because of a known artefact with a name, which is also the moment to say
- * that a heat map is not a mind.
- *
- * The head shown by default is not chosen for looking good. It is the head that
- * sends the largest share of this word's attention somewhere other than the
- * first token or the word immediately before it, computed here, from the real
- * weights, and named on screen so it can be checked.
  */
 
 const BEAT_MS = 2600;
@@ -48,11 +31,6 @@ type Pick = { layer: number; head: number; score: number };
 /**
  * The head that most strongly connects this word to something that is neither
  * the sentence's first token nor its own immediate neighbour.
- *
- * Both exclusions are mechanical rather than aesthetic. Position zero attracts
- * weight in nearly every head for reasons unrelated to meaning, and the
- * previous token is the trivially available one, a head attending to either
- * tells you nothing about whether attention resolves anything.
  */
 function pickHead(sentence: AttentionSentence, query: number): Pick {
   let best: Pick = { layer: 0, head: 0, score: -1 };
@@ -124,11 +102,6 @@ export function AttentionBeams({ driven }: { driven?: number }) {
 
   /**
    * What the first token takes, averaged over every head, for this same word.
-   *
-   * Needed because the head on show is by construction the one that attends
-   * *away* from the sink, so quoting its own first-token share would make the
-   * sink look like nothing. The claim is about the population of heads, so the
-   * number has to be about the population too.
    */
   const sinkAverage = useMemo(() => {
     if (!sentence) return 0;
@@ -161,11 +134,6 @@ export function AttentionBeams({ driven }: { driven?: number }) {
 
   /**
    * The frame is sized to its contents rather than fixed.
-   *
-   * A constant height left a third of the box empty above short arcs and clipped
-   * both the tallest arc and the percentage under the heaviest bar on long ones.
-   * The tallest arc is the one spanning the most tokens, so that span sets the
-   * headroom and everything else follows from it.
    */
   const arcLift = (from: number, to: number) =>
     Math.max(40, Math.abs(from - to) * 0.45);
@@ -179,13 +147,6 @@ export function AttentionBeams({ driven }: { driven?: number }) {
 
   /*
     The frame only reserves room for what is on it.
-
-    Sized for the finished picture from the first beat, this opened on a
-    sentence with three hundred empty pixels above it and a hundred below,
-    which is most of a screen of nothing at the exact moment somebody is
-    deciding whether to keep reading. The arcs claim their headroom when they
-    are drawn, the bars claim theirs when they are drawn, and the frame grows
-    into them.
   */
   const arcRoom = beat >= 2 ? maxLift : 26;
   const barRoom = beat >= 3 ? BAR_GAP + BAR_MAX + LABEL_ROOM : BAR_GAP + 18;

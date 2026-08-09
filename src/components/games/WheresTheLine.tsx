@@ -21,16 +21,6 @@ import {
 
 /**
  * Where's the Line. Same model, same messages, five places to draw it.
- *
- * The scenario comes first and the numbers come after, which is the order the
- * decision is actually made in and the opposite of the order it is usually
- * presented in. Nobody is asked to pick a threshold in the abstract; they are
- * asked how much a wrongly blocked message costs compared with one that slips
- * through, and the threshold falls out of that.
- *
- * The reveal charges them in the scenario's own units against the cheapest
- * choice available, so being close is worth something and being catastrophic is
- * not. Every count is measured on the 1,115 held-out messages.
  */
 
 let cached: Promise<ThresholdData> | null = null;

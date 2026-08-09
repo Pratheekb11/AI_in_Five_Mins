@@ -1,16 +1,5 @@
 /**
  * The rules of Read the Score, as pure functions.
- *
- * A real held-out message, its two features, and one question: what does the
- * model think the chances are? Not spam or not spam, a number.
- *
- * The bands are wide on purpose. Nobody can name a probability to the decimal
- * from two features, and asking them to would be a game about arithmetic. What
- * a person can learn to do, and what this drills, is to look at a message and
- * say whether the model will be nearly sure, roughly torn, or nearly sure the
- * other way. That is the skill that stops somebody reading a 55% as a verdict.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */

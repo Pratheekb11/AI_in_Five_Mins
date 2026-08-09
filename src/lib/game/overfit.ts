@@ -1,23 +1,5 @@
 /**
  * The rules of Pick the Model, as pure functions.
- *
- * Six rounds, one question each: given these examples and nothing else, which
- * of these curves would you ship? The curves are real least-squares fits to the
- * examples on screen, and the answer is whichever one does best on everything
- * that was held back.
- *
- * What changes between rounds is not the data but how much of it there is. With
- * eight sentences even a cubic is nonsense. With a hundred and ten it costs
- * almost nothing. Nobody who has only ever seen the textbook picture expects
- * the answer to depend on the sample size, and it is the most useful thing on
- * the page.
- *
- * Scoring is by how much worse than the best available choice you did, not by
- * matching an exact degree, because at a hundred and ten examples two of the
- * choices are within a hair of each other and pretending otherwise would be
- * teaching false precision.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */

@@ -3,17 +3,6 @@ import type { Lesson } from "./lessons";
 
 /**
  * The tags that decide what a shared link looks like.
- *
- * Next inherits `title` and `description` down the tree but does NOT merge
- * `openGraph` into a child that declares its own metadata, so every lesson
- * page was shipping a title, a description and no card at all: no image, no
- * og:title, nothing. A chapter posted anywhere previewed as a bare blue link
- * while the home page previewed properly, which is exactly backwards, because
- * the thing people share is the chapter that surprised them.
- *
- * So every page builds its tags through here. One card image for the whole
- * site — twenty-five drawn cards would be twenty-five things to keep true —
- * and the per-page title and standfirst carry the difference.
  */
 
 const SITE = "AIinFive";

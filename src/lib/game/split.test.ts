@@ -16,12 +16,6 @@ import {
 
 /**
  * The Holdout.
- *
- * The data assertions matter more than the reducer ones here. The whole
- * chapter rests on two models scoring a perfect hundred in training and then
- * behaving differently outside it, and on a third being honest and bad. If a
- * rebuild changes any of that, the page starts teaching something untrue and
- * this should be what notices.
  */
 
 const data: SplitData = JSON.parse(

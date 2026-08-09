@@ -7,39 +7,6 @@ import type { Feature, FeatureData } from "@/lib/game/features";
 
 /**
  * One pile of messages, cut in two, over and over by different questions.
- *
- * The messages are drawn as individual dots and the dots are the object. They
- * arrive as one mixed block and then fly into two piles, and when the question
- * changes they fly again. Nothing is redrawn between steps: every dot keeps its
- * identity through a shared layout animation, so the reader watches the same
- * messages regroup rather than watching one chart replace another. A good
- * feature is the one that leaves each landing pile visibly one colour, and
- * that is a thing you can see happen rather than a number you are told.
- *
- * Two bars would have carried the same information. They would not have
- * carried the sorting, which is the actual idea: a feature is a question that
- * moves messages into piles, and the piles are either purer than what you
- * started with or they are not.
- *
- * SAMPLING, and why it is honest. There are 4,459 training messages and the
- * figure draws 220 dots, so each dot stands for about twenty messages. The
- * counts under each pile are the real ones; only the dots are scaled, the
- * caption says so, and the proportions are rounded from the measured counts
- * rather than invented.
- *
- * The order of the cuts breaks the intuition in sequence: the sharpest feature
- * first so the reader knows what clean looks like, then the word everybody
- * would have picked, which is not clean at all, then a question about nothing
- * but length that beats it anyway, then one that works by pointing the other
- * way.
- *
- * Stages:
- *   0  the pile, uncut
- *   1  the sharpest question in the set
- *   2  the one everybody reaches for first
- *   3  a question about nothing but length
- *   4  a feature that works by pointing the other way
- *   5  every candidate, cut the pile with any of them
  */
 
 const CUTS: Record<number, string> = {
@@ -60,10 +27,6 @@ type Piles = { yes: Dot[]; no: Dot[]; all: Dot[] };
 /**
  * Builds the dots once and then decides, for a given cut, which pile each one
  * lands in.
- *
- * Spam dots are handed out from the front of the list and ordinary ones from
- * the back, so a dot never changes colour, only position. That is what makes
- * the flight legible: you can follow one dot across a cut.
  */
 function pilesFor(data: FeatureData, cut: Feature | undefined): Piles {
   const { corpus } = data;

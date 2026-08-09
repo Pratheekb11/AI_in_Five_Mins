@@ -7,28 +7,6 @@ import { type Candidate, type OverfitData, predict } from "@/lib/game/overfit";
 
 /**
  * One curve, bending further and further, over the same thirty sentences.
- *
- * The curve is the object. It arrives as a straight line and then acquires
- * bends, and because the dots never move you can watch it reach for each one in
- * turn. By the last step it is passing through nearly all of them and is
- * obviously nonsense between them, which is the entire idea of overfitting and
- * takes no explaining once you have seen it happen.
- *
- * The held-out sentences arrive late and deliberately. Until they do, the
- * wiggliest curve looks like the best one, because on the evidence available it
- * is the best one. That is not a stupid mistake anybody makes out of
- * carelessness; it is the correct conclusion from the wrong evidence.
- *
- * The last stage draws both error curves against degree, which is the U every
- * textbook prints. It lands differently after watching where the U came from.
- *
- * Stages:
- *   0  thirty real sentences
- *   1  a straight line
- *   2  bend it a little
- *   3  bend it until it goes through everything
- *   4  the sentences it never saw
- *   5  the U, and any degree you like
  */
 
 const STAGE_DEGREE: Record<number, number> = {
@@ -102,11 +80,6 @@ export function OverfitFigure() {
   const x = (chars: number) => PAD + (chars / maxChars) * (W - PAD * 2);
   /**
    * Deliberately not clamped.
-   *
-   * A degree eleven fit predicts 343 tokens for a 250 character sentence, and
-   * clamping that to the top of the plot draws a tidy line that never leaves
-   * the box. The whole point is that it leaves the box, so the value is mapped
-   * honestly and the viewBox does the clipping.
    */
   const y = (tokens: number) => H - PAD - (tokens / maxTokens) * (H - PAD * 2);
 

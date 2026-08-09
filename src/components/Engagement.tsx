@@ -5,21 +5,6 @@ import { trackTimeOnPage } from "@/lib/telemetry";
 
 /**
  * How long a page actually held somebody, and how far down they got.
- *
- * Time on page is usually measured as the gap between two page views, which
- * counts a tab left open over lunch as an hour of rapt attention and counts
- * the last page of a visit as zero. Neither is useful for deciding whether a
- * chapter is working.
- *
- * So this counts only the time the tab was visible, pausing when the reader
- * switches away and resuming when they come back, and reports once on the way
- * out. It also reports the furthest section they reached, because five minutes
- * spent above the game means something quite different from five minutes that
- * ended at the check.
- *
- * The report goes out on `pagehide` rather than `beforeunload`: mobile Safari
- * frequently never fires the latter, which is exactly where a bounce is most
- * likely. `visibilitychange` covers the case of a tab closed while hidden.
  */
 
 /** Sections, in the order a reader meets them, matched on the page's own DOM. */

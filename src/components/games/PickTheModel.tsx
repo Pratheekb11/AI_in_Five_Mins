@@ -21,15 +21,6 @@ import {
 
 /**
  * Pick the Model. Four curves, real fits, and no test scores until you commit.
- *
- * Every curve on screen is a least-squares fit to the dots beside it, drawn
- * from its own coefficients. The training error is printed, because that is
- * what you would have in front of you in real life, and it points the wrong way
- * on purpose: the wiggliest curve always has the lowest one.
- *
- * The rounds differ only in how many sentences the fits were given. That is the
- * variable that actually decides the answer, and watching it change the answer
- * is the point of playing more than one round.
  */
 
 let cached: Promise<OverfitData> | null = null;

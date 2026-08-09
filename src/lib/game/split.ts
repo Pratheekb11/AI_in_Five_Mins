@@ -1,20 +1,5 @@
 /**
  * The rules of The Holdout, as pure functions.
- *
- * Two models, both scored on the messages they were trained on, and both
- * scores on screen. One question: which of them does better on messages
- * neither has ever seen?
- *
- * The training score is the only thing you are given, which is the situation
- * anybody reporting a model's accuracy is quietly putting you in. Sometimes it
- * points the right way. On the two models that score a perfect hundred it
- * points exactly the wrong way, because a hundred per cent on your own
- * training set is what memorising looks like, not what learning looks like.
- *
- * Calling those right is worth extra, since going against the number in front
- * of you is the entire skill.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */

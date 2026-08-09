@@ -20,15 +20,6 @@ import {
 /**
  * One Fold or Ten. The evidence you are usually given, and the answer you
  * usually want.
- *
- * Each round shows two models and one held-out slice, which is exactly what a
- * report contains. The player picks the better model. Then all ten slices
- * arrive and settle it.
- *
- * Roughly half the rounds are drawn from folds that point the wrong way, and
- * the module says so rather than letting anybody conclude that single splits
- * are usually wrong. They are usually right. The trouble is that you cannot
- * tell which kind you are holding.
  */
 
 let cached: Promise<CrossvalData> | null = null;

@@ -14,11 +14,6 @@ import {
 
 /**
  * Odd One In.
- *
- * Most of these guard the file rather than the reducer. A clustering that
- * stopped converging, or one whose game rounds no longer match its own
- * assignments, would leave a page that looks fine and asserts things that are
- * not true of the data it ships.
  */
 
 const data: ClusterData = JSON.parse(

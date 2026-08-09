@@ -7,25 +7,6 @@ import type { Forest, ForestData } from "@/lib/game/forest";
 
 /**
  * Sixty trees as sixty dots, and the line their vote draws through them.
- *
- * The dots are each tree's own accuracy on the held-out messages, and they are
- * the object: they arrive at step one and stay put for the rest of the figure.
- * Everything after that is drawn against them, which is what makes the last
- * step land, because the vote's line ends up to the right of every dot it was
- * made from.
- *
- * The final step swaps in the forest with no randomness in it. Its sixty dots
- * sit on top of each other and its line goes nowhere, which is the condition
- * stated as plainly as it can be: voting buys you the cancelling of independent
- * mistakes, and identical models have no independent mistakes to cancel.
- *
- * Stages:
- *   0  one tree
- *   1  sixty of them, each on its own sample
- *   2  one message, and how they voted on it
- *   3  the vote's accuracy as trees are added
- *   4  the same picture with no disagreement in it
- *   5  all four forests
  */
 
 const W = 640;
@@ -33,11 +14,6 @@ const PAD = 34;
 
 /**
  * The plot is only as tall as it needs to be.
- *
- * Dots stack seven deep, so sixty of them need the full height and one needs
- * almost none. Keeping the box at its full size for the first step left a
- * hand's width of blank paper above a single dot, which reads as something
- * having failed to load.
  */
 function heightFor(dots: number): number {
   return 52 + Math.min(7, Math.ceil(dots / 9)) * 12;

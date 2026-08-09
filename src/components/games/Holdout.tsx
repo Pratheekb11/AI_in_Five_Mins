@@ -19,15 +19,6 @@ import {
 
 /**
  * The Holdout. Two models, two training scores, one question.
- *
- * You are shown exactly what a report shows you: what each model scored on the
- * data it was built from. Then you have to say which one will do better on
- * messages neither has ever seen, which is the only thing anybody actually
- * wants to know.
- *
- * The rounds where the training score points the wrong way are the ones worth
- * playing for, and they are not rigged. A lookup table of every training
- * message really does score a hundred per cent, and really does collapse.
  */
 
 let cached: Promise<SplitData> | null = null;

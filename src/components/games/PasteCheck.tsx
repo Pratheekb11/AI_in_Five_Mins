@@ -26,14 +26,6 @@ import {
 
 /**
  * Would you paste it?
- *
- * One item at a time, no clock. The old version gave people forty-five seconds
- * to decide whether a document could leave their organisation, which trains
- * exactly the reflex you do not want.
- *
- * The scoring is asymmetric on purpose and says so: sending something further
- * out than it should go is the expensive mistake, and holding back something
- * that was fine costs you the tool rather than the data.
  */
 
 export function PasteCheck() {

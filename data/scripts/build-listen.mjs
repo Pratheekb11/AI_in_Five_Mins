@@ -217,6 +217,39 @@ const main = async () => {
     dtype: "fp32",
   });
 
+  /**
+   * What the model actually says next, in words rather than one token.
+   *
+   * A single argmax token is unreadable on plenty of answers, and a
+   * probability is not something anybody feels. Greedy, so this file rebuilds
+   * identically; it stops at a line break or the end of a clause, because
+   * anything past that is the model going for a walk.
+   */
+  const saysOf = async (context) => {
+    let said = "";
+    let running = context;
+
+    for (let step = 0; step < 6; step++) {
+      const output = await model(await tokenizer(running));
+      const [, rows, vocab] = output.logits.dims;
+      const flat = output.logits.data;
+      const last = Array.from(flat.slice((rows - 1) * vocab, rows * vocab));
+
+      let bestId = 0;
+      for (let id = 1; id < last.length; id++) {
+        if (last[id] > last[bestId]) bestId = id;
+      }
+
+      const piece = tokenizer.decode([bestId]);
+      if (piece.includes("\n")) break;
+      said += piece;
+      running += piece;
+      if (/[.!?,;:]/.test(piece)) break;
+    }
+
+    return said.trim();
+  };
+
   const idsOf = async (text) =>
     Array.from((await tokenizer(text)).input_ids.data ?? []).map(Number);
 
@@ -259,8 +292,11 @@ const main = async () => {
     const variants = [];
     for (const variant of item.variants) {
       const result = await score(variant.prompt, item.target);
+      const says = await saysOf(variant.prompt);
       variants.push({
         ...variant,
+        /* The words it produces, which is what the game shows. */
+        says,
         probability: Number(result.probability.toFixed(8)),
         rank: result.rank,
         topText: result.topText,

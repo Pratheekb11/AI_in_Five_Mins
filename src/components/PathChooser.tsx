@@ -6,20 +6,6 @@ import { useState } from "react";
 
 /**
  * The fork in the road, said once, near the top.
- *
- * There are two entirely different reasons to be here. Most people want to
- * know what the thing on their desk is doing while it answers them. Some
- * people want to build one. Those are different undertakings, different
- * lengths, and different certificates at the end, and until this section
- * existed the second one sat at the very bottom of the page under a one-line
- * eyebrow, which is where things go to be missed.
- *
- * The drawing above the two plates is the whole idea in one object: one road
- * out of where you are standing, splitting, with a tick on it for every module
- * on that path. Nothing about it is decorative — the ticks are counted from
- * the syllabus, so the longer road is longer on screen because it has more
- * stops on it. Hovering or focusing a plate raises its road and dims the other,
- * so the choice you are about to make is drawn before you make it.
  */
 
 export type PathSummary = {
@@ -42,11 +28,6 @@ export type PathSummary = {
 
 /**
  * The third thing, which is not a path.
- *
- * The rabbit hole is optional depth reachable from inside either path, and a
- * page that drew two roads and named two paths implied it did not exist. It
- * is not a third card, because presenting it as a third route to choose
- * between is exactly the mistake — it is a rung between the two.
  */
 export type PathAside = {
   title: string;
@@ -70,12 +51,6 @@ const INK = {
 
 /*
   The drawing, twice.
-
-  One set of numbers stretched to any width does not work here: at 800 by 150
-  the whole thing is five times wider than it is tall, and on a phone that
-  scales the twelve-pixel labels down to five. The shape is right and the
-  proportions are not, so there are two layouts and CSS picks one. Both are
-  the same picture and the same code — only the box changes.
 */
 type Layout = {
   width: number;

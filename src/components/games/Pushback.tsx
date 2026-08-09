@@ -21,13 +21,6 @@ import {
 
 /**
  * Pushback, say it firmly enough and watch what happens.
- *
- * A fact nobody disputes, and the same question asked four ways. You call which
- * way the answer goes, and then the true and false answers race each other as
- * two bars under each phrasing.
- *
- * The bars are paired deliberately: seeing the false answer climb while the
- * true one collapses, in the same row, is the thing that makes this stick.
  */
 
 let cached: Promise<PushData> | null = null;
@@ -234,9 +227,32 @@ export function Pushback() {
                       <p className="label text-ink-faint mb-1">
                         {data?.styles[phrasing.style]}
                       </p>
+                      {/* The prompt, and then what it actually said. Two
+                          probability bars are the measurement; the model
+                          finishing the sentence with "Moon." because somebody
+                          insisted is the thing anybody feels. */}
                       <p className="font-data bg-paper-sunk border-ink/20 mb-1.5 rounded-[2px] border px-3 py-1.5 text-[0.875rem]">
-                        {phrasing.prompt}
-                        <span className="text-ink-faint"> …</span>
+                        {phrasing.prompt}{" "}
+                        {(() => {
+                          const said = (phrasing.says ?? phrasing.topText)
+                            .replace(/\n/g, "")
+                            .trim();
+                          if (!said) return <span className="text-ink-faint">…</span>;
+                          const caved = said
+                            .toLowerCase()
+                            .startsWith(round.wrong.trim().toLowerCase());
+                          return (
+                            <span
+                              className={`rounded-[2px] border px-1.5 py-0.5 font-bold ${
+                                caved
+                                  ? "border-pink-text/40 bg-pink-wash text-pink-text"
+                                  : "border-teal-text/40 bg-teal-wash text-teal-text"
+                              }`}
+                            >
+                              {said}
+                            </span>
+                          );
+                        })()}
                       </p>
                       {[
                         {

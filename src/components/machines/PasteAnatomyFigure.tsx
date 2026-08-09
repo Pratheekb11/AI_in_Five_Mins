@@ -5,28 +5,6 @@ import { useWalkthroughStep } from "@/components/lesson/Walkthrough";
 
 /**
  * One thing you were about to paste, taken apart in place.
- *
- * The message never gets retyped below itself. The identifying pieces are
- * marked where they sit, then swapped for placeholders where they sit, and the
- * request underneath stays exactly as it was. That is the argument in one
- * move: the parts you gave away were not the parts you needed. Printing a
- * cleaned copy underneath would let a reader agree with the idea without ever
- * checking it against the original.
- *
- * Then two lines arrive that stripping does not help with, because the reader
- * who has just watched redaction work will otherwise learn that redaction
- * always works. A diagnosis and a live key are not identifiers attached to
- * content. They are the content.
- *
- * The example is written for this figure, like the deck in the game above it.
- * It is nobody's real complaint, and no real key.
- *
- * Stages:
- *   0  what you were about to paste
- *   1  what in it belongs to somebody else
- *   2  the same paste with those parts gone, and the same question
- *   3  the two kinds that stripping does not fix
- *   4  the rule that is left when the message goes
  */
 
 type Piece = {

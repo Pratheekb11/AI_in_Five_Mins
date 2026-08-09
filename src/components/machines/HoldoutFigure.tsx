@@ -7,30 +7,6 @@ import type { SplitData, SplitModel } from "@/lib/game/split";
 
 /**
  * The split, done to the messages rather than described.
- *
- * One block of dots arrives, a wall comes down between them, and four in every
- * five fly to the left of it. The ones on the right are never shown to
- * anything: they sit there, untouched, until a model has finished learning and
- * has to answer them cold. Watching the dots actually move across the wall is
- * the difference between knowing the definition of a test set and understanding
- * why it has to exist.
- *
- * Then a model is put in the left room and both rooms are marked. Pink is a
- * message it got wrong. The memoriser leaves the left room completely clean and
- * the right room speckled, and no explanation of overfitting lands as hard as
- * seeing those two rooms side by side.
- *
- * SAMPLING. There are 5,574 messages and 220 dots, so one dot is about
- * twenty-five messages. Every percentage and every count is the real measured
- * one; only the dots are scaled, and the caption says so.
- *
- * Stages:
- *   0  all of it, in one heap
- *   1  the wall, and four fifths going left
- *   2  a model that memorises
- *   3  a model that learned something
- *   4  a model that was not shown enough
- *   5  any of the ten
  */
 
 const DOTS = 220;

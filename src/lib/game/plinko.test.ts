@@ -20,11 +20,6 @@ import {
 
 /**
  * The rules of Plinko.
- *
- * Two fixtures. The real `logits.json` is used for anything about shape and
- * invariants, because that is what actually ships. A tiny synthetic prompt with
- * round logits is used where the test needs an arithmetic result that can be
- * worked out by hand, it is a test fixture and never reaches a page.
  */
 
 const REAL: LogitData = JSON.parse(

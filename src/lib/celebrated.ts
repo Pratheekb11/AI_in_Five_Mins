@@ -4,17 +4,6 @@ import { useSyncExternalStore } from "react";
 
 /**
  * Which finishes have already been made a fuss of.
- *
- * Finishing a track is the one moment on this site worth interrupting somebody
- * for, and it is also a moment that must happen exactly once. Without a record
- * of it, the celebration would fire again on every lesson page of a track that
- * was already finished, which turns the best moment on the site into the most
- * annoying one.
- *
- * A track that has been finished but never acknowledged stays unacknowledged:
- * closing the tab is not a dismissal. It is only written when the reader does
- * something with it, so the confetti waits for them rather than being spent on
- * an empty room.
  */
 
 const KEY = "llai-celebrated";

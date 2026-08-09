@@ -19,20 +19,6 @@ import { type LogitData, loadLogits } from "@/lib/logits";
 
 /**
  * Plinko, you do not choose the word, you choose the odds.
- *
- * Each round names a token the model might produce next and gives you one
- * control: the temperature dial. Drop a ball and the slot it lands in is drawn
- * from the model's real distribution, reshaped by whatever you set the dial to.
- *
- * The teaching is in the frustration. To land the top token reliably you turn
- * the dial down and the machine becomes boringly predictable. To have any hope
- * of the fifth-ranked token you turn it up, and now nothing is reliable at all.
- * That trade is the entire meaning of the setting, and no diagram lands it the
- * way losing four balls in a row does.
- *
- * All the rules live in `@/lib/game/plinko`. Every draw is made here, in an
- * event, and handed to the reducer as a number, so the state updater stays
- * pure and a burst of clicks cannot outrun the ball count.
  */
 
 export function Plinko() {

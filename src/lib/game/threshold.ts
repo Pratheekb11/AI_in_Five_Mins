@@ -1,17 +1,5 @@
 /**
  * The rules of Where's the Line, as pure functions.
- *
- * A classifier does not classify. It produces a number, and somebody chooses
- * the point at which that number becomes a decision. The game hands the
- * learner that choice, five times, under five different sets of consequences,
- * and then charges them for it in the units the scenario cares about.
- *
- * The cost of every choice is real: the counts come from the same 1,115
- * held-out messages, and the best achievable cost is found by evaluating every
- * threshold on the swept curve rather than by argument. Scoring against that
- * best is what stops the game being about guessing a number.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */
@@ -141,12 +129,6 @@ export function dialCosts(
 
 /**
  * Score for a choice, judged against the other four.
- *
- * Deliberately not judged against the cheapest point on the whole swept curve.
- * The player is offered five places to stand, and marking them against a
- * threshold they were never offered would be scoring them for not having a
- * slider. The curve's own optimum is still shown in the reveal, as the thing
- * a real team could have tuned their way to.
  */
 export function pointsFor(
   data: ThresholdData,

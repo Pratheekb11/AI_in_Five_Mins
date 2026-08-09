@@ -20,16 +20,6 @@ import {
 
 /**
  * Buy the Upgrade. Ten times the data, or the best other model?
- *
- * The argument this game settles is one every team has had, and it is usually
- * settled by whoever speaks with most confidence. Here it is settled by the
- * corpus: both options were run, at four different amounts of starting data,
- * and both answers are measurements on the same held-out messages.
- *
- * The answer flips. At twenty examples the data is worth thirteen points and
- * the model almost as much; at two thousand the data is worth a sixth of a
- * point. Where you are on the curve decides it, which means the question is
- * never which is better in general.
  */
 
 let cached: Promise<CurveData> | null = null;

@@ -11,27 +11,6 @@ import { useEffect, useState } from "react";
 
 /**
  * The landing page's hook: the site's whole argument, running by itself.
- *
- * What stood here before was a four-button quiz, which asked a stranger to
- * commit to an answer before they had been given any reason to care. The claim
- * this site makes does not need their click to be shown. It needs one sentence,
- * one word, and one number.
- *
- * So this plays. A real question goes in, the model's own likeliest next word
- * lands in the blank, and then the true answer turns up somewhere down the
- * rankings: 811th for photosynthesis, 426th for gravity. Same model, same
- * question, with the source in front of it: first choice, 98.6%. That is the
- * distance between sounding right and being right, and it is a distance you can
- * watch rather than be told about.
- *
- * Every number is read straight out of `provenance.json`, the same measurement
- * chapter six is built on. Nothing here is staged and nothing is rounded in the
- * model's favour.
- *
- * ONE OBJECT THAT MORPHS, not a slideshow. The blank in the sentence is the
- * same element throughout: it holds a question mark, then the model's guess,
- * then the answer. The rank marker is one marker sliding on one track. Because
- * they persist, the only thing there is to notice is what moved.
  */
 
 type Measured = {
@@ -57,15 +36,6 @@ type ProvenanceData = {
 
 /**
  * ask, guess, rank, source. How long each holds, in milliseconds.
- *
- * These were roughly a third shorter and the panel outran its own reader: the
- * sentences under the track run to about twenty words, which is five or six
- * seconds for somebody reading casually rather than studying, and the beat
- * changed before they got to the end of it. A hero nobody can finish reading
- * is decoration.
- *
- * The first beat is only the question, so it can stay short. The three that
- * carry an explanation get the time that explanation takes.
  */
 const BEATS = [2000, 4200, 4200, 5000] as const;
 
@@ -150,11 +120,6 @@ function percent(p: number): string {
 
 /**
  * The reel, dealt fresh on every visit.
- *
- * Three questions the model misses and one it genuinely knows, in that order,
- * because a page that only ever showed it failing would be making the opposite
- * mistake to the one it is complaining about. Which bucket a question is in was
- * decided by the measurement, not chosen.
  */
 function deal(rounds: Round[]): Round[] {
   /* Fisher-Yates rather than a random sort comparator: the comparator
@@ -216,14 +181,6 @@ export function HeroReel() {
 
   /*
     One spring drives the whole instrument.
-
-    The marker's position, the length of the trail behind it, which gridlines
-    have lit, and the number counting up in the corner are all read off this
-    single value, because they are all the same fact: how far down its own
-    ranking the true answer was. Deriving the number from the position rather
-    than animating them separately means they cannot disagree even for a
-    frame, and the arithmetic is exact — `trackPosition` is a log and this is
-    its inverse, so the count lands on the measured rank rather than near it.
   */
   const travelled = useSpring(0, {
     stiffness: 64,
@@ -307,15 +264,6 @@ export function HeroReel() {
       <div className="p-5 md:p-6">
         {/*
           The sentence, with the blank that everything else is about.
-
-          The word in the blank is LABELLED, and that label is not decoration.
-          For two of the four beats this panel prints a sentence that is
-          plainly false — "Penicillin was discovered by Alexander K" — because
-          that is what the model actually says, and the point of the panel is
-          that it says it confidently. The explanation underneath makes that
-          clear to anybody who reads it, and the people this site is for scan.
-          Without a tag on the word itself, the site looks like it is asserting
-          nonsense; with one, the same frame reads as evidence.
         */}
         <p className="prose-measure mb-1 min-h-[4.5rem] text-[1.0625rem] leading-relaxed sm:text-[1.125rem]">
           <span className="text-ink-soft">{round.question} </span>
@@ -338,16 +286,6 @@ export function HeroReel() {
 
         {/*
           The verdict, in a word, in bold.
-
-          It sat on the blank itself, which read beautifully until the blank
-          fell near the end of a line and the chip ran straight off the plate.
-          Under the sentence it is always inside the panel and still lands on
-          the same beat as the word it is judging.
-
-          It has to say WRONG. Two of these four beats print a sentence that is
-          plainly false — "Penicillin was discovered by Alexander K" — because
-          that is what the model actually says. The explanation underneath is
-          clear to anyone who reads it and the people this site is for scan.
         */}
         <div className="mb-1 min-h-[1.75rem]">
           <AnimatePresence mode="wait" initial={false}>
@@ -397,19 +335,6 @@ export function HeroReel() {
 
           {/*
             The rail runs the width of the plate, first rank to thousandth.
-
-            It was inset by 28 pixels at both ends so that a centred "1000th"
-            could not fall outside the border. That fixed the label and broke
-            the thing the label is describing: the scale visibly stopped short
-            of its own box at both ends, and a marker sitting on rank one had
-            a gap to the left of it, which is the one place a rank scale must
-            not have a gap.
-
-            So the rail is full width and the two end labels stop being
-            centred instead — first hangs right, last hangs left, and the
-            decades in between stay centred on their own lines. The two pixels
-            of inset that remain are the marker's own half-width, so its head
-            never pokes out through the border.
           */}
           <div className="border-ink/25 bg-paper-sunk relative h-9 rounded-[2px] border">
             <div className="absolute inset-y-0 right-[7px] left-[7px]">

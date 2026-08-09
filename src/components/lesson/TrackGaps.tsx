@@ -8,23 +8,6 @@ import { useProgress } from "@/lib/progress";
 
 /**
  * The modules you went past.
- *
- * People do not read a syllabus in order. They arrive on chapter four from a
- * link, finish it, and never find out that chapters two and three exist — and
- * the certificate at the end then looks locked for no visible reason. This
- * says which ones are open and how long they take, at the moment somebody has
- * just finished something and is deciding what to do next.
- *
- * It is a nudge and not a scold, so it is careful about when it appears:
- *
- *   - never before the reader has finished something in this track, because a
- *     list of everything you have not done is not a welcome
- *   - never on a module they have not finished, because the thing to do next
- *     is the page they are on
- *   - never for the optional track, where skipping is the design
- *
- * At most three are named. A list of ten unfinished things is a wall, and the
- * count carries the rest.
  */
 export function TrackGaps({ lesson }: { lesson: Lesson }) {
   const { progress, isComplete } = useProgress();

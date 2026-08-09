@@ -6,15 +6,6 @@ import type { Progress } from "./progress";
 /**
  * The thing you get for finishing a track, drawn on a canvas so it can leave
  * the site as a file.
- *
- * There is no server, no account and no signed record, so this is not a
- * credential and does not pretend to be one. It says what the learner did, it
- * carries their own name because they typed it, and it is dated. Anything
- * more official would be a lie told in a nice typeface.
- *
- * Drawn rather than screenshotted because a screenshot of a web page is at the
- * mercy of the reader's theme, fonts and window size, and this has to be the
- * same object for everybody who shares one.
  */
 
 export type CertificateSpec = {
@@ -275,14 +266,6 @@ export type CertificateArt = {
  */
 /**
  * Paints the whole certificate into a canvas that is already the right size.
- *
- * The type is MEASURED BEFORE IT IS DRAWN and the whole stack is scaled to
- * fit. Sizes written as fractions of the width looked right in the square and
- * ran the closing line straight through the footer in the wide one, because a
- * wide plate is the one with less height, not more. Here the blocks are built
- * first, their total is compared with the space between the eyebrow and the
- * footer rule, and everything shrinks by whatever it takes. A name that is
- * three words long changes the layout rather than breaking it.
  */
 export function drawCertificate(
   canvas: HTMLCanvasElement,

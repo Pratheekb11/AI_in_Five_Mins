@@ -17,11 +17,6 @@ import {
 
 /**
  * Where's the Line.
- *
- * The data assertions here guard the chapter's spine: that moving one number
- * trades recall for precision, that accuracy hides it, and that the cheapest
- * threshold really does move when the costs do. If a rebuild flattens any of
- * that, the page is teaching something it can no longer show.
  */
 
 const data: ThresholdData = JSON.parse(

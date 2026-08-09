@@ -11,12 +11,6 @@ import {
 
 /**
  * A map of 1,851 words, and a search that ignores it.
- *
- * The dots are a two-dimensional projection of fifty-dimensional vectors, so
- * the map is a shadow: words that look adjacent on screen are often unrelated,
- * and true neighbours are often flung apart. That gap is the lesson, not a
- * defect to hide, so the neighbour list is computed in all fifty dimensions
- * and shown next to the map that disagrees with it.
  */
 
 const GROUP_INK: Record<string, string> = {

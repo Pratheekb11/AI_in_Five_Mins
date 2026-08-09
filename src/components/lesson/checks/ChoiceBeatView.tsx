@@ -5,11 +5,6 @@ import { dealBy, type ChoiceBeat } from "@/lib/check";
 
 /**
  * The one multiple-choice question a check is still allowed.
- *
- * Options are dealt rather than shown as authored, because the answers had
- * drifted into a pattern nobody intended, 44 of 49 questions across the site
- * had the correct option second and not one had it first, which is a quiz you
- * can score full marks on without reading the questions.
  */
 export function ChoiceBeatView({
   beat,

@@ -6,14 +6,6 @@ import { Nimo } from "./Nimo";
 
 /**
  * Nimo with something to say.
- *
- * The guide voice across the site: a small otter and a printed speech plate. Used
- * beside walkthroughs, on loading states, and wherever a page would otherwise
- * be a blank rectangle waiting for data.
- *
- * The tail on the plate is drawn as a rotated square rather than a border
- * triangle so it inherits both the fill and the outline, and stays correct on
- * either plate.
  */
 export function NimoSays({
   children,

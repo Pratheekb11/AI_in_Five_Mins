@@ -1,14 +1,5 @@
 /**
  * Videos offered alongside the lessons.
- *
- * Every entry here was checked against YouTube's oEmbed endpoint, so the id
- * resolves, the channel is who it claims to be, and embedding is permitted.
- * Nothing is listed from memory, a wrong id is a broken lesson, and a
- * misattributed one is worse.
- *
- * Runtimes are deliberately absent. They are not returned by oEmbed, and
- * printing a length nobody measured would be exactly the kind of invented
- * detail the rest of this project refuses.
  */
 
 export type Video = {

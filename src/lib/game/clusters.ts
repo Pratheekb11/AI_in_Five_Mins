@@ -1,16 +1,5 @@
 /**
  * The rules of Odd One In, as pure functions.
- *
- * Six words that the algorithm put in one group, and four candidates. Which of
- * the four did it also put there?
- *
- * Nobody told it what any of these words mean. The groups fell out of counting
- * which words appear near which other words, so a player who gets this right is
- * reading a pattern in the geometry rather than recalling a category anybody
- * defined. Some rounds are obvious, because some clusters really are months or
- * colours. Some are not, and those are the honest ones.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */

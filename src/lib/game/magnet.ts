@@ -1,15 +1,5 @@
 /**
  * The rules of Magnet, as pure functions.
- *
- * A field of words drifts in a box. The player steers a magnet carrying one
- * word; every other word is pushed or pulled by a force proportional to its
- * real cosine similarity to that word, measured across all fifty dimensions of
- * the GloVe vectors. Nothing here knows about embeddings, the component hands
- * in a `Round` with the similarities already measured, and this file only turns
- * them into motion.
- *
- * Every frame produces a new scene. The bodies are copied before they are
- * moved, so nothing the caller passed in is ever mutated.
  */
 
 import type { Chip } from "@/components/game/assets";

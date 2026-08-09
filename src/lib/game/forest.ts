@@ -1,16 +1,5 @@
 /**
  * The rules of Worth the Crowd, as pure functions.
- *
- * Four forests, all grown on the same messages, differing only in how much the
- * trees inside them disagree. For each one: here is what an average single tree
- * scores. What does the vote of sixty of them score?
- *
- * The answer is not always more. One of the four is built without any
- * randomness at all, so its sixty trees are the same tree sixty times, and its
- * vote is worth exactly one tree. That forest is the control, and calling it
- * right is the point of the game: a crowd only helps if it disagrees.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */

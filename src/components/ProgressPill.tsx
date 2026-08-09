@@ -5,18 +5,6 @@ import { useProgress } from "@/lib/progress";
 
 /**
  * Where the learner is, in the masthead, on every page.
- *
- * Fifteen chapters was too many to render as countable ticks, and a row of
- * forty-five screen ticks would be worse. So this is the usual three numbers
- * instead: the level you are on, how far into it you are, and how many days in
- * a row you have finished something.
- *
- * The bar fills within the current level rather than across the whole site, so
- * it moves visibly after a single chapter instead of creeping a fifteenth at a
- * time.
- *
- * It renders nothing until there is something to show. An empty progress bar on
- * a first visit is a demand, not an encouragement.
  */
 export function ProgressPill() {
   const { totals } = useProgress();

@@ -1,16 +1,5 @@
 /**
  * The rules of Grow the Tree, as pure functions.
- *
- * A pile of messages, five questions you could ask about them, and one choice:
- * which question next? That is the whole of how a decision tree is built, and
- * it is the first module of this track applied over and over, because the
- * measure it is scored on is the same one: bits of uncertainty removed.
- *
- * Only nodes where the choice is genuinely open are dealt. If the best question
- * is worth four times the next best, there is nothing to think about and
- * nothing to learn from being right.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */

@@ -49,6 +49,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "What is the capital of France?",
+          "says": "",
           "probability": 0.00198387,
           "rank": 55,
           "topText": "\n"
@@ -57,6 +58,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Please answer in one word. What is the capital of France?",
+          "says": "",
           "probability": 0.00240232,
           "rank": 44,
           "topText": "\n"
@@ -65,6 +67,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are a helpful geography expert. What is the capital of France?",
+          "says": "",
           "probability": 0.00181819,
           "rank": 52,
           "topText": "\n"
@@ -73,6 +76,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "Q: What is the capital of Japan?\nA: Tokyo\nQ: What is the capital of France?\nA:",
+          "says": "France",
           "probability": 0.07724798,
           "rank": 1,
           "topText": " France"
@@ -81,6 +85,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "The capital of France is",
+          "says": "the capital of the French Republic",
           "probability": 0.0027634,
           "rank": 36,
           "topText": " the"
@@ -98,6 +103,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "How do you say cat in French?",
+          "says": "",
           "probability": 0.00000392,
           "rank": 4713,
           "topText": "\n"
@@ -106,6 +112,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Translate accurately and give only the word. How do you say cat in French?",
+          "says": "",
           "probability": 0.00000295,
           "rank": 6127,
           "topText": "\n"
@@ -114,6 +121,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are a professional French translator. How do you say cat in French?",
+          "says": "",
           "probability": 0.00000309,
           "rank": 4504,
           "topText": "\n"
@@ -122,6 +130,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "English: dog\nFrench: chien\nEnglish: cat\nFrench:",
+          "says": "cat",
           "probability": 0.00015834,
           "rank": 660,
           "topText": " cat"
@@ -130,6 +139,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "The French word for cat is",
+          "says": "cat,",
           "probability": 0.00000725,
           "rank": 5946,
           "topText": " cat"
@@ -147,6 +157,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "What is the opposite of hot?",
+          "says": "",
           "probability": 0.00006613,
           "rank": 760,
           "topText": "\n"
@@ -155,6 +166,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Reply with a single word and no explanation. What is the opposite of hot?",
+          "says": "",
           "probability": 0.0001093,
           "rank": 504,
           "topText": "\n"
@@ -163,6 +175,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are an expert lexicographer. What is the opposite of hot?",
+          "says": "",
           "probability": 0.00002381,
           "rank": 1625,
           "topText": "\n"
@@ -171,6 +184,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "Opposite of up: down\nOpposite of big: small\nOpposite of hot:",
+          "says": "small",
           "probability": 0.0176459,
           "rank": 6,
           "topText": " small"
@@ -179,6 +193,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "The opposite of hot is",
+          "says": "the fact that the sun is",
           "probability": 0.0082968,
           "rank": 13,
           "topText": " the"
@@ -196,6 +211,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "What is the plural of mouse?",
+          "says": "",
           "probability": 0.0000601,
           "rank": 828,
           "topText": "\n"
@@ -204,6 +220,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Answer with just the plural form, nothing else. What is the plural of mouse?",
+          "says": "",
           "probability": 0.00003995,
           "rank": 989,
           "topText": "\n"
@@ -212,6 +229,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are an English grammar teacher. What is the plural of mouse?",
+          "says": "",
           "probability": 0.00009924,
           "rank": 507,
           "topText": "\n"
@@ -220,6 +238,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "Singular: goose\nPlural: geese\nSingular: mouse\nPlural:",
+          "says": "geese",
           "probability": 0.00016755,
           "rank": 767,
           "topText": " ge"
@@ -228,6 +247,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "The plural of mouse is",
+          "says": "the mouse�s name.",
           "probability": 0.00021394,
           "rank": 453,
           "topText": " the"
@@ -245,6 +265,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "What colour is the sky?",
+          "says": "",
           "probability": 0.00037709,
           "rank": 177,
           "topText": "\n"
@@ -253,6 +274,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Answer in exactly one word. What colour is the sky?",
+          "says": "",
           "probability": 0.0001373,
           "rank": 369,
           "topText": "\n"
@@ -261,6 +283,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are a careful scientist. What colour is the sky?",
+          "says": "What colour is the moon?",
           "probability": 0.00015073,
           "rank": 342,
           "topText": " What"
@@ -269,6 +292,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "Q: What colour is grass?\nA: green\nQ: What colour is the sky?\nA:",
+          "says": "green",
           "probability": 0.21186426,
           "rank": 1,
           "topText": " green"
@@ -277,6 +301,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "The colour of the sky is",
+          "says": "the same as the colour of",
           "probability": 0.00324145,
           "rank": 45,
           "topText": " the"
@@ -294,6 +319,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "How many legs does a spider have?",
+          "says": "",
           "probability": 0.00000303,
           "rank": 5867,
           "topText": "\n"
@@ -302,6 +328,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Answer with the number word only. How many legs does a spider have?",
+          "says": "",
           "probability": 0.00002496,
           "rank": 1591,
           "topText": "\n"
@@ -310,6 +337,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are a biologist. How many legs does a spider have?",
+          "says": "How many legs does a spider",
           "probability": 0.00001345,
           "rank": 1877,
           "topText": " How"
@@ -318,6 +346,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "Q: How many legs does a dog have?\nA: four\nQ: How many legs does a spider have?\nA:",
+          "says": "five",
           "probability": 0.04465858,
           "rank": 6,
           "topText": " five"
@@ -326,6 +355,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "A spider has",
+          "says": "been found in a cave in",
           "probability": 0.00027474,
           "rank": 234,
           "topText": " been"
@@ -343,6 +373,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "What is the capital of Japan?",
+          "says": "",
           "probability": 0.00135443,
           "rank": 69,
           "topText": "\n"
@@ -351,6 +382,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Answer with the city name only. What is the capital of Japan?",
+          "says": "",
           "probability": 0.007998,
           "rank": 15,
           "topText": "\n"
@@ -359,6 +391,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are an expert geographer. What is the capital of Japan?",
+          "says": "",
           "probability": 0.0020882,
           "rank": 49,
           "topText": "\n"
@@ -367,6 +400,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "Q: What is the capital of France?\nA: Paris\nQ: What is the capital of Japan?\nA:",
+          "says": "Japan",
           "probability": 0.10101087,
           "rank": 1,
           "topText": " Japan"
@@ -375,6 +409,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "The capital of Japan is",
+          "says": "the capital of the world�",
           "probability": 0.01699715,
           "rank": 8,
           "topText": " the"
@@ -392,6 +427,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "What is the past tense of go?",
+          "says": "",
           "probability": 0.00000847,
           "rank": 3321,
           "topText": "\n"
@@ -400,6 +436,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Give only the single word. What is the past tense of go?",
+          "says": "",
           "probability": 0.00000795,
           "rank": 3219,
           "topText": "\n"
@@ -408,6 +445,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are an English grammar expert. What is the past tense of go?",
+          "says": "",
           "probability": 0.00000678,
           "rank": 3021,
           "topText": "\n"
@@ -416,6 +454,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "Present: run\nPast: ran\nPresent: go\nPast:",
+          "says": "run",
           "probability": 0.000486,
           "rank": 51,
           "topText": " run"
@@ -424,6 +463,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "The past tense of go is",
+          "says": "a time when the world is",
           "probability": 0.00000388,
           "rank": 5641,
           "topText": " a"
@@ -441,6 +481,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "What do you call a young dog?",
+          "says": "",
           "probability": 0.00000179,
           "rank": 7150,
           "topText": "\n"
@@ -449,6 +490,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "One word answer please. What do you call a young dog?",
+          "says": "",
           "probability": 0.00001113,
           "rank": 2659,
           "topText": "\n"
@@ -457,6 +499,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are a veterinary expert. What do you call a young dog?",
+          "says": "",
           "probability": 0.00000182,
           "rank": 5968,
           "topText": "\n"
@@ -465,6 +508,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "Young cat: kitten\nYoung cow: calf\nYoung dog:",
+          "says": "calf",
           "probability": 0.01910408,
           "rank": 6,
           "topText": " calf"
@@ -473,6 +517,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "A young dog is called a",
+          "says": "\"bitch\" and is",
           "probability": 0.00247672,
           "rank": 24,
           "topText": " \""
@@ -490,6 +535,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "What is the currency of Japan?",
+          "says": "",
           "probability": 0.00007004,
           "rank": 641,
           "topText": "\n"
@@ -498,6 +544,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Name the currency only, no sentence. What is the currency of Japan?",
+          "says": "",
           "probability": 0.00035584,
           "rank": 229,
           "topText": "\n"
@@ -506,6 +553,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are a foreign exchange specialist. What is the currency of Japan?",
+          "says": "",
           "probability": 0.00014146,
           "rank": 340,
           "topText": "\n"
@@ -514,6 +562,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "Country: France\nCurrency: euro\nCountry: Japan\nCurrency:",
+          "says": "euro",
           "probability": 0.08216683,
           "rank": 1,
           "topText": " euro"
@@ -522,6 +571,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "The currency of Japan is the",
+          "says": "currency of the United States.",
           "probability": 0.02858018,
           "rank": 5,
           "topText": " currency"
@@ -539,6 +589,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "What sound does a cow make?",
+          "says": "",
           "probability": 4.1e-7,
           "rank": 541,
           "topText": "\n"
@@ -547,6 +598,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Answer with the sound only. What sound does a cow make?",
+          "says": "",
           "probability": 7.3e-7,
           "rank": 372,
           "topText": "\n"
@@ -555,6 +607,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are a farm animal expert. What sound does a cow make?",
+          "says": "",
           "probability": 3.2e-7,
           "rank": 1019,
           "topText": "\n"
@@ -563,6 +616,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "Dog: woof\nCat: meow\nCow:",
+          "says": "meow",
           "probability": 0.00051611,
           "rank": 5,
           "topText": " me"
@@ -571,6 +625,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "A cow says",
+          "says": "she was raped by a man",
           "probability": 6.3e-7,
           "rank": 246,
           "topText": " she"
@@ -588,6 +643,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "Which season comes after summer?",
+          "says": "",
           "probability": 1.2e-7,
           "rank": 16590,
           "topText": "\n"
@@ -596,6 +652,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "One word only. Which season comes after summer?",
+          "says": "",
           "probability": 1.5e-7,
           "rank": 15834,
           "topText": "\n"
@@ -604,6 +661,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are a climate scientist. Which season comes after summer?",
+          "says": "",
           "probability": 0.00000102,
           "rank": 9147,
           "topText": "\n"
@@ -612,6 +670,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "After winter: spring\nAfter spring: summer\nAfter summer:",
+          "says": "spring",
           "probability": 0.08297987,
           "rank": 3,
           "topText": " spring"
@@ -620,6 +679,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "The season after summer is",
+          "says": "over.",
           "probability": 0.00001023,
           "rank": 2137,
           "topText": " over"
@@ -637,6 +697,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "What is the comparative form of good?",
+          "says": "",
           "probability": 0.00001007,
           "rank": 2896,
           "topText": "\n"
@@ -645,6 +706,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Reply with the single word. What is the comparative form of good?",
+          "says": "",
           "probability": 0.00001169,
           "rank": 2593,
           "topText": "\n"
@@ -653,6 +715,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are a linguistics professor. What is the comparative form of good?",
+          "says": "",
           "probability": 0.00000262,
           "rank": 4739,
           "topText": "\n"
@@ -661,6 +724,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "big: bigger\nfast: faster\ngood:",
+          "says": "faster",
           "probability": 0.05144208,
           "rank": 2,
           "topText": " faster"
@@ -669,6 +733,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "The comparative of good is",
+          "says": "not a good thing,",
           "probability": 0.00271567,
           "rank": 52,
           "topText": " not"
@@ -686,6 +751,7 @@
           "id": "bare",
           "style": "bare",
           "prompt": "How many wheels does a bicycle have?",
+          "says": "",
           "probability": 0.00002308,
           "rank": 1423,
           "topText": "\n"
@@ -694,6 +760,7 @@
           "id": "polite",
           "style": "request",
           "prompt": "Answer with the number word only. How many wheels does a bicycle have?",
+          "says": "",
           "probability": 0.00015531,
           "rank": 408,
           "topText": "\n"
@@ -702,6 +769,7 @@
           "id": "role",
           "style": "role",
           "prompt": "You are a cycling expert. How many wheels does a bicycle have?",
+          "says": "",
           "probability": 0.00005116,
           "rank": 788,
           "topText": "\n"
@@ -710,6 +778,7 @@
           "id": "qa",
           "style": "pattern",
           "prompt": "Q: How many wheels does a car have?\nA: four\nQ: How many wheels does a bicycle have?\nA:",
+          "says": "five",
           "probability": 0.0433504,
           "rank": 5,
           "topText": " five"
@@ -718,6 +787,7 @@
           "id": "colon",
           "style": "pattern",
           "prompt": "A bicycle has",
+          "says": "been stolen from a home in",
           "probability": 0.00381488,
           "rank": 23,
           "topText": " been"

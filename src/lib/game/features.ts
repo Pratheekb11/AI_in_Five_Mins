@@ -1,22 +1,5 @@
 /**
  * The rules of The Feature Bench, as pure functions.
- *
- * Two candidate features, one question: which of these tells you more about
- * whether a message is spam? Commit, then the corpus answers.
- *
- * "Tells you more" is not a matter of taste here. It is information gain, in
- * bits, measured on the 4,459 training messages: how much of the uncertainty
- * about the label disappears once you know the answer to that one yes-or-no
- * question. A feature that fires on everything tells you nothing, and so does
- * one that fires on nothing.
- *
- * The pairs are dealt from the pool rather than scripted, so the round is
- * different every time, and the interesting ones are interesting because of
- * what the data says and not because they were arranged. "Uses the word free"
- * loses to "longer than 120 characters", which is the sort of result that only
- * lands if the learner has already put money on the answer.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */

@@ -11,22 +11,6 @@ import { useProgress } from "@/lib/progress";
 
 /**
  * The one moment on this site worth interrupting somebody for.
- *
- * Finishing a whole track used to be a plate at the bottom of whatever page
- * you happened to be on, under the sources, below the fold — which is to say
- * that most people finished the thing and never found out. A quiet reward for
- * an hour of work reads as no reward at all.
- *
- * So it comes to them: paper falls, Nimo cheers, and the certificate is one
- * press away. It fires once per track and only when the reader does something
- * with it, so closing the tab is not a dismissal and the confetti is never
- * spent on an empty room. The plate at the foot of the page stays, as the
- * permanent way back.
- *
- * Nothing here is random. `Math.random` during render is a compiler error, and
- * seeding it in an effect would mean the first frame is drawn before the paper
- * exists; the scatter comes from a hash of each piece's index instead, which
- * looks like chance and is the same every time.
  */
 
 /** Flat spot inks, hard edges. Print, not glitter. */

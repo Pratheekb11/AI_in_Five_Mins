@@ -6,15 +6,6 @@ import { BeatFrame } from "./BeatFrame";
 
 /**
  * A short passage, some of it false. Tap the parts that are wrong.
- *
- * How many are wrong is stated up front. Hiding the count would turn a check
- * into a hunt, and the module already has a hunt if that is what the learner
- * wants; here the question is whether they can tell which claim does not
- * survive what they just measured.
- *
- * Scoring counts every part, not just the false ones, so leaving a true claim
- * alone earns as much as catching a false one. Otherwise flagging everything
- * would score full marks.
  */
 
 type State = { flagged: number[]; checked: boolean };

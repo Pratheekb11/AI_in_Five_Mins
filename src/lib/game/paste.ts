@@ -1,19 +1,5 @@
 /**
  * The rules of Would you paste it?, as pure functions.
- *
- * Things you might drop into a chat window come past on a belt. Three doors:
- * paste it, strip the identifying parts first, or do not paste it at all.
- *
- * HONESTY ABOUT THE SCORING. The categories here are real and cited on the
- * page, personal data, special category data and other people's confidential
- * material are defined in law, not by us. What is ours is the routing rule:
- * public or your own ordinary text goes in; anything identifying a living
- * person gets stripped first; special category data and somebody else's
- * secrets stay out unless your organisation has approved tooling and a lawful
- * basis for it. That is a sensible default, not legal advice, and the page
- * says exactly that.
- *
- * Everything is pure and the randomness is seeded into the scene.
  */
 
 import type { Chip } from "@/components/game/assets";

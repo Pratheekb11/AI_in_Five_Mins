@@ -23,17 +23,6 @@ import { type LogitData, loadLogits } from "@/lib/logits";
 
 /**
  * Failure bench, call it before it is weighed.
- *
- * A specimen lands on the balance and you have nine seconds to say which pan
- * goes down. Then the real measurement drops in and the beam tilts to wherever
- * the data actually put it.
- *
- * Every specimen is a live computation over data already on this site. That is
- * what makes the game worth playing rather than reading: you commit to an
- * instinct, and then the arithmetic disagrees with you in public.
- *
- * Rules live in `@/lib/game/bench`. All this file does is draw the scale and
- * turn keys and clicks into calls.
  */
 
 const SCALE_W = 560;

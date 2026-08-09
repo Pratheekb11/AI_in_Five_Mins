@@ -12,23 +12,6 @@ import {
 
 /**
  * The whole operation, as one figure that never resets.
- *
- * Every step of the walkthrough changes this thing rather than replacing it.
- * The sentence stays put and gets cut into tokens; the empty slot stays put and
- * gets filled; the bars stay put and re-weight. That is deliberate, and it is
- * the difference between watching a slideshow and watching a mechanism: when
- * the same object is still there, the only thing you can notice is what moved.
- *
- * Nothing here is drawn from imagination. The tokens are the model's own split
- * of the prompt, the bars are its recorded probabilities for the next token,
- * and the dial re-weights those recorded scores rather than inventing new ones.
- *
- * Stages, which line up with the walkthrough steps:
- *   0  the sentence, cut into tokens, with an empty slot at the end
- *   1  the scores arrive for a sentence it has effectively memorised
- *   2  the same machine on an open-ended sentence, and the odds go flat
- *   3  a checkable fact, where the likeliest token is not the true one
- *   4  the dial, and drawing a token to close the loop
  */
 
 /** Which prompt each stage is making its point with. */

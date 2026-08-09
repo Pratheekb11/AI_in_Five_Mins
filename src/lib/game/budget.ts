@@ -1,25 +1,5 @@
 /**
  * The rules of Context Budget, as pure functions.
- *
- * Five slots, a pile of cards, and one question. You decide what the model gets
- * to see. Then you run it, and the model finishes the sentence. The number
- * underneath is the probability
- * the real model puts on the real answer given exactly the context you built.
- *
- * Every combination was measured offline, see `data/scripts/build-context.mjs`
- *, so pressing Run is a lookup of a real measurement rather than a simulation.
- *
- * What the measurements turned out to say, which is not what most people expect:
- *
- *   - The relevant document is nearly the whole game. Without it the answer sits
- *     at zero however many other cards you add.
- *   - A decoy that looks relevant and says something else roughly halves it.
- *   - The card that does the most damage is the "example of a good answer",
- *     because its placeholder value is what gets copied. The most helpful-
- *     looking card in the pile is the worst one to include.
- *   - Chit-chat is close to harmless. Volume is not the problem; relevance is.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */
@@ -42,12 +22,6 @@ export type Combination = {
   topText: string;
   /**
    * The words the model actually produces next, greedily decoded.
-   *
-   * `topText` is one byte-pair token, which is unreadable on some answers —
-   * BLUEHERON comes back as "BL". This is the continuation, and it is what
-   * the game shows, because "it says Tuesday" is a thing a person feels and
-   * "0.49%" is not. Optional so the game still runs against a `context.json`
-   * built before this existed.
    */
   says?: string;
   topProbability: number;

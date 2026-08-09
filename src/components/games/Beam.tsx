@@ -12,16 +12,6 @@ import {
 
 /**
  * Beam, where does this word look?
- *
- * A sentence, one word lit up, and a single attention head. Say which earlier
- * word that head sends most of its beam to, then watch the real row of weights
- * come up as bars.
- *
- * Two things make this worth playing rather than reading. The heads disagree
- * with each other constantly, so you cannot learn one rule and coast. And the
- * first token takes an enormous share of almost every row for no meaning-
- * related reason at all, a documented artefact called an attention sink,
- * which is why the question sets it aside and then tells you about it.
  */
 
 const ROUNDS = 8;

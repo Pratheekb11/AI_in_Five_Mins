@@ -6,27 +6,6 @@ import { MERGES } from "@/lib/merges";
 
 /**
  * Byte-pair encoding, played back one merge at a time.
- *
- * The module used to show a word already in pieces and assert that the
- * tokenizer had kept "the chunks it had memorised". True, and useless: it is
- * the answer with the working thrown away, and there is nothing in it a
- * learner can watch happen.
- *
- * So this plays the working. It starts where the tokenizer starts, one tile
- * per byte, no words, no letters, nothing grouped, and performs the real
- * merges in the real order, pausing on each one long enough to see which pair
- * joined and how common that pair is. By the end the tiles on screen are the
- * tokens the model actually receives.
- *
- * Every step comes from `merges.json`, which is tiktoken's own merge loop run
- * against the published o200k_base rank table and then checked token-for-token
- * against the tokenizer. Nothing here is a dramatisation of the algorithm; it
- * is the algorithm, slowed down.
- *
- * The animation carries the idea rather than decorating it. The pair about to
- * join is marked, it closes the gap between the two tiles, and the tile that
- * results is a single wider tile, so "two things became one thing" is
- * something you see rather than something you are told.
  */
 
 /** Long enough to read which pair joined, short enough to keep watching. */

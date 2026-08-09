@@ -4,15 +4,6 @@ import { getLesson } from "@/lib/lessons";
 
 /**
  * The mechanism, delivered just in time.
- *
- * Mechanism is not front-loaded anywhere on this site. There is no "how AI
- * works" chapter to get through before the useful part. Instead each mechanism
- * is attached to the symptom that makes somebody want it: the learner watches
- * the thing invent an answer, and *then* gets told what next-token prediction
- * is, while they are still annoyed about it.
- *
- * Closed by default. Curiosity that has already been provoked will open it;
- * curiosity that has not should not be made to scroll past a wall of it.
  */
 export function MechanismPanel({
   question,

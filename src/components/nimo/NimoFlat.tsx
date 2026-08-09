@@ -2,24 +2,6 @@ import type { Mood } from "./moods";
 
 /**
  * Nimo, flat.
- *
- * The 3D one is a real renderer, and measured on the production build it is
- * **232 KB gzipped on every page he appears on** — more than half the
- * JavaScript a lesson downloads, for a mascot. That is a fine trade on a
- * laptop and a bad one on a phone on mobile data, so below `sm` this is the
- * one that ships and the renderer is never fetched at all.
- *
- * The geometry is the same otter, ported from `drawNimo` in `certificate.ts`,
- * which already had to draw him with primitives for the certificate plate.
- * Round head, glasses, whiskers, a tail out to his left and a stack of books
- * under him.
- *
- * His colours are literal hex and never theme variables. Painting his cream
- * belly with `--paper-raised` once turned him into a dark smudge in dark mode;
- * an otter does not change species between themes.
- *
- * A mood moves his brow and his mouth and nothing else. There is no animation
- * here on purpose: this is the cheap one.
  */
 
 const BROWN = "#7a6552";

@@ -17,14 +17,6 @@ import {
 
 /**
  * Grow the Tree. One pile, five questions, which do you ask?
- *
- * This is the first module of the track running again, one level down. The
- * player is told how big the pile is and how much of it is spam, which is
- * everything the algorithm knows, and then picks the question to split it with.
- *
- * The rounds are real nodes from the real tree, and only the ones where the
- * choice is close. Where the best question is worth four times the next, the
- * algorithm has nothing to decide and neither does anybody else.
  */
 
 let cached: Promise<TreeData> | null = null;

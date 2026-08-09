@@ -5,12 +5,6 @@ import { lessonsIn } from "@/lib/lessons";
 
 /**
  * The page for an address that is not here.
- *
- * Without this file Next serves its own, which is thirty characters of text on
- * a white page with no header, no footer and no way back — and it renders the
- * root layout on the client, which makes React complain about the inline theme
- * script in the head. A wrong URL should look like the rest of the site and
- * point at the two things somebody probably wanted.
  */
 export default function NotFound() {
   /* The two front doors, and nothing else: a 404 is not a place to put a

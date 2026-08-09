@@ -8,11 +8,6 @@ import { useProgress } from "@/lib/progress";
 
 /**
  * The end of a track, said once, on the pages of that track.
- *
- * It appears only when every module in the track is finished, so on a first
- * pass through nobody ever sees it. It is not a modal and does not interrupt:
- * the reward for finishing is a plate at the bottom of the page they were
- * already on.
  */
 export function TrackComplete({ track }: { track: Track }) {
   const { progress } = useProgress();

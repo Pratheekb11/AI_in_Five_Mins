@@ -17,21 +17,6 @@ import { NimoFlat } from "./NimoFlat";
 
 /**
  * Nimo, in three dimensions.
- *
- * Rebuilt procedurally from the primitives in `nimo-mascot.html`, rather than
- * loading a multi-megabyte OBJ export. Same otter, a fraction of the weight,
- * and every joint is addressable, which is what lets him blink, tilt toward
- * the cursor and react to a wrong answer. Names and proportions follow the
- * source file so the two can be compared side by side.
- *
- * His own colours are fixed and do not follow the theme. An otter does not
- * change species between light and dark mode; only the ground he sits on does.
- * That was the bug in the flat version, whose pale belly went dark because it
- * was painted with a theme variable.
- *
- * Shading is toon-stepped so he reads as printed rather than rendered, which is
- * how he sits inside a risograph page without looking pasted in from another
- * project.
  */
 
 const C = {
@@ -70,35 +55,16 @@ function useToonGradient() {
  * of the owl it replaces. Scaling here rather than rewriting every coordinate
  * keeps this file directly comparable with `nimo-mascot.html`, and keeps the
  * camera below unchanged.
- *
- * At this camera the frame is 2.0 units tall. With the book stack under him he
- * measures about 1.12, so this leaves a tenth of the height as air above his
- * ears and below the bottom book. Going bigger clipped his feet on the first
- * attempt.
  */
 const SCALE = 1.42;
 
 /**
  * Where the group sits so the whole otter is centred on the origin.
- *
- * With the books beneath him he runs from y 0 at the table to about y 1.12 at
- * the crown, so the middle of him is at 0.56 in model units and this is that,
- * scaled and negated. The bounce below ADDS to this. Assigning position.y
- * outright is what floated the old mascot's head out of frame.
  */
 const BASE_Y = -0.56 * SCALE;
 
 /**
  * The cursor's position on the page, in client coordinates.
- *
- * Deliberately not R3F's own `pointer`: that one is canvas-local and only
- * updates while the cursor is actually over the canvas, so he froze the moment
- * you moved away from him, which is exactly when you want him to turn and watch
- * you. A window listener sees the whole page.
- *
- * Kept in a ref rather than state because it changes on every mouse event and
- * nothing on the page needs to re-render when it does; only the next animation
- * frame reads it.
  */
 function usePagePointer() {
   const at = useRef<{ x: number; y: number } | null>(null);
@@ -119,18 +85,6 @@ const PUPIL_REACH = 0.022;
 
 /**
  * What Nimo is doing right now because somebody touched him.
- *
- * A mood is a pose he holds; an emote is a thing he does once and finishes.
- * They are separate because a page sets the mood from what the reader just
- * scored, and the reader sets the emote by prodding him, and neither should
- * cancel the other.
- *
- * The order it is triggered in is passed down as an ordinary value, and the
- * clock that runs it lives inside the scene. Handing a ref down and writing to
- * it from the frame loop is the obvious shape and the compiler refuses it:
- * a prop, or anything reachable from one, may not be mutated after render. So
- * exactly one state update happens per press, and none at all while the
- * animation runs.
  */
 export type EmoteKind = "none" | "greet" | "salute" | "spin";
 /** `id` climbs on every trigger, so pressing him twice in a row restarts the
@@ -148,13 +102,6 @@ const HOLD_MS = 420;
 
 /**
  * Where an arm hangs, and where it goes when he waves or salutes.
- *
- * The shoulder moves, which is a cheat and a necessary one. He is a ball with
- * short arms, and at rest the whole upper arm is INSIDE the body sphere with
- * only the paw showing at the edge. Rotating a buried arm does nothing you can
- * see: the first wave barely registered against his own breathing. So the
- * pivot rides up and out to the surface of him for the length of the gesture,
- * which is what a shoulder appears to do anyway.
  */
 const ARM_REST = [0.255, 0.26, 0.18] as const;
 const ARM_WAVE = [0.31, 0.42, 0.22] as const;
@@ -515,11 +462,6 @@ function Otter({
 
   /**
    * One arm: shoulder, then elbow, then paw.
-   *
-   * The elbow group sits where the upper arm ends and holds the paw at the
-   * same offset the paw used to have on its own, so at rest this is the arm
-   * that was here before, joint and all. It only shows when something bends
-   * it.
    */
   const arm = (side: 1 | -1) => (
     <group
@@ -541,12 +483,6 @@ function Otter({
 
   /**
    * Three whiskers a side, each a thin cylinder springing from the muzzle.
-   *
-   * Thicker than the source file's by more than double. At 0.003 they were
-   * under a pixel wide once he is drawn 200 pixels tall, so they existed in
-   * the scene and were invisible on the page, which is the same as not having
-   * them. They also start further out, clear of the muzzle, so what shows is
-   * the whisker rather than the half of it buried in his face.
    */
   const whiskers = (side: 1 | -1) => (
     <group key={`whiskers${side}`}>
@@ -901,16 +837,6 @@ export function Nimo3D({
 
 /**
  * What happens on a phone that cannot give us a WebGL context.
- *
- * Some low-memory Android devices, and any browser with hardware acceleration
- * switched off, refuse the context outright, and three throws when they do.
- * Without this the throw takes the whole page down: the mascot is decoration,
- * and decoration is never allowed to lose somebody the chapter they came for.
- * The sized box around it stays, so nothing below jumps.
- *
- * It used to render nothing, which left an empty rectangle where the character
- * of the site should be. It now falls back to the flat otter: same animal,
- * same glasses, no renderer.
  */
 class CanvasGuard extends Component<
   { children: ReactNode; mood: Mood; height: number },

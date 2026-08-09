@@ -1,16 +1,5 @@
 /**
  * The rules of One Fold or Ten, as pure functions.
- *
- * Two models, and the evidence a report usually gives you: what each of them
- * scored on one held-out slice of the data. Which is the better model?
- *
- * On most pairs the slice tells the truth. On the close ones it does not, and
- * the ones where it does not were found by measurement rather than written: the
- * build script checks every pair on every fold and records which folds point
- * the wrong way. Backing the model that lost on the fold in front of you, and
- * being right, is the skill this module is about.
- *
- * PURITY. The fold shown in each round is chosen by the caller and passed in.
  */
 
 /* ------------------------------------------------------------------ types -- */
@@ -101,12 +90,6 @@ export function shuffledBy<T>(items: readonly T[], rolls: number[]): T[] {
 
 /**
  * Deals rounds, and makes sure a fair share of them are the misleading ones.
- *
- * Dealing folds uniformly would make the interesting case turn up about twice
- * in ten rounds, which is too rare to teach anything. Every other round is
- * therefore drawn from the folds that point the wrong way, and the module says
- * so out loud rather than letting the player conclude that single folds lie
- * most of the time. They do not. They lie often enough to matter.
  */
 export function deal(data: CrossvalData, rolls: number[]): Round[] {
   const pool = shuffledBy(closePairs(data), rolls);

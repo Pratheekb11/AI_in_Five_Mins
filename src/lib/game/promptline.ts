@@ -1,14 +1,5 @@
 /**
  * The rules of Assembly line, as pure functions.
- *
- * Fragments of an instruction ride a belt downward. The player steers a hopper
- * along the bottom and keeps the parts that do work, role, goal, constraints,
- * format, example, while letting the filler fall past. What they keep is
- * assembled into a real prompt at the end and measured with a real tokenizer.
- *
- * Everything here is pure. Randomness comes from a seed carried in the scene,
- * so a frame is a function of the previous frame and nothing else, and every
- * frame returns new objects rather than editing the ones it was handed.
  */
 
 import type { Chip } from "@/components/game/assets";

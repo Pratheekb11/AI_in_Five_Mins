@@ -13,21 +13,6 @@ import { loadScripts, type ScriptData } from "@/lib/scripts";
 
 /**
  * Token Chopper, type anything, watch it shatter.
- *
- * Not a round-based game. It is an instrument: whatever you type is cut, live,
- * by the real `o200k_base` merge table, and the tiles rearrange themselves as
- * you go. The teaching happens the moment you try something and the count does
- * not do what you expected.
- *
- * Three of those moments are set up for you. "strawberry" comes apart into
- * three pieces rather than ten letters, which is the whole reason these things
- * cannot count letters. A line of Kannada or Hindi costs roughly twice the
- * tokens of the same length of English, which is a bill nobody mentions. And
- * emoji cost several tokens each.
- *
- * Everything is measured in the browser as you type. The comparison table is
- * measured too, offline, over the same number of characters of Wikipedia in
- * each language, with the article revision recorded.
  */
 
 type Encoding = Awaited<ReturnType<typeof loadEncoding>>;

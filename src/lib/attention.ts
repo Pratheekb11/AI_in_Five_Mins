@@ -82,10 +82,6 @@ export type BeamRound = {
 /**
  * Finds rounds worth asking about: a query token whose strongest link, once
  * the first-token sink is set aside, is clearly ahead of the next one.
- *
- * The threshold is a playability rule, not a claim: a row where the top two
- * are within a hair of each other is a coin flip, and a coin flip teaches
- * nothing. Every number reported is still the model's own.
  */
 export function buildRounds(
   data: AttentionData,

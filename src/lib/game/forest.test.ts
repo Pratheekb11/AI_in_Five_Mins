@@ -16,11 +16,6 @@ import {
 
 /**
  * Worth the Crowd.
- *
- * The chapter rests on a contrast that has to survive rebuilds: the forest of
- * stumps gains a lot, and the forest of identical trees gains exactly nothing.
- * If the identical forest ever gains something, its trees stopped being
- * identical and the control is broken.
  */
 
 const data: ForestData = JSON.parse(

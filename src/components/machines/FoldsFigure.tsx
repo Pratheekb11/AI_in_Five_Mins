@@ -7,27 +7,6 @@ import type { CrossvalData, CvModel } from "@/lib/game/crossval";
 
 /**
  * Ten blocks, and the held-out one walking along them.
- *
- * The corpus is drawn once as ten blocks and never redrawn. What moves is which
- * block is the held-out one, and it moves one place per step, which is the
- * whole procedure done in front of the reader rather than described. Each time
- * it moves, that fold's accuracy drops onto the axis underneath and stays
- * there, so the spread accumulates in view.
- *
- * The point of the figure is the last thing that happens: ten dots that do not
- * sit on top of each other. A single 80/20 split gives you one of those dots,
- * chosen by which slice you happened to hold out, and reports it as though it
- * were the model.
- *
- * Every accuracy is measured, ten separate trainings per model.
- *
- * Stages:
- *   0  one split, one number
- *   1  a different split, a different number
- *   2  every block takes its turn
- *   3  the spread, and what the average is worth
- *   4  a model with much more of it
- *   5  any of the seven
  */
 
 const W = 640;

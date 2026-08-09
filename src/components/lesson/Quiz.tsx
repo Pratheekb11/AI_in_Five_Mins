@@ -5,11 +5,6 @@ import { useProgress } from "@/lib/progress";
 
 /**
  * The check beat.
- *
- * Answering reveals the reasoning immediately, whether the answer was right or
- * wrong, the explanation is the teaching, and withholding it until the end
- * would waste the moment the learner most wants it. There is no penalty and no
- * timer; this is a check, not an exam.
  */
 
 export type QuizQuestion = {
@@ -44,15 +39,6 @@ function seedOf(text: string): number {
 
 /**
  * Deal the options into a fixed but unguessable order.
- *
- * Written because the answers had drifted into a pattern nobody intended: 44 of
- * 49 questions across the site had their correct option second, the other 5
- * had it third, and not one had it first. That is a quiz you can score full
- * marks on without reading a single question, which is worse than no quiz.
- *
- * Ordering by a hash of the prompt rather than by chance keeps it deterministic
- *, no impure call during render, no hydration mismatch, while spreading the
- * answers across every position.
  */
 function dealt(question: QuizQuestion): {
   options: string[];

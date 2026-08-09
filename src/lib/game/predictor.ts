@@ -1,24 +1,5 @@
 /**
  * The rules of Beat the Predictor, as pure functions.
- *
- * A sentence with its last word cut off, four options, and a machine playing
- * against you. You both pick. Then the model's real probabilities come up as
- * bars and you find out who was right.
- *
- * The round is built in three acts, and the order is the argument:
- *
- *   1. COMMON PHRASES. The model is excellent here and will usually beat you,
- *      because this is exactly what a next-word predictor is for.
- *   2. A REAL BOOK. Carroll's actual words, with the model's three favourite
- *      continuations beside them. The model nearly always takes one of its
- *      favourites, and you win by having read the sentence.
- *   3. FACTS. The last act, where the likeliest continuation and the true one
- *      come apart, and the machine is confidently, measurably wrong.
- *
- * Nobody is told which act they are in until it is over.
- *
- * PURITY. Draws are made by the caller and passed in as numbers, so a state
- * updater running twice changes nothing.
  */
 
 /* ------------------------------------------------------------------ types -- */
@@ -62,15 +43,6 @@ export type PredictorData = {
 /** Rounds per act. Three acts, nine rounds, well under five minutes. */
 /*
   The acts, and how many rounds each one gets.
-
-  This used to be three of each, and the whole argument of the chapter lives in
-  the third act — the model answering "Paris is the capital of" with "the" at
-  30% while "France" sits at 1.7%. Three plus three meant that arrived at round
-  SEVEN, four rounds after most people have decided whether they care.
-
-  One round is enough to establish that the model is genuinely good at
-  ordinary phrasing, and one is enough to show it losing to real prose. The
-  surprise now lands on round three of four.
 */
 export const ACT_SIZE = { phrase: 1, corpus: 1, fact: 2 } as const;
 export const ROUND_SIZE = ACT_SIZE.phrase + ACT_SIZE.corpus + ACT_SIZE.fact;
@@ -134,11 +106,6 @@ export function newScene(): PredictorScene {
 
 /**
  * Ends the set where the player is standing.
- *
- * The rounds after the point has landed are practice, not teaching, and a
- * fixed count of them reads as homework. Stopping early keeps the score
- * earned so far and goes straight to the summary, so leaving is a finish
- * rather than an abandonment.
  */
 export function finish(scene: PredictorScene): PredictorScene {
   return scene.done ? scene : { ...scene, done: true };

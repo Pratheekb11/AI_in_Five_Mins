@@ -13,37 +13,6 @@ import { useToday } from "@/lib/game/useToday";
 
 /**
  * One paragraph, read four times over, and it is never reprinted.
- *
- * The first read is the honest one: a real encyclopedia opening with three
- * things quietly changed in it, and nothing on the page to tell you that. It
- * reads perfectly, which is the entire problem and cannot be argued, only
- * experienced.
- *
- * Then the marks arrive on the same words, the wrong words flip to the right
- * ones in place, and the reason each one was hard to catch appears underneath.
- * Because the paragraph never moves, the reader's eye stays where it already
- * was and the change happens under it. Reprinting a corrected copy below would
- * turn the same information into a spot-the-difference exercise.
- *
- * The order is deliberate: the hardest error is corrected first, alone. It is
- * a number in the same shape as the right number, which is the one nobody
- * catches, and putting it beside two catchable errors is how you learn that
- * "I read it carefully" is not a method.
- *
- * Every paragraph and every correction is checked against the cited Wikipedia
- * revision by `data/scripts/build-hunt.mjs`. A spot-the-error figure with a
- * shaky answer key teaches people to distrust the wrong things.
- *
- * Today's puzzle is held out of this figure entirely, including the picker.
- * The game above the walkthrough is the same paragraph on the same day, and a
- * figure that prints its answers a screen further down would be worth nothing.
- *
- * Stages:
- *   0  the paragraph, as it would arrive
- *   1  three things in it are wrong
- *   2  the hard one, corrected
- *   3  all three, corrected, with why each one survived a careful read
- *   4  any of the ten, all real, all with the revision they came from
  */
 
 type Piece =

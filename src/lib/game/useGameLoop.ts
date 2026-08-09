@@ -4,16 +4,6 @@ import { useEffect, useRef } from "react";
 
 /**
  * A per-frame animation loop.
- *
- * Games here keep their whole moving scene in one piece of React state and
- * replace it once per frame with a pure step function. Holding it in refs and
- * forcing a repaint would be faster in principle, but reading a ref while
- * rendering is exactly what React's compiler rules forbid, and a pure
- * `advance(scene, delta)` turns out to be easier to reason about and possible
- * to unit test, which a mutable ref never was.
- *
- * `delta` is clamped: a backgrounded tab produces a multi-second frame, and
- * without the clamp everything teleports through walls on return.
  */
 export function useGameLoop(
   onFrame: (delta: number) => void,

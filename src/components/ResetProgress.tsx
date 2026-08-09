@@ -6,16 +6,6 @@ import { useProgress } from "@/lib/progress";
 
 /**
  * Wipe everything and start again.
- *
- * There are no accounts here, so "start again" means clearing what this
- * browser remembers: chapters finished, check scores, level, streak, personal
- * bests, the sorted week, and the name on the certificate. The theme and the
- * mute switch survive, because neither is progress and losing them is just
- * annoying.
- *
- * It asks first, inline, rather than through a browser dialog: a `confirm()`
- * blocks the page, and this is exactly the button somebody hits by accident.
- * There is no undo, so the second press has to say what it does.
  */
 export function ResetProgress() {
   const { totals, reset } = useProgress();

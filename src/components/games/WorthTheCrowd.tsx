@@ -20,15 +20,6 @@ import {
 
 /**
  * Worth the Crowd. Sixty trees, and whether they are worth more than one.
- *
- * Each round describes how a forest was built and prints what an average single
- * tree in it scores. The player says what the vote of all sixty will be worth.
- *
- * The description is the evidence, and it is enough: a forest whose trees each
- * see their own sample and choose from four questions at random will disagree
- * with itself, and disagreement is what makes voting work. A forest with no
- * randomness in it is the same tree sixty times, and the player who reads that
- * carefully calls it right.
  */
 
 let cached: Promise<ForestData> | null = null;

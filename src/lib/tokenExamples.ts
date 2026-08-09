@@ -3,11 +3,6 @@ import type { Token } from "./tokenizer";
 
 /**
  * Typed view over the generated token examples.
- *
- * The JSON is produced by data/scripts/build-token-examples.mjs from the same
- * encoding the browser loads, so these figures and the ones a learner produces
- * by typing come from one source. Editing the JSON by hand would break that,
- * change the script and regenerate.
  */
 
 export type MeasuredText = {

@@ -1,13 +1,5 @@
 /**
  * Game art.
- *
- * Everything is drawn as SVG paths in the site's print system: flat spot inks,
- * hard edges, visible halftone, no gradients and no glow. The pieces are meant
- * to look cut and printed rather than rendered, a guillotine blade, a strip of
- * paper with sprocket holes, chips of paper flying off a cut.
- *
- * Drawn rather than fetched so they inherit the theme: every fill is a CSS
- * variable, so the same blade prints correctly on both plates.
  */
 
 /** A dot screen any shape can be filled with. Register once per SVG. */

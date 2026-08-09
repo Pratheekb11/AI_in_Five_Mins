@@ -6,14 +6,6 @@ import { useOwnTasks } from "@/lib/game/useOwnTasks";
 
 /**
  * Add the tasks we could not have guessed.
- *
- * The deck that ships with the module is generic, and a generic audit is not an
- * audit. Whatever you type here is shuffled into the next round, so the game
- * starts asking about your actual week.
- *
- * It is stored in this browser and nowhere else. There is no account, no
- * server, and nothing is sent anywhere, which is the same standard the last
- * module of this track asks you to hold your tools to.
  */
 export function YourWeek() {
   const { tasks, add, remove, limit, maxLength } = useOwnTasks();

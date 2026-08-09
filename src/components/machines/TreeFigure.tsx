@@ -7,29 +7,6 @@ import { levelOf, type TreeData, type TreeNode } from "@/lib/game/tree";
 
 /**
  * The tree, growing one level per step.
- *
- * Every node is a pile of real messages drawn as a bar: pink is the share of it
- * that is spam. The root is nearly all blue with a pink corner, and each split
- * pushes the pink into one child and out of the other. Watching the colour
- * separate is the whole idea of a tree, and it is the same idea as the first
- * module of this track, applied again to each pile it creates.
- *
- * Nothing is redrawn between steps: the levels already on screen stay exactly
- * where they were while the next one arrives underneath.
- *
- * The last step leaves the tree for the accuracy curve, because the honest
- * finding here is a mild one. With twelve yes-or-no questions to draw on, this
- * tree cannot overfit dramatically: held-out accuracy climbs to depth five and
- * then flattens rather than collapsing. Capacity is limited by the features,
- * and the page says so instead of pretending to a textbook collapse.
- *
- * Stages:
- *   0  one pile, mixed
- *   1  the first question
- *   2  and again on both piles
- *   3  a third level
- *   4  four levels down
- *   5  what depth is worth, measured
  */
 
 const W = 660;

@@ -13,29 +13,6 @@ import {
 
 /**
  * The fifty numbers themselves, which every other figure on this page hides.
- *
- * The plane further up draws arrows, the bench prints answers and the map
- * prints neighbours. All three are downstream of a list of fifty numbers per
- * word, and a reader can get through the entire chapter without ever seeing
- * one. So this figure shows nothing but the lists: one strip of fifty cells
- * per word, the real published GloVe values, dark for negative and light for
- * positive.
- *
- * The strips are the object that persists. A second word arrives beside the
- * first and you can see the pattern rhyme; a third arrives that does not
- * rhyme at all, and the measured cosine underneath agrees with your eye. Then
- * the same three strips are added and subtracted, which is what the famous
- * arithmetic actually operates on. Not the picture. The numbers.
- *
- * Everything is computed in the browser from the same vectors the game uses,
- * at full fifty dimensions.
- *
- * Stages:
- *   0  one word, fifty numbers
- *   1  a word that means something similar
- *   2  a word that does not, and the measured distance between them
- *   3  the arithmetic, on the strips
- *   4  the answer, and how approximate it is
  */
 
 const SUBJECT = "cat";

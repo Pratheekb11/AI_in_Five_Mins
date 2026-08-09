@@ -14,18 +14,6 @@ export const metadata: Metadata = pageMetadata({
 
 /**
  * The privacy page.
- *
- * A site whose whole pitch is that every number can be traced should be able
- * to say exactly what it keeps, and it is a short list. There is no login, no
- * database and no server holding anything: progress lives in the reader's own
- * browser and the analytics are cookieless counts of pages.
- *
- * Written as prose rather than as a policy, because a policy nobody reads is
- * not disclosure. The list of storage keys is imported from `reset.ts` rather
- * than typed out, so this page cannot quietly go out of date when a key is
- * added. They come from `storageKeys.ts` rather than from `reset.ts`, which is
- * a client module: a server component importing a value from one of those gets
- * a client reference and not the value.
  */
 
 const STORED = [

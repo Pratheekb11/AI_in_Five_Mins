@@ -12,25 +12,6 @@ import {
 
 /**
  * One window, one meter, and cards moving in and out of it.
- *
- * The window and the meter never leave the screen. Cards arrive, the window
- * fills, the oldest card is pushed out, and the meter answers. That is the
- * whole chapter, and it only reads as cause and effect because the meter is
- * the same meter throughout: if it were redrawn each step you would be
- * comparing two pictures from memory instead of watching one number move.
- *
- * The number is the model's measured probability of producing the right answer
- * from exactly the cards in the window, read out of the same file the game
- * upstairs is scored from. Every subset of the seven cards was measured, so
- * whatever the learner builds here has a real number waiting for it. Nothing is
- * interpolated and nothing is estimated.
- *
- * Stages:
- *   0  an empty window, and what it says with nothing in it
- *   1  the one card that carries the answer
- *   2  the window fills, and the oldest card falls out
- *   3  the reply does not change tone when the answer has gone
- *   4  put it back, and try any combination you like
  */
 
 /** The order cards arrive in as the window fills, after the memo. */

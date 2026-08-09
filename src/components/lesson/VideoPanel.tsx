@@ -5,11 +5,6 @@ import type { Video } from "@/lib/videos";
 
 /**
  * An optional video, loaded only if asked for.
- *
- * Shows YouTube's thumbnail behind a play button and swaps in the iframe on
- * click. Embedding the player up front would pull several hundred kilobytes of
- * third-party script into a page whose whole argument is that it runs in your
- * browser, and most learners come for the game, not the video.
  */
 export function VideoPanel({ video }: { video: Video }) {
   const [playing, setPlaying] = useState(false);

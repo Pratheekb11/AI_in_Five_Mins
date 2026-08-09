@@ -12,13 +12,6 @@ export type OwnTask = { text: string; exposure: Exposure; mine: true };
 
 /**
  * The tasks you typed in yourself, kept in localStorage.
- *
- * The deck that ships with the module is generic on purpose, and generic is
- * exactly what a personal audit must not be. These are the ones that make the
- * round about your week, so they survive a reload, and they come back the
- * next time you play.
- *
- * Nothing is sent anywhere. It is your list, on your machine.
  */
 
 const KEY = "llai-own-tasks";

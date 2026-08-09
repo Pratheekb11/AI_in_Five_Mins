@@ -7,21 +7,6 @@ import { ordinal } from "@/lib/ordinal";
 
 /**
  * Word arithmetic, drawn.
- *
- * The claim "you can subtract man from king and add woman" is easy to state and
- * almost impossible to believe from a list of numbers. It is obvious the moment
- * you see it: one arrow, copied, moved somewhere else, landing near a word that
- * nobody put there.
- *
- * The plane is not a flattening of the whole space, it is the plane spanned by
- * this analogy's own two difference vectors. That matters, and the figure says
- * so: the three input words and the arithmetic result lie in it exactly, so the
- * parallelogram is real rather than an artist's impression. The answer word does
- * not, and the amount by which it misses is printed rather than hidden.
- *
- * Which is the honest version of this demonstration. The arrow does not land ON
- * queen. It lands near enough that queen is the closest word in fifty thousand,
- * and the cosine underneath is what actually carries the claim.
  */
 
 /** How long each beat holds before the next one starts. */

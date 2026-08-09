@@ -12,13 +12,6 @@ import { ENCODING_NAME, loadEncoding } from "@/lib/tokenizer";
 /**
  * Paste an instruction; see which of the five parts are structurally there and
  * what it costs to send.
- *
- * Two very different claims are on screen here and they are labelled
- * differently on purpose. The token count is a measurement: the real
- * `o200k_base` encoder runs in the browser and the number is exact. The five
- * checks are a keyword match, and the panel says so and shows the words it
- * matched on, so a reader can overrule it. Nothing here judges whether the
- * prompt is any good, no model is called and none is imitated.
  */
 
 const HINTS: Record<ElementKey, string> = {

@@ -8,28 +8,6 @@ import type { ThresholdData } from "@/lib/game/threshold";
 /**
  * Every held-out message as a dot, placed where the model actually put it, and
  * one line moving through them.
- *
- * This is the figure the chapter exists for. A classifier is usually drawn as a
- * box that emits a label, and that picture makes the threshold invisible. Draw
- * the scores instead and there is nothing to explain: 1,115 dots, spam above
- * the axis and ordinary below, piled at the two ends because the model is
- * rarely in two minds. The line is a line. Sliding it changes who is on which
- * side, and every number underneath is counted from the dots you can see.
- *
- * The x axis is logarithmic because a linear one puts 910 of the 1,115 dots in
- * the leftmost pixel. The scale is written on the axis so nobody reads the
- * spacing as linear.
- *
- * Counts are recomputed here from the same points rather than read from the
- * swept curve, so what the figure says can never drift from what it draws.
- *
- * Stages:
- *   0  it does not classify, it scores
- *   1  the line nobody chose
- *   2  slide it left, and catch nearly everything
- *   3  slide it right, and be right about everything you flag
- *   4  the accuracy trap
- *   5  put it wherever you like
  */
 
 /** Everything below this is drawn at the left edge. */
@@ -112,12 +90,6 @@ export function ThresholdFigure() {
 
   /**
    * Vertical offsets, drawn once.
-   *
-   * Hundreds of dots share an x, so without a spread they stack into a single
-   * invisible line. The offsets come from the index rather than from a random
-   * number, both because the React compiler forbids impurity in render and
-   * because a figure that reshuffles itself between steps would break the one
-   * promise this whole set of figures makes.
    */
   const rows = useMemo(() => {
     if (!data) return [];

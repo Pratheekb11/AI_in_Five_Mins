@@ -2,19 +2,6 @@ import type { Ink } from "./ink";
 
 /**
  * The syllabus: six chapters, three closers, and the rabbit hole.
- *
- * **The six chapters** are the spine and are meant to be played in order. Each
- * one is a single idea with a single game, and each game is a real measurement
- * you can be wrong about before you see it. One sitting, start to finish.
- *
- * **Before you go** is the part you take to work: a daily puzzle, your own week
- * sorted, and what you are willing to paste in.
- *
- * **Down the rabbit hole** is optional depth. Every one of these is linked from the
- * moment inside a chapter where you would actually want it, so nobody should ever
- * need to come here first.
- *
- * This registry is the single source of truth for navigation and progress.
  */
 
 export type LessonStatus = "ready" | "building";
@@ -22,15 +9,6 @@ export type LessonStatus = "ready" | "building";
 /*
   Nothing is "building" right now, and while that stays true there is no
   `lessons/[slug]` route.
-
-  It existed as a holding page for a lesson that was in the registry without a
-  folder of its own, and it generated exactly zero pages once the last one
-  shipped. An empty dynamic route is also the one thing that stops
-  `STATIC_EXPORT=1 npm run build` from finishing, because a static export
-  cannot have a route with no parameters to render. Mark a lesson `building`
-  again and it wants that folder back — `git show 17727af -- 'src/app/lessons/[slug]'`
-  has it, and it needs `dynamicParams = false` and a non-empty
-  `generateStaticParams` to keep the export working.
 */
 export type Track = "chapter" | "close" | "how" | "ml";
 
@@ -462,14 +440,6 @@ export const READING_ORDER: Lesson[] = TRACK_ORDER.flatMap(lessonsIn);
 
 /**
  * Previous and next, read across the whole syllabus rather than within a track.
- *
- * It used to stop at the end of each track, which left two dead ends: the last
- * chapter did not offer the closers, and the last closer did not offer the
- * rabbit hole. Somebody who finished everything they were shown was told "that
- * is the set" while a third of the site sat unlinked.
- *
- * Crossing a boundary is a real change of register, so the caller is told which
- * track the next one belongs to and can say so.
  */
 export function neighbours(slug: string): {
   previous?: Lesson;

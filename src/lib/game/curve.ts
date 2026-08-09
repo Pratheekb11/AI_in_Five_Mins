@@ -1,17 +1,5 @@
 /**
  * The rules of Buy the Upgrade, as pure functions.
- *
- * You have a model and a certain number of examples. Somebody offers you one of
- * two things: ten times the data, or the best other model on the data you
- * already have. Which is worth more?
- *
- * Both answers are measured on the same held-out messages, so the round is
- * settled by the corpus rather than by anybody's taste in algorithms. And the
- * answer moves: at twenty examples the data is worth thirteen points, and past
- * a hundred it is worth almost nothing while the model is worth about a point.
- * Where you are on the curve decides it.
- *
- * PURITY. Draws are made by the caller and passed in as numbers.
  */
 
 /* ------------------------------------------------------------------ types -- */

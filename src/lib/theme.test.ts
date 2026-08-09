@@ -3,17 +3,6 @@ import { describe, expect, it } from "vitest";
 
 /**
  * Dark is reached two ways and has to arrive the same both times.
- *
- * A reader whose operating system is dark and who never touches the toggle is
- * served by the `prefers-color-scheme` block. A reader who presses the toggle
- * is served by `[data-theme="dark"]`. They were once different themes: the
- * media block carried brighter inks and, because it never redeclared
- * `--on-blue`, kept the LIGHT theme's cream button text and painted it on a
- * light blue plate at 2.27:1.
- *
- * Nothing in a build catches that, so it is caught here. The two blocks must
- * declare the same tokens with the same values, and the contrast of the one
- * pair the site ever puts type on solid ink is checked outright.
  */
 
 const CSS = readFileSync("src/app/globals.css", "utf8");

@@ -5,18 +5,6 @@ import type { ReactNode } from "react";
 
 /**
  * Content that arrives as you reach it.
- *
- * The page was a stack of static plates: everything was already there, so
- * nothing ever felt like it was happening. This is the cheapest fix that is not
- * decoration, sections lift into place as they come into view, which gives the
- * eye somewhere to go and makes a long lesson read as a sequence rather than a
- * wall.
- *
- * It fires once. Content that re-animates every time it crosses the viewport is
- * the thing that makes people close the tab.
- *
- * Honours `prefers-reduced-motion`: with it set, children render in place with
- * no transform and no delay at all.
  */
 export function Reveal({
   children,

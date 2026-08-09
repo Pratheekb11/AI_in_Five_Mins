@@ -31,17 +31,6 @@ import {
 
 /**
  * Magnet, the field sorts itself by meaning, and you have to read it.
- *
- * One word sits on the magnet. Every other word in the box is pulled toward it
- * or pushed away by a force that is its real cosine similarity to that word,
- * measured across all fifty dimensions of the GloVe vectors. Nothing is staged:
- * if two words drift together, it is because the numbers say they belong
- * together.
- *
- * The round asks for a specific neighbour, and the ring picks up whatever is
- * nearest. So the skill is not aim, it is prediction, and the moment the
- * lesson lands is when you grab the wrong word and see that it scored 0.71 to
- * your target's 0.68. The field was right and your intuition was not.
  */
 
 /** Words on the magnet, in order of how obvious their neighbourhood is. */

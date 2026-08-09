@@ -7,36 +7,6 @@ import { gradientStep, meanSquaredError } from "@/lib/ml";
 
 /**
  * The same training run as the hill above, seen from the data instead.
- *
- * The machine at the top of this chapter draws the error curve, which is the
- * view from inside the maths: one dial along the bottom, how wrong you are up
- * the side, and a ball rolling into the dip. This figure draws the other view,
- * the one the dial is actually about. A hundred and forty real sentences as
- * dots, characters across and tokens up, and one line swinging through them.
- *
- * They are the same event twice and the pairing is the point. The ball moving
- * a few pixels down a curve is the line swinging into the dots. Neither view
- * makes sense of the other on its own, and the walkthrough can hold one while
- * the reader has just played with the other.
- *
- * Every position is computed here from the real sentences with the same
- * `gradientStep` the game runs. Nothing is scripted: the line stops where the
- * arithmetic stops it, and where it stops is 4.083 characters per token,
- * because that is what Lewis Carroll's prose happens to be.
- *
- * Stages:
- *   0  a hundred and forty real sentences
- *   1  a first guess, and how wrong it is
- *   2  a few steps downhill
- *   3  where it settles, and what that number is
- *   4  the same procedure on half the sentences, settling somewhere else
- *
- * Stage four used to be stage three again, with a paragraph under it: the one
- * beat that says "a model's answers are downstream of the examples it was
- * shown" was the one beat where nothing moved. So it now shows exactly that.
- * The long sentences go out, the same downhill step runs on what is left, and
- * the line swings to 3.829 characters per token. Nothing is scripted there
- * either — it is the same arithmetic on a smaller pile.
  */
 
 const { points, best, sampleSize, source } = REGRESSION;
@@ -56,11 +26,6 @@ function slopeAfter(steps: number): number {
 
 /**
  * The last stage refits on the shorter half of the same sentences.
- *
- * Run once, here, rather than in render: it is the same pure step the game
- * runs, two thousand times, and the answer never changes. The cut is the
- * median sentence length, so it is a property of the corpus rather than a
- * number somebody chose to make the point land.
  */
 const MEDIAN_CHARS = [...points.map((p) => p.chars)].sort((a, b) => a - b)[
   Math.floor(points.length / 2)

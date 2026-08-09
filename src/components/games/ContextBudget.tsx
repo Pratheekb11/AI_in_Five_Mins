@@ -21,17 +21,6 @@ import {
 
 /**
  * Context Budget, five slots, and everything you put in one costs you.
- *
- * Pick what the model gets to see, press Run, and a real measurement comes
- * back: the probability the model puts on the correct answer given exactly
- * that context. Every combination was measured offline against the real model,
- * so nothing here is a simulation of what would happen.
- *
- * The answer has to change for this to land. Watching "Thursday" become
- * "Tuesday", said just as confidently, because you added the most
- * helpful-looking card in the pile is the entire lesson. It used to be told as
- * a bar falling from 90% to 4%, which is the same measurement and nothing
- * anybody feels.
  */
 
 let cached: Promise<ContextData> | null = null;
@@ -253,13 +242,6 @@ export function ContextBudget() {
 
                 {/*
                   What it says, not what it scores.
-
-                  This used to lead with a percentage and mention the model's
-                  own answer as a footnote, and a percentage is not something
-                  anybody feels. The sentence completing itself in front of you
-                  is: add the innocent-looking worked-example card and watch
-                  "Thursday" become "Tuesday", stated just as confidently. The
-                  number is still here, underneath, doing the job of a number.
                 */}
                 <div className="plate-flush mb-3 px-3 py-3">
                   <p className="label text-ink-faint mb-2">

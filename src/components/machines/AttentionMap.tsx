@@ -10,11 +10,6 @@ import {
 
 /**
  * The whole grid, for anyone who wants to go looking.
- *
- * Seventy-two heads over four sentences, every cell a real weight. The point
- * of leaving it browsable is that the heads are visibly not doing the same
- * job as each other, and no caption makes that as convincing as scrubbing
- * through them does.
  */
 export function AttentionMap() {
   const [data, setData] = useState<AttentionData | null>(null);

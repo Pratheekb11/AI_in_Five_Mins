@@ -7,26 +7,6 @@ import type { ClusterData } from "@/lib/game/clusters";
 
 /**
  * Eighteen hundred words, recolouring as the algorithm makes up its mind.
- *
- * The dots never move. What changes is their colour, one pass at a time, from
- * the real assignment history: every word starts wherever the first pass put
- * it, and the borders between groups walk across the picture as the centres
- * shift. By the last pass nothing changes any more, which is what convergence
- * looks like and is otherwise a word in a textbook.
- *
- * The caveat is the same one the embeddings module makes and it is repeated
- * here because the picture invites the mistake: the grouping was done in all
- * fifty dimensions, and the two coordinates are a shadow. Two dots touching on
- * screen may be nowhere near each other, which is why some of the colours look
- * interleaved.
- *
- * Stages:
- *   0  the words, ungrouped
- *   1  the first pass
- *   2  a few passes in
- *   3  settled
- *   4  what the groups turned out to be
- *   5  and how much k matters
  */
 
 const W = 640;

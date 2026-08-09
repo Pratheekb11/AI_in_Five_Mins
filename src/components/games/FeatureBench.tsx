@@ -19,19 +19,6 @@ import {
 
 /**
  * The Feature Bench. Two yes-or-no questions, and which one is worth more.
- *
- * A beginner's instinct about which signal matters is wrong often enough to be
- * worth measuring, and the corpus settles it every time in bits: how much of
- * the uncertainty about spam disappears once you know the answer to that one
- * question. Commit first, then the piles are poured out on screen.
- *
- * The reveal is two piles rather than two numbers, because "0.378 bits" means
- * nothing on its own and "of the 490 messages it catches, 488 are spam" means
- * everything. The bits sit underneath as the thing that is actually being
- * compared.
- *
- * Every measurement is from `features.json`, computed on the 4,459 training
- * messages so that nothing here is scored on data it was chosen with.
  */
 
 let cached: Promise<FeatureData> | null = null;

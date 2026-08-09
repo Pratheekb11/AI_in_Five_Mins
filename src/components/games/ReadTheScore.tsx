@@ -20,15 +20,6 @@ import {
 
 /**
  * Read the Score. A real message, two numbers, and how sure the model is.
- *
- * The model here has exactly two things to go on: how long the message is and
- * how many digits it contains. Both are printed, so a player can do what the
- * model does, roughly, in their head, and find out how far that gets them.
- *
- * Which is the point. A classifier's output is a number, and reading it well
- * means knowing when it is near-certain and when it is barely leaning. Every
- * round is a real held-out message, and the bands are wide because nobody
- * should be asked to name a probability to the decimal.
  */
 
 let cached: Promise<LogisticData> | null = null;

@@ -7,31 +7,6 @@ import type { ProvenanceData, ProvenanceRound } from "@/lib/game/provenance";
 
 /**
  * One question, one bar, and one rank readout that never gets rebuilt.
- *
- * The probability is the honest number but it is not the legible one. Cold, the
- * true answer sits at 0.02% and the bar is a hairline; sourced it is 98.6% and
- * the bar is full. Two states, and no sense of the distance between them. The
- * rank is what carries that: the true answer was the model's eight hundred and
- * tenth choice, and handing it one sentence makes it the first. A marker
- * sliding the width of the figure is a distance you can feel, which a bar
- * going from invisible to full is not.
- *
- * So the rank track is the hero and it is on a log scale, because the
- * interesting rounds span rank 0 to rank 810 and a linear track would put every
- * one of them except photosynthesis in the same pixel.
- *
- * The third door is arithmetic, and it deliberately breaks the format: no bar,
- * no rank, because 0 out of 200 is not a probability and dressing it up as one
- * would teach the wrong thing. The card stays, the contents change. That is
- * still the same object.
- *
- * Stages:
- *   0  asked cold, and the answer is nowhere
- *   1  the same question with the fact in front of it
- *   2  a worse one, buried 810 deep
- *   3  the same sentence trick, and the rank collapses
- *   4  the door neither of those opens: arithmetic
- *   5  any of the twelve, cold or sourced
  */
 
 /** Rank 0 sits at the left edge; the track saturates just past a thousand. */

@@ -20,15 +20,6 @@ import {
 
 /**
  * Beat the Predictor.
- *
- * A sentence with the last word cut off, four options, and the machine picking
- * at the same time as you. Commit, and the model's real probabilities animate
- * in as bars underneath your choice.
- *
- * The bars are the teaching and they have to move. A static chart reads as an
- * illustration; a bar that grows to 97% under an answer you did not choose
- * reads as being beaten. Everything else on screen is deliberately still so
- * that the only motion in the room is the evidence arriving.
  */
 
 /** "1st", "2nd", "148th", a rank reads better than an index to a person. */

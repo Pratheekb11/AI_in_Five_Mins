@@ -2,12 +2,6 @@ import type { ReactNode } from "react";
 
 /**
  * One movement of a lesson.
- *
- * Every lesson runs the same five beats in the same order, look, try it, check
- * yourself, use it, sources. That order is a real sequence rather than a
- * decorative device: you cannot check yourself on a machine you have not operated
- * yet. The margin rail names the beat you are in so the shape of a lesson is
- * learnable and the second lesson feels familiar.
  */
 
 export type BeatKind = "look" | "try" | "check" | "use" | "sources";

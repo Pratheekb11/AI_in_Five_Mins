@@ -5,39 +5,6 @@ import { useWalkthroughStep } from "@/components/lesson/Walkthrough";
 
 /**
  * One headline number, taken apart.
- *
- * The figure opens on the number everybody quotes, a fourteen per cent gain,
- * and then splits that single bar into the two groups it was averaged from.
- * The split is the whole argument of the chapter: fourteen per cent is nobody's
- * result. The newest workers got more than twice it and the most experienced
- * got a result the authors describe as minimal.
- *
- * The average row NEVER leaves. It used to: the headline bar exited and two
- * new bars arrived in its place, which is a slideshow, and a reader who looks
- * away for a second comes back with nothing to compare against. It stays, goes
- * quiet, and from the moment it splits it also prints itself as a dashed rule
- * down every bar underneath — so thirty four per cent is seen overshooting the
- * average and "minimal" is seen falling short of it, rather than being two
- * numbers you are asked to hold in your head.
- *
- * The experienced row deliberately has no bar. The paper reports that group as
- * minimal rather than as a headline percentage, and drawing a bar of some
- * invented length would be putting a number in the reader's head that nobody
- * measured. A dashed rule and the word is the honest rendering.
- *
- * The last bar is a different study on purpose. Fifty five point eight per cent
- * sounds like a contradiction until you see what was measured: one narrow
- * programming task rather than a whole job. Same axis, so the comparison is
- * available; different label, so the comparison is not silently made for you.
- *
- * Every number here is quoted from the two papers cited at the foot of the
- * chapter. Nothing on this page is computed by us.
- *
- * Stages:
- *   0  the headline
- *   1  who it was actually made of
- *   2  a second study, and what changing the scope does
- *   3  none of it is a statement about your Tuesday
  */
 
 type Row = {

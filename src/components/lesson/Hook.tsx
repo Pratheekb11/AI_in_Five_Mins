@@ -3,14 +3,6 @@ import type { ReactNode } from "react";
 /**
  * The first thing on a module, and the only job it has is to make somebody
  * want the next thing.
- *
- * It states one uncomfortable, concrete claim in large type and then gets out
- * of the way. No preamble, no "in this module you will learn", no list of
- * objectives, those are how a page announces that the interesting part is
- * still some distance away.
- *
- * The claim has to be true and checkable, because the whole site's argument is
- * that it does not need to exaggerate.
  */
 export function Hook({
   claim,

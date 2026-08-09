@@ -12,30 +12,6 @@ import {
 
 /**
  * One fact, two bars, four ways of asking. The bars never get redrawn.
- *
- * The true answer and the false one are on screen from the first step and stay
- * there. All that changes is the sentence put in front of the model, and the
- * two bars answer. That constancy is the entire point: the moment worth seeing
- * is the crossover, where the false bar goes past the true one, and a crossover
- * only exists if both bars were already there to be compared.
- *
- * The order of the steps is doing work too. Asserting the wrong answer first is
- * the famous half, and on its own it reads as the model being bullied. Then the
- * right answer gets asserted with exactly the same sentence shape and it agrees
- * just as hard. Nothing was persuaded. It is copying whatever was put in front
- * of it, and that is a different and more useful thing to know.
- *
- * Absolute probabilities lead here, deliberately. The ratios in this data run
- * to five figures because they come off near-zero baselines, and a headline of
- * "50000x" would be both true and useless.
- *
- * Stages:
- *   0  the fact, asked flat
- *   1  the same fact, asked with a nudge
- *   2  the wrong answer asserted first, and the bars cross
- *   3  the right answer asserted first, and it agrees just as hard
- *   4  any fact, any framing, all eleven
- *   5  the other failure modes, which this figure cannot show
  */
 
 const STAGE_STYLE: Record<number, PushStyle> = {

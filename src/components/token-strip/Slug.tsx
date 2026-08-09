@@ -4,12 +4,6 @@ import { type Ink, inkClasses } from "@/lib/ink";
 
 /**
  * A single piece of letterpress type.
- *
- * This is the atom the whole site is built from. A slug is a token in lesson 3,
- * a point on the star chart in lesson 4, a node in the attention wiring in
- * lesson 5, a bar in lesson 6 and a shelved message in lesson 8, always the
- * same object, wearing a different job. Keeping it literally the same component
- * is the pedagogical claim: the learner watches one thing become each concept.
  */
 
 export type SlugSize = "sm" | "md" | "lg";
@@ -46,9 +40,6 @@ const WHITESPACE_MARKS: Record<string, string> = {
  * Whitespace has to be visible or tokenization looks like it silently loses
  * characters, a leading space really is part of the token. The replacements
  * are printer's marks, in keeping with the rest of the system.
- *
- * Text is split into runs rather than per character so a token stays one node,
- * which keeps assistive tech reading words instead of spelling them out.
  */
 function renderText(text: string) {
   const runs = text.match(/[ \n\t]+|[^ \n\t]+/g) ?? [];

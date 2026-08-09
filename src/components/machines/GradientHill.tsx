@@ -6,14 +6,6 @@ import { gradient, gradientStep, meanSquaredError } from "@/lib/ml";
 
 /**
  * Learning, with the lid off.
- *
- * The model has exactly one number in it: how many tokens you get per
- * character. The learner turns that number by hand, watches the error move,
- * and then hands it over to the machine, which does nothing cleverer than
- * repeatedly step downhill.
- *
- * Every figure is computed live from 140 real sentences, so the value it
- * settles on is a measurement, not a scripted ending.
  */
 
 const { points, best, source, sampleSize } = REGRESSION;

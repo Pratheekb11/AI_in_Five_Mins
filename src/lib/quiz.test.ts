@@ -4,22 +4,6 @@ import { describe, expect, it } from "vitest";
 /**
  * Guards against a quiz you can pass without reading it, and against the quiz
  * growing back.
- *
- * Both of these were real. Every module's questions were written in the same
- * sitting and drifted into the same shape: 44 of 49 correct answers sat second
- * in their list, the other 5 sat third, not one sat first, and 48 of 49 were
- * the longest option on offer. Either tell on its own is enough to score full
- * marks on the whole site without understanding a word of it.
- *
- * Position is handled in the component, which deals the options into a stable
- * order derived from the prompt, so it cannot drift again. Length has to be
- * checked here, because only the author can fix it: the answer is long because
- * it carries the teaching, so the distractors are what have to grow.
- *
- * Parsing the pages as text is deliberate. The questions live inside `.tsx`
- * modules that import React components and generated data, so importing them
- * in a test environment would drag in half the site; the shape being asserted
- * is simple enough to read off the source.
  */
 
 const LESSONS = "src/app/lessons";

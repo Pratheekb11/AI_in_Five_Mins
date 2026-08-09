@@ -4,22 +4,6 @@ import { track } from "@vercel/analytics";
 
 /**
  * The small amount of measurement this site does about its readers.
- *
- * Visitors and page views come from `<Analytics />` in the root layout and
- * need nothing from us. What that does not give is how long anybody stayed or
- * how far they got, which is the only question worth asking of a site made of
- * games: did people play, and did they finish?
- *
- * So this sends four named events and nothing else. Every property is either
- * the lesson slug, which is already in the URL, or a number the site itself
- * produced. No identifiers, no text a reader typed, nothing from localStorage,
- * and nothing that could single anybody out.
- *
- * A NOTE ON PLANS. Vercel Web Analytics counts page views and visitors on
- * every plan. Custom events, which is what these are, are a Pro feature: on
- * the free plan the calls are accepted and quietly discarded, so nothing here
- * breaks, and the numbers simply do not appear in the dashboard until the
- * project is on Pro.
  */
 
 /** Seconds are bucketed. A reader is not a stopwatch and the buckets are what

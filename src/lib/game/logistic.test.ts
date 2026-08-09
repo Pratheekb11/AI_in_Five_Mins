@@ -17,11 +17,6 @@ import {
 
 /**
  * Read the Score.
- *
- * The important assertions are that the shipped probabilities really are what
- * the shipped weights produce, and that the rounds still cover the range. A
- * rebuild that quietly bunched every round at two per cent would leave a game
- * that looks fine and teaches nothing.
  */
 
 const data: LogisticData = JSON.parse(

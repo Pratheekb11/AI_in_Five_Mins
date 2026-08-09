@@ -6,25 +6,6 @@ import { SPAM_BENCH } from "@/lib/datasets";
 
 /**
  * What the word "AI" is actually pointing at.
- *
- * The distinction is genuinely simple and almost never drawn: in ordinary
- * software a person writes the rule, and in this kind of software nobody does
- *, the rule is found from examples. Everything else people argue about
- * follows from that one difference.
- *
- * So it is shown rather than asserted, on one real job. The same 5,574 real SMS
- * messages, the same held-out test set, three machines:
- *
- *   flag nothing        86.01%   the trap
- *   three written rules 97.31%   somebody sat down and thought
- *   learned from data   98.65%   nobody wrote a rule at all
- *
- * The middle bar is the one people underrate and the first is the one that
- * should worry them: a machine that does nothing at all scores 86% on this
- * job, which is why an accuracy figure on its own tells you nothing. That beat
- * is given its own moment instead of being a footnote.
- *
- * Every number is from `spam-bench.json`, measured on the same split.
  */
 
 const { corpus, baseline, bestSubset, learned, rules } = SPAM_BENCH;

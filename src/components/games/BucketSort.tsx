@@ -22,14 +22,6 @@ import { Nimo } from "@/components/nimo/Nimo";
 
 /**
  * The Bucket Sort.
- *
- * Not scored, not timed, and it does not tell you that you were wrong. Which of
- * your own tasks you will hand over depends on things no website knows. What it
- * can do is put the measurement next to the choice, so the judgement is yours
- * but the evidence is not vague.
- *
- * The card sliding away and the next one arriving is the only motion here. It
- * is a considered exercise and it should feel like one.
  */
 
 export function BucketSort() {

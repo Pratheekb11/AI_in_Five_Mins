@@ -5,11 +5,6 @@ import { analogy, type EmbeddingSpace, loadEmbeddings } from "@/lib/embeddings";
 
 /**
  * a − b + c, computed live on the shipped vectors.
- *
- * The famous example is king − man + woman. Every number printed here is a
- * cosine similarity worked out in the browser from the same 1,851 word vectors
- * the game uses, so nothing on the page can drift away from what the data
- * actually says, including when the answer is unimpressive, which is often.
  */
 
 const PRESETS: [string, string, string][] = [

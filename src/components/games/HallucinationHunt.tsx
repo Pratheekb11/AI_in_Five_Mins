@@ -21,14 +21,6 @@ import { useToday } from "@/lib/game/useToday";
 
 /**
  * Hallucination Hunt.
- *
- * A real paragraph from a real encyclopedia with three things quietly changed,
- * and six flags to spend. Everybody gets the same paragraph on the same day,
- * which is the bit that brings people back.
- *
- * The flagged words settle in rather than snapping, and a found alteration is
- * struck through and replaced by what the source actually says. Seeing the true
- * wording arrive in place of the false one is the moment the round is for.
  */
 
 let cached: Promise<HuntData> | null = null;

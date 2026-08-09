@@ -14,28 +14,6 @@ import {
 /**
  * Five ways of asking for the same thing, measured, on one set of bars that
  * never gets redrawn.
- *
- * The rows are all present from the first step. What changes is how much of
- * each one has been measured, so the figure reads as evidence arriving rather
- * than as four separate charts. That matters most at the last step, where the
- * worked example does not nudge the bar along, it runs off the end of the
- * scale, and the only reason that lands is that the other four bars are still
- * sitting there unchanged for comparison.
- *
- * Every probability is DistilGPT-2 scoring the wanted answer against the exact
- * prompt printed beside it. The prompt text is shown because the phrasing is
- * the lesson: a bar you cannot reproduce teaches nothing.
- *
- * A caveat the page states plainly: this is a base model, so instructions
- * genuinely do work better on the assistants people actually use. What is
- * measured here is the floor.
- *
- * Stages:
- *   0  the bare question, and the odds it gets you
- *   1  a role to play, which is the one people believe in
- *   2  an instruction about how to answer
- *   3  the same thing shown as a pattern
- *   4  every goal, so it is not one lucky example
  */
 
 const ORDER: Style[] = ["bare", "role", "request", "pattern"];

@@ -16,15 +16,6 @@ import {
 
 /**
  * Odd One In. Six words from one group, and which of four joins them.
- *
- * There are no labels anywhere in this. The groups were found by an algorithm
- * that was given nothing but 1,851 vectors and the number eight, and every
- * round is a real membership question about a real cluster.
- *
- * Which makes some rounds easy and some rounds a shrug, and both are the point.
- * A clustering is not a taxonomy. It is whatever fell out of the geometry, and
- * part of learning to use one is learning that not every group it finds means
- * anything.
  */
 
 let cached: Promise<ClusterData> | null = null;

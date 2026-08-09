@@ -22,16 +22,6 @@ import {
 
 /**
  * Provenance Detective, three doors, one question.
- *
- * You are shown a question and asked which of three situations you are in
- * before you see any evidence. Then the evidence arrives as two bars: what the
- * model does cold, and what it does with the source in front of it.
- *
- * The gap between those two bars is the whole idea, so it is the thing that
- * animates. A question it already knows shows two tall bars and almost no
- * movement. A question it does not know shows a bar at nothing and a bar at
- * ninety-eight per cent. And the sums show neither, because the answer to those
- * is not in any document.
  */
 
 let cached: Promise<ProvenanceData> | null = null;

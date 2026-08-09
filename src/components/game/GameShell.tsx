@@ -15,15 +15,6 @@ import { trackGameFinished, trackGameStarted } from "@/lib/telemetry";
 
 /**
  * The cabinet every game is mounted in.
- *
- * Rounds are deliberately under a minute, so losing costs nothing and going
- * again is the obvious move. That is the whole design: the teaching happens on
- * the third replay, not the first, so everything here exists to make the third
- * replay feel like the player's own idea.
- *
- * The levers are the boring proven ones, a visible personal best, a loud
- * moment when it is beaten, the score kept on screen while you play, and a
- * restart that takes one press and no confirmation.
  */
 
 export type Readout = {
@@ -34,11 +25,6 @@ export type Readout = {
 
 /**
  * How to play, in the fewest words that still work.
- *
- * Every cabinet takes one. The instruction paragraph explains why the game
- * exists, which is a different job from telling somebody which key to press,
- * and readers were bouncing off games because only the first job was being
- * done.
  */
 export type HowToPlay = {
   /** What winning looks like, in one line. */

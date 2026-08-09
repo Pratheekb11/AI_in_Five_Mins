@@ -6,11 +6,6 @@ import { BeatFrame } from "./BeatFrame";
 
 /**
  * Items into labelled buckets, by drag or by two taps.
- *
- * Both input paths exist because neither one covers everybody: HTML5 drag does
- * nothing on a phone, and a drag-only check would be unusable for anyone on a
- * keyboard. Tap-to-pick then tap-to-drop is the primary interaction and drag is
- * the enhancement, so the same state drives both.
  */
 
 type State = {

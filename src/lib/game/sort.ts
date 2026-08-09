@@ -1,24 +1,5 @@
 /**
  * The Bucket Sort, the endgame, and deliberately not a game.
- *
- * Everything else on the site measures something and then scores you against
- * it. This one cannot and does not. Which of your own tasks you are willing to
- * hand over depends on your job, your risk, and what happens to you when it is
- * wrong, and nobody building a website knows any of that. So there is no timer,
- * no throughput, no right answer and no score.
- *
- * What it does instead is connect each choice to something the site actually
- * measured. Put "answer a legal question about your contract" in the hand-over
- * tray and you are told, with the number, that the same model ranked the true
- * answer 811th until the source was in front of it. The judgement stays yours;
- * the evidence stops being vague.
- *
- * The mapping from a task to the evidence that bears on it is our editorial
- * call and is labelled as such wherever it appears. The measurements it points
- * at are not.
- *
- * The output is a written map you can copy out and keep, because a sorting
- * exercise you cannot take away with you was a waste of your afternoon.
  */
 
 /* ---------------------------------------------------------------- buckets -- */

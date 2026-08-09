@@ -1,26 +1,5 @@
 /**
  * The rules of the Failure bench, as pure functions.
- *
- * Three failures that get talked about as if they were three different bugs,
- * making things up, sounding certain while wrong, and carrying prejudice, and
- * one cause underneath all of them: the thing was fitted to text, and text is
- * not the world.
- *
- * The bench proves that rather than asserting it. Each specimen is a real
- * measurement on data already shipped with this site, and the player calls
- * which way it went before it is weighed.
- *
- * HONESTY, and this one matters more here than anywhere else on the site.
- * Which specimens go on the bench is an editorial choice and is listed below
- * with no numbers in it. Every number comes out of `logits.json` or
- * `embeddings.json` at run time, computed by the same functions the rest of the
- * site uses. Nothing is typed in by hand, so nothing can drift, and a specimen
- * that stopped being true would fail loudly rather than keep printing an old
- * figure. Two of the specimens contradict the point they look like they are
- * making, they are kept precisely because they do.
- *
- * PURITY. The reducer never rolls a die. Draws are made by the caller and
- * passed in as numbers, so a state updater running twice changes nothing.
  */
 
 import { similarity, type EmbeddingSpace } from "@/lib/embeddings";

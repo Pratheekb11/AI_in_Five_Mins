@@ -6,22 +6,6 @@ import { useCallback, useEffect, useState } from "react";
 
 /**
  * A sentence being written, one word at a time, by a real model.
- *
- * The first version of this panel showed four beats against a handful of
- * unrelated prompts and rolled to a different sentence each cycle. It was
- * unreadable, and fairly called meaningless: the one thing the loop claims is
- * that the model adds a word and goes again, and that is exactly what changing
- * the sentence every cycle hides.
- *
- * So now there is one sentence and it grows. Each tick appends the word the
- * model actually chose, the panel shows the handful of words it weighed up
- * before choosing, and the text on screen is the text the next step is about to
- * read. Nothing is staged: every step in `loop.json` is a real forward pass
- * over whatever the step before it produced.
- *
- * The repetition that sets in on some chains is not a bug in the recording. It
- * is what always taking the likeliest word does, it has a name, and the panel
- * points at the module that measures it rather than hiding it.
  */
 
 type Candidate = { text: string; probability: number };

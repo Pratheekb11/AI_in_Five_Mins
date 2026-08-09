@@ -17,11 +17,6 @@ import {
 
 /**
  * The Feature Bench.
- *
- * Half of these are about the reducer and half are about the data, because the
- * page makes claims about specific features. If `features.json` is regenerated
- * and the word "free" stops losing to message length, the chapter's headline
- * becomes false, and it should fail here rather than quietly mislead somebody.
  */
 
 const data: FeatureData = JSON.parse(

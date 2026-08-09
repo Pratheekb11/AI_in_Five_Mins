@@ -15,11 +15,6 @@ import {
 
 /**
  * Pick the Model.
- *
- * The chapter's whole claim is a shape: training error falling forever while
- * held-out error turns upward. These tests assert that shape rather than
- * particular numbers wherever they can, so a regenerated file is allowed to
- * move the decimals but not to quietly flatten the lesson.
  */
 
 const data: OverfitData = JSON.parse(

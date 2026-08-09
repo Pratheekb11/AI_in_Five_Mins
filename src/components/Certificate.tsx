@@ -15,20 +15,6 @@ import { useProgress } from "@/lib/progress";
 
 /**
  * The certificate, drawn live, downloadable, and shareable.
- *
- * WHAT SHARING CAN AND CANNOT DO, because the buttons have to be honest about
- * it. None of the four networks accepts an image through a link: an intent URL
- * carries text and a URL and nothing else. So there are two paths.
- *
- * On a phone, `navigator.share` with a file opens the real share sheet and the
- * image goes with it, which covers Instagram and WhatsApp and everything else
- * installed. On a desktop that API mostly does not take files, so the honest
- * flow is: download the image, then open the composer with the words already
- * written and attach it. The buttons say so rather than pretending.
- *
- * The link shared is wherever this page is actually running, read at press
- * time. Hard-coding a domain the site has not moved to yet would put a dead
- * link in somebody's feed.
  */
 export function Certificate({ spec }: { spec: CertificateSpec }) {
   const { progress } = useProgress();

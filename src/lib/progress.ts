@@ -5,16 +5,6 @@ import { LESSONS } from "./lessons";
 
 /**
  * Learner progress.
- *
- * Kept in localStorage, because there are no accounts and there is nothing here
- * worth asking somebody to sign up for. The shape below is the contract a
- * backend would take over: swap the read and write pair for API calls and
- * nothing else in the app has to change.
- *
- * XP, level and rank are never stored. They are computed from what you have
- * finished, every time they are asked for. Storing them would let the two drift
- * apart, and the stored number would win, which is how a progress bar ends up
- * lying to somebody.
  */
 
 const STORAGE_KEY = "llai-progress";

@@ -7,25 +7,6 @@ import { TOKEN_EXAMPLES } from "@/lib/tokenExamples";
 
 /**
  * The same text, priced, as one strip that never gets replaced.
- *
- * The merge reel further up this page already shows *how* the chunks are made.
- * This figure is about what that costs you, which is the part people actually
- * meet: the strip of tiles and the counter beside it stay on screen the whole
- * way through, and every step changes what is in them.
- *
- * The counter is the thing to watch. It goes 3, then 1 for the same ten
- * letters, then 8 against 20 for the same sentence in another language. A
- * number that moves under a heading that does not is the whole argument.
- *
- * Every split is o200k_base, read out of the generated file rather than typed
- * in, so the tiles here and the tiles a learner produces by typing come from
- * one source.
- *
- * Stages:
- *   0  ten letters, which is what you see
- *   1  three tokens, which is what it sees
- *   2  the same word with a space in front, which costs one
- *   3  the same sentence in any of five languages
  */
 
 const bare = TOKEN_EXAMPLES.curiosities.find((c) => c.id === "strawberry")!;

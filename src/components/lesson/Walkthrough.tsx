@@ -7,23 +7,10 @@ import { SpeechButton } from "./SpeechButton";
 
 /**
  * A lesson, one idea at a time.
- *
- * Replaces the wall of prose the first version of this site shipped. Each step
- * is a couple of sentences and, usually, something to look at; the learner
- * advances when they are ready. Nothing scrolls out of reach and nothing has to
- * be read before the interesting part.
- *
- * Every step can be read aloud, so the text is written to be heard as well as
- * seen, short sentences, no parentheticals, no bullet fragments.
  */
 
 /**
  * Which step the walkthrough is on, published to whatever figure it is hosting.
- *
- * A render prop would be the obvious way to do this and it cannot work: lesson
- * pages are server components, and a function cannot be serialised across that
- * boundary. A context costs one provider and lets the page pass a plain
- * element instead.
  */
 const StepContext = createContext(0);
 
@@ -49,12 +36,6 @@ export function Walkthrough({
   /**
    * One figure for the whole walkthrough, which reads the current step out of
    * `useWalkthroughStep`.
-   *
-   * The difference between this and a `show` per step is the entire point.
-   * `show` swaps one picture out for another, so each step starts from nothing
-   * and the learner has to find their bearings again. A figure persists: the
-   * same tokens, the same bars, the same slot stay on screen and *change*, so
-   * the only thing you can notice is what moved. Given this, `show` is ignored.
    */
   figure?: ReactNode;
 }) {

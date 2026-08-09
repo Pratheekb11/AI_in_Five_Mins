@@ -7,33 +7,6 @@ import { atTemperature, type LogitData, type LogitPrompt } from "@/lib/logits";
 
 /**
  * Two prompts, one dial, and the thing the dial cannot do.
- *
- * Everybody meets temperature as a creativity slider, which quietly implies it
- * is adding something. It is not. It reshapes a distribution the model already
- * produced, and the fastest way to see that is to put two prompts side by side
- * and move the dial once for both of them.
- *
- * The opening of Genesis is already at 99% on one token, so turning the dial
- * cold does nothing you can see and turning it hot barely dents it. "Once upon
- * a" tops out at 7%, and the same dial swings it violently. Same model, same
- * arithmetic, opposite behaviour, and the difference was in the text, not in
- * the setting.
- *
- * Both columns stay on screen the whole way through, because the comparison is
- * the argument. Neither is redrawn: the bars only ever change height.
- *
- * UNITS, which cost an hour on chapter one. `atTemperature` renormalises over
- * the twelve candidates that were kept, so the percentages it returns are
- * shares of those twelve rather than of the whole vocabulary. Everything here
- * is rescaled by the mass those twelve actually hold, so that 99.4% at the
- * start means the same thing as 99.4% four steps later.
- *
- * Stages:
- *   0  one prompt, and how certain it is
- *   1  a second prompt, and how uncertain it is
- *   2  the dial turned cold
- *   3  the dial turned hot
- *   4  the step that is missing from the whole loop
  */
 
 const LEFT = "memorised";

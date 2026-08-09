@@ -2,11 +2,6 @@ import raw from "@data/analogy.json";
 
 /**
  * Typed view over the generated analogy geometry.
- *
- * Produced by data/scripts/build-analogy.mjs from full-precision GloVe vectors.
- * Every similarity, rank and coordinate here is measured; nothing is rounded
- * toward the answer anybody was hoping for, which is why `bigger - big + small`
- * comes back as "larger" rather than "smaller".
  */
 
 export type Neighbour = { word: string; similarity: number };

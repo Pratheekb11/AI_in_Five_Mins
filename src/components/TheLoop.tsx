@@ -122,7 +122,7 @@ export function TheLoop() {
         <p className="label text-ink-faint mb-2">
           What it has written so far, and what it is about to add
         </p>
-        <p className="font-data bg-paper-sunk border-ink/20 mb-6 min-h-[6rem] rounded-[2px] border px-4 py-3 text-[1.0625rem] leading-relaxed">
+        <p className="font-data bg-paper-sunk border-ink/20 mb-6 min-h-[4rem] sm:min-h-[6rem] rounded-[2px] border px-4 py-3 text-[1.0625rem] leading-relaxed">
           <span className="text-ink-soft">{written}</span>
           <motion.span
             key={`${chain}-${at}`}

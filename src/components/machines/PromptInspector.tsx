@@ -8,6 +8,7 @@ import {
   type Signal,
 } from "@/lib/game/promptline";
 import { ENCODING_NAME, loadEncoding } from "@/lib/tokenizer";
+import { useIsPhone } from "@/lib/useMedia";
 
 /**
  * Paste an instruction; see which of the five parts are structurally there and
@@ -34,6 +35,8 @@ const SAMPLES = [
 ];
 
 export function PromptInspector() {
+  const phone = useIsPhone();
+  const [methodOpen, setMethodOpen] = useState(false);
   const [text, setText] = useState(SAMPLES[0].text);
   const [encoding, setEncoding] = useState<Awaited<
     ReturnType<typeof loadEncoding>
@@ -59,8 +62,8 @@ export function PromptInspector() {
   const chars = [...text].length;
 
   return (
-    <div className="plate p-5 md:p-6">
-      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+    <div className="plate p-4 sm:p-5 md:p-6">
+      <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 sm:mb-4">
         <h3 className="display-md">Prompt inspector</h3>
         <p className="label text-ink-faint">Runs entirely in your browser</p>
       </div>
@@ -72,9 +75,9 @@ export function PromptInspector() {
         id="inspector-input"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        rows={5}
+        rows={3}
         spellCheck={false}
-        className="border-ink/40 bg-yellow-wash focus:border-ink mt-2 w-full resize-y rounded-[2px] border px-3 py-2.5 text-base outline-none"
+        className="border-ink/40 bg-yellow-wash focus:border-ink mt-2 w-full resize-y rounded-[2px] border px-3 py-2 text-[0.9375rem] outline-none sm:py-2.5 sm:text-base"
       />
 
       <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -91,7 +94,7 @@ export function PromptInspector() {
         ))}
       </div>
 
-      <dl className="border-ink/25 mt-5 grid grid-cols-3 gap-4 border-t pt-4">
+      <dl className="border-ink/25 mt-4 grid grid-cols-3 gap-3 border-t pt-3 sm:mt-5 sm:gap-4 sm:pt-4">
         <Stat
           label="Tokens"
           value={tokens === null ? "counting…" : tokens}
@@ -101,20 +104,32 @@ export function PromptInspector() {
         <Stat label="Parts found" value={`${present}/5`} />
       </dl>
 
-      <p className="text-ink-faint mt-2 text-sm">
+      <p className="text-ink-faint mt-2 text-[0.8125rem] sm:text-sm">
         Tokens measured with the real{" "}
         <span className="font-data">{ENCODING_NAME}</span> encoding
         {encoding ? "" : " (the merge table is still loading)"}. That number is
         exact. The five checks below are not.
       </p>
 
-      <ul className="border-ink/25 mt-5 space-y-3 border-t pt-4">
+      <ul className="border-ink/25 mt-4 space-y-2 border-t pt-3 sm:mt-5 sm:space-y-3 sm:pt-4">
         {signals.map((signal) => (
           <Row key={signal.key} signal={signal} />
         ))}
       </ul>
 
-      <p className="border-ink/20 text-ink-soft mt-5 border-t pt-4 text-sm">
+      {/* The caveat is the honest half of this machine, so it never leaves the
+          page. On a phone it is one line until asked for, because a paragraph
+          of method under the results is a screenful of scrolling. */}
+      {phone && !methodOpen ? (
+        <button
+          type="button"
+          onClick={() => setMethodOpen(true)}
+          className="tap label text-ink-faint border-ink/20 mt-4 w-full border-t px-1 pt-3 text-left underline underline-offset-2"
+        >
+          How this check works
+        </button>
+      ) : (
+      <p className="border-ink/20 text-ink-soft mt-4 border-t pt-3 text-[0.8125rem] sm:mt-5 sm:pt-4 sm:text-sm">
         <strong className="font-semibold">How this check works:</strong> it
         looks for the phrasings these five parts usually take in English.
         &ldquo;you are&rdquo;, a verb at the start of a sentence, a word limit,
@@ -123,6 +138,7 @@ export function PromptInspector() {
         it will happily tick a box for a role that makes no sense. Read what it
         matched on and decide for yourself.
       </p>
+      )}
     </div>
   );
 }
@@ -131,9 +147,9 @@ function Row({ signal }: { signal: Signal }) {
   const spec = ELEMENTS.find((e) => e.key === signal.key)!;
 
   return (
-    <li className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:gap-4">
+    <li className="flex flex-row items-baseline gap-2 sm:gap-4">
       <span
-        className={`label w-28 shrink-0 ${
+        className={`label w-20 shrink-0 sm:w-28 ${
           signal.present ? "text-teal-text" : "text-pink-text"
         }`}
       >
@@ -141,14 +157,14 @@ function Row({ signal }: { signal: Signal }) {
       </span>
 
       {signal.present ? (
-        <span className="min-w-0 text-[0.9375rem]">
+        <span className="min-w-0 text-[0.875rem] sm:text-[0.9375rem]">
           <span className="text-ink-faint">matched on </span>
           <span className="data bg-teal-wash rounded-[2px] px-1.5 py-0.5 text-[0.8125rem]">
             {signal.evidence}
           </span>
         </span>
       ) : (
-        <span className="min-w-0 text-[0.9375rem]">
+        <span className="min-w-0 text-[0.875rem] sm:text-[0.9375rem]">
           <span className="text-ink-soft">{spec.missing}</span>{" "}
           <span className="data text-ink-faint text-[0.8125rem]">
             {HINTS[signal.key]}
@@ -172,7 +188,7 @@ function Stat({
     <div>
       <dt className="label text-ink-faint mb-1.5">{label}</dt>
       <dd
-        className={`data text-2xl font-semibold ${accent ? "text-pink-text" : "text-ink"}`}
+        className={`data text-xl font-semibold sm:text-2xl ${accent ? "text-pink-text" : "text-ink"}`}
       >
         {value}
       </dd>

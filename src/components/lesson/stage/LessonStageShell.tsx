@@ -100,6 +100,9 @@ export function LessonStageShell({
       </div>
     ),
     selfAdvance: true,
+    /* The closing screen carries every fold on the page. It is meant to be
+       read down, so it is the one beat that is not squeezed into a screen. */
+    fit: false,
   };
 
   return (

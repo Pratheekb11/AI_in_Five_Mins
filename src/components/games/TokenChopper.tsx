@@ -10,6 +10,7 @@ import {
   VOCAB_SIZE,
 } from "@/lib/tokenizer";
 import { loadScripts, type ScriptData } from "@/lib/scripts";
+import { useIsPhone } from "@/lib/useMedia";
 
 /**
  * Token Chopper, type anything, watch it shatter.
@@ -66,6 +67,8 @@ const TILE_INKS = [
 ];
 
 export function TokenChopper() {
+  const phone = useIsPhone();
+  const [billOpen, setBillOpen] = useState(false);
   const [encoding, setEncoding] = useState<Encoding | null>(null);
   const [scripts, setScripts] = useState<ScriptData | null>(null);
   const [text, setText] = useState(START);
@@ -141,7 +144,7 @@ export function TokenChopper() {
 
         {/* The tiles. They move, because the point is that your text is being
             taken apart, a still picture of the result does not say that. */}
-        <div className="bg-paper-sunk border-ink/20 mb-4 min-h-[6rem] rounded-[2px] border p-3">
+        <div className="bg-paper-sunk border-ink/20 mb-4 min-h-[4rem] sm:min-h-[6rem] rounded-[2px] border p-3">
           {encoding ? (
             tokens.length > 0 ? (
               <div className="flex flex-wrap gap-1.5">
@@ -216,7 +219,19 @@ export function TokenChopper() {
       </div>
 
       {scripts && english ? (
-        <div className="border-ink/20 border-t p-5 md:p-6">
+        <div className="border-ink/20 border-t p-4 sm:p-5 md:p-6">
+          {/* A second idea, and on a phone a second screenful. It stays one tap
+              away rather than pushing the chopper itself off the top. */}
+          {phone && !billOpen ? (
+            <button
+              type="button"
+              onClick={() => setBillOpen(true)}
+              className="tap label text-ink-faint w-full px-1 py-1.5 text-left underline underline-offset-2"
+            >
+              What the same text costs in other languages
+            </button>
+          ) : (
+            <>
           <h4 className="display-md mb-1">The bill nobody mentions</h4>
           <p className="prose-measure text-ink-soft mb-4 text-[0.9375rem]">
             The same {scripts.charactersMeasured} characters of Wikipedia, in
@@ -224,10 +239,10 @@ export function TokenChopper() {
             so the right-hand column is what your language costs you.
           </p>
 
-          <ul className="space-y-2">
+          <ul className="space-y-1.5 sm:space-y-2">
             {scripts.languages.map((language) => (
-              <li key={language.code} className="flex items-center gap-3">
-                <span className="w-24 shrink-0 text-[0.9375rem]">
+              <li key={language.code} className="flex items-center gap-2 sm:gap-3">
+                <span className="w-16 shrink-0 text-[0.875rem] sm:w-24 sm:text-[0.9375rem]">
                   {language.name}
                 </span>
                 <span className="bg-paper-sunk border-ink/20 h-4 flex-1 overflow-hidden rounded-[1px] border">
@@ -248,7 +263,7 @@ export function TokenChopper() {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                   />
                 </span>
-                <span className="data text-ink-soft w-20 shrink-0 text-right text-xs tabular-nums">
+                <span className="data text-ink-soft w-14 shrink-0 text-right text-xs tabular-nums sm:w-20">
                   {language.tokens} tok
                 </span>
                 <span
@@ -275,6 +290,8 @@ export function TokenChopper() {
             language, so these are comparable texts on one subject rather than
             translations.
           </p>
+            </>
+          )}
         </div>
       ) : null}
     </div>

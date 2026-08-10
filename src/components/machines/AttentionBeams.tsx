@@ -159,7 +159,7 @@ export function AttentionBeams({ driven }: { driven?: number }) {
 
   if (!data || !sentence) {
     return (
-      <div className="plate min-h-[22rem] p-5">
+      <div className="plate min-h-[12rem] p-4 sm:min-h-[22rem] sm:p-5">
         <p className="text-ink-soft text-[0.9375rem]">
           Loading the extracted weights&hellip;
         </p>

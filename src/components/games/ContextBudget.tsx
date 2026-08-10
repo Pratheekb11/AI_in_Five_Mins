@@ -165,7 +165,7 @@ export function ContextBudget() {
         )
       }
     >
-      <div className="min-h-[26rem] p-5 md:p-6">
+      <div className="min-h-[13rem] p-4 sm:min-h-[26rem] sm:p-5 md:p-6">
         {scenario ? (
           <>
             <p className="label text-ink-faint mb-2">The question</p>

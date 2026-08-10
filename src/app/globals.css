@@ -463,6 +463,21 @@
   }
 }
 
+@layer components {
+  /* A deck beat is meant to be taken in without scrolling, and on a phone the
+     provenance line under a figure is the block that most often pushes it past
+     the bottom. It stays on the page — it is the whole premise of the site —
+     but it prints at note size there rather than at body size. */
+  @media (max-width: 639px) {
+    [data-stage-port] figcaption {
+      font-size: 0.75rem;
+      line-height: 1.4;
+      padding-top: 0.55rem;
+      padding-bottom: 0.55rem;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

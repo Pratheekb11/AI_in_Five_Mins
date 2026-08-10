@@ -113,7 +113,7 @@ export function HoldoutFigure() {
 
   if (!data) {
     return (
-      <div className="plate-flush min-h-[18rem] p-4">
+      <div className="plate-flush min-h-[10rem] p-3 sm:min-h-[18rem] sm:p-4">
         <p className="text-ink-soft text-[0.9375rem]">Loading the results…</p>
       </div>
     );

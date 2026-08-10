@@ -10,6 +10,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { FitBox } from "./FitBox";
 
 /**
  * A lesson as a deck of beats: one on screen at a time, no scrolling between
@@ -49,6 +50,11 @@ export type Beat = {
   selfAdvance?: boolean;
   /** Wording for this beat's advance control when the deck draws it. */
   cta?: string;
+  /**
+   * Off for a beat that is meant to be read down rather than taken in at a
+   * glance. Everything else is scaled to the screen it is on.
+   */
+  fit?: boolean;
 };
 
 export function LessonStage({ beats }: { beats: Beat[] }) {
@@ -97,8 +103,14 @@ export function LessonStage({ beats }: { beats: Beat[] }) {
             shrink, the container grows past the viewport, the document scrolls
             instead of this box, and `sticky` inside a beat has no scrollport to
             pin against. */}
-        <div className="min-h-0 grow overflow-x-hidden overflow-y-auto">
-          <div className="mx-auto flex min-h-full w-full max-w-5xl flex-col px-5 py-6">
+        <div
+          data-stage-port=""
+          className="min-h-0 grow overflow-x-hidden overflow-y-auto"
+        >
+          <div
+            data-stage-pad=""
+            className="mx-auto flex min-h-full w-full max-w-5xl flex-col px-5 py-6"
+          >
             {beats.map((beat, i) => (
               <div
                 key={beat.id}
@@ -120,7 +132,9 @@ export function LessonStage({ beats }: { beats: Beat[] }) {
                     ease: [0.22, 1, 0.36, 1],
                   }}
                 >
-                  {beat.node}
+                  <FitBox active={i === at} enabled={beat.fit !== false}>
+                    {beat.node}
+                  </FitBox>
                 </motion.div>
               </div>
             ))}

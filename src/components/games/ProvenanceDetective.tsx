@@ -158,7 +158,7 @@ export function ProvenanceDetective() {
         )
       }
     >
-      <div className="min-h-[24rem] p-5 md:p-6">
+      <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round ? (
           <>
             <p className="label text-ink-faint mb-2">The question</p>
@@ -197,7 +197,7 @@ export function ProvenanceDetective() {
               })}
             </div>
 
-            <div className="min-h-[11rem]" aria-live="polite">
+            <div className="min-h-[4rem] sm:min-h-[6rem] sm:min-h-[11rem]" aria-live="polite">
               {revealed ? (
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}

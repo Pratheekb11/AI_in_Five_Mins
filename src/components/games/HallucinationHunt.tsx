@@ -164,7 +164,7 @@ export function HallucinationHunt() {
         )
       }
     >
-      <div className="min-h-[22rem] p-5 md:p-6">
+      <div className="min-h-[12rem] p-4 sm:min-h-[22rem] sm:p-5 md:p-6">
         {puzzle ? (
           <>
             <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">

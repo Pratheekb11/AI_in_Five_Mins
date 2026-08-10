@@ -269,7 +269,7 @@ export function BucketSort() {
             ))}
           </div>
 
-          <div className="min-h-[7rem]" aria-live="polite">
+          <div className="min-h-[4rem] sm:min-h-[7rem]" aria-live="polite">
             {chosen ? (
               <motion.div
                 initial={{ opacity: 0, y: 6 }}

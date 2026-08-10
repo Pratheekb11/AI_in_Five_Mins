@@ -148,7 +148,7 @@ export function PasteCheck() {
         </>
       }
     >
-      <div className="min-h-[24rem] p-5 md:p-6">
+      <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {payload ? (
           <>
             <AnimatePresence mode="wait">
@@ -205,7 +205,7 @@ export function PasteCheck() {
               })}
             </div>
 
-            <div className="min-h-[9rem]" aria-live="polite">
+            <div className="min-h-[5rem] sm:min-h-[9rem]" aria-live="polite">
               {revealed && verdict ? (
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}

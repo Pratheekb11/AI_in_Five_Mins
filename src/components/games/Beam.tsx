@@ -148,7 +148,7 @@ export function Beam() {
         )
       }
     >
-      <div className="min-h-[19rem] p-5 md:p-6">
+      <div className="min-h-[4rem] sm:min-h-[6rem] sm:min-h-[11rem] p-4 sm:min-h-[19rem] sm:p-5 md:p-6">
         {round ? (
           <>
             <p className="label text-ink-faint mb-3">

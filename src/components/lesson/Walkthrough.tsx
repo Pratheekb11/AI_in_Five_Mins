@@ -52,7 +52,7 @@ export function Walkthrough({
       data-section="walkthrough"
     >
       {/* progress ticks, printed, countable, and short enough to count */}
-      <div className="border-ink/25 bg-paper-sunk flex items-center gap-3 border-b px-4 py-3">
+      <div className="border-ink/25 bg-paper-sunk flex items-center gap-3 border-b px-4 py-2 sm:py-3">
         <span className="label text-ink-faint shrink-0">
           {at + 1} / {steps.length}
         </span>
@@ -74,10 +74,10 @@ export function Walkthrough({
         <SpeechButton key={at} text={step.say} />
       </div>
 
-      <div className="p-5 md:p-6">
+      <div className="p-4 sm:p-5 md:p-6">
         {/* Nimo does the explaining, so the walkthrough has a voice rather
             than being an anonymous block of text. */}
-        <div className="mb-5 flex items-start gap-4">
+        <div className="mb-4 flex items-start gap-4 sm:mb-5">
           <Nimo
             mood={last ? "cheer" : "curious"}
             follow={false}
@@ -88,7 +88,7 @@ export function Walkthrough({
             <AnimatePresence mode="wait">
               <motion.p
                 key={at}
-                className="text-lg leading-relaxed"
+                className="text-[1.0625rem] leading-relaxed sm:text-lg"
                 initial={still ? false : { opacity: 0, x: 18 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={still ? undefined : { opacity: 0, x: -18 }}
@@ -104,7 +104,7 @@ export function Walkthrough({
             must survive the step change in order to animate through it. */}
         {figure ? (
           <StepContext.Provider value={at}>
-            <div className="mb-4">{figure}</div>
+            <div className="mb-3 sm:mb-4">{figure}</div>
           </StepContext.Provider>
         ) : null}
 
@@ -121,14 +121,16 @@ export function Walkthrough({
             ) : null}
 
             {step.caption ? (
-              <p className="text-ink-faint mb-4 text-sm">{step.caption}</p>
+              <p className="text-ink-faint mb-3 text-[0.8125rem] sm:mb-4 sm:text-sm">
+                {step.caption}
+              </p>
             ) : null}
           </motion.div>
         </AnimatePresence>
 
         <div
-          className={`border-ink/20 flex items-center justify-between gap-3 border-t pt-4 ${
-            stage ? "bg-paper-raised sticky bottom-0 -mx-5 -mb-5 px-5 pb-5 md:-mx-6 md:-mb-6 md:px-6 md:pb-6" : ""
+          className={`border-ink/20 flex items-center justify-between gap-3 border-t pt-3 sm:pt-4 ${
+            stage ? "bg-paper-raised sticky bottom-0 -mx-4 -mb-4 px-4 pb-4 sm:-mx-5 sm:-mb-5 sm:px-5 sm:pb-5 md:-mx-6 md:-mb-6 md:px-6 md:pb-6" : ""
           }`}
         >
           <button

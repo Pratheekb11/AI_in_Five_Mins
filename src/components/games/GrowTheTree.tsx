@@ -163,7 +163,7 @@ export function GrowTheTree() {
         )
       }
     >
-      <div className="min-h-[24rem] p-5 md:p-6">
+      <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round && data ? (
           <>
             <p className="label text-ink-faint mb-1">

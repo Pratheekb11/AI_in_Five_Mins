@@ -76,7 +76,7 @@ function Swarm({
           spam
         </span>
       </div>
-      <div className="bg-paper-sunk border-ink/20 flex min-h-[4.5rem] flex-wrap content-start gap-[3px] rounded-[2px] border p-2">
+      <div className="bg-paper-sunk border-ink/20 flex min-h-[3rem] sm:min-h-[4.5rem] flex-wrap content-start gap-[3px] rounded-[2px] border p-2">
         {dots.map((dot) => (
           <motion.span
             key={dot.id}
@@ -130,7 +130,7 @@ export function FeatureSplitFigure() {
 
   if (!data) {
     return (
-      <div className="plate-flush min-h-[18rem] p-4">
+      <div className="plate-flush min-h-[10rem] p-3 sm:min-h-[18rem] sm:p-4">
         <p className="text-ink-soft text-[0.9375rem]">Loading the corpus…</p>
       </div>
     );

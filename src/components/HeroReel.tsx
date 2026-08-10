@@ -215,7 +215,7 @@ export function HeroReel() {
 
   if (!round || !data) {
     return (
-      <div className="plate min-h-[19rem] p-5 md:p-6">
+      <div className="plate min-h-[4rem] sm:min-h-[6rem] sm:min-h-[11rem] p-4 sm:min-h-[19rem] sm:p-5 md:p-6">
         <p className="label text-ink-faint mb-3">Reading a real model</p>
         <p className="text-ink-soft text-[0.9375rem]">
           Measuring what it says next…
@@ -265,7 +265,7 @@ export function HeroReel() {
         {/*
           The sentence, with the blank that everything else is about.
         */}
-        <p className="prose-measure mb-1 min-h-[4.5rem] text-[1.0625rem] leading-relaxed sm:text-[1.125rem]">
+        <p className="prose-measure mb-1 min-h-[3rem] sm:min-h-[4.5rem] text-[1.0625rem] leading-relaxed sm:text-[1.125rem]">
           <span className="text-ink-soft">{round.question} </span>
           <span className="relative inline-block align-baseline">
             <AnimatePresence mode="popLayout" initial={false}>

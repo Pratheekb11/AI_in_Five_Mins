@@ -184,7 +184,7 @@ export function FailureBench() {
         )
       }
     >
-      <div className="min-h-[22rem] p-5 md:p-6">
+      <div className="min-h-[12rem] p-4 sm:min-h-[22rem] sm:p-5 md:p-6">
         {weighing ? (
           <>
             <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -316,7 +316,7 @@ export function FailureBench() {
               })}
             </div>
 
-            <div className="mt-4 min-h-[5.5rem]" aria-live="polite">
+            <div className="mt-4 min-h-[3.5rem] sm:min-h-[5.5rem]" aria-live="polite">
               {revealed ? (
                 <>
                   <p

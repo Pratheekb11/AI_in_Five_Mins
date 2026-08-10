@@ -98,7 +98,7 @@ export function MergeReel() {
 
   return (
     <figure className="plate overflow-hidden">
-      <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
+      <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b px-4 py-2 sm:gap-y-2 sm:py-3">
         <span className="label">Byte-pair encoding, one merge at a time</span>
         <span className="label text-ink-faint">
           {finished
@@ -110,7 +110,7 @@ export function MergeReel() {
       </div>
 
       {/* Which word. Each one is here because it goes wrong differently. */}
-      <div className="border-ink/20 flex flex-wrap gap-1.5 border-b px-4 py-3">
+      <div className="border-ink/20 flex flex-wrap gap-1.5 border-b px-4 py-2 sm:py-3">
         {data.traces.map((t, i) => (
           <button
             key={t.word}
@@ -127,7 +127,7 @@ export function MergeReel() {
         ))}
       </div>
 
-      <div className="p-5 md:p-6">
+      <div className="p-4 sm:p-5 md:p-6">
         <p className="label text-ink-faint mb-3">
           {scene.done === 0
             ? `Where the tokenizer starts. ${trace.bytes} bytes, nothing grouped`
@@ -138,7 +138,7 @@ export function MergeReel() {
             the surviving tiles keep their identity and the merged one grows
             into the space the pair occupied, so the join is continuous rather
             than a cut. */}
-        <div className="mb-6 flex min-h-[4.5rem] flex-wrap items-center gap-1">
+        <div className="mb-4 flex min-h-[3rem] flex-wrap items-center gap-1 sm:mb-6 sm:min-h-[4.5rem]">
           {pieces.map((piece, i) => {
             /* Identity is where the piece starts in the word, not where it sits
                in the list. A merge removes a tile, so index-based keys would
@@ -184,7 +184,7 @@ export function MergeReel() {
 
         {/* The commentary. One merge, what joined, and how common it is,
             because "common" is the only reason any of this happened. */}
-        <div className="border-ink/20 bg-paper-sunk min-h-[5.5rem] rounded-[2px] border p-4">
+        <div className="border-ink/20 bg-paper-sunk min-h-[3.5rem] rounded-[2px] border p-3 sm:min-h-[5.5rem] sm:p-4">
           {finished ? (
             <>
               <p className="mb-1.5 text-[1.0625rem]">
@@ -227,7 +227,7 @@ export function MergeReel() {
           )}
         </div>
 
-        <div className="border-ink/20 mt-4 flex flex-wrap items-center justify-between gap-3 border-t pt-4">
+        <div className="border-ink/20 mt-3 flex flex-wrap items-center justify-between gap-3 border-t pt-3 sm:mt-4 sm:pt-4">
           <p className="text-ink-faint text-[0.8125rem]">
             Real o200k_base merges, in the order the tokenizer performs them.
           </p>

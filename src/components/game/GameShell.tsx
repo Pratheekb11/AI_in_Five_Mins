@@ -12,6 +12,7 @@ import type { Mood } from "@/components/nimo/moods";
 import { useBestScore } from "@/lib/game/useBestScore";
 import { playCue, useMuted } from "@/lib/game/sound";
 import { trackGameFinished, trackGameStarted } from "@/lib/telemetry";
+import { useIsPhone } from "@/lib/useMedia";
 
 /**
  * The cabinet every game is mounted in.
@@ -110,6 +111,11 @@ export function GameShell({
 }) {
   const { best, submit } = useBestScore(gameId ?? "unscored");
   const [rulesOpen, setRulesOpen] = useState(false);
+  const phone = useIsPhone();
+  /* The provenance line and the rules are both worth reading and neither is
+     worth a scroll while a round is waiting. On a phone they fold. */
+  const [readyRules, setReadyRules] = useState(false);
+  const [noteOpen, setNoteOpen] = useState(false);
   const [muted, toggleMuted] = useMuted();
 
   // Recorded when the round ends, not while it runs, a best is a result.
@@ -178,7 +184,7 @@ export function GameShell({
       id="game"
       data-section="game"
     >
-      <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
+      <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b px-4 py-2 sm:gap-y-2 sm:py-3">
         <span className="flex items-center gap-3">
           <span className="label">{name}</span>
           <button
@@ -204,12 +210,12 @@ export function GameShell({
             </button>
           ) : null}
         </span>
-        <dl className="flex flex-wrap gap-x-5 gap-y-1">
+        <dl className="flex flex-wrap gap-x-3 gap-y-0.5 sm:gap-x-5 sm:gap-y-1">
           {readouts.map((r) => (
             <div key={r.label} className="flex items-baseline gap-2">
               <dt className="label text-ink-faint">{r.label}</dt>
               <dd
-                className={`data text-sm font-bold tabular-nums ${
+                className={`data text-[0.8125rem] font-bold tabular-nums sm:text-sm ${
                   r.accent ? "text-pink-text" : "text-ink"
                 }`}
               >
@@ -220,7 +226,7 @@ export function GameShell({
           {gameId && best > 0 ? (
             <div className="flex items-baseline gap-2">
               <dt className="label text-ink-faint">Best</dt>
-              <dd className="data text-teal-text text-sm font-bold tabular-nums">
+              <dd className="data text-teal-text text-[0.8125rem] font-bold tabular-nums sm:text-sm">
                 {best}
               </dd>
             </div>
@@ -232,7 +238,15 @@ export function GameShell({
           rules and the debrief and are taller than the board itself, then
           settles back to the game's own height once play starts. Without this
           the overlay had to scroll inside a shorter box. */}
-      <div className={`relative ${phase !== "playing" ? "min-h-[36rem]" : ""}`}>
+      {/* Board and overlay share one grid cell, so the cabinet is as tall as
+          whichever of them needs it and neither has to scroll inside the
+          other. The floor only applies from `sm` up: on a phone a 36rem floor
+          is most of the screen spent on nothing. */}
+      <div
+        className={`relative grid ${
+          phase !== "playing" ? "sm:min-h-[36rem]" : ""
+        }`}
+      >
         {/* Nimo watches the round and reacts. He is the loudest feedback in
             the cabinet, which is most of why a miss stings enough to retry. */}
         <span className="pointer-events-none absolute -top-1 right-2 z-20 hidden md:block">
@@ -244,13 +258,15 @@ export function GameShell({
           />
         </span>
 
-        {children}
+        <div className="col-start-1 row-start-1 min-w-0">
+          {children}
 
-        {howToPlay && rulesOpen && phase === "playing" ? (
-          <div className="border-ink/25 bg-paper-sunk border-t px-5 py-4">
-            <Rules how={howToPlay} />
-          </div>
-        ) : null}
+          {howToPlay && rulesOpen && phase === "playing" ? (
+            <div className="border-ink/25 bg-paper-sunk border-t px-5 py-4">
+              <Rules how={howToPlay} />
+            </div>
+          ) : null}
+        </div>
 
         {phase !== "playing" ? (
           /* `m-auto` on the inner column rather than `justify-center` on the
@@ -259,17 +275,27 @@ export function GameShell({
              screen taller than the cabinet and its heading was clipped with no
              way to scroll back to it. `m-auto` centres when there is room and
              behaves when there is not. */
-          <div className="bg-paper/92 absolute inset-0 z-10 flex flex-col overflow-y-auto px-6 py-6 text-center backdrop-blur-[2px]">
-            <div className="m-auto flex w-full flex-col items-center gap-4">
+          <div className="bg-paper/92 col-start-1 row-start-1 z-10 flex flex-col px-5 py-5 text-center backdrop-blur-[2px] sm:px-6 sm:py-6">
+            <div className="m-auto flex w-full flex-col items-center gap-3 sm:gap-4">
               {phase === "ready" ? (
                 <>
                   <p className="prose-measure text-ink-soft text-[0.9375rem]">
                     {instruction}
                   </p>
                   {howToPlay ? (
-                    <div className="plate-flush prose-measure w-full max-w-md px-4 py-3">
-                      <Rules how={howToPlay} />
-                    </div>
+                    phone && !readyRules ? (
+                      <button
+                        type="button"
+                        onClick={() => setReadyRules(true)}
+                        className="tap label text-ink-faint px-3 py-2 underline underline-offset-2"
+                      >
+                        How to play
+                      </button>
+                    ) : (
+                      <div className="plate-flush prose-measure w-full max-w-md px-4 py-3">
+                        <Rules how={howToPlay} />
+                      </div>
+                    )
                   ) : null}
                   {gameId && best > 0 ? (
                     <p className="label text-teal-text">Your best: {best}</p>
@@ -306,8 +332,22 @@ export function GameShell({
       </div>
 
       {footer ? (
-        <div className="border-ink/25 text-ink-soft border-t px-4 py-3 text-sm">
-          {footer}
+        <div className="border-ink/25 text-ink-soft border-t px-4 py-2 text-[0.8125rem] sm:py-3 sm:text-sm">
+          {/* Where the numbers come from is the whole premise of the site, so
+              it never leaves the page. On a phone it is one line until asked
+              for, because a paragraph of provenance under a live round is a
+              screenful somebody has to scroll past to play. */}
+          {phone && !noteOpen ? (
+            <button
+              type="button"
+              onClick={() => setNoteOpen(true)}
+              className="tap label text-ink-faint w-full px-1 py-1.5 text-left underline underline-offset-2"
+            >
+              Where these numbers come from
+            </button>
+          ) : (
+            footer
+          )}
         </div>
       ) : null}
     </div>

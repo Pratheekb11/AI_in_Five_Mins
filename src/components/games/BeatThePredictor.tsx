@@ -168,7 +168,7 @@ export function BeatThePredictor() {
         )
       }
     >
-      <div className="min-h-[24rem] p-5 md:p-6">
+      <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round ? (
           <>
             <p className="label text-ink-faint mb-3">{act.name}</p>
@@ -274,7 +274,7 @@ export function BeatThePredictor() {
               })}
             </ul>
 
-            <div className="min-h-[7rem]" aria-live="polite">
+            <div className="min-h-[4rem] sm:min-h-[7rem]" aria-live="polite">
               {revealed && result ? (
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}

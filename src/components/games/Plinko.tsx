@@ -114,7 +114,7 @@ export function Plinko() {
         )
       }
     >
-      <div className="min-h-[21rem] p-5 md:p-6">
+      <div className="min-h-[12rem] p-4 sm:min-h-[21rem] sm:p-5 md:p-6">
         {prompt ? (
           <>
             <p className="label text-ink-faint mb-2">The prompt</p>

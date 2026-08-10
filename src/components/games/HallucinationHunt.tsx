@@ -134,7 +134,7 @@ export function HallucinationHunt() {
           <button
             type="button"
             onClick={another}
-            className="plate hover:border-ink px-4 py-2 text-[0.9375rem]"
+            className="tap plate hover:border-ink px-4 py-2 text-[0.9375rem]"
           >
             Try a different paragraph
           </button>
@@ -228,7 +228,7 @@ export function HallucinationHunt() {
               <button
                 type="button"
                 onClick={finish}
-                className="plate hover:border-ink px-4 py-2 text-[0.9375rem]"
+                className="tap plate hover:border-ink px-4 py-2 text-[0.9375rem]"
               >
                 That is all I can see
               </button>

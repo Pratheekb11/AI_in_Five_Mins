@@ -278,7 +278,7 @@ export function OverfitFigure() {
                   key={option.degree}
                   type="button"
                   onClick={() => setPicked({ stage, degree: option.degree })}
-                  className={`rounded-[2px] border px-2 py-1 text-xs transition-colors ${
+                  className={`tap rounded-[2px] border px-2 py-1 text-xs transition-colors ${
                     option.degree === fit?.degree
                       ? "border-ink bg-paper-sunk font-semibold"
                       : "border-ink/25 hover:border-ink"

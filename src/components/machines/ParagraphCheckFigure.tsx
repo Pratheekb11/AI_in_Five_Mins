@@ -210,7 +210,7 @@ export function ParagraphCheckFigure() {
                 key={option.id}
                 type="button"
                 onClick={() => setPicked({ stage, id: option.id })}
-                className={`rounded-[2px] border px-2 py-1 text-xs transition-colors ${
+                className={`tap rounded-[2px] border px-2 py-1 text-xs transition-colors ${
                   option.id === puzzle.id
                     ? "border-ink bg-paper-sunk font-semibold"
                     : "border-ink/25 hover:border-ink"

@@ -242,7 +242,7 @@ export function ProvenanceFigure() {
                   onClick={() =>
                     setPick({ stage, round: round.id, sourced: option.on })
                   }
-                  className={`rounded-[2px] border px-2 py-1 text-xs transition-colors ${
+                  className={`tap rounded-[2px] border px-2 py-1 text-xs transition-colors ${
                     option.on === sourced
                       ? "border-ink bg-paper-sunk font-semibold"
                       : "border-ink/25 hover:border-ink"
@@ -265,7 +265,7 @@ export function ProvenanceFigure() {
                   key={option.id}
                   type="button"
                   onClick={() => setPick({ stage, round: option.id, sourced })}
-                  className={`rounded-[2px] border px-2 py-1 text-xs transition-colors ${
+                  className={`tap rounded-[2px] border px-2 py-1 text-xs transition-colors ${
                     option.id === round.id
                       ? "border-ink bg-paper-sunk font-semibold"
                       : "border-ink/25 hover:border-ink"

@@ -230,7 +230,7 @@ export function ContextWindowFigure() {
                   type="button"
                   onClick={() => toggle(card.id)}
                   disabled={full}
-                  className={`rounded-[2px] border px-2 py-1 text-xs transition-colors ${
+                  className={`tap rounded-[2px] border px-2 py-1 text-xs transition-colors ${
                     inWindow
                       ? "border-ink bg-paper-sunk font-semibold"
                       : full

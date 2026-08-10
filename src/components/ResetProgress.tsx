@@ -19,7 +19,7 @@ export function ResetProgress() {
       <button
         type="button"
         onClick={() => setAsking(true)}
-        className="label text-ink-faint hover:text-ink hover:border-ink border-ink/30 cursor-pointer rounded-[2px] border px-2 py-1"
+        className="tap label text-ink-faint hover:text-ink hover:border-ink border-ink/30 cursor-pointer rounded-[2px] border px-2 py-1"
         title={`Erase level ${totals.level} and all ${totals.completedCount} finished chapters from this browser`}
       >
         Reset

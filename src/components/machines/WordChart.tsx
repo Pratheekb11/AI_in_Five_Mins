@@ -96,7 +96,7 @@ export function WordChart() {
               key={w}
               type="button"
               onClick={() => setQuery(w)}
-              className="label border-ink/30 hover:border-ink rounded-[2px] border px-2.5 py-1.5"
+              className="tap label border-ink/30 hover:border-ink rounded-[2px] border px-2.5 py-1.5"
             >
               {w}
             </button>

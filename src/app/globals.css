@@ -387,6 +387,20 @@
     height: max(100%, 44px);
     transform: translate(-50%, -50%);
   }
+
+  /*
+    A range input cannot carry a pseudo-element, so `.tap` does nothing for one
+    and the box itself has to grow. Every slider on the site is drawn 8 to 16
+    pixels tall, which is a thumb landing on nothing. The track and the thumb
+    stay exactly where they were painted; the browser centres them in whatever
+    height the box has, so only the invisible room around them changes.
+
+    Deliberately unlayered: `h-2` on the element is a Tailwind utility, and an
+    unlayered rule is the only thing that beats one.
+  */
+  input[type="range"] {
+    min-height: 44px;
+  }
 }
 
 /*

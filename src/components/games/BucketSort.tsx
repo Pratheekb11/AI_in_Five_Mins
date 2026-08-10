@@ -95,7 +95,10 @@ export function BucketSort() {
       {!started ? (
         <div className="p-5 md:p-6">
           <div className="mb-5 flex flex-wrap items-start gap-4">
-            <Nimo mood="curious" height={96} />
+            {/* Nimo takes his height from the prop but his WIDTH from the class,
+                so an unclassed one is a block that fills the row — 300px wide,
+                which runs off a 320px phone. */}
+            <Nimo mood="curious" height={96} className="w-24 shrink-0" />
             <p className="prose-measure text-[1.0625rem]">
               This one does not score you. Which of your tasks you are willing
               to hand over depends on your job and on what happens when it is
@@ -125,7 +128,7 @@ export function BucketSort() {
             <button
               type="submit"
               disabled={!draft.trim()}
-              className="plate hover:border-ink px-4 py-2 text-[0.9375rem] disabled:opacity-40"
+              className="tap plate hover:border-ink px-4 py-2 text-[0.9375rem] disabled:opacity-40"
             >
               Add
             </button>
@@ -208,7 +211,7 @@ export function BucketSort() {
                 setCopied(false);
                 setScene(newScene());
               }}
-              className="plate hover:border-ink px-4 py-2"
+              className="tap plate hover:border-ink px-4 py-2"
             >
               Sort again
             </button>
@@ -305,7 +308,7 @@ export function BucketSort() {
                     <button
                       type="button"
                       onClick={backward}
-                      className="plate hover:border-ink px-4 py-2"
+                      className="tap plate hover:border-ink px-4 py-2"
                     >
                       Back
                     </button>

@@ -75,7 +75,7 @@ export function AttentionMap() {
               type="button"
               onClick={() => setWhich(i)}
               aria-pressed={which === i}
-              className={`rounded-[2px] border px-2.5 py-1.5 text-[0.8125rem] transition-colors ${
+              className={`tap rounded-[2px] border px-2.5 py-1.5 text-[0.8125rem] transition-colors ${
                 which === i
                   ? "border-ink bg-blue-wash text-blue-text font-semibold"
                   : "border-ink/30 bg-paper hover:border-ink"

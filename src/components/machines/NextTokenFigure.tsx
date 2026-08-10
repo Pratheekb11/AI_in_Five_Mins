@@ -209,7 +209,7 @@ export function NextTokenFigure() {
             key={option.id}
             type="button"
             onClick={() => choose(option.id, stage)}
-            className={`font-data rounded-[2px] border px-2 py-1 text-xs transition-colors ${
+            className={`tap font-data rounded-[2px] border px-2 py-1 text-xs transition-colors ${
               option.id === prompt.id
                 ? "border-ink bg-paper-sunk"
                 : "border-ink/25 hover:border-ink"

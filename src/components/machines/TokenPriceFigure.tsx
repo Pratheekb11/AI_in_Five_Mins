@@ -153,7 +153,7 @@ export function TokenPriceFigure() {
               key={option.language}
               type="button"
               onClick={() => setPicked({ stage, language: option.language })}
-              className={`font-data rounded-[2px] border px-2 py-1 text-xs transition-colors ${
+              className={`tap font-data rounded-[2px] border px-2 py-1 text-xs transition-colors ${
                 option.language === language
                   ? "border-ink bg-paper-sunk"
                   : "border-ink/25 hover:border-ink"

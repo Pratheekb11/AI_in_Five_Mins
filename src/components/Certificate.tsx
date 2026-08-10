@@ -222,28 +222,28 @@ export function Certificate({ spec }: { spec: CertificateSpec }) {
         <button
           type="button"
           onClick={shareSheet}
-          className="plate hover:border-ink cursor-pointer px-3 py-2 text-[0.9375rem]"
+          className="tap plate hover:border-ink cursor-pointer px-3 py-2 text-[0.9375rem]"
         >
           Share it
         </button>
         <button
           type="button"
           onClick={() => open("linkedin")}
-          className="plate hover:border-ink cursor-pointer px-3 py-2 text-[0.9375rem]"
+          className="tap plate hover:border-ink cursor-pointer px-3 py-2 text-[0.9375rem]"
         >
           LinkedIn
         </button>
         <button
           type="button"
           onClick={() => open("x")}
-          className="plate hover:border-ink cursor-pointer px-3 py-2 text-[0.9375rem]"
+          className="tap plate hover:border-ink cursor-pointer px-3 py-2 text-[0.9375rem]"
         >
           X
         </button>
         <button
           type="button"
           onClick={() => open("whatsapp")}
-          className="plate hover:border-ink cursor-pointer px-3 py-2 text-[0.9375rem]"
+          className="tap plate hover:border-ink cursor-pointer px-3 py-2 text-[0.9375rem]"
         >
           WhatsApp
         </button>

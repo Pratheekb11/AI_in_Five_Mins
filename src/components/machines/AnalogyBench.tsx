@@ -67,7 +67,7 @@ export function AnalogyBench() {
                 setB(y);
                 setC(z);
               }}
-              className="border-ink/30 bg-paper hover:border-ink font-data rounded-[2px] border px-2.5 py-1.5 text-xs transition-colors"
+              className="tap border-ink/30 bg-paper hover:border-ink font-data rounded-[2px] border px-2.5 py-1.5 text-xs transition-colors"
             >
               {x} − {y} + {z}
             </button>

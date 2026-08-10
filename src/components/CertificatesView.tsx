@@ -51,7 +51,7 @@ export function CertificatesView() {
                 <li key={lesson.slug}>
                   <Link
                     href={`/lessons/${lesson.slug}`}
-                    className="plate hover:border-ink block px-3 py-1.5 text-[0.875rem]"
+                    className="tap plate hover:border-ink block px-3 py-1.5 text-[0.875rem]"
                   >
                     {lesson.title}
                   </Link>

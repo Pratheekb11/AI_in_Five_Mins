@@ -132,7 +132,7 @@ export function TokenChopper() {
               key={entry.label}
               type="button"
               onClick={() => tryIt(entry)}
-              className="plate hover:border-ink cursor-pointer px-3 py-1.5 text-[0.875rem]"
+              className="tap plate hover:border-ink cursor-pointer px-3 py-1.5 text-[0.875rem]"
             >
               {entry.label}
             </button>

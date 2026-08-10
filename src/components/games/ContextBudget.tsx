@@ -320,7 +320,7 @@ export function ContextBudget() {
                     type="button"
                     onClick={wipe}
                     disabled={scene.chosen.length === 0}
-                    className="plate hover:border-ink px-4 py-2 disabled:opacity-40"
+                    className="tap plate hover:border-ink px-4 py-2 disabled:opacity-40"
                   >
                     Empty the window
                   </button>
@@ -328,7 +328,7 @@ export function ContextBudget() {
                     type="button"
                     onClick={carryOn}
                     disabled={!shown}
-                    className="plate hover:border-ink px-4 py-2 disabled:opacity-40"
+                    className="tap plate hover:border-ink px-4 py-2 disabled:opacity-40"
                   >
                     {scene.at + 1 >= scene.order.length
                       ? "See the result"

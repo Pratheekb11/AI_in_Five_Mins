@@ -123,9 +123,9 @@ export function PushbackFigure() {
             { label: round.right, value: right, truth: true },
             { label: round.wrong, value: wrong, truth: false },
           ].map((row) => (
-            <li key={row.label} className="flex items-center gap-3">
+            <li key={row.label} className="flex items-center gap-2 sm:gap-3">
               <span
-                className={`font-data w-28 shrink-0 truncate text-sm font-bold ${
+                className={`font-data w-20 shrink-0 truncate text-sm font-bold sm:w-28 ${
                   row.truth ? "text-teal-text" : "text-pink-text"
                 }`}
               >
@@ -141,11 +141,11 @@ export function PushbackFigure() {
                 />
               </span>
 
-              <span className="data text-ink-soft w-20 shrink-0 text-right text-sm tabular-nums">
+              <span className="data text-ink-soft w-14 shrink-0 text-right text-sm tabular-nums sm:w-20">
                 {(row.value * 100).toFixed(places)}%
               </span>
 
-              <span className="label w-16 shrink-0">
+              <span className="label w-12 shrink-0 sm:w-16">
                 {row.truth ? (
                   <span className="text-teal-text">true</span>
                 ) : (
@@ -195,7 +195,7 @@ export function PushbackFigure() {
                   onClick={() =>
                     setPick({ stage, round: round.id, style: option })
                   }
-                  className={`rounded-[2px] border px-2 py-1 text-xs transition-colors ${
+                  className={`tap rounded-[2px] border px-2 py-1 text-xs transition-colors ${
                     option === style
                       ? "border-ink bg-paper-sunk font-semibold"
                       : "border-ink/25 hover:border-ink"
@@ -217,7 +217,7 @@ export function PushbackFigure() {
                   key={option.id}
                   type="button"
                   onClick={() => setPick({ stage, round: option.id, style })}
-                  className={`rounded-[2px] border px-2 py-1 text-xs transition-colors ${
+                  className={`tap rounded-[2px] border px-2 py-1 text-xs transition-colors ${
                     option.id === round.id
                       ? "border-ink bg-paper-sunk font-semibold"
                       : "border-ink/25 hover:border-ink"

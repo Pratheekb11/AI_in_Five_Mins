@@ -216,9 +216,9 @@ function StageRail({
               /* Only backwards. Jumping ahead would hand over the answer to a
                  beat that has not been played yet. */
               onClick={i < at ? () => onJump(i) : undefined}
-              className="tap flex h-1.5 flex-1 rounded-[1px]"
+              className="-my-2 flex h-1.5 flex-1 items-center py-2"
             >
-              <span className="bg-ink/15 block h-full w-full overflow-hidden rounded-[1px]">
+              <span className="bg-ink/15 block h-1.5 w-full overflow-hidden rounded-[1px]">
                 <motion.span
                   className="bg-pink block h-full origin-left"
                   initial={false}

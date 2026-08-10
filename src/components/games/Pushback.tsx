@@ -190,7 +190,7 @@ export function Pushback() {
                       key={choice}
                       type="button"
                       onClick={() => choose(choice)}
-                      className="plate hover:border-ink cursor-pointer px-4 py-3 text-left"
+                      className="tap plate hover:border-ink cursor-pointer px-4 py-3 text-left"
                     >
                       <span className="label text-ink-faint mb-1 block">
                         {i + 1}

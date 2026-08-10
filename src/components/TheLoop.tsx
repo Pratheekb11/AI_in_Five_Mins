@@ -215,7 +215,7 @@ export function TheLoop() {
               type="button"
               onClick={() => setRunning((r) => !r)}
               disabled={done}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
+              className="tap plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
             >
               {running ? "Pause" : "Play"}
             </button>
@@ -223,14 +223,14 @@ export function TheLoop() {
               type="button"
               onClick={stepOn}
               disabled={done}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
+              className="tap plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
             >
               Add a word
             </button>
             <button
               type="button"
               onClick={restart}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
+              className="tap plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
             >
               {done ? "New sentence" : "Start over"}
             </button>

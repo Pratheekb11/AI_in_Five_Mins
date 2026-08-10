@@ -120,7 +120,7 @@ export function AnalogyPlane() {
             key={a.id}
             type="button"
             onClick={() => choose(i)}
-            className={`font-data rounded-[2px] border px-2.5 py-1 text-[0.8125rem] ${
+            className={`tap font-data rounded-[2px] border px-2.5 py-1 text-[0.8125rem] ${
               i === pick
                 ? "border-ink bg-paper-raised font-bold"
                 : "border-ink/25 text-ink-soft hover:border-ink"
@@ -317,7 +317,7 @@ export function AnalogyPlane() {
               type="button"
               onClick={() => setPlaying((p) => !p)}
               disabled={at >= BEATS.length - 1}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
+              className="tap plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
             >
               {playing ? "Pause" : "Play"}
             </button>
@@ -328,7 +328,7 @@ export function AnalogyPlane() {
                 setAt((n) => Math.min(BEATS.length - 1, n + 1));
               }}
               disabled={at >= BEATS.length - 1}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
+              className="tap plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
             >
               Next beat
             </button>
@@ -338,7 +338,7 @@ export function AnalogyPlane() {
                 setAt(0);
                 setPlaying(true);
               }}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
+              className="tap plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
             >
               Replay
             </button>

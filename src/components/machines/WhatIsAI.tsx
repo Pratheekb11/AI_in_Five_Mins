@@ -271,14 +271,14 @@ export function WhatIsAI({ driven }: { driven?: number }) {
               <button
                 type="button"
                 onClick={() => setRunning((r) => !r)}
-                className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
+                className="tap plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
               >
                 {running ? "Pause" : "Play"}
               </button>
               <button
                 type="button"
                 onClick={step}
-                className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
+                className="tap plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
               >
                 Step
               </button>

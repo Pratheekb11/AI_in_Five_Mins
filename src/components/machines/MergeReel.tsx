@@ -116,7 +116,7 @@ export function MergeReel() {
             key={t.word}
             type="button"
             onClick={() => pick(i)}
-            className={`font-data rounded-[2px] border px-2.5 py-1 text-[0.8125rem] ${
+            className={`tap font-data rounded-[2px] border px-2.5 py-1 text-[0.8125rem] ${
               i === scene.trace
                 ? "border-ink bg-paper-raised font-bold"
                 : "border-ink/25 text-ink-soft hover:border-ink"
@@ -236,7 +236,7 @@ export function MergeReel() {
               type="button"
               onClick={() => setScene((s) => ({ ...s, playing: !s.playing }))}
               disabled={finished}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
+              className="tap plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
             >
               {scene.playing ? "Pause" : "Play"}
             </button>
@@ -244,14 +244,14 @@ export function MergeReel() {
               type="button"
               onClick={step}
               disabled={finished}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
+              className="tap plate hover:border-ink px-3 py-1.5 text-[0.875rem] disabled:opacity-40"
             >
               One merge
             </button>
             <button
               type="button"
               onClick={restart}
-              className="plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
+              className="tap plate hover:border-ink px-3 py-1.5 text-[0.875rem]"
             >
               Replay
             </button>

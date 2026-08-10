@@ -84,7 +84,7 @@ export function PromptInspector() {
             key={sample.label}
             type="button"
             onClick={() => setText(sample.text)}
-            className="label border-ink/40 hover:border-ink rounded-[2px] border px-2.5 py-2"
+            className="tap label border-ink/40 hover:border-ink rounded-[2px] border px-2.5 py-2"
           >
             {sample.label}
           </button>

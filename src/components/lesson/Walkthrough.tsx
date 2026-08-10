@@ -135,7 +135,7 @@ export function Walkthrough({
             type="button"
             onClick={() => setAt((n) => Math.max(0, n - 1))}
             disabled={at === 0}
-            className="label border-ink/40 hover:border-ink rounded-[2px] border px-3 py-2.5 disabled:opacity-30"
+            className="tap label border-ink/40 hover:border-ink rounded-[2px] border px-3 py-2.5 disabled:opacity-30"
           >
             Back
           </button>

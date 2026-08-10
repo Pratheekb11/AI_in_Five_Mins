@@ -169,20 +169,23 @@ export function ContextBudget() {
         {scenario ? (
           <>
             <p className="label text-ink-faint mb-2">The question</p>
-            <p className="prose-measure mb-5 text-[1.0625rem]">
+            <p className="prose-measure mb-3 text-[1rem] sm:mb-5 sm:text-[1.0625rem]">
               {scenario.ask}{" "}
-              <span className="text-ink-faint">
+              {/* The sentence it has to finish is printed again, in full, in
+                  the panel below. On a phone that second copy is two lines of
+                  the screen spent saying the same thing. */}
+              <span className="text-ink-faint hidden sm:inline">
                 The model will be asked to finish: &ldquo;{scenario.question}
                 &nbsp;&hellip;&rdquo;
               </span>
             </p>
 
-            <div className="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
+            <div className="grid gap-3 sm:gap-5 lg:grid-cols-[1.2fr_1fr]">
               <div>
                 <p className="label text-ink-faint mb-2">
                   The pile: click a card to put it in the window
                 </p>
-                <ul className="space-y-2">
+                <ul className="space-y-1.5 sm:space-y-2">
                   {scenario.cards.map((card) => {
                     const inWindow = scene.chosen.includes(card.id);
                     const full = scene.chosen.length >= slots && !inWindow;
@@ -192,7 +195,7 @@ export function ContextBudget() {
                           type="button"
                           onClick={() => flip(card.id)}
                           disabled={full}
-                          className={`plate w-full px-3 py-2 text-left transition-colors ${
+                          className={`plate w-full px-3 py-1.5 text-left leading-snug transition-colors sm:py-2 ${
                             inWindow
                               ? "border-yellow bg-yellow-wash"
                               : full
@@ -200,10 +203,13 @@ export function ContextBudget() {
                                 : "hover:border-ink cursor-pointer"
                           }`}
                         >
-                          <span className="label text-ink-faint block">
+                          {/* On a phone the label runs into the line rather
+                              than above it: a card is two lines instead of
+                              three, and seven cards fit the screen. */}
+                          <span className="label text-ink-faint mr-2 inline sm:block">
                             {card.label}
                           </span>
-                          <span className="block text-[0.875rem] leading-snug">
+                          <span className="inline text-[0.875rem] leading-snug sm:block">
                             {card.text}
                           </span>
                         </button>
@@ -217,14 +223,17 @@ export function ContextBudget() {
                 <p className="label text-ink-faint mb-2">
                   The window: {slots} slots
                 </p>
-                <ul className="mb-4 space-y-1.5">
+                {/* Five slots stand in a row on a phone rather than a column: what
+                    the window is for is how much fits, and the count is in the
+                    header while the chosen cards are lit in the pile above. */}
+                <ul className="mb-3 grid grid-cols-5 gap-1 sm:mb-4 sm:grid-cols-1 sm:gap-1.5">
                   {Array.from({ length: slots }, (_, i) => {
                     const id = scene.chosen[i];
                     const card = scenario.cards.find((c) => c.id === id);
                     return (
                       <li
                         key={i}
-                        className={`border-ink/25 flex min-h-[2.5rem] items-center rounded-[2px] border border-dashed px-3 py-1.5 text-[0.875rem] ${
+                        className={`border-ink/25 flex min-h-[2rem] items-center overflow-hidden rounded-[2px] border border-dashed px-1.5 py-1 text-[0.75rem] whitespace-nowrap sm:min-h-[2.5rem] sm:px-3 sm:py-1.5 sm:text-[0.875rem] ${
                           card
                             ? "bg-yellow-wash border-yellow border-solid"
                             : ""
@@ -243,7 +252,7 @@ export function ContextBudget() {
                 {/*
                   What it says, not what it scores.
                 */}
-                <div className="plate-flush mb-3 px-3 py-3">
+                <div className="plate-flush mb-3 px-3 py-2 sm:py-3">
                   <p className="label text-ink-faint mb-2">
                     What it says next
                   </p>

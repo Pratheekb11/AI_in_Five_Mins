@@ -301,7 +301,9 @@
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  line-height: 1;
+  /* Not 1. A label that wraps — and on a phone they do — printed its second
+     line on top of the first. */
+  line-height: 1.2;
 }
 
 .data {

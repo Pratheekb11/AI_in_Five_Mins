@@ -76,8 +76,8 @@ export function WordChart() {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="plate p-5 md:p-6">
+    <div className="space-y-2 sm:space-y-4">
+      <div className="plate p-3 sm:p-5 md:p-6">
         <label htmlFor="word" className="label text-ink-faint">
           Find a word
         </label>
@@ -104,9 +104,13 @@ export function WordChart() {
         </div>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
-        <figure className="plate p-4">
-          <figcaption className="label text-ink-faint mb-3">
+      {/* The map and the list are two readings of the same word, so they
+          stand side by side rather than one under the other: on a phone the
+          stacked version put the neighbours a scroll below the dot they
+          belong to. */}
+      <div className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-[1.4fr_1fr]">
+        <figure className="plate p-2 sm:p-4">
+          <figcaption className="label text-ink-faint mb-2 sm:mb-3">
             The map: 50 dimensions flattened to 2
           </figcaption>
           {!space ? (
@@ -116,7 +120,7 @@ export function WordChart() {
           ) : (
             <svg
               viewBox={`0 0 ${W} ${H}`}
-              className="h-auto w-full"
+              className="h-auto max-h-[13rem] w-full sm:max-h-[19rem]"
               role="img"
               aria-label={`Scatter plot of ${space.words.length} words projected to two dimensions.${
                 result?.found
@@ -172,8 +176,8 @@ export function WordChart() {
           )}
         </figure>
 
-        <div className="plate p-5">
-          <p className="label text-ink-faint mb-3">
+        <div className="plate p-2 sm:p-5">
+          <p className="label text-ink-faint mb-2 sm:mb-3">
             Nearest, measured in all 50
           </p>
 
@@ -186,7 +190,7 @@ export function WordChart() {
               GloVe ships. Try one of the suggestions.
             </p>
           ) : (
-            <ol className="space-y-1.5">
+            <ol className="space-y-1 sm:space-y-1.5">
               {result.neighbours.map((n) => (
                 <li
                   key={n.word}
@@ -197,7 +201,7 @@ export function WordChart() {
                       className="bg-pink-wash absolute inset-y-0 left-0"
                       style={{ width: `${Math.max(0, n.similarity) * 100}%` }}
                     />
-                    <span className="font-data relative block px-2 py-1.5 text-sm">
+                    <span className="font-data relative block px-2 py-1 text-xs sm:py-1.5 sm:text-sm">
                       {n.word}
                     </span>
                   </span>

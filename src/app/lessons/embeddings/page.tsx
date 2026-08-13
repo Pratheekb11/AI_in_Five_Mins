@@ -123,15 +123,15 @@ export default function EmbeddingsLesson() {
     },
     {
       id: "analogy-plane",
-      cta: "Feel the pull",
+      cta: "Watch the arrow",
       node: (
-        <section id="space" className="py-10">
+        <section id="space" className="py-4 sm:py-10">
           <p className="label text-ink-faint mb-3">What a vector buys you</p>
           <h2 className="display-lg mb-4">
             If meaning is a direction, you can do arithmetic with it.
           </h2>
 
-          <div className="prose-measure text-ink-soft mb-8 space-y-4 text-lg">
+          <div className="prose-measure text-ink-soft space-y-4 text-base sm:text-lg">
             <p>
               Give every word a list of {ANALOGY.dims} numbers and you have
               given every word a position. Positions on their own would only buy
@@ -151,19 +151,36 @@ export default function EmbeddingsLesson() {
               <span className="font-data">queen</span>, even though nothing in
               the training ever compared those two pairs.
             </p>
-            <p>
-              Watch it happen. The figure draws one arrow, picks it up, and puts
-              it down somewhere else.
-            </p>
           </div>
-
+        </section>
+      ),
+    },
+    {
+      /* The figure gets the screen to itself. It used to sit between six
+         paragraphs, which on a phone put the arrow two scrolls below the
+         sentence that promised it. */
+      id: "analogy-figure",
+      cta: "What it leaves out",
+      node: (
+        <>
+          <p className="prose-measure text-ink-soft mb-4 text-base sm:text-lg">
+            Watch it happen. The figure draws one arrow, picks it up, and puts
+            it down somewhere else.
+          </p>
           <AnalogyPlane />
-
-          <div className="prose-measure text-ink-soft mt-8 space-y-4 text-lg">
-            <p>
-              Two things in that figure are usually left out of this
-              demonstration, and both are worth more than the trick itself.
-            </p>
+        </>
+      ),
+    },
+    {
+      id: "analogy-caveats",
+      cta: "Now you try",
+      node: (
+        <>
+          <h2 className="display-md mb-4">
+            Two things this demonstration usually leaves out
+          </h2>
+          <div className="prose-measure text-ink-soft space-y-4 text-base sm:text-lg">
+            <p>Both are worth more than the trick itself.</p>
             <p>
               <strong>The arrow does not land on the word.</strong> It lands
               near it. <span className="font-data">{royal.answer.word}</span> is
@@ -178,8 +195,8 @@ export default function EmbeddingsLesson() {
             <p>
               <strong>The inputs have to be excluded by hand.</strong> Ask for
               the nearest word to{" "}
-              <span className="font-data">king − man + woman</span> without
-              ruling anything out and the answer is{" "}
+              <span className="font-data">king &minus; man + woman</span>{" "}
+              without ruling anything out and the answer is{" "}
               <span className="font-data">{royal.unfiltered.word}</span>, at{" "}
               {royal.unfiltered.similarity.toFixed(3)}, which is higher than{" "}
               {royal.answer.word}. The convention of dropping the three input
@@ -190,15 +207,15 @@ export default function EmbeddingsLesson() {
             </p>
             <p>
               And try the comparative one.{" "}
-              <span className="font-data">bigger − big + small</span> does not
-              give <span className="font-data">smaller</span>. It gives{" "}
+              <span className="font-data">bigger &minus; big + small</span> does
+              not give <span className="font-data">smaller</span>. It gives{" "}
               <span className="font-data">{comparative.answer.word}</span>, with{" "}
               <span className="font-data">smaller</span> only{" "}
               {ordinal(comparative.expectedRank ?? 0)}. The geometry is real,
               and it is approximate, and both of those are true at once.
             </p>
           </div>
-        </section>
+        </>
       ),
     },
     {

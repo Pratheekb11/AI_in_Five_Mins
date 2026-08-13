@@ -105,7 +105,7 @@ export function AnalogyPlane() {
 
   return (
     <figure className="plate overflow-hidden">
-      <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-4 py-3">
+      <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b px-3 py-2 sm:px-4 sm:py-3">
         <span className="label">
           {row.b} &minus; {row.a} + {row.c}
         </span>
@@ -114,7 +114,7 @@ export function AnalogyPlane() {
         </span>
       </div>
 
-      <div className="border-ink/20 flex flex-wrap gap-1.5 border-b px-4 py-3">
+      <div className="border-ink/20 flex flex-wrap gap-1 border-b px-3 py-2 sm:gap-1.5 sm:px-4 sm:py-3">
         {ANALOGY.analogies.map((a, i) => (
           <button
             key={a.id}
@@ -131,10 +131,13 @@ export function AnalogyPlane() {
         ))}
       </div>
 
-      <div className="p-4 md:p-5">
+      <div className="p-3 sm:p-4 md:p-5">
         <svg
           viewBox={`0 0 ${W} ${H}`}
-          className="mx-auto block w-full max-w-[40rem]"
+          /* On a phone the plane is capped rather than sized off the width:
+             the picture is a shadow of fifty dimensions either way, and the
+             caption under it is what carries the claim. */
+          className="mx-auto block max-h-[15rem] w-full max-w-[40rem] sm:max-h-[20rem]"
           role="img"
           aria-label={`${row.b} minus ${row.a} plus ${row.c} lands nearest to ${row.answer.word}`}
         >
@@ -265,14 +268,14 @@ export function AnalogyPlane() {
         </svg>
 
         <p
-          className="border-ink/20 mt-2 min-h-[3.25rem] border-t pt-3 text-[1.0625rem]"
+          className="border-ink/20 mt-2 min-h-[2rem] border-t pt-2 text-[1rem] sm:min-h-[3.25rem] sm:pt-3 sm:text-[1.0625rem]"
           aria-live="polite"
         >
           {caption}
         </p>
 
         {/* The numbers, which are what the claim actually rests on. */}
-        <div className="border-ink/20 bg-paper-sunk mt-3 rounded-[2px] border p-4">
+        <div className="border-ink/20 bg-paper-sunk mt-2 rounded-[2px] border p-3 sm:mt-3 sm:p-4">
           {at >= 3 ? (
             <>
               <p className="mb-2 text-[0.9375rem]">

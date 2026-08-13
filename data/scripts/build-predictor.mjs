@@ -50,6 +50,15 @@ const FIELD = 60;
  * The fact and its source are written here; the probabilities are measured.
  * If a prompt turns out not to trap the model, it is dropped rather than
  * dressed up — see the filter below.
+ *
+ * `truth` is one token, because a round is one next-word guess. Two of these
+ * words do not fit in one token, and for those `label` carries the word a
+ * person would recognise: the round is measured on " photos" and printed as
+ * "photosynthesis", with the split shown. Without it the game asks whether
+ * plants make food by a process called "photos", which is not a question
+ * anybody should have to answer. The label is checked against the tokenizer
+ * below — it must start with the token that was measured, or the round is
+ * dropped rather than shipped with a word the number does not describe.
  */
 const PHRASE_PROMPTS = [
   { id: "usa", text: "The United States of", truth: " America" },
@@ -102,7 +111,7 @@ const FACT_PROMPTS = [
   { id: "canberra", text: "The capital of Australia is", truth: " Canberra",
     fact: "Canberra is the capital of Australia, not Sydney, which is the largest city.",
     article: "Canberra" },
-  { id: "brasilia", text: "The capital of Brazil is", truth: " Bras",
+  { id: "brasilia", text: "The capital of Brazil is", truth: " Bras", label: " Brasília",
     fact: "Brasília is the capital of Brazil, not Rio de Janeiro, which was the capital until 1960.",
     article: "Brasília" },
   { id: "ottawa", text: "The capital of Canada is", truth: " Ottawa",
@@ -123,7 +132,7 @@ const FACT_PROMPTS = [
   { id: "gravity", text: "The force that keeps the planets in orbit around the Sun is", truth: " gravity",
     fact: "Gravity holds the planets in orbit around the Sun.",
     article: "Gravity" },
-  { id: "photosynthesis", text: "Plants make their own food by a process called", truth: " photos",
+  { id: "photosynthesis", text: "Plants make their own food by a process called", truth: " photos", label: " photosynthesis",
     fact: "Plants make food from light by photosynthesis.",
     article: "Photosynthesis" },
   { id: "sun", text: "The star at the centre of our solar system is called the", truth: " Sun",
@@ -196,6 +205,64 @@ const main = async () => {
     const offset = (positions - 1) * vocab;
     const row = Array.from(output.logits.data.slice(offset, offset + vocab));
     return { probabilities: softmax(row), vocab };
+  };
+
+  /*
+    Which tokens carry on a word rather than starting a new one.
+
+    A token like " Bre" is not a word, it is the front of one, and an earlier
+    version of this file put four of them on screen as answers: "published by
+    Albert Bre", "discovered by Alexander Sch". They passed the letters-only
+    filter because they are letters.
+
+    There is no word list here and there does not need to be one. The model is
+    asked what comes after the option, and how much of its next-token weight
+    sits on tokens that continue the word decides it. Measured, like everything
+    else on the site: fragments come back at 0.95 and up, whole words at 0.005
+    and under, so the line between them is not a close call.
+  */
+  const vocabSize = model.config.vocab_size;
+  const extendsWord = new Uint8Array(vocabSize);
+  for (let id = 0; id < vocabSize; id++) {
+    extendsWord[id] = /^[A-Za-z0-9]/.test(tokenizer.decode([id])) ? 1 : 0;
+  }
+
+  /** How much of the model's weight goes on carrying this word on. */
+  const carriesOn = async (text) => {
+    const { probabilities } = await distribution(text);
+    let mass = 0;
+    for (let id = 0; id < vocabSize; id++) {
+      if (extendsWord[id]) mass += probabilities[id];
+    }
+    return mass;
+  };
+
+  const CARRIES_ON = 0.5;
+  /** A whole word, as far as the model is concerned. */
+  const isWord = async (prefix, option) =>
+    (await carriesOn(prefix + option)) < CARRIES_ON;
+
+  /**
+   * The first `count` options from a ranked list that are whole words.
+   *
+   * Costs one forward pass per candidate tried, which is why it walks the list
+   * rather than filtering all of it.
+   */
+  const wholeWords = async (prefix, candidates, count) => {
+    const kept = [];
+    const seen = new Set();
+    for (const candidate of candidates) {
+      if (kept.length >= count) break;
+      /* " university" and " University" are two tokens and one word. Offered
+         side by side they read as the same option printed twice. */
+      const word = candidate.text.trim().toLowerCase();
+      if (seen.has(word)) continue;
+      if (await isWord(prefix, candidate.text)) {
+        seen.add(word);
+        kept.push(candidate);
+      }
+    }
+    return kept;
   };
 
   const raw = readFileSync(ALICE, "utf8");
@@ -276,18 +343,17 @@ const main = async () => {
     chosen.push(sorted[Math.round((i * (sorted.length - 1)) / (want - 1))]);
   }
 
-  const corpusRounds = chosen.map((m, i) => {
-    // Alternating fields, so the round set is a genuine contest rather than a
-    // rigged one. HARD rounds put the model's three favourite tokens against
-    // the truth and the model nearly always takes them. FAIR rounds draw the
-    // three from further down its own ranking, where the truth stands a
-    // chance of being the model's pick too. Every option in both is a token
-    // the model actually considered — nothing is invented for either.
+  const corpusRounds = [];
+  for (const [i, m] of chosen.entries()) {
     // The model's own three favourite continuations. It will take one of them
     // nearly every time, and the word Carroll wrote is nearly never among
-    // them — which is the whole point of this act.
-    const field = m.pool.slice(0, OPTIONS - 1);
-    if (new Set(field.map((d) => d.id)).size < OPTIONS - 1) return null;
+    // them — which is the whole point of this act. Every option is a token the
+    // model actually considered; nothing is invented. Fragments are walked
+    // past rather than printed, so the field is three words and not three
+    // beginnings of words.
+    const field = await wholeWords(m.prefix, m.pool, OPTIONS - 1);
+    if (field.length < OPTIONS - 1) continue;
+    if (new Set(field.map((d) => d.id)).size < OPTIONS - 1) continue;
 
     const options = seededShuffle(
       [
@@ -304,7 +370,7 @@ const main = async () => {
       (best, o, at) => (o.probability > options[best].probability ? at : best),
       0,
     );
-    return {
+    corpusRounds.push({
       id: `alice-${i}`,
       kind: "corpus",
       prefix: m.prefix,
@@ -318,8 +384,8 @@ const main = async () => {
       answerRank: m.answerRank,
       because:
         "The right answer is the word Lewis Carroll actually wrote. The other three are tokens the model itself ranked highly for this sentence.",
-    };
-  }).filter(Boolean);
+    });
+  }
 
   // ---------------------------------------------------------- phrase rounds --
 
@@ -342,20 +408,45 @@ const main = async () => {
       .sort((a, b) => b.p - a.p);
     const rank = ranked.findIndex((c) => c.id === truthId);
 
-    const field = ranked
+    /* The word as a person knows it, when the model needs more than one token
+       to write it. Checked, not asserted: the label has to begin with the very
+       token whose probability this round prints, or the round does not ship. */
+    let label = null;
+    let chunks = null;
+    if (prompt.label) {
+      chunks = Array.from((await tokenizer(prompt.label)).input_ids.data ?? [])
+        .map(Number)
+        .map((id) => tokenizer.decode([id]));
+      if (chunks[0] !== prompt.truth) {
+        console.log(
+          `  dropping ${prompt.id}: "${prompt.label}" starts "${chunks[0]}", not "${prompt.truth}".`,
+        );
+        return null;
+      }
+      label = prompt.label;
+    }
+
+    const candidates = ranked
       .filter((c) => c.id !== truthId)
       .map((c) => ({ text: tokenizer.decode([c.id]), probability: c.p }))
       .filter(
         (d) =>
           d.text.trim().toLowerCase() !== prompt.truth.trim().toLowerCase() &&
+          d.text.trim().toLowerCase() !==
+            (label ?? prompt.truth).trim().toLowerCase() &&
           /^ ?[a-z]{3,}$/i.test(d.text),
-      )
-      .slice(0, OPTIONS - 1);
+      );
+    const field = await wholeWords(prompt.text, candidates, OPTIONS - 1);
     if (field.length < OPTIONS - 1) return null;
 
     const options = seededShuffle(
       [
-        { text: prompt.truth, probability: probabilities[truthId], truth: true },
+        {
+          text: prompt.truth,
+          probability: probabilities[truthId],
+          truth: true,
+          ...(label ? { label } : {}),
+        },
         ...field.map((d) => ({ ...d, truth: false })),
       ],
       seed,
@@ -372,11 +463,14 @@ const main = async () => {
       options: options.map((o) => ({
         text: o.text,
         probability: Number(o.probability.toFixed(6)),
+        ...(o.label ? { label: o.label } : {}),
       })),
       truth,
       modelPick,
       answerRank: rank,
       trapped: modelPick !== truth,
+      /** The pieces the true word is made of, when it is made of more than one. */
+      ...(chunks ? { truthChunks: chunks } : {}),
     };
   };
 

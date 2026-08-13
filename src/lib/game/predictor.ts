@@ -4,7 +4,17 @@
 
 /* ------------------------------------------------------------------ types -- */
 
-export type Option = { text: string; probability: number };
+export type Option = {
+  /** The token the probability belongs to. */
+  text: string;
+  probability: number;
+  /**
+   * The word a person would recognise, when the token is only the front of
+   * one. " photos" is what the model was scored on; "photosynthesis" is what
+   * the question is actually about.
+   */
+  label?: string;
+};
 
 export type PredictorRound = {
   id: string;
@@ -18,6 +28,8 @@ export type PredictorRound = {
   /** Where the truth sat in the model's whole 50,257-token ranking. */
   answerRank: number;
   because: string;
+  /** The chunks the true word is made of, when it is made of more than one. */
+  truthChunks?: string[];
   /** Fact rounds only. */
   fact?: string;
   citation?: { title: string; url: string; revision: number | null };

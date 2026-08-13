@@ -11,6 +11,7 @@ import {
   next,
   pick,
   pointsFor,
+  type Option,
   type PredictorData,
   type PredictorScene,
   ROUND_SIZE,
@@ -28,6 +29,19 @@ function ordinal(n: number): string {
   if (tens >= 11 && tens <= 13) return `${n.toLocaleString("en-US")}th`;
   const suffix = { 1: "st", 2: "nd", 3: "rd" }[n % 10] ?? "th";
   return `${n.toLocaleString("en-US")}${suffix}`;
+}
+
+/**
+ * What to print for an option.
+ *
+ * Every number here belongs to a token, and two of the true answers are words
+ * the model cannot write in one: it scores " photos", and the question is
+ * about photosynthesis. The word goes on screen and the split is said out loud
+ * in the verdict, rather than printing the chunk and letting it read as the
+ * answer.
+ */
+function wordOf(option: Option): string {
+  return (option.label ?? option.text).trim();
 }
 
 let cached: Promise<PredictorData> | null = null;
@@ -168,12 +182,12 @@ export function BeatThePredictor() {
         )
       }
     >
-      <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
+      <div className="min-h-[13rem] p-3 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round ? (
           <>
             <p className="label text-ink-faint mb-3">{act.name}</p>
 
-            <p className="prose-measure mb-5 text-[1.125rem] leading-relaxed">
+            <p className="prose-measure mb-3 text-[1.125rem] leading-relaxed sm:mb-5">
               {round.prefix}{" "}
               <AnimatePresence mode="wait">
                 {revealed ? (
@@ -184,7 +198,7 @@ export function BeatThePredictor() {
                     transition={{ duration: 0.28 }}
                     className="bg-teal-wash text-teal-text font-data rounded-[2px] px-2 py-0.5 font-bold"
                   >
-                    {round.options[round.truth].text.trim()}
+                    {wordOf(round.options[round.truth])}
                   </motion.span>
                 ) : (
                   <motion.span
@@ -199,7 +213,7 @@ export function BeatThePredictor() {
               </AnimatePresence>
             </p>
 
-            <ul className="mb-4 space-y-2">
+            <ul className="mb-3 space-y-1.5 sm:mb-4 sm:space-y-2">
               {round.options.map((option, i) => {
                 const isTruth = revealed && i === round.truth;
                 const isYours = scene.picked === i;
@@ -210,7 +224,7 @@ export function BeatThePredictor() {
                       type="button"
                       disabled={revealed}
                       onClick={() => choose(i)}
-                      className={`plate w-full px-4 py-3 text-left transition-colors ${
+                      className={`plate w-full px-3 py-2 text-left transition-colors sm:px-4 sm:py-3 ${
                         isTruth
                           ? "border-teal bg-teal-wash"
                           : isYours
@@ -223,7 +237,7 @@ export function BeatThePredictor() {
                       <span className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                         <span className="label text-ink-faint">{i + 1}</span>
                         <span className="font-data text-[1.0625rem]">
-                          {option.text.trim() || "␣"}
+                          {wordOf(option) || "␣"}
                         </span>
                         {isYours ? (
                           <span className="label text-pink-text">you</span>
@@ -237,7 +251,7 @@ export function BeatThePredictor() {
                       </span>
 
                       {/* The evidence. It arrives, rather than being there. */}
-                      <span className="mt-2 flex items-center gap-3">
+                      <span className="mt-1.5 flex items-center gap-3 sm:mt-2">
                         <span className="bg-paper-sunk border-ink/20 h-3 flex-1 overflow-hidden rounded-[1px] border">
                           <motion.span
                             className={`block h-full ${
@@ -274,7 +288,14 @@ export function BeatThePredictor() {
               })}
             </ul>
 
-            <div className="min-h-[4rem] sm:min-h-[7rem]" aria-live="polite">
+            {/* The room the verdict will need is held from the start. It is
+                the same block before and after the pick, so a phone that had
+                to scale the board down to fit does not have to scale it again
+                the moment the answer lands. */}
+            <div
+              className="flex min-h-[13rem] flex-col justify-center sm:min-h-[7rem]"
+              aria-live="polite"
+            >
               {revealed && result ? (
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
@@ -302,8 +323,24 @@ export function BeatThePredictor() {
                     {round.because}
                   </p>
                   <p className="text-ink-faint mb-3 text-[0.8125rem]">
-                    The true word was the model&rsquo;s{" "}
-                    {ordinal(round.answerRank + 1)} choice out of 50,257.
+                    {round.truthChunks ? (
+                      <>
+                        {wordOf(round.options[round.truth])} takes{" "}
+                        {round.truthChunks.length}&nbsp;chunks for this model
+                        to write &mdash;{" "}
+                        {round.truthChunks
+                          .map((c) => `\u201c${c.trim()}\u201d`)
+                          .join(" then ")}{" "}
+                        &mdash; so the odds above are for the first one, and it
+                        was the model&rsquo;s {ordinal(round.answerRank + 1)}{" "}
+                        choice out of 50,257.
+                      </>
+                    ) : (
+                      <>
+                        The true word was the model&rsquo;s{" "}
+                        {ordinal(round.answerRank + 1)} choice out of 50,257.
+                      </>
+                    )}
                     {round.fact ? ` ${round.fact}` : ""}
                     {round.citation ? (
                       <>

@@ -301,8 +301,8 @@
       "prefix": "He wanted a quiet place to study, so he went to the",
       "options": [
         {
-          "text": " university",
-          "probability": 0.014848
+          "text": " house",
+          "probability": 0.013389
         },
         {
           "text": " University",
@@ -1686,7 +1686,7 @@
       "citation": {
         "title": "Paris",
         "url": "https://en.wikipedia.org/wiki/Paris",
-        "revision": 1367423857
+        "revision": 1368891486
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -1695,16 +1695,16 @@
       "prefix": "The highest mountain in the world is Mount",
       "options": [
         {
-          "text": " Sin",
-          "probability": 0.026051
+          "text": " Sharp",
+          "probability": 0.016114
         },
         {
           "text": " Everest",
           "probability": 0.259126
         },
         {
-          "text": " Sharp",
-          "probability": 0.016114
+          "text": " Olympus",
+          "probability": 0.01112
         },
         {
           "text": " Fuji",
@@ -1720,7 +1720,7 @@
       "citation": {
         "title": "Mount Everest",
         "url": "https://en.wikipedia.org/wiki/Mount%20Everest",
-        "revision": 1365907460
+        "revision": 1368685860
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -1754,7 +1754,7 @@
       "citation": {
         "title": "Jupiter",
         "url": "https://en.wikipedia.org/wiki/Jupiter",
-        "revision": 1367123182
+        "revision": 1368844148
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -1788,7 +1788,7 @@
       "citation": {
         "title": "Neil Armstrong",
         "url": "https://en.wikipedia.org/wiki/Neil%20Armstrong",
-        "revision": 1366287264
+        "revision": 1367800795
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -1890,7 +1890,7 @@
       "citation": {
         "title": "New Delhi",
         "url": "https://en.wikipedia.org/wiki/New%20Delhi",
-        "revision": 1365935626
+        "revision": 1369152775
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -1924,7 +1924,7 @@
       "citation": {
         "title": "Tokyo",
         "url": "https://en.wikipedia.org/wiki/Tokyo",
-        "revision": 1366968097
+        "revision": 1368962773
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -1958,7 +1958,7 @@
       "citation": {
         "title": "Canberra",
         "url": "https://en.wikipedia.org/wiki/Canberra",
-        "revision": 1365086707
+        "revision": 1368614683
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -1976,7 +1976,8 @@
         },
         {
           "text": " Bras",
-          "probability": 0.000617
+          "probability": 0.000617,
+          "label": " Brasília"
         },
         {
           "text": " the",
@@ -1987,12 +1988,17 @@
       "modelPick": 3,
       "answerRank": 158,
       "trapped": true,
+      "truthChunks": [
+        " Bras",
+        "í",
+        "lia"
+      ],
       "kind": "fact",
       "fact": "Brasília is the capital of Brazil, not Rio de Janeiro, which was the capital until 1960.",
       "citation": {
         "title": "Brasília",
         "url": "https://en.wikipedia.org/wiki/Bras%C3%ADlia",
-        "revision": 1365616413
+        "revision": 1369085772
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -2026,7 +2032,7 @@
       "citation": {
         "title": "Ottawa",
         "url": "https://en.wikipedia.org/wiki/Ottawa",
-        "revision": 1367058481
+        "revision": 1369024609
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -2060,7 +2066,7 @@
       "citation": {
         "title": "Nile",
         "url": "https://en.wikipedia.org/wiki/Nile",
-        "revision": 1366212787
+        "revision": 1368885921
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -2094,7 +2100,7 @@
       "citation": {
         "title": "Pacific Ocean",
         "url": "https://en.wikipedia.org/wiki/Pacific%20Ocean",
-        "revision": 1366737437
+        "revision": 1368439192
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -2107,16 +2113,16 @@
           "probability": 0.934275
         },
         {
-          "text": " Bre",
-          "probability": 0.003461
+          "text": " von",
+          "probability": 0.00044
         },
         {
-          "text": " Schwe",
-          "probability": 0.002118
+          "text": " Hall",
+          "probability": 0.000381
         },
         {
-          "text": " Hof",
-          "probability": 0.003739
+          "text": " Newton",
+          "probability": 0.000667
         }
       ],
       "truth": 0,
@@ -2128,7 +2134,7 @@
       "citation": {
         "title": "General relativity",
         "url": "https://en.wikipedia.org/wiki/General%20relativity",
-        "revision": 1362913724
+        "revision": 1368949773
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -2137,8 +2143,8 @@
       "prefix": "Penicillin was discovered by Alexander",
       "options": [
         {
-          "text": " Sch",
-          "probability": 0.004259
+          "text": " Hamilton",
+          "probability": 0.004081
         },
         {
           "text": " Fleming",
@@ -2162,7 +2168,7 @@
       "citation": {
         "title": "Alexander Fleming",
         "url": "https://en.wikipedia.org/wiki/Alexander%20Fleming",
-        "revision": 1364094538
+        "revision": 1368641358
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -2206,7 +2212,8 @@
       "options": [
         {
           "text": " photos",
-          "probability": 0.000211
+          "probability": 0.000211,
+          "label": " photosynthesis"
         },
         {
           "text": " fermentation",
@@ -2225,12 +2232,16 @@
       "modelPick": 3,
       "answerRank": 810,
       "trapped": true,
+      "truthChunks": [
+        " photos",
+        "ynthesis"
+      ],
       "kind": "fact",
       "fact": "Plants make food from light by photosynthesis.",
       "citation": {
         "title": "Photosynthesis",
         "url": "https://en.wikipedia.org/wiki/Photosynthesis",
-        "revision": 1366154845
+        "revision": 1368470526
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     },
@@ -2264,7 +2275,7 @@
       "citation": {
         "title": "Sun",
         "url": "https://en.wikipedia.org/wiki/Sun",
-        "revision": 1367247084
+        "revision": 1368039424
       },
       "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
     }

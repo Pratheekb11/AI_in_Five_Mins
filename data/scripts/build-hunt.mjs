@@ -35,6 +35,18 @@ const OUT = resolve(HERE, "../../public/data/hunt.json");
 const AGENT = "AIinFive/1.0 (educational)";
 /** How much of the article opening to use. Enough to hide three things in. */
 const CHARS = 700;
+/** How much further than CHARS the cut may run to reach the end of a sentence. */
+const OVERRUN = 220;
+
+/**
+ * The article's opening, cut where a sentence ends.
+ */
+function endOfSentence(text, chars) {
+  const stop = text.slice(chars).search(/[.!?](?=\s|$)/);
+  if (stop >= 0 && stop <= OVERRUN) return text.slice(0, chars + stop + 1);
+  const back = text.lastIndexOf(" ", chars);
+  return text.slice(0, back > 0 ? back : chars).trimEnd();
+}
 
 /**
  * `difficulty` is our own labelling of how hard each one is to catch, and it is
@@ -317,7 +329,13 @@ const main = async () => {
       continue;
     }
 
-    const original = source.text.slice(0, CHARS);
+    /* A paragraph that stops mid-word ("brighter than any other na") reads as
+       a broken file, and the reader is being asked to judge this text closely.
+       So the cut runs on to the end of the sentence it lands in rather than
+       stopping on the character count, and only falls back to a word boundary
+       if the sentence runs away. Still a verbatim prefix of the cited
+       revision, which is the thing that matters. */
+    const original = endOfSentence(source.text, CHARS);
 
     // Every original must appear exactly once, inside the slice we are using.
     let usable = true;

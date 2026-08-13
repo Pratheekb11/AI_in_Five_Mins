@@ -32,8 +32,6 @@ import { useEffect, useRef, type ReactNode } from "react";
  */
 const FLOOR_PHONE = 0.6;
 const FLOOR_WIDE = 0.85;
-/** Room to spare before the box is allowed to grow back, so it cannot flutter. */
-const SLACK = 1.06;
 
 export function FitBox({
   active,
@@ -69,20 +67,41 @@ export function FitBox({
     if (!port || !pad) return;
 
     let frame = 0;
+    /* The size of the screen this scale was decided against. A different
+       screen — a rotation, a resized window — is a new question, and only then
+       is the beat allowed to start again from full size. */
+    let against = "";
 
     /* Incremental on purpose. Resetting the zoom to 1 in order to measure
        would be a style write on every pass, the observer would see it, and the
        two would drive each other forever. Each pass instead nudges the current
-       scale towards a fit and stops inside a band.
+       scale towards a fit and stops once it fits.
 
        The beat is measured with `getBoundingClientRect`, which is in screen
        pixels whatever the zoom is. The scroll port cannot be measured instead:
        its content is `min-h-full`, so its scrollHeight is pinned to its own
        height and a beat with room to spare looks exactly like one that fits
-       exactly. */
+       exactly.
+
+       Down only, and that is the whole trick. A beat is not one height: a game
+       grows when it reveals an answer and shrinks again on the next round, a
+       walkthrough changes with every step. Scaling back up for the short state
+       means scaling down again for the tall one, and the reader watches the
+       page jump on every single answer. So the scale a beat settles on is the
+       one its TALLEST state needed, and it holds there until the screen
+       itself changes. */
     function fit() {
       const el = box.current;
       if (!el || !port || !pad || el.offsetParent === null) return;
+
+      const screen = `${port.clientWidth}x${port.clientHeight}`;
+      if (screen !== against) {
+        against = screen;
+        if (scale.current !== 1) {
+          scale.current = 1;
+          el.style.zoom = "";
+        }
+      }
 
       const floor = port.clientWidth < 640 ? FLOOR_PHONE : FLOOR_WIDE;
       const cs = getComputedStyle(pad);
@@ -95,17 +114,13 @@ export function FitBox({
       for (let i = 0; i < 6; i++) {
         const need = el.getBoundingClientRect().height;
         if (need <= 0) return;
+        if (need <= room + 1) break;
+        if (scale.current <= floor) break;
 
-        if (need > room + 1) {
-          if (scale.current <= floor) break;
-          const next = Math.max(floor, scale.current * (room / need));
-          if (next > scale.current - 0.004) break;
-          scale.current = next;
-          el.style.zoom = String(next);
-        } else if (scale.current < 1 && need * SLACK < room) {
-          scale.current = Math.min(1, scale.current * SLACK);
-          el.style.zoom = scale.current === 1 ? "" : String(scale.current);
-        } else break;
+        const next = Math.max(floor, scale.current * (room / need));
+        if (next > scale.current - 0.004) break;
+        scale.current = next;
+        el.style.zoom = String(next);
       }
     }
 

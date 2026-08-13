@@ -165,10 +165,10 @@ export function ContextBudget() {
         )
       }
     >
-      <div className="min-h-[13rem] p-4 sm:min-h-[26rem] sm:p-5 md:p-6">
+      <div className="min-h-[13rem] p-3 sm:min-h-[26rem] sm:p-5 md:p-6">
         {scenario ? (
           <>
-            <p className="label text-ink-faint mb-2">The question</p>
+            <p className="label text-ink-faint mb-1 sm:mb-2">The question</p>
             <p className="prose-measure mb-3 text-[1rem] sm:mb-5 sm:text-[1.0625rem]">
               {scenario.ask}{" "}
               {/* The sentence it has to finish is printed again, in full, in
@@ -180,12 +180,22 @@ export function ContextBudget() {
               </span>
             </p>
 
-            <div className="grid gap-3 sm:gap-5 lg:grid-cols-[1.2fr_1fr]">
+            <div className="grid gap-2 sm:gap-5 lg:grid-cols-[1.2fr_1fr]">
               <div>
-                <p className="label text-ink-faint mb-2">
+                <p className="label text-ink-faint mb-1 sm:mb-2">
                   The pile: click a card to put it in the window
                 </p>
-                <ul className="space-y-1.5 sm:space-y-2">
+                {/* Once a run has happened the pile is a set of switches
+                    rather than something to read, so on a phone it goes two
+                    across and the measured result underneath stays on the
+                    same screen. */}
+                <ul
+                  className={
+                    shown
+                      ? "grid grid-cols-2 gap-0.5 sm:block sm:space-y-2"
+                      : "space-y-1 sm:space-y-2"
+                  }
+                >
                   {scenario.cards.map((card) => {
                     const inWindow = scene.chosen.includes(card.id);
                     const full = scene.chosen.length >= slots && !inWindow;
@@ -209,7 +219,17 @@ export function ContextBudget() {
                           <span className="label text-ink-faint mr-2 inline sm:block">
                             {card.label}
                           </span>
-                          <span className="inline text-[0.875rem] leading-snug sm:block">
+                          {/* Once a run has happened the pile stops being
+                              reading and becomes a set of switches, so on a
+                              phone each card drops to one line and the result
+                              underneath stays on the same screen. */}
+                          <span
+                            className={`text-[0.8125rem] leading-snug sm:block sm:max-w-none sm:overflow-visible sm:text-[0.875rem] sm:whitespace-normal ${
+                              shown
+                                ? "inline-block max-w-full truncate align-bottom"
+                                : "inline"
+                            }`}
+                          >
                             {card.text}
                           </span>
                         </button>
@@ -220,13 +240,25 @@ export function ContextBudget() {
               </div>
 
               <div>
-                <p className="label text-ink-faint mb-2">
+                {/* Once the model has answered, the slot row has said all it
+                    can: the chosen cards are lit in the pile and the count is
+                    in the header. On a phone it stands down so the measured
+                    result fits under it. */}
+                <p
+                  className={`label text-ink-faint mb-1 sm:mb-2 ${
+                    shown ? "hidden sm:block" : ""
+                  }`}
+                >
                   The window: {slots} slots
                 </p>
                 {/* Five slots stand in a row on a phone rather than a column: what
                     the window is for is how much fits, and the count is in the
                     header while the chosen cards are lit in the pile above. */}
-                <ul className="mb-3 grid grid-cols-5 gap-1 sm:mb-4 sm:grid-cols-1 sm:gap-1.5">
+                <ul
+                  className={`mb-3 grid grid-cols-5 gap-1 sm:mb-4 sm:grid-cols-1 sm:gap-1.5 ${
+                    shown ? "hidden sm:grid" : ""
+                  }`}
+                >
                   {Array.from({ length: slots }, (_, i) => {
                     const id = scene.chosen[i];
                     const card = scenario.cards.find((c) => c.id === id);
@@ -252,8 +284,8 @@ export function ContextBudget() {
                 {/*
                   What it says, not what it scores.
                 */}
-                <div className="plate-flush mb-3 px-3 py-2 sm:py-3">
-                  <p className="label text-ink-faint mb-2">
+                <div className="plate-flush mb-2 px-3 py-1.5 sm:mb-3 sm:py-3">
+                  <p className="label text-ink-faint mb-1 sm:mb-2">
                     What it says next
                   </p>
 
@@ -321,7 +353,7 @@ export function ContextBudget() {
                     type="button"
                     onClick={fire}
                     disabled={spent || !pending}
-                    className="plate misreg btn-primary font-display px-4 py-2 font-bold disabled:opacity-40"
+                    className="plate misreg btn-primary font-display px-4 py-1.5 font-bold disabled:opacity-40 sm:py-2"
                   >
                     Run it ({scene.runsLeft})
                   </button>
@@ -329,7 +361,7 @@ export function ContextBudget() {
                     type="button"
                     onClick={wipe}
                     disabled={scene.chosen.length === 0}
-                    className="tap plate hover:border-ink px-4 py-2 disabled:opacity-40"
+                    className="tap plate hover:border-ink px-4 py-1.5 disabled:opacity-40 sm:py-2"
                   >
                     Empty the window
                   </button>
@@ -337,7 +369,7 @@ export function ContextBudget() {
                     type="button"
                     onClick={carryOn}
                     disabled={!shown}
-                    className="tap plate hover:border-ink px-4 py-2 disabled:opacity-40"
+                    className="tap plate hover:border-ink px-4 py-1.5 disabled:opacity-40 sm:py-2"
                   >
                     {scene.at + 1 >= scene.order.length
                       ? "See the result"
@@ -351,20 +383,20 @@ export function ContextBudget() {
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="border-ink/20 mt-5 border-t pt-4"
+                className="border-ink/20 mt-3 border-t pt-3 sm:mt-5 sm:pt-4"
                 aria-live="polite"
               >
-                <p className="mb-2 text-[0.9375rem] font-semibold">
+                <p className="mb-1 text-[0.9375rem] font-semibold sm:mb-2">
                   {shown.probability >= ceiling.probability * 0.9
                     ? "That is about as good as these cards get."
                     : shown.probability < 0.1
                       ? "Almost no chance. Something in there is actively fighting the answer."
                       : "Something in the window is costing you."}
                 </p>
-                <p className="label text-ink-faint mb-2">
+                <p className="label text-ink-faint mb-1 sm:mb-2">
                   What each card in the window is doing, measured
                 </p>
-                <ul className="space-y-1">
+                <ul className="space-y-0.5 sm:space-y-1">
                   {scene.chosen.map((id) => {
                     const card = scenario.cards.find((c) => c.id === id)!;
                     const effect = effectOf(scenario, scene.chosen, id);
@@ -373,9 +405,11 @@ export function ContextBudget() {
                     return (
                       <li
                         key={id}
-                        className="flex flex-wrap items-baseline gap-x-3 text-[0.875rem]"
+                        className="flex flex-wrap items-baseline gap-x-3 text-[0.8125rem] leading-tight sm:text-[0.875rem] sm:leading-normal"
                       >
-                        <span className="w-44 shrink-0">{card.label}</span>
+                        <span className="w-36 shrink-0 sm:w-44">
+                          {card.label}
+                        </span>
                         <span className="text-ink-faint">
                           {KIND_NAMES[card.kind]}
                         </span>

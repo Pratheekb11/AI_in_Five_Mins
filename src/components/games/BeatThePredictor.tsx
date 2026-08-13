@@ -326,8 +326,8 @@ export function BeatThePredictor() {
                     {round.truthChunks ? (
                       <>
                         {wordOf(round.options[round.truth])} takes{" "}
-                        {round.truthChunks.length}&nbsp;chunks for this model
-                        to write &mdash;{" "}
+                        {round.truthChunks.length}&nbsp;chunks for this model to
+                        write &mdash;{" "}
                         {round.truthChunks
                           .map((c) => `\u201c${c.trim()}\u201d`)
                           .join(" then ")}{" "}

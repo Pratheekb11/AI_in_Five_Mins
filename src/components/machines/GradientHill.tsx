@@ -92,14 +92,17 @@ export function GradientHill() {
   return (
     /* This is the playable on its page even though it is filed as a machine,
        so it carries the game marker for the engagement measure. */
-    <div className="space-y-4" data-section="game">
-      <div className="grid gap-4 lg:grid-cols-2">
-        <figure className="plate p-5">
-          <figcaption className="mb-4">
-            <h3 className="font-display text-base font-bold">
+    <div className="space-y-2 sm:space-y-4" data-section="game">
+      {/* Both charts answer the same dial, so on a phone they stand side by
+          side rather than one under the other: the pair is the point, and a
+          reader who has to scroll between them cannot see it. */}
+      <div className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-2">
+        <figure className="plate p-2 sm:p-5">
+          <figcaption className="mb-2 sm:mb-4">
+            <h3 className="font-display text-sm font-bold sm:text-base">
               The guess, against the evidence
             </h3>
-            <p className="text-ink-soft mt-1 text-sm">
+            <p className="text-ink-soft mt-1 hidden text-sm sm:block">
               {sampleSize} real sentences. Each dot is one sentence: how long it
               is, against how many tokens it cost.
             </p>
@@ -107,12 +110,12 @@ export function GradientHill() {
           <Scatter slope={slope} />
         </figure>
 
-        <figure className="plate p-5">
-          <figcaption className="mb-4">
-            <h3 className="font-display text-base font-bold">
+        <figure className="plate p-2 sm:p-5">
+          <figcaption className="mb-2 sm:mb-4">
+            <h3 className="font-display text-sm font-bold sm:text-base">
               The hill it is rolling down
             </h3>
-            <p className="text-ink-soft mt-1 text-sm">
+            <p className="text-ink-soft mt-1 hidden text-sm sm:block">
               How wrong the line is, for every setting of the dial. The machine
               cannot see this shape. It only feels which way is down.
             </p>
@@ -121,8 +124,8 @@ export function GradientHill() {
         </figure>
       </div>
 
-      <div className="plate p-5 md:p-6">
-        <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+      <div className="plate p-3 sm:p-5 md:p-6">
+        <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end sm:gap-5">
           <div>
             <label htmlFor="slope" className="label text-ink-faint">
               Tokens per character
@@ -169,7 +172,7 @@ export function GradientHill() {
           </dl>
         </div>
 
-        <div className="border-ink/20 mt-5 flex flex-wrap items-end gap-3 border-t pt-5">
+        <div className="border-ink/20 mt-3 flex flex-wrap items-end gap-3 border-t pt-3 sm:mt-5 sm:pt-5">
           <div>
             <label htmlFor="rate" className="label text-ink-faint">
               Step size

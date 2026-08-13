@@ -22,6 +22,11 @@ import {
  * Show, Don't Ask.
  */
 
+/** What the model actually produced, on one line. */
+function saidBy(variant: { says?: string; topText: string }): string {
+  return (variant.says ?? variant.topText).replace(/\n/g, "").trim();
+}
+
 let cached: Promise<ListenData> | null = null;
 
 function loadListen(): Promise<ListenData> {
@@ -172,12 +177,16 @@ export function ShowDontAsk() {
         )
       }
     >
-      <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
+      <div className="min-h-[13rem] p-3 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round ? (
           <>
-            <p className="label text-ink-faint mb-2">What you want</p>
+            <p className="label text-ink-faint mb-1 sm:mb-2">What you want</p>
             <p className="prose-measure mb-1 text-[1.0625rem]">{round.goal}</p>
-            <p className="text-ink-faint mb-5 text-[0.8125rem]">
+            <p
+              className={`text-ink-faint mb-3 text-[0.8125rem] sm:mb-5 ${
+                revealed ? "hidden sm:block" : ""
+              }`}
+            >
               Scored on the chance the model produces{" "}
               <span className="font-data">
                 &ldquo;{round.target.trim()}&rdquo;
@@ -185,7 +194,15 @@ export function ShowDontAsk() {
               next.
             </p>
 
-            <ul className="space-y-2">
+            {/* Once they are evidence rather than a question, the five go
+                two across on a wide screen: the verdict underneath is what
+                the reader is waiting for and it should not be below the
+                fold. */}
+            <ul
+              className={`space-y-1.5 sm:space-y-2 ${
+                revealed ? "sm:grid sm:grid-cols-2 sm:gap-2 sm:space-y-0" : ""
+              }`}
+            >
               {variants.map((variant, i) => {
                 const isWinner = revealed && variant.id === winner?.id;
                 const isYours = scene.picked === variant.id;
@@ -196,7 +213,7 @@ export function ShowDontAsk() {
                       type="button"
                       disabled={revealed}
                       onClick={() => choose(variant.id)}
-                      className={`plate w-full px-4 py-3 text-left transition-colors ${
+                      className={`plate w-full px-3 py-2 text-left transition-colors sm:px-4 sm:py-3 ${
                         isWinner
                           ? "border-teal bg-teal-wash"
                           : isYours
@@ -206,7 +223,7 @@ export function ShowDontAsk() {
                               : "hover:border-ink cursor-pointer"
                       }`}
                     >
-                      <span className="mb-1 flex flex-wrap items-baseline gap-x-3">
+                      <span className="mb-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
                         <span className="label text-ink-faint">{i + 1}</span>
                         {revealed ? (
                           <span className="label text-ink-faint">
@@ -217,7 +234,18 @@ export function ShowDontAsk() {
                           <span className="label text-pink-text">you</span>
                         ) : null}
                       </span>
-                      <span className="font-data block text-[0.9375rem] whitespace-pre-wrap">
+                      {/* Before the pick this is the question, so it is
+                          printed in full. After it, the reader has already
+                          read all four and the evidence is the bar: on a phone
+                          the prompt drops back to two lines so the whole
+                          result stays on one screen. */}
+                      <span
+                        className={`font-data text-[0.9375rem] whitespace-pre-wrap ${
+                          revealed
+                            ? "line-clamp-1 sm:block sm:line-clamp-none"
+                            : "block"
+                        }`}
+                      >
                         {variant.prompt}
                       </span>
 
@@ -258,6 +286,20 @@ export function ShowDontAsk() {
                               ? `${multiple.toFixed(multiple >= 10 ? 0 : 1)}×`
                               : "-"}
                           </span>
+
+                          {/* What came back rides on the bar that measured
+                              it. It used to be a second list underneath, which
+                              printed every prompt twice and pushed the verdict
+                              off the bottom of the screen. */}
+                          <span
+                            className={`data max-w-[45%] shrink truncate rounded-[2px] border px-1.5 py-0.5 text-xs font-bold ${
+                              isWinner
+                                ? "border-teal-text/40 bg-teal-wash text-teal-text"
+                                : "border-ink/25 text-ink-faint"
+                            }`}
+                          >
+                            {saidBy(variant) || "said nothing at all"}
+                          </span>
                         </span>
                       ) : null}
                     </button>
@@ -266,7 +308,10 @@ export function ShowDontAsk() {
               })}
             </ul>
 
-            <div className="mt-4 min-h-[4rem] sm:min-h-[6rem]" aria-live="polite">
+            <div
+              className="mt-2 min-h-[4rem] sm:mt-4 sm:min-h-[6rem]"
+              aria-live="polite"
+            >
               {revealed && winner ? (
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
@@ -285,34 +330,7 @@ export function ShowDontAsk() {
                   {/* What each phrasing actually got back. Asking politely
                       returns an empty line, and printing that blank is worth
                       more than any number beside it. */}
-                  <ul className="mb-3 space-y-1.5">
-                    {round.variants.map((variant) => {
-                      const said = (variant.says ?? variant.topText)
-                        .replace(/\n/g, "")
-                        .trim();
-                      const won = variant.id === winner.id;
-                      return (
-                        <li
-                          key={variant.id}
-                          className="flex flex-wrap items-baseline gap-x-3 text-[0.9375rem]"
-                        >
-                          <span className="label text-ink-faint w-28 shrink-0">
-                            {variant.style}
-                          </span>
-                          <span
-                            className={`data rounded-[2px] border px-1.5 py-0.5 text-sm font-bold ${
-                              won
-                                ? "border-teal-text/40 bg-teal-wash text-teal-text"
-                                : "border-ink/25 text-ink-faint"
-                            }`}
-                          >
-                            {said || "said nothing at all"}
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <p className="prose-measure text-ink-soft mb-3 text-[0.9375rem]">
+                  <p className="prose-measure text-ink-soft mb-2 text-[0.8125rem] sm:mb-3 sm:text-[0.9375rem]">
                     The one that worked stopped asking and started showing.
                     Politeness and job titles got a blank line.
                   </p>

@@ -169,12 +169,16 @@ export function Pushback() {
         )
       }
     >
-      <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
+      <div className="min-h-[13rem] p-3 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round ? (
           <>
             <p className="label text-ink-faint mb-2">The fact</p>
             <p className="prose-measure mb-1 text-[1.0625rem]">{round.fact}</p>
-            <p className="text-ink-faint mb-5 text-[0.8125rem]">
+            <p
+              className={`text-ink-faint mb-3 text-[0.8125rem] sm:mb-5 ${
+                revealed ? "hidden sm:block" : ""
+              }`}
+            >
               Someone is about to insist the answer is{" "}
               <span className="font-data">{round.wrong.trim()}</span>.
             </p>
@@ -212,7 +216,7 @@ export function Pushback() {
                 aria-live="polite"
               >
                 <p
-                  className={`mb-3 text-[0.9375rem] font-semibold ${
+                  className={`mb-2 text-[0.9375rem] font-semibold sm:mb-3 ${
                     correct ? "text-teal-text" : "text-pink-text"
                   }`}
                 >
@@ -221,23 +225,27 @@ export function Pushback() {
                     : `Actually, ${GUESSES[outcome!].label.toLowerCase()}.`}
                 </p>
 
-                <ul className="mb-4 space-y-3">
+                {/* Four framings of the same fact. On a wide screen they pair up
+                    once they are results, so the sentence that explains them
+                    is not pushed under the fold. */}
+                <ul className="mb-2 space-y-1.5 sm:mb-4 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0">
                   {round.phrasings.map((phrasing, i) => (
                     <li key={phrasing.id}>
-                      <p className="label text-ink-faint mb-1">
+                      <p className="label text-ink-faint mb-0.5 sm:mb-1">
                         {data?.styles[phrasing.style]}
                       </p>
                       {/* The prompt, and then what it actually said. Two
                           probability bars are the measurement; the model
                           finishing the sentence with "Moon." because somebody
                           insisted is the thing anybody feels. */}
-                      <p className="font-data bg-paper-sunk border-ink/20 mb-1.5 rounded-[2px] border px-3 py-1.5 text-[0.875rem]">
+                      <p className="font-data bg-paper-sunk border-ink/20 mb-1 rounded-[2px] border px-2 py-1 text-[0.8125rem] sm:mb-1.5 sm:px-3 sm:py-1.5 sm:text-[0.875rem]">
                         {phrasing.prompt}{" "}
                         {(() => {
                           const said = (phrasing.says ?? phrasing.topText)
                             .replace(/\n/g, "")
                             .trim();
-                          if (!said) return <span className="text-ink-faint">…</span>;
+                          if (!said)
+                            return <span className="text-ink-faint">…</span>;
                           const caved = said
                             .toLowerCase()
                             .startsWith(round.wrong.trim().toLowerCase());
@@ -270,7 +278,7 @@ export function Pushback() {
                       ].map((row, j) => (
                         <span
                           key={row.label}
-                          className="mb-1 flex items-center gap-3"
+                          className="mb-0.5 flex items-center gap-3 sm:mb-1"
                         >
                           <span
                             className={`font-data w-20 shrink-0 text-right text-xs ${row.tone}`}
@@ -300,7 +308,7 @@ export function Pushback() {
                   ))}
                 </ul>
 
-                <p className="prose-measure text-ink-soft mb-2 text-[0.9375rem]">
+                <p className="prose-measure text-ink-soft mb-2 text-[0.8125rem] leading-snug sm:text-[0.9375rem] sm:leading-normal">
                   {outcome === "flips"
                     ? `Asserting the wrong answer put it at ${(
                         (insistent?.wrong.probability ?? 0) * 100
@@ -311,7 +319,7 @@ export function Pushback() {
                       )}% for the truth. Look at the last row though: asserting the right answer works exactly as hard in the other direction. It is not agreeing with you. It is copying you.`
                     : "It held on this one. But look at how much the framing still moved both numbers. Nothing about the model changed between those four rows. Only the sentence in front of it did."}
                 </p>
-                <p className="text-ink-faint mb-3 text-[0.8125rem]">
+                <p className="text-ink-faint mb-2 text-[0.8125rem] sm:mb-3">
                   <a
                     href={round.citation.url}
                     target="_blank"
@@ -328,7 +336,7 @@ export function Pushback() {
                 <button
                   type="button"
                   onClick={carryOn}
-                  className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
+                  className="plate misreg btn-primary font-display px-5 py-2 font-bold sm:py-2.5"
                 >
                   {scene.at + 1 >= scene.rounds.length
                     ? "See the result"

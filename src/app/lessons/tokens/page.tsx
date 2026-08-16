@@ -191,7 +191,7 @@ export default function TokensLesson() {
             <p>
               Watch <span className="font-data">unbelievable</span> in
               particular. A human would cut it{" "}
-              <span className="font-data">un\u00b7believ\u00b7able</span>. The
+              <span className="font-data">un·believ·able</span>. The
               tokenizer produces{" "}
               <span className="font-data">
                 {unbelievable.final.join("\u00b7")}

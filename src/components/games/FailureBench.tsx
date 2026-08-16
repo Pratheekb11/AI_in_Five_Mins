@@ -18,6 +18,7 @@ import {
   type Weighing,
 } from "@/lib/game/bench";
 import { useGameLoop } from "@/lib/game/useGameLoop";
+import { claimArrowKeys } from "@/lib/arrowKeys";
 import { type EmbeddingSpace, loadEmbeddings } from "@/lib/embeddings";
 import { type LogitData, loadLogits } from "@/lib/logits";
 
@@ -100,8 +101,12 @@ export function FailureBench() {
       else return;
       e.preventDefault();
     };
+    const release = claimArrowKeys();
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      release();
+      window.removeEventListener("keydown", onKey);
+    };
   }, [playing, scene.done, choose, carryOn]);
 
   const correct = revealed && scene.called === weighing?.answer;

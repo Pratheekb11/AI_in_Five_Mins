@@ -122,7 +122,6 @@ export default function WhatIsAiLesson() {
           note="The held-out half, and what each rule caught."
         >
           <>
-            <h2 className="display-lg mb-2">Messages worth reading</h2>
             <p className="prose-measure text-ink-soft mb-5">
               A filter is only as good as its hardest cases. These are real
               messages from the corpus. Obvious spams, ones that slip past

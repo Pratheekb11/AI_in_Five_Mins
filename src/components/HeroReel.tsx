@@ -215,7 +215,7 @@ export function HeroReel() {
 
   if (!round || !data) {
     return (
-      <div className="plate min-h-[4rem] sm:min-h-[6rem] sm:min-h-[11rem] p-4 sm:min-h-[19rem] sm:p-5 md:p-6">
+      <div className="plate min-h-[4rem] p-4 sm:min-h-[19rem] sm:p-5 md:p-6">
         <p className="label text-ink-faint mb-3">Reading a real model</p>
         <p className="text-ink-soft text-[0.9375rem]">
           Measuring what it says next…

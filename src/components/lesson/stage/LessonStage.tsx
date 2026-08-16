@@ -10,6 +10,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { arrowKeysClaimed } from "@/lib/arrowKeys";
 import { FitBox } from "./FitBox";
 
 /**
@@ -80,6 +81,7 @@ export function LessonStage({ beats }: { beats: Beat[] }) {
         (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))
       )
         return;
+      if (arrowKeysClaimed()) return;
       if (e.key === "ArrowRight") next();
       else if (e.key === "ArrowLeft") back();
     }

@@ -22,6 +22,7 @@ import {
   VIEW_W,
 } from "@/lib/game/magnet";
 import { useGameLoop } from "@/lib/game/useGameLoop";
+import { claimArrowKeys } from "@/lib/arrowKeys";
 import {
   type EmbeddingSpace,
   loadEmbeddings,
@@ -211,9 +212,11 @@ export function WordMagnet() {
       setScene((s) => steer(s, x, y));
     };
 
+    const release = claimArrowKeys();
     window.addEventListener("keydown", down);
     window.addEventListener("keyup", up);
     return () => {
+      release();
       window.removeEventListener("keydown", down);
       window.removeEventListener("keyup", up);
     };

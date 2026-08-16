@@ -149,9 +149,6 @@ export default function TaskAuditLesson() {
       <div data-section="deeper" className="space-y-4">
         <Fold title="The four buckets, and the honest test for each">
           <>
-            <p className="label text-ink-faint mb-4">
-              The four buckets, and the honest test for each
-            </p>
             <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
               {BUCKETS.map((bucket) => (
                 <div key={bucket.id}>

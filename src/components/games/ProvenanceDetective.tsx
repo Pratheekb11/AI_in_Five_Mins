@@ -197,7 +197,7 @@ export function ProvenanceDetective() {
               })}
             </div>
 
-            <div className="min-h-[4rem] sm:min-h-[6rem] sm:min-h-[11rem]" aria-live="polite">
+            <div className="min-h-[4rem] sm:min-h-[11rem]" aria-live="polite">
               {revealed ? (
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}

@@ -220,9 +220,6 @@ export default function JudgmentAndLimitsLesson() {
       <div data-section="deeper" className="space-y-4">
         <Fold title="The four kinds, in the words of the people who define them">
           <>
-            <p className="label text-ink-faint mb-4">
-              The four kinds, in the words of the people who define them
-            </p>
             <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
               {(Object.keys(KIND_LABEL) as (keyof typeof KIND_LABEL)[]).map(
                 (kind) => (

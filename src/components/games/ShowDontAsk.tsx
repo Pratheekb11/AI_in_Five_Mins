@@ -39,21 +39,43 @@ function loadListen(): Promise<ListenData> {
   return cached;
 }
 
-export function ShowDontAsk() {
-  const [data, setData] = useState<ListenData | null>(null);
+export function ShowDontAsk({
+  initialData,
+  initialScene,
+}: {
+  initialData?: ListenData;
+  initialScene?: ListenScene;
+} = {}) {
+  const [data, setData] = useState<ListenData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<ListenScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<ListenScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadListen()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadListen().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          Array.from({ length: 90 }, () => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;
@@ -213,7 +235,7 @@ export function ShowDontAsk() {
                       type="button"
                       disabled={revealed}
                       onClick={() => choose(variant.id)}
-                      className={`plate w-full px-3 py-2 text-left transition-colors sm:px-4 sm:py-3 ${
+                      className={`tap plate w-full px-3 py-2 text-left transition-colors sm:px-4 sm:py-3 ${
                         isWinner
                           ? "border-teal bg-teal-wash"
                           : isYours

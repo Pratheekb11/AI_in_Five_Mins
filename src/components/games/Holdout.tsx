@@ -88,21 +88,43 @@ function Card({
   );
 }
 
-export function Holdout() {
-  const [data, setData] = useState<SplitData | null>(null);
+export function Holdout({
+  initialData,
+  initialScene,
+}: {
+  initialData?: SplitData;
+  initialScene?: SplitScene;
+} = {}) {
+  const [data, setData] = useState<SplitData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<SplitScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<SplitScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadSplit()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadSplit().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          Array.from({ length: 40 }, () => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;

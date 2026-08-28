@@ -8,13 +8,21 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { CurveFigure } from "@/components/machines/CurveFigure";
 import type { CheckBeat } from "@/lib/check";
+import { start as dealCurve, type CurveData } from "@/lib/game/curve";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("more-data-or-better-model")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const curveData = readGameData<CurveData>("curve.json");
+const initialScene = dealCurve(
+  curveData,
+  Array.from({ length: 20 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -133,7 +141,7 @@ export default function MoreDataOrBetterModelLesson() {
       />
 
       <div className="py-4">
-        <BuyTheUpgrade />
+        <BuyTheUpgrade initialData={curveData} initialScene={initialScene} />
       </div>
 
       <div className="pb-4">

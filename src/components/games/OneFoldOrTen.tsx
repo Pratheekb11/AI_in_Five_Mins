@@ -34,21 +34,43 @@ function loadCrossval(): Promise<CrossvalData> {
   return cached;
 }
 
-export function OneFoldOrTen() {
-  const [data, setData] = useState<CrossvalData | null>(null);
+export function OneFoldOrTen({
+  initialData,
+  initialScene,
+}: {
+  initialData?: CrossvalData;
+  initialScene?: CvScene;
+} = {}) {
+  const [data, setData] = useState<CrossvalData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<CvScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<CvScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadCrossval()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadCrossval().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          Array.from({ length: 30 }, () => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;

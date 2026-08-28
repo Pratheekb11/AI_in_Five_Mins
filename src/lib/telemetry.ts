@@ -1,6 +1,7 @@
 "use client";
 
 import { track } from "@vercel/analytics";
+import { recordLocal } from "./localTelemetry";
 
 /**
  * The small amount of measurement this site does about its readers.
@@ -59,9 +60,23 @@ export function trackGameStarted(game: string, page: string) {
 /** Somebody played one to the end, with what it scored them. */
 export function trackGameFinished(game: string, page: string, score: number) {
   send("game_finished", { game, page, score: Math.round(score) });
+  recordLocal(page, { gameCompleted: true });
 }
 
 /** Somebody answered every beat of a module's check. */
 export function trackCheckCompleted(page: string, score: number) {
   send("check_completed", { page, score: Math.round(score * 100) });
+}
+
+/** The first real tap or click on a page's game, timed from route paint.
+ *  Its mere presence is also what "interacted" means for that page. */
+export function trackFirstInteraction(page: string, ms: number) {
+  send("time_to_first_interaction", { page, ms });
+  recordLocal(page, { interacted: true, timeToFirstInteractionMs: ms });
+}
+
+/** Somebody took the closing screen's primary action into the next lesson. */
+export function trackAdvanced(page: string) {
+  send("advanced", { page });
+  recordLocal(page, { advanced: true });
 }

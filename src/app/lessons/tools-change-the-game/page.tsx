@@ -1,5 +1,4 @@
 import { ProvenanceDetective } from "@/components/games/ProvenanceDetective";
-import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -8,7 +7,12 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { ProvenanceFigure } from "@/components/machines/ProvenanceFigure";
 import type { CheckBeat } from "@/lib/check";
+import {
+  start as dealProvenance,
+  type ProvenanceData,
+} from "@/lib/game/provenance";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
 import { lessonMetadata } from "@/lib/metadata";
@@ -17,6 +21,12 @@ const lesson = getLesson("tools-change-the-game")!;
 const video = videoFor("tools-change-the-game")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const provenanceData = readGameData<ProvenanceData>("provenance.json");
+const initialScene = dealProvenance(
+  provenanceData,
+  Array.from({ length: 120 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -123,25 +133,20 @@ const CHECK: CheckBeat[] = [
 export default function ToolsChangeTheGameLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              Four completely different things can happen behind one reply.{" "}
-              <span className="text-blue-text">All four look the same.</span>
-            </>
-          }
-          sting="It looked it up. It ran code. It opened your file. Or it just wrote something. The confidence, the tone and the formatting are identical in every case. So knowing which one you asked for is the whole of knowing how far to trust the answer."
-          cta="Open the case"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "What just happened",
-      node: <ProvenanceDetective />,
+      node: (
+        <div className="space-y-4">
+          <h2 className="display-md">
+            Four completely different things can happen behind one reply.{" "}
+            <span className="text-blue-text">All four look the same.</span>
+          </h2>
+          <ProvenanceDetective
+            initialData={provenanceData}
+            initialScene={initialScene}
+          />
+        </div>
+      ),
     },
     {
       id: "walkthrough",

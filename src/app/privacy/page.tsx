@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ResetProgress } from "@/components/ResetProgress";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { KEPT_KEYS } from "@/lib/storageKeys";
@@ -33,6 +34,10 @@ const STORED = [
   {
     key: "llai-celebrated",
     what: "Which finishes have already been celebrated, so it happens once.",
+  },
+  {
+    key: "llai-local-telemetry",
+    what: "A local copy of whether you interacted with each lesson's game, only for the /admin diagnostic page on this browser. Never sent anywhere.",
   },
   { key: "llai-theme", what: "Light or dark." },
   { key: "llai-muted", what: "Whether the game sounds are off." },
@@ -76,8 +81,8 @@ export default function Privacy() {
           </ul>
 
           <p className="prose-measure text-ink-soft mt-5">
-            The Reset button in the masthead wipes the first four. It
-            deliberately keeps{" "}
+            The Reset button in the masthead wipes everything above except two
+            things it deliberately keeps:{" "}
             {KEPT_KEYS.map((key) => (
               <span key={key} className="data text-sm">
                 {key}{" "}
@@ -86,6 +91,11 @@ export default function Privacy() {
             &mdash; being flipped back to light mode with the sound on is a
             worse surprise than keeping them.
           </p>
+
+          <div className="mt-4 flex items-center gap-2">
+            <span className="label text-ink-faint">Or from right here:</span>
+            <ResetProgress />
+          </div>
         </section>
 
         <section className="mb-10">
@@ -94,14 +104,20 @@ export default function Privacy() {
             <p>
               Page views and visitor counts come from Vercel Web Analytics,
               which sets no cookies and builds no profile across sites. On top
-              of that the site sends four events: how long a page was open, when
-              a game was started and finished, and what a check scored.
+              of that the site sends events: how long a page was open, when a
+              game was started and finished, what a check scored, how long
+              until the first tap on a page&rsquo;s game, and whether you took
+              the closing screen&rsquo;s action into the next lesson.
             </p>
             <p>
               Every value in those is either the lesson slug, which is already
               in the address bar, or a number the site itself produced. Nothing
               you type is sent anywhere, nothing from local storage is sent
-              anywhere, and there is no identifier to join any of it up.
+              anywhere, and there is no identifier to join any of it up. The{" "}
+              <span className="data text-sm">/admin</span> page reads a local
+              copy of the interaction ones back out of this browser&rsquo;s own
+              storage — it is a way to check the instrumentation works, not a
+              view of anyone else&rsquo;s visit.
             </p>
             <p>
               If your browser or an extension blocks it, nothing on the site

@@ -8,13 +8,21 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { OverfitFigure } from "@/components/machines/OverfitFigure";
 import type { CheckBeat } from "@/lib/check";
+import { start as dealOverfit, type OverfitData } from "@/lib/game/overfit";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("overfitting")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const overfitData = readGameData<OverfitData>("overfit.json");
+const initialScene = dealOverfit(
+  overfitData,
+  Array.from({ length: 20 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -133,7 +141,7 @@ export default function OverfittingLesson() {
       />
 
       <div className="py-4">
-        <PickTheModel />
+        <PickTheModel initialData={overfitData} initialScene={initialScene} />
       </div>
 
       <div className="pb-4">

@@ -1,5 +1,4 @@
 import { PasteCheck } from "@/components/games/PasteCheck";
-import { Hook } from "@/components/lesson/Hook";
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
@@ -7,6 +6,7 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { PasteAnatomyFigure } from "@/components/machines/PasteAnatomyFigure";
 import { KIND_LABEL, KIND_NOTE, PAYLOADS } from "@/lib/game/paste";
+import { start as dealCheck } from "@/lib/game/check";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson, lessonsIn } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
@@ -16,6 +16,8 @@ const lesson = getLesson("judgment-and-limits")!;
 const track = lessonsIn("chapter");
 
 export const metadata = lessonMetadata(lesson);
+
+const initialScene = dealCheck(Array.from({ length: 40 }, () => Math.random()));
 
 const SOURCES: Source[] = [
   {
@@ -147,28 +149,20 @@ const CHECK: CheckBeat[] = [
 export default function JudgmentAndLimitsLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              Every paste is a decision you make{" "}
-              <span className="text-pink-text">
-                on somebody else&rsquo;s behalf
-              </span>
-              .
-            </>
-          }
-          sting="The customer whose complaint you pasted was not asked. Neither was the colleague in the screenshot. Here are things you might reasonably consider pasting, one at a time and with no clock on it. Refusing all of them is not the answer either, and a tool nobody may use is not a safe tool."
-          cta="Open the first one"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "What you weighed",
-      node: <PasteCheck />,
+      node: (
+        <div className="space-y-4">
+          <h2 className="display-md">
+            Every paste is a decision you make{" "}
+            <span className="text-pink-text">
+              on somebody else&rsquo;s behalf
+            </span>
+            .
+          </h2>
+          <PasteCheck initialScene={initialScene} />
+        </div>
+      ),
     },
     {
       id: "walkthrough",

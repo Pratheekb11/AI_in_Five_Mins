@@ -8,13 +8,24 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { ClusterFigure } from "@/components/machines/ClusterFigure";
 import type { CheckBeat } from "@/lib/check";
+import {
+  start as dealClusters,
+  type ClusterData,
+} from "@/lib/game/clusters";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("clustering")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const clusterData = readGameData<ClusterData>("clusters.json");
+const initialScene = dealClusters(
+  clusterData,
+  Array.from({ length: 20 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -131,7 +142,7 @@ export default function ClusteringLesson() {
       />
 
       <div className="py-4">
-        <OddOneIn />
+        <OddOneIn initialData={clusterData} initialScene={initialScene} />
       </div>
 
       <div className="pb-4">

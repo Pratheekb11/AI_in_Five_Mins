@@ -367,13 +367,22 @@
 
 /*
   A control small enough to read but too small to hit.
-  
+
   Several of the site's controls are set in the label face, which puts them
   around 27 to 30 pixels tall — over the 24px floor and well under the 44px a
   thumb actually wants. Rather than fatten them everywhere and unbalance the
   masthead, the target is grown only where the pointer is coarse, and grown
   through the invisible half: the box keeps its drawn size and the hit area
   spreads out from the middle.
+
+  `--fit-zoom` is the scale a `FitBox`/`AboveFoldFit` beat has been shrunk to,
+  written onto that beat's own wrapper when it is. `zoom` scales absolutely
+  everything inside it, including this rule's own hardcoded 44px — a beat
+  zoomed to 0.6 was quietly handing out a 26px real tap target while this
+  believed it had fixed one. Dividing by the scale here cancels that back out,
+  so the target this rule promises is always 44 real screen pixels, zoomed or
+  not. Outside any zoomed beat the variable is unset and this is exactly the
+  44px it always was.
 */
 @media (pointer: coarse) {
   .tap {
@@ -385,8 +394,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: max(100%, 44px);
-    height: max(100%, 44px);
+    width: max(100%, calc(44px / var(--fit-zoom, 1)));
+    height: max(100%, calc(44px / var(--fit-zoom, 1)));
     transform: translate(-50%, -50%);
   }
 
@@ -401,7 +410,7 @@
     unlayered rule is the only thing that beats one.
   */
   input[type="range"] {
-    min-height: 44px;
+    min-height: calc(44px / var(--fit-zoom, 1));
   }
 }
 

@@ -96,21 +96,43 @@ function Pile({
   );
 }
 
-export function FeatureBench() {
-  const [data, setData] = useState<FeatureData | null>(null);
+export function FeatureBench({
+  initialData,
+  initialScene,
+}: {
+  initialData?: FeatureData;
+  initialScene?: FeatureScene;
+} = {}) {
+  const [data, setData] = useState<FeatureData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<FeatureScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<FeatureScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadFeatures()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadFeatures().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          Array.from({ length: 40 }, () => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;

@@ -101,21 +101,43 @@ function bounds(round: OverfitRound) {
   };
 }
 
-export function PickTheModel() {
-  const [data, setData] = useState<OverfitData | null>(null);
+export function PickTheModel({
+  initialData,
+  initialScene,
+}: {
+  initialData?: OverfitData;
+  initialScene?: OverfitScene;
+} = {}) {
+  const [data, setData] = useState<OverfitData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<OverfitScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<OverfitScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadOverfit()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadOverfit().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          Array.from({ length: 20 }, () => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;

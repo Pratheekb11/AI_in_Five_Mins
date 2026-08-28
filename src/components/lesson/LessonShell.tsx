@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
 import { type Lesson, neighbours, TRACKS } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
+import { PrimaryOnward } from "./PrimaryOnward";
 import { Sources } from "./Sources";
 import { TrackCelebration } from "./TrackCelebration";
 import { TrackComplete } from "./TrackComplete";
@@ -64,55 +65,29 @@ export function LessonShell({
 
         <Sources sources={sources} />
 
-        <nav className="border-ink/20 grid gap-3 border-t py-10 sm:grid-cols-2">
-          {previous ? (
-            <Link
-              href={`/lessons/${previous.slug}`}
-              className="plate misreg p-4"
-            >
-              <span className="label text-ink-faint">Previous</span>
-              <span className="font-display mt-1.5 block font-bold">
-                {previous.title}
-              </span>
-            </Link>
-          ) : (
-            <Link href="/" className="plate misreg p-4">
-              <span className="label text-ink-faint">Back to</span>
-              <span className="font-display mt-1.5 block font-bold">
-                All the chapters
-              </span>
-            </Link>
-          )}
-
-          {next ? (
-            <Link
-              href={`/lessons/${next.slug}`}
-              className="plate misreg p-4 sm:text-right"
-            >
-              {/* Crossing into the closers or the rabbit hole is a change of
-                  register, not just the next page, so it gets named. */}
-              <span className="label text-ink-faint">
-                {next.track === lesson.track
-                  ? "Next"
-                  : `Next · ${TRACKS[next.track].title}`}
-              </span>
-              <span className="font-display mt-1.5 block font-bold">
-                {next.title}
-              </span>
-              {next.track === lesson.track ? null : (
-                <span className="text-ink-soft mt-1.5 block text-[0.9375rem]">
-                  {TRACKS[next.track].blurb}
-                </span>
-              )}
-            </Link>
-          ) : (
-            <Link href="/" className="plate misreg p-4 sm:text-right">
-              <span className="label text-ink-faint">That is the set</span>
-              <span className="font-display mt-1.5 block font-bold">
-                Back to the start
-              </span>
-            </Link>
-          )}
+        {/* One primary action, not a menu: the way onward is decided by
+            PrimaryOnward (certificate just earned, the daily puzzle once
+            there is truly nothing left, or the next lesson). "Previous"
+            stays reachable but visibly smaller. */}
+        <nav className="border-ink/20 border-t py-10 text-center">
+          <PrimaryOnward lesson={lesson} next={next} />
+          <div className="mt-4">
+            {previous ? (
+              <Link
+                href={`/lessons/${previous.slug}`}
+                className="label text-ink-faint hover:text-ink underline underline-offset-2"
+              >
+                ← {previous.title}
+              </Link>
+            ) : (
+              <Link
+                href="/"
+                className="label text-ink-faint hover:text-ink underline underline-offset-2"
+              >
+                ← Back to all the chapters
+              </Link>
+            )}
+          </div>
         </nav>
       </main>
 

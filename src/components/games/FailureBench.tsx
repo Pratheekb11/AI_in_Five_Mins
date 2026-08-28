@@ -51,23 +51,55 @@ function format(value: number, unit: Weighing["unit"]): string {
   return value.toFixed(3);
 }
 
-export function FailureBench() {
-  const [bench, setBench] = useState<Weighing[] | null>(null);
+export function FailureBench({
+  initialBench,
+  initialScene,
+}: {
+  /** The two datasets already combined server-side — this component never
+   *  needs the raw embeddings space itself, only what `buildBench` derives
+   *  from it. */
+  initialBench?: Weighing[];
+  initialScene?: BenchScene;
+} = {}) {
+  const [bench, setBench] = useState<Weighing[] | null>(
+    initialBench ?? null,
+  );
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<BenchScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<BenchScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    Promise.all([loadLogits(), loadEmbeddings()])
-      .then(([logits, space]: [LogitData, EmbeddingSpace]) => {
-        if (alive) setBench(buildBench(logits, space));
-      })
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const b =
+        initialBench ??
+        (await Promise.all([loadLogits(), loadEmbeddings()])
+          .then(([logits, space]: [LogitData, EmbeddingSpace]) =>
+            buildBench(logits, space),
+          )
+          .catch(() => null));
+      if (!alive) return;
+      if (!b) {
+        setFailed(true);
+        return;
+      }
+      if (!initialBench) setBench(b);
+      if (b.length === 0) return;
+      setScene(
+        startRound(
+          b,
+          b.map(() => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialBench, initialScene]);
 
   const begin = useCallback(() => {
     if (!bench || bench.length === 0) return;

@@ -341,6 +341,7 @@ const main = async () => {
 
   const payload = {
     generatedBy: "data/scripts/build-provenance.mjs",
+    generatedAt: new Date().toISOString(),
     model: {
       id: MODEL_ID,
       name: "DistilGPT-2",

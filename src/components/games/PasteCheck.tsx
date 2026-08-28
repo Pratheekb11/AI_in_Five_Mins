@@ -28,9 +28,17 @@ import {
  * Would you paste it?
  */
 
-export function PasteCheck() {
-  const [scene, setScene] = useState<CheckScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+export function PasteCheck({
+  initialScene,
+}: {
+  /** Dealt server-side — this game has no external data, only a random
+   *  seed, so there is nothing to wait on and no reason not to. */
+  initialScene?: CheckScene;
+} = {}) {
+  const [scene, setScene] = useState<CheckScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   const begin = useCallback(() => {
     setScene(startRound(Array.from({ length: 40 }, () => Math.random())));

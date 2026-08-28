@@ -8,13 +8,21 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { HoldoutFigure } from "@/components/machines/HoldoutFigure";
 import type { CheckBeat } from "@/lib/check";
+import { start as dealSplit, type SplitData } from "@/lib/game/split";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("train-and-test")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const splitData = readGameData<SplitData>("split.json");
+const initialScene = dealSplit(
+  splitData,
+  Array.from({ length: 40 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -112,7 +120,7 @@ export default function TrainAndTestLesson() {
       />
 
       <div className="py-4">
-        <Holdout />
+        <Holdout initialData={splitData} initialScene={initialScene} />
       </div>
 
       <div className="pb-4">

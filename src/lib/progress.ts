@@ -9,20 +9,65 @@ import { LESSONS } from "./lessons";
 
 const STORAGE_KEY = "llai-progress";
 
+/** Bumped whenever the stored shape changes. A visitor's existing progress is
+ *  migrated forward rather than dropped; only a shape `migrate` cannot make
+ *  sense of at all falls back to empty. */
+const SCHEMA_VERSION = 3;
+
 export type Progress = {
+  schemaVersion: number;
   /** Chapter slugs whose check the learner has finished. */
   completed: string[];
   /** Best check score per chapter, as a fraction from 0 to 1. */
   scores: Record<string, number>;
   /** Consecutive days on which at least one chapter was finished. */
   streak: { days: number; last: string };
+  /** Consecutive days on which the daily puzzle was solved. Its own counter:
+   *  the chapters run out, the puzzle does not. */
+  puzzleStreak: { days: number; last: string };
+  /** The reader closed Nimo's reaction bubble. Sitewide, and it stays that
+   *  way until Reset. */
+  nimoDismissed: boolean;
 };
 
 const EMPTY: Progress = {
+  schemaVersion: SCHEMA_VERSION,
   completed: [],
   scores: {},
   streak: { days: 0, last: "" },
+  puzzleStreak: { days: 0, last: "" },
+  nimoDismissed: false,
 };
+
+/** Brings whatever is on disk up to `SCHEMA_VERSION`. Every past shape this
+ *  site has ever written is version 1 or 2 (these fields did not exist yet),
+ *  and every other field is exactly today's, so migrating it is filling in
+ *  defaults and stamping the version on. A future shape change adds a real
+ *  transform here, keyed on `version`, rather than a rewrite of this function
+ *  — and a version newer than this build knows about still has its fields
+ *  read rather than being wiped. */
+export function migrate(
+  parsed: Partial<Progress> & { schemaVersion?: number },
+): Progress {
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    completed: Array.isArray(parsed.completed) ? parsed.completed : [],
+    scores:
+      parsed.scores && typeof parsed.scores === "object" ? parsed.scores : {},
+    streak:
+      parsed.streak && typeof parsed.streak.days === "number"
+        ? { days: parsed.streak.days, last: String(parsed.streak.last ?? "") }
+        : { days: 0, last: "" },
+    puzzleStreak:
+      parsed.puzzleStreak && typeof parsed.puzzleStreak.days === "number"
+        ? {
+            days: parsed.puzzleStreak.days,
+            last: String(parsed.puzzleStreak.last ?? ""),
+          }
+        : { days: 0, last: "" },
+    nimoDismissed: parsed.nimoDismissed === true,
+  };
+}
 
 /** Finishing a chapter is worth this, before the score is taken into account. */
 export const XP_PER_CHAPTER = 40;
@@ -74,16 +119,10 @@ function read(): Progress {
   }
 
   try {
-    const parsed = JSON.parse(raw) as Partial<Progress>;
-    cache = {
-      completed: Array.isArray(parsed.completed) ? parsed.completed : [],
-      scores:
-        parsed.scores && typeof parsed.scores === "object" ? parsed.scores : {},
-      streak:
-        parsed.streak && typeof parsed.streak.days === "number"
-          ? { days: parsed.streak.days, last: String(parsed.streak.last ?? "") }
-          : { days: 0, last: "" },
+    const parsed = JSON.parse(raw) as Partial<Progress> & {
+      schemaVersion?: number;
     };
+    cache = migrate(parsed);
   } catch {
     cache = EMPTY;
   }
@@ -129,14 +168,28 @@ function dayBefore(iso: string): string {
   return `${date.getFullYear()}-${month}-${day}`;
 }
 
-/** Rolls the streak forward for a day on which something was finished. */
-function bumpStreak(streak: Progress["streak"]): Progress["streak"] {
-  const now = today();
+/** Rolls a streak forward for a day on which something was finished.
+ *  `graceDays` is how many days may be skipped without the streak resetting
+ *  to 1 — 0 for the chapter streak (strictly consecutive), 1 for the puzzle
+ *  streak (a single missed day is forgiven, two in a row is not). */
+export function rollStreak(
+  streak: { days: number; last: string },
+  now: string,
+  graceDays = 0,
+): { days: number; last: string } {
   if (streak.last === now) return streak;
-  if (streak.last && dayBefore(now) === streak.last) {
-    return { days: streak.days + 1, last: now };
+  if (!streak.last) return { days: 1, last: now };
+
+  let cursor = now;
+  for (let missed = 0; missed <= graceDays; missed++) {
+    cursor = dayBefore(cursor);
+    if (cursor === streak.last) return { days: streak.days + 1, last: now };
   }
   return { days: 1, last: now };
+}
+
+function bumpStreak(streak: Progress["streak"]): Progress["streak"] {
+  return rollStreak(streak, today());
 }
 
 export type Totals = {
@@ -193,10 +246,26 @@ export function useProgress() {
       if (known && best === current.scores[slug]) return;
 
       write({
+        ...current,
         completed: known ? current.completed : [...current.completed, slug],
         scores: { ...current.scores, [slug]: best },
         streak: bumpStreak(current.streak),
       });
+    },
+
+    /** Records a solved daily puzzle. One-day grace: a single missed day
+     *  does not reset it, only two in a row does. */
+    recordPuzzle(dateSolved: string) {
+      const current = read();
+      if (current.puzzleStreak.last === dateSolved) return;
+      write({
+        ...current,
+        puzzleStreak: rollStreak(current.puzzleStreak, dateSolved, 1),
+      });
+    },
+
+    dismissNimo() {
+      write({ ...read(), nimoDismissed: true });
     },
 
     reset() {

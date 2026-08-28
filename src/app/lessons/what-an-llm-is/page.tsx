@@ -1,5 +1,4 @@
 import { BeatThePredictor } from "@/components/games/BeatThePredictor";
-import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -9,6 +8,11 @@ import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { NextTokenFigure } from "@/components/machines/NextTokenFigure";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
+import {
+  start as dealPredictor,
+  type PredictorData,
+} from "@/lib/game/predictor";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
 import { lessonMetadata } from "@/lib/metadata";
@@ -17,6 +21,17 @@ const lesson = getLesson("what-an-llm-is")!;
 const video = videoFor("what-an-llm-is")!;
 
 export const metadata = lessonMetadata(lesson);
+
+/* Read once, server-side, and dealt server-side too, so the very first HTML
+   this route sends already has round one playable: no fetch, no client
+   Math.random needed before anyone can tap an option. Between deploys this
+   fixes which round opens the game for everyone — every round after it, and
+   every "Go again", still deals fresh client-side. */
+const predictorData = readGameData<PredictorData>("predictor.json");
+const initialScene = dealPredictor(
+  predictorData,
+  Array.from({ length: 120 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -172,26 +187,21 @@ export default function WhatAnLlmIsLesson() {
      the last screen, below the way into chapter two. */
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              You are about to lose to something that has{" "}
-              <span className="text-pink-text">never understood a word</span> in
-              its life.
-            </>
-          }
-          sting="Four rounds, head to head against a real language model. It will beat you at ordinary sentences, because guessing what comes next is all it does. Stay for the last two, where the likeliest answer and the true one come apart."
-          cta="Take it on"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "What just happened",
-      node: <BeatThePredictor />,
+      node: (
+        <div className="space-y-4">
+          <h2 className="display-md">
+            You are about to lose to something that has{" "}
+            <span className="text-pink-text">never understood a word</span> in
+            its life.
+          </h2>
+          <BeatThePredictor
+            initialData={predictorData}
+            initialScene={initialScene}
+          />
+        </div>
+      ),
     },
     {
       id: "walkthrough",

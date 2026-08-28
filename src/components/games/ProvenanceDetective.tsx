@@ -38,21 +38,45 @@ function loadProvenance(): Promise<ProvenanceData> {
 
 const DOORS: Verdict[] = ["memory", "lookup", "tool"];
 
-export function ProvenanceDetective() {
-  const [data, setData] = useState<ProvenanceData | null>(null);
+export function ProvenanceDetective({
+  initialData,
+  initialScene,
+}: {
+  initialData?: ProvenanceData;
+  initialScene?: ProvenanceScene;
+} = {}) {
+  const [data, setData] = useState<ProvenanceData | null>(
+    initialData ?? null,
+  );
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<ProvenanceScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<ProvenanceScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadProvenance()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadProvenance().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          Array.from({ length: 120 }, () => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;
@@ -176,7 +200,7 @@ export function ProvenanceDetective() {
                     type="button"
                     disabled={revealed}
                     onClick={() => choose(door)}
-                    className={`plate px-3 py-3 text-left transition-colors ${
+                    className={`tap plate px-3 py-3 text-left transition-colors ${
                       isTruth
                         ? "border-teal bg-teal-wash"
                         : isYours

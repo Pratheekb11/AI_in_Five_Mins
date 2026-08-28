@@ -35,21 +35,48 @@ function loadContext(): Promise<ContextData> {
   return cached;
 }
 
-export function ContextBudget() {
-  const [data, setData] = useState<ContextData | null>(null);
+export function ContextBudget({
+  initialData,
+  initialScene,
+}: {
+  /** Embedded by the page at build time. Skips the fetch entirely. */
+  initialData?: ContextData;
+  /** Round one, already dealt server-side, so the first HTML this page
+   *  sends is already the playing board. */
+  initialScene?: BudgetScene;
+} = {}) {
+  const [data, setData] = useState<ContextData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<BudgetScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<BudgetScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
+  // Falls back to a network fetch and a client-side deal only where a page
+  // has not embedded round one server-side.
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadContext()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadContext().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          d.scenarios.map(() => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;
@@ -205,7 +232,7 @@ export function ContextBudget() {
                           type="button"
                           onClick={() => flip(card.id)}
                           disabled={full}
-                          className={`plate w-full px-3 py-1.5 text-left leading-snug transition-colors sm:py-2 ${
+                          className={`tap plate w-full px-3 py-1.5 text-left leading-snug transition-colors sm:py-2 ${
                             inWindow
                               ? "border-yellow bg-yellow-wash"
                               : full

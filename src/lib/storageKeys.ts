@@ -9,6 +9,7 @@ export const RECORD_KEYS = [
   "llai-own-tasks",
   "llai-name",
   "llai-celebrated",
+  "llai-local-telemetry",
 ] as const;
 
 /**

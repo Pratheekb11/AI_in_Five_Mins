@@ -21,9 +21,12 @@ export function TrackComplete({ track }: { track: Track }) {
         That is all of {spec.title.toLowerCase()}. Put your name on it and take
         it with you.
       </NimoSays>
+      {/* Not `btn-primary`: on the lesson that just earned this, the closing
+          screen's own primary button already says exactly this. This stays
+          for every OTHER lesson in the track, as a quieter reminder. */}
       <Link
         href="/certificate"
-        className="plate misreg btn-primary font-display mt-4 inline-block px-5 py-2.5 font-bold"
+        className="label mt-4 inline-block underline underline-offset-2"
       >
         Get your certificate
       </Link>

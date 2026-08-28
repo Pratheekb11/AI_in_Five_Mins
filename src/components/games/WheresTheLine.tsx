@@ -35,21 +35,45 @@ function loadThreshold(): Promise<ThresholdData> {
   return cached;
 }
 
-export function WheresTheLine() {
-  const [data, setData] = useState<ThresholdData | null>(null);
+export function WheresTheLine({
+  initialData,
+  initialScene,
+}: {
+  initialData?: ThresholdData;
+  initialScene?: ThresholdScene;
+} = {}) {
+  const [data, setData] = useState<ThresholdData | null>(
+    initialData ?? null,
+  );
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<ThresholdScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<ThresholdScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadThreshold()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadThreshold().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          Array.from({ length: 20 }, () => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;

@@ -44,21 +44,43 @@ function pathWords(path: string[], data: TreeData): string {
   return `Messages where: ${parts.join(", and ")}`;
 }
 
-export function GrowTheTree() {
-  const [data, setData] = useState<TreeData | null>(null);
+export function GrowTheTree({
+  initialData,
+  initialScene,
+}: {
+  initialData?: TreeData;
+  initialScene?: TreeScene;
+} = {}) {
+  const [data, setData] = useState<TreeData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<TreeScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<TreeScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadTree()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadTree().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          Array.from({ length: 20 }, () => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;

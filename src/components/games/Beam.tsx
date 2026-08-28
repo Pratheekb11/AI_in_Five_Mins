@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
 import {
   type AttentionData,
@@ -51,6 +51,18 @@ export function Beam() {
     setBestStreak(0);
     setPhase("playing");
   }, [data]);
+
+  /* No server-dealt round here — attention weights are built from a
+     bespoke shuffle across several pieces of state, not one scene object,
+     so this stays a client fetch. What it does not need is a click: the
+     round starts itself the moment the weights arrive. */
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (data && !autoStarted.current) {
+      autoStarted.current = true;
+      start();
+    }
+  }, [data, start]);
 
   const round = rounds[at];
   const revealed = picked !== null;

@@ -8,13 +8,21 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { TreeFigure } from "@/components/machines/TreeFigure";
 import type { CheckBeat } from "@/lib/check";
+import { start as dealTree, type TreeData } from "@/lib/game/tree";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("decision-trees")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const treeData = readGameData<TreeData>("tree.json");
+const initialScene = dealTree(
+  treeData,
+  Array.from({ length: 20 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -143,7 +151,7 @@ export default function DecisionTreesLesson() {
       />
 
       <div className="py-4">
-        <GrowTheTree />
+        <GrowTheTree initialData={treeData} initialScene={initialScene} />
       </div>
 
       <div className="pb-4">

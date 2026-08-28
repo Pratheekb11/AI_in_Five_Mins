@@ -1,5 +1,4 @@
 import { Pushback } from "@/components/games/Pushback";
-import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -8,7 +7,12 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { PushbackFigure } from "@/components/machines/PushbackFigure";
 import type { CheckBeat } from "@/lib/check";
+import {
+  start as dealPushback,
+  type PushData,
+} from "@/lib/game/pushback";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
 import { lessonMetadata } from "@/lib/metadata";
@@ -17,6 +21,12 @@ const lesson = getLesson("where-it-breaks")!;
 const video = videoFor("where-it-breaks")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const pushbackData = readGameData<PushData>("pushback.json");
+const initialScene = dealPushback(
+  pushbackData,
+  Array.from({ length: 40 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -128,26 +138,18 @@ const CHECK: CheckBeat[] = [
 export default function WhereItBreaksLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              It fails in{" "}
-              <span className="text-pink-text">exactly four ways</span>. You
-              have probably only ever noticed one of them.
-            </>
-          }
-          sting="Take a fact nobody disputes, then assert the wrong answer before you ask. Watch what the model does. Then watch what happens when you assert the right one instead. It does that just as hard, and that is the part that should worry you."
-          cta="Lean on it"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "What just happened",
-      node: <Pushback />,
+      node: (
+        <div className="space-y-4">
+          <h2 className="display-md">
+            It fails in{" "}
+            <span className="text-pink-text">exactly four ways</span>. You
+            have probably only ever noticed one of them.
+          </h2>
+          <Pushback initialData={pushbackData} initialScene={initialScene} />
+        </div>
+      ),
     },
     {
       id: "walkthrough",

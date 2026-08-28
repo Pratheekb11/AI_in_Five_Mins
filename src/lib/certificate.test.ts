@@ -11,9 +11,12 @@ import type { Progress } from "./progress";
 
 function progressWith(slugs: string[], score = 1): Progress {
   return {
+    schemaVersion: 3,
     completed: slugs,
     scores: Object.fromEntries(slugs.map((slug) => [slug, score])),
     streak: { days: 1, last: "2026-08-08" },
+    puzzleStreak: { days: 0, last: "" },
+    nimoDismissed: false,
   };
 }
 

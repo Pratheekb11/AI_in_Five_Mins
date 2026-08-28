@@ -1,13 +1,15 @@
 import { Plinko } from "@/components/games/Plinko";
 import { TemperaturePairFigure } from "@/components/machines/TemperaturePairFigure";
-import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { start as dealPlinko } from "@/lib/game/plinko";
 import { getLesson } from "@/lib/lessons";
+import { type LogitData } from "@/lib/logits";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
 import { lessonMetadata } from "@/lib/metadata";
@@ -16,6 +18,13 @@ const lesson = getLesson("how-llms-answer")!;
 const video = videoFor("how-llms-answer")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const logitData = readGameData<LogitData>("logits.json");
+const initialScene = dealPlinko(
+  logitData,
+  logitData.prompts.map(() => Math.random()),
+  Math.random(),
+);
 
 const SOURCES: Source[] = [
   {
@@ -83,26 +92,18 @@ const QUESTIONS: QuizQuestion[] = [
 export default function HowLlmsAnswerLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              It does not choose a word. It{" "}
-              <span className="text-yellow-text">rolls loaded dice</span>, fifty
-              thousand sides, once per token.
-            </>
-          }
-          sting="These are a real model's real odds, recorded and printed unrounded. You get one control, the dial that loads the dice, and a target to hit. Finding out that you cannot have both reliable and surprising is the point of the round."
-          cta="Load the odds"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "What the dice are",
-      node: <Plinko />,
+      node: (
+        <div className="space-y-4">
+          <h2 className="display-md">
+            It does not choose a word. It{" "}
+            <span className="text-yellow-text">rolls loaded dice</span>, fifty
+            thousand sides, once per token.
+          </h2>
+          <Plinko initialData={logitData} initialScene={initialScene} />
+        </div>
+      ),
     },
     {
       id: "walkthrough",

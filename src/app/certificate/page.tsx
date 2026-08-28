@@ -3,7 +3,10 @@ import { CertificatesView } from "@/components/CertificatesView";
 import { Engagement } from "@/components/Engagement";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { TodaysPuzzleCard } from "@/components/TodaysPuzzleCard";
+import type { HuntData } from "@/lib/game/hunt";
 import { pageMetadata } from "@/lib/metadata";
+import { readGameData } from "@/lib/server/gameData";
 
 export const metadata: Metadata = pageMetadata({
   title: "Your certificate",
@@ -11,6 +14,8 @@ export const metadata: Metadata = pageMetadata({
     "Print what you finished, with your name on it, and take it wherever you like.",
   path: "/certificate",
 });
+
+const huntData = readGameData<HuntData>("hunt.json");
 
 export default function CertificatePage() {
   return (
@@ -28,6 +33,10 @@ export default function CertificatePage() {
         </p>
 
         <CertificatesView />
+
+        <div className="border-ink/25 mt-14 border-t pt-12">
+          <TodaysPuzzleCard initialData={huntData} />
+        </div>
       </main>
 
       <SiteFooter />

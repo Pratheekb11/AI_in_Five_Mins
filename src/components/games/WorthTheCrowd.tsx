@@ -34,21 +34,43 @@ function loadForest(): Promise<ForestData> {
   return cached;
 }
 
-export function WorthTheCrowd() {
-  const [data, setData] = useState<ForestData | null>(null);
+export function WorthTheCrowd({
+  initialData,
+  initialScene,
+}: {
+  initialData?: ForestData;
+  initialScene?: ForestScene;
+} = {}) {
+  const [data, setData] = useState<ForestData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<ForestScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<ForestScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadForest()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadForest().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          Array.from({ length: 20 }, () => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;

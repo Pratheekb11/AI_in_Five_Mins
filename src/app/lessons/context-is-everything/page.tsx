@@ -1,5 +1,4 @@
 import { ContextBudget } from "@/components/games/ContextBudget";
-import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -8,7 +7,12 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { ContextWindowFigure } from "@/components/machines/ContextWindowFigure";
 import type { CheckBeat } from "@/lib/check";
+import {
+  start as dealContext,
+  type ContextData,
+} from "@/lib/game/budget";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
 import { lessonMetadata } from "@/lib/metadata";
@@ -17,6 +21,12 @@ const lesson = getLesson("context-is-everything")!;
 const video = videoFor("context-is-everything")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const contextData = readGameData<ContextData>("context.json");
+const initialScene = dealContext(
+  contextData,
+  contextData.scenarios.map(() => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -122,26 +132,21 @@ const CHECK: CheckBeat[] = [
 export default function ContextIsEverythingLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              It does not remember your conversation. It{" "}
-              <span className="text-teal-text">re-reads all of it</span>, from
-              the top, every single time.
-            </>
-          }
-          sting="So what is in front of it is the whole job. You get five slots and a pile of cards: the document, the chit-chat, the decoy, the helpful-looking example. Then a real model is run on exactly what you built. One of those cards drops the right answer from 89.9% to 3.8%, and it is not the one you would guess."
-          cta="Open the window"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "What just happened",
-      node: <ContextBudget />,
+      node: (
+        <div className="space-y-4">
+          <h2 className="display-md">
+            It does not remember your conversation. It{" "}
+            <span className="text-teal-text">re-reads all of it</span>, from
+            the top, every single time.
+          </h2>
+          <ContextBudget
+            initialData={contextData}
+            initialScene={initialScene}
+          />
+        </div>
+      ),
     },
     {
       id: "walkthrough",

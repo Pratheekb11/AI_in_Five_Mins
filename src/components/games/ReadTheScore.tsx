@@ -34,21 +34,43 @@ function loadLogistic(): Promise<LogisticData> {
   return cached;
 }
 
-export function ReadTheScore() {
-  const [data, setData] = useState<LogisticData | null>(null);
+export function ReadTheScore({
+  initialData,
+  initialScene,
+}: {
+  initialData?: LogisticData;
+  initialScene?: LogisticScene;
+} = {}) {
+  const [data, setData] = useState<LogisticData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<LogisticScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<LogisticScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadLogistic()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadLogistic().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          Array.from({ length: 20 }, () => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Chips, HalftoneDefs, ScorePop } from "@/components/game/assets";
 import { GameShell } from "@/components/game/GameShell";
 import {
@@ -159,6 +159,17 @@ export function WordMagnet() {
     setScene(newScene(built, calm));
     setPhase("playing");
   }, [space]);
+
+  /* Depends on the visitor's own reduced-motion preference, which a build
+     server cannot know, so this stays a client fetch. It does not need a
+     click, though: it starts itself the moment the vectors arrive. */
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (space && !autoStarted.current) {
+      autoStarted.current = true;
+      start();
+    }
+  }, [space, start]);
 
   useGameLoop(
     useCallback(

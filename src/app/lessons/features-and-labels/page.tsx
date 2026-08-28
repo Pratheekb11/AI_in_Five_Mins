@@ -8,13 +8,24 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { FeatureSplitFigure } from "@/components/machines/FeatureSplitFigure";
 import type { CheckBeat } from "@/lib/check";
+import {
+  start as dealFeatures,
+  type FeatureData,
+} from "@/lib/game/features";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("features-and-labels")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const featureData = readGameData<FeatureData>("features.json");
+const initialScene = dealFeatures(
+  featureData,
+  Array.from({ length: 40 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -135,7 +146,7 @@ export default function FeaturesAndLabelsLesson() {
       />
 
       <div className="py-4">
-        <FeatureBench />
+        <FeatureBench initialData={featureData} initialScene={initialScene} />
       </div>
 
       <div className="pb-4">

@@ -8,13 +8,24 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { FoldsFigure } from "@/components/machines/FoldsFigure";
 import type { CheckBeat } from "@/lib/check";
+import {
+  start as dealCrossval,
+  type CrossvalData,
+} from "@/lib/game/crossval";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("cross-validation")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const crossvalData = readGameData<CrossvalData>("crossval.json");
+const initialScene = dealCrossval(
+  crossvalData,
+  Array.from({ length: 30 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -124,7 +135,10 @@ export default function CrossValidationLesson() {
       />
 
       <div className="py-4">
-        <OneFoldOrTen />
+        <OneFoldOrTen
+          initialData={crossvalData}
+          initialScene={initialScene}
+        />
       </div>
 
       <div className="pb-4">

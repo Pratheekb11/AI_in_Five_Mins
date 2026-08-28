@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
 import {
   flag as flagWord,
@@ -18,6 +18,7 @@ import {
 } from "@/lib/game/hunt";
 import { useGameLoop } from "@/lib/game/useGameLoop";
 import { useToday } from "@/lib/game/useToday";
+import { useProgress } from "@/lib/progress";
 
 /**
  * Hallucination Hunt.
@@ -35,14 +36,26 @@ function loadHunt(): Promise<HuntData> {
   return cached;
 }
 
-export function HallucinationHunt() {
-  const [data, setData] = useState<HuntData | null>(null);
+export function HallucinationHunt({
+  initialData,
+}: {
+  /** Embedded by the page at build time — safe to, since every day's puzzle
+   *  is in here and which one is *today* is decided below, from the
+   *  visitor's own clock. A build server's clock would go stale the moment
+   *  the calendar date changed underneath a static deploy, so that part
+   *  stays genuinely client-side. */
+  initialData?: HuntData;
+} = {}) {
+  const [data, setData] = useState<HuntData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
   const [scene, setScene] = useState<HuntScene>(newScene);
   const [playing, setPlaying] = useState(false);
+  const [isDaily, setIsDaily] = useState(false);
   const day = useToday();
+  const { recordPuzzle } = useProgress();
 
   useEffect(() => {
+    if (initialData) return;
     let alive = true;
     loadHunt()
       .then((d) => alive && setData(d))
@@ -50,7 +63,7 @@ export function HallucinationHunt() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData]);
 
   const daily: Puzzle | null =
     data && day ? puzzleForDay(data, day) : (data?.puzzles[0] ?? null);
@@ -59,17 +72,43 @@ export function HallucinationHunt() {
     if (!daily) return;
     setScene(startRound(daily));
     setPlaying(true);
+    setIsDaily(true);
   }, [daily]);
+
+  /* No click needed: once the day is known (near-instant when the data is
+     already embedded) it starts itself. */
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (daily && !autoStarted.current) {
+      autoStarted.current = true;
+      begin();
+    }
+  }, [daily, begin]);
 
   const another = useCallback(() => {
     if (!data) return;
     const pick = data.puzzles[Math.floor(Math.random() * data.puzzles.length)];
     setScene(startRound(pick));
     setPlaying(true);
+    setIsDaily(false);
   }, [data]);
 
   const running = playing && !scene.done && scene.clock > 0;
   useGameLoop((delta) => setScene((s) => tick(s, delta)), running);
+
+  /* The streak is about showing up, not about finding every alteration —
+     reaching the end of today's actual paragraph is what counts, a "try a
+     different paragraph" round does not. */
+  const recorded = useRef(false);
+  useEffect(() => {
+    if (!scene.done || !isDaily || !day) return;
+    if (recorded.current) return;
+    recorded.current = true;
+    recordPuzzle(day);
+  }, [scene.done, isDaily, day, recordPuzzle]);
+  useEffect(() => {
+    if (!playing) recorded.current = false;
+  }, [playing]);
 
   const hit = useCallback((word: number) => {
     setScene((s) => flagWord(s, word));

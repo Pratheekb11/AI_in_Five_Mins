@@ -66,7 +66,7 @@ export function scoreFor(
 
 /** The light palette, always. A certificate is a print, and a print does not
  *  have a dark mode. These are the same inks as `globals.css`. */
-const INK = {
+export const INK = {
   paper: "#eae7de",
   paperRaised: "#f3f1ea",
   ink: "#17171f",
@@ -100,7 +100,7 @@ export const SIZES: Record<Shape, { width: number; height: number }> = {
  * build-time hashes. If the variable is missing for any reason the canvas
  * falls back to a generic, which is ugly but still a certificate.
  */
-function families() {
+export function families() {
   if (typeof document === "undefined") {
     return { display: "sans-serif", body: "serif", data: "monospace" };
   }
@@ -115,14 +115,15 @@ function families() {
 }
 
 /** Halftone: a dot grid, the cheapest honest nod to the printing process. */
-function halftone(
+export function halftone(
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
   step: number,
+  dotColor: string = INK.ink,
 ) {
   ctx.save();
-  ctx.fillStyle = INK.ink;
+  ctx.fillStyle = dotColor;
   ctx.globalAlpha = 0.06;
   for (let y = step; y < height; y += step) {
     for (let x = step; x < width; x += step) {
@@ -135,7 +136,7 @@ function halftone(
 }
 
 /** Nimo, flat. The same otter as the 3D one: round head, glasses, books. */
-function drawNimo(
+export function drawNimo(
   ctx: CanvasRenderingContext2D,
   cx: number,
   cy: number,
@@ -225,7 +226,7 @@ function drawNimo(
 }
 
 /** Wraps text to a width and returns the lines, without drawing. */
-function wrap(
+export function wrap(
   ctx: CanvasRenderingContext2D,
   text: string,
   maxWidth: number,

@@ -7,10 +7,14 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { HowToPlayPopover } from "./HowToPlayPopover";
 import { Nimo } from "@/components/nimo/Nimo";
 import type { Mood } from "@/components/nimo/moods";
+import { markInteraction } from "@/lib/firstInteraction";
 import { useBestScore } from "@/lib/game/useBestScore";
+import { pickNimoLine, type NimoEvent } from "@/lib/nimoReactions";
 import { playCue, useMuted } from "@/lib/game/sound";
+import { useProgress } from "@/lib/progress";
 import { trackGameFinished, trackGameStarted } from "@/lib/telemetry";
 import { useIsPhone } from "@/lib/useMedia";
 
@@ -40,35 +44,6 @@ export type HowToPlay = {
 
 export type Phase = "ready" | "playing" | "over";
 
-function Rules({ how }: { how: HowToPlay }) {
-  return (
-    <div className="text-left">
-      <p className="label text-ink-faint mb-1">How to play</p>
-      <p className="mb-2 text-[0.9375rem] font-semibold">{how.goal}</p>
-      <ol className="mb-2 space-y-1">
-        {how.steps.map((step, i) => (
-          <li key={step} className="flex gap-2 text-[0.875rem]">
-            <span className="data text-ink-faint shrink-0">{i + 1}.</span>
-            <span>{step}</span>
-          </li>
-        ))}
-      </ol>
-      {how.controls ? (
-        <p className="text-ink-faint text-[0.8125rem]">
-          <span className="label mr-1">Controls</span>
-          {how.controls}
-        </p>
-      ) : null}
-      {how.scoring ? (
-        <p className="text-ink-faint text-[0.8125rem]">
-          <span className="label mr-1">Scoring</span>
-          {how.scoring}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
 /** The lesson a game is sitting on, read off the URL at the moment of the
  *  event. Nothing else about the reader is looked at. */
 function pageOf(): string {
@@ -88,6 +63,7 @@ export function GameShell({
   finalScore,
   again,
   mood = "idle",
+  streak,
   children,
   footer,
 }: {
@@ -106,17 +82,33 @@ export function GameShell({
   again?: ReactNode;
   /** Nimo's live reaction, games raise this on a hit, a miss or a streak. */
   mood?: Mood;
+  /** Consecutive correct calls, if the game tracks one. Nimo remarks on it
+   *  once it reaches three. */
+  streak?: number;
   children: ReactNode;
   footer?: ReactNode;
 }) {
   const { best, submit } = useBestScore(gameId ?? "unscored");
-  const [rulesOpen, setRulesOpen] = useState(false);
   const phone = useIsPhone();
-  /* The provenance line and the rules are both worth reading and neither is
-     worth a scroll while a round is waiting. On a phone they fold. */
-  const [readyRules, setReadyRules] = useState(false);
+  /* The provenance line is worth reading and not worth a scroll while a round
+     is waiting. On a phone it folds. */
   const [noteOpen, setNoteOpen] = useState(false);
   const [muted, toggleMuted] = useMuted();
+  const { progress, dismissNimo } = useProgress();
+
+  const [reaction, setReaction] = useState<string | null>(null);
+  const reactionTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
+  const showReaction = useCallback(
+    (event: NimoEvent) => {
+      if (progress.nimoDismissed) return;
+      setReaction(pickNimoLine(event));
+      clearTimeout(reactionTimer.current);
+      reactionTimer.current = setTimeout(() => setReaction(null), 4500);
+    },
+    [progress.nimoDismissed],
+  );
 
   // Recorded when the round ends, not while it runs, a best is a result.
   useEffect(() => {
@@ -176,13 +168,38 @@ export function GameShell({
     else if (mood === "wince") playCue("wrong");
     // Nothing for "think". Games drop back to it between rounds, and a noise
     // on every advance turns feedback into nagging.
-  }, [phase, mood, beatenBest]);
+
+    // Celebrate is specifically the upset — right where the model was
+    // confidently wrong — which is the one worth a remark of its own.
+    if (mood === "celebrate") setTimeout(() => showReaction("beatModel"));
+    else if (mood === "wince") setTimeout(() => showReaction("fooled"));
+  }, [phase, mood, beatenBest, showReaction]);
+
+  // A streak is a run across several rounds, not a single mood change, so it
+  // gets its own watch rather than riding the mood effect above.
+  const streakFired = useRef(false);
+  useEffect(() => {
+    if (phase !== "playing" || !streak) {
+      streakFired.current = false;
+      return;
+    }
+    if (streak >= 3 && !streakFired.current) {
+      streakFired.current = true;
+      showReaction("streak");
+    } else if (streak < 3) {
+      streakFired.current = false;
+    }
+  }, [phase, streak, showReaction]);
 
   return (
     <div
       className="plate scroll-mt-20 overflow-hidden"
       id="game"
       data-section="game"
+      /* One page-wide signal for "did they ever touch this game", good
+         enough for the never-interacted ranking without wiring all twenty
+         three games individually. */
+      onClickCapture={markInteraction}
     >
       <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b px-4 py-2 sm:gap-y-2 sm:py-3">
         <span className="flex items-center gap-3">
@@ -199,16 +216,6 @@ export function GameShell({
           >
             {muted ? "sound off" : "sound on"}
           </button>
-          {howToPlay && phase === "playing" ? (
-            <button
-              type="button"
-              onClick={() => setRulesOpen((open) => !open)}
-              aria-expanded={rulesOpen}
-              className="label text-ink-faint hover:text-ink cursor-pointer underline-offset-2 hover:underline"
-            >
-              {rulesOpen ? "hide rules" : "how to play"}
-            </button>
-          ) : null}
         </span>
         <dl className="flex flex-wrap gap-x-3 gap-y-0.5 sm:gap-x-5 sm:gap-y-1">
           {readouts.map((r) => (
@@ -232,6 +239,7 @@ export function GameShell({
             </div>
           ) : null}
         </dl>
+        {howToPlay ? <HowToPlayPopover how={howToPlay} /> : null}
       </div>
 
       {/* The cabinet grows for the ready and finished screens, which carry the
@@ -249,24 +257,36 @@ export function GameShell({
       >
         {/* Nimo watches the round and reacts. He is the loudest feedback in
             the cabinet, which is most of why a miss stings enough to retry. */}
-        <span className="pointer-events-none absolute -top-1 right-2 z-20 hidden md:block">
-          <Nimo
-            mood={phase === "playing" ? mood : "curious"}
-            follow={false}
-            height={120}
-            className="w-[120px]"
-          />
-        </span>
+        <span className="absolute -top-1 right-2 z-20 hidden md:block">
+          <span className="pointer-events-none block">
+            <Nimo
+              mood={phase === "playing" ? mood : "curious"}
+              follow={false}
+              height={120}
+              className="w-[120px]"
+            />
+          </span>
 
-        <div className="col-start-1 row-start-1 min-w-0">
-          {children}
-
-          {howToPlay && rulesOpen && phase === "playing" ? (
-            <div className="border-ink/25 bg-paper-sunk border-t px-5 py-4">
-              <Rules how={howToPlay} />
+          {reaction && !progress.nimoDismissed ? (
+            <div className="plate misreg absolute top-[86px] right-2 w-44 p-2 text-left">
+              <button
+                type="button"
+                onClick={() => {
+                  setReaction(null);
+                  dismissNimo();
+                }}
+                aria-label="Stop Nimo's reactions"
+                title="Stop Nimo's reactions"
+                className="text-ink-faint hover:text-ink absolute top-0.5 right-1 cursor-pointer text-xs leading-none"
+              >
+                ×
+              </button>
+              <p className="pr-3 text-[0.75rem] leading-snug">{reaction}</p>
             </div>
           ) : null}
-        </div>
+        </span>
+
+        <div className="col-start-1 row-start-1 min-w-0">{children}</div>
 
         {phase !== "playing" ? (
           /* `m-auto` on the inner column rather than `justify-center` on the
@@ -282,21 +302,6 @@ export function GameShell({
                   <p className="prose-measure text-ink-soft text-[0.9375rem]">
                     {instruction}
                   </p>
-                  {howToPlay ? (
-                    phone && !readyRules ? (
-                      <button
-                        type="button"
-                        onClick={() => setReadyRules(true)}
-                        className="tap label text-ink-faint px-3 py-2 underline underline-offset-2"
-                      >
-                        How to play
-                      </button>
-                    ) : (
-                      <div className="plate-flush prose-measure w-full max-w-md px-4 py-3">
-                        <Rules how={howToPlay} />
-                      </div>
-                    )
-                  ) : null}
                   {gameId && best > 0 ? (
                     <p className="label text-teal-text">Your best: {best}</p>
                   ) : null}

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 import { Engagement } from "@/components/Engagement";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -9,6 +8,7 @@ import { Sources } from "../Sources";
 import { TrackCelebration } from "../TrackCelebration";
 import { TrackComplete } from "../TrackComplete";
 import { TrackGaps } from "../TrackGaps";
+import { PrimaryOnward } from "../PrimaryOnward";
 import { LessonStage, type Beat } from "./LessonStage";
 import { StageComplete } from "./StageComplete";
 
@@ -47,42 +47,7 @@ export function LessonStageShell({
         </span>
         <h2 className="display-lg mb-6">{lesson.nugget ?? lesson.title}</h2>
 
-        {next ? (
-          <Link
-            href={`/lessons/${next.slug}`}
-            className="plate misreg btn-primary font-display mx-auto inline-flex max-w-full items-center gap-3 px-6 py-4 text-left text-lg font-bold"
-          >
-            <span>
-              <span className="label block opacity-80">
-                {/* Only one track has chapters in it. The closers and the
-                    rabbit hole are modules, so they just say next. */}
-                {next.track !== lesson.track
-                  ? `Next · ${TRACKS[next.track].title}`
-                  : lesson.track === "chapter"
-                    ? "Next chapter"
-                    : "Next"}
-              </span>
-              {next.title}
-            </span>
-            <svg width="16" height="14" viewBox="0 0 16 14" aria-hidden="true">
-              <path
-                d="M1 7 H13 M8 2 L13 7 L8 12"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </Link>
-        ) : (
-          <Link
-            href="/"
-            className="plate misreg btn-primary font-display inline-block px-6 py-4 text-lg font-bold"
-          >
-            Back to the start
-          </Link>
-        )}
+        <PrimaryOnward lesson={lesson} next={next} />
 
         {/* Both of these draw nothing until they have something to say, and
             the closing screen is where somebody is deciding what to do next —

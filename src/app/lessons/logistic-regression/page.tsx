@@ -8,13 +8,24 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { LogisticFigure } from "@/components/machines/LogisticFigure";
 import type { CheckBeat } from "@/lib/check";
+import {
+  start as dealLogistic,
+  type LogisticData,
+} from "@/lib/game/logistic";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("logistic-regression")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const logisticData = readGameData<LogisticData>("logistic.json");
+const initialScene = dealLogistic(
+  logisticData,
+  Array.from({ length: 20 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -118,7 +129,7 @@ export default function LogisticRegressionLesson() {
       />
 
       <div className="py-4">
-        <ReadTheScore />
+        <ReadTheScore initialData={logisticData} initialScene={initialScene} />
       </div>
 
       <div className="pb-4">

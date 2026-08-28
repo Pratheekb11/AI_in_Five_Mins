@@ -8,13 +8,21 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { ForestFigure } from "@/components/machines/ForestFigure";
 import type { CheckBeat } from "@/lib/check";
+import { start as dealForest, type ForestData } from "@/lib/game/forest";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("ensembles")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const forestData = readGameData<ForestData>("forest.json");
+const initialScene = dealForest(
+  forestData,
+  Array.from({ length: 20 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -130,7 +138,7 @@ export default function EnsemblesLesson() {
       />
 
       <div className="py-4">
-        <WorthTheCrowd />
+        <WorthTheCrowd initialData={forestData} initialScene={initialScene} />
       </div>
 
       <div className="pb-4">

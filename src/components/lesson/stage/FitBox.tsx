@@ -58,6 +58,7 @@ export function FitBox({
       /* Leave nothing behind: a hidden beat keeps its zoom otherwise, and the
          next measurement of it would start from the wrong place. */
       el.style.zoom = "";
+      el.style.removeProperty("--fit-zoom");
       scale.current = 1;
       return;
     }
@@ -100,6 +101,7 @@ export function FitBox({
         if (scale.current !== 1) {
           scale.current = 1;
           el.style.zoom = "";
+          el.style.removeProperty("--fit-zoom");
         }
       }
 
@@ -121,6 +123,12 @@ export function FitBox({
         if (next > scale.current - 0.004) break;
         scale.current = next;
         el.style.zoom = String(next);
+        /* `zoom` scales everything inside it uniformly, including a
+           `.tap::after` pseudo-element's own hardcoded 44px minimum — so a
+           beat scaled to 0.6 was quietly handing out a 26px real tap target
+           while believing it had fixed one. `.tap` reads this back to
+           compensate. */
+        el.style.setProperty("--fit-zoom", String(next));
       }
     }
 

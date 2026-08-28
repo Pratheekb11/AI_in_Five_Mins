@@ -1,5 +1,4 @@
 import { HallucinationHunt } from "@/components/games/HallucinationHunt";
-import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -8,7 +7,9 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { ParagraphCheckFigure } from "@/components/machines/ParagraphCheckFigure";
 import type { CheckBeat } from "@/lib/check";
+import type { HuntData } from "@/lib/game/hunt";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
 import { lessonMetadata } from "@/lib/metadata";
@@ -17,6 +18,8 @@ const lesson = getLesson("verification-habits")!;
 const video = videoFor("verification-habits")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const huntData = readGameData<HuntData>("hunt.json");
 
 const SOURCES: Source[] = [
   {
@@ -107,25 +110,17 @@ const CHECK: CheckBeat[] = [
 export default function VerificationHabitsLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              &ldquo;Check everything&rdquo; and &ldquo;check nothing&rdquo; end
-              up as <span className="text-yellow-text">the same policy</span>.
-            </>
-          }
-          sting="So stop trying to check everything and get good at spotting the thing worth checking. Below is a real encyclopedia paragraph with three things quietly changed in it. Six flags, three errors, and everybody gets the same paragraph today."
-          cta="Hunt today's paragraph"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "What that tested",
-      node: <HallucinationHunt />,
+      node: (
+        <div className="space-y-4">
+          <h2 className="display-md">
+            &ldquo;Check everything&rdquo; and &ldquo;check nothing&rdquo; end
+            up as <span className="text-yellow-text">the same policy</span>.
+          </h2>
+          <HallucinationHunt initialData={huntData} />
+        </div>
+      ),
     },
     {
       id: "walkthrough",

@@ -30,21 +30,43 @@ function loadClusters(): Promise<ClusterData> {
   return cached;
 }
 
-export function OddOneIn() {
-  const [data, setData] = useState<ClusterData | null>(null);
+export function OddOneIn({
+  initialData,
+  initialScene,
+}: {
+  initialData?: ClusterData;
+  initialScene?: ClusterScene;
+} = {}) {
+  const [data, setData] = useState<ClusterData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<ClusterScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<ClusterScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadClusters()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadClusters().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      setScene(
+        startRound(
+          d,
+          Array.from({ length: 20 }, () => Math.random()),
+        ),
+      );
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;

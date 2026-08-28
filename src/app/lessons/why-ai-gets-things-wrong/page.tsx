@@ -1,13 +1,16 @@
 import { FailureBench } from "@/components/games/FailureBench";
 import { OneFaultFigure } from "@/components/machines/OneFaultFigure";
-import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import { buildBench, start as dealBench } from "@/lib/game/bench";
+import { decodeSpace } from "@/lib/embeddings";
 import { getLesson } from "@/lib/lessons";
+import { type LogitData } from "@/lib/logits";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { videoFor } from "@/lib/videos";
 import { lessonMetadata } from "@/lib/metadata";
@@ -16,6 +19,18 @@ const lesson = getLesson("why-ai-gets-things-wrong")!;
 const video = videoFor("why-ai-gets-things-wrong")!;
 
 export const metadata = lessonMetadata(lesson);
+
+/* Combined server-side: the game itself only ever needed what `buildBench`
+   derives from these two datasets, never the raw embeddings space. */
+const logitData = readGameData<LogitData>("logits.json");
+const rawEmbeddings = readGameData<Parameters<typeof decodeSpace>[0]>(
+  "embeddings.json",
+);
+const bench = buildBench(logitData, decodeSpace(rawEmbeddings));
+const initialScene = dealBench(
+  bench,
+  bench.map(() => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -103,25 +118,17 @@ const QUESTIONS: QuizQuestion[] = [
 export default function WhyAiGetsThingsWrongLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              Three famous failures. <span className="text-pink-text">One</span>{" "}
-              cause, and you can weigh it.
-            </>
-          }
-          sting="Making things up, sounding sure while wrong, carrying the biases of its training text. All three are treated everywhere as separate bugs. Put them on a balance and they turn out to be the same fact three times over. Every weight below is measured when you press the button, from data already on this site."
-          cta="Load the bench"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "Weigh it yourself",
-      node: <FailureBench />,
+      node: (
+        <div className="space-y-4">
+          <h2 className="display-md">
+            Three famous failures. <span className="text-pink-text">One</span>{" "}
+            cause, and you can weigh it.
+          </h2>
+          <FailureBench initialBench={bench} initialScene={initialScene} />
+        </div>
+      ),
     },
     {
       id: "walkthrough",

@@ -78,8 +78,11 @@ export function TrackGaps({ lesson }: { lesson: Lesson }) {
       {rest > 0 ? (
         <p className="text-ink-faint mt-3 text-sm">
           And {rest} more, listed on the{" "}
-          <Link href="/#chapters" className="underline underline-offset-2">
-            home page
+          <Link
+            href={`/curriculum#${lesson.track}`}
+            className="underline underline-offset-2"
+          >
+            full curriculum
           </Link>
           .
         </p>

@@ -21,21 +21,39 @@ import { type LogitData, loadLogits } from "@/lib/logits";
  * Plinko, you do not choose the word, you choose the odds.
  */
 
-export function Plinko() {
-  const [data, setData] = useState<LogitData | null>(null);
+export function Plinko({
+  initialData,
+  initialScene,
+}: {
+  initialData?: LogitData;
+  initialScene?: PlinkoScene;
+} = {}) {
+  const [data, setData] = useState<LogitData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<PlinkoScene>(newScene);
-  const [playing, setPlaying] = useState(false);
+  const [scene, setScene] = useState<PlinkoScene>(
+    () => initialScene ?? newScene(),
+  );
+  const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
+    if (initialScene) return;
     let alive = true;
-    loadLogits()
-      .then((d) => alive && setData(d))
-      .catch(() => alive && setFailed(true));
+    (async () => {
+      const d = initialData ?? (await loadLogits().catch(() => null));
+      if (!alive) return;
+      if (!d) {
+        setFailed(true);
+        return;
+      }
+      if (!initialData) setData(d);
+      const rolls = d.prompts.map(() => Math.random());
+      setScene(startRound(d, rolls, Math.random()));
+      setPlaying(true);
+    })();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [initialData, initialScene]);
 
   const begin = useCallback(() => {
     if (!data) return;

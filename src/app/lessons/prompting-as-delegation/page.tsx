@@ -1,5 +1,4 @@
 import { ShowDontAsk } from "@/components/games/ShowDontAsk";
-import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
@@ -9,7 +8,12 @@ import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { PhrasingFigure } from "@/components/machines/PhrasingFigure";
 import { PromptInspector } from "@/components/machines/PromptInspector";
 import type { CheckBeat } from "@/lib/check";
+import {
+  start as dealListen,
+  type ListenData,
+} from "@/lib/game/listen";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { ENCODING_NAME } from "@/lib/tokenizer";
 import { videoFor } from "@/lib/videos";
@@ -19,6 +23,12 @@ const lesson = getLesson("prompting-as-delegation")!;
 const video = videoFor("prompting-as-delegation")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const listenData = readGameData<ListenData>("listen.json");
+const initialScene = dealListen(
+  listenData,
+  Array.from({ length: 90 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -119,25 +129,17 @@ const CHECK: CheckBeat[] = [
 export default function PromptingAsDelegationLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              Most of what you type into it{" "}
-              <span className="text-yellow-text">does no work at all</span>.
-            </>
-          }
-          sting="Not the bit you would guess, either. Across fourteen goals, telling it how to answer moved the odds by 1.65 times. Telling it that it is an expert moved them by 1.02, which is to say not at all. Showing it one worked example moved them by 125, and won every single goal. Five phrasings of the same request, and you pick the one that lands."
-          cta="Take the first one"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "What just happened",
-      node: <ShowDontAsk />,
+      node: (
+        <div className="space-y-4">
+          <h2 className="display-md">
+            Most of what you type into it{" "}
+            <span className="text-yellow-text">does no work at all</span>.
+          </h2>
+          <ShowDontAsk initialData={listenData} initialScene={initialScene} />
+        </div>
+      ),
     },
     {
       id: "walkthrough",

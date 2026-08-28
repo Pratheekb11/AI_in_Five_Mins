@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { startInteractionClock } from "@/lib/firstInteraction";
 import { trackTimeOnPage } from "@/lib/telemetry";
 
 /**
@@ -31,6 +32,7 @@ export function Engagement({ page }: { page: string }) {
     total.current = 0;
     deepest.current = "top";
     reported.current = false;
+    startInteractionClock(page);
 
     function stopCounting() {
       if (visibleSince.current === null) return;

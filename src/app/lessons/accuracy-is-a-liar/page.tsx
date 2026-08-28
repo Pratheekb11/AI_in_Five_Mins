@@ -8,13 +8,24 @@ import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { ThresholdFigure } from "@/components/machines/ThresholdFigure";
 import type { CheckBeat } from "@/lib/check";
+import {
+  start as dealThreshold,
+  type ThresholdData,
+} from "@/lib/game/threshold";
 import { getLesson } from "@/lib/lessons";
+import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
 import { lessonMetadata } from "@/lib/metadata";
 
 const lesson = getLesson("accuracy-is-a-liar")!;
 
 export const metadata = lessonMetadata(lesson);
+
+const thresholdData = readGameData<ThresholdData>("threshold.json");
+const initialScene = dealThreshold(
+  thresholdData,
+  Array.from({ length: 20 }, () => Math.random()),
+);
 
 const SOURCES: Source[] = [
   {
@@ -112,7 +123,10 @@ export default function AccuracyIsALiarLesson() {
       />
 
       <div className="py-4">
-        <WheresTheLine />
+        <WheresTheLine
+          initialData={thresholdData}
+          initialScene={initialScene}
+        />
       </div>
 
       <div className="pb-4">

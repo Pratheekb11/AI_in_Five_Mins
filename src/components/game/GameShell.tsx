@@ -320,14 +320,26 @@ export function GameShell({
           whichever of them needs it and neither has to scroll inside the
           other. The floor only applies from `sm` up: on a phone a 36rem floor
           is most of the screen spent on nothing. */}
+      {/* 152px of the cabinet is Nimo's, and only his, from `lg` up.
+          He used to be an absolute box floating over the board, which meant
+          every game had to know he was there and dodge him; most did not, and
+          he sat on the first line of five of them. The board and the ready
+          overlay are padded out of his column instead, so no game can be
+          written into the space he occupies. */}
       <div
-        className={`relative grid ${
+        className={`relative grid lg:pr-[152px] ${
           phase !== "playing" ? "sm:min-h-[36rem]" : ""
         }`}
       >
         {/* Nimo watches the round and reacts. He is the loudest feedback in
-            the cabinet, which is most of why a miss stings enough to retry. */}
-        <span className="absolute -top-1 right-2 z-20 hidden md:block">
+            the cabinet, which is most of why a miss stings enough to retry.
+            He and his remark both live inside the reserved column: 120 + 8
+            for him, 136 for the remark, against a 152px gutter. Widen one
+            and the other has to move, or he is back on somebody's sentence.
+            Below `lg` there is no room to reserve — the plate is 728px at
+            768 wide and taking 152 of it would push boards under the 640
+            their own `sm:` layouts assume — so he does not render at all. */}
+        <span data-nimo className="absolute -top-1 right-2 z-20 hidden lg:block">
           <span className="pointer-events-none block">
             <Nimo
               mood={phase === "playing" ? mood : "curious"}
@@ -338,7 +350,7 @@ export function GameShell({
           </span>
 
           {reaction && !progress.nimoDismissed ? (
-            <div className="plate misreg absolute top-[86px] right-2 w-44 p-2 text-left">
+            <div className="plate misreg absolute top-[86px] right-0 w-[136px] p-2 text-left">
               <button
                 type="button"
                 onClick={() => {

@@ -177,7 +177,7 @@ export function SkillGapFigure() {
         {/* The last beat of the walkthrough is about the reader's own tasks,
             and the figure used to draw nothing for it: stage three and stage
             four were the identical picture. This is the honest shape of what
-            is known about them — a range between the two measured ends and no
+            is known about them, a range between the two measured ends and no
             number inside it. Yellow, because on this site yellow is the
             learner's own input. */}
         {stage >= 4 ? (

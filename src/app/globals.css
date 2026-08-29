@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
-  AIinFive — risograph print system.
+  AIinFive, risograph print system.
 
   The whole site is styled as a two-to-four-ink risograph print of a technical
   manual: flat spot colours, no gradients, no glow, visible halftone, and a
@@ -38,7 +38,7 @@
   --yellow: #a87400;
   --teal: #009180;
 
-  /* Ink tints — flat, pre-mixed with paper rather than alpha-composited,
+  /* Ink tints, flat, pre-mixed with paper rather than alpha-composited,
      so overlapping marks stay readable instead of muddying. */
   --blue-wash: #dfe3fa;
   --pink-wash: #fbe0eb;
@@ -85,7 +85,7 @@
   --rule: #ece9e12e;
 
   /* Dark is a separate set stepped for the dark plate, not a flip of the light
-     inks — same validator, dark band, dark surface. */
+     inks, same validator, dark band, dark surface. */
   --blue: #5570e8;
   --pink: #e8477f;
   --yellow: #b0861e;
@@ -102,7 +102,7 @@
   --teal-text: #55d8c6;
 
   /* Dark blue is lighter than dark paper, so type on it goes darker, not
-     lighter — the opposite of the light theme. */
+     lighter, the opposite of the light theme. */
   --on-blue: #0a0a0e;
   --on-yellow: #17171f;
 
@@ -194,7 +194,7 @@
 
   Tailwind emits its utilities into `@layer utilities`, and unlayered CSS beats
   *any* layered CSS regardless of specificity. An unlayered `.plate { background }`
-  therefore silently overrides `bg-blue` on the same element — which is how a
+  therefore silently overrides `bg-blue` on the same element, which is how a
   primary button ended up painting paper-coloured text onto a paper-coloured
   plate. Keeping these rules in the earlier layers means a utility always wins,
   which is what anyone reading the JSX expects.
@@ -265,7 +265,7 @@
 
 @layer components {
 /* The display face carries a width axis. Condensing the largest sizes and
-   letting small labels run wide is the one typographic move the site repeats —
+   letting small labels run wide is the one typographic move the site repeats,
    it reads as a printer setting rather than as decoration. */
 .display-xl {
   font-family: var(--font-display);
@@ -294,14 +294,14 @@
   letter-spacing: -0.02em;
 }
 
-/* Eyebrows and data labels run wide and letterspaced — the manual's voice. */
+/* Eyebrows and data labels run wide and letterspaced, the manual's voice. */
 .label {
   font-family: var(--font-data);
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  /* Not 1. A label that wraps — and on a phone they do — printed its second
+  /* Not 1. A label that wraps, and on a phone they do, printed its second
      line on top of the first. */
   line-height: 1.2;
 }
@@ -323,7 +323,7 @@
 /* ------------------------------------------------------------ mechanics --- */
 
 /* A printed panel: hard rule, flat fill, offset shadow standing in for the
-   second pass of the press. No blur — a riso shadow is just another plate. */
+   second pass of the press. No blur, a riso shadow is just another plate. */
 .plate {
   background: var(--paper-raised);
   border: var(--rule-weight) solid var(--ink);
@@ -357,7 +357,7 @@
 
 /* The one filled control on the site. It carries its own colours rather than
    stacking utilities over `.plate`, so the fill and the text on it can never
-   drift apart — `--on-blue` is chosen per theme to clear 4.5:1 against the
+   drift apart, `--on-blue` is chosen per theme to clear 4.5:1 against the
    blue of that theme. */
 .btn-primary {
   background: var(--blue);
@@ -369,7 +369,7 @@
   A control small enough to read but too small to hit.
 
   Several of the site's controls are set in the label face, which puts them
-  around 27 to 30 pixels tall — over the 24px floor and well under the 44px a
+  around 27 to 30 pixels tall, over the 24px floor and well under the 44px a
   thumb actually wants. Rather than fatten them everywhere and unbalance the
   masthead, the target is grown only where the pointer is coarse, and grown
   through the invisible half: the box keeps its drawn size and the hit area
@@ -377,7 +377,7 @@
 
   `--fit-zoom` is the scale a `FitBox`/`AboveFoldFit` beat has been shrunk to,
   written onto that beat's own wrapper when it is. `zoom` scales absolutely
-  everything inside it, including this rule's own hardcoded 44px — a beat
+  everything inside it, including this rule's own hardcoded 44px, a beat
   zoomed to 0.6 was quietly handing out a 26px real tap target while this
   believed it had fixed one. Dividing by the scale here cancels that back out,
   so the target this rule promises is always 44 real screen pixels, zoomed or
@@ -477,7 +477,7 @@
 @layer components {
   /* A deck beat is meant to be taken in without scrolling, and on a phone the
      provenance line under a figure is the block that most often pushes it past
-     the bottom. It stays on the page — it is the whole premise of the site —
+     the bottom. It stays on the page, it is the whole premise of the site,
      but it prints at note size there rather than at body size. */
   @media (max-width: 639px) {
     [data-stage-port] figcaption {

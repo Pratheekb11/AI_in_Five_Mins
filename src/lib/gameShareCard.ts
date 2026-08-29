@@ -2,7 +2,7 @@ import { drawNimo, families, halftone, wrap } from "./certificate";
 
 /**
  * The card a player gets after a game, sized for a LinkedIn feed thumbnail.
- * Deliberately its own look, not the certificate's — dark, high-contrast, big
+ * Deliberately its own look, not the certificate's, dark, high-contrast, big
  * numbers, minimal words, legible small. These are the site's real dark-theme
  * inks (`globals.css`'s `prefers-color-scheme: dark` block), not invented
  * ones.
@@ -23,11 +23,11 @@ const HEIGHT = 630;
 export type GameShareArt = {
   siteUrl: string;
   gameName: string;
-  /** e.g. "3" and "1" — the player's tally and the model's. */
+  /** e.g. "3" and "1", the player's tally and the model's. */
   playerScore: string;
   modelScore: string;
   /** One plain-language line, e.g. "beat a language model 3-1 at guessing
-   *  the next word." Written by the game, not this module — every game keeps
+   *  the next word." Written by the game, not this module, every game keeps
    *  its own scoring, so it is the one place that actually knows what
    *  happened. */
   resultLine: string;

@@ -46,7 +46,7 @@ export type Beat = {
   id: string;
   node: ReactNode;
   /**
-   * Beats that hold their own advance control — a game that has to end, a
+   * Beats that hold their own advance control, a game that has to end, a
    * walkthrough that steps through itself. The deck draws no button of its own.
    */
   selfAdvance?: boolean;
@@ -69,11 +69,11 @@ export function LessonStage({ beats }: { beats: Beat[] }) {
     setAt((i) => (i < count - 1 ? i + 1 : i));
   }, [count]);
 
-  /* On the deck's own first beat there is nowhere further back to step to —
+  /* On the deck's own first beat there is nowhere further back to step to,
      the control used to just disable itself there, which read as broken to
      anyone who pressed it on the screen they land on. It now leaves the
      lesson instead, back to wherever they came from. router.back() is a
-     navigation, not a state update, so it stays out of the setAt updater —
+     navigation, not a state update, so it stays out of the setAt updater,
      React may run an updater twice, which would fire it twice too. */
   const back = useCallback(() => {
     if (at > 0) setAt(at - 1);

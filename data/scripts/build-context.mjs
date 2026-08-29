@@ -1,7 +1,7 @@
 /**
  * What goes in the window, and what it costs you.
  *
- * The game this feeds gives you five slots and a pile of cards — the question,
+ * The game this feeds gives you five slots and a pile of cards, the question,
  * the document that actually contains the answer, some chit-chat, an
  * instruction that was superseded, and a decoy document that looks right and
  * says the wrong thing. You choose what goes in. Then you find out.
@@ -13,7 +13,7 @@
  * second effect is the one nobody believes until they watch it, and it is the
  * whole reason the game exists.
  *
- * WHAT IS AUTHORED AND WHAT IS MEASURED. The cards are written by us — they
+ * WHAT IS AUTHORED AND WHAT IS MEASURED. The cards are written by us, they
  * have to be, since no public dataset contains "a plausible-looking decoy memo
  * about a fictional company". The page says so. Every number attached to them
  * is measured by running DistilGPT-2 over the assembled context, and the answer
@@ -42,7 +42,7 @@ const SLOTS = 5;
  * Scenarios. Cards are authored; the `answer` is a single token so that "did
  * the context help" is one number rather than a judgement call.
  *
- * `kind` drives nothing in the measurement — it is only there so the game can
+ * `kind` drives nothing in the measurement, it is only there so the game can
  * explain, afterwards, what each card was.
  */
 const SCENARIOS = [
@@ -184,7 +184,7 @@ const main = async () => {
    * that answer.
    *
    * The context and the answer are tokenized together and the boundary is
-   * checked rather than assumed — byte-pair encoding does not always split a
+   * checked rather than assumed, byte-pair encoding does not always split a
    * joined string where you spliced it, and a silent shift by one token would
    * quietly score the wrong thing.
    */
@@ -243,7 +243,7 @@ const main = async () => {
    *
    * A single argmax token is what this used to record, and it is unreadable:
    * the wifi answer came back as "BL" and the invoice as "Q". A percentage
-   * cannot carry the lesson of this chapter either — watching the answer flip
+   * cannot carry the lesson of this chapter either, watching the answer flip
    * from "Thursday" to "Tuesday" because you added a helpful-looking card is
    * the lesson, and nobody feels 89.9% falling to 3.8%.
    *

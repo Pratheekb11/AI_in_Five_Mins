@@ -22,7 +22,7 @@ const OUT = resolve(ROOT, "public/data/token-examples.json");
 
 /**
  * One sentence, translated. Same meaning in every row, so the only thing that
- * varies is the script it is written in — which is what makes the token counts
+ * varies is the script it is written in, which is what makes the token counts
  * comparable.
  */
 const MULTILINGUAL = [
@@ -91,7 +91,7 @@ const GUESSABLE = [
 /**
  * Words for the cutting game. Chosen so the round keeps teaching: some are a
  * single token however long they look, some shatter in places nobody would
- * guess. Only words that actually split are kept — a one-token word has no
+ * guess. Only words that actually split are kept, a one-token word has no
  * boundary to aim at.
  */
 const CHOP_CANDIDATES =

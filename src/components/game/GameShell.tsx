@@ -98,18 +98,18 @@ export function GameShell({
   const [noteOpen, setNoteOpen] = useState(false);
   /* Same trade on the ready screen's how-to-play: worth reading in full on a
      screen with room, not worth costing a phone the fit work done in
-     FitBox — a full goal-plus-steps block ran a card 494px over budget at
+     FitBox, a full goal-plus-steps block ran a card 494px over budget at
      360 wide the last time this shipped unfolded. */
   const [howOpen, setHowOpen] = useState(false);
   const [muted, toggleMuted] = useMuted();
   const { progress, dismissNimo } = useProgress();
 
   /* Most games now deal their first round server-side and start straight in
-     "playing" — the ready screen's how-to-play never mounts for them at all.
+     "playing", the ready screen's how-to-play never mounts for them at all.
      This is the visual demo's actual home: a non-blocking hint over the live
      board. Once did not stick, so it repeats on someone's first several
      visits to THIS game specifically, then stops once that game's own count
-     hits its limit — knowing the gesture on one game says nothing about
+     hits its limit, knowing the gesture on one game says nothing about
      whether it has been seen on another. Each mount shows it at most once,
      so it does not repeat every round within the same sitting. */
   const TAP_HINT_LIMIT = 5;
@@ -119,7 +119,7 @@ export function GameShell({
   const [hintVisible, setHintVisible] = useState(false);
   const hintShown = useRef(false);
   /* Both the cabinet's own onClickCapture and the hint's "Let's play" button
-     call dismissTapHint for the same click — the click bubbles through the
+     call dismissTapHint for the same click, the click bubbles through the
      capture-phase handler on its way down, then reaches the button's own
      handler. Guarding on `hintVisible` state let both calls through in the
      same React event, since state does not update mid-event: one click
@@ -154,7 +154,7 @@ export function GameShell({
 
   const dismissTapHint = useCallback(() => {
     // hintShown guards games that never armed a hint this mount at all (the
-    // per-game limit was already reached, say) — without it, every click
+    // per-game limit was already reached, say), without it, every click
     // would bump a count that never had a hint to dismiss.
     if (!hintShown.current || hintSettled.current) return;
     hintSettled.current = true;
@@ -236,8 +236,8 @@ export function GameShell({
     // Nothing for "think". Games drop back to it between rounds, and a noise
     // on every advance turns feedback into nagging.
 
-    // Celebrate is specifically the upset — right where the model was
-    // confidently wrong — which is the one worth a remark of its own.
+    // Celebrate is specifically the upset, right where the model was
+    // confidently wrong, which is the one worth a remark of its own.
     if (mood === "celebrate") setTimeout(() => showReaction("beatModel"));
     else if (mood === "wince") setTimeout(() => showReaction("fooled"));
   }, [phase, mood, beatenBest, showReaction]);
@@ -336,9 +336,9 @@ export function GameShell({
             He and his remark both live inside the reserved column: 120 + 8
             for him, 136 for the remark, against a 152px gutter. Widen one
             and the other has to move, or he is back on somebody's sentence.
-            Below `lg` there is no room to reserve — the plate is 728px at
+            Below `lg` there is no room to reserve, the plate is 728px at
             768 wide and taking 152 of it would push boards under the 640
-            their own `sm:` layouts assume — so he does not render at all. */}
+            their own `sm:` layouts assume, so he does not render at all. */}
         <span data-nimo className="absolute -top-1 right-2 z-20 hidden lg:block">
           <span className="pointer-events-none block">
             <Nimo
@@ -409,15 +409,15 @@ export function GameShell({
               {phase === "ready" ? (
                 <>
                   {/* Rules were a click behind a "?" that nobody had to press
-                      before playing blind. The ready screen — already a
-                      layover the player dismisses by pressing Play — is
+                      before playing blind. The ready screen, already a
+                      layover the player dismisses by pressing Play, is
                       where they actually get read, so it shows the real
                       how-to-play instead of a paraphrase of it. Games without
                       one (WordMagnet) keep the plain instruction line.
                       TapDemo runs unconditionally, on a phone too: the words
                       explain scoring and controls, which need reading, but
-                      the one thing every game shares — tap a choice, see it
-                      answered — does not, and showing it costs nothing the
+                      the one thing every game shares, tap a choice, see it
+                      answered, does not, and showing it costs nothing the
                       text-collapse below doesn't already save. */}
                   {howToPlay ? <TapDemo /> : null}
                   {howToPlay ? (

@@ -3,7 +3,7 @@
  *
  * The claim this measures is one that matters a great deal outside the English
  * internet and is almost never shown: the same idea, written in a different
- * script, is charged a different number of tokens. Not slightly — several times
+ * script, is charged a different number of tokens. Not slightly, several times
  * over. Anyone paying per token for Hindi or Kannada is paying a tax that
  * nobody advertises.
  *
@@ -15,7 +15,7 @@
  *
  * Nothing is translated by us and nothing is trimmed to make a point. Articles
  * in different languages are written independently, which is stated on the page
- * — what is being compared is real text in each script, not a translation pair.
+ *, what is being compared is real text in each script, not a translation pair.
  *
  * Run with:  node data/scripts/build-scripts.mjs
  * Output:    public/data/scripts.json
@@ -86,7 +86,7 @@ async function pageFor(code, title, props, attempt = 0) {
 
 async function extractFor(code, title) {
   // Two calls rather than one. Asking for extracts and revisions together
-  // makes the API return a truncated extract for some wikis — Japanese came
+  // makes the API return a truncated extract for some wikis, Japanese came
   // back as 205 characters that way and 13,000 on its own.
   const page = await pageFor(code, title, "prop=extracts&explaintext=1");
   const meta = await pageFor(code, title, "prop=revisions&rvprop=ids");

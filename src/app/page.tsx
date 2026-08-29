@@ -81,7 +81,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* The path and the daily puzzle, side by side from lg up — both are
+        {/* The path and the daily puzzle, side by side from lg up, both are
             "what's next", not a linear read, so pairing them uses the width
             instead of stacking two full-bleed bands. */}
         <section
@@ -115,7 +115,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* The ML path and "why this exists" paired the same way — two short
+        {/* The ML path and "why this exists" paired the same way, two short
             pitches that don't need to be read in order. */}
         <section className="border-ink/25 border-t">
           <div className="mx-auto max-w-6xl px-5 py-14">
@@ -169,7 +169,7 @@ export default function Home() {
               href="/curriculum"
               className="label underline underline-offset-2"
             >
-              See everything — all four tracks, 25 modules
+              See everything: all four tracks, 25 modules
             </Link>
           </div>
         </section>

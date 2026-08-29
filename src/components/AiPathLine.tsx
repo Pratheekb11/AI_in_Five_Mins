@@ -69,9 +69,9 @@ export function AiPathLine() {
               }`}
               title={
                 done
-                  ? `${lesson.title} — done`
+                  ? `${lesson.title}: done`
                   : isCurrent
-                    ? `${lesson.title} — you are here`
+                    ? `${lesson.title}: you are here`
                     : lesson.title
               }
             >

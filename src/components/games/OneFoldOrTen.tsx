@@ -181,6 +181,13 @@ export function OneFoldOrTen({
       <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round && data && shown ? (
           <>
+            {/* The premise. A board that opens on a bare task reads as a
+                quiz somebody forgot to write the question for. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              Two spam filters are being marked on one slice of the corpus
+              that neither of them trained on. Call which one comes out ahead
+              on this slice, before either number lands.
+            </p>
             <p className="label text-ink-faint mb-4">
               Slice {round.fold} of {data.corpus.folds} · about{" "}
               {data.corpus.blockSize} messages held out

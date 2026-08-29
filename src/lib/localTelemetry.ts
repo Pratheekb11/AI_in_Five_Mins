@@ -5,7 +5,7 @@ import { useSyncExternalStore } from "react";
 /**
  * A local mirror of this browser's own lesson-interaction signals, so the
  * `/admin` page has something to read without needing Vercel Pro's dashboard
- * or a backend. One row per lesson slug, replaced as the visit progresses —
+ * or a backend. One row per lesson slug, replaced as the visit progresses,
  * not an event log, and not other visitors' data. Nothing here is sent
  * anywhere; it is `localStorage`, same as the rest of the site's state.
  */
@@ -24,7 +24,7 @@ export type LocalRow = {
 
 /* `useSyncExternalStore` requires a snapshot function that returns the same
    reference when nothing changed, or it re-renders forever. `localStorage`
-   has no such notion, so the raw string is cached and compared instead —
+   has no such notion, so the raw string is cached and compared instead,
    same trick `progress.ts` uses for its own store. */
 let cache: LocalRow[] = [];
 let cacheRaw: string | null = null;
@@ -100,7 +100,7 @@ function subscribe(onChange: () => void) {
   return () => window.removeEventListener("storage", onChange);
 }
 
-/** The `/admin` page's read of this browser's own log — `useSyncExternalStore`
+/** The `/admin` page's read of this browser's own log, `useSyncExternalStore`
  *  so the server-rendered pass and the client's first render agree (both see
  *  no rows), and an actual reload elsewhere in the same browser is picked up
  *  via the `storage` event, same as the rest of this site's local stores. */

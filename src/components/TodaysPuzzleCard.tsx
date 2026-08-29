@@ -6,7 +6,7 @@ import { useProgress } from "@/lib/progress";
 
 /**
  * The daily puzzle, promoted. It changes every day and needs no chapter
- * finished first, which the six-chapter path cannot say about itself — a
+ * finished first, which the six-chapter path cannot say about itself, a
  * finite site cannot carry a Duolingo-style streak on its lessons, but this
  * can.
  */
@@ -14,7 +14,7 @@ export function TodaysPuzzleCard({
   initialData,
 }: {
   /** Read server-side by whichever page renders this, so the puzzle is
-   *  already there — which day it is stays a client decision. */
+   *  already there, which day it is stays a client decision. */
   initialData: HuntData;
 }) {
   const { progress } = useProgress();

@@ -3,10 +3,10 @@
  *
  * Lesson 4 lets the learner search for a word's nearest neighbours and do
  * arithmetic on meaning. Both run in the browser against real GloVe vectors, so
- * the answers are found rather than scripted — including the ones that are
+ * the answers are found rather than scripted, including the ones that are
  * wrong or uncomfortable.
  *
- * Input: data/raw/glove.6B.50d.txt — not committed (171MB). Fetch it first:
+ * Input: data/raw/glove.6B.50d.txt, not committed (171MB). Fetch it first:
  *
  *   mkdir -p data/raw && cd data/raw
  *   curl -LO https://nlp.stanford.edu/data/glove.6B.zip
@@ -33,7 +33,7 @@ const SCALE = 0.03;
 /**
  * Words grouped by what they are, so the map has clusters a learner can
  * recognise and check. The grouping is only used for colour and for the
- * "does this look right?" test — every neighbour and every analogy is computed
+ * "does this look right?" test, every neighbour and every analogy is computed
  * from the vectors, never from these lists.
  */
 const GROUPS = {
@@ -70,7 +70,7 @@ const wanted = new Set([...groupOf.keys(), ...REQUIRED]);
 
 // ------------------------------------------------------------------- read ---
 
-/** Rank in the file is frequency rank — GloVe ships most-common first. */
+/** Rank in the file is frequency rank, GloVe ships most-common first. */
 const vectors = new Map();
 const fill = [];
 let rank = 0;
@@ -182,7 +182,7 @@ const points = coords.map(([x, y]) => [
 
 /**
  * The full vectors ship too, because nearest neighbours and analogies have to
- * be computed in all 50 dimensions to be true — the 2D map is a shadow, and the
+ * be computed in all 50 dimensions to be true, the 2D map is a shadow, and the
  * lesson says so. int8 keeps that payload near 110KB instead of 700KB; the
  * error it introduces is far below anything a ranking would notice.
  */

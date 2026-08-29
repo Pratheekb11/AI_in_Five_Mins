@@ -112,7 +112,23 @@ export function TokenChopper() {
       </div>
 
       <div className="p-5 md:p-6">
-        <label className="mb-4 block">
+        {/* The premise. Without it this is a text box with tiles under it and
+            no reason to touch either. */}
+        <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+          {phone ? (
+            <>
+              A model never sees your letters, only the chunks below. This is
+              the real splitter.
+            </>
+          ) : (
+            <>
+              A model never sees your letters. It sees the chunks below, and
+              this is the real splitter one of them uses, running on whatever
+              you type.
+            </>
+          )}
+        </p>
+        <label className="mb-3 block sm:mb-4">
           <span className="label text-ink-faint mb-1.5 block">
             Type anything. It is cut as you type.
           </span>
@@ -129,7 +145,7 @@ export function TokenChopper() {
           />
         </label>
 
-        <div className="mb-4 flex flex-wrap gap-2">
+        <div className="mb-3 flex flex-wrap gap-2 sm:mb-4">
           {TRIES.map((entry) => (
             <button
               key={entry.label}

@@ -8,14 +8,14 @@
  * back one merge at a time.
  *
  * Nothing here is a reconstruction of what BPE probably does. tiktoken's merge
- * table IS a rank table — the id of a token is its rank, and the algorithm
+ * table IS a rank table, the id of a token is its rank, and the algorithm
  * repeatedly merges whichever adjacent pair produces the lowest-ranked token in
  * the vocabulary. So replaying it needs no model and no guesswork: read the
  * ranks, run the same loop, and you get the same answer the tokenizer gets.
  *
  * Which is exactly what the check at the end asserts. Every trace is re-encoded
  * with the real tokenizer and compared id for id. A word whose replay disagrees
- * is not written out with a caveat — the script throws, because a merge
+ * is not written out with a caveat, the script throws, because a merge
  * sequence that does not reproduce the tokenizer is not evidence of anything.
  *
  * Run: node data/scripts/build-merges.mjs
@@ -33,7 +33,7 @@ const OUT = resolve(ROOT, "public/data/merges.json");
 /**
  * The words traced, and why each one is worth a trace.
  *
- * Every one of these is a single pre-token — one regex chunk — because that is
+ * Every one of these is a single pre-token, one regex chunk, because that is
  * the unit BPE actually runs on. Feeding it a phrase would silently trace
  * something the tokenizer never does in one piece.
  */
@@ -68,7 +68,7 @@ const WORDS = [
 /**
  * Numbers are handled separately, and deliberately not traced.
  *
- * BPE runs on pre-tokens — the chunks a regex cuts the text into first — and
+ * BPE runs on pre-tokens, the chunks a regex cuts the text into first, and
  * o200k's regex breaks a run of digits into groups of at most three. So a long
  * number is never one merge problem, it is several, and replaying it as one
  * produces a split the tokenizer disagrees with. The first version of this
@@ -137,7 +137,7 @@ function trace(word, ranks) {
       right: keyToText(pieces[bestAt + 1]),
       into: keyToText(merged),
       /** Rank and id are the same number in tiktoken. Lower means it was
-       *  worth memorising earlier — i.e. it is more common in the text the
+       *  worth memorising earlier, i.e. it is more common in the text the
        *  table was built from. */
       id: bestRank,
       pieces: pieces.map(keyToText),
@@ -174,7 +174,7 @@ const traces = WORDS.map(({ word, teaches }) => {
   }
 
   console.log(
-    `  ${JSON.stringify(word)} — ${Buffer.byteLength(word)} bytes, ` +
+    `  ${JSON.stringify(word)}, ${Buffer.byteLength(word)} bytes, ` +
       `${steps.length} merges, ${final.length} tokens: ${final.join("|")}`,
   );
 

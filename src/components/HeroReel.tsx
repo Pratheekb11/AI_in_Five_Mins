@@ -307,10 +307,10 @@ export function HeroReel() {
                 transition={{ duration: 0.25 }}
               >
                 {beat === 3
-                  ? "RIGHT — once it was given the source"
+                  ? "RIGHT, once it was given the source"
                   : knew
-                    ? "RIGHT — and it got there on its own"
-                    : "WRONG — this is the model's guess"}
+                    ? "RIGHT, and it got there on its own"
+                    : "WRONG, this is the model's guess"}
               </motion.span>
             ) : null}
           </AnimatePresence>
@@ -329,7 +329,7 @@ export function HeroReel() {
             >
               {/* Counts as the marker travels, because it IS the marker: the
                   same spring, read back through the inverse of the log. */}
-              {beat === 0 ? "—" : <motion.span>{liveRank}</motion.span>}
+              {beat === 0 ? "?" : <motion.span>{liveRank}</motion.span>}
             </span>
           </div>
 
@@ -438,7 +438,7 @@ export function HeroReel() {
             />
           </span>
           <span className="data text-ink-soft w-20 shrink-0 text-right text-xs tabular-nums">
-            {beat === 0 ? "—" : percent(shownProbability)}
+            {beat === 0 ? "?" : percent(shownProbability)}
           </span>
         </div>
 

@@ -2,7 +2,7 @@
  * Real next-token probabilities from a real language model.
  *
  * Runs DistilGPT-2 over a handful of prompts and records, for each one, the
- * top candidate tokens and the probability the model actually assigned them —
+ * top candidate tokens and the probability the model actually assigned them,
  * plus what those probabilities become at several sampling temperatures.
  *
  * Everything written out is a measurement. Nothing here is smoothed, rounded
@@ -34,7 +34,7 @@ const TEMPERATURES = [0.2, 0.5, 1, 1.5];
 /**
  * Prompts chosen to span the range the lesson is about, and then kept
  * regardless of what came back. The `why` lines were written after the numbers
- * were measured, not before — two of these do the opposite of what you would
+ * were measured, not before, two of these do the opposite of what you would
  * expect, and that is the most useful thing on the page.
  */
 const PROMPTS = [
@@ -73,7 +73,7 @@ function softmax(values, temperature) {
   return exps.map((v) => v / total);
 }
 
-/** Shannon entropy in bits — how undecided the model is, in one number. */
+/** Shannon entropy in bits, how undecided the model is, in one number. */
 function entropy(probabilities) {
   let sum = 0;
   for (const p of probabilities) {

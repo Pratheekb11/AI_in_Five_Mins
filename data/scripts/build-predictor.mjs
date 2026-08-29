@@ -1,5 +1,5 @@
 /**
- * Beat the Predictor — real rounds, real odds.
+ * Beat the Predictor, real rounds, real odds.
  *
  * Two kinds of round, and both of them have ground truth that does not depend
  * on anybody's opinion.
@@ -7,7 +7,7 @@
  * CORPUS rounds come from Alice's Adventures in Wonderland, which is public
  * domain and sitting in `data/raw`. A sentence is cut before its last word, the
  * model is asked what comes next, and the right answer is simply what Carroll
- * wrote. The three wrong options are not invented — they are the model's own
+ * wrote. The three wrong options are not invented, they are the model's own
  * next-best candidates, so every option on screen is a word the model seriously
  * considered.
  *
@@ -49,7 +49,7 @@ const FIELD = 60;
  *
  * The fact and its source are written here; the probabilities are measured.
  * If a prompt turns out not to trap the model, it is dropped rather than
- * dressed up — see the filter below.
+ * dressed up, see the filter below.
  *
  * `truth` is one token, because a round is one next-word guess. Two of these
  * words do not fit in one token, and for those `label` carries the word a
@@ -57,7 +57,7 @@ const FIELD = 60;
  * "photosynthesis", with the split shown. Without it the game asks whether
  * plants make food by a process called "photos", which is not a question
  * anybody should have to answer. The label is checked against the tokenizer
- * below — it must start with the token that was measured, or the round is
+ * below, it must start with the token that was measured, or the round is
  * dropped rather than shipped with a word the number does not describe.
  */
 const PHRASE_PROMPTS = [
@@ -166,7 +166,7 @@ function seededShuffle(items, seed) {
 
 /**
  * Sentences from Alice, cleaned of the Gutenberg wrapper and of anything that
- * would make a bad round — too short to give the model a chance, too long to
+ * would make a bad round, too short to give the model a chance, too long to
  * print, or ending on punctuation rather than a word.
  */
 function sentencesFrom(text) {
@@ -347,7 +347,7 @@ const main = async () => {
   for (const [i, m] of chosen.entries()) {
     // The model's own three favourite continuations. It will take one of them
     // nearly every time, and the word Carroll wrote is nearly never among
-    // them — which is the whole point of this act. Every option is a token the
+    // them, which is the whole point of this act. Every option is a token the
     // model actually considered; nothing is invented. Fragments are walked
     // past rather than printed, so the field is three words and not three
     // beginnings of words.
@@ -500,7 +500,7 @@ const main = async () => {
   // the API so the exact revision the claim was checked against is recorded.
   // A citation that does not resolve keeps its round off the board, and the run
   // says which one was dropped. An earlier version pointed at Britannica, which
-  // answers non-browser requests with 403 — a citation nobody can verify
+  // answers non-browser requests with 403, a citation nobody can verify
   // programmatically is not much of a citation.
   const cited = new Map();
   for (const prompt of FACT_PROMPTS) {

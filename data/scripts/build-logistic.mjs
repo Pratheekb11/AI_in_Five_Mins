@@ -16,7 +16,7 @@
  * 7,000 words cannot be drawn, and the point of this module is that it can.
  * The accuracy is correspondingly modest, and the page says so.
  *
- * Input: data/raw/SMSSpamCollection — SMS Spam Collection v.1, not committed.
+ * Input: data/raw/SMSSpamCollection, SMS Spam Collection v.1, not committed.
  *
  *   mkdir -p data/raw && cd data/raw
  *   curl -LO https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip

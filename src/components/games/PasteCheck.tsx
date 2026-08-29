@@ -31,7 +31,7 @@ import {
 export function PasteCheck({
   initialScene,
 }: {
-  /** Dealt server-side — this game has no external data, only a random
+  /** Dealt server-side, this game has no external data, only a random
    *  seed, so there is nothing to wait on and no reason not to. */
   initialScene?: CheckScene;
 } = {}) {
@@ -159,6 +159,13 @@ export function PasteCheck({
       <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {payload ? (
           <>
+            {/* The premise. A board that opens on a bare task reads as a
+                quiz somebody forgot to write the question for. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              You are deciding what to hand an assistant, not whether to use
+              one. Read what is in the request below, then choose how much of
+              it you would really send.
+            </p>
             <AnimatePresence mode="wait">
               <motion.div
                 key={payload.text}

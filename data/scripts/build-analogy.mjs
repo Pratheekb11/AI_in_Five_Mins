@@ -12,7 +12,7 @@
  * 1. The nearest word to `king - man + woman` is *king*. Every published
  *    demonstration of this trick silently excludes the three input words from
  *    the candidates. That convention comes from Mikolov's original evaluation
- *    and it is load-bearing — without it most analogies return one of their own
+ *    and it is load-bearing, without it most analogies return one of their own
  *    inputs. So both answers are computed and both are written out.
  *
  * 2. The picture is two-dimensional and the vectors are not. The plane is
@@ -46,7 +46,7 @@ const OUT = resolve(ROOT, "public/data/analogy.json");
 const VOCAB = 50000;
 const DIMS = 50;
 
-/** a is to b as c is to (?) — written here as b - a + c. */
+/** a is to b as c is to (?), written here as b - a + c. */
 const ANALOGIES = [
   {
     id: "royal",

@@ -1,5 +1,5 @@
 /**
- * Hallucination Hunt — real paragraphs with known things wrong in them.
+ * Hallucination Hunt, real paragraphs with known things wrong in them.
  *
  * The skill this drills is the one that actually protects you: reading fluent,
  * confident prose and noticing the bit that is not true. That is hard to
@@ -48,10 +48,40 @@ function endOfSentence(text, chars) {
   return text.slice(0, back > 0 ? back : chars).trimEnd();
 }
 
+/** The shortest a finished paragraph may be. Below this there is nothing much
+ *  to hide three alterations in, so the cut runs on through whole sentences
+ *  until it clears the floor. */
+const MIN_CHARS = 400;
+
+/**
+ * The finished paragraph, cut after the sentence carrying the last
+ * alteration.
+ *
+ * The slice is taken long (CHARS) so there is room to place three edits, but
+ * everything after the last of them is dead weight: the reader is asked to
+ * judge every word, and a hundred more words they cannot be wrong about is a
+ * hundred more they have to read. Cutting here took the set from 117-142
+ * words to 58-110. Still a verbatim prefix of the cited revision.
+ */
+function trimToLastEdit(text, spans) {
+  const words = text.split(" ");
+  const last = Math.max(...spans.map((s) => s.last));
+  let at = 0;
+  for (let i = 0; i <= last; i++) at += words[i].length + 1;
+  while (at < text.length) {
+    const stop = text.slice(at).search(/[.!?](?=\s|$)/);
+    if (stop < 0) return text;
+    const cut = at + stop + 1;
+    if (cut >= MIN_CHARS) return text.slice(0, cut);
+    at = cut;
+  }
+  return text;
+}
+
 /**
  * `difficulty` is our own labelling of how hard each one is to catch, and it is
- * the one editorial judgement in this file. Everything else — the text, and
- * whether the alteration is really an alteration — is checked against the source.
+ * the one editorial judgement in this file. Everything else, the text, and
+ * whether the alteration is really an alteration, is checked against the source.
  */
 const PUZZLES = [
   {
@@ -325,7 +355,7 @@ const main = async () => {
     try {
       source = await extractFor(puzzle.article);
     } catch (error) {
-      console.log(`FETCH FAILED (${error.message}) — dropped.`);
+      console.log(`FETCH FAILED (${error.message}), dropped.`);
       continue;
     }
 
@@ -343,7 +373,7 @@ const main = async () => {
       const count = original.split(edit.original).length - 1;
       if (count !== 1) {
         console.log(
-          `\n  "${edit.original.slice(0, 40)}…" appears ${count} times — dropped.`,
+          `\n  "${edit.original.slice(0, 40)}…" appears ${count} times, dropped.`,
         );
         usable = false;
         break;
@@ -361,7 +391,7 @@ const main = async () => {
     for (const edit of puzzle.edits) {
       const from = text.indexOf(edit.altered);
       if (from < 0) {
-        console.log(`\n  could not locate an altered span — dropped.`);
+        console.log(`\n  could not locate an altered span, dropped.`);
         usable = false;
         break;
       }
@@ -381,25 +411,27 @@ const main = async () => {
     const sorted = [...spans].sort((a, b) => a.first - b.first);
     for (let i = 1; i < sorted.length; i++) {
       if (sorted[i].first <= sorted[i - 1].last) {
-        console.log(`\n  two alterations overlap — dropped.`);
+        console.log(`\n  two alterations overlap, dropped.`);
         usable = false;
         break;
       }
     }
     if (!usable) continue;
 
+    const shown = trimToLastEdit(text, sorted);
+
     puzzles.push({
       id: puzzle.id,
       title: source.title,
       url: `https://en.wikipedia.org/wiki/${encodeURIComponent(source.title)}`,
       revision: source.revision,
-      text,
-      words: text.split(" ").length,
+      text: shown,
+      words: shown.split(" ").length,
       spans: sorted,
     });
 
     console.log(
-      `ok — ${text.split(" ").length} words, ${sorted.length} alterations, rev ${source.revision}`,
+      `ok, ${shown.split(" ").length} words, ${sorted.length} alterations, rev ${source.revision}`,
     );
   }
 
@@ -414,7 +446,7 @@ const main = async () => {
       name: "Wikipedia",
       licence: "CC BY-SA 4.0",
       url: "https://en.wikipedia.org/wiki/Wikipedia:Copyrights",
-      note: `The opening ${CHARS} characters of each article, fetched with its revision id. Every alteration was checked to match the source exactly before this file was written, so the answer key and the cited revision cannot drift apart.`,
+      note: `The opening of each article, fetched with its revision id, cut after the sentence carrying the last alteration. Every alteration was checked to match the source exactly before this file was written, so the answer key and the cited revision cannot drift apart.`,
     },
     charactersUsed: CHARS,
     puzzles,

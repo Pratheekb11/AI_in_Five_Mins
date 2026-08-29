@@ -18,7 +18,7 @@
  * fold points the wrong way. Those pairs are found by measurement here, not
  * chosen, and the file records which ones they are.
  *
- * Input: data/raw/SMSSpamCollection — SMS Spam Collection v.1, not committed.
+ * Input: data/raw/SMSSpamCollection, SMS Spam Collection v.1, not committed.
  *
  *   mkdir -p data/raw && cd data/raw
  *   curl -LO https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip

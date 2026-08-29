@@ -94,7 +94,7 @@ export function GameShareCard({
     } catch {
       // Falls through to the message below.
     }
-    setNote("Copying isn't supported here — try Download instead.");
+    setNote("Copying isn't supported here. Try Download instead.");
   }, [blob]);
 
   const shareSheet = useCallback(async () => {
@@ -106,7 +106,7 @@ export function GameShareCard({
     const payload = {
       files: [png],
       text: `${resultLine} ${window.location.origin}`,
-      title: `${gameName} — AI in Five`,
+      title: `${gameName}, AI in Five`,
     };
     if (navigator.canShare?.(payload)) {
       try {

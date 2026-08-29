@@ -207,7 +207,7 @@ export function OverfitFigure() {
                     : "text-teal-text"
                 }`}
               >
-                {showHeldOut || stage >= 1 ? fit.testError.toFixed(2) : "—"}
+                {showHeldOut || stage >= 1 ? fit.testError.toFixed(2) : "n/a"}
               </motion.span>
             </span>
           </div>

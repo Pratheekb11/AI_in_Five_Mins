@@ -1,7 +1,7 @@
 /**
  * Show it, do not ask it.
  *
- * The usual advice about prompting is a list of things to say — give it a role,
+ * The usual advice about prompting is a list of things to say, give it a role,
  * state your constraints, be specific. Some of that works and some of it is
  * folklore, and you cannot tell which from the advice itself. So measure.
  *
@@ -15,7 +15,7 @@
  * Asking is conversation; showing is delegation.
  *
  * This is worth saying plainly on the page. A base model has had no training
- * to follow instructions at all — that is a separate stage, and it is the whole
+ * to follow instructions at all, that is a separate stage, and it is the whole
  * difference between this and the assistant you actually use. So what is being
  * measured is where the floor is: what works even on a model that is not
  * trying to please you.

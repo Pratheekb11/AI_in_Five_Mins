@@ -176,6 +176,13 @@ export function OddOneIn({
       <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round && data ? (
           <>
+            {/* The premise. A board that opens on a bare task reads as a
+                quiz somebody forgot to write the question for. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              Nobody labelled these groups. An algorithm sorted the words by
+              the company they keep in real text, and these six came out
+              together. Pick the word it put in with them.
+            </p>
             <p className="label text-ink-faint mb-2">
               Six words the algorithm put together
             </p>

@@ -92,8 +92,8 @@ export default function Privacy() {
                 {key}{" "}
               </span>
             ))}
-            &mdash; being flipped back to light mode with the sound on is a
-            worse surprise than keeping them.
+            stay, because being flipped back to light mode with the sound on
+            is a worse surprise than keeping them.
           </p>
 
           <div className="mt-4 flex items-center gap-2">
@@ -120,7 +120,7 @@ export default function Privacy() {
               anywhere, and there is no identifier to join any of it up. The{" "}
               <span className="data text-sm">/admin</span> page reads a local
               copy of the interaction ones back out of this browser&rsquo;s own
-              storage — it is a way to check the instrumentation works, not a
+              storage. It is a way to check the instrumentation works, not a
               view of anyone else&rsquo;s visit.
             </p>
             <p>
@@ -136,8 +136,8 @@ export default function Privacy() {
             <p>
               Each lesson can embed one YouTube video. Those are loaded from{" "}
               <span className="data text-sm">youtube-nocookie.com</span> and
-              only after you press play &mdash; until then the page holds a
-              still image and no request has been made on your behalf. Once you
+              only after you press play. Until then the page holds a still
+              image and no request has been made on your behalf. Once you
               press play, YouTube&rsquo;s own terms apply to that player.
             </p>
             <p>

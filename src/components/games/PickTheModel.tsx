@@ -250,6 +250,14 @@ export function PickTheModel({
       <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round ? (
           <>
+            {/* The premise. A board that opens on a bare task reads as a
+                quiz somebody forgot to write the question for. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              Every curve below was fitted to the same sentences and every
+              one of them can draw those dots. Choose the one you would
+              actually ship, then watch each get judged on sentences it was
+              never shown.
+            </p>
             <p className="label text-ink-faint mb-1">
               Fitted to {round.trainSize} sentences · judged on the{" "}
               {round.testSize} held back

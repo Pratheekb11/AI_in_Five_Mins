@@ -3,7 +3,7 @@
  *
  * The site's central claim is that a model reads what is there, scores what
  * could come next, takes one, sticks it on the end, and goes again. Showing
- * that with a handful of unrelated prompts does not demonstrate it — the
+ * that with a handful of unrelated prompts does not demonstrate it, the
  * sentence has to visibly grow, or the loop is just a diagram with a spinner.
  *
  * So this records a real chain. A short seed goes in, the model is run, the top
@@ -12,7 +12,7 @@
  * the output is a real forward pass over the text the previous step produced.
  *
  * Greedy, not sampled, so a rerun gives exactly this file and anyone can check
- * it. The site says elsewhere — and measures — that real systems sample; that
+ * it. The site says elsewhere, and measures, that real systems sample; that
  * is a different lesson and it has its own game.
  *
  * Run with:  node data/scripts/build-loop.mjs
@@ -37,7 +37,7 @@ const TOP_K = 5;
 
 /**
  * Seeds chosen to be ordinary. The point of this panel is the mechanism, not a
- * gotcha — there are three whole worlds of gotchas elsewhere.
+ * gotcha, there are three whole worlds of gotchas elsewhere.
  */
 const SEEDS = [
   "The best thing about living in a small town is",
@@ -52,7 +52,7 @@ function softmax(values) {
   return exps.map((v) => v / total);
 }
 
-/** Shannon entropy in bits — how spread out the guess was at this step. */
+/** Shannon entropy in bits, how spread out the guess was at this step. */
 function entropy(probabilities) {
   let sum = 0;
   for (const p of probabilities) if (p > 0) sum -= p * Math.log2(p);

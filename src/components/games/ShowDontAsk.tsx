@@ -17,6 +17,7 @@ import {
   timesBare,
   winnerOf,
 } from "@/lib/game/listen";
+import { useIsPhone } from "@/lib/useMedia";
 
 /**
  * Show, Don't Ask.
@@ -52,6 +53,9 @@ export function ShowDontAsk({
     () => initialScene ?? newScene(),
   );
   const [playing, setPlaying] = useState(!!initialScene);
+  /* The premise says the same thing in fewer words on a phone, where the beat
+     is already scaled to the FitBox floor. */
+  const phone = useIsPhone();
 
   useEffect(() => {
     if (initialScene) return;
@@ -202,6 +206,22 @@ export function ShowDontAsk({
       <div className="min-h-[13rem] p-3 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round ? (
           <>
+            {/* The premise. A board that opens on a bare task reads as a
+                quiz somebody forgot to write the question for. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              {phone ? (
+                <>
+                  Five ways of asking for the same thing. Pick the one you
+                  think gets closest.
+                </>
+              ) : (
+                <>
+                  Same model, same thing wanted, five different ways of asking
+                  for it. Pick the wording you think gets closest, then all
+                  five are run and scored on what the model actually produced.
+                </>
+              )}
+            </p>
             <p className="label text-ink-faint mb-1 sm:mb-2">What you want</p>
             <p className="prose-measure mb-1 text-[1.0625rem]">{round.goal}</p>
             <p

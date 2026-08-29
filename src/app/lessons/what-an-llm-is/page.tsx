@@ -25,7 +25,7 @@ export const metadata = lessonMetadata(lesson);
 /* Read once, server-side, and dealt server-side too, so the very first HTML
    this route sends already has round one playable: no fetch, no client
    Math.random needed before anyone can tap an option. Between deploys this
-   fixes which round opens the game for everyone — every round after it, and
+   fixes which round opens the game for everyone, every round after it, and
    every "Go again", still deals fresh client-side. */
 const predictorData = readGameData<PredictorData>("predictor.json");
 const initialScene = dealPredictor(
@@ -196,14 +196,6 @@ export default function WhatAnLlmIsLesson() {
             <span className="text-pink-text">never understood a word</span> in
             its life.
           </h2>
-          {/* BeatThePredictor is shared with the homepage, where the hero
-              copy above it already does this job — so the framing lives
-              here at the page level rather than inside the component. */}
-          <p className="text-ink-soft text-[0.9375rem]">
-            Below is a real sentence with its last word removed. Pick what
-            you think comes next — the machine has already made its own
-            pick, in secret, and its real odds arrive the moment you commit.
-          </p>
           <BeatThePredictor
             initialData={predictorData}
             initialScene={initialScene}

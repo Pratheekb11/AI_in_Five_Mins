@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
 import { GameShareCard } from "@/components/GameShareCard";
 import { playCue } from "@/lib/game/sound";
+import { useIsPhone } from "@/lib/useMedia";
 import {
   actOf,
   current,
@@ -63,6 +64,16 @@ function loadPredictor(): Promise<PredictorData> {
 const SCORING_LINE =
   "100 for a correct call. More when you are right and the machine was confidently wrong.";
 
+/** What each act is asking of the reader, in one line. The true word is a
+ *  different kind of thing in each: what usually follows, what one author
+ *  actually wrote, and what happens to be true. */
+const ACT_LINES: Record<"phrase" | "corpus" | "fact", string> = {
+  phrase: "Everyday phrases, the kind it has seen thousands of times.",
+  corpus:
+    "It is not the same game now: this is a real book, and the true word is the one the author wrote.",
+  fact: "Now sentences with a checkable fact in them. The true word is the one that is correct.",
+};
+
 /** The stake on the final-round wager. Matches the base points a normal
  *  correct call is worth, so doubling reads as literally double. */
 const WAGER_STAKE = 100;
@@ -82,6 +93,10 @@ export function BeatThePredictor({
   initialScene?: PredictorScene;
 } = {}) {
   const still = useReducedMotion();
+  /* The premise is worth its four lines on a screen with room. On a phone the
+     beat is already at the FitBox floor, so it says the same thing in one
+     sentence rather than costing the board another scale-down. */
+  const phone = useIsPhone();
   const [data, setData] = useState<PredictorData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
   const [scene, setScene] = useState<PredictorScene>(
@@ -361,21 +376,48 @@ export function BeatThePredictor({
           </div>
         ) : round && act ? (
           <>
-            <p className="label text-ink-faint mb-1">{act.name}</p>
-            {round.kind === "corpus" ? (
-              <p className="text-pink-text mb-3 text-[0.8125rem] font-semibold">
-                It is not the same game all the way through.
-              </p>
-            ) : (
-              <div className="mb-3" />
-            )}
+            {/* The premise, in the board itself. It used to live on the page
+                above the cabinet, where the eye goes straight past it to the
+                live board, people arrived at a sentence with a hole in it and
+                four words underneath and had to infer the game. */}
+            <p className="prose-measure text-ink-soft mb-2 text-[0.9375rem] sm:mb-3">
+              {phone ? (
+                <>
+                  The model has already picked the missing word, in secret.
+                  Choose yours.
+                </>
+              ) : (
+                <>
+                  A real sentence, last word taken out. The model has already
+                  picked, in secret. Choose yours, and its real odds arrive
+                  the moment you commit.
+                </>
+              )}
+            </p>
+            {/* The act and what it is testing share one row. Stacked, they
+                cost the beat a line it does not have at either width, and
+                only the corpus line is loud: that is the switch, the moment
+                the game changes under the reader. It is also the only one a
+                phone keeps. */}
+            <div className="mb-3 flex flex-wrap items-baseline gap-x-2">
+              <span className="label text-ink-faint">{act.name}</span>
+              <span
+                className={`text-[0.8125rem] ${
+                  round.kind === "corpus"
+                    ? "text-pink-text font-semibold"
+                    : "text-ink-faint hidden sm:inline"
+                }`}
+              >
+                {ACT_LINES[round.kind]}
+              </span>
+            </div>
             {isFinalRound && wager === "in" ? (
               <p className="label text-pink-text mb-2">
-                Wagered — double or nothing
+                Wagered: double or nothing
               </p>
             ) : null}
 
-            <p className="prose-measure mb-3 text-[1.125rem] leading-relaxed sm:mb-5">
+            <p className="prose-measure mb-3 text-[1.125rem] leading-relaxed sm:mb-4">
               {round.prefix}{" "}
               <AnimatePresence mode="wait">
                 {showAnswer ? (
@@ -401,7 +443,7 @@ export function BeatThePredictor({
               </AnimatePresence>
             </p>
 
-            <ul className="mb-3 space-y-1.5 sm:mb-4 sm:space-y-2">
+            <ul className="mb-3 space-y-1.5 sm:mb-3 sm:space-y-1.5">
               {round.options.map((option, i) => {
                 const isTruth = showAnswer && i === round.truth;
                 const isYours = scene.picked === i;
@@ -413,7 +455,7 @@ export function BeatThePredictor({
                       type="button"
                       disabled={committed}
                       onClick={() => choose(i)}
-                      className={`tap plate w-full px-3 py-2 text-left transition-[border-color,background-color,transform] duration-150 sm:px-4 sm:py-3 ${
+                      className={`tap plate w-full px-3 py-1.5 text-left transition-[border-color,background-color,transform] duration-150 sm:px-4 sm:py-2.5 ${
                         isTruth
                           ? "border-teal bg-teal-wash"
                           : isYours
@@ -538,11 +580,11 @@ export function BeatThePredictor({
                       <>
                         {wordOf(round.options[round.truth])} takes{" "}
                         {round.truthChunks.length}&nbsp;chunks for this model to
-                        write &mdash;{" "}
+                        write,{" "}
                         {round.truthChunks
                           .map((c) => `“${c.trim()}”`)
-                          .join(" then ")}{" "}
-                        &mdash; so the odds above are for the first one, and it
+                          .join(" then ")}
+                        , so the odds above are for the first one, and it
                         was the model&rsquo;s {ordinal(round.answerRank + 1)}{" "}
                         choice out of 50,257.
                       </>

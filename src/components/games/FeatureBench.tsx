@@ -244,6 +244,14 @@ export function FeatureBench({
       <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {pair ? (
           <>
+            {/* The premise. A board that opens on a bare task reads as a
+                quiz somebody forgot to write the question for. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              You are choosing what a spam filter gets to look at. One of
+              these two clues separates spam from ordinary messages better
+              than the other. Call it, then both get measured on real
+              messages.
+            </p>
             <p className="label text-ink-faint mb-4">
               Which of these tells you more about whether a message is spam?
             </p>

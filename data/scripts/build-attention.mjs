@@ -41,7 +41,7 @@ const TOLERANCE = 0.02;
 
 /**
  * Sentences where attention has something to resolve. Each one contains a
- * dependency a reader has to carry across several words — which is the thing
+ * dependency a reader has to carry across several words, which is the thing
  * the lesson is about, and the thing a bag of word vectors cannot do.
  */
 const SENTENCES = [
@@ -268,7 +268,7 @@ function quantise(matrix) {
 const main = async () => {
   if (!existsSync(WEIGHTS)) {
     throw new Error(
-      `${WEIGHTS} not found. Fetch it first — see data/PROVENANCE.md.`,
+      `${WEIGHTS} not found. Fetch it first, see data/PROVENANCE.md.`,
     );
   }
 

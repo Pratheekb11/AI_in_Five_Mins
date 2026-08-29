@@ -12,7 +12,7 @@ import { useEffect, useRef, type ReactNode } from "react";
  * So the beat is scaled down until it fits. CSS `zoom` rather than
  * `transform: scale`, deliberately, for two reasons. Zoom relayouts instead of
  * squashing, so a paragraph rewraps at the wider box and loses lines rather
- * than getting thin — the beat usually ends up shorter than the scale factor
+ * than getting thin, the beat usually ends up shorter than the scale factor
  * alone would predict. And a transformed ancestor stops `sticky` working for
  * everything inside it, which is what pins a walkthrough's own controls.
  *
@@ -41,7 +41,7 @@ export function FitBox({
   /** Only the beat on screen is measured; the rest are `display: none`. */
   active: boolean;
   /**
-   * Off for a beat that is honestly long — the closing screen carries every
+   * Off for a beat that is honestly long, the closing screen carries every
    * fold on the page and is meant to be read down.
    */
   enabled?: boolean;
@@ -69,7 +69,7 @@ export function FitBox({
 
     let frame = 0;
     /* The size of the screen this scale was decided against. A different
-       screen — a rotation, a resized window — is a new question, and only then
+       screen, a rotation, a resized window, is a new question, and only then
        is the beat allowed to start again from full size. */
     let against = "";
 
@@ -124,7 +124,7 @@ export function FitBox({
         scale.current = next;
         el.style.zoom = String(next);
         /* `zoom` scales everything inside it uniformly, including a
-           `.tap::after` pseudo-element's own hardcoded 44px minimum — so a
+           `.tap::after` pseudo-element's own hardcoded 44px minimum, so a
            beat scaled to 0.6 was quietly handing out a 26px real tap target
            while believing it had fixed one. `.tap` reads this back to
            compensate. */
@@ -140,7 +140,7 @@ export function FitBox({
       });
     }
 
-    /* Two things move: the screen, and the beat itself — a game changes height
+    /* Two things move: the screen, and the beat itself, a game changes height
        between rounds, a walkthrough between steps. */
     const ro = new ResizeObserver(schedule);
     ro.observe(el);

@@ -39,7 +39,7 @@ function loadHunt(): Promise<HuntData> {
 export function HallucinationHunt({
   initialData,
 }: {
-  /** Embedded by the page at build time — safe to, since every day's puzzle
+  /** Embedded by the page at build time, safe to, since every day's puzzle
    *  is in here and which one is *today* is decided below, from the
    *  visitor's own clock. A build server's clock would go stale the moment
    *  the calendar date changed underneath a static deploy, so that part
@@ -96,7 +96,7 @@ export function HallucinationHunt({
   const running = playing && !scene.done && scene.clock > 0;
   useGameLoop((delta) => setScene((s) => tick(s, delta)), running);
 
-  /* The streak is about showing up, not about finding every alteration —
+  /* The streak is about showing up, not about finding every alteration,
      reaching the end of today's actual paragraph is what counts, a "try a
      different paragraph" round does not. */
   const recorded = useRef(false);
@@ -206,6 +206,15 @@ export function HallucinationHunt({
       <div className="min-h-[12rem] p-4 sm:min-h-[22rem] sm:p-5 md:p-6">
         {puzzle ? (
           <>
+            {/* The premise, in the board itself. On the page above the
+                cabinet it got skipped, and a paragraph of encyclopedia text
+                with no instruction attached is not a game anybody can see. */}
+            <p className="prose-measure text-ink-soft mb-3 text-[0.9375rem]">
+              Three details in this paragraph have been changed. Everything
+              else is exactly what the real article says. Tap any word you do
+              not believe: you get six flags for the three errors, so read
+              before you spend one.
+            </p>
             <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
               <p className="label text-ink-faint">
                 From the article on {puzzle.title}

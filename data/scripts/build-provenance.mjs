@@ -10,7 +10,7 @@
  *
  *   BARE      the model is asked cold. Whatever probability it puts on the true
  *             answer is what it knows from training and nothing else.
- *   SOURCED   the same question with the relevant fact placed in front of it —
+ *   SOURCED   the same question with the relevant fact placed in front of it,
  *             the thing a search tool or a document upload actually does.
  *   TOOL      arithmetic, where handing it the sum does not help, because the
  *             work is not recall. Measured as accuracy over a sample of

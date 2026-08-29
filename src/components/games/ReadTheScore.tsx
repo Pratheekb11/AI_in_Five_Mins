@@ -176,6 +176,13 @@ export function ReadTheScore({
       <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round ? (
           <>
+            {/* The premise. A board that opens on a bare task reads as a
+                quiz somebody forgot to write the question for. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              A trained spam filter is about to score the message below, and
+              the only two things it looks at are printed underneath it. Say
+              how likely you think it is to call this one spam.
+            </p>
             <p className="label text-ink-faint mb-2">
               A message it has not seen
             </p>

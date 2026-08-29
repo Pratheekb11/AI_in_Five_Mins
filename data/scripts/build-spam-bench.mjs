@@ -6,7 +6,7 @@
  * comparison to mean anything, both numbers have to be real, so both are
  * measured here against the same 5,574 genuine SMS messages.
  *
- * Input: data/raw/SMSSpamCollection — the SMS Spam Collection v.1, which is not
+ * Input: data/raw/SMSSpamCollection, the SMS Spam Collection v.1, which is not
  * committed (it is somebody else's corpus). Fetch it first:
  *
  *   mkdir -p data/raw && cd data/raw
@@ -26,7 +26,7 @@ const OUT = resolve(ROOT, "public/data/spam-bench.json");
 
 /**
  * The rules a person actually reaches for when asked to catch spam by hand.
- * They are deliberately reasonable — the lesson lands only if the rules are
+ * They are deliberately reasonable, the lesson lands only if the rules are
  * ones the learner would have written themselves.
  */
 const RULES = [
@@ -86,7 +86,7 @@ const messages = text
   .filter((m) => m.label === "ham" || m.label === "spam");
 
 console.log(
-  `${messages.length} messages — ${messages.filter((m) => m.label === "spam").length} spam`,
+  `${messages.length} messages, ${messages.filter((m) => m.label === "spam").length} spam`,
 );
 
 /** Bitmask of which rules fire, so the browser can score any combination. */
@@ -103,8 +103,8 @@ const labels = messages.map((m) => (m.label === "spam" ? 1 : 0));
 
 // --------------------------------------------------------- the learned model --
 
-/** Fixed-seed PRNG so the train/test split — and therefore the headline
-    accuracy — is identical every time this script runs. */
+/** Fixed-seed PRNG so the train/test split, and therefore the headline
+    accuracy, is identical every time this script runs. */
 function lcg(seed) {
   let s = seed >>> 0;
   return () => {
@@ -128,7 +128,7 @@ const trainIdx = order.slice(0, cut);
 const testIdx = order.slice(cut);
 
 /**
- * Multinomial naive Bayes with add-one smoothing — about as simple as
+ * Multinomial naive Bayes with add-one smoothing, about as simple as
  * "learning from examples" gets, which is the point. Nothing here is tuned to
  * flatter the result.
  */
@@ -225,7 +225,7 @@ const perRule = RULES.map((rule, i) => ({
 }));
 
 /**
- * The best any OR-combination of these rules can do — the ceiling on writing
+ * The best any OR-combination of these rules can do, the ceiling on writing
  * them by hand, found by trying all 255 non-empty subsets. Worth knowing so the
  * lesson can say what beating it actually took.
  */
@@ -260,7 +260,7 @@ console.log(`flag nothing baseline: ${(baseline.accuracy * 100).toFixed(1)}%`);
  * make hand-written rules fail: spam that trips none of the obvious rules, and
  * ordinary messages that trip several.
  *
- * Only messages without a recognisable personal phone number are eligible —
+ * Only messages without a recognisable personal phone number are eligible,
  * the corpus is public, but there is no reason to reprint someone's number.
  */
 const safe = (body) => !/\b\d{7,}\b/.test(body);
@@ -287,11 +287,11 @@ const ruleCount = (mask) => {
 };
 
 const examples = [
-  // Spam that any rule set catches — the easy win that builds false confidence.
+  // Spam that any rule set catches, the easy win that builds false confidence.
   ...pick((m, mask, y) => y === 1 && ruleCount(mask) >= 4, 3),
   // Spam that slips through almost everything.
   ...pick((m, mask, y) => y === 1 && ruleCount(mask) <= 1, 3),
-  // Ordinary messages that trip the rules anyway — the cost nobody expects.
+  // Ordinary messages that trip the rules anyway, the cost nobody expects.
   ...pick((m, mask, y) => y === 0 && ruleCount(mask) >= 3, 3),
   // Ordinary messages that stay clean.
   ...pick((m, mask, y) => y === 0 && ruleCount(mask) === 0 && m.body.length > 40, 3),

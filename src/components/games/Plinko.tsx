@@ -137,12 +137,12 @@ export function Plinko({
           <>
             {/* The deck lands here with only a one-line headline above it,
                 and the ready screen's `instruction` (which explains the
-                dial) never mounts — the round is dealt server-side, so
+                dial) never mounts, the round is dealt server-side, so
                 `playing` is already true on arrival. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
               A real model was asked to finish the prompt below, and its
               actual odds for the next token are laid out as slots. You are
-              told which one to land on — the only lever you get is
+              told which one to land on. The only lever you get is
               temperature, which stretches or flattens those odds before the
               ball drops.
             </p>

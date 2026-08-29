@@ -4,8 +4,8 @@ import { motion, useReducedMotion } from "motion/react";
 
 /**
  * A generic "tap one of these" demo standing in for the actual game, which
- * nobody has seen yet. Every game on the site shares one verb — tap or
- * click a choice, see it answered — so one small animated mock-up teaches
+ * nobody has seen yet. Every game on the site shares one verb, tap or
+ * click a choice, see it answered, so one small animated mock-up teaches
  * the gesture for all of them, instead of a sentence explaining it that
  * people skim past.
  */

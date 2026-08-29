@@ -96,7 +96,7 @@ export function BucketSort() {
         <div className="p-5 md:p-6">
           <div className="mb-5 flex flex-wrap items-start gap-4">
             {/* Nimo takes his height from the prop but his WIDTH from the class,
-                so an unclassed one is a block that fills the row — 300px wide,
+                so an unclassed one is a block that fills the row, 300px wide,
                 which runs off a 320px phone. */}
             <Nimo mood="curious" height={96} className="w-24 shrink-0" />
             <p className="prose-measure text-[1.0625rem]">

@@ -237,6 +237,13 @@ export function Holdout({
       <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {pair ? (
           <>
+            {/* The premise. A board that opens on a bare task reads as a
+                quiz somebody forgot to write the question for. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              Two models, and the only question that counts is how they do
+              on messages neither of them has ever seen. Call the winner
+              first, then both get marked.
+            </p>
             <p className="label text-ink-faint mb-4">
               Which does better on messages neither has ever seen?
             </p>

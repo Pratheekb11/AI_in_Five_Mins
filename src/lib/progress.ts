@@ -44,7 +44,7 @@ const EMPTY: Progress = {
  *  and every other field is exactly today's, so migrating it is filling in
  *  defaults and stamping the version on. A future shape change adds a real
  *  transform here, keyed on `version`, rather than a rewrite of this function
- *  — and a version newer than this build knows about still has its fields
+ * , and a version newer than this build knows about still has its fields
  *  read rather than being wiped. */
 export function migrate(
   parsed: Partial<Progress> & { schemaVersion?: number },
@@ -170,7 +170,7 @@ function dayBefore(iso: string): string {
 
 /** Rolls a streak forward for a day on which something was finished.
  *  `graceDays` is how many days may be skipped without the streak resetting
- *  to 1 — 0 for the chapter streak (strictly consecutive), 1 for the puzzle
+ *  to 1, 0 for the chapter streak (strictly consecutive), 1 for the puzzle
  *  streak (a single missed day is forgiven, two in a row is not). */
 export function rollStreak(
   streak: { days: number; last: string },

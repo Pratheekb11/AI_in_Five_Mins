@@ -6,12 +6,12 @@ import { clearLocalRows, useLocalRows } from "@/lib/localTelemetry";
 import { READING_ORDER } from "@/lib/lessons";
 
 /**
- * A local, single-browser diagnostic view of the interaction signals — not
+ * A local, single-browser diagnostic view of the interaction signals, not
  * an aggregate-traffic dashboard. That would need Vercel Analytics' own
  * dashboard (Pro, for custom events) or a backend to query; neither exists
  * for this site. What this CAN honestly show: whether the instrumentation is
  * actually firing, read back from the same `localStorage` every other
- * per-browser preference on this site already uses. Ranked worst first —
+ * per-browser preference on this site already uses. Ranked worst first,
  * lessons this browser never touched, then the rest by how long the first
  * tap took.
  */
@@ -44,7 +44,7 @@ export default function Admin() {
           This reads back the four signals below from this browser&rsquo;s own{" "}
           <span className="data text-sm">localStorage</span>, the same place
           every other per-browser preference on this site lives. It is not
-          aggregate visitor traffic — that lives in Vercel Analytics&rsquo;
+          aggregate visitor traffic. That lives in Vercel Analytics&rsquo;
           own dashboard once custom events are on a paid plan, or would need a
           backend this site does not have. What it is good for: checking the
           instrumentation actually fires, by using the site yourself.
@@ -84,24 +84,24 @@ export default function Admin() {
                 {ranked.map(({ lesson, row }) => (
                   <tr key={lesson.slug} className="border-ink/10 border-b">
                     <td className="py-2 pr-3">{lesson.title}</td>
-                    <td className="py-2 pr-3">{row ? "yes" : "—"}</td>
+                    <td className="py-2 pr-3">{row ? "yes" : "n/a"}</td>
                     <td
                       className={`py-2 pr-3 ${
                         row?.interacted ? "" : "text-pink-text font-semibold"
                       }`}
                     >
-                      {row ? (row.interacted ? "yes" : "no") : "—"}
+                      {row ? (row.interacted ? "yes" : "no") : "n/a"}
                     </td>
                     <td className="data py-2 pr-3 tabular-nums">
                       {row?.timeToFirstInteractionMs != null
                         ? `${(row.timeToFirstInteractionMs / 1000).toFixed(1)}s`
-                        : "—"}
+                        : "n/a"}
                     </td>
                     <td className="py-2 pr-3">
-                      {row ? (row.gameCompleted ? "yes" : "no") : "—"}
+                      {row ? (row.gameCompleted ? "yes" : "no") : "n/a"}
                     </td>
                     <td className="py-2">
-                      {row ? (row.advanced ? "yes" : "no") : "—"}
+                      {row ? (row.advanced ? "yes" : "no") : "n/a"}
                     </td>
                   </tr>
                 ))}

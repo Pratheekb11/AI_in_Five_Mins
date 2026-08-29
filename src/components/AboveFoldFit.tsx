@@ -4,8 +4,8 @@ import { useEffect, useRef, type ReactNode } from "react";
 
 /**
  * Scales the homepage's hero-plus-game block down until it fits one real
- * viewport, on a phone. Same trick as the lesson deck's `FitBox` — CSS
- * `zoom`, down only, a floor below which a short scroll beats small type —
+ * viewport, on a phone. Same trick as the lesson deck's `FitBox`, CSS
+ * `zoom`, down only, a floor below which a short scroll beats small type,
  * but measured against `window.innerHeight` directly rather than a deck's
  * scroll port, since the homepage is an ordinary scrolling page. A real
  * phone's usable height (browser chrome included) is well under the 844px a

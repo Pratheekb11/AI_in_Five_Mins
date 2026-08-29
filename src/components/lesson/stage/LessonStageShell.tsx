@@ -50,7 +50,7 @@ export function LessonStageShell({
         <PrimaryOnward lesson={lesson} next={next} />
 
         {/* Both of these draw nothing until they have something to say, and
-            the closing screen is where somebody is deciding what to do next —
+            the closing screen is where somebody is deciding what to do next,
             which is the whole reason they exist. */}
         <div className="text-left">
           <TrackComplete track={lesson.track} />

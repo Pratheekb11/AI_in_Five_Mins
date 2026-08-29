@@ -7,16 +7,16 @@ import { useProgress } from "@/lib/progress";
 import { trackAdvanced } from "@/lib/telemetry";
 
 /**
- * The one thing to do next, at the end of a lesson. Exactly one — everything
+ * The one thing to do next, at the end of a lesson. Exactly one, everything
  * else on the closing screen (sources, the rabbit hole, "previous") is
  * secondary and stays visibly smaller than this.
  *
  * In order:
- * 1. Finishing this lesson just earned its track's certificate — claim it.
- * 2. Nothing is left, and both certificates are already earned — the daily
+ * 1. Finishing this lesson just earned its track's certificate, claim it.
+ * 2. Nothing is left, and both certificates are already earned, the daily
  *    puzzle is the one thing on the site that still changes.
  * 3. Otherwise, onward to the next lesson.
- * 4. The very end of the whole reading order, with no certificate to offer —
+ * 4. The very end of the whole reading order, with no certificate to offer,
  *    back to the start.
  */
 export function PrimaryOnward({

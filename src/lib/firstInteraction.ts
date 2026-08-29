@@ -4,7 +4,7 @@ import { trackFirstInteraction } from "./telemetry";
 
 /**
  * Milliseconds from a lesson route painting to the reader's first real
- * action in it — a tap on a game, not the page simply rendering. One clock
+ * action in it, a tap on a game, not the page simply rendering. One clock
  * at a time, scoped to whichever page last called `startInteractionClock`,
  * which `Engagement` does on every mount.
  */

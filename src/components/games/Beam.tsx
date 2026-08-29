@@ -52,7 +52,7 @@ export function Beam() {
     setPhase("playing");
   }, [data]);
 
-  /* No server-dealt round here — attention weights are built from a
+  /* No server-dealt round here, attention weights are built from a
      bespoke shuffle across several pieces of state, not one scene object,
      so this stays a client fetch. What it does not need is a click: the
      round starts itself the moment the weights arrive. */
@@ -163,6 +163,14 @@ export function Beam() {
       <div className="min-h-[4rem] p-4 sm:min-h-[19rem] sm:p-5 md:p-6">
         {round ? (
           <>
+            {/* The premise. A board that opens on a bare task reads as a
+                quiz somebody forgot to write the question for. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              One word in the sentence is lit. Every word before it is being
+              weighed as a place for that word to look. Say which one it
+              leans on hardest, then the model&rsquo;s own weights are drawn
+              over the top.
+            </p>
             <p className="label text-ink-faint mb-3">
               Layer {round.layer + 1}, head {round.head + 1}. Where does the lit
               word look?

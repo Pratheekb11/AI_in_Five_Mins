@@ -5,7 +5,7 @@ import { useCallback, useSyncExternalStore } from "react";
 /**
  * How many times the visual "tap a choice" hint has been shown, per game.
  * Once did not stick, so it repeats on someone's first several rounds of a
- * given game — but the count is per game, not site-wide: knowing the
+ * given game, but the count is per game, not site-wide: knowing the
  * gesture on Beat the Predictor does not mean anyone has seen it on Grow
  * the Tree yet.
  */

@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
  *
  * The closing screen leads with the next chapter, because that is the thing
  * the numbers say people were never shown. Everything that used to cost a
- * screen of its own — the video, the practice, the check — waits under one of
+ * screen of its own, the video, the practice, the check, waits under one of
  * these instead, open only for whoever wants it.
  */
 export function Fold({

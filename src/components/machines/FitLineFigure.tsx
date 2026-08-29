@@ -164,7 +164,7 @@ export function FitLineFigure() {
           <span className="label text-ink-faint">
             How wrong it is
             <span className="data text-ink-soft ml-2 text-base tabular-nums">
-              {showLine ? error.toFixed(2) : "—"}
+              {showLine ? error.toFixed(2) : "n/a"}
             </span>
           </span>
         </div>

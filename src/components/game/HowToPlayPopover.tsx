@@ -46,7 +46,7 @@ export function HowToPlayPopover({ how }: { how: HowToPlay }) {
     }
 
     /* Re-placed on resize (rare, not continuous), but closed rather than
-       chased on scroll — a fixed panel driven by a JS scroll listener lags a
+       chased on scroll, a fixed panel driven by a JS scroll listener lags a
        frame or more behind native touch-scroll momentum on a phone, which
        reads as the panel "sliding" independently of the button it is meant
        to be attached to. Closing is instant and never looks wrong. */

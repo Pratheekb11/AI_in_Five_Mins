@@ -6,7 +6,7 @@ import { lessonsIn, TRACKS } from "@/lib/lessons";
 /**
  * The ML path, always reachable. It used to stay locked behind finishing
  * chapter one, on the theory that it should unlock the way the path line
- * fills in — but "If you want to build them" is its own reason to be here,
+ * fills in, but "If you want to build them" is its own reason to be here,
  * not a reward for finishing the other track first.
  */
 export function MlPathTeaser() {

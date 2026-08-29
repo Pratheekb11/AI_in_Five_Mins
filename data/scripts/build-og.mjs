@@ -3,7 +3,7 @@
  *
  * Generated once, into `public/og.png`, rather than rendered per request. A
  * card that renders at request time makes every crawler wait on a renderer,
- * ties the site to a host that can run one, and — measured here — takes the
+ * ties the site to a host that can run one, and, measured here, takes the
  * dev server down when it is asked for. A file in `public` works on anything
  * that can serve a file.
  *

@@ -55,7 +55,7 @@ export function FailureBench({
   initialBench,
   initialScene,
 }: {
-  /** The two datasets already combined server-side — this component never
+  /** The two datasets already combined server-side, this component never
    *  needs the raw embeddings space itself, only what `buildBench` derives
    *  from it. */
   initialBench?: Weighing[];
@@ -226,12 +226,12 @@ export function FailureBench({
           <>
             {/* The deck lands here with only a one-line headline above it,
                 and the ready screen's `instruction` (which explains the
-                balance) never mounts — the round is dealt server-side, so
+                balance) never mounts, the round is dealt server-side, so
                 `playing` is already true on arrival. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
               Call which pan of the balance drops before the specimen is
               weighed. Every weight below is a live measurement on data
-              already on this site, not a guess — when your instinct loses,
+              already on this site, not a guess. When your instinct loses,
               it loses to arithmetic.
             </p>
             <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">

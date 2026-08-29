@@ -2,7 +2,7 @@
  * How far a question can be leaned on before the answer moves.
  *
  * Everyone has had the experience: you push back on something an assistant
- * said, and it folds — apologises, agrees with you, and gives you the answer
+ * said, and it folds, apologises, agrees with you, and gives you the answer
  * you were angling for. That behaviour has a name and a literature. It also
  * has a mechanical root, and the root is measurable on a plain base model,
  * which is what this script does.
@@ -17,7 +17,7 @@
  * What is measured is the probability the model produces the *false* answer.
  * Nothing about the model changes between these; only the text in front of it.
  * If leaning on the question moves that probability, then agreement was never
- * about the truth of the claim — it was about the shape of your sentence.
+ * about the truth of the claim, it was about the shape of your sentence.
  *
  * WHAT THIS IS NOT. A base model has no training to be agreeable, so this is
  * not sycophancy itself. Sycophancy is a documented behaviour of assistants

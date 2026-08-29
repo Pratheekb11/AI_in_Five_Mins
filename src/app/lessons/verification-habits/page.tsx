@@ -118,14 +118,6 @@ export default function VerificationHabitsLesson() {
             &ldquo;Check everything&rdquo; and &ldquo;check nothing&rdquo; end
             up as <span className="text-yellow-text">the same policy</span>.
           </h2>
-          {/* HallucinationHunt is shared with the homepage's daily-puzzle
-              card, which already frames it — so this lives at the page
-              level rather than inside the component. */}
-          <p className="text-ink-soft text-[0.9375rem]">
-            Below is the real opening of a Wikipedia article, with three
-            details quietly changed. Click any word you do not believe — you
-            get six flags for three errors, so read before you spend one.
-          </p>
           <HallucinationHunt initialData={huntData} />
         </div>
       ),

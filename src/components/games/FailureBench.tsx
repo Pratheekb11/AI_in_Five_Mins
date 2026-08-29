@@ -224,6 +224,16 @@ export function FailureBench({
       <div className="min-h-[12rem] p-4 sm:min-h-[22rem] sm:p-5 md:p-6">
         {weighing ? (
           <>
+            {/* The deck lands here with only a one-line headline above it,
+                and the ready screen's `instruction` (which explains the
+                balance) never mounts — the round is dealt server-side, so
+                `playing` is already true on arrival. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              Call which pan of the balance drops before the specimen is
+              weighed. Every weight below is a live measurement on data
+              already on this site, not a guess — when your instinct loses,
+              it loses to arithmetic.
+            </p>
             <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <span className="label text-ink-faint">
                 {FAILURES[weighing.kind].name}

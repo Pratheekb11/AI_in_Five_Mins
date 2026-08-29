@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import { useRouter } from "next/navigation";
 import {
   createContext,
   useCallback,
@@ -62,14 +63,22 @@ export function LessonStage({ beats }: { beats: Beat[] }) {
   const [at, setAt] = useState(0);
   const still = useReducedMotion();
   const count = beats.length;
+  const router = useRouter();
 
   const next = useCallback(() => {
     setAt((i) => (i < count - 1 ? i + 1 : i));
   }, [count]);
 
+  /* On the deck's own first beat there is nowhere further back to step to —
+     the control used to just disable itself there, which read as broken to
+     anyone who pressed it on the screen they land on. It now leaves the
+     lesson instead, back to wherever they came from. router.back() is a
+     navigation, not a state update, so it stays out of the setAt updater —
+     React may run an updater twice, which would fire it twice too. */
   const back = useCallback(() => {
-    setAt((i) => (i > 0 ? i - 1 : i));
-  }, []);
+    if (at > 0) setAt(at - 1);
+    else router.back();
+  }, [at, router]);
 
   /* Arrow keys and space, the way a deck is expected to behave. Typing into a
      game's own input must not turn the page. */
@@ -217,8 +226,7 @@ function StageRail({
         <button
           type="button"
           onClick={onBack}
-          disabled={at === 0}
-          className="tap label text-ink-faint shrink-0 rounded-[2px] px-3 py-2.5 disabled:opacity-35"
+          className="tap label text-ink-faint shrink-0 rounded-[2px] px-3 py-2.5"
         >
           &larr; Back
         </button>

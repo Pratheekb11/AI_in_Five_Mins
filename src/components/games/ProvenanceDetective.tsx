@@ -185,6 +185,16 @@ export function ProvenanceDetective({
       <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round ? (
           <>
+            {/* The deck lands here with only a one-line headline above it,
+                and the ready screen's `instruction` (which explains the
+                three doors) never mounts — the round is dealt server-side,
+                so `playing` is already true on arrival. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              Before you see any evidence: does the model already know this
+              cold, does it need the source put in front of it, or does it
+              need a tool that can actually calculate? Call it first — in
+              real use you never get to peek.
+            </p>
             <p className="label text-ink-faint mb-2">The question</p>
             <p className="prose-measure mb-5 text-[1.25rem] leading-snug">
               {round.ask}

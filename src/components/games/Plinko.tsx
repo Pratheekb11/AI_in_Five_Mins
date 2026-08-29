@@ -135,6 +135,17 @@ export function Plinko({
       <div className="min-h-[12rem] p-4 sm:min-h-[21rem] sm:p-5 md:p-6">
         {prompt ? (
           <>
+            {/* The deck lands here with only a one-line headline above it,
+                and the ready screen's `instruction` (which explains the
+                dial) never mounts — the round is dealt server-side, so
+                `playing` is already true on arrival. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              A real model was asked to finish the prompt below, and its
+              actual odds for the next token are laid out as slots. You are
+              told which one to land on — the only lever you get is
+              temperature, which stretches or flattens those odds before the
+              ball drops.
+            </p>
             <p className="label text-ink-faint mb-2">The prompt</p>
             <p className="font-data bg-paper-sunk border-ink/25 mb-4 rounded-[2px] border px-4 py-3 text-[1.0625rem]">
               {prompt.text}

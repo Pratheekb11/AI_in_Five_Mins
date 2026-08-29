@@ -196,6 +196,14 @@ export default function WhatAnLlmIsLesson() {
             <span className="text-pink-text">never understood a word</span> in
             its life.
           </h2>
+          {/* BeatThePredictor is shared with the homepage, where the hero
+              copy above it already does this job — so the framing lives
+              here at the page level rather than inside the component. */}
+          <p className="text-ink-soft text-[0.9375rem]">
+            Below is a real sentence with its last word removed. Pick what
+            you think comes next — the machine has already made its own
+            pick, in secret, and its real odds arrive the moment you commit.
+          </p>
           <BeatThePredictor
             initialData={predictorData}
             initialScene={initialScene}

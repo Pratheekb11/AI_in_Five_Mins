@@ -195,6 +195,17 @@ export function ContextBudget({
       <div className="min-h-[13rem] p-3 sm:min-h-[26rem] sm:p-5 md:p-6">
         {scenario ? (
           <>
+            {/* The deck lands here with only a one-line headline above it —
+                the round is dealt server-side, so `playing` is already true
+                on arrival and the ready screen's `instruction` (which used
+                to carry this setup) never mounts. Without a sentence here,
+                the board just starts asking. */}
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
+              Somebody needs this answered for real. You decide what the
+              model gets to see before it answers — the pile has the right
+              document in it, and a few things that only look like they
+              would help.
+            </p>
             <p className="label text-ink-faint mb-1 sm:mb-2">The question</p>
             <p className="prose-measure mb-3 text-[1rem] sm:mb-5 sm:text-[1.0625rem]">
               {scenario.ask}{" "}

@@ -59,7 +59,14 @@ export type Beat = {
   fit?: boolean;
 };
 
-export function LessonStage({ beats }: { beats: Beat[] }) {
+export function LessonStage({
+  beats,
+  exitHref,
+}: {
+  beats: Beat[];
+  /** Where the rail's Back goes from the very first beat. */
+  exitHref: string;
+}) {
   const [at, setAt] = useState(0);
   const still = useReducedMotion();
   const count = beats.length;
@@ -69,16 +76,24 @@ export function LessonStage({ beats }: { beats: Beat[] }) {
     setAt((i) => (i < count - 1 ? i + 1 : i));
   }, [count]);
 
-  /* On the deck's own first beat there is nowhere further back to step to,
-     the control used to just disable itself there, which read as broken to
-     anyone who pressed it on the screen they land on. It now leaves the
-     lesson instead, back to wherever they came from. router.back() is a
-     navigation, not a state update, so it stays out of the setAt updater,
-     React may run an updater twice, which would fire it twice too. */
+  /* One beat back, and never further than that. This is what the arrow key
+     and the context hand out, so nothing that only means "turn back a page"
+     can take somebody out of the lesson by accident. */
   const back = useCallback(() => {
+    setAt((i) => (i > 0 ? i - 1 : i));
+  }, []);
+
+  /* The rail's own control. On the first beat there is no beat to step to and
+     it used to disable itself, which read as broken to anyone who pressed it
+     on the screen they land on. It leaves the lesson instead, to a page this
+     site chooses: history is not ours, and on a shared link it is whatever
+     site the link was posted on, or in a fresh tab nothing at all, which is
+     the same dead control by another route. The navigation stays out of the
+     setAt updater because React may run an updater twice. */
+  const leave = useCallback(() => {
     if (at > 0) setAt(at - 1);
-    else router.back();
-  }, [at, router]);
+    else router.push(exitHref);
+  }, [at, exitHref, router]);
 
   /* Arrow keys and space, the way a deck is expected to behave. Typing into a
      game's own input must not turn the page. */
@@ -158,7 +173,7 @@ export function LessonStage({ beats }: { beats: Beat[] }) {
         <StageRail
           beats={beats}
           at={at}
-          onBack={back}
+          onBack={leave}
           onJump={setAt}
           cta={beats[at]?.selfAdvance ? undefined : (beats[at]?.cta ?? "Next")}
         />
@@ -226,6 +241,7 @@ function StageRail({
         <button
           type="button"
           onClick={onBack}
+          data-stage-back=""
           className="tap label text-ink-faint shrink-0 rounded-[2px] px-3 py-2.5"
         >
           &larr; Back

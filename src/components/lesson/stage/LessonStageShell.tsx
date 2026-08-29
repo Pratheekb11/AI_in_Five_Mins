@@ -29,7 +29,10 @@ export function LessonStageShell({
   /** Everything optional, folded under the way onward on the last screen. */
   tail?: ReactNode;
 }) {
-  const { next } = neighbours(lesson.slug);
+  const { next, previous } = neighbours(lesson.slug);
+  /* Where the deck's Back goes from its first beat: the lesson before this
+     one in the reading order, or the front page at the very start. */
+  const exitHref = previous ? `/lessons/${previous.slug}` : "/";
   const ink = inkClasses[lesson.ink];
 
   /* The closer is part of the frame, not of any lesson, so every deck ends the
@@ -78,7 +81,7 @@ export function LessonStageShell({
       <div className="flex h-[100dvh] flex-col overflow-hidden">
         <SiteHeader />
         <main id="content" className="min-h-0 grow">
-          <LessonStage beats={[...beats, closer]} />
+          <LessonStage beats={[...beats, closer]} exitHref={exitHref} />
         </main>
       </div>
       <TrackCelebration />

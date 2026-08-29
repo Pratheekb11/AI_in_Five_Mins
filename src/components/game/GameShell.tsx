@@ -17,6 +17,7 @@ import { useBestScore } from "@/lib/game/useBestScore";
 import { pickNimoLine, type NimoEvent } from "@/lib/nimoReactions";
 import { playCue, useMuted } from "@/lib/game/sound";
 import { useProgress } from "@/lib/progress";
+import { canArmTapHint, TAP_HINT_MS } from "@/lib/game/tapHintRules";
 import { useTapHintCount } from "@/lib/tapHint";
 import { trackGameFinished, trackGameStarted } from "@/lib/telemetry";
 import { useIsPhone } from "@/lib/useMedia";
@@ -112,12 +113,36 @@ export function GameShell({
      hits its limit, knowing the gesture on one game says nothing about
      whether it has been seen on another. Each mount shows it at most once,
      so it does not repeat every round within the same sitting. */
-  const TAP_HINT_LIMIT = 5;
-  const [tapHintCount, bumpTapHintCount] = useTapHintCount(
-    gameId ?? "unscored",
-  );
+  const [tapHintCount, bumpTapHintCount] = useTapHintCount(gameId ?? name);
   const [hintVisible, setHintVisible] = useState(false);
   const hintShown = useRef(false);
+  /* "Playing" is not the same as "being looked at". A deck renders every beat
+     and hides the inactive ones with `display: none`, and a scrolling lesson
+     mounts its game far below the fold, so a server-dealt round is live from
+     the moment the page loads. Without this, the hint ran its five showings
+     into a hidden board and then never appeared on the beat that wanted it. */
+  const cabinet = useRef<HTMLDivElement>(null);
+  const [onScreen, setOnScreen] = useState(false);
+
+  useEffect(() => {
+    const el = cabinet.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        /* A cabinet taller than the viewport can never reach a quarter of
+           itself, so height answers for it. */
+        setOnScreen(
+          entry.isIntersecting &&
+            (entry.intersectionRatio >= 0.25 ||
+              entry.intersectionRect.height >= 240),
+        );
+      },
+      { threshold: [0, 0.25] },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   /* Both the cabinet's own onClickCapture and the hint's "Let's play" button
      call dismissTapHint for the same click, the click bubbles through the
      capture-phase handler on its way down, then reaches the button's own
@@ -133,9 +158,12 @@ export function GameShell({
 
   useEffect(() => {
     if (
-      phase !== "playing" ||
-      tapHintCount >= TAP_HINT_LIMIT ||
-      hintShown.current
+      !canArmTapHint({
+        phase,
+        onScreen,
+        count: tapHintCount,
+        armed: hintShown.current,
+      })
     )
       return;
     hintShown.current = true;
@@ -145,12 +173,18 @@ export function GameShell({
       hintSettled.current = true;
       setHintVisible(false);
       bumpTapHintCount();
-    }, 5600);
+    }, TAP_HINT_MS);
+    /* Hiding here as well as clearing the timers: a round that ends, or a
+       reader who scrolls away, used to leave the panel up with nothing left
+       to take it down, and it came back over the next round. Nothing is
+       counted for a hint cut short that way, and it does not arm again this
+       mount, so it is shown again on the next visit rather than spent. */
     return () => {
       clearTimeout(show);
       clearTimeout(hideTimer.current);
+      setHintVisible(false);
     };
-  }, [phase, tapHintCount, bumpTapHintCount]);
+  }, [phase, onScreen, tapHintCount, bumpTapHintCount]);
 
   const dismissTapHint = useCallback(() => {
     // hintShown guards games that never armed a hint this mount at all (the
@@ -260,6 +294,7 @@ export function GameShell({
 
   return (
     <div
+      ref={cabinet}
       className="plate scroll-mt-20 overflow-hidden"
       id="game"
       data-section="game"
@@ -379,7 +414,13 @@ export function GameShell({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 8 }}
                 transition={{ duration: 0.25 }}
-                className="border-ink/25 bg-paper/95 absolute top-1/2 left-1/2 z-10 w-[min(220px,calc(100%-1rem))] -translate-x-1/2 -translate-y-1/2 rounded-[2px] border p-2 text-center shadow-[2px_2px_0_var(--ink)]"
+                /* Pointer-transparent, and only the button inside it is not.
+                   It sits over the middle of the board, so while it was
+                   catching clicks the first tap on an option was spent
+                   dismissing the hint instead of answering: a panel asking
+                   for a tap was eating the tap. Now that same tap picks the
+                   option and clears the hint on its way past. */
+                className="pointer-events-none border-ink/25 bg-paper/95 absolute top-1/2 left-1/2 z-10 w-[min(220px,calc(100%-1rem))] -translate-x-1/2 -translate-y-1/2 rounded-[2px] border p-2 text-center shadow-[2px_2px_0_var(--ink)]"
               >
                 <TapDemo />
                 <p className="label text-ink-faint mb-2">
@@ -388,7 +429,7 @@ export function GameShell({
                 <button
                   type="button"
                   onClick={dismissTapHint}
-                  className="tap label border-ink/40 hover:border-ink w-full cursor-pointer rounded-[2px] border px-3 py-1.5"
+                  className="tap label border-ink/40 hover:border-ink pointer-events-auto w-full cursor-pointer rounded-[2px] border px-3 py-1.5"
                 >
                   Let&rsquo;s play
                 </button>

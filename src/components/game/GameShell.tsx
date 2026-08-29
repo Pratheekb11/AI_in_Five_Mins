@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import {
   useCallback,
   useEffect,
@@ -8,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { HowToPlayPopover } from "./HowToPlayPopover";
+import { TapDemo } from "./TapDemo";
 import { Nimo } from "@/components/nimo/Nimo";
 import type { Mood } from "@/components/nimo/moods";
 import { markInteraction } from "@/lib/firstInteraction";
@@ -15,6 +17,7 @@ import { useBestScore } from "@/lib/game/useBestScore";
 import { pickNimoLine, type NimoEvent } from "@/lib/nimoReactions";
 import { playCue, useMuted } from "@/lib/game/sound";
 import { useProgress } from "@/lib/progress";
+import { useTapHintCount } from "@/lib/tapHint";
 import { trackGameFinished, trackGameStarted } from "@/lib/telemetry";
 import { useIsPhone } from "@/lib/useMedia";
 
@@ -93,8 +96,72 @@ export function GameShell({
   /* The provenance line is worth reading and not worth a scroll while a round
      is waiting. On a phone it folds. */
   const [noteOpen, setNoteOpen] = useState(false);
+  /* Same trade on the ready screen's how-to-play: worth reading in full on a
+     screen with room, not worth costing a phone the fit work done in
+     FitBox — a full goal-plus-steps block ran a card 494px over budget at
+     360 wide the last time this shipped unfolded. */
+  const [howOpen, setHowOpen] = useState(false);
   const [muted, toggleMuted] = useMuted();
   const { progress, dismissNimo } = useProgress();
+
+  /* Most games now deal their first round server-side and start straight in
+     "playing" — the ready screen's how-to-play never mounts for them at all.
+     This is the visual demo's actual home: a non-blocking hint over the live
+     board. Once did not stick, so it repeats on someone's first several
+     visits to THIS game specifically, then stops once that game's own count
+     hits its limit — knowing the gesture on one game says nothing about
+     whether it has been seen on another. Each mount shows it at most once,
+     so it does not repeat every round within the same sitting. */
+  const TAP_HINT_LIMIT = 5;
+  const [tapHintCount, bumpTapHintCount] = useTapHintCount(
+    gameId ?? "unscored",
+  );
+  const [hintVisible, setHintVisible] = useState(false);
+  const hintShown = useRef(false);
+  /* Both the cabinet's own onClickCapture and the hint's "Let's play" button
+     call dismissTapHint for the same click — the click bubbles through the
+     capture-phase handler on its way down, then reaches the button's own
+     handler. Guarding on `hintVisible` state let both calls through in the
+     same React event, since state does not update mid-event: one click
+     bumped the count twice. A ref updates synchronously, so the second call
+     sees it immediately. It also lets a manual dismiss cancel the pending
+     auto-hide, which otherwise fired its own bump later regardless. */
+  const hintSettled = useRef(false);
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    if (
+      phase !== "playing" ||
+      tapHintCount >= TAP_HINT_LIMIT ||
+      hintShown.current
+    )
+      return;
+    hintShown.current = true;
+    hintSettled.current = false;
+    const show = setTimeout(() => setHintVisible(true));
+    hideTimer.current = setTimeout(() => {
+      hintSettled.current = true;
+      setHintVisible(false);
+      bumpTapHintCount();
+    }, 5600);
+    return () => {
+      clearTimeout(show);
+      clearTimeout(hideTimer.current);
+    };
+  }, [phase, tapHintCount, bumpTapHintCount]);
+
+  const dismissTapHint = useCallback(() => {
+    // hintShown guards games that never armed a hint this mount at all (the
+    // per-game limit was already reached, say) — without it, every click
+    // would bump a count that never had a hint to dismiss.
+    if (!hintShown.current || hintSettled.current) return;
+    hintSettled.current = true;
+    clearTimeout(hideTimer.current);
+    setHintVisible(false);
+    bumpTapHintCount();
+  }, [bumpTapHintCount]);
 
   const [reaction, setReaction] = useState<string | null>(null);
   const reactionTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
@@ -199,7 +266,10 @@ export function GameShell({
       /* One page-wide signal for "did they ever touch this game", good
          enough for the never-interacted ranking without wiring all twenty
          three games individually. */
-      onClickCapture={markInteraction}
+      onClickCapture={() => {
+        markInteraction();
+        dismissTapHint();
+      }}
     >
       <div className="border-ink/25 bg-paper-sunk flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b px-4 py-2 sm:gap-y-2 sm:py-3">
         <span className="flex items-center gap-3">
@@ -288,6 +358,33 @@ export function GameShell({
 
         <div className="col-start-1 row-start-1 min-w-0">{children}</div>
 
+        {howToPlay ? (
+          <AnimatePresence>
+            {hintVisible ? (
+              <motion.div
+                key="tap-hint"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.25 }}
+                className="border-ink/25 bg-paper/95 absolute top-1/2 left-1/2 z-10 w-[min(220px,calc(100%-1rem))] -translate-x-1/2 -translate-y-1/2 rounded-[2px] border p-2 text-center shadow-[2px_2px_0_var(--ink)]"
+              >
+                <TapDemo />
+                <p className="label text-ink-faint mb-2">
+                  Tap or click a choice
+                </p>
+                <button
+                  type="button"
+                  onClick={dismissTapHint}
+                  className="tap label border-ink/40 hover:border-ink w-full cursor-pointer rounded-[2px] border px-3 py-1.5"
+                >
+                  Let&rsquo;s play
+                </button>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
+        ) : null}
+
         {phase !== "playing" ? (
           /* `m-auto` on the inner column rather than `justify-center` on the
              overlay. Centring a flex column that overflows its scroll container
@@ -299,9 +396,61 @@ export function GameShell({
             <div className="m-auto flex w-full flex-col items-center gap-3 sm:gap-4">
               {phase === "ready" ? (
                 <>
-                  <p className="prose-measure text-ink-soft text-[0.9375rem]">
-                    {instruction}
-                  </p>
+                  {/* Rules were a click behind a "?" that nobody had to press
+                      before playing blind. The ready screen — already a
+                      layover the player dismisses by pressing Play — is
+                      where they actually get read, so it shows the real
+                      how-to-play instead of a paraphrase of it. Games without
+                      one (WordMagnet) keep the plain instruction line.
+                      TapDemo runs unconditionally, on a phone too: the words
+                      explain scoring and controls, which need reading, but
+                      the one thing every game shares — tap a choice, see it
+                      answered — does not, and showing it costs nothing the
+                      text-collapse below doesn't already save. */}
+                  {howToPlay ? <TapDemo /> : null}
+                  {howToPlay ? (
+                    phone && !howOpen ? (
+                      <button
+                        type="button"
+                        onClick={() => setHowOpen(true)}
+                        className="tap label text-ink-faint border-ink/20 bg-paper-raised/60 w-full rounded-[2px] border px-3 py-2 text-center underline underline-offset-2"
+                      >
+                        How to play ▾
+                      </button>
+                    ) : (
+                      <div className="prose-measure border-ink/20 bg-paper-raised/60 w-full rounded-[2px] border p-3 text-left sm:p-4">
+                        <p className="label text-ink-faint mb-1">
+                          How to play
+                        </p>
+                        <p className="mb-2 text-[0.9375rem] font-semibold">
+                          {howToPlay.goal}
+                        </p>
+                        <ol className="space-y-1">
+                          {howToPlay.steps.map((step, i) => (
+                            <li
+                              key={step}
+                              className="flex gap-2 text-[0.875rem]"
+                            >
+                              <span className="data text-ink-faint shrink-0">
+                                {i + 1}.
+                              </span>
+                              <span>{step}</span>
+                            </li>
+                          ))}
+                        </ol>
+                        {howToPlay.controls ? (
+                          <p className="text-ink-faint mt-2 text-[0.8125rem]">
+                            <span className="label mr-1">Controls</span>
+                            {howToPlay.controls}
+                          </p>
+                        ) : null}
+                      </div>
+                    )
+                  ) : (
+                    <p className="prose-measure text-ink-soft text-[0.9375rem]">
+                      {instruction}
+                    </p>
+                  )}
                   {gameId && best > 0 ? (
                     <p className="label text-teal-text">Your best: {best}</p>
                   ) : null}

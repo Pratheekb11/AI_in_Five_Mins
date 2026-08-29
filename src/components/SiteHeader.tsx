@@ -33,14 +33,8 @@ export function SiteHeader({
             AI in <span className="text-pink-text">Five</span>
           </Link>
 
-          <span className="border-ink/20 label text-ink-faint hidden items-center gap-4 border-l pl-4 sm:flex">
+          <span className="border-ink/20 label text-ink-faint hidden items-center border-l pl-4 sm:flex">
             By Pratheek B
-            <Link
-              href="/curriculum#ml"
-              className="tap text-ink-faint hover:text-ink underline-offset-2 hover:underline"
-            >
-              ML path
-            </Link>
           </span>
         </div>
 

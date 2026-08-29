@@ -55,7 +55,7 @@ export function ProgressPill() {
 
   return (
     <Link
-      href="/curriculum#chapters"
+      href="/curriculum#chapter"
       className="tap hover:border-ink border-ink/30 flex items-center gap-2.5 rounded-[2px] border px-2 py-1"
       title={`Level ${totals.level}, ${totals.rank}. ${totals.xp} XP. ${totals.completedCount} of ${totals.totalCount} chapters finished.`}
     >

@@ -206,7 +206,11 @@ export function HallucinationHunt({
       <div className="min-h-[12rem] p-4 sm:min-h-[22rem] sm:p-5 md:p-6">
         {puzzle ? (
           <>
-            <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
+            {/* Nimo floats over this corner from md up. The label row and
+                the start of the paragraph are the only lines that reach it,
+                so only they give up the width — the rest of the card stays
+                full-width. */}
+            <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3 md:pr-[136px]">
               <p className="label text-ink-faint">
                 From the article on {puzzle.title}
               </p>
@@ -217,7 +221,7 @@ export function HallucinationHunt({
               ) : null}
             </div>
 
-            <p className="prose-measure mb-5 text-[1.0625rem] leading-[1.9]">
+            <p className="prose-measure mb-5 text-[1.0625rem] leading-[1.9] md:pr-[136px]">
               {words.map((word, i) => {
                 const span = spanAt(puzzle, i);
                 const isFound = span ? scene.found.includes(span.first) : false;

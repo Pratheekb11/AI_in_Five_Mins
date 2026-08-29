@@ -39,6 +39,10 @@ const STORED = [
     key: "llai-local-telemetry",
     what: "A local copy of whether you interacted with each lesson's game, only for the /admin diagnostic page on this browser. Never sent anywhere.",
   },
+  {
+    key: "llai-tap-hint-count",
+    what: "How many times the tap-a-choice animation has been shown on each game, so it appears on your first few visits to that game and then stops.",
+  },
   { key: "llai-theme", what: "Light or dark." },
   { key: "llai-muted", what: "Whether the game sounds are off." },
 ];

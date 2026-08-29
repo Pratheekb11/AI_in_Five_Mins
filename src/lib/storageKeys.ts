@@ -10,6 +10,7 @@ export const RECORD_KEYS = [
   "llai-name",
   "llai-celebrated",
   "llai-local-telemetry",
+  "llai-tap-hint-count",
 ] as const;
 
 /**

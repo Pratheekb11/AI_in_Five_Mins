@@ -433,9 +433,11 @@ export function BeatThePredictor({
                 ) : (
                   <motion.span
                     key="blank"
-                    className="bg-yellow-wash text-yellow-text font-data rounded-[2px] px-6 py-0.5"
-                    animate={still ? {} : { opacity: [1, 0.45, 1] }}
-                    transition={{ duration: 1.6, repeat: Infinity }}
+                    /* The pulse is `.ink-pulse` in globals.css, not an
+                       animation here: repeating it for ever in JS holds the
+                       animation library's frame loop open for as long as the
+                       round is unanswered, which is nearly all of the time. */
+                    className="bg-yellow-wash text-yellow-text font-data ink-pulse rounded-[2px] px-6 py-0.5"
                   >
                     ?
                   </motion.span>

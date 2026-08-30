@@ -73,14 +73,21 @@ export function AboveFoldFit({ children }: { children: ReactNode }) {
     // Belt and braces for the first couple of seconds: hydration, the sound
     // toggle's stored-preference read and the mascot's own mount can all
     // still be settling the layout after the observer's first pass.
-    const poll = window.setInterval(schedule, 150);
-    const stopPolling = window.setTimeout(() => window.clearInterval(poll), 4000);
+    //
+    // Retries at set moments rather than the 150ms interval this used to run.
+    // Every pass ends in a getBoundingClientRect immediately after a style
+    // write, which is a forced synchronous layout of the whole hero, the game
+    // included; twenty-seven of them landed inside the first four seconds,
+    // which is exactly the window somebody is trying to press the button in.
+    // These five cover the same window and the same settling.
+    const retries = [200, 500, 1000, 2000, 3500].map((ms) =>
+      window.setTimeout(schedule, ms),
+    );
 
     return () => {
       ro.disconnect();
       window.removeEventListener("resize", schedule);
-      window.clearInterval(poll);
-      window.clearTimeout(stopPolling);
+      retries.forEach(window.clearTimeout);
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);

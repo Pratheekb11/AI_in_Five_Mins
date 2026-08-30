@@ -190,12 +190,9 @@ export function NextTokenFigure() {
             {filled ? (
               <motion.span layoutId="llai-drawn-token">{filled}</motion.span>
             ) : (
-              <motion.span
-                animate={still ? undefined : { opacity: [1, 0.4, 1] }}
-                transition={{ duration: 1.6, repeat: Infinity }}
-              >
-                ?
-              </motion.span>
+              /* `.ink-pulse` in globals.css rather than a repeating JS
+                 animation; see the note there. */
+              <span className="ink-pulse">?</span>
             )}
           </motion.span>
         </div>

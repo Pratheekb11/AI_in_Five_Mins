@@ -76,14 +76,19 @@ export function HallucinationHunt({
   }, [daily]);
 
   /* No click needed: once the day is known (near-instant when the data is
-     already embedded) it starts itself. */
+     already embedded) it starts itself, but not before the card is on screen.
+     On the home page this sits a screen and a half below a different game, and
+     it used to start its sixty seconds the moment the page hydrated: the
+     reader had spent a third of the clock before they had scrolled anywhere
+     near the paragraph it was counting down on. */
   const autoStarted = useRef(false);
+  const [near, setNear] = useState(false);
+  const onNear = useCallback(() => setNear(true), []);
   useEffect(() => {
-    if (daily && !autoStarted.current) {
-      autoStarted.current = true;
-      begin();
-    }
-  }, [daily, begin]);
+    if (!near || !daily || autoStarted.current) return;
+    autoStarted.current = true;
+    begin();
+  }, [near, daily, begin]);
 
   const another = useCallback(() => {
     if (!data) return;
@@ -94,7 +99,12 @@ export function HallucinationHunt({
   }, [data]);
 
   const running = playing && !scene.done && scene.clock > 0;
-  useGameLoop((delta) => setScene((s) => tick(s, delta)), running);
+  /* Four times a second, not sixty. The clock is the only thing this loop
+     moves and it prints in whole seconds, so a per-frame commit re-rendered
+     the whole paragraph, every word of it, sixty times a second for a minute.
+     On the home page, where this card starts itself, that was the single
+     largest thing standing between a reader and their first tap. */
+  useGameLoop((delta) => setScene((s) => tick(s, delta)), running, 4);
 
   /* The streak is about showing up, not about finding every alteration,
      reaching the end of today's actual paragraph is what counts, a "try a
@@ -122,6 +132,7 @@ export function HallucinationHunt({
   return (
     <GameShell
       gameId="hallucination-hunt"
+      onNear={onNear}
       name="Hallucination Hunt"
       instruction="A real paragraph from a real encyclopedia, with three things quietly changed. Click the words you do not believe. You get six flags for three errors, so clicking everything loses. Everyone gets the same paragraph today."
       howToPlay={{

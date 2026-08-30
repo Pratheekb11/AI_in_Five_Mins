@@ -70,6 +70,7 @@ export function GameShell({
   streak,
   children,
   footer,
+  onNear,
 }: {
   /** Stable id for the personal best. Omit for games that are not scored. */
   gameId?: string;
@@ -91,6 +92,13 @@ export function GameShell({
   streak?: number;
   children: ReactNode;
   footer?: ReactNode;
+  /**
+   * Called once, the first time the cabinet is properly on screen. For a game
+   * with something expensive or timed behind it: the daily puzzle used to
+   * start its sixty-second clock the moment the home page hydrated, a screen
+   * and a half above it.
+   */
+  onNear?: () => void;
 }) {
   const { best, submit } = useBestScore(gameId ?? "unscored");
   const phone = useIsPhone();
@@ -142,6 +150,16 @@ export function GameShell({
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  /* Told once, and only once. The cabinet's own observer above already knows
+     when it is worth looking at, so a game does not have to bring a second
+     one. */
+  const toldNear = useRef(false);
+  useEffect(() => {
+    if (!onScreen || toldNear.current || !onNear) return;
+    toldNear.current = true;
+    onNear();
+  }, [onScreen, onNear]);
 
   /* Both the cabinet's own onClickCapture and the hint's "Let's play" button
      call dismissTapHint for the same click, the click bubbles through the

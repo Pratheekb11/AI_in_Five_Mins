@@ -475,6 +475,61 @@
 }
 
 @layer components {
+/*
+ * The two animations that never stop.
+ *
+ * CSS rather than the animation library, for the same reason as the hook
+ * entrance above, only it matters far more here. A JS animation that repeats
+ * for ever keeps the library's frame loop alive for ever, and the loop is not
+ * free: profiled on the production build at 390px under a four times CPU
+ * throttle, the home page never reached idle once, it spent a 50 to 70ms task
+ * every 100ms for as long as it was open, purely driving a blinking question
+ * mark and a looping tap hint. Neither is worth a permanent tax on the main
+ * thread of somebody's phone. Declared here they run off the compositor and
+ * cost that thread nothing.
+ *
+ * The reduced-motion block at the bottom of this file already collapses both,
+ * so neither needs its own opt out.
+ */
+@keyframes ink-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* The blank waiting to be filled in: a game's unanswered slot, a figure's
+   undrawn token. It is an invitation, so it has to keep moving. */
+.ink-pulse {
+  animation: ink-pulse 1.6s ease-in-out infinite;
+}
+
+/* The ready screen's tap hint: a finger travelling down three rows and
+   pressing the second. Timings are the ones the JS version was built on,
+   2.4s with stops at 28, 42, 56 and 80 per cent. */
+@keyframes tap-demo-press {
+  0%, 28% { opacity: 0; transform: scale(1); }
+  42% { opacity: 1; transform: scale(0.94); }
+  56% { opacity: 1; transform: scale(1); }
+  80%, 100% { opacity: 0; transform: scale(1); }
+}
+
+@keyframes tap-demo-finger {
+  0% { opacity: 0; transform: translateY(0); }
+  28% { opacity: 1; transform: translateY(0); }
+  42%, 56% { opacity: 1; transform: translateY(30px); }
+  80% { opacity: 1; transform: translateY(56px); }
+  100% { opacity: 0; transform: translateY(56px); }
+}
+
+.tap-demo-press {
+  animation: tap-demo-press 2.4s ease-in-out infinite;
+}
+
+.tap-demo-finger {
+  animation: tap-demo-finger 2.4s ease-in-out infinite;
+}
+}
+
+@layer components {
   /* A deck beat is meant to be taken in without scrolling, and on a phone the
      provenance line under a figure is the block that most often pushes it past
      the bottom. It stays on the page, it is the whole premise of the site,

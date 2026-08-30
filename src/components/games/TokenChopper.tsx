@@ -9,6 +9,7 @@ import {
   tokenize,
   VOCAB_SIZE,
 } from "@/lib/tokenizer";
+import { useNearViewport } from "@/lib/useNearViewport";
 import { loadScripts, type ScriptData } from "@/lib/scripts";
 import { useIsPhone } from "@/lib/useMedia";
 
@@ -74,7 +75,13 @@ export function TokenChopper() {
   const [text, setText] = useState(START);
   const [note, setNote] = useState<string | null>(TRIES[0].note);
 
+  /* The o200k vocabulary behind this is 998 KB gzipped, and a deck keeps every
+     beat in the DOM, so this used to be fetched and parsed for a reader
+     several beats away from the board. Nothing is asked for until the board
+     itself is near the screen. */
+  const [setFrame, near] = useNearViewport();
   useEffect(() => {
+    if (!near) return;
     let alive = true;
     loadEncoding().then((e) => alive && setEncoding(e));
     loadScripts()
@@ -83,7 +90,7 @@ export function TokenChopper() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [near]);
 
   const tokens: Token[] = encoding ? tokenize(encoding, text) : [];
   const characters = [...text].length;
@@ -100,7 +107,7 @@ export function TokenChopper() {
     /* Marked as the game section like every cabinet, even though this one is
        not wrapped in GameShell, so the engagement measure can tell whether a
        reader ever reached it. */
-    <div className="plate" data-section="game">
+    <div ref={setFrame} className="plate" data-section="game">
       <div className="border-ink/20 flex flex-wrap items-baseline justify-between gap-3 border-b px-5 py-3">
         <h3 className="display-md">Token Chopper</h3>
         <p className="label text-ink-faint">

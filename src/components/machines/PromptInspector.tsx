@@ -8,6 +8,7 @@ import {
   type Signal,
 } from "@/lib/game/promptline";
 import { ENCODING_NAME, loadEncoding } from "@/lib/tokenizer";
+import { useNearViewport } from "@/lib/useNearViewport";
 import { useIsPhone } from "@/lib/useMedia";
 
 /**
@@ -42,7 +43,12 @@ export function PromptInspector() {
     ReturnType<typeof loadEncoding>
   > | null>(null);
 
+  /* Same 998 KB vocabulary as the token game, same rule: not until this box is
+     near the screen. It sits on one beat of a deck that keeps the others in
+     the DOM. */
+  const [setFrame, near] = useNearViewport();
   useEffect(() => {
+    if (!near) return;
     let alive = true;
     loadEncoding().then((enc) => {
       if (alive) setEncoding(enc);
@@ -50,7 +56,7 @@ export function PromptInspector() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [near]);
 
   const signals = useMemo(() => inspect(text), [text]);
   const tokens = useMemo(() => {
@@ -62,7 +68,7 @@ export function PromptInspector() {
   const chars = [...text].length;
 
   return (
-    <div className="plate p-4 sm:p-5 md:p-6">
+    <div ref={setFrame} className="plate p-4 sm:p-5 md:p-6">
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 sm:mb-4">
         <h3 className="display-md">Prompt inspector</h3>
         <p className="label text-ink-faint">Runs entirely in your browser</p>

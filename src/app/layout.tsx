@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Literata, Martian_Mono } from "next/font/google";
 import "./globals.css";
 import { JsonLd } from "@/components/JsonLd";
+import { PostHogInit } from "@/components/PostHogInit";
 import { INDEXING } from "@/lib/metadata";
 import { SITE_KEYWORDS } from "@/lib/seo";
 import { siteUrl } from "@/lib/site";
@@ -117,6 +118,8 @@ export default function RootLayout({
             tree. Nothing visible. */}
         <JsonLd data={webSite()} />
         <Analytics />
+        {/* Product analytics, loaded on idle and only when a key is set. */}
+        <PostHogInit />
       </body>
     </html>
   );

@@ -30,13 +30,40 @@ import type { NextConfig } from "next";
  */
 const DEV = process.env.NODE_ENV === "development";
 
+/**
+ * PostHog, and only PostHog.
+ *
+ * The library is fetched from the asset host and every event is posted to the
+ * ingest host, so both have to be named: `connect-src` for the beacons and the
+ * remote config, `script-src` for the bundle and for any extension (replay,
+ * surveys) the project's own settings later switch on. Miss either and the
+ * only symptom is a dashboard that stays empty, with the refusal buried in the
+ * console of a reader's browser rather than in a build.
+ *
+ * Kept derived from the configured host so a project in another region (`eu.`)
+ * needs no second edit here.
+ */
+const POSTHOG_HOST =
+  process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com";
+const POSTHOG_ASSETS = POSTHOG_HOST.replace("//us.i.", "//us-assets.i.").replace(
+  "//eu.i.",
+  "//eu-assets.i.",
+);
+const POSTHOG = process.env.NEXT_PUBLIC_POSTHOG_KEY
+  ? ` ${POSTHOG_HOST} ${POSTHOG_ASSETS}`
+  : "";
+
 const CSP = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${DEV ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${DEV ? " 'unsafe-eval'" : ""}${POSTHOG}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://i.ytimg.com",
   "font-src 'self' data:",
-  "connect-src 'self'",
+  `connect-src 'self'${POSTHOG}`,
+  /* Session replay compresses in a worker it creates from a blob. Nothing
+     else on the site uses a worker at all, so this is inert until replay is
+     switched on. */
+  `worker-src 'self'${POSTHOG ? " blob:" : ""}`,
   "media-src 'self'",
   // The lesson videos, and nothing else.
   "frame-src https://www.youtube-nocookie.com https://www.youtube.com",

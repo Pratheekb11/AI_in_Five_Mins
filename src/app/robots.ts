@@ -11,7 +11,10 @@ export const dynamic = "force-static";
  */
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/", disallow: "/api/" },
+    /* `/admin` is a diagnostic view of this one browser's localStorage. It has
+       no content, and an indexed page with nothing on it is a page that drags
+       on everything beside it. */
+    rules: { userAgent: "*", allow: "/", disallow: ["/api/", "/admin"] },
     sitemap: `${siteUrl()}/sitemap.xml`,
   };
 }

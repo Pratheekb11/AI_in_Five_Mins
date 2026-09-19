@@ -11,8 +11,14 @@ import { readGameData } from "@/lib/server/gameData";
 export const metadata: Metadata = pageMetadata({
   title: "Your certificate",
   description:
-    "Print what you finished, with your name on it, and take it wherever you like.",
+    "Finish a track and take away a certificate with your name on it, drawn on the spot and free. No account, no email, nothing stored anywhere but your own browser.",
   path: "/certificate",
+  keywords: [
+    "free AI certificate",
+    "AI course certificate",
+    "AI literacy certificate",
+    "certificate no sign-up",
+  ],
 });
 
 const huntData = readGameData<HuntData>("hunt.json");

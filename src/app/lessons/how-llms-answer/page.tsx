@@ -96,11 +96,16 @@ export default function HowLlmsAnswerLesson() {
       cta: "What the dice are",
       node: (
         <div className="space-y-4">
-          <h2 className="display-md">
+          {/* The deck has no masthead headline of its own, so the premise on
+              the first board is this page's top heading. `h1` rather than `h2`
+              for that reason only: `.display-md` carries every pixel of the
+              type, and `h1` to `h4` share one base rule, so the tag is the
+              whole change. */}
+          <h1 className="display-md">
             It does not choose a word. It{" "}
             <span className="text-yellow-text">rolls loaded dice</span>, fifty
             thousand sides, once per token.
-          </h2>
+          </h1>
           <Plinko initialData={logitData} initialScene={initialScene} />
         </div>
       ),

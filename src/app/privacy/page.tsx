@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = pageMetadata({
   title: "What this site keeps",
   description:
-    "Everything AIinFive stores, where it stores it, and how to wipe it. There are no accounts and nothing identifying is ever sent.",
+    "Everything AIinFive stores, where it stores it, and how to wipe it in one tap. No accounts, no personal tracking, and nothing identifying is ever sent anywhere.",
   path: "/privacy",
 });
 

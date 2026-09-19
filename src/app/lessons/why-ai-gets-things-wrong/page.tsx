@@ -122,10 +122,15 @@ export default function WhyAiGetsThingsWrongLesson() {
       cta: "Weigh it yourself",
       node: (
         <div className="space-y-4">
-          <h2 className="display-md">
+          {/* The deck has no masthead headline of its own, so the premise on
+              the first board is this page's top heading. `h1` rather than `h2`
+              for that reason only: `.display-md` carries every pixel of the
+              type, and `h1` to `h4` share one base rule, so the tag is the
+              whole change. */}
+          <h1 className="display-md">
             Three famous failures. <span className="text-pink-text">One</span>{" "}
             cause, and you can weigh it.
-          </h2>
+          </h1>
           <FailureBench initialBench={bench} initialScene={initialScene} />
         </div>
       ),

@@ -137,10 +137,15 @@ export default function ToolsChangeTheGameLesson() {
       cta: "What just happened",
       node: (
         <div className="space-y-4">
-          <h2 className="display-md">
+          {/* The deck has no masthead headline of its own, so the premise on
+              the first board is this page's top heading. `h1` rather than `h2`
+              for that reason only: `.display-md` carries every pixel of the
+              type, and `h1` to `h4` share one base rule, so the tag is the
+              whole change. */}
+          <h1 className="display-md">
             Four completely different things can happen behind one reply.{" "}
             <span className="text-blue-text">All four look the same.</span>
-          </h2>
+          </h1>
           <ProvenanceDetective
             initialData={provenanceData}
             initialScene={initialScene}

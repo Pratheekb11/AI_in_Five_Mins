@@ -3,6 +3,7 @@ import { AboveFoldFit } from "@/components/AboveFoldFit";
 import { AiPathLine } from "@/components/AiPathLine";
 import { BeatThePredictor } from "@/components/games/BeatThePredictor";
 import { Engagement } from "@/components/Engagement";
+import { JsonLd } from "@/components/JsonLd";
 import { MlPathTeaser } from "@/components/MlPathTeaser";
 import { NimoSays } from "@/components/nimo/NimoSays";
 import { Reveal } from "@/components/Reveal";
@@ -16,6 +17,7 @@ import {
   type PredictorData,
 } from "@/lib/game/predictor";
 import { readGameData } from "@/lib/server/gameData";
+import { trackList } from "@/lib/structured";
 
 /* Read and dealt server-side, same as the chapter-one page: the very first
    HTML this route sends already has a live, playable round, above the fold,
@@ -35,6 +37,10 @@ export default function Home() {
   return (
     <>
       <Engagement page="home" />
+      {/* The two ordered courses this page offers, for a crawler. Nothing
+          visible, and the same lessons the two roads below draw. */}
+      <JsonLd data={trackList("chapter")} />
+      <JsonLd data={trackList("ml")} />
       <SiteHeader />
 
       <main id="content">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -12,14 +13,23 @@ import {
   TRACK_ORDER,
 } from "@/lib/lessons";
 import { pageMetadata } from "@/lib/metadata";
+import { wholeCurriculum } from "@/lib/structured";
 
 const firstChapter = getLesson(lessonsIn("chapter")[0].slug)!;
 
 export const metadata = pageMetadata({
-  title: "The full curriculum",
+  title: "Free interactive AI course: all modules",
   description:
-    "Every module on AIinFive, all four tracks, in the order you would meet them reading straight through.",
+    "The whole syllabus on one page: 25 free interactive modules on LLMs, tokens, prompting, and machine learning from scratch. No sign-up, under four hours.",
   path: "/curriculum",
+  keywords: [
+    "free AI course",
+    "AI course for beginners",
+    "learn AI online free",
+    "machine learning course free",
+    "interactive AI tutorial",
+    "AI syllabus",
+  ],
 });
 
 /**
@@ -29,6 +39,7 @@ export const metadata = pageMetadata({
 export default function Curriculum() {
   return (
     <>
+      <JsonLd data={wholeCurriculum()} />
       <SiteHeader />
       <main id="content" className="mx-auto max-w-6xl px-5 py-12 md:py-16">
         <p className="label text-ink-faint mb-4">The full curriculum</p>

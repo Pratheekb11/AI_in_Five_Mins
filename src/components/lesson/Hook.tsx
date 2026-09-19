@@ -24,12 +24,18 @@ export function Hook({
   target?: string;
 }) {
   const stage = useStage();
+  /* In a deck this claim is the top of the page and nothing above it carries a
+     heading, so it is the `h1`. On a scrolling lesson the shell has already
+     printed one, and a second would be a lie about the structure. Both tags
+     share one base rule and the size comes from `.display-lg`, so this changes
+     no pixels. */
+  const Claim = stage ? "h1" : "h2";
 
   return (
     <section className="border-ink/25 border-b pb-10">
       <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-end">
         <div>
-          <h2 className="display-lg hook-arrive mb-4">{claim}</h2>
+          <Claim className="display-lg hook-arrive mb-4">{claim}</Claim>
           <p className="prose-measure text-ink-soft hook-arrive hook-arrive-1 text-lg">
             {sting}
           </p>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -5,7 +6,17 @@ import { lessonsIn } from "@/lib/lessons";
 
 /**
  * The page for an address that is not here.
+ *
+ * Next already sends this one `noindex`. It gets its own title anyway, because
+ * without one it inherits the home page's and the two are then the same page
+ * as far as any crawl log, Search Console report or browser history is
+ * concerned.
  */
+export const metadata: Metadata = {
+  title: "Page not found",
+  description:
+    "That address is not on AIinFive. The six chapters and the machine learning track both start one tap from here.",
+};
 export default function NotFound() {
   /* The two front doors, and nothing else: a 404 is not a place to put a
      syllabus. */

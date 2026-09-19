@@ -1,11 +1,13 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Engagement } from "@/components/Engagement";
+import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
 import { type Lesson, neighbours, TRACKS } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
+import { lessonCrumbs, lessonResource } from "@/lib/structured";
 import { PrimaryOnward } from "./PrimaryOnward";
 import { Sources } from "./Sources";
 import { TrackCelebration } from "./TrackCelebration";
@@ -33,6 +35,10 @@ export function LessonShell({
       {/* Counts visible time and how far down the page a reader got. Reports
           once, on the way out, with nothing in it but this slug and a number. */}
       <Engagement page={lesson.slug} />
+      {/* What this page teaches, how long it takes and what it cites, in the
+          form a search engine reads. Renders nothing. */}
+      <JsonLd data={lessonResource(lesson, sources)} />
+      <JsonLd data={lessonCrumbs(lesson)} />
       <SiteHeader />
 
       <main id="content" className="mx-auto max-w-6xl px-5">

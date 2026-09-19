@@ -114,10 +114,15 @@ export default function VerificationHabitsLesson() {
       cta: "What that tested",
       node: (
         <div className="space-y-4">
-          <h2 className="display-md">
+          {/* The deck has no masthead headline of its own, so the premise on
+              the first board is this page's top heading. `h1` rather than `h2`
+              for that reason only: `.display-md` carries every pixel of the
+              type, and `h1` to `h4` share one base rule, so the tag is the
+              whole change. */}
+          <h1 className="display-md">
             &ldquo;Check everything&rdquo; and &ldquo;check nothing&rdquo; end
             up as <span className="text-yellow-text">the same policy</span>.
-          </h2>
+          </h1>
           <HallucinationHunt initialData={huntData} />
         </div>
       ),

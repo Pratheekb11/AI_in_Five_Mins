@@ -1,9 +1,11 @@
 import type { ReactNode } from "react";
 import { Engagement } from "@/components/Engagement";
+import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { inkClasses } from "@/lib/ink";
 import { type Lesson, neighbours, TRACKS } from "@/lib/lessons";
 import type { Source } from "@/lib/sources";
+import { lessonCrumbs, lessonResource } from "@/lib/structured";
 import { Sources } from "../Sources";
 import { TrackCelebration } from "../TrackCelebration";
 import { TrackComplete } from "../TrackComplete";
@@ -76,6 +78,11 @@ export function LessonStageShell({
   return (
     <>
       <Engagement page={lesson.slug} />
+      {/* What this page teaches, how long it takes and what it cites, in the
+          form a search engine reads. Renders nothing, and takes no room in a
+          deck whose whole layout is a fixed-height column. */}
+      <JsonLd data={lessonResource(lesson, sources)} />
+      <JsonLd data={lessonCrumbs(lesson)} />
       {/* A fixed-height column, so the deck occupies exactly what the masthead
           leaves and the document itself never scrolls. */}
       <div className="flex h-[100dvh] flex-col overflow-hidden">

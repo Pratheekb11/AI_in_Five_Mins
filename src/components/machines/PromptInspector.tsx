@@ -68,7 +68,7 @@ export function PromptInspector() {
   const chars = [...text].length;
 
   return (
-    <div ref={setFrame} className="plate p-4 sm:p-5 md:p-6">
+    <div ref={setFrame} className="plate p-4 sm:p-5 md:p-6" data-ph-mask>
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 sm:mb-4">
         <h3 className="display-md">Prompt inspector</h3>
         <p className="label text-ink-faint">Runs entirely in your browser</p>

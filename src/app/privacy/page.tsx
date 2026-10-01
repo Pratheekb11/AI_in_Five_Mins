@@ -127,11 +127,23 @@ export default function Privacy() {
               no account and to no name, and it is never sent to anyone else.
             </p>
             <p>
-              Every value in those is either the lesson slug, which is already
-              in the address bar, or a number the site itself produced. Nothing
-              you type is sent anywhere, nothing you have saved on this site is
-              sent anywhere, and the only thing joining any of it up is that
-              random per-browser string. The{" "}
+              PostHog also keeps a recording of the visit: where the pointer
+              went, what was tapped, how the page changed. It is a copy of
+              the page itself, not a video of your screen, and it is how I see
+              the moment a game confused somebody rather than guessing at it.
+              PostHog can also have a model watch these recordings and note
+              where people got stuck. Every box you type into is recorded as
+              asterisks, and so is every place the site prints back what you
+              typed: the token tiles, your own task list, the name on a
+              certificate. The certificate itself and the mascot are not
+              recorded at all.
+            </p>
+            <p>
+              Every value in the events is either the lesson slug, which is
+              already in the address bar, or a number the site itself
+              produced. Nothing you type is sent anywhere, nothing you have
+              saved on this site is sent anywhere, and the only thing joining
+              any of it up is that random per-browser string. The{" "}
               <span className="data text-sm">/admin</span> page reads a local
               copy of the interaction ones back out of this browser&rsquo;s own
               storage. It is a way to check the instrumentation works, not a

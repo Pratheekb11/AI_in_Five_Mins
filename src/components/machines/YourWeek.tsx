@@ -15,7 +15,7 @@ export function YourWeek() {
   const full = tasks.length >= limit;
 
   return (
-    <section className="plate p-5 md:p-6">
+    <section className="plate p-5 md:p-6" data-ph-mask>
       <p className="label text-yellow-text mb-3">Make it your week</p>
       <h3 className="display-md mb-2">Add your own tasks</h3>
       <p className="prose-measure text-ink-soft mb-5 text-[0.9375rem]">

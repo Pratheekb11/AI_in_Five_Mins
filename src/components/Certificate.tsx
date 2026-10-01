@@ -139,7 +139,7 @@ export function Certificate({ spec }: { spec: CertificateSpec }) {
   );
 
   return (
-    <div className="plate p-5 md:p-6">
+    <div className="plate p-5 md:p-6" data-ph-mask>
       <p className="label text-ink-faint mb-3">
         {spec.title} · {lessons.length} modules finished
       </p>
@@ -147,7 +147,7 @@ export function Certificate({ spec }: { spec: CertificateSpec }) {
       {/* The plate itself, at whatever width there is. */}
       <canvas
         ref={canvas}
-        className="border-ink/25 mb-4 block h-auto w-full rounded-[2px] border"
+        className="ph-no-capture border-ink/25 mb-4 block h-auto w-full rounded-[2px] border"
         aria-label={`Certificate: ${spec.title}, awarded to ${art.name}`}
       />
 

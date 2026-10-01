@@ -30,10 +30,19 @@ const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com";
  *  while building, which is the only way to find one that never fires. */
 const IN_DEV = process.env.NEXT_PUBLIC_POSTHOG_IN_DEV === "1";
 
-/** Session replay is the best tool there is for "why did they leave", and it
- *  is also the heaviest thing PostHog can load. Off unless asked for, and it
- *  additionally has to be switched on in the project's own settings. */
-const REPLAY = process.env.NEXT_PUBLIC_POSTHOG_REPLAY === "1";
+/** Session replay is the best tool there is for "why did they leave", and the
+ *  recordings are what Replay Vision reads. On by default; the recorder is
+ *  fetched by the library after it has itself loaded on idle, so it never
+ *  competes with the first tap. NEXT_PUBLIC_POSTHOG_REPLAY=0 turns it off
+ *  without a code change. It also has to be switched on in the project. */
+const REPLAY = process.env.NEXT_PUBLIC_POSTHOG_REPLAY !== "0";
+
+/** Anything a reader typed that the page echoes back as ordinary text: token
+ *  tiles, their own task list, the name on a certificate. Inputs themselves
+ *  are masked by `maskAllInputs`; this covers the copies. Mark the nearest
+ *  wrapper with `data-ph-mask` and every text node under it records as
+ *  asterisks. The privacy page promises nothing typed leaves the browser. */
+const MASK = "[data-ph-mask], [data-ph-mask] *";
 
 export function posthogConfigured(): boolean {
   return Boolean(KEY) && (process.env.NODE_ENV === "production" || IN_DEV);
@@ -63,6 +72,15 @@ export async function startPostHog(): Promise<void> {
          events only: no identity to join a visit up with. */
       person_profiles: "identified_only",
       disable_session_recording: !REPLAY,
+      session_recording: {
+        maskAllInputs: true,
+        maskTextSelector: MASK,
+        /* Nimo is WebGL and the certificate is a canvas. Neither is recorded
+           (canvas capture is off unless the project turns it on), so a replay
+           shows an empty box where the mascot stands. Leave it that way:
+           canvas capture is a screenshot stream, heavy, and the certificate
+           canvas carries the reader's name. */
+      },
       /* Clicks and rage-clicks on their own, which is most of the "what are
          they actually pressing" question without writing an event per button. */
       autocapture: true,

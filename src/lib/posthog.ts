@@ -30,12 +30,12 @@ const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com";
  *  while building, which is the only way to find one that never fires. */
 const IN_DEV = process.env.NEXT_PUBLIC_POSTHOG_IN_DEV === "1";
 
-/** Session replay is the best tool there is for "why did they leave", and the
- *  recordings are what Replay Vision reads. On by default; the recorder is
- *  fetched by the library after it has itself loaded on idle, so it never
- *  competes with the first tap. NEXT_PUBLIC_POSTHOG_REPLAY=0 turns it off
- *  without a code change. It also has to be switched on in the project. */
-const REPLAY = process.env.NEXT_PUBLIC_POSTHOG_REPLAY !== "0";
+/** Session replay is off unless NEXT_PUBLIC_POSTHOG_REPLAY=1. Measured
+ *  playing chapter 1 on a 4x-throttled phone: the recorder roughly doubled
+ *  main-thread blocking, because it serialises every DOM change a game makes.
+ *  Off, the recorder script is never fetched. Opting in also needs recording
+ *  switched on in the project. */
+const REPLAY = process.env.NEXT_PUBLIC_POSTHOG_REPLAY === "1";
 
 /** Anything a reader typed that the page echoes back as ordinary text: token
  *  tiles, their own task list, the name on a certificate. Inputs themselves

@@ -17,6 +17,10 @@ export const metadata: Metadata = pageMetadata({
  * The privacy page.
  */
 
+/** Matches `REPLAY` in `src/lib/posthog.ts`: the recording paragraph is only
+ *  true when the recorder is opted in. */
+const REPLAY = process.env.NEXT_PUBLIC_POSTHOG_REPLAY === "1";
+
 const STORED = [
   {
     key: "llai-progress",
@@ -126,18 +130,20 @@ export default function Privacy() {
               same name. It is a random string this site made up, attached to
               no account and to no name, and it is never sent to anyone else.
             </p>
-            <p>
-              PostHog also keeps a recording of the visit: where the pointer
-              went, what was tapped, how the page changed. It is a copy of
-              the page itself, not a video of your screen, and it is how I see
-              the moment a game confused somebody rather than guessing at it.
-              PostHog can also have a model watch these recordings and note
-              where people got stuck. Every box you type into is recorded as
-              asterisks, and so is every place the site prints back what you
-              typed: the token tiles, your own task list, the name on a
-              certificate. The certificate itself and the mascot are not
-              recorded at all.
-            </p>
+            {REPLAY && (
+              <p>
+                PostHog also keeps a recording of the visit: where the pointer
+                went, what was tapped, how the page changed. It is a copy of
+                the page itself, not a video of your screen, and it is how I see
+                the moment a game confused somebody rather than guessing at it.
+                PostHog can also have a model watch these recordings and note
+                where people got stuck. Every box you type into is recorded as
+                asterisks, and so is every place the site prints back what you
+                typed: the token tiles, your own task list, the name on a
+                certificate. The certificate itself and the mascot are not
+                recorded at all.
+              </p>
+            )}
             <p>
               Every value in the events is either the lesson slug, which is
               already in the address bar, or a number the site itself

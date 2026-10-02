@@ -95,7 +95,10 @@ export function FitBox({
       const el = box.current;
       if (!el || !port || !pad || el.offsetParent === null) return;
 
-      const screen = `${port.clientWidth}x${port.clientHeight}`;
+      /* offset, not client: clientWidth loses the scrollbar's width whenever
+         a tall state brings one in, which read as a new screen and reset the
+         scale on every answer. */
+      const screen = `${port.offsetWidth}x${port.offsetHeight}`;
       if (screen !== against) {
         against = screen;
         if (scale.current !== 1) {

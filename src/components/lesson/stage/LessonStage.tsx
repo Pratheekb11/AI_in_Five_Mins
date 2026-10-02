@@ -146,7 +146,7 @@ export function LessonStage({
             pin against. */}
         <div
           data-stage-port=""
-          className="min-h-0 grow overflow-x-hidden overflow-y-auto"
+          className="min-h-0 grow overflow-x-hidden overflow-y-auto [scrollbar-gutter:stable]"
         >
           <div
             data-stage-pad=""

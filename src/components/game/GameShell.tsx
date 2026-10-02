@@ -528,6 +528,7 @@ export function GameShell({
                   <button
                     type="button"
                     onClick={begin}
+                    data-game-start=""
                     className="plate misreg btn-primary font-display px-6 py-3 text-lg font-bold"
                   >
                     {startLabel}

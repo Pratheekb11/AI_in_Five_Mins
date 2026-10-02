@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import { HoldRoom } from "@/components/game/HoldRoom";
 import { useCallback, useEffect, useState } from "react";
 import {
   advance,
@@ -77,6 +78,60 @@ export function BucketSort() {
   }, [scene]);
 
   const map = mapOf(scene);
+
+  const hint = (
+    <p className="text-ink-soft text-[0.9375rem]">
+      Put it in a tray. Keys 1&ndash;4 work, and you can change your mind before
+      moving on.
+    </p>
+  );
+
+  /* What was measured that bears on a task. Drawn invisibly before a tray is
+     picked too, so choosing one does not change the board's height. */
+  const evidence = (
+    task: NonNullable<ReturnType<typeof current>>,
+    live: boolean,
+  ) => (
+    <div aria-live={live ? "polite" : undefined}>
+      <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}>
+        <p className="label text-ink-faint mb-2">
+          What we measured that bears on this. The pairing is our judgement, the
+          numbers are not
+        </p>
+        <ul className="mb-3 space-y-2">
+          {task.evidence.map((id) => (
+            <li key={id} className="text-[0.875rem]">
+              <a
+                href={`/lessons/${EVIDENCE[id].slug}`}
+                className="label text-blue-text mr-2 underline underline-offset-2"
+              >
+                {EVIDENCE[id].where}
+              </a>
+              <span className="text-ink-soft">{EVIDENCE[id].finding}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={onward}
+            className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
+          >
+            {scene.at + 1 >= scene.deck.length ? "See my map" : "Next task"}
+          </button>
+          {scene.at > 0 ? (
+            <button
+              type="button"
+              onClick={backward}
+              className="tap plate hover:border-ink px-4 py-2"
+            >
+              Back
+            </button>
+          ) : null}
+        </div>
+      </motion.div>
+    </div>
+  );
 
   return (
     /* Marked as the game section like every cabinet, even though this one is
@@ -269,59 +324,10 @@ export function BucketSort() {
             ))}
           </div>
 
-          <div className="min-h-[4rem] sm:min-h-[7rem]" aria-live="polite">
-            {chosen ? (
-              <motion.div
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <p className="label text-ink-faint mb-2">
-                  What we measured that bears on this. The pairing is our
-                  judgement, the numbers are not
-                </p>
-                <ul className="mb-3 space-y-2">
-                  {task.evidence.map((id) => (
-                    <li key={id} className="text-[0.875rem]">
-                      <a
-                        href={`/lessons/${EVIDENCE[id].slug}`}
-                        className="label text-blue-text mr-2 underline underline-offset-2"
-                      >
-                        {EVIDENCE[id].where}
-                      </a>
-                      <span className="text-ink-soft">
-                        {EVIDENCE[id].finding}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={onward}
-                    className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
-                  >
-                    {scene.at + 1 >= scene.deck.length
-                      ? "See my map"
-                      : "Next task"}
-                  </button>
-                  {scene.at > 0 ? (
-                    <button
-                      type="button"
-                      onClick={backward}
-                      className="tap plate hover:border-ink px-4 py-2"
-                    >
-                      Back
-                    </button>
-                  ) : null}
-                </div>
-              </motion.div>
-            ) : (
-              <p className="text-ink-soft text-[0.9375rem]">
-                Put it in a tray. Keys 1&ndash;4 work, and you can change your
-                mind before moving on.
-              </p>
-            )}
-          </div>
+          <HoldRoom
+            shown={chosen ? evidence(task, true) : hint}
+            held={chosen ? hint : evidence(task, false)}
+          />
         </div>
       ) : null}
     </div>

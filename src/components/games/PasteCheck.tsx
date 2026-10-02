@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
+import { HoldRoom } from "@/components/game/HoldRoom";
 import {
   answerFor,
   type CheckScene,
@@ -56,6 +57,77 @@ export function PasteCheck({
   const answer = payload ? answerFor(payload) : null;
   const verdict =
     payload && revealed ? verdictFor(payload, scene.chosen!) : null;
+
+  const hint = (
+    <p className="text-ink-soft text-[0.9375rem]">
+      Keys 1&ndash;3 work. Take as long as you like, because that is rather the
+      point.
+    </p>
+  );
+
+  /* The verdict for a given choice. Drawn invisibly before the choice too,
+     with the right one standing in, so the board already holds its room. */
+  const reveal = (chosen: NonNullable<typeof scene.chosen>, live: boolean) => {
+    if (!payload || !answer) return null;
+    const v = verdictFor(payload, chosen);
+    return (
+      <div aria-live={live ? "polite" : undefined}>
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <p
+            className={`mb-2 text-[0.9375rem] font-semibold ${
+              v === "right"
+                ? "text-teal-text"
+                : v === "leak"
+                  ? "text-pink-text"
+                  : "text-yellow-text"
+            }`}
+          >
+            {v === "right"
+              ? `${doorSpec(answer!).label}. Yes.`
+              : v === "leak"
+                ? `That sends it further out than it should go. The call here is “${doorSpec(answer!).label}”.`
+                : v === "cautious"
+                  ? "Safe, but this one was fine to use. Over-caution has a cost too."
+                  : `Careful rather than wrong. The call here is “${doorSpec(answer!).label}”.`}
+          </p>
+
+          <p className="label text-ink-faint mb-1">
+            {KIND_LABEL[payload.kind]}
+          </p>
+          <p className="prose-measure text-ink-soft mb-3 text-[0.9375rem]">
+            {KIND_NOTE[payload.kind]}
+          </p>
+
+          {payload.kind !== "open" ? (
+            <ul className="mb-3 space-y-1">
+              {WHY_IT_MATTERS.map((row) => (
+                <li key={row.where} className="text-[0.875rem]">
+                  <a
+                    href={`/lessons/${row.slug}`}
+                    className="label text-blue-text mr-2 underline underline-offset-2"
+                  >
+                    {row.where}
+                  </a>
+                  <span className="text-ink-soft">{row.finding}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          <button
+            type="button"
+            onClick={carryOn}
+            className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
+          >
+            {scene.at + 1 >= scene.deck.length ? "See the result" : "Next item"}
+          </button>
+        </motion.div>
+      </div>
+    );
+  };
 
   useEffect(() => {
     if (!playing || scene.done) return;
@@ -163,8 +235,8 @@ export function PasteCheck({
                 quiz somebody forgot to write the question for. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
               You are deciding what to hand an assistant, not whether to use
-              one. Read what is in the request below, then choose how much of
-              it you would really send.
+              one. Read what is in the request below, then choose how much of it
+              you would really send.
             </p>
             <AnimatePresence mode="wait">
               <motion.div
@@ -220,70 +292,10 @@ export function PasteCheck({
               })}
             </div>
 
-            <div className="min-h-[5rem] sm:min-h-[9rem]" aria-live="polite">
-              {revealed && verdict ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <p
-                    className={`mb-2 text-[0.9375rem] font-semibold ${
-                      verdict === "right"
-                        ? "text-teal-text"
-                        : verdict === "leak"
-                          ? "text-pink-text"
-                          : "text-yellow-text"
-                    }`}
-                  >
-                    {verdict === "right"
-                      ? `${doorSpec(answer!).label}. Yes.`
-                      : verdict === "leak"
-                        ? `That sends it further out than it should go. The call here is “${doorSpec(answer!).label}”.`
-                        : verdict === "cautious"
-                          ? "Safe, but this one was fine to use. Over-caution has a cost too."
-                          : `Careful rather than wrong. The call here is “${doorSpec(answer!).label}”.`}
-                  </p>
-
-                  <p className="label text-ink-faint mb-1">
-                    {KIND_LABEL[payload.kind]}
-                  </p>
-                  <p className="prose-measure text-ink-soft mb-3 text-[0.9375rem]">
-                    {KIND_NOTE[payload.kind]}
-                  </p>
-
-                  {payload.kind !== "open" ? (
-                    <ul className="mb-3 space-y-1">
-                      {WHY_IT_MATTERS.map((row) => (
-                        <li key={row.where} className="text-[0.875rem]">
-                          <a
-                            href={`/lessons/${row.slug}`}
-                            className="label text-blue-text mr-2 underline underline-offset-2"
-                          >
-                            {row.where}
-                          </a>
-                          <span className="text-ink-soft">{row.finding}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-
-                  <button
-                    type="button"
-                    onClick={carryOn}
-                    className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
-                  >
-                    {scene.at + 1 >= scene.deck.length
-                      ? "See the result"
-                      : "Next item"}
-                  </button>
-                </motion.div>
-              ) : (
-                <p className="text-ink-soft text-[0.9375rem]">
-                  Keys 1&ndash;3 work. Take as long as you like, because that is
-                  rather the point.
-                </p>
-              )}
-            </div>
+            <HoldRoom
+              shown={revealed ? reveal(scene.chosen!, true) : hint}
+              held={revealed ? hint : answer ? reveal(answer, false) : null}
+            />
           </>
         ) : null}
       </div>

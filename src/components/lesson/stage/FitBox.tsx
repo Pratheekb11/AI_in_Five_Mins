@@ -116,23 +116,37 @@ export function FitBox({
         parseFloat(cs.paddingBottom);
       if (room <= 0) return;
 
-      for (let i = 0; i < 6; i++) {
-        const need = el.getBoundingClientRect().height;
-        if (need <= 0) return;
-        if (need <= room + 1) break;
-        if (scale.current <= floor) break;
+      const need = el.getBoundingClientRect().height;
+      if (need <= 0 || need <= room + 1 || scale.current <= floor) return;
 
-        const next = Math.max(floor, scale.current * (room / need));
-        if (next > scale.current - 0.004) break;
-        scale.current = next;
-        el.style.zoom = String(next);
-        /* `zoom` scales everything inside it uniformly, including a
-           `.tap::after` pseudo-element's own hardcoded 44px minimum, so a
-           beat scaled to 0.6 was quietly handing out a 26px real tap target
-           while believing it had fixed one. `.tap` reads this back to
-           compensate. */
-        el.style.setProperty("--fit-zoom", String(next));
+      /* Search, all inside this one frame, for the largest scale that fits.
+         Stepping by room / need overshoots: zoom rewraps text at the wider
+         box, so the beat comes out shorter than the ratio predicts, and a
+         beat that would have fitted at 0.8 was being driven to the floor and
+         left there. The intermediate writes are never painted. */
+      const apply = (z: number) => {
+        el.style.zoom = String(z);
+        return el.getBoundingClientRect().height <= room + 1;
+      };
+      let hi = scale.current;
+      let lo = floor;
+      let best = floor;
+      let guess = Math.max(floor, Math.min(hi, scale.current * (room / need)));
+      for (let i = 0; i < 7 && hi - lo > 0.01; i++) {
+        if (apply(guess)) {
+          best = lo = guess;
+        } else {
+          hi = guess;
+        }
+        guess = (lo + hi) / 2;
       }
+      scale.current = best;
+      el.style.zoom = String(best);
+      /* `zoom` scales everything inside it uniformly, including a
+         `.tap::after` pseudo-element's own hardcoded 44px minimum, so a beat
+         scaled to 0.6 was quietly handing out a 26px real tap target while
+         believing it had fixed one. `.tap` reads this back to compensate. */
+      el.style.setProperty("--fit-zoom", String(best));
     }
 
     function schedule() {

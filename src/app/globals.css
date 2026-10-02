@@ -385,11 +385,13 @@
   44px it always was.
 */
 @media (pointer: coarse) {
-  .tap {
+  .tap,
+  .btn-primary {
     position: relative;
   }
 
-  .tap::after {
+  .tap::after,
+  .btn-primary::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -411,6 +413,30 @@
   */
   input[type="range"] {
     min-height: calc(44px / var(--fit-zoom, 1));
+  }
+
+  /*
+    A row of chips. Grown the usual way, each chip's 44px hit area reached
+    across a gap of 5 to 8 screen pixels and over the chip beside or below it,
+    and the later chip in the row painted on top: a tap on the middle of one
+    chip picked its neighbour. Measured with elementFromPoint, some chips kept
+    a 1px strip of their own. In a row the chip itself is made tall enough,
+    the gap wide enough, and the hit area grows by exactly half the gap, so
+    the two together come to 44 real pixels and no chip can reach another.
+  */
+  .flex-wrap:has(> .tap ~ .tap) {
+    --tap-gap: calc(10px / var(--fit-zoom, 1));
+    gap: var(--tap-gap);
+  }
+
+  .flex-wrap:has(> .tap ~ .tap) > .tap {
+    min-width: calc(34px / var(--fit-zoom, 1));
+    min-height: calc(34px / var(--fit-zoom, 1));
+  }
+
+  .flex-wrap:has(> .tap ~ .tap) > .tap::after {
+    width: calc(100% + var(--tap-gap));
+    height: calc(100% + var(--tap-gap));
   }
 }
 

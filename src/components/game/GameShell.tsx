@@ -437,7 +437,9 @@ export function GameShell({
                    catching clicks the first tap on an option was spent
                    dismissing the hint instead of answering: a panel asking
                    for a tap was eating the tap. Now that same tap picks the
-                   option and clears the hint on its way past. */
+                   option and clears the hint on its way past. The button
+                   carries no `.tap` either: grown to 44px it reached over the
+                   answer underneath and caught that answer's taps. */
                 className="pointer-events-none border-ink/25 bg-paper/95 absolute top-1/2 left-1/2 z-10 w-[min(220px,calc(100%-1rem))] -translate-x-1/2 -translate-y-1/2 rounded-[2px] border p-2 text-center shadow-[2px_2px_0_var(--ink)]"
               >
                 <TapDemo />
@@ -447,7 +449,7 @@ export function GameShell({
                 <button
                   type="button"
                   onClick={dismissTapHint}
-                  className="tap label border-ink/40 hover:border-ink pointer-events-auto w-full cursor-pointer rounded-[2px] border px-3 py-1.5"
+                  className="label border-ink/40 hover:border-ink pointer-events-auto w-full cursor-pointer rounded-[2px] border px-3 py-1.5"
                 >
                   Let&rsquo;s play
                 </button>

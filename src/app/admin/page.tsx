@@ -3,6 +3,7 @@
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { clearLocalRows, useLocalRows } from "@/lib/localTelemetry";
+import { posthogConfigured } from "@/lib/posthog";
 import { READING_ORDER } from "@/lib/lessons";
 
 /**
@@ -51,6 +52,14 @@ export default function Admin() {
         </p>
 
         <div className="mb-6 flex flex-wrap gap-4">
+          {/* Whether the aggregate half of the instrumentation is even on in
+              this build. Unset key, no library, no events, and the only other
+              way to find that out is to notice an empty dashboard a week
+              later. */}
+          <p className="label text-ink-faint">
+            PostHog:{" "}
+            {posthogConfigured() ? "sending" : "no key in this build"}
+          </p>
           <p className="label text-ink-faint">
             {visited} of {ranked.length} lessons visited this browser
           </p>

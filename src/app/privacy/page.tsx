@@ -9,13 +9,17 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = pageMetadata({
   title: "What this site keeps",
   description:
-    "Everything AIinFive stores, where it stores it, and how to wipe it in one tap. No accounts, no personal tracking, and nothing identifying is ever sent anywhere.",
+    "Everything AIinFive stores, where it stores it, what the analytics count, and how to wipe your progress in one tap. No accounts, no advertising, and nothing you type leaves your browser.",
   path: "/privacy",
 });
 
 /**
  * The privacy page.
  */
+
+/** Matches `REPLAY` in `src/lib/posthog.ts`: the recording paragraph is only
+ *  true when the recorder is opted in. */
+const REPLAY = process.env.NEXT_PUBLIC_POSTHOG_REPLAY === "1";
 
 const STORED = [
   {
@@ -110,14 +114,42 @@ export default function Privacy() {
               which sets no cookies and builds no profile across sites. On top
               of that the site sends events: how long a page was open, when a
               game was started and finished, what a check scored, how long
-              until the first tap on a page&rsquo;s game, and whether you took
-              the closing screen&rsquo;s action into the next lesson.
+              until the first tap on a page&rsquo;s game, which screen of a
+              chapter you reached, and whether you took the closing
+              screen&rsquo;s action into the next lesson.
             </p>
             <p>
-              Every value in those is either the lesson slug, which is already
-              in the address bar, or a number the site itself produced. Nothing
-              you type is sent anywhere, nothing from local storage is sent
-              anywhere, and there is no identifier to join any of it up. The{" "}
+              Those same events also go to PostHog, which is where I read
+              them. It records the page, the screen you got to, what you
+              clicked and the fact that one visit is one visit, so that
+              &ldquo;half of people stop on the third screen of chapter
+              two&rdquo; is a thing I can find out and fix. To count a visit
+              once it stores an identifier of its own in this browser, under a
+              key beginning{" "}
+              <span className="data text-sm">ph_</span>, and a cookie of the
+              same name. It is a random string this site made up, attached to
+              no account and to no name, and it is never sent to anyone else.
+            </p>
+            {REPLAY && (
+              <p>
+                PostHog also keeps a recording of the visit: where the pointer
+                went, what was tapped, how the page changed. It is a copy of
+                the page itself, not a video of your screen, and it is how I see
+                the moment a game confused somebody rather than guessing at it.
+                PostHog can also have a model watch these recordings and note
+                where people got stuck. Every box you type into is recorded as
+                asterisks, and so is every place the site prints back what you
+                typed: the token tiles, your own task list, the name on a
+                certificate. The certificate itself and the mascot are not
+                recorded at all.
+              </p>
+            )}
+            <p>
+              Every value in the events is either the lesson slug, which is
+              already in the address bar, or a number the site itself
+              produced. Nothing you type is sent anywhere, nothing you have
+              saved on this site is sent anywhere, and the only thing joining
+              any of it up is that random per-browser string. The{" "}
               <span className="data text-sm">/admin</span> page reads a local
               copy of the interaction ones back out of this browser&rsquo;s own
               storage. It is a way to check the instrumentation works, not a
@@ -141,9 +173,14 @@ export default function Privacy() {
               press play, YouTube&rsquo;s own terms apply to that player.
             </p>
             <p>
-              Nothing else on any page comes from another company. There are no
-              trackers, no advertising, no fonts loaded at request time and no
-              third-party scripts.
+              The analytics above are the only other thing loaded from
+              elsewhere: Vercel&rsquo;s own, served from this site&rsquo;s
+              address, and PostHog&rsquo;s library, fetched from{" "}
+              <span className="data text-sm">posthog.com</span> after the page
+              has finished loading so it cannot slow anything down. Beyond
+              those there is no advertising, no advertising network, no fonts
+              loaded at request time and nothing that follows you to another
+              site.
             </p>
           </div>
         </section>

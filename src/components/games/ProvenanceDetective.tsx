@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
+import { HoldRoom } from "@/components/game/HoldRoom";
 import {
   answerFor,
   call,
@@ -45,9 +46,7 @@ export function ProvenanceDetective({
   initialData?: ProvenanceData;
   initialScene?: ProvenanceScene;
 } = {}) {
-  const [data, setData] = useState<ProvenanceData | null>(
-    initialData ?? null,
-  );
+  const [data, setData] = useState<ProvenanceData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
   const [scene, setScene] = useState<ProvenanceScene>(
     () => initialScene ?? newScene(),
@@ -97,6 +96,149 @@ export function ProvenanceDetective({
   const revealed = scene.called !== null;
   const truth = round ? answerFor(round) : null;
   const correct = revealed && scene.called === truth;
+
+  const hint = (
+    <p className="text-ink-soft text-[0.9375rem]">
+      Keys 1&ndash;3 work. There is no way to tell from the answer itself. That
+      is the point of calling it first.
+    </p>
+  );
+
+  /* The evidence for a given call. Drawn invisibly before the call too, with
+     the right door standing in, so the board already holds its room. */
+  const reveal = (called: Verdict, live: boolean) => {
+    if (!round || !truth) return null;
+    const ok = called === truth;
+    return (
+      <div aria-live={live ? "polite" : undefined}>
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <p
+            className={`mb-3 text-[0.9375rem] font-semibold ${
+              ok ? "text-teal-text" : "text-pink-text"
+            }`}
+          >
+            {ok
+              ? `${VERDICTS[truth!].label}. +${pointsFor(round, called)}`
+              : `Not quite. ${VERDICTS[truth!].label}.`}
+          </p>
+
+          {isSum(round) ? (
+            <div className="plate-flush px-4 py-3">
+              <p className="label text-ink-faint mb-1">
+                What it actually produced
+              </p>
+              <p className="font-data mb-2 text-[1.0625rem]">
+                {round.prompt}
+                <span className="bg-pink-wash text-pink-text ml-1 rounded-[2px] px-2">
+                  {round.raw || "-"}
+                </span>
+              </p>
+              <p className="text-ink-soft text-[0.9375rem]">
+                The answer is {round.truth}. It read the shape of the line as a
+                statistics table and continued that instead. Handing it a
+                document would not help: nothing it could read contains this
+                sum. That is the difference between a thing that recalls and a
+                thing that computes.
+              </p>
+            </div>
+          ) : (
+            <>
+              <p className="label text-ink-faint mb-2">
+                Chance it produces &ldquo;{round.answerLabel}&rdquo;
+              </p>
+              <ul className="mb-3 space-y-2">
+                {[
+                  {
+                    label: "Asked cold",
+                    m: round.bare,
+                    ink: "bg-pink",
+                  },
+                  {
+                    label: "With the source in front of it",
+                    m: round.sourced,
+                    ink: "bg-teal",
+                  },
+                ].map((row, i) => (
+                  <li key={row.label} className="flex items-center gap-3">
+                    <span className="w-44 shrink-0 text-[0.875rem]">
+                      {row.label}
+                    </span>
+                    <span className="bg-paper-sunk border-ink/20 h-4 flex-1 overflow-hidden rounded-[1px] border">
+                      <motion.span
+                        className={`block h-full ${row.ink}`}
+                        initial={{ width: 0 }}
+                        animate={{
+                          width: `${row.m.probability * 100}%`,
+                        }}
+                        transition={{
+                          duration: 0.7,
+                          delay: 0.15 + i * 0.2,
+                          ease: "easeOut",
+                        }}
+                      />
+                    </span>
+                    <span className="data text-ink-soft w-16 shrink-0 text-right text-xs tabular-nums">
+                      {(row.m.probability * 100).toFixed(
+                        row.m.probability < 0.01 ? 2 : 1,
+                      )}
+                      %
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="prose-measure text-ink-soft mb-2 text-[0.9375rem]">
+                {round.kind === "memory"
+                  ? "It had this already. The true answer was its own first choice, with no help at all. Handing it the source barely moved anything."
+                  : `Cold, the true answer was its ${round.bare.rank + 1}th choice out of 50,257, and it would have said “${round.bare.topText.trim()}” instead. With the source in front of it, near-certain. Nothing about the model changed; only what it could see.`}
+              </p>
+              <p className="text-ink-faint text-[0.8125rem]">
+                <a
+                  href={round.citation.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="underline underline-offset-2"
+                >
+                  Checked against {round.citation.title}
+                </a>
+                {round.citation.revision
+                  ? `, revision ${round.citation.revision}.`
+                  : "."}
+              </p>
+            </>
+          )}
+
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={carryOn}
+              className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
+            >
+              {scene.at + 1 >= scene.rounds.length
+                ? "See the result"
+                : "Next case"}
+            </button>
+
+            {/* The point is made by the third case. Everything after
+                        it is practice, and practice nobody chose reads as
+                        homework. */}
+            {scene.at >= 2 && scene.at + 1 < scene.rounds.length ? (
+              <button
+                type="button"
+                onClick={stopHere}
+                className="label border-ink/40 hover:border-ink cursor-pointer rounded-[2px] border px-4 py-2.5"
+              >
+                I have got it
+              </button>
+            ) : null}
+          </div>
+        </motion.div>
+      </div>
+    );
+  };
 
   useEffect(() => {
     if (!playing || scene.done) return;
@@ -190,10 +332,18 @@ export function ProvenanceDetective({
                 three doors) never mounts, the round is dealt server-side,
                 so `playing` is already true on arrival. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
-              Before you see any evidence: does the model already know this
-              cold, does it need the source put in front of it, or does it
-              need a tool that can actually calculate? Call it first, because
-              in real use you never get to peek.
+              {/* One sentence on a phone, where the full premise pushed Next
+                  case below the bottom of the screen. */}
+              <span className="sm:hidden">
+                Call it before you see the evidence: does it already know, need
+                the source, or need a real tool?
+              </span>
+              <span className="hidden sm:inline">
+                Before you see any evidence: does the model already know this
+                cold, does it need the source put in front of it, or does it
+                need a tool that can actually calculate? Call it first, because
+                in real use you never get to peek.
+              </span>
             </p>
             <p className="label text-ink-faint mb-2">The question</p>
             <p className="prose-measure mb-5 text-[1.25rem] leading-snug">
@@ -231,143 +381,10 @@ export function ProvenanceDetective({
               })}
             </div>
 
-            <div className="min-h-[4rem] sm:min-h-[11rem]" aria-live="polite">
-              {revealed ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <p
-                    className={`mb-3 text-[0.9375rem] font-semibold ${
-                      correct ? "text-teal-text" : "text-pink-text"
-                    }`}
-                  >
-                    {correct
-                      ? `${VERDICTS[truth!].label}. +${pointsFor(round, scene.called!)}`
-                      : `Not quite. ${VERDICTS[truth!].label}.`}
-                  </p>
-
-                  {isSum(round) ? (
-                    <div className="plate-flush px-4 py-3">
-                      <p className="label text-ink-faint mb-1">
-                        What it actually produced
-                      </p>
-                      <p className="font-data mb-2 text-[1.0625rem]">
-                        {round.prompt}
-                        <span className="bg-pink-wash text-pink-text ml-1 rounded-[2px] px-2">
-                          {round.raw || "-"}
-                        </span>
-                      </p>
-                      <p className="text-ink-soft text-[0.9375rem]">
-                        The answer is {round.truth}. It read the shape of the
-                        line as a statistics table and continued that instead.
-                        Handing it a document would not help: nothing it could
-                        read contains this sum. That is the difference between a
-                        thing that recalls and a thing that computes.
-                      </p>
-                    </div>
-                  ) : (
-                    <>
-                      <p className="label text-ink-faint mb-2">
-                        Chance it produces &ldquo;{round.answerLabel}&rdquo;
-                      </p>
-                      <ul className="mb-3 space-y-2">
-                        {[
-                          {
-                            label: "Asked cold",
-                            m: round.bare,
-                            ink: "bg-pink",
-                          },
-                          {
-                            label: "With the source in front of it",
-                            m: round.sourced,
-                            ink: "bg-teal",
-                          },
-                        ].map((row, i) => (
-                          <li
-                            key={row.label}
-                            className="flex items-center gap-3"
-                          >
-                            <span className="w-44 shrink-0 text-[0.875rem]">
-                              {row.label}
-                            </span>
-                            <span className="bg-paper-sunk border-ink/20 h-4 flex-1 overflow-hidden rounded-[1px] border">
-                              <motion.span
-                                className={`block h-full ${row.ink}`}
-                                initial={{ width: 0 }}
-                                animate={{
-                                  width: `${row.m.probability * 100}%`,
-                                }}
-                                transition={{
-                                  duration: 0.7,
-                                  delay: 0.15 + i * 0.2,
-                                  ease: "easeOut",
-                                }}
-                              />
-                            </span>
-                            <span className="data text-ink-soft w-16 shrink-0 text-right text-xs tabular-nums">
-                              {(row.m.probability * 100).toFixed(
-                                row.m.probability < 0.01 ? 2 : 1,
-                              )}
-                              %
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                      <p className="prose-measure text-ink-soft mb-2 text-[0.9375rem]">
-                        {round.kind === "memory"
-                          ? "It had this already. The true answer was its own first choice, with no help at all. Handing it the source barely moved anything."
-                          : `Cold, the true answer was its ${round.bare.rank + 1}th choice out of 50,257, and it would have said “${round.bare.topText.trim()}” instead. With the source in front of it, near-certain. Nothing about the model changed; only what it could see.`}
-                      </p>
-                      <p className="text-ink-faint text-[0.8125rem]">
-                        <a
-                          href={round.citation.url}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          className="underline underline-offset-2"
-                        >
-                          Checked against {round.citation.title}
-                        </a>
-                        {round.citation.revision
-                          ? `, revision ${round.citation.revision}.`
-                          : "."}
-                      </p>
-                    </>
-                  )}
-
-                  <div className="mt-4 flex flex-wrap items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={carryOn}
-                      className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
-                    >
-                      {scene.at + 1 >= scene.rounds.length
-                        ? "See the result"
-                        : "Next case"}
-                    </button>
-
-                    {/* The point is made by the third case. Everything after
-                        it is practice, and practice nobody chose reads as
-                        homework. */}
-                    {scene.at >= 2 && scene.at + 1 < scene.rounds.length ? (
-                      <button
-                        type="button"
-                        onClick={stopHere}
-                        className="label border-ink/40 hover:border-ink cursor-pointer rounded-[2px] border px-4 py-2.5"
-                      >
-                        I have got it
-                      </button>
-                    ) : null}
-                  </div>
-                </motion.div>
-              ) : (
-                <p className="text-ink-soft text-[0.9375rem]">
-                  Keys 1&ndash;3 work. There is no way to tell from the answer
-                  itself. That is the point of calling it first.
-                </p>
-              )}
-            </div>
+            <HoldRoom
+              shown={revealed ? reveal(scene.called!, true) : hint}
+              held={revealed ? hint : truth ? reveal(truth, false) : null}
+            />
           </>
         ) : (
           <p className="text-ink-soft text-[0.9375rem]">

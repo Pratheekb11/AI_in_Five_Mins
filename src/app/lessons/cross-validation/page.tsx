@@ -1,17 +1,13 @@
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { OneFoldOrTen } from "@/components/games/OneFoldOrTen";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { FoldsFigure } from "@/components/machines/FoldsFigure";
 import type { CheckBeat } from "@/lib/check";
-import {
-  start as dealCrossval,
-  type CrossvalData,
-} from "@/lib/game/crossval";
+import { start as dealCrossval, type CrossvalData } from "@/lib/game/crossval";
 import { getLesson } from "@/lib/lessons";
 import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
@@ -121,31 +117,40 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function CrossValidationLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            Same model, same messages, and the score moves by{" "}
-            <span className="text-pink-text">a point and a half</span>.
-          </>
-        }
-        sting="Nothing changed except which slice of the data was held out. On close comparisons that wobble is bigger than the gap you are trying to measure, so the single number in the report picks the wrong winner. You get one slice. Call it anyway."
-        cta="See the first slice"
-      />
-
-      <div className="py-4">
-        <OneFoldOrTen
-          initialData={crossvalData}
-          initialScene={initialScene}
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              Same model, same messages, and the score moves by{" "}
+              <span className="text-pink-text">a point and a half</span>.
+            </>
+          }
+          sting="Nothing changed except which slice of the data was held out. On close comparisons that wobble is bigger than the gap you are trying to measure, so the single number in the report picks the wrong winner. You get one slice. Call it anyway."
+          cta="See the first slice"
         />
-      </div>
+      ),
+    },
+    {
+      id: "game",
+      cta: "Why ten folds",
+      node: (
+        <OneFoldOrTen initialData={crossvalData} initialScene={initialScene} />
+      ),
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<FoldsFigure />} />,
+    },
+  ];
 
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<FoldsFigure />} />
-      </div>
-
-      <DeeperRow>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Why ten folds, and not two, or a hundred?"
           summary="Because it is the cheapest count that keeps both kinds of error small, which is roughly what Kohavi found."
@@ -194,27 +199,39 @@ export default function CrossValidationLesson() {
             would not be fine for declaring a winner and quoting its number.
           </p>
         </MechanismPanel>
-
-        <PracticeCard
-          title="Ask for the error bar"
-          watchFor="Whether the gap between the option somebody is recommending and the one they rejected is bigger than the wobble. Very often nobody has checked, and the recommendation rests on noise."
-        >
-          <p>
-            Next time somebody shows you a model comparison, ask two questions.
-            How many times was each of these measured, and how much did the
-            number move between runs?
-          </p>
-          <p>
-            If the answer is once, ask what it would take to run it five times.
-            Usually it is an afternoon.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+        <Fold title="Go and try this for real" note="Ask for the error bar">
+          <PracticeCard
+            title="Ask for the error bar"
+            watchFor="Whether the gap between the option somebody is recommending and the one they rejected is bigger than the wobble. Very often nobody has checked, and the recommendation rests on noise."
+          >
+            <p>
+              Next time somebody shows you a model comparison, ask two
+              questions. How many times was each of these measured, and how much
+              did the number move between runs?
+            </p>
+            <p>
+              If the answer is once, ask what it would take to run it five
+              times. Usually it is an afternoon.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

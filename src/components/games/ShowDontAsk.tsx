@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
+import { HoldRoom } from "@/components/game/HoldRoom";
 import {
   current,
   type ListenData,
@@ -117,6 +118,194 @@ export function ShowDontAsk({
     return () => window.removeEventListener("keydown", onKey);
   }, [playing, scene.done, choose, carryOn, variants]);
 
+  /* The board for a given pick, or for none. Both versions are drawn, the
+     one not on show invisibly, so answering does not change its height. */
+  const board = (picked: string | null, live: boolean) => {
+    if (!round) return null;
+    const shown = picked !== null;
+    const ok = shown && picked === winner?.id;
+    return (
+      <>
+        <p className="label text-ink-faint mb-1 sm:mb-2">What you want</p>
+        <p className="prose-measure mb-1 text-[1.0625rem]">{round.goal}</p>
+        <p
+          className={`text-ink-faint mb-3 text-[0.8125rem] sm:mb-5 ${
+            shown ? "hidden sm:block" : ""
+          }`}
+        >
+          Scored on the chance the model produces{" "}
+          <span className="font-data">&ldquo;{round.target.trim()}&rdquo;</span>{" "}
+          next.
+        </p>
+
+        {/* Once they are evidence rather than a question, the five go
+            two across on a wide screen, and the verdict takes the sixth cell
+            beside the last one rather than a row of its own below the fold.
+            The list is `contents` there so its items and the verdict share
+            one grid. */}
+        <div className={shown ? "sm:grid sm:grid-cols-2 sm:gap-2" : ""}>
+          <ul
+            className={`space-y-1.5 ${shown ? "sm:contents" : "sm:space-y-2"}`}
+          >
+            {variants.map((variant, i) => {
+              const isWinner = shown && variant.id === winner?.id;
+              const isYours = picked === variant.id;
+              const multiple = timesBare(round, variant);
+              return (
+                <li key={variant.id}>
+                  <button
+                    type="button"
+                    disabled={shown}
+                    onClick={() => choose(variant.id)}
+                    className={`tap plate w-full px-3 py-2 text-left transition-colors sm:px-4 sm:py-3 ${
+                      isWinner
+                        ? "border-teal bg-teal-wash"
+                        : isYours
+                          ? "border-pink bg-pink-wash"
+                          : shown
+                            ? ""
+                            : "hover:border-ink cursor-pointer"
+                    }`}
+                  >
+                    <span className="mb-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <span className="label text-ink-faint">{i + 1}</span>
+                      {shown ? (
+                        <span className="label text-ink-faint">
+                          {data?.styles[variant.style]}
+                        </span>
+                      ) : null}
+                      {isYours ? (
+                        <span className="label text-pink-text">you</span>
+                      ) : null}
+                    </span>
+                    {/* Before the pick this is the question, so it is
+                          printed in full. After it, the reader has already
+                          read all four and the evidence is the bar: on a phone
+                          the prompt drops back to two lines so the whole
+                          result stays on one screen. */}
+                    <span
+                      className={`font-data text-[0.9375rem] whitespace-pre-wrap ${
+                        shown
+                          ? "line-clamp-1 sm:block sm:line-clamp-none"
+                          : "block"
+                      }`}
+                    >
+                      {variant.prompt}
+                    </span>
+
+                    {shown ? (
+                      <span className="mt-2 flex items-center gap-3">
+                        <span className="bg-paper-sunk border-ink/20 h-3 flex-1 overflow-hidden rounded-[1px] border">
+                          <motion.span
+                            className={`block h-full ${
+                              isWinner ? "bg-teal" : "bg-ink/30"
+                            }`}
+                            initial={{ width: 0 }}
+                            animate={{
+                              width: `${(variant.probability / widest) * 100}%`,
+                            }}
+                            transition={{
+                              duration: 0.7,
+                              delay: 0.2,
+                              ease: "easeOut",
+                            }}
+                          />
+                        </span>
+                        <span className="data text-ink-soft w-20 shrink-0 text-right text-xs tabular-nums">
+                          {(variant.probability * 100).toFixed(
+                            variant.probability < 0.001 ? 4 : 2,
+                          )}
+                          %
+                        </span>
+                        <span
+                          className={`data w-16 shrink-0 text-right text-xs tabular-nums ${
+                            multiple && multiple >= 2
+                              ? "text-teal-text"
+                              : multiple && multiple < 1
+                                ? "text-pink-text"
+                                : "text-ink-soft"
+                          }`}
+                        >
+                          {multiple
+                            ? `${multiple.toFixed(multiple >= 10 ? 0 : 1)}×`
+                            : "-"}
+                        </span>
+
+                        {/* What came back rides on the bar that measured
+                              it. It used to be a second list underneath, which
+                              printed every prompt twice and pushed the verdict
+                              off the bottom of the screen. */}
+                        <span
+                          className={`data max-w-[45%] shrink truncate rounded-[2px] border px-1.5 py-0.5 text-xs font-bold ${
+                            isWinner
+                              ? "border-teal-text/40 bg-teal-wash text-teal-text"
+                              : "border-ink/25 text-ink-faint"
+                          }`}
+                        >
+                          {saidBy(variant) || "said nothing at all"}
+                        </span>
+                      </span>
+                    ) : null}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+
+          <div
+            className={`mt-2 min-h-[4rem] ${
+              shown
+                ? "sm:mt-0 sm:self-center sm:px-2"
+                : "sm:mt-4 sm:min-h-[6rem]"
+            }`}
+            aria-live={live ? "polite" : undefined}
+          >
+            {shown && winner ? (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45, duration: 0.3 }}
+                /* On a phone the verdict and Next one share a line and the
+                   explanation follows, so the button is never the thing below
+                   the bottom of the screen. Block from `sm`, in DOM order. */
+                className="flex flex-wrap items-center justify-between gap-x-3 sm:block"
+              >
+                <p
+                  className={`order-1 mb-1 text-[0.9375rem] font-semibold ${
+                    ok ? "text-teal-text" : "text-pink-text"
+                  }`}
+                >
+                  {ok ? `Right. +${pointsFor(round, picked)}` : "Not that one."}
+                </p>
+                {/* What each phrasing actually got back. Asking politely
+                      returns an empty line, and printing that blank is worth
+                      more than any number beside it. */}
+                <p className="prose-measure text-ink-soft order-3 mt-2 mb-2 basis-full text-[0.8125rem] sm:mt-0 sm:mb-3 sm:text-[0.9375rem]">
+                  The one that worked stopped asking and started showing.
+                  Politeness and job titles got a blank line.
+                </p>
+                <button
+                  type="button"
+                  onClick={carryOn}
+                  className="plate misreg btn-primary font-display order-2 px-5 py-2.5 font-bold"
+                >
+                  {scene.at + 1 >= scene.rounds.length
+                    ? "See the result"
+                    : "Next one"}
+                </button>
+              </motion.div>
+            ) : (
+              <p className="text-ink-soft text-[0.9375rem]">
+                Keys 1&ndash;{variants.length} work. Pick the one you would
+                actually type.
+              </p>
+            )}
+          </div>
+        </div>
+      </>
+    );
+  };
+
   return (
     <GameShell
       gameId="show-dont-ask"
@@ -211,188 +400,24 @@ export function ShowDontAsk({
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
               {phone ? (
                 <>
-                  Five ways of asking for the same thing. Pick the one you
-                  think gets closest.
+                  Five ways of asking for the same thing. Pick the one you think
+                  gets closest.
                 </>
               ) : (
                 <>
                   Same model, same thing wanted, five different ways of asking
-                  for it. Pick the wording you think gets closest, then all
-                  five are run and scored on what the model actually produced.
+                  for it. Pick the wording you think gets closest, then all five
+                  are run and scored on what the model actually produced.
                 </>
               )}
             </p>
-            <p className="label text-ink-faint mb-1 sm:mb-2">What you want</p>
-            <p className="prose-measure mb-1 text-[1.0625rem]">{round.goal}</p>
-            <p
-              className={`text-ink-faint mb-3 text-[0.8125rem] sm:mb-5 ${
-                revealed ? "hidden sm:block" : ""
-              }`}
-            >
-              Scored on the chance the model produces{" "}
-              <span className="font-data">
-                &ldquo;{round.target.trim()}&rdquo;
-              </span>{" "}
-              next.
-            </p>
-
-            {/* Once they are evidence rather than a question, the five go
-                two across on a wide screen: the verdict underneath is what
-                the reader is waiting for and it should not be below the
-                fold. */}
-            <ul
-              className={`space-y-1.5 sm:space-y-2 ${
-                revealed ? "sm:grid sm:grid-cols-2 sm:gap-2 sm:space-y-0" : ""
-              }`}
-            >
-              {variants.map((variant, i) => {
-                const isWinner = revealed && variant.id === winner?.id;
-                const isYours = scene.picked === variant.id;
-                const multiple = timesBare(round, variant);
-                return (
-                  <li key={variant.id}>
-                    <button
-                      type="button"
-                      disabled={revealed}
-                      onClick={() => choose(variant.id)}
-                      className={`tap plate w-full px-3 py-2 text-left transition-colors sm:px-4 sm:py-3 ${
-                        isWinner
-                          ? "border-teal bg-teal-wash"
-                          : isYours
-                            ? "border-pink bg-pink-wash"
-                            : revealed
-                              ? ""
-                              : "hover:border-ink cursor-pointer"
-                      }`}
-                    >
-                      <span className="mb-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                        <span className="label text-ink-faint">{i + 1}</span>
-                        {revealed ? (
-                          <span className="label text-ink-faint">
-                            {data?.styles[variant.style]}
-                          </span>
-                        ) : null}
-                        {isYours ? (
-                          <span className="label text-pink-text">you</span>
-                        ) : null}
-                      </span>
-                      {/* Before the pick this is the question, so it is
-                          printed in full. After it, the reader has already
-                          read all four and the evidence is the bar: on a phone
-                          the prompt drops back to two lines so the whole
-                          result stays on one screen. */}
-                      <span
-                        className={`font-data text-[0.9375rem] whitespace-pre-wrap ${
-                          revealed
-                            ? "line-clamp-1 sm:block sm:line-clamp-none"
-                            : "block"
-                        }`}
-                      >
-                        {variant.prompt}
-                      </span>
-
-                      {revealed ? (
-                        <span className="mt-2 flex items-center gap-3">
-                          <span className="bg-paper-sunk border-ink/20 h-3 flex-1 overflow-hidden rounded-[1px] border">
-                            <motion.span
-                              className={`block h-full ${
-                                isWinner ? "bg-teal" : "bg-ink/30"
-                              }`}
-                              initial={{ width: 0 }}
-                              animate={{
-                                width: `${(variant.probability / widest) * 100}%`,
-                              }}
-                              transition={{
-                                duration: 0.7,
-                                delay: 0.2,
-                                ease: "easeOut",
-                              }}
-                            />
-                          </span>
-                          <span className="data text-ink-soft w-20 shrink-0 text-right text-xs tabular-nums">
-                            {(variant.probability * 100).toFixed(
-                              variant.probability < 0.001 ? 4 : 2,
-                            )}
-                            %
-                          </span>
-                          <span
-                            className={`data w-16 shrink-0 text-right text-xs tabular-nums ${
-                              multiple && multiple >= 2
-                                ? "text-teal-text"
-                                : multiple && multiple < 1
-                                  ? "text-pink-text"
-                                  : "text-ink-soft"
-                            }`}
-                          >
-                            {multiple
-                              ? `${multiple.toFixed(multiple >= 10 ? 0 : 1)}×`
-                              : "-"}
-                          </span>
-
-                          {/* What came back rides on the bar that measured
-                              it. It used to be a second list underneath, which
-                              printed every prompt twice and pushed the verdict
-                              off the bottom of the screen. */}
-                          <span
-                            className={`data max-w-[45%] shrink truncate rounded-[2px] border px-1.5 py-0.5 text-xs font-bold ${
-                              isWinner
-                                ? "border-teal-text/40 bg-teal-wash text-teal-text"
-                                : "border-ink/25 text-ink-faint"
-                            }`}
-                          >
-                            {saidBy(variant) || "said nothing at all"}
-                          </span>
-                        </span>
-                      ) : null}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-
-            <div
-              className="mt-2 min-h-[4rem] sm:mt-4 sm:min-h-[6rem]"
-              aria-live="polite"
-            >
-              {revealed && winner ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.45, duration: 0.3 }}
-                >
-                  <p
-                    className={`mb-1 text-[0.9375rem] font-semibold ${
-                      correct ? "text-teal-text" : "text-pink-text"
-                    }`}
-                  >
-                    {correct
-                      ? `Right. +${pointsFor(round, scene.picked!)}`
-                      : "Not that one."}
-                  </p>
-                  {/* What each phrasing actually got back. Asking politely
-                      returns an empty line, and printing that blank is worth
-                      more than any number beside it. */}
-                  <p className="prose-measure text-ink-soft mb-2 text-[0.8125rem] sm:mb-3 sm:text-[0.9375rem]">
-                    The one that worked stopped asking and started showing.
-                    Politeness and job titles got a blank line.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={carryOn}
-                    className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
-                  >
-                    {scene.at + 1 >= scene.rounds.length
-                      ? "See the result"
-                      : "Next one"}
-                  </button>
-                </motion.div>
-              ) : (
-                <p className="text-ink-soft text-[0.9375rem]">
-                  Keys 1&ndash;{variants.length} work. Pick the one you would
-                  actually type.
-                </p>
+            <HoldRoom
+              shown={board(scene.picked, true)}
+              held={board(
+                scene.picked === null ? (winner?.id ?? null) : null,
+                false,
               )}
-            </div>
+            />
           </>
         ) : (
           <p className="text-ink-soft text-[0.9375rem]">

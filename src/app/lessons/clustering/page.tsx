@@ -1,17 +1,13 @@
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { OddOneIn } from "@/components/games/OddOneIn";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { ClusterFigure } from "@/components/machines/ClusterFigure";
 import type { CheckBeat } from "@/lib/check";
-import {
-  start as dealClusters,
-  type ClusterData,
-} from "@/lib/game/clusters";
+import { start as dealClusters, type ClusterData } from "@/lib/game/clusters";
 import { getLesson } from "@/lib/lessons";
 import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
@@ -125,31 +121,41 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function ClusteringLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            Ask for eight groups and you get eight,{" "}
-            <span className="text-pink-text">
-              whether or not there are eight
-            </span>
-            .
-          </>
-        }
-        sting="No labels, no answers, nothing to score. 1,851 real word vectors and one number, and it comes back with groups: some of them obviously colours and animals, some of them a shrug. Five rounds, and you say which word the algorithm put where."
-        cta="See the first group"
-      />
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              Ask for eight groups and you get eight,{" "}
+              <span className="text-pink-text">
+                whether or not there are eight
+              </span>
+              .
+            </>
+          }
+          sting="No labels, no answers, nothing to score. 1,851 real word vectors and one number, and it comes back with groups: some of them obviously colours and animals, some of them a shrug. Five rounds, and you say which word the algorithm put where."
+          cta="See the first group"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "What groups are",
+      node: <OddOneIn initialData={clusterData} initialScene={initialScene} />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<ClusterFigure />} />,
+    },
+  ];
 
-      <div className="py-4">
-        <OddOneIn initialData={clusterData} initialScene={initialScene} />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<ClusterFigure />} />
-      </div>
-
-      <DeeperRow>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="How does it decide, with nothing to learn from?"
           summary="It alternates two easy steps: put everything with its nearest centre, then move each centre to the middle of what it got."
@@ -199,27 +205,42 @@ export default function ClusteringLesson() {
             similar gets weaker the more features you add.
           </p>
         </MechanismPanel>
-
-        <PracticeCard
-          title="Name the groups before you look at the count"
-          watchFor="Whether you can describe a group without using the word cluster. If the best description is these are the ones in group four, the group is an artefact of the number you chose."
+        <Fold
+          title="Go and try this for real"
+          note="Name the groups before you look at the count"
         >
-          <p>
-            If anybody near you has clustered customers, documents or events,
-            ask to see the members of each group rather than the summary, and
-            try to name each one out loud.
-          </p>
-          <p>
-            Then ask what number they asked for, and what happened when they
-            asked for a different one.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Name the groups before you look at the count"
+            watchFor="Whether you can describe a group without using the word cluster. If the best description is these are the ones in group four, the group is an artefact of the number you chose."
+          >
+            <p>
+              If anybody near you has clustered customers, documents or events,
+              ask to see the members of each group rather than the summary, and
+              try to name each one out loud.
+            </p>
+            <p>
+              Then ask what number they asked for, and what happened when they
+              asked for a different one.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

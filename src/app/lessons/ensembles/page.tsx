@@ -1,7 +1,6 @@
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { WorthTheCrowd } from "@/components/games/WorthTheCrowd";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -124,28 +123,40 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function EnsemblesLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            Sixty of the <span className="text-pink-text">worst</span> models
-            gained the most. Sixty of the best gained nothing.
-          </>
-        }
-        sting="The stumps score 93.3% each and vote to 95.9%. The identical deep trees score 97.9% each and vote to 97.9%. What a crowd buys is not quality, it is disagreement, and one of these forests has none. Four forests, and you call what the vote is worth."
-        cta="Meet the first forest"
-      />
-
-      <div className="py-4">
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              Sixty of the <span className="text-pink-text">worst</span> models
+              gained the most. Sixty of the best gained nothing.
+            </>
+          }
+          sting="The stumps score 93.3% each and vote to 95.9%. The identical deep trees score 97.9% each and vote to 97.9%. What a crowd buys is not quality, it is disagreement, and one of these forests has none. Four forests, and you call what the vote is worth."
+          cta="Meet the first forest"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "Why a crowd",
+      node: (
         <WorthTheCrowd initialData={forestData} initialScene={initialScene} />
-      </div>
+      ),
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<ForestFigure />} />,
+    },
+  ];
 
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<ForestFigure />} />
-      </div>
-
-      <DeeperRow>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Why does averaging mistakes help at all?"
           summary="Because independent mistakes land in different places, and a majority only needs most voters to be right on each item."
@@ -194,24 +205,39 @@ export default function EnsemblesLesson() {
             logistic module, and often more honest.
           </p>
         </MechanismPanel>
-
-        <PracticeCard
-          title="Check whether your models disagree"
-          watchFor="How often two of them give different answers to the same input. If it is close to never, the ensemble is decorative and you are paying for it."
+        <Fold
+          title="Go and try this for real"
+          note="Check whether your models disagree"
         >
-          <p>
-            If anybody near you runs an ensemble, ask for the disagreement rate
-            between its members on real inputs. Not their accuracies. How often
-            they differ from each other.
-          </p>
-          <p>Then ask where the independence was supposed to come from.</p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Check whether your models disagree"
+            watchFor="How often two of them give different answers to the same input. If it is close to never, the ensemble is decorative and you are paying for it."
+          >
+            <p>
+              If anybody near you runs an ensemble, ask for the disagreement
+              rate between its members on real inputs. Not their accuracies. How
+              often they differ from each other.
+            </p>
+            <p>Then ask where the independence was supposed to come from.</p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

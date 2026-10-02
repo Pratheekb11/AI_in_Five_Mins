@@ -1,17 +1,13 @@
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { ReadTheScore } from "@/components/games/ReadTheScore";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { LogisticFigure } from "@/components/machines/LogisticFigure";
 import type { CheckBeat } from "@/lib/check";
-import {
-  start as dealLogistic,
-  type LogisticData,
-} from "@/lib/game/logistic";
+import { start as dealLogistic, type LogisticData } from "@/lib/game/logistic";
 import { getLesson } from "@/lib/lessons";
 import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
@@ -115,28 +111,41 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function LogisticRegressionLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            Two numbers per message, one line, and{" "}
-            <span className="text-teal-text">96.8%</span> of them sorted right.
-          </>
-        }
-        sting="How long it is, and how many digits it has. That is everything this model knows, which means the whole of it fits on a page and you can watch it train. Six real messages, and you say how sure it will be about each one."
-        cta="Read the first one"
-      />
-
-      <div className="py-4">
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              Two numbers per message, one line, and{" "}
+              <span className="text-teal-text">96.8%</span> of them sorted
+              right.
+            </>
+          }
+          sting="How long it is, and how many digits it has. That is everything this model knows, which means the whole of it fits on a page and you can watch it train. Six real messages, and you say how sure it will be about each one."
+          cta="Read the first one"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "What a score is",
+      node: (
         <ReadTheScore initialData={logisticData} initialScene={initialScene} />
-      </div>
+      ),
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<LogisticFigure />} />,
+    },
+  ];
 
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<LogisticFigure />} />
-      </div>
-
-      <DeeperRow>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Why put the answer through a curve at all?"
           summary="Because a probability has to sit between nought and one, and a straight line does not."
@@ -185,27 +194,42 @@ export default function LogisticRegressionLesson() {
             look at.
           </p>
         </MechanismPanel>
-
-        <PracticeCard
-          title="Plot two features and look"
-          watchFor="Whether a straight line could separate the two colours at all. If it obviously could not, that is a feature problem, and reaching for a bigger model first will hide it rather than fix it."
+        <Fold
+          title="Go and try this for real"
+          note="Plot two features and look"
         >
-          <p>
-            Take any two-column prediction problem near you and plot it: one
-            feature across, one up, and colour by the answer. Five minutes in a
-            spreadsheet is enough.
-          </p>
-          <p>
-            Then ask whether the picture supports the model somebody wants to
-            build on it.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Plot two features and look"
+            watchFor="Whether a straight line could separate the two colours at all. If it obviously could not, that is a feature problem, and reaching for a bigger model first will hide it rather than fix it."
+          >
+            <p>
+              Take any two-column prediction problem near you and plot it: one
+              feature across, one up, and colour by the answer. Five minutes in
+              a spreadsheet is enough.
+            </p>
+            <p>
+              Then ask whether the picture supports the model somebody wants to
+              build on it.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

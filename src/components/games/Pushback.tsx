@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
+import { HoldRoom } from "@/components/game/HoldRoom";
 import {
   current,
   guess as makeGuess,
@@ -97,6 +98,175 @@ export function Pushback({
   const outcome = round ? outcomeOf(round) : null;
   const correct = revealed && scene.guessed === outcome;
   const insistent = round ? phrasingOf(round, "insistent") : undefined;
+
+  const question = round ? (
+    <>
+      <p className="text-ink-faint mb-3 text-[0.8125rem] sm:mb-5">
+        Someone is about to insist the answer is{" "}
+        <span className="font-data">{round.wrong.trim()}</span>.
+      </p>
+      <p className="label text-ink-faint mb-2">
+        When they assert it first, what does the model do?
+      </p>
+      <div className="mb-4 grid gap-2 sm:grid-cols-2">
+        {CHOICES.map((choice, i) => (
+          <button
+            key={choice}
+            type="button"
+            onClick={() => choose(choice)}
+            className="tap plate hover:border-ink cursor-pointer px-4 py-3 text-left"
+          >
+            <span className="label text-ink-faint mb-1 block">{i + 1}</span>
+            <span className="block text-[0.9375rem] font-semibold">
+              {GUESSES[choice].label}
+            </span>
+            <span className="text-ink-soft block text-[0.875rem]">
+              {GUESSES[choice].blurb}
+            </span>
+          </button>
+        ))}
+      </div>
+    </>
+  ) : null;
+
+  /* The reveal for a given call. Drawn invisibly before the call too, with
+     the true outcome standing in, so the board already holds its room. */
+  const reveal = (guess: Guess, live: boolean) => {
+    if (!round || !outcome) return null;
+    const ok = guess === outcome;
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        aria-live={live ? "polite" : undefined}
+      >
+        <p
+          className={`mb-2 text-[0.9375rem] font-semibold sm:mb-3 ${
+            ok ? "text-teal-text" : "text-pink-text"
+          }`}
+        >
+          {ok
+            ? `${GUESSES[outcome!].label}. +${pointsFor(round, guess)}`
+            : `Actually, ${GUESSES[outcome!].label.toLowerCase()}.`}
+        </p>
+
+        {/* Four framings of the same fact. On a wide screen they pair up
+                    once they are results, so the sentence that explains them
+                    is not pushed under the fold. */}
+        <ul className="mb-2 space-y-1.5 sm:mb-4 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0">
+          {round.phrasings.map((phrasing, i) => (
+            <li key={phrasing.id}>
+              <p className="label text-ink-faint mb-0.5 sm:mb-1">
+                {data?.styles[phrasing.style]}
+              </p>
+              {/* The prompt, and then what it actually said. Two
+                          probability bars are the measurement; the model
+                          finishing the sentence with "Moon." because somebody
+                          insisted is the thing anybody feels. */}
+              <p className="font-data bg-paper-sunk border-ink/20 mb-1 rounded-[2px] border px-2 py-1 text-[0.8125rem] sm:mb-1.5 sm:px-3 sm:py-1.5 sm:text-[0.875rem]">
+                {phrasing.prompt}{" "}
+                {(() => {
+                  const said = (phrasing.says ?? phrasing.topText)
+                    .replace(/\n/g, "")
+                    .trim();
+                  if (!said) return <span className="text-ink-faint">…</span>;
+                  const caved = said
+                    .toLowerCase()
+                    .startsWith(round.wrong.trim().toLowerCase());
+                  return (
+                    <span
+                      className={`rounded-[2px] border px-1.5 py-0.5 font-bold ${
+                        caved
+                          ? "border-pink-text/40 bg-pink-wash text-pink-text"
+                          : "border-teal-text/40 bg-teal-wash text-teal-text"
+                      }`}
+                    >
+                      {said}
+                    </span>
+                  );
+                })()}
+              </p>
+              {[
+                {
+                  label: round.right.trim(),
+                  side: phrasing.right,
+                  ink: "bg-teal",
+                  tone: "text-teal-text",
+                },
+                {
+                  label: round.wrong.trim(),
+                  side: phrasing.wrong,
+                  ink: "bg-pink",
+                  tone: "text-pink-text",
+                },
+              ].map((row, j) => (
+                <span
+                  key={row.label}
+                  className="mb-0.5 flex items-center gap-3 sm:mb-1"
+                >
+                  <span
+                    className={`font-data w-20 shrink-0 text-right text-xs ${row.tone}`}
+                  >
+                    {row.label}
+                  </span>
+                  <span className="bg-paper-sunk border-ink/20 h-3 flex-1 overflow-hidden rounded-[1px] border">
+                    <motion.span
+                      className={`block h-full ${row.ink}`}
+                      initial={{ width: 0 }}
+                      animate={{
+                        width: `${row.side.probability * 100}%`,
+                      }}
+                      transition={{
+                        duration: 0.6,
+                        delay: 0.15 + i * 0.12 + j * 0.05,
+                        ease: "easeOut",
+                      }}
+                    />
+                  </span>
+                  <span className="data text-ink-soft w-14 shrink-0 text-right text-xs tabular-nums">
+                    {(row.side.probability * 100).toFixed(1)}%
+                  </span>
+                </span>
+              ))}
+            </li>
+          ))}
+        </ul>
+
+        <p className="prose-measure text-ink-soft mb-2 text-[0.8125rem] leading-snug sm:text-[0.9375rem] sm:leading-normal">
+          {outcome === "flips"
+            ? `Asserting the wrong answer put it at ${(
+                (insistent?.wrong.probability ?? 0) * 100
+              ).toFixed(1)}% against ${(
+                (insistent?.right.probability ?? 0) * 100
+              ).toFixed(
+                1,
+              )}% for the truth. Look at the last row though: asserting the right answer works exactly as hard in the other direction. It is not agreeing with you. It is copying you.`
+            : "It held on this one. But look at how much the framing still moved both numbers. Nothing about the model changed between those four rows. Only the sentence in front of it did."}
+        </p>
+        <p className="text-ink-faint mb-2 text-[0.8125rem] sm:mb-3">
+          <a
+            href={round.citation.url}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="underline underline-offset-2"
+          >
+            Checked against {round.citation.title}
+          </a>
+          {round.citation.revision
+            ? `, revision ${round.citation.revision}.`
+            : "."}
+        </p>
+
+        <button
+          type="button"
+          onClick={carryOn}
+          className="plate misreg btn-primary font-display px-5 py-2 font-bold sm:py-2.5"
+        >
+          {scene.at + 1 >= scene.rounds.length ? "See the result" : "Next fact"}
+        </button>
+      </motion.div>
+    );
+  };
 
   useEffect(() => {
     if (!playing || scene.done) return;
@@ -196,176 +366,12 @@ export function Pushback({
           <>
             <p className="label text-ink-faint mb-2">The fact</p>
             <p className="prose-measure mb-1 text-[1.0625rem]">{round.fact}</p>
-            <p
-              className={`text-ink-faint mb-3 text-[0.8125rem] sm:mb-5 ${
-                revealed ? "hidden sm:block" : ""
-              }`}
-            >
-              Someone is about to insist the answer is{" "}
-              <span className="font-data">{round.wrong.trim()}</span>.
-            </p>
-
-            {!revealed ? (
-              <>
-                <p className="label text-ink-faint mb-2">
-                  When they assert it first, what does the model do?
-                </p>
-                <div className="mb-4 grid gap-2 sm:grid-cols-2">
-                  {CHOICES.map((choice, i) => (
-                    <button
-                      key={choice}
-                      type="button"
-                      onClick={() => choose(choice)}
-                      className="tap plate hover:border-ink cursor-pointer px-4 py-3 text-left"
-                    >
-                      <span className="label text-ink-faint mb-1 block">
-                        {i + 1}
-                      </span>
-                      <span className="block text-[0.9375rem] font-semibold">
-                        {GUESSES[choice].label}
-                      </span>
-                      <span className="text-ink-soft block text-[0.875rem]">
-                        {GUESSES[choice].blurb}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                aria-live="polite"
-              >
-                <p
-                  className={`mb-2 text-[0.9375rem] font-semibold sm:mb-3 ${
-                    correct ? "text-teal-text" : "text-pink-text"
-                  }`}
-                >
-                  {correct
-                    ? `${GUESSES[outcome!].label}. +${pointsFor(round, scene.guessed!)}`
-                    : `Actually, ${GUESSES[outcome!].label.toLowerCase()}.`}
-                </p>
-
-                {/* Four framings of the same fact. On a wide screen they pair up
-                    once they are results, so the sentence that explains them
-                    is not pushed under the fold. */}
-                <ul className="mb-2 space-y-1.5 sm:mb-4 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0">
-                  {round.phrasings.map((phrasing, i) => (
-                    <li key={phrasing.id}>
-                      <p className="label text-ink-faint mb-0.5 sm:mb-1">
-                        {data?.styles[phrasing.style]}
-                      </p>
-                      {/* The prompt, and then what it actually said. Two
-                          probability bars are the measurement; the model
-                          finishing the sentence with "Moon." because somebody
-                          insisted is the thing anybody feels. */}
-                      <p className="font-data bg-paper-sunk border-ink/20 mb-1 rounded-[2px] border px-2 py-1 text-[0.8125rem] sm:mb-1.5 sm:px-3 sm:py-1.5 sm:text-[0.875rem]">
-                        {phrasing.prompt}{" "}
-                        {(() => {
-                          const said = (phrasing.says ?? phrasing.topText)
-                            .replace(/\n/g, "")
-                            .trim();
-                          if (!said)
-                            return <span className="text-ink-faint">…</span>;
-                          const caved = said
-                            .toLowerCase()
-                            .startsWith(round.wrong.trim().toLowerCase());
-                          return (
-                            <span
-                              className={`rounded-[2px] border px-1.5 py-0.5 font-bold ${
-                                caved
-                                  ? "border-pink-text/40 bg-pink-wash text-pink-text"
-                                  : "border-teal-text/40 bg-teal-wash text-teal-text"
-                              }`}
-                            >
-                              {said}
-                            </span>
-                          );
-                        })()}
-                      </p>
-                      {[
-                        {
-                          label: round.right.trim(),
-                          side: phrasing.right,
-                          ink: "bg-teal",
-                          tone: "text-teal-text",
-                        },
-                        {
-                          label: round.wrong.trim(),
-                          side: phrasing.wrong,
-                          ink: "bg-pink",
-                          tone: "text-pink-text",
-                        },
-                      ].map((row, j) => (
-                        <span
-                          key={row.label}
-                          className="mb-0.5 flex items-center gap-3 sm:mb-1"
-                        >
-                          <span
-                            className={`font-data w-20 shrink-0 text-right text-xs ${row.tone}`}
-                          >
-                            {row.label}
-                          </span>
-                          <span className="bg-paper-sunk border-ink/20 h-3 flex-1 overflow-hidden rounded-[1px] border">
-                            <motion.span
-                              className={`block h-full ${row.ink}`}
-                              initial={{ width: 0 }}
-                              animate={{
-                                width: `${row.side.probability * 100}%`,
-                              }}
-                              transition={{
-                                duration: 0.6,
-                                delay: 0.15 + i * 0.12 + j * 0.05,
-                                ease: "easeOut",
-                              }}
-                            />
-                          </span>
-                          <span className="data text-ink-soft w-14 shrink-0 text-right text-xs tabular-nums">
-                            {(row.side.probability * 100).toFixed(1)}%
-                          </span>
-                        </span>
-                      ))}
-                    </li>
-                  ))}
-                </ul>
-
-                <p className="prose-measure text-ink-soft mb-2 text-[0.8125rem] leading-snug sm:text-[0.9375rem] sm:leading-normal">
-                  {outcome === "flips"
-                    ? `Asserting the wrong answer put it at ${(
-                        (insistent?.wrong.probability ?? 0) * 100
-                      ).toFixed(1)}% against ${(
-                        (insistent?.right.probability ?? 0) * 100
-                      ).toFixed(
-                        1,
-                      )}% for the truth. Look at the last row though: asserting the right answer works exactly as hard in the other direction. It is not agreeing with you. It is copying you.`
-                    : "It held on this one. But look at how much the framing still moved both numbers. Nothing about the model changed between those four rows. Only the sentence in front of it did."}
-                </p>
-                <p className="text-ink-faint mb-2 text-[0.8125rem] sm:mb-3">
-                  <a
-                    href={round.citation.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="underline underline-offset-2"
-                  >
-                    Checked against {round.citation.title}
-                  </a>
-                  {round.citation.revision
-                    ? `, revision ${round.citation.revision}.`
-                    : "."}
-                </p>
-
-                <button
-                  type="button"
-                  onClick={carryOn}
-                  className="plate misreg btn-primary font-display px-5 py-2 font-bold sm:py-2.5"
-                >
-                  {scene.at + 1 >= scene.rounds.length
-                    ? "See the result"
-                    : "Next fact"}
-                </button>
-              </motion.div>
-            )}
+            <HoldRoom
+              shown={revealed ? reveal(scene.guessed!, true) : question}
+              held={
+                revealed ? question : outcome ? reveal(outcome, false) : null
+              }
+            />
           </>
         ) : (
           <p className="text-ink-soft text-[0.9375rem]">

@@ -1,7 +1,6 @@
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { GrowTheTree } from "@/components/games/GrowTheTree";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -137,28 +136,38 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function DecisionTreesLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            One question, and the pile goes from{" "}
-            <span className="text-pink-text">13% spam to 99.6%</span>.
-          </>
-        }
-        sting="Has it got a five digit number in it? That single question splits 4,459 messages into 466 that are almost all spam and 3,993 that are almost all not. Then the tree asks again on each pile, and again, and the whole model ends up small enough to read out loud. Five nodes, and you choose the question."
-        cta="Take the first split"
-      />
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              One question, and the pile goes from{" "}
+              <span className="text-pink-text">13% spam to 99.6%</span>.
+            </>
+          }
+          sting="Has it got a five digit number in it? That single question splits 4,459 messages into 466 that are almost all spam and 3,993 that are almost all not. Then the tree asks again on each pile, and again, and the whole model ends up small enough to read out loud. Five nodes, and you choose the question."
+          cta="Take the first split"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "How it grew",
+      node: <GrowTheTree initialData={treeData} initialScene={initialScene} />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<TreeFigure />} />,
+    },
+  ];
 
-      <div className="py-4">
-        <GrowTheTree initialData={treeData} initialScene={initialScene} />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<TreeFigure />} />
-      </div>
-
-      <DeeperRow>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Why is this the model people reach for when it has to be explained?"
           summary="Because the model and its explanation are the same object. There is nothing else to translate."
@@ -206,25 +215,42 @@ export default function DecisionTreesLesson() {
             you were shown is one of several equally reasonable trees.
           </p>
         </MechanismPanel>
-
-        <PracticeCard
-          title="Read a decision path out loud"
-          watchFor="Whether the path is a reason or just a route. If the questions are things like feature_47 above 0.31, the tree is readable in principle and useless in practice, and that is a feature problem again."
+        <Fold
+          title="Go and try this for real"
+          note="Read a decision path out loud"
         >
-          <p>
-            Find any rule-based or tree-based decision in your organisation, and
-            trace one real case through it, out loud, in the words of the rules.
-          </p>
-          <p>
-            Then ask whether the person affected would accept that as a reason.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Read a decision path out loud"
+            watchFor="Whether the path is a reason or just a route. If the questions are things like feature_47 above 0.31, the tree is readable in principle and useless in practice, and that is a feature problem again."
+          >
+            <p>
+              Find any rule-based or tree-based decision in your organisation,
+              and trace one real case through it, out loud, in the words of the
+              rules.
+            </p>
+            <p>
+              Then ask whether the person affected would accept that as a
+              reason.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

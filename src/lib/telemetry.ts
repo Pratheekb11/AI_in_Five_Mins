@@ -2,6 +2,7 @@
 
 import { track } from "@vercel/analytics";
 import { recordLocal } from "./localTelemetry";
+import { capturePostHog } from "./posthog";
 
 /**
  * The small amount of measurement this site does about its readers.
@@ -20,6 +21,11 @@ export function bucketSeconds(seconds: number): string {
 }
 
 function send(name: string, properties: Record<string, string | number>) {
+  /* PostHog first, and outside the development guard: it decides for itself
+     whether it is configured, and NEXT_PUBLIC_POSTHOG_IN_DEV=1 is how an
+     event that never fires gets caught while building. */
+  capturePostHog(name, properties);
+
   // Development runs would otherwise fill the dashboard with the author's own
   // clicking about. The Vercel client already guards this; the check is here
   // so the intent is visible where the events are defined. Logging instead of
@@ -73,6 +79,22 @@ export function trackCheckCompleted(page: string, score: number) {
 export function trackFirstInteraction(page: string, ms: number) {
   send("time_to_first_interaction", { page, ms });
   recordLocal(page, { interacted: true, timeToFirstInteractionMs: ms });
+}
+
+/** Which screen of a deck somebody is on.
+ *
+ *  The one event Vercel's analytics cannot stand in for: a deck never changes
+ *  its URL, so a reader who leaves on beat two of seven and a reader who
+ *  finishes look identical in a page-view count. `beat` is the index and
+ *  `beat_id` the beat's own name, which is what makes the funnel readable
+ *  when a lesson later gains or loses a screen. */
+export function trackBeatView(
+  page: string,
+  beat: number,
+  beatId: string,
+  count: number,
+) {
+  send("beat_view", { page, beat, beat_id: beatId, count });
 }
 
 /** Somebody took the closing screen's primary action into the next lesson. */

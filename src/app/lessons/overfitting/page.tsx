@@ -1,7 +1,6 @@
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { PickTheModel } from "@/components/games/PickTheModel";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -126,29 +125,41 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function OverfittingLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            The curve that fitted the data best was{" "}
-            <span className="text-pink-text">five times worse</span> on
-            everything else.
-          </>
-        }
-        sting="It passes through nearly every one of the thirty sentences it was given, and its error on the hundred and ten it was not is 11.24 against a straight line's 2.34. Nothing about the training data warns you. Four rounds, real fits, and you choose the one to ship."
-        cta="Choose a curve"
-      />
-
-      <div className="py-4">
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              The curve that fitted the data best was{" "}
+              <span className="text-pink-text">five times worse</span> on
+              everything else.
+            </>
+          }
+          sting="It passes through nearly every one of the thirty sentences it was given, and its error on the hundred and ten it was not is 11.24 against a straight line's 2.34. Nothing about the training data warns you. Four rounds, real fits, and you choose the one to ship."
+          cta="Choose a curve"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "Why it lied",
+      node: (
         <PickTheModel initialData={overfitData} initialScene={initialScene} />
-      </div>
+      ),
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<OverfitFigure />} />,
+    },
+  ];
 
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<OverfitFigure />} />
-      </div>
-
-      <DeeperRow>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Why does more freedom always fit the data better?"
           summary="Because a bigger model can do everything a smaller one can, plus more. It is arithmetic, not skill."
@@ -195,24 +206,39 @@ export default function OverfittingLesson() {
             picture of the region most people work in, not a law of nature.
           </p>
         </MechanismPanel>
-
-        <PracticeCard
-          title="Halve the training data and look again"
-          watchFor="How much the model's conclusions change. Anything that survives being retrained on half the data was probably in the data. Anything that reverses was in the sample."
+        <Fold
+          title="Go and try this for real"
+          note="Halve the training data and look again"
         >
-          <p>
-            Take any model or analysis somebody near you relies on. Ask for it
-            to be rerun on half the examples, chosen at random, and compare the
-            two results.
-          </p>
-          <p>If nobody can rerun it, that is the more useful finding.</p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Halve the training data and look again"
+            watchFor="How much the model's conclusions change. Anything that survives being retrained on half the data was probably in the data. Anything that reverses was in the sample."
+          >
+            <p>
+              Take any model or analysis somebody near you relies on. Ask for it
+              to be rerun on half the examples, chosen at random, and compare
+              the two results.
+            </p>
+            <p>If nobody can rerun it, that is the more useful finding.</p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
+import { HoldRoom } from "@/components/game/HoldRoom";
 import {
   BANDS,
   type BandId,
@@ -103,6 +104,47 @@ export function ReadTheScore({
     return () => window.removeEventListener("keydown", onKey);
   }, [playing, scene.done, choose, carryOn]);
 
+  /* The verdict for this message. Drawn invisibly before the call too, so
+     the board already holds its room and answering moves nothing. */
+  const verdict = (good: boolean, live: boolean) => {
+    if (!round) return null;
+    return (
+      <div aria-live={live ? "polite" : undefined}>
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          /* On a phone the number, then Next message, then why. */
+          className="flex flex-col sm:block"
+        >
+          <p className="display-md order-1 mb-1">
+            <span className={good ? "text-teal-text" : "text-pink-text"}>
+              {(round.probability * 100).toFixed(1)}%
+            </span>
+            <span className="text-ink-faint text-base font-normal">
+              {" "}
+              is what it gives this one
+            </span>
+          </p>
+          <p className="prose-measure text-ink-soft order-3 mt-2 text-[0.9375rem] sm:mt-0">
+            It really was {round.spam ? "spam" : "an ordinary message"}.
+            {round.spam === 1 && round.probability < 0.5
+              ? " So the model got it wrong, and its own number said it was unsure. That is the useful part: a model that says 20% is telling you something a yes or a no would have hidden."
+              : round.spam === 0 && round.probability >= 0.5
+                ? " So the model got it wrong, and confidently. Two features are not many, and the page under this game says so."
+                : " The model called it correctly."}
+          </p>
+          <button
+            type="button"
+            onClick={carryOn}
+            className="plate misreg btn-primary font-display order-2 mt-2 self-start px-5 py-2.5 font-bold sm:mt-4"
+          >
+            {scene.at + 1 >= scene.rounds.length ? "Finish" : "Next message"}
+          </button>
+        </motion.div>
+      </div>
+    );
+  };
+
   return (
     <GameShell
       gameId="read-the-score"
@@ -179,9 +221,14 @@ export function ReadTheScore({
             {/* The premise. A board that opens on a bare task reads as a
                 quiz somebody forgot to write the question for. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
-              A trained spam filter is about to score the message below, and
-              the only two things it looks at are printed underneath it. Say
-              how likely you think it is to call this one spam.
+              <span className="sm:hidden">
+                Say how likely a trained filter is to call this message spam.
+              </span>
+              <span className="hidden sm:inline">
+                A trained spam filter is about to score the message below, and
+                the only two things it looks at are printed underneath it. Say
+                how likely you think it is to call this one spam.
+              </span>
             </p>
             <p className="label text-ink-faint mb-2">
               A message it has not seen
@@ -189,13 +236,13 @@ export function ReadTheScore({
             <p className="font-data prose-measure mb-3 text-[0.9375rem] whitespace-pre-wrap">
               {round.text}
             </p>
-            <p className="text-ink-soft mb-5 text-[0.9375rem]">
+            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-5">
               <span className="data font-bold">{round.length}</span> characters
               · <span className="data font-bold">{round.digits}</span> digits.
               That is everything the model gets.
             </p>
 
-            <div className="mb-5 grid gap-2 sm:grid-cols-5">
+            <div className="mb-4 grid gap-2 sm:mb-5 sm:grid-cols-5">
               {BANDS.map((band, i) => {
                 const yours = scene.called === band.id;
                 const won = truth === band.id;
@@ -205,7 +252,7 @@ export function ReadTheScore({
                     type="button"
                     disabled={revealed}
                     onClick={() => choose(band.id)}
-                    className={`plate px-3 py-3 text-left transition-colors ${
+                    className={`plate px-3 py-2 text-left transition-colors sm:py-3 ${
                       !revealed
                         ? "hover:border-ink cursor-pointer"
                         : won
@@ -215,13 +262,14 @@ export function ReadTheScore({
                             : ""
                     }`}
                   >
-                    <span className="label text-ink-faint mb-1 block">
+                    {/* One line each on a phone: number, label, range. */}
+                    <span className="label text-ink-faint mr-2 sm:mb-1 sm:block">
                       {i + 1}
                     </span>
-                    <span className="block text-[0.875rem] font-semibold">
+                    <span className="text-[0.875rem] font-semibold sm:block">
                       {band.label}
                     </span>
-                    <span className="text-ink-faint mt-1 block text-[0.8125rem]">
+                    <span className="text-ink-faint ml-2 text-[0.8125rem] sm:mt-1 sm:ml-0 sm:block">
                       {band.means}
                     </span>
                   </button>
@@ -229,43 +277,10 @@ export function ReadTheScore({
               })}
             </div>
 
-            {revealed ? (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <p className="display-md mb-1">
-                  <span
-                    className={
-                      earned >= 100 ? "text-teal-text" : "text-pink-text"
-                    }
-                  >
-                    {(round.probability * 100).toFixed(1)}%
-                  </span>
-                  <span className="text-ink-faint text-base font-normal">
-                    {" "}
-                    is what it gives this one
-                  </span>
-                </p>
-                <p className="prose-measure text-ink-soft text-[0.9375rem]">
-                  It really was {round.spam ? "spam" : "an ordinary message"}.
-                  {round.spam === 1 && round.probability < 0.5
-                    ? " So the model got it wrong, and its own number said it was unsure. That is the useful part: a model that says 20% is telling you something a yes or a no would have hidden."
-                    : round.spam === 0 && round.probability >= 0.5
-                      ? " So the model got it wrong, and confidently. Two features are not many, and the page under this game says so."
-                      : " The model called it correctly."}
-                </p>
-                <button
-                  type="button"
-                  onClick={carryOn}
-                  className="btn-primary mt-4 px-4 py-2"
-                >
-                  {scene.at + 1 >= scene.rounds.length
-                    ? "Finish"
-                    : "Next message"}
-                </button>
-              </motion.div>
-            ) : null}
+            <HoldRoom
+              shown={revealed ? verdict(earned >= 100, true) : null}
+              held={revealed ? null : verdict(true, false)}
+            />
           </>
         ) : (
           <p className="text-ink-soft">Loading the messages…</p>

@@ -53,7 +53,7 @@ export function BeatFrame({
             >
               {right} / {total}
             </span>
-            <p className="text-ink-soft min-w-0 flex-1 text-[0.9375rem]">
+            <p className="text-ink-soft min-w-[min(100%,16rem)] flex-1 text-[0.9375rem]">
               {because}
             </p>
           </>

@@ -88,7 +88,11 @@ export function LessonStageShell({
       <div className="flex h-[100dvh] flex-col overflow-hidden">
         <SiteHeader />
         <main id="content" className="min-h-0 grow">
-          <LessonStage beats={[...beats, closer]} exitHref={exitHref} />
+          <LessonStage
+            beats={[...beats, closer]}
+            exitHref={exitHref}
+            page={lesson.slug}
+          />
         </main>
       </div>
       <TrackCelebration />

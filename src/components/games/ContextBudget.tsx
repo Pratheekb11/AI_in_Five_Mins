@@ -201,10 +201,16 @@ export function ContextBudget({
                 to carry this setup) never mounts. Without a sentence here,
                 the board just starts asking. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
-              Somebody needs this answered for real. You decide what the
-              model gets to see before it answers. The pile has the right
-              document in it, and a few things that only look like they
-              would help.
+              {/* One sentence on a phone, where this paragraph was what
+                  pushed Run below the bottom of the screen. */}
+              <span className="sm:hidden">
+                You pick what the model gets to see before it answers.
+              </span>
+              <span className="hidden sm:inline">
+                Somebody needs this answered for real. You decide what the model
+                gets to see before it answers. The pile has the right document
+                in it, and a few things that only look like they would help.
+              </span>
             </p>
             <p className="label text-ink-faint mb-1 sm:mb-2">The question</p>
             <p className="prose-measure mb-3 text-[1rem] sm:mb-5 sm:text-[1.0625rem]">
@@ -278,32 +284,25 @@ export function ContextBudget({
               </div>
 
               <div>
-                {/* Once the model has answered, the slot row has said all it
-                    can: the chosen cards are lit in the pile and the count is
-                    in the header. On a phone it stands down so the measured
-                    result fits under it. */}
-                <p
-                  className={`label text-ink-faint mb-1 sm:mb-2 ${
-                    shown ? "hidden sm:block" : ""
-                  }`}
-                >
+                <p className="label text-ink-faint mb-2 sm:hidden">
+                  The window: {scene.chosen.length} of {slots} filled
+                </p>
+                <p className="label text-ink-faint mb-2 hidden sm:block">
                   The window: {slots} slots
                 </p>
-                {/* Five slots stand in a row on a phone rather than a column: what
-                    the window is for is how much fits, and the count is in the
-                    header while the chosen cards are lit in the pile above. */}
-                <ul
-                  className={`mb-3 grid grid-cols-5 gap-1 sm:mb-4 sm:grid-cols-1 sm:gap-1.5 ${
-                    shown ? "hidden sm:grid" : ""
-                  }`}
-                >
+                {/* The slots themselves are for a wide screen. On a phone the
+                    chosen cards are lit in the pile above and the label carries
+                    the count, and drawing the slots as well put Run below the
+                    bottom of the screen. Hidden from the start, not only after
+                    a run, so the board is one height throughout. */}
+                <ul className="mb-3 hidden grid-cols-1 gap-1 sm:grid">
                   {Array.from({ length: slots }, (_, i) => {
                     const id = scene.chosen[i];
                     const card = scenario.cards.find((c) => c.id === id);
                     return (
                       <li
                         key={i}
-                        className={`border-ink/25 flex min-h-[2rem] items-center overflow-hidden rounded-[2px] border border-dashed px-1.5 py-1 text-[0.75rem] whitespace-nowrap sm:min-h-[2.5rem] sm:px-3 sm:py-1.5 sm:text-[0.875rem] ${
+                        className={`border-ink/25 flex min-h-[2rem] items-center overflow-hidden rounded-[2px] border border-dashed px-1.5 py-1 text-[0.75rem] whitespace-nowrap sm:min-h-[2rem] sm:px-3 sm:py-1 sm:text-[0.875rem] ${
                           card
                             ? "bg-yellow-wash border-yellow border-solid"
                             : ""

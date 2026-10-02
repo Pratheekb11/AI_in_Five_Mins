@@ -72,6 +72,15 @@ has nothing to apply them, and the host has to send them instead, through
 quietly drops the content security policy, the frame refusal and HSTS.
 
 Set `NEXT_PUBLIC_SITE_URL` once there is a real domain; see `.env.example`.
+
+Analytics: Vercel Web Analytics counts page views and visitors on any plan.
+PostHog does the rest, and only when `NEXT_PUBLIC_POSTHOG_KEY` is set at
+**build** time, since the key is inlined into the client bundle and the two
+PostHog hosts are added to the content security policy from that same value.
+Set it in the host's environment, not only in `.env.local`, or the deployed
+site quietly sends nothing. Static export: the CSP has to be copied to the
+host by hand, PostHog hosts included, or the library loads and every event is
+refused in the reader's console.
 Regenerate the social card with `node data/scripts/build-og.mjs`.
 
 ## Rights

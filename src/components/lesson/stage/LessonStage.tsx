@@ -12,6 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import { arrowKeysClaimed } from "@/lib/arrowKeys";
+import { trackBeatView } from "@/lib/telemetry";
 import { FitBox } from "./FitBox";
 
 /**
@@ -62,10 +63,15 @@ export type Beat = {
 export function LessonStage({
   beats,
   exitHref,
+  page,
 }: {
   beats: Beat[];
   /** Where the rail's Back goes from the very first beat. */
   exitHref: string;
+  /** The lesson's slug, so each screen can be counted. A deck never changes
+   *  its URL, so without this a reader who left on the second screen and one
+   *  who finished are the same page view. */
+  page?: string;
 }) {
   const [at, setAt] = useState(0);
   const still = useReducedMotion();
@@ -113,6 +119,15 @@ export function LessonStage({
     return () => window.removeEventListener("keydown", onKey);
   }, [next, back]);
 
+  /* One event per screen reached, which is the whole drop-off question for a
+     deck. Fires on arrival, including the first, and again on a step back,
+     which is itself worth seeing: it means a screen sent somebody backwards. */
+  const beatId = beats[at]?.id ?? String(at);
+  useEffect(() => {
+    if (!page) return;
+    trackBeatView(page, at, beatId, count);
+  }, [page, at, beatId, count]);
+
   const stage = useMemo<Stage>(
     () => ({ at, count, next, back, last: at === count - 1 }),
     [at, count, next, back],
@@ -131,7 +146,7 @@ export function LessonStage({
             pin against. */}
         <div
           data-stage-port=""
-          className="min-h-0 grow overflow-x-hidden overflow-y-auto"
+          className="min-h-0 grow overflow-x-hidden overflow-y-auto [scrollbar-gutter:stable]"
         >
           <div
             data-stage-pad=""

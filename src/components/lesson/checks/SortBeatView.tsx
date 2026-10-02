@@ -112,11 +112,26 @@ export function SortBeatView({
                 e.preventDefault();
                 drop(bucket.id);
               }}
-              className="border-ink/30 bg-paper flex min-h-28 flex-col rounded-[2px] border p-3"
+              /* The whole bucket takes a tap, not only its title. On a phone
+                 the empty body is what a thumb aims at, and tapping it did
+                 nothing. The title stays a button for the keyboard; the
+                 items inside stop the tap so taking one out is not read as
+                 a drop. */
+              onClick={() => {
+                if (!state.checked && state.held) drop(bucket.id);
+              }}
+              className={`border-ink/30 bg-paper flex min-h-28 flex-col rounded-[2px] border p-3 ${
+                state.held && !state.checked
+                  ? "hover:border-ink cursor-pointer"
+                  : ""
+              }`}
             >
               <button
                 type="button"
-                onClick={() => drop(bucket.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  drop(bucket.id);
+                }}
                 disabled={state.checked || !state.held}
                 className="mb-2 text-left disabled:cursor-default"
               >
@@ -128,7 +143,7 @@ export function SortBeatView({
                 ) : null}
               </button>
 
-              <div className="flex flex-wrap content-start gap-2">
+              <div className="mb-2 flex flex-wrap content-start gap-2">
                 {inside.map((item) => {
                   const correct = item.bucket === bucket.id;
                   let tone = "border-ink/30 bg-paper";
@@ -142,7 +157,10 @@ export function SortBeatView({
                     <button
                       key={item.id}
                       type="button"
-                      onClick={() => unplace(item.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        unplace(item.id);
+                      }}
                       disabled={state.checked}
                       className={`rounded-[2px] border px-2.5 py-1 text-left text-sm ${tone}`}
                     >
@@ -159,6 +177,30 @@ export function SortBeatView({
                   );
                 })}
               </div>
+
+              {/* A real target at the foot of every bucket, the way the match
+                  check has one. Tapping the bucket's empty space works too,
+                  but a finger landing near an item already placed was snapped
+                  onto that item and took it back out. Always drawn, so
+                  picking an item up moves nothing; live only while one is
+                  held. */}
+              {!state.checked ? (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    drop(bucket.id);
+                  }}
+                  disabled={!state.held}
+                  className={`label mt-auto w-full rounded-[2px] border border-dashed px-3 py-2.5 text-left transition-colors ${
+                    state.held
+                      ? "border-yellow text-yellow-text hover:bg-yellow-wash cursor-pointer"
+                      : "border-ink/25 text-ink-faint"
+                  }`}
+                >
+                  {state.held ? "Put it here" : "drop here"}
+                </button>
+              ) : null}
             </div>
           );
         })}

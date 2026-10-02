@@ -265,9 +265,13 @@ export function ShowDontAsk({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45, duration: 0.3 }}
+                /* On a phone the verdict and Next one share a line and the
+                   explanation follows, so the button is never the thing below
+                   the bottom of the screen. Block from `sm`, in DOM order. */
+                className="flex flex-wrap items-center justify-between gap-x-3 sm:block"
               >
                 <p
-                  className={`mb-1 text-[0.9375rem] font-semibold ${
+                  className={`order-1 mb-1 text-[0.9375rem] font-semibold ${
                     ok ? "text-teal-text" : "text-pink-text"
                   }`}
                 >
@@ -276,14 +280,14 @@ export function ShowDontAsk({
                 {/* What each phrasing actually got back. Asking politely
                       returns an empty line, and printing that blank is worth
                       more than any number beside it. */}
-                <p className="prose-measure text-ink-soft mb-2 text-[0.8125rem] sm:mb-3 sm:text-[0.9375rem]">
+                <p className="prose-measure text-ink-soft order-3 mt-2 mb-2 basis-full text-[0.8125rem] sm:mt-0 sm:mb-3 sm:text-[0.9375rem]">
                   The one that worked stopped asking and started showing.
                   Politeness and job titles got a blank line.
                 </p>
                 <button
                   type="button"
                   onClick={carryOn}
-                  className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
+                  className="plate misreg btn-primary font-display order-2 px-5 py-2.5 font-bold"
                 >
                   {scene.at + 1 >= scene.rounds.length
                     ? "See the result"

@@ -423,20 +423,45 @@
     a 1px strip of their own. In a row the chip itself is made tall enough,
     the gap wide enough, and the hit area grows by exactly half the gap, so
     the two together come to 44 real pixels and no chip can reach another.
+    A row of `.plate` action buttons is not a row of chips and is left alone.
   */
-  .flex-wrap:has(> .tap ~ .tap) {
+  .flex-wrap:has(> .tap:not(.plate) ~ .tap:not(.plate)) {
     --tap-gap: calc(10px / var(--fit-zoom, 1));
-    gap: var(--tap-gap);
+    /* !important: this sits in a layer, and `gap-*` is a utility. */
+    gap: var(--tap-gap) !important;
   }
 
-  .flex-wrap:has(> .tap ~ .tap) > .tap {
+  .flex-wrap:has(> .tap:not(.plate) ~ .tap:not(.plate)) > .tap {
     min-width: calc(34px / var(--fit-zoom, 1));
     min-height: calc(34px / var(--fit-zoom, 1));
   }
 
-  .flex-wrap:has(> .tap ~ .tap) > .tap::after {
+  .flex-wrap:has(> .tap:not(.plate) ~ .tap:not(.plate)) > .tap::after {
     width: calc(100% + var(--tap-gap));
     height: calc(100% + var(--tap-gap));
+  }
+}
+
+/*
+  On a phone a row of chips scrolls sideways instead of wrapping. At a size a
+  thumb can hit, five sentence chips wrapped into three rows and pushed the
+  thing the walkthrough step was about (a dial, a Draw button) below the
+  bottom of the screen. One row, with the next chip cut off at the edge to say
+  there is more. The block padding keeps each chip's grown hit area inside
+  the scroller, which clips in both directions once it scrolls in one.
+*/
+@media (pointer: coarse) and (max-width: 639px) {
+  .flex-wrap:has(> .tap:not(.plate) ~ .tap:not(.plate)) {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding-block: calc(var(--tap-gap) / 2);
+  }
+
+  .flex-wrap:has(> .tap:not(.plate) ~ .tap:not(.plate)) > * {
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 }
 

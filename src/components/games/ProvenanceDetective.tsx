@@ -332,10 +332,18 @@ export function ProvenanceDetective({
                 three doors) never mounts, the round is dealt server-side,
                 so `playing` is already true on arrival. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
-              Before you see any evidence: does the model already know this
-              cold, does it need the source put in front of it, or does it need
-              a tool that can actually calculate? Call it first, because in real
-              use you never get to peek.
+              {/* One sentence on a phone, where the full premise pushed Next
+                  case below the bottom of the screen. */}
+              <span className="sm:hidden">
+                Call it before you see the evidence: does it already know, need
+                the source, or need a real tool?
+              </span>
+              <span className="hidden sm:inline">
+                Before you see any evidence: does the model already know this
+                cold, does it need the source put in front of it, or does it
+                need a tool that can actually calculate? Call it first, because
+                in real use you never get to peek.
+              </span>
             </p>
             <p className="label text-ink-faint mb-2">The question</p>
             <p className="prose-measure mb-5 text-[1.25rem] leading-snug">

@@ -102,7 +102,9 @@ export function PasteCheck({
           </p>
 
           {payload.kind !== "open" ? (
-            <ul className="mb-3 space-y-1">
+            <ul className="mb-3 hidden space-y-1 sm:block">
+              {/* Cross-references, not the verdict: on a phone they were
+                    what pushed Next item below the bottom of the screen. */}
               {WHY_IT_MATTERS.map((row) => (
                 <li key={row.where} className="text-[0.875rem]">
                   <a
@@ -234,9 +236,14 @@ export function PasteCheck({
             {/* The premise. A board that opens on a bare task reads as a
                 quiz somebody forgot to write the question for. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
-              You are deciding what to hand an assistant, not whether to use
-              one. Read what is in the request below, then choose how much of it
-              you would really send.
+              <span className="sm:hidden">
+                Read what is in it, then choose how much you would really send.
+              </span>
+              <span className="hidden sm:inline">
+                You are deciding what to hand an assistant, not whether to use
+                one. Read what is in the request below, then choose how much of
+                it you would really send.
+              </span>
             </p>
             <AnimatePresence mode="wait">
               <motion.div

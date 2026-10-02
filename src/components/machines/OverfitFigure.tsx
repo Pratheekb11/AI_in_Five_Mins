@@ -124,7 +124,7 @@ export function OverfitFigure() {
       <div className="px-4 py-4">
         <svg
           viewBox={`0 0 ${W} ${H}`}
-          className="block w-full"
+          className="block w-full sm:max-h-[15rem]"
           role="img"
           aria-label={`Thirty sentences with a polynomial of degree ${wanted} fitted through them`}
         >
@@ -229,7 +229,7 @@ export function OverfitFigure() {
             <p className="label text-ink-faint mb-2">
               Both errors, at every degree. Click one.
             </p>
-            <svg viewBox={`0 0 ${W} 150`} className="block w-full" aria-hidden>
+            <svg viewBox={`0 0 ${W} 150`} className="block w-full sm:max-h-[6rem]" aria-hidden>
               {(["trainError", "testError"] as const).map((key) => {
                 const line = data.degrees.map((d, i) => {
                   const px =

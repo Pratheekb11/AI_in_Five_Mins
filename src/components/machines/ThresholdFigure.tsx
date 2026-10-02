@@ -152,7 +152,7 @@ export function ThresholdFigure() {
       <div className="px-4 py-4">
         <svg
           viewBox={`0 0 ${W} ${H}`}
-          className="block w-full"
+          className="block w-full sm:max-h-[15rem]"
           role="img"
           aria-label={`Every held-out message plotted by its spam score, with the decision line at ${here}`}
         >

@@ -86,8 +86,8 @@ export function ForestFigure() {
   const H = heightFor(shownTrees);
 
   return (
-    <figure className="plate-flush overflow-hidden">
-      <div className="border-ink/20 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b px-4 py-3">
+    <figure className="plate-flush flex flex-col overflow-hidden">
+      <div className="border-ink/20 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b px-4 py-3 order-first">
         {/* At the first step only one of them is drawn, and a heading that
             says sixty over a single dot reads as a bug. */}
         <p className="label text-ink-faint">
@@ -100,7 +100,11 @@ export function ForestFigure() {
       </div>
 
       <div className="px-4 py-4">
-        <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" aria-hidden>
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          className="block w-full sm:max-h-[15rem]"
+          aria-hidden
+        >
           <line
             x1={PAD}
             y1={H - 34}
@@ -212,7 +216,11 @@ export function ForestFigure() {
             <p className="label text-ink-faint mb-2">
               The vote, as trees are added one at a time
             </p>
-            <svg viewBox={`0 0 ${W} 110`} className="block w-full" aria-hidden>
+            <svg
+              viewBox={`0 0 ${W} 110`}
+              className="block w-full sm:max-h-[6rem]"
+              aria-hidden
+            >
               <path
                 d={forest.running
                   .map((v, i) => {
@@ -269,8 +277,11 @@ export function ForestFigure() {
         ) : null}
       </div>
 
+      {/* "Try all four" is the whole of step 5, so the four forests sit
+          under the header rather than under everything else, where they were
+          below the bottom of the screen. */}
       {stage >= 5 ? (
-        <div className="border-ink/20 border-t px-4 py-3">
+        <div className="border-ink/20 order-first border-b px-4 py-3">
           <p className="label text-ink-faint mb-2">
             Four forests, same messages, different amounts of disagreement
           </p>

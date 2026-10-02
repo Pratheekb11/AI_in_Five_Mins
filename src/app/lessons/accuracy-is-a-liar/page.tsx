@@ -1,7 +1,6 @@
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { WheresTheLine } from "@/components/games/WheresTheLine";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -109,31 +108,43 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function AccuracyIsALiarLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            The same model, on the same day, catching{" "}
-            <span className="text-pink-text">99% or 69%</span> of the spam.
-          </>
-        }
-        sting="Nothing about it changed. One number moved, the one nobody in the room thinks of as a decision, and it is worth 30 points of catch rate and 798 wrongly blocked messages. You are told what each mistake costs. Put the line somewhere."
-        cta="Take the dial"
-      />
-
-      <div className="py-4">
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              The same model, on the same day, catching{" "}
+              <span className="text-pink-text">99% or 69%</span> of the spam.
+            </>
+          }
+          sting="Nothing about it changed. One number moved, the one nobody in the room thinks of as a decision, and it is worth 30 points of catch rate and 798 wrongly blocked messages. You are told what each mistake costs. Put the line somewhere."
+          cta="Take the dial"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "What it hid",
+      node: (
         <WheresTheLine
           initialData={thresholdData}
           initialScene={initialScene}
         />
-      </div>
+      ),
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<ThresholdFigure />} />,
+    },
+  ];
 
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<ThresholdFigure />} />
-      </div>
-
-      <DeeperRow>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Precision and recall, in one sentence each?"
           summary="Precision: of what you flagged, how much was right. Recall: of what was out there, how much you caught."
@@ -180,26 +191,38 @@ export default function AccuracyIsALiarLesson() {
             flat, and a threshold that is roughly right is usually fine.
           </p>
         </MechanismPanel>
-
-        <PracticeCard
-          title="Write down the two costs"
-          watchFor="Whether anybody can state the ratio. If a team cannot say whether a miss is worth two false alarms or fifty, then nobody has chosen the threshold, and it is sitting at one half by default."
-        >
-          <p>
-            Take any automated decision near you: a filter, a flag, an alert, an
-            approval. Write down what one wrong flag costs, and what one missed
-            case costs, in the same unit. Money, minutes, or trust.
-          </p>
-          <p>
-            Then find out where the line actually sits, and who put it there.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+        <Fold title="Go and try this for real" note="Write down the two costs">
+          <PracticeCard
+            title="Write down the two costs"
+            watchFor="Whether anybody can state the ratio. If a team cannot say whether a miss is worth two false alarms or fifty, then nobody has chosen the threshold, and it is sitting at one half by default."
+          >
+            <p>
+              Take any automated decision near you: a filter, a flag, an alert,
+              an approval. Write down what one wrong flag costs, and what one
+              missed case costs, in the same unit. Money, minutes, or trust.
+            </p>
+            <p>
+              Then find out where the line actually sits, and who put it there.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

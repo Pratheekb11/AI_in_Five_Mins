@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
+import { HoldRoom } from "@/components/game/HoldRoom";
 import {
   call,
   type CrossvalData,
@@ -43,9 +44,7 @@ export function OneFoldOrTen({
 } = {}) {
   const [data, setData] = useState<CrossvalData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
-  const [scene, setScene] = useState<CvScene>(
-    () => initialScene ?? newScene(),
-  );
+  const [scene, setScene] = useState<CvScene>(() => initialScene ?? newScene());
   const [playing, setPlaying] = useState(!!initialScene);
 
   useEffect(() => {
@@ -104,6 +103,55 @@ export function OneFoldOrTen({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [playing, scene.done, round, choose, carryOn]);
+
+  /* The verdict for a given call. Drawn invisibly before the call too, with
+     the right answer standing in, so the board already holds its room. */
+  const verdict = (called: string, live: boolean) => {
+    if (!round || !data) return null;
+    const ok = called === round.pair.truth;
+    return (
+      <div aria-live={live ? "polite" : undefined}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          /* On a phone the verdict, then Next slice, then why. */
+          className="mt-4 flex flex-col sm:mt-5 sm:block"
+        >
+          <p
+            className={`order-1 text-[1.0625rem] font-semibold ${
+              ok ? "text-teal-text" : "text-pink-text"
+            }`}
+          >
+            {ok ? "Right." : "Not this time."}{" "}
+            {modelOf(data, round.pair.truth).name} is better on average, by{" "}
+            {(round.pair.gap * 100).toFixed(2)} points.
+            {isMisleading(round)
+              ? " And the slice you were shown pointed the other way."
+              : ""}
+          </p>
+          <p className="prose-measure text-ink-soft order-3 mt-2 text-[0.9375rem] sm:mt-1">
+            {round.pair.misleadingFolds.length} of the {data.corpus.folds}{" "}
+            slices disagree with the average on this pair. A gap of{" "}
+            {(round.pair.gap * 100).toFixed(2)} points is smaller than the
+            slice-to-slice wobble, which is what makes a single number useless
+            here.
+          </p>
+          <div className="order-2 mt-3 flex items-center sm:mt-4">
+            <button
+              type="button"
+              onClick={carryOn}
+              className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
+            >
+              {scene.at + 1 >= scene.rounds.length ? "Finish" : "Next slice"}
+            </button>
+            <span className="text-ink-faint ml-3 text-[0.8125rem]">
+              {pointsFor(round, called)} points
+            </span>
+          </div>
+        </motion.div>
+      </div>
+    );
+  };
 
   return (
     <GameShell
@@ -184,16 +232,24 @@ export function OneFoldOrTen({
             {/* The premise. A board that opens on a bare task reads as a
                 quiz somebody forgot to write the question for. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
-              Two spam filters are being marked on one slice of the corpus
-              that neither of them trained on. Call which one comes out ahead
-              on this slice, before either number lands.
+              <span className="sm:hidden">
+                Two spam filters, one slice neither trained on. Call which comes
+                out ahead before the numbers land.
+              </span>
+              <span className="hidden sm:inline">
+                Two spam filters are being marked on one slice of the corpus
+                that neither of them trained on. Call which one comes out ahead
+                on this slice, before either number lands.
+              </span>
             </p>
-            <p className="label text-ink-faint mb-4">
+            <p className="label text-ink-faint mb-3 sm:mb-4">
               Slice {round.fold} of {data.corpus.folds} · about{" "}
               {data.corpus.blockSize} messages held out
             </p>
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            {/* Side by side at every width: two numbers to compare, and
+                stacked on a phone the second ran off the bottom. */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-3">
               {([round.pair.left, round.pair.right] as const).map((id, i) => {
                 const model = modelOf(data, id);
                 const onFold = i === 0 ? shown.left : shown.right;
@@ -205,7 +261,7 @@ export function OneFoldOrTen({
                     type="button"
                     disabled={revealed}
                     onClick={() => choose(id)}
-                    className={`plate p-4 text-left transition-colors ${
+                    className={`plate p-3 text-left transition-colors sm:p-4 ${
                       !revealed
                         ? "hover:border-ink cursor-pointer"
                         : won
@@ -218,10 +274,10 @@ export function OneFoldOrTen({
                     <span className="label text-ink-faint mb-1 block">
                       {i + 1}
                     </span>
-                    <span className="block text-[1.0625rem] font-semibold">
+                    <span className="block text-[0.9375rem] leading-snug font-semibold sm:text-[1.0625rem]">
                       {model.name}
                     </span>
-                    <span className="text-ink-soft mt-1 block text-[0.875rem]">
+                    <span className="text-ink-soft mt-1 block text-[0.8125rem] sm:text-[0.875rem]">
                       {model.how}
                     </span>
                     <span className="data mt-3 block text-[1.5rem] font-bold">
@@ -231,72 +287,38 @@ export function OneFoldOrTen({
                       on this slice
                     </span>
 
-                    {revealed ? (
-                      <motion.span
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="border-ink/20 mt-3 block border-t pt-3"
-                      >
-                        <span className="label text-ink-faint block">
-                          Across all {data.corpus.folds}
+                    {/* Always drawn, invisible until the reveal, so the cards
+                        are one height before and after the call. */}
+                    <motion.span
+                      initial={false}
+                      animate={{ opacity: revealed ? 1 : 0 }}
+                      aria-hidden={!revealed}
+                      className="border-ink/20 mt-3 block border-t pt-3"
+                    >
+                      <span className="label text-ink-faint block">
+                        Across all {data.corpus.folds}
+                      </span>
+                      <span className="data block text-[1.25rem] font-bold">
+                        {(model.mean * 100).toFixed(2)}%
+                        <span className="text-ink-faint text-sm font-normal">
+                          {" "}
+                          ± {(model.sd * 100).toFixed(2)}
                         </span>
-                        <span className="data block text-[1.25rem] font-bold">
-                          {(model.mean * 100).toFixed(2)}%
-                          <span className="text-ink-faint text-sm font-normal">
-                            {" "}
-                            ± {(model.sd * 100).toFixed(2)}
-                          </span>
-                        </span>
-                        <span className="text-ink-faint block text-[0.8125rem]">
-                          worst slice {(model.worstFold * 100).toFixed(1)}%,
-                          best {(model.bestFold * 100).toFixed(1)}%
-                        </span>
-                      </motion.span>
-                    ) : null}
+                      </span>
+                      <span className="text-ink-faint block text-[0.8125rem]">
+                        worst slice {(model.worstFold * 100).toFixed(1)}%, best{" "}
+                        {(model.bestFold * 100).toFixed(1)}%
+                      </span>
+                    </motion.span>
                   </button>
                 );
               })}
             </div>
 
-            {revealed ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="mt-5"
-              >
-                <p
-                  className={`text-[1.0625rem] font-semibold ${
-                    correct ? "text-teal-text" : "text-pink-text"
-                  }`}
-                >
-                  {correct ? "Right." : "Not this time."}{" "}
-                  {modelOf(data, round.pair.truth).name} is better on average,
-                  by {(round.pair.gap * 100).toFixed(2)} points.
-                  {isMisleading(round)
-                    ? " And the slice you were shown pointed the other way."
-                    : ""}
-                </p>
-                <p className="prose-measure text-ink-soft mt-1 text-[0.9375rem]">
-                  {round.pair.misleadingFolds.length} of the {data.corpus.folds}{" "}
-                  slices disagree with the average on this pair. A gap of{" "}
-                  {(round.pair.gap * 100).toFixed(2)} points is smaller than the
-                  slice-to-slice wobble, which is what makes a single number
-                  useless here.
-                </p>
-                <button
-                  type="button"
-                  onClick={carryOn}
-                  className="btn-primary mt-4 px-4 py-2"
-                >
-                  {scene.at + 1 >= scene.rounds.length
-                    ? "Finish"
-                    : "Next slice"}
-                </button>
-                <span className="text-ink-faint ml-3 text-[0.8125rem]">
-                  {pointsFor(round, scene.called ?? "")} points
-                </span>
-              </motion.div>
-            ) : null}
+            <HoldRoom
+              shown={revealed ? verdict(scene.called ?? "", true) : null}
+              held={revealed ? null : verdict(round.pair.truth, false)}
+            />
           </>
         ) : (
           <p className="text-ink-soft">Loading the folds…</p>

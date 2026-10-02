@@ -1,7 +1,6 @@
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { BuyTheUpgrade } from "@/components/games/BuyTheUpgrade";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -126,29 +125,41 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function MoreDataOrBetterModelLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            The best model on this page starts out{" "}
-            <span className="text-pink-text">worse than one rule</span> anybody
-            could write.
-          </>
-        }
-        sting="At twenty examples, learning from every word in the vocabulary scores 89.4% and a hand-written rule scores 96.8%. At four and a half thousand examples the same model is the best thing here. Same corpus, same measurements. Four budgets, and you choose what to spend them on."
-        cta="Take the first budget"
-      />
-
-      <div className="py-4">
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              The best model on this page starts out{" "}
+              <span className="text-pink-text">worse than one rule</span>{" "}
+              anybody could write.
+            </>
+          }
+          sting="At twenty examples, learning from every word in the vocabulary scores 89.4% and a hand-written rule scores 96.8%. At four and a half thousand examples the same model is the best thing here. Same corpus, same measurements. Four budgets, and you choose what to spend them on."
+          cta="Take the first budget"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "Data or model?",
+      node: (
         <BuyTheUpgrade initialData={curveData} initialScene={initialScene} />
-      </div>
+      ),
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<CurveFigure />} />,
+    },
+  ];
 
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<CurveFigure />} />
-      </div>
-
-      <DeeperRow>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Why do the curves flatten?"
           summary="Because each new example teaches less than the one before it, until they are mostly repeating what the model already knows."
@@ -198,27 +209,42 @@ export default function MoreDataOrBetterModelLesson() {
             like, and it beat two real models for the first hundred examples.
           </p>
         </MechanismPanel>
-
-        <PracticeCard
-          title="Draw your own curve before you buy anything"
-          watchFor="Whether the last doubling of data moved the number more or less than the last change of model. That comparison, on your own data, settles an argument that otherwise runs on opinions."
+        <Fold
+          title="Go and try this for real"
+          note="Draw your own curve before you buy anything"
         >
-          <p>
-            Take any model somebody near you relies on and retrain it on a
-            tenth, a quarter, a half and all of the data. Four runs, one
-            afternoon, one chart.
-          </p>
-          <p>
-            Then decide what to spend the next month on, with the chart in front
-            of you.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Draw your own curve before you buy anything"
+            watchFor="Whether the last doubling of data moved the number more or less than the last change of model. That comparison, on your own data, settles an argument that otherwise runs on opinions."
+          >
+            <p>
+              Take any model somebody near you relies on and retrain it on a
+              tenth, a quarter, a half and all of the data. Four runs, one
+              afternoon, one chart.
+            </p>
+            <p>
+              Then decide what to spend the next month on, with the chart in
+              front of you.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

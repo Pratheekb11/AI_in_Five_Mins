@@ -1,17 +1,13 @@
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { FeatureBench } from "@/components/games/FeatureBench";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
 import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
 import { FeatureSplitFigure } from "@/components/machines/FeatureSplitFigure";
 import type { CheckBeat } from "@/lib/check";
-import {
-  start as dealFeatures,
-  type FeatureData,
-} from "@/lib/game/features";
+import { start as dealFeatures, type FeatureData } from "@/lib/game/features";
 import { getLesson } from "@/lib/lessons";
 import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
@@ -132,28 +128,40 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function FeaturesAndLabelsLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            The word &ldquo;free&rdquo; is beaten by{" "}
-            <span className="text-blue-text">how long the message is</span>.
-          </>
-        }
-        sting="Everybody picks the word. On 5,574 real text messages, asking whether the message runs past 120 characters separates spam from ordinary post nearly three times better, and it never looks at a single word. Put money on a few of these before you are shown the counts."
-        cta="Take the bench"
-      />
-
-      <div className="py-4">
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              The word &ldquo;free&rdquo; is beaten by{" "}
+              <span className="text-blue-text">how long the message is</span>.
+            </>
+          }
+          sting="Everybody picks the word. On 5,574 real text messages, asking whether the message runs past 120 characters separates spam from ordinary post nearly three times better, and it never looks at a single word. Put money on a few of these before you are shown the counts."
+          cta="Take the bench"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "What it found",
+      node: (
         <FeatureBench initialData={featureData} initialScene={initialScene} />
-      </div>
+      ),
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<FeatureSplitFigure />} />,
+    },
+  ];
 
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<FeatureSplitFigure />} />
-      </div>
-
-      <DeeperRow>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="What is a bit, and why measure in those?"
           summary="It is one perfect yes-or-no answer. Bits removed says how much of the guessing a feature saves you."
@@ -201,27 +209,39 @@ export default function FeaturesAndLabelsLesson() {
             will be structurally blind to.
           </p>
         </MechanismPanel>
-
-        <PracticeCard
-          title="Write down the row"
-          watchFor="How many of your columns you would actually have at the moment you need the prediction. The ones you would not are leaks, and they are the reason a model can test beautifully and fail in production."
-        >
-          <p>
-            Take a prediction somebody in your work would like to have. Write
-            down the label first, in one line: the exact thing you want to know
-            before it happens.
-          </p>
-          <p>
-            Then write the row of features you could put in front of it, using
-            only things that exist at the moment the prediction is needed.
-          </p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+        <Fold title="Go and try this for real" note="Write down the row">
+          <PracticeCard
+            title="Write down the row"
+            watchFor="How many of your columns you would actually have at the moment you need the prediction. The ones you would not are leaks, and they are the reason a model can test beautifully and fail in production."
+          >
+            <p>
+              Take a prediction somebody in your work would like to have. Write
+              down the label first, in one line: the exact thing you want to
+              know before it happens.
+            </p>
+            <p>
+              Then write the row of features you could put in front of it, using
+              only things that exist at the moment the prediction is needed.
+            </p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

@@ -93,14 +93,19 @@ export function LogisticFigure() {
     return ys * data.scaling.digits.sd + data.scaling.digits.mean;
   };
 
-  const boundary = snapshot
-    ? [0, maxLength].map((length) => ({
-        x: x(length),
-        y: y(digitsAt(length, snapshot)),
-      }))
-    : null;
+  /* No line while the digit weight is still zero: the boundary is undefined
+     there, and drawing it handed the SVG a NaN. */
+  const boundary =
+    snapshot && snapshot.digits !== 0
+      ? [0, maxLength].map((length) => ({
+          x: x(length),
+          y: y(digitsAt(length, snapshot)),
+        }))
+      : null;
 
-  const showSigmoid = stage >= 4;
+  /* Step 4's subject. Step 5 is about scrubbing the line above, and with
+     the curve still drawn the slider for it sat below the bottom. */
+  const showSigmoid = stage === 4;
 
   return (
     <figure className="plate-flush overflow-hidden">
@@ -117,7 +122,7 @@ export function LogisticFigure() {
       <div className="px-4 py-4">
         <svg
           viewBox={`0 0 ${W} ${H}`}
-          className="block w-full"
+          className="block w-full sm:max-h-[15rem]"
           role="img"
           aria-label="Held-out messages plotted by length and digit count, with the fitted decision boundary"
         >
@@ -226,7 +231,11 @@ export function LogisticFigure() {
             <p className="label text-ink-faint mb-2">
               And distance from that line, turned into a probability
             </p>
-            <svg viewBox="0 0 620 140" className="block w-full" aria-hidden>
+            <svg
+              viewBox="0 0 620 140"
+              className="block w-full sm:max-h-[6rem]"
+              aria-hidden
+            >
               <line
                 x1={20}
                 y1={120}

@@ -1,7 +1,6 @@
+import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { Holdout } from "@/components/games/Holdout";
-import { DeeperRow } from "@/components/lesson/DeeperRow";
 import { Hook } from "@/components/lesson/Hook";
-import { LessonShell } from "@/components/lesson/LessonShell";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
@@ -106,28 +105,38 @@ const CHECK: CheckBeat[] = [
 ];
 
 export default function TrainAndTestLesson() {
-  return (
-    <LessonShell lesson={lesson} sources={SOURCES}>
-      <Hook
-        claim={
-          <>
-            The two models that scored a perfect hundred are the two that{" "}
-            <span className="text-pink-text">learned nothing</span>.
-          </>
-        }
-        sting="One keeps a list of every message it was shown. The other copies whichever message looks most like the new one. Both are flawless on their own training data, and one of them collapses by eleven points the moment it meets a message it has not seen. You are shown only the training scores. Call it."
-        cta="Open the envelope"
-      />
+  const beats: Beat[] = [
+    {
+      id: "hook",
+      selfAdvance: true,
+      node: (
+        <Hook
+          claim={
+            <>
+              The two models that scored a perfect hundred are the two that{" "}
+              <span className="text-pink-text">learned nothing</span>.
+            </>
+          }
+          sting="One keeps a list of every message it was shown. The other copies whichever message looks most like the new one. Both are flawless on their own training data, and one of them collapses by eleven points the moment it meets a message it has not seen. You are shown only the training scores. Call it."
+          cta="Open the envelope"
+        />
+      ),
+    },
+    {
+      id: "game",
+      cta: "Why hold out",
+      node: <Holdout initialData={splitData} initialScene={initialScene} />,
+    },
+    {
+      id: "walkthrough",
+      selfAdvance: true,
+      node: <Walkthrough steps={STEPS} figure={<HoldoutFigure />} />,
+    },
+  ];
 
-      <div className="py-4">
-        <Holdout initialData={splitData} initialScene={initialScene} />
-      </div>
-
-      <div className="pb-4">
-        <Walkthrough steps={STEPS} figure={<HoldoutFigure />} />
-      </div>
-
-      <DeeperRow>
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
         <MechanismPanel
           question="Why is the training score always flattering?"
           summary="Because the model was allowed to adjust itself until it fitted that particular data, including its accidents."
@@ -176,25 +185,40 @@ export default function TrainAndTestLesson() {
             than the one you have.
           </p>
         </MechanismPanel>
-
-        <PracticeCard
-          title="Ask where the number came from"
-          watchFor="Whether anybody can tell you how many examples the reported score was measured on. If the answer is vague, or the test set was used repeatedly to pick between versions, the number is closer to a training score than anyone involved thinks."
+        <Fold
+          title="Go and try this for real"
+          note="Ask where the number came from"
         >
-          <p>
-            Find a model somebody in your organisation actually relies on, or a
-            vendor claim about one. Ask two questions: what data was the
-            headline accuracy measured on, and had the model been trained on any
-            of it.
-          </p>
-          <p>Then ask when that test data was last replaced.</p>
-        </PracticeCard>
-      </DeeperRow>
-
-      <div className="py-10">
-        <h2 className="display-lg mb-5">Check yourself</h2>
-        <Check slug={lesson.slug} beats={CHECK} />
+          <PracticeCard
+            title="Ask where the number came from"
+            watchFor="Whether anybody can tell you how many examples the reported score was measured on. If the answer is vague, or the test set was used repeatedly to pick between versions, the number is closer to a training score than anyone involved thinks."
+          >
+            <p>
+              Find a model somebody in your organisation actually relies on, or
+              a vendor claim about one. Ask two questions: what data was the
+              headline accuracy measured on, and had the model been trained on
+              any of it.
+            </p>
+            <p>Then ask when that test data was last replaced.</p>
+          </PracticeCard>
+        </Fold>
       </div>
-    </LessonShell>
+
+      <Fold
+        title="Check yourself"
+        note="It marks itself, and nothing is sent anywhere."
+      >
+        <Check slug={lesson.slug} beats={CHECK} />
+      </Fold>
+    </>
+  );
+
+  return (
+    <LessonStageShell
+      lesson={lesson}
+      sources={SOURCES}
+      beats={beats}
+      tail={tail}
+    />
   );
 }

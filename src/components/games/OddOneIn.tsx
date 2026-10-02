@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
+import { HoldRoom } from "@/components/game/HoldRoom";
 import {
   call,
   type ClusterData,
@@ -102,6 +103,45 @@ export function OddOneIn({
     return () => window.removeEventListener("keydown", onKey);
   }, [playing, scene.done, round, choose, carryOn]);
 
+  /* The verdict for this group. Drawn invisibly before the call too, so the
+     board already holds its room and answering moves nothing. */
+  const verdict = (ok: boolean, live: boolean) => {
+    if (!round || !data) return null;
+    return (
+      <div aria-live={live ? "polite" : undefined}>
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          /* On a phone the verdict, then Next group, then why. */
+          className="mt-4 flex flex-col sm:mt-5 sm:block"
+        >
+          <p
+            className={`order-1 text-[1.0625rem] font-semibold ${
+              ok ? "text-teal-text" : "text-pink-text"
+            }`}
+          >
+            {ok ? "Right." : "Not this time."} It put{" "}
+            <span className="font-data">{round.answer}</span> in group{" "}
+            {round.cluster + 1}, alongside{" "}
+            {data.clusters[round.cluster].nearest.slice(0, 3).join(", ")}.
+          </p>
+          <p className="prose-measure text-ink-soft order-3 mt-2 text-[0.9375rem] sm:mt-1">
+            That group has {data.clusters[round.cluster].size} words in it, and
+            nobody named it. It exists because those vectors sat nearer to each
+            other than to anything else.
+          </p>
+          <button
+            type="button"
+            onClick={carryOn}
+            className="plate misreg btn-primary font-display order-2 mt-3 self-start px-5 py-2.5 font-bold sm:mt-4"
+          >
+            {scene.at + 1 >= scene.rounds.length ? "Finish" : "Next group"}
+          </button>
+        </motion.div>
+      </div>
+    );
+  };
+
   return (
     <GameShell
       gameId="odd-one-in"
@@ -179,14 +219,20 @@ export function OddOneIn({
             {/* The premise. A board that opens on a bare task reads as a
                 quiz somebody forgot to write the question for. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
-              Nobody labelled these groups. An algorithm sorted the words by
-              the company they keep in real text, and these six came out
-              together. Pick the word it put in with them.
+              <span className="sm:hidden">
+                Nobody labelled these. Pick the word the algorithm put in with
+                the six.
+              </span>
+              <span className="hidden sm:inline">
+                Nobody labelled these groups. An algorithm sorted the words by
+                the company they keep in real text, and these six came out
+                together. Pick the word it put in with them.
+              </span>
             </p>
             <p className="label text-ink-faint mb-2">
               Six words the algorithm put together
             </p>
-            <div className="mb-5 flex flex-wrap gap-2">
+            <div className="mb-4 flex flex-wrap gap-2 sm:mb-5">
               {round.shows.map((word) => (
                 <span
                   key={word}
@@ -200,7 +246,8 @@ export function OddOneIn({
             <p className="label text-ink-faint mb-2">
               Which of these joined them?
             </p>
-            <div className="grid gap-2 sm:grid-cols-4">
+            {/* Four single words: two by two on a phone, a row of four wide. */}
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {round.options.map((word, i) => {
                 const yours = scene.called === word;
                 const won = word === round.answer;
@@ -210,7 +257,7 @@ export function OddOneIn({
                     type="button"
                     disabled={revealed}
                     onClick={() => choose(word)}
-                    className={`plate px-3 py-3 text-left transition-colors ${
+                    className={`plate px-3 py-2 text-left transition-colors sm:py-3 ${
                       !revealed
                         ? "hover:border-ink cursor-pointer"
                         : won
@@ -226,52 +273,25 @@ export function OddOneIn({
                     <span className="font-data block text-[1.0625rem] font-semibold">
                       {word}
                     </span>
-                    {revealed ? (
-                      <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-ink-faint mt-1 block text-[0.8125rem]"
-                      >
-                        group {data.assignment[data.words.indexOf(word)] + 1}
-                      </motion.span>
-                    ) : null}
+                    {/* Always drawn, invisible until the reveal, so the cards
+                        are one height before and after the call. */}
+                    <motion.span
+                      initial={false}
+                      animate={{ opacity: revealed ? 1 : 0 }}
+                      aria-hidden={!revealed}
+                      className="text-ink-faint mt-1 block text-[0.8125rem]"
+                    >
+                      group {data.assignment[data.words.indexOf(word)] + 1}
+                    </motion.span>
                   </button>
                 );
               })}
             </div>
 
-            {revealed ? (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-5"
-              >
-                <p
-                  className={`text-[1.0625rem] font-semibold ${
-                    correct ? "text-teal-text" : "text-pink-text"
-                  }`}
-                >
-                  {correct ? "Right." : "Not this time."} It put{" "}
-                  <span className="font-data">{round.answer}</span> in group{" "}
-                  {round.cluster + 1}, alongside{" "}
-                  {data.clusters[round.cluster].nearest.slice(0, 3).join(", ")}.
-                </p>
-                <p className="prose-measure text-ink-soft mt-1 text-[0.9375rem]">
-                  That group has {data.clusters[round.cluster].size} words in
-                  it, and nobody named it. It exists because those vectors sat
-                  nearer to each other than to anything else.
-                </p>
-                <button
-                  type="button"
-                  onClick={carryOn}
-                  className="btn-primary mt-4 px-4 py-2"
-                >
-                  {scene.at + 1 >= scene.rounds.length
-                    ? "Finish"
-                    : "Next group"}
-                </button>
-              </motion.div>
-            ) : null}
+            <HoldRoom
+              shown={revealed ? verdict(Boolean(correct), true) : null}
+              held={revealed ? null : verdict(true, false)}
+            />
           </>
         ) : (
           <p className="text-ink-soft">Loading the groups…</p>

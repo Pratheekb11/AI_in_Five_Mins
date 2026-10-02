@@ -118,119 +118,141 @@ export function ClusterFigure() {
         </p>
       </div>
 
-      <div className="px-4 py-4">
-        <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" aria-hidden>
-          {data.points.map((point, i) => (
-            <motion.circle
-              key={i}
-              cx={px(point[0])}
-              cy={py(point[1])}
-              r={2.4}
-              className={
-                assignment ? INK[assignment[i] % INK.length] : "fill-ink"
-              }
-              initial={false}
-              animate={{
-                opacity: assignment
-                  ? OPACITY[assignment[i] % OPACITY.length]
-                  : 0.3,
-              }}
-              transition={{ duration: still ? 0 : 0.35 }}
-            />
-          ))}
-        </svg>
-
-        {assignment ? (
-          <p className="prose-measure text-ink-soft mt-3 text-[0.9375rem]">
-            {wanted === 0
-              ? `First pass. Every word has been handed to whichever of the ${data.k} centres it is nearest, and the centres were placed before anything was known about the words.`
-              : moved === 0
-                ? `Nothing moved on this pass, so the algorithm has stopped. That is the whole of what settled means: ${data.iterations} passes, and on the last one no word changed its mind.`
-                : `${moved} words changed group on this pass. Every centre has shifted to the middle of whatever it collected, and some words are now nearer a different one.`}
-          </p>
-        ) : (
-          <p className="prose-measure text-ink-soft mt-3 text-[0.9375rem]">
-            Every word in the vocabulary, drawn at its own two coordinates.
-            There are no labels here and nobody has told the algorithm what any
-            of these words mean. It will be given one number, {data.k}, and
-            asked to find that many groups.
-          </p>
-        )}
-
-        {stage >= 4 ? (
-          <motion.div
-            initial={still ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="border-ink/20 mt-4 border-t pt-4"
+      {/* From step 4 a wide screen sets the scatter and the step's own panel
+          side by side: stacked, the panel was cut off below the bottom. */}
+      <div
+        className={`px-4 py-4 ${
+          stage >= 4 ? "sm:grid sm:grid-cols-2 sm:items-start sm:gap-6" : ""
+        }`}
+      >
+        <div className="min-w-0">
+          <svg
+            viewBox={`0 0 ${W} ${H}`}
+            className="block w-full sm:max-h-[15rem]"
+            aria-hidden
           >
-            <p className="label text-ink-faint mb-2">
-              What each group turned out to hold, nearest its centre first
-            </p>
-            <ul className="space-y-1.5">
-              {data.clusters.map((cluster) => (
-                <li key={cluster.id} className="text-[0.875rem]">
-                  <span className="label text-ink-faint mr-2">
-                    {cluster.size} words
-                  </span>
-                  <span className="font-data">
-                    {cluster.nearest.slice(0, 8).join(", ")}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <p className="prose-measure text-ink-soft mt-3 text-[0.9375rem]">
-              Some of those are obviously something. Some are a shrug. Both came
-              out of the same procedure, and no measure of cluster quality can
-              tell you which is which.
-            </p>
-          </motion.div>
-        ) : null}
-
-        {stage >= 5 ? (
-          <motion.div
-            initial={still ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="border-ink/20 mt-4 border-t pt-4"
-          >
-            <p className="label text-ink-faint mb-2">
-              How tight the groups get as you ask for more of them
-            </p>
-            <svg viewBox={`0 0 ${W} 130`} className="block w-full" aria-hidden>
-              <path
-                d={data.sweep
-                  .map((s, i) => {
-                    const x = 24 + (i / (data.sweep.length - 1)) * (W - 60);
-                    const yv =
-                      110 -
-                      ((s.inertia - bestInertia) / (worst - bestInertia)) * 90;
-                    return `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${yv.toFixed(1)}`;
-                  })
-                  .join(" ")}
-                className="stroke-pink fill-none"
-                strokeWidth={2.5}
+            {data.points.map((point, i) => (
+              <motion.circle
+                key={i}
+                cx={px(point[0])}
+                cy={py(point[1])}
+                r={2.4}
+                className={
+                  assignment ? INK[assignment[i] % INK.length] : "fill-ink"
+                }
+                initial={false}
+                animate={{
+                  opacity: assignment
+                    ? OPACITY[assignment[i] % OPACITY.length]
+                    : 0.3,
+                }}
+                transition={{ duration: still ? 0 : 0.35 }}
               />
-              {data.sweep.map((s, i) => (
-                <text
-                  key={s.k}
-                  x={24 + (i / (data.sweep.length - 1)) * (W - 60)}
-                  y={126}
-                  textAnchor="middle"
-                  className="fill-ink-faint font-data"
-                  style={{ fontSize: 9 }}
-                >
-                  {s.k}
-                </text>
-              ))}
-            </svg>
-            <p className="prose-measure text-ink-soft mt-2 text-[0.9375rem]">
-              It always improves. Twenty groups fit the words more tightly than
-              eight, and a thousand groups would fit them perfectly, one word
-              each. There is no k the data can tell you to use, which is the
-              honest difference between this and everything else in the track:
-              with no labels there is nothing to be right about.
+            ))}
+          </svg>
+
+          {assignment ? (
+            <p className="prose-measure text-ink-soft mt-3 text-[0.9375rem]">
+              {wanted === 0
+                ? `First pass. Every word has been handed to whichever of the ${data.k} centres it is nearest, and the centres were placed before anything was known about the words.`
+                : moved === 0
+                  ? `Nothing moved on this pass, so the algorithm has stopped. That is the whole of what settled means: ${data.iterations} passes, and on the last one no word changed its mind.`
+                  : `${moved} words changed group on this pass. Every centre has shifted to the middle of whatever it collected, and some words are now nearer a different one.`}
             </p>
-          </motion.div>
-        ) : null}
+          ) : (
+            <p className="prose-measure text-ink-soft mt-3 text-[0.9375rem]">
+              Every word in the vocabulary, drawn at its own two coordinates.
+              There are no labels here and nobody has told the algorithm what
+              any of these words mean. It will be given one number, {data.k},
+              and asked to find that many groups.
+            </p>
+          )}
+        </div>
+
+        <div className="min-w-0">
+          {/* Step 4's subject only. At step 5 the question is how many groups
+            to ask for, and with the list still above it the slider for that
+            step sat a screen below the bottom. */}
+          {stage === 4 ? (
+            <motion.div
+              initial={still ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="border-ink/20 mt-4 border-t pt-4 sm:mt-0 sm:border-t-0 sm:pt-0"
+            >
+              <p className="label text-ink-faint mb-2">
+                What each group turned out to hold, nearest its centre first
+              </p>
+              <ul className="space-y-1.5">
+                {data.clusters.map((cluster) => (
+                  <li key={cluster.id} className="text-[0.875rem]">
+                    <span className="label text-ink-faint mr-2">
+                      {cluster.size} words
+                    </span>
+                    <span className="font-data">
+                      {cluster.nearest.slice(0, 8).join(", ")}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="prose-measure text-ink-soft mt-3 text-[0.9375rem]">
+                Some of those are obviously something. Some are a shrug. Both
+                came out of the same procedure, and no measure of cluster
+                quality can tell you which is which.
+              </p>
+            </motion.div>
+          ) : null}
+
+          {stage >= 5 ? (
+            <motion.div
+              initial={still ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="border-ink/20 mt-4 border-t pt-4 sm:mt-0 sm:border-t-0 sm:pt-0"
+            >
+              <p className="label text-ink-faint mb-2">
+                How tight the groups get as you ask for more of them
+              </p>
+              <svg
+                viewBox={`0 0 ${W} 130`}
+                className="block w-full sm:max-h-[6rem]"
+                aria-hidden
+              >
+                <path
+                  d={data.sweep
+                    .map((s, i) => {
+                      const x = 24 + (i / (data.sweep.length - 1)) * (W - 60);
+                      const yv =
+                        110 -
+                        ((s.inertia - bestInertia) / (worst - bestInertia)) *
+                          90;
+                      return `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${yv.toFixed(1)}`;
+                    })
+                    .join(" ")}
+                  className="stroke-pink fill-none"
+                  strokeWidth={2.5}
+                />
+                {data.sweep.map((s, i) => (
+                  <text
+                    key={s.k}
+                    x={24 + (i / (data.sweep.length - 1)) * (W - 60)}
+                    y={126}
+                    textAnchor="middle"
+                    className="fill-ink-faint font-data"
+                    style={{ fontSize: 9 }}
+                  >
+                    {s.k}
+                  </text>
+                ))}
+              </svg>
+              <p className="prose-measure text-ink-soft mt-2 text-[0.9375rem]">
+                It always improves. Twenty groups fit the words more tightly
+                than eight, and a thousand groups would fit them perfectly, one
+                word each. There is no k the data can tell you to use, which is
+                the honest difference between this and everything else in the
+                track: with no labels there is nothing to be right about.
+              </p>
+            </motion.div>
+          ) : null}
+        </div>
       </div>
 
       {stage >= 3 ? (

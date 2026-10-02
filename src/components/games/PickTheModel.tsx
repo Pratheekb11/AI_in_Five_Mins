@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
+import { HoldRoom } from "@/components/game/HoldRoom";
 import {
   call,
   type Candidate,
@@ -175,6 +176,47 @@ export function PickTheModel({
     return () => window.removeEventListener("keydown", onKey);
   }, [playing, scene.done, round, choose, carryOn]);
 
+  /* The verdict under the cards. Drawn invisibly before the call too, so
+     the board already holds its room and answering moves nothing. */
+  const verdict = (live: boolean) => {
+    if (!round) return null;
+    const ok = live ? earned >= 120 : true;
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        /* On a phone Next round follows the verdict directly; the
+           explanation, the same every round, goes under it. */
+        className="mt-4 flex flex-col sm:mt-5 sm:block"
+      >
+        <p
+          className={`order-1 text-[1.0625rem] font-semibold ${
+            ok ? "text-teal-text" : "text-pink-text"
+          }`}
+        >
+          {ok ? "Good ship." : "That one travelled badly."} With{" "}
+          {round.trainSize} examples, the best of these was{" "}
+          {round.bestDegree === 1
+            ? "the straight line"
+            : `degree ${round.bestDegree}`}
+          , at {round.bestError.toFixed(2)}.
+        </p>
+        <p className="prose-measure text-ink-soft order-3 mt-2 text-[0.9375rem] sm:mt-1">
+          Every curve here fits its own dots better than the straight line does.
+          That is what more capacity buys, and it is worth nothing unless there
+          were enough dots to tell a real bend from an accident.
+        </p>
+        <button
+          type="button"
+          onClick={carryOn}
+          className="plate misreg btn-primary font-display order-2 mt-3 self-start px-5 py-2.5 font-bold sm:mt-4"
+        >
+          {scene.at + 1 >= scene.rounds.length ? "Finish" : "Next round"}
+        </button>
+      </motion.div>
+    );
+  };
+
   return (
     <GameShell
       gameId="pick-the-model"
@@ -253,20 +295,28 @@ export function PickTheModel({
             {/* The premise. A board that opens on a bare task reads as a
                 quiz somebody forgot to write the question for. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
-              Every curve below was fitted to the same sentences and every
-              one of them can draw those dots. Choose the one you would
-              actually ship, then watch each get judged on sentences it was
-              never shown.
+              <span className="sm:hidden">
+                Every curve fits these dots. Ship the one that will hold up on
+                sentences it never saw.
+              </span>
+              <span className="hidden sm:inline">
+                Every curve below was fitted to the same sentences and every one
+                of them can draw those dots. Choose the one you would actually
+                ship, then watch each get judged on sentences it was never
+                shown.
+              </span>
             </p>
             <p className="label text-ink-faint mb-1">
               Fitted to {round.trainSize} sentences · judged on the{" "}
               {round.testSize} held back
             </p>
-            <p className="prose-measure mb-4 text-[1.0625rem]">
+            <p className="prose-measure mb-3 text-[1.0625rem] sm:mb-4">
               Characters across, tokens up. Which of these would you ship?
             </p>
 
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Two by two on a phone: four small multiples read side by side,
+                and stacked one per row only one and a half fitted a screen. */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
               {round.candidates.map((candidate, i) => {
                 const { maxChars, maxTokens } = bounds(round);
                 const yours = scene.called === candidate.degree;
@@ -277,7 +327,7 @@ export function PickTheModel({
                     type="button"
                     disabled={revealed}
                     onClick={() => choose(candidate.degree)}
-                    className={`plate p-3 text-left transition-colors ${
+                    className={`plate p-2 text-left transition-colors sm:p-3 ${
                       !revealed
                         ? "hover:border-ink cursor-pointer"
                         : won
@@ -299,60 +349,30 @@ export function PickTheModel({
                       maxChars={maxChars}
                       maxTokens={maxTokens}
                     />
-                    <span className="data text-ink-soft mt-2 block text-[0.8125rem]">
+                    <span className="data text-ink-soft mt-1.5 block text-[0.75rem] sm:mt-2 sm:text-[0.8125rem]">
                       error on these dots {candidate.trainError.toFixed(2)}
                     </span>
-                    {revealed ? (
-                      <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className={`data mt-1 block text-[0.9375rem] font-bold ${
-                          won ? "text-teal-text" : "text-pink-text"
-                        }`}
-                      >
-                        on held-out {candidate.testError.toFixed(2)}
-                      </motion.span>
-                    ) : null}
+                    {/* Always drawn, invisible until the reveal, so the cards
+                        are one height before and after the call. */}
+                    <motion.span
+                      initial={false}
+                      animate={{ opacity: revealed ? 1 : 0 }}
+                      aria-hidden={!revealed}
+                      className={`data mt-1 block text-[0.875rem] font-bold sm:text-[0.9375rem] ${
+                        won ? "text-teal-text" : "text-pink-text"
+                      }`}
+                    >
+                      on held-out {candidate.testError.toFixed(2)}
+                    </motion.span>
                   </button>
                 );
               })}
             </div>
 
-            {revealed ? (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-5"
-              >
-                <p
-                  className={`text-[1.0625rem] font-semibold ${
-                    earned >= 120 ? "text-teal-text" : "text-pink-text"
-                  }`}
-                >
-                  {earned >= 120 ? "Good ship." : "That one travelled badly."}{" "}
-                  With {round.trainSize} examples, the best of these was{" "}
-                  {round.bestDegree === 1
-                    ? "the straight line"
-                    : `degree ${round.bestDegree}`}
-                  , at {round.bestError.toFixed(2)}.
-                </p>
-                <p className="prose-measure text-ink-soft mt-1 text-[0.9375rem]">
-                  Every curve here fits its own dots better than the straight
-                  line does. That is what more capacity buys, and it is worth
-                  nothing unless there were enough dots to tell a real bend from
-                  an accident.
-                </p>
-                <button
-                  type="button"
-                  onClick={carryOn}
-                  className="btn-primary mt-4 px-4 py-2"
-                >
-                  {scene.at + 1 >= scene.rounds.length
-                    ? "Finish"
-                    : "Next round"}
-                </button>
-              </motion.div>
-            ) : null}
+            <HoldRoom
+              shown={revealed ? verdict(true) : null}
+              held={revealed ? null : verdict(false)}
+            />
           </>
         ) : (
           <p className="text-ink-soft">Loading the sentences…</p>

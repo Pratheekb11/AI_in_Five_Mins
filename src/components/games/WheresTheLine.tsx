@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
+import { HoldRoom } from "@/components/game/HoldRoom";
 import {
   call,
   costOf,
@@ -42,9 +43,7 @@ export function WheresTheLine({
   initialData?: ThresholdData;
   initialScene?: ThresholdScene;
 } = {}) {
-  const [data, setData] = useState<ThresholdData | null>(
-    initialData ?? null,
-  );
+  const [data, setData] = useState<ThresholdData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
   const [scene, setScene] = useState<ThresholdScene>(
     () => initialScene ?? newScene(),
@@ -101,7 +100,8 @@ export function WheresTheLine({
   const chosenDial = DIALS.find((d) => d.id === scene.called);
   const chosen =
     data && chosenDial ? pointAt(data, chosenDial.threshold) : null;
-  const cost = data && scenario && chosen ? costOf(scenario, chosen) : 0;
+  /* Any of the five, for the invisible copy that holds the result's room. */
+  const ghost = data ? pointAt(data, DIALS[0].threshold) : null;
   const earned =
     data && scenario && scene.called
       ? pointsFor(data, scenario, scene.called)
@@ -118,6 +118,79 @@ export function WheresTheLine({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [playing, scene.done, choose, carryOn]);
+
+  /* The result of a given call. Drawn invisibly before the call too, with
+     the best of the five standing in, so the board already holds its room. */
+  const result = (pick: NonNullable<typeof chosen>, live: boolean) => {
+    if (!scenario || !data) return null;
+    const cost = costOf(scenario, pick);
+    const good = live ? earned >= 120 : true;
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        /* On a phone: what it cost (the verdict), then Next case,
+                   then the counts behind it. Side by side from `sm`. */
+        className="flex flex-col sm:block"
+      >
+        <div className="contents sm:grid sm:grid-cols-2 sm:gap-3">
+          <div className="plate order-3 mt-3 p-4 sm:mt-0">
+            <p className="label text-ink-faint mb-2">What your line did</p>
+            <p className="text-[0.9375rem]">
+              Caught{" "}
+              <span className="data text-teal-text font-bold">
+                {pick.caught}
+              </span>{" "}
+              of {data.corpus.spamInTest} spam, missed{" "}
+              <span className="data text-pink-text font-bold">
+                {pick.missed}
+              </span>
+              , and wrongly blocked{" "}
+              <span className="data text-pink-text font-bold">
+                {pick.falseAlarms}
+              </span>{" "}
+              real messages.
+            </p>
+            <p className="text-ink-soft mt-2 text-[0.875rem]">
+              Accuracy {(pick.accuracy * 100).toFixed(1)}% · precision{" "}
+              {(pick.precision * 100).toFixed(1)}% · recall{" "}
+              {(pick.recall * 100).toFixed(1)}%
+            </p>
+          </div>
+
+          <div className="plate order-1 p-4">
+            <p className="label text-ink-faint mb-2">
+              What it cost, in this situation
+            </p>
+            <p className="display-md">
+              <span className={good ? "text-teal-text" : "text-pink-text"}>
+                {cost}
+              </span>
+              <span className="text-ink-faint text-base font-normal">
+                {" "}
+                against {scenario.best.cost} for the best line anywhere on the
+                curve
+              </span>
+            </p>
+            <p className="text-ink-soft mt-2 text-[0.875rem]">
+              That best line is one a team could tune their way to: it catches{" "}
+              {scenario.best.caught} with {scenario.best.falseAlarms} false
+              alarms. You were marked against the five choices you were actually
+              offered.
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={carryOn}
+          className="plate misreg btn-primary font-display order-2 mt-3 self-start px-5 py-2.5 font-bold sm:mt-4"
+        >
+          {scene.at + 1 >= scene.rounds.length ? "Finish" : "Next case"}
+        </button>
+      </motion.div>
+    );
+  };
 
   return (
     <GameShell
@@ -204,7 +277,7 @@ export function WheresTheLine({
               <span className="data font-bold">{scenario.falseAlarmCost}</span>.
             </p>
 
-            <div className="mb-5 grid gap-2 sm:grid-cols-5">
+            <div className="mb-4 grid gap-2 sm:mb-5 sm:grid-cols-5">
               {DIALS.map((dial, i) => {
                 const yours = scene.called === dial.id;
                 return (
@@ -213,7 +286,7 @@ export function WheresTheLine({
                     type="button"
                     disabled={revealed}
                     onClick={() => choose(dial.id)}
-                    className={`plate px-3 py-3 text-left transition-colors ${
+                    className={`plate px-3 py-2 text-left transition-colors sm:py-3 ${
                       yours
                         ? "border-ink bg-paper-sunk"
                         : revealed
@@ -221,13 +294,20 @@ export function WheresTheLine({
                           : "hover:border-ink cursor-pointer"
                     }`}
                   >
-                    <span className="label text-ink-faint mb-1 block">
+                    {/* On a phone the number rides on the label's line, and
+                        once the call is made the descriptions step aside:
+                        the five are evidence by then, not a question. */}
+                    <span className="label text-ink-faint mr-2 sm:mb-1 sm:block">
                       {i + 1}
                     </span>
-                    <span className="block text-[0.875rem] font-semibold">
+                    <span className="text-[0.875rem] font-semibold sm:block">
                       {dial.label}
                     </span>
-                    <span className="text-ink-faint mt-1 block text-[0.8125rem]">
+                    <span
+                      className={`text-ink-faint mt-0.5 block text-[0.8125rem] sm:mt-1 ${
+                        revealed ? "hidden sm:block" : ""
+                      }`}
+                    >
                       {dial.means}
                     </span>
                   </button>
@@ -235,74 +315,10 @@ export function WheresTheLine({
               })}
             </div>
 
-            {revealed && chosen ? (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="plate p-4">
-                    <p className="label text-ink-faint mb-2">
-                      What your line did
-                    </p>
-                    <p className="text-[0.9375rem]">
-                      Caught{" "}
-                      <span className="data text-teal-text font-bold">
-                        {chosen.caught}
-                      </span>{" "}
-                      of {data.corpus.spamInTest} spam, missed{" "}
-                      <span className="data text-pink-text font-bold">
-                        {chosen.missed}
-                      </span>
-                      , and wrongly blocked{" "}
-                      <span className="data text-pink-text font-bold">
-                        {chosen.falseAlarms}
-                      </span>{" "}
-                      real messages.
-                    </p>
-                    <p className="text-ink-soft mt-2 text-[0.875rem]">
-                      Accuracy {(chosen.accuracy * 100).toFixed(1)}% · precision{" "}
-                      {(chosen.precision * 100).toFixed(1)}% · recall{" "}
-                      {(chosen.recall * 100).toFixed(1)}%
-                    </p>
-                  </div>
-
-                  <div className="plate p-4">
-                    <p className="label text-ink-faint mb-2">
-                      What it cost, in this situation
-                    </p>
-                    <p className="display-md">
-                      <span
-                        className={
-                          earned >= 120 ? "text-teal-text" : "text-pink-text"
-                        }
-                      >
-                        {cost}
-                      </span>
-                      <span className="text-ink-faint text-base font-normal">
-                        {" "}
-                        against {scenario.best.cost} for the best line anywhere
-                        on the curve
-                      </span>
-                    </p>
-                    <p className="text-ink-soft mt-2 text-[0.875rem]">
-                      That best line is one a team could tune their way to: it
-                      catches {scenario.best.caught} with{" "}
-                      {scenario.best.falseAlarms} false alarms. You were marked
-                      against the five choices you were actually offered.
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={carryOn}
-                  className="btn-primary mt-4 px-4 py-2"
-                >
-                  {scene.at + 1 >= scene.rounds.length ? "Finish" : "Next case"}
-                </button>
-              </motion.div>
-            ) : null}
+            <HoldRoom
+              shown={revealed && chosen ? result(chosen, true) : null}
+              held={revealed ? null : ghost ? result(ghost, false) : null}
+            />
           </>
         ) : (
           <p className="text-ink-soft">Loading the measurements…</p>

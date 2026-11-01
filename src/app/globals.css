@@ -547,6 +547,12 @@
   50% { opacity: 0.45; }
 }
 
+/* A tile arriving in a self-playing reel: fades and settles, nothing more. */
+@keyframes ink-pop {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* The blank waiting to be filled in: a game's unanswered slot, a figure's
    undrawn token. It is an invitation, so it has to keep moving. */
 .ink-pulse {

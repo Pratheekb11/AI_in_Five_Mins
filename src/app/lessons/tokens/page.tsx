@@ -1,11 +1,9 @@
-import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { TokenPriceFigure } from "@/components/machines/TokenPriceFigure";
+import { ChunkReel } from "@/components/machines/ChunkReel";
 import { TokenChopper } from "@/components/games/TokenChopper";
 import { MergeReel } from "@/components/machines/MergeReel";
 import { TokenStrip } from "@/components/token-strip/TokenStrip";
@@ -74,27 +72,6 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
-  {
-    say: "Start with what you see. Strawberry is ten letters, and three of them are the letter r. You can count them because they are separate things on the page.",
-    caption:
-      "Watch the strip below rather than waiting for a new picture. Every step from here changes that same strip and the number beside it.",
-  },
-  {
-    say: "Now what the model receives. The same word arrives as three chunks, and not one of them is a letter. The r's are inside the pieces, and nothing it reads has them apart.",
-    caption:
-      "This is the letter-counting failure in one picture. It is not bad at counting. It was never given the things you want counted.",
-  },
-  {
-    say: "Put a space in front of the very same word and it costs one token instead of three. The space belongs to the token after it, which surprises almost everybody.",
-    caption:
-      "Same ten letters, a third of the price. The word in the middle of a sentence and the word at the start are different objects to the model.",
-  },
-  {
-    say: "And tokens are the unit everything is counted in. What you pay, how much fits in a conversation, how fast a reply arrives. They are not shared out evenly between languages, so try a few.",
-  },
-];
-
 const CHECK: CheckBeat[] = [
   {
     kind: "match",
@@ -134,92 +111,99 @@ const CHECK: CheckBeat[] = [
 export default function TokensLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
+      id: "game",
+      cta: "How it works",
       node: (
-        <Hook
-          claim={
-            <>
-              The model cannot see the letters in{" "}
-              <span className="text-pink-text">strawberry</span>.
-            </>
-          }
-          sting={`Not \u201cstruggles with\u201d. Cannot. By the time the word reaches it, it is ${bare.final.length} chunks (${bare.final.join(
-            " \u00b7 ",
-          )}) and the letters are gone. Next you can watch those chunks being formed, one real merge at a time, and then go and cut words up yourself.`}
-          cta="Watch it cut"
-        />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            AI does not read letters. It reads{" "}
+            <span className="text-pink-text">chunks</span>.
+          </h1>
+          <TokenChopper />
+        </div>
       ),
     },
     {
-      id: "vocabulary",
-      cta: "Watch it happen",
+      id: "how",
+      cta: "Got it",
       node: (
-        <>
-          <p className="label text-ink-faint mb-3">Where tokens come from</p>
-          <h2 className="display-lg mb-4">
-            Nobody chose these chunks. They were counted into existence.
-          </h2>
-          <div className="prose-measure text-ink-soft space-y-4 text-lg">
-            <p>
-              A model has a fixed vocabulary. The encoding used here has{" "}
-              {MERGES.vocabularySize.toLocaleString("en-US")} entries, and every
-              piece of text you send has to be expressed in them. That
-              vocabulary was not written by linguists. It was <em>grown</em>, by
-              an algorithm with no notion of words, prefixes or meaning.
-            </p>
-            <p>
-              It starts with raw bytes: no words, not even letters, just{" "}
-              {bare.bytes} separate things for a {bare.bytes}-letter word. Then
-              it repeats one move. Find the pair of neighbours that occurs most
-              often across the whole training corpus, and glue it into a single
-              new entry. Do that a couple of hundred thousand times and the
-              frequent chunks of English end up as single units. Everything rare
-              stays in fragments.
-            </p>
+        <div className="mx-auto max-w-2xl space-y-4">
+          <h2 className="display-md">Why it cannot count the r&rsquo;s</h2>
+          <ChunkReel
+            word={strawberry.text}
+            chunks={strawberry.tokens.map((t) => t.text)}
+            hidden="r"
+            rows={[
+              {
+                language: english.language,
+                chunks: english.tokens.map((t) => t.text),
+              },
+              {
+                language: hindi.language,
+                chunks: hindi.tokens.map((t) => t.text),
+              },
+            ]}
+          />
+        </div>
+      ),
+    },
+  ];
+
+  const tail = (
+    <>
+      <div data-section="deeper" className="space-y-4">
+        <Fold
+          title="Where do the chunks come from?"
+          note="Nobody chose them. They were counted into existence."
+        >
+          <div className="space-y-6">
+            <div className="prose-measure text-ink-soft space-y-4 text-lg">
+              <p>
+                A model has a fixed vocabulary. The encoding used here has{" "}
+                {MERGES.vocabularySize.toLocaleString("en-US")} entries, and
+                every piece of text you send has to be expressed in them. That
+                vocabulary was not written by linguists. It was <em>grown</em>,
+                by an algorithm with no notion of words, prefixes or meaning.
+              </p>
+              <p>
+                It starts with raw bytes: no words, not even letters, just{" "}
+                {bare.bytes} separate things for a {bare.bytes}-letter word.
+                Then it repeats one move. Find the pair of neighbours that
+                occurs most often across the whole training corpus, and glue it
+                into a single new entry. Do that a couple of hundred thousand
+                times and the frequent chunks of English end up as single units.
+                Everything rare stays in fragments.
+              </p>
+            </div>
+            <MergeReel />
+            <div className="prose-measure text-ink-soft mt-6 space-y-4">
+              <p>
+                Watch <span className="font-data">unbelievable</span> in
+                particular. A human would cut it{" "}
+                <span className="font-data">un·believ·able</span>. The tokenizer
+                produces{" "}
+                <span className="font-data">
+                  {unbelievable.final.join("\u00b7")}
+                </span>
+                , because{" "}
+                <span className="font-data">{unbelievable.final[1]}</span>{" "}
+                happened to be commoner than the meaningful piece. The split is
+                a frequency accident, and the model has to work from it anyway.
+              </p>
+              <p>
+                And <span className="font-data">{rare.word}</span> shatters into{" "}
+                {rare.final.length} pieces. Nothing about that name was common
+                enough to be worth an entry, so it arrives as debris. Rare
+                names, technical terms, new coinages and most of the
+                world&rsquo;s languages all arrive this way.
+              </p>
+            </div>
           </div>
-        </>
-      ),
-    },
-    {
-      id: "merges",
-      cta: "What this costs you",
-      node: (
-        <>
-          <MergeReel />
-          <div className="prose-measure text-ink-soft mt-6 space-y-4">
-            <p>
-              Watch <span className="font-data">unbelievable</span> in
-              particular. A human would cut it{" "}
-              <span className="font-data">un·believ·able</span>. The
-              tokenizer produces{" "}
-              <span className="font-data">
-                {unbelievable.final.join("\u00b7")}
-              </span>
-              , because{" "}
-              <span className="font-data">{unbelievable.final[1]}</span>{" "}
-              happened to be commoner than the meaningful piece. The split is a
-              frequency accident, and the model has to work from it anyway.
-            </p>
-            <p>
-              And <span className="font-data">{rare.word}</span> shatters into{" "}
-              {rare.final.length} pieces. Nothing about that name was common
-              enough to be worth an entry, so it arrives as debris. Rare names,
-              technical terms, new coinages and most of the world&rsquo;s
-              languages all arrive this way.
-            </p>
-          </div>
-        </>
-      ),
-    },
-    {
-      id: "consequences",
-      cta: "Let me try it",
-      node: (
-        <>
-          <h2 className="display-lg mb-5">
-            Three consequences that catch people
-          </h2>
+        </Fold>
+        <Fold
+          title="Three surprises: spaces, numbers, languages"
+          note="The same word can cost three times as much."
+        >
           <div className="grid gap-4 lg:grid-cols-3">
             <div className="plate p-5">
               <p className="label text-ink-faint mb-3">1. The leading space</p>
@@ -278,35 +262,7 @@ export default function TokensLesson() {
               </p>
             </div>
           </div>
-        </>
-      ),
-    },
-    {
-      id: "game",
-      cta: "What that showed",
-      node: (
-        <>
-          <p className="label text-ink-faint mb-3">Now you try</p>
-          <h2 className="display-lg mb-2">Cut the words yourself.</h2>
-          <p className="prose-measure text-ink-soft mb-6">
-            You have seen how the chunks are made. See whether you can predict
-            them. Type anything and the real tokenizer marks your cuts against
-            its own.
-          </p>
-          <TokenChopper />
-        </>
-      ),
-    },
-    {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<TokenPriceFigure />} />,
-    },
-  ];
-
-  const tail = (
-    <>
-      <div data-section="deeper" className="space-y-4">
+        </Fold>
         <MechanismPanel
           question="If the split is this crude, how does it ever work?"
           summary="Because the model never needed the letters. It needed something it could count, and chunks are countable."

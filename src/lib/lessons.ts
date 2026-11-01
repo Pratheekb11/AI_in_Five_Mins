@@ -32,6 +32,21 @@ export type Lesson = {
    * this module. Present on every module in the practical track.
    */
   feynman?: string;
+  /**
+   * What to do differently the next time you open an assistant. Printed on the
+   * closing screen, above the way onward, so a reader who stops here still
+   * leaves with something they can use. Chapters only.
+   */
+  habit?: Habit;
+};
+
+export type Habit = {
+  /** The habit, as an instruction. */
+  line: string;
+  /** A prompt somebody would actually type before this chapter. */
+  instead: string;
+  /** The same request, written the way this chapter argues for. */
+  try: string;
 };
 
 export const TRACKS: Record<Track, { title: string; blurb: string }> = {
@@ -72,6 +87,11 @@ export const LESSONS: Lesson[] = [
     ink: "blue",
     status: "ready",
     feynman: "Why does ChatGPT sometimes confidently make things up?",
+    habit: {
+      line: "Check the one detail you are going to rely on.",
+      instead: "Give me the key statistics on remote work productivity.",
+      try: "Give me the key statistics on remote work productivity, with a source link for each one.",
+    },
   },
   {
     slug: "tokens",
@@ -85,6 +105,11 @@ export const LESSONS: Lesson[] = [
     minutes: 7,
     ink: "pink",
     status: "ready",
+    habit: {
+      line: "Do not ask it to count. Ask it to use a counter.",
+      instead: "How many words are in this paragraph?",
+      try: "Write and run code that counts the words in this paragraph.",
+    },
   },
   {
     slug: "context-is-everything",
@@ -99,6 +124,11 @@ export const LESSONS: Lesson[] = [
     ink: "teal",
     status: "ready",
     feynman: "Why does it forget what I said forty messages ago?",
+    habit: {
+      line: "Paste the real thing instead of describing it.",
+      instead: "Help me reply to my landlord about the deposit.",
+      try: "Here is my landlord's email, pasted below. I want the full deposit back. Write a polite reply under 120 words.",
+    },
   },
   {
     slug: "prompting-as-delegation",
@@ -114,6 +144,11 @@ export const LESSONS: Lesson[] = [
     status: "ready",
     feynman:
       "If I gave this instruction to a stranger, would they produce what I want?",
+    habit: {
+      line: "Show it one example of what good looks like.",
+      instead: "Write a catchy caption for my bakery's new cookie.",
+      try: "Here is a caption of ours that did well: \"Warm, gooey, gone by noon.\" Write five like it for our new oat cookie.",
+    },
   },
   {
     slug: "where-it-breaks",
@@ -128,6 +163,11 @@ export const LESSONS: Lesson[] = [
     ink: "pink",
     status: "ready",
     feynman: "How would I catch this if it were wrong?",
+    habit: {
+      line: "Ask neutral questions. Do not hand it the answer.",
+      instead: "Coffee is bad for your heart, right?",
+      try: "What does the evidence say about coffee and heart health? Give the strongest case on each side.",
+    },
   },
   {
     slug: "tools-change-the-game",
@@ -142,6 +182,11 @@ export const LESSONS: Lesson[] = [
     ink: "blue",
     status: "ready",
     feynman: "Did it look this up, calculate it, or guess it?",
+    habit: {
+      line: "Ask where the answer came from.",
+      instead: "What is 18% GST on ₹2,340?",
+      try: "Use code to work out 18% GST on ₹2,340, and show the calculation.",
+    },
   },
 
   // ------------------------------------------------------------ before you go --

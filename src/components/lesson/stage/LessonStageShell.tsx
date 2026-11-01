@@ -10,6 +10,7 @@ import { Sources } from "../Sources";
 import { TrackCelebration } from "../TrackCelebration";
 import { TrackComplete } from "../TrackComplete";
 import { TrackGaps } from "../TrackGaps";
+import { HabitCard } from "../HabitCard";
 import { PrimaryOnward } from "../PrimaryOnward";
 import { LessonStage, type Beat } from "./LessonStage";
 import { StageComplete } from "./StageComplete";
@@ -51,6 +52,8 @@ export function LessonStageShell({
           {String(lesson.number).padStart(2, "0")} done
         </span>
         <h2 className="display-lg mb-6">{lesson.nugget ?? lesson.title}</h2>
+
+        {lesson.habit ? <HabitCard habit={lesson.habit} /> : null}
 
         <PrimaryOnward lesson={lesson} next={next} />
 

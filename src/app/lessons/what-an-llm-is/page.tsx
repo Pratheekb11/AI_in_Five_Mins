@@ -201,6 +201,10 @@ export default function WhatAnLlmIsLesson() {
             <span className="text-pink-text">never understood a word</span> in
             its life.
           </h1>
+          <p className="text-ink-soft text-[0.9375rem] leading-snug">
+            Six short chapters. Each one ends with a thing to do differently the
+            next time you use ChatGPT.
+          </p>
           <BeatThePredictor
             initialData={predictorData}
             initialScene={initialScene}

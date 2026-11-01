@@ -4,14 +4,10 @@ import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { PhrasingFigure } from "@/components/machines/PhrasingFigure";
+import { CopyReel, type AskShot } from "@/components/machines/CopyReel";
 import { PromptInspector } from "@/components/machines/PromptInspector";
 import type { CheckBeat } from "@/lib/check";
-import {
-  start as dealListen,
-  type ListenData,
-} from "@/lib/game/listen";
+import { start as dealListen, type ListenData } from "@/lib/game/listen";
 import { getLesson } from "@/lib/lessons";
 import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
@@ -65,29 +61,22 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
-  {
-    say: "Stop thinking of it as a search box. Think of it as a sharp new colleague on their first morning. They have read enormously widely. They know nothing at all about you, your job, or what good looks like here. Start with the plainest possible version of the ask.",
-    caption:
-      "Watch the rows below rather than waiting for a new picture. Each step measures one more way of asking for the very same thing.",
-  },
-  {
-    say: "Now the one almost everybody believes in. Tell it that it is an expert. Give it a role to play. Watch what that does to the odds of getting the answer you wanted.",
-    caption:
-      "A little, at most. Role-play moved the odds far less than showing an example does, as the next steps show.",
-  },
-  {
-    say: "Next, actually instruct it. Say how you want the answer to come back. This one does move the number, which is worth knowing, but look at how far it moves it.",
-  },
-  {
-    say: "Now stop describing what you want and show it instead. One worked example of the shape you are after, and then your real question. That is the whole trick, and the bar has to be rescaled to fit it.",
-  },
-  {
-    say: "Five things do the work when you brief somebody. Who they are, what you want done, the limits, the shape the answer should arrive in, and one example of good. The example is the one people leave out, and it is the one that is doing the lifting.",
-    caption:
-      "Read your prompt back and ask: if I sent only this to a competent stranger, would they produce what I actually want? If not, you already know which part is missing.",
-  },
-];
+/* The reel's one goal and four prompts, with what the model really said. */
+const sky = listenData.rounds.find((r) => r.id === "colourof")!;
+const LABELS: Record<string, string> = {
+  bare: "Plain",
+  polite: "Polite",
+  role: "Role",
+  qa: "Example",
+};
+const ASKS = (["bare", "polite", "role", "qa"] as const).map((id) => {
+  const v = sky.variants.find((x) => x.id === id)!;
+  return {
+    label: LABELS[id],
+    prompt: v.prompt,
+    says: (v.says ?? "").replace(/\n/g, " ").trim(),
+  };
+}) as [AskShot, AskShot, AskShot, AskShot];
 
 const CHECK: CheckBeat[] = [
   {
@@ -130,40 +119,24 @@ export default function PromptingAsDelegationLesson() {
   const beats: Beat[] = [
     {
       id: "game",
-      cta: "What just happened",
+      cta: "How it works",
       node: (
         <div className="space-y-4">
-          {/* The deck has no masthead headline of its own, so the premise on
-              the first board is this page's top heading. `h1` rather than `h2`
-              for that reason only: `.display-md` carries every pixel of the
-              type, and `h1` to `h4` share one base rule, so the tag is the
-              whole change. */}
           <h1 className="display-md">
-            Most of what you type into it{" "}
-            <span className="text-yellow-text">does no work at all</span>.
+            Show it, <span className="text-yellow-text">do not just ask</span>.
           </h1>
           <ShowDontAsk initialData={listenData} initialScene={initialScene} />
         </div>
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<PhrasingFigure />} />,
-    },
-    {
-      id: "your-own",
-      cta: "That is the chapter",
+      id: "how",
+      cta: "Got it",
       node: (
-        <>
-          <h2 className="display-lg mb-2">Now check one of your own</h2>
-          <p className="prose-measure text-ink-soft mb-5">
-            Paste in a prompt you have really sent. This is a keyword check, not
-            comprehension. It shows you what it matched on, so that you can
-            overrule it. Judging the evidence yourself is the point.
-          </p>
-          <PromptInspector />
-        </>
+        <div className="mx-auto max-w-2xl space-y-4">
+          <h2 className="display-md">Four ways to ask. Only one changes anything.</h2>
+          <CopyReel want={sky.goal} answer={sky.target.trim()} shots={ASKS} />
+        </div>
       ),
     },
   ];
@@ -171,6 +144,12 @@ export default function PromptingAsDelegationLesson() {
   const tail = (
     <>
       <div data-section="deeper" className="space-y-4">
+        <Fold
+          title="Check one of your own prompts"
+          note="Paste a prompt you have really sent and see what it is missing."
+        >
+          <PromptInspector />
+        </Fold>
         <MechanismPanel
           question="Does the politeness actually cost me anything?"
           summary="It costs tokens and instructs nobody. That is the honest answer. The game charges you for it so that you have to read it."

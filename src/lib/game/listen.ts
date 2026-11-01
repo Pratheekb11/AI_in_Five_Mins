@@ -47,7 +47,7 @@ export type ListenData = {
 
 /* ------------------------------------------------------------------ rules -- */
 
-export const ROUND_SIZE = 5;
+export const ROUND_SIZE = 3;
 const BASE_POINTS = 120;
 /** Picking the winner when it is a long way ahead is the easy case. */
 const MARGIN_POINTS = 120;
@@ -126,8 +126,18 @@ export function newScene(): ListenScene {
   };
 }
 
+/* The four ways of asking a person would recognise. The "colon" phrasing
+   ("The capital of France is") is a second pattern that mostly rambles, and
+   offering two patterns made the choice about wording rather than the idea. */
+const SHOWN = new Set(["bare", "polite", "role", "qa"]);
+
 export function start(data: ListenData, rolls: number[]): ListenScene {
-  const rounds = shuffledBy(data.rounds, rolls).slice(0, ROUND_SIZE);
+  const rounds = shuffledBy(data.rounds, rolls)
+    .slice(0, ROUND_SIZE)
+    .map((round) => ({
+      ...round,
+      variants: round.variants.filter((v) => SHOWN.has(v.id)),
+    }));
   return {
     ...newScene(),
     rounds,

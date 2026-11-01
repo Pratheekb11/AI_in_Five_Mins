@@ -15,10 +15,8 @@ import {
   ROUND_SIZE,
   shownVariants,
   start as startRound,
-  timesBare,
   winnerOf,
 } from "@/lib/game/listen";
-import { useIsPhone } from "@/lib/useMedia";
 
 /**
  * Show, Don't Ask.
@@ -54,9 +52,6 @@ export function ShowDontAsk({
     () => initialScene ?? newScene(),
   );
   const [playing, setPlaying] = useState(!!initialScene);
-  /* The premise says the same thing in fewer words on a phone, where the beat
-     is already scaled to the FitBox floor. */
-  const phone = useIsPhone();
 
   useEffect(() => {
     if (initialScene) return;
@@ -126,17 +121,9 @@ export function ShowDontAsk({
     const ok = shown && picked === winner?.id;
     return (
       <>
-        <p className="label text-ink-faint mb-1 sm:mb-2">What you want</p>
+        <p className="label text-ink-faint mb-1 sm:mb-2">Goal</p>
         <p className="prose-measure mb-1 text-[1.0625rem]">{round.goal}</p>
-        <p
-          className={`text-ink-faint mb-3 text-[0.8125rem] sm:mb-5 ${
-            shown ? "hidden sm:block" : ""
-          }`}
-        >
-          Scored on the chance the model produces{" "}
-          <span className="font-data">&ldquo;{round.target.trim()}&rdquo;</span>{" "}
-          next.
-        </p>
+        <div className="mb-3 sm:mb-4" />
 
         {/* Once they are evidence rather than a question, the five go
             two across on a wide screen, and the verdict takes the sixth cell
@@ -150,7 +137,6 @@ export function ShowDontAsk({
             {variants.map((variant, i) => {
               const isWinner = shown && variant.id === winner?.id;
               const isYours = picked === variant.id;
-              const multiple = timesBare(round, variant);
               return (
                 <li key={variant.id}>
                   <button
@@ -211,26 +197,6 @@ export function ShowDontAsk({
                             }}
                           />
                         </span>
-                        <span className="data text-ink-soft w-20 shrink-0 text-right text-xs tabular-nums">
-                          {(variant.probability * 100).toFixed(
-                            variant.probability < 0.001 ? 4 : 2,
-                          )}
-                          %
-                        </span>
-                        <span
-                          className={`data w-16 shrink-0 text-right text-xs tabular-nums ${
-                            multiple && multiple >= 2
-                              ? "text-teal-text"
-                              : multiple && multiple < 1
-                                ? "text-pink-text"
-                                : "text-ink-soft"
-                          }`}
-                        >
-                          {multiple
-                            ? `${multiple.toFixed(multiple >= 10 ? 0 : 1)}×`
-                            : "-"}
-                        </span>
-
                         {/* What came back rides on the bar that measured
                               it. It used to be a second list underneath, which
                               printed every prompt twice and pushed the verdict
@@ -242,7 +208,9 @@ export function ShowDontAsk({
                               : "border-ink/25 text-ink-faint"
                           }`}
                         >
-                          {saidBy(variant) || "said nothing at all"}
+                          {saidBy(variant)
+                            ? `says \u201c${saidBy(variant)}\u201d`
+                            : "says nothing"}
                         </span>
                       </span>
                     ) : null}
@@ -281,8 +249,13 @@ export function ShowDontAsk({
                       returns an empty line, and printing that blank is worth
                       more than any number beside it. */}
                 <p className="prose-measure text-ink-soft order-3 mt-2 mb-2 basis-full text-[0.8125rem] sm:mt-0 sm:mb-3 sm:text-[0.9375rem]">
-                  The one that worked stopped asking and started showing.
-                  Politeness and job titles got a blank line.
+                  {(() => {
+                    const said = saidBy(winner);
+                    const want = round.target.trim();
+                    return said.toLowerCase().startsWith(want.toLowerCase())
+                      ? `Only the example changed what it did, and it answered \u201c${said}\u201d.`
+                      : `Only the example changed what it did: one word, like the example. But it said \u201c${said}\u201d, not \u201c${want}\u201d.`;
+                  })()}
                 </p>
                 <button
                   type="button"
@@ -296,8 +269,7 @@ export function ShowDontAsk({
               </motion.div>
             ) : (
               <p className="text-ink-soft text-[0.9375rem]">
-                Keys 1&ndash;{variants.length} work. Pick the one you would
-                actually type.
+                Tap the one you think works.
               </p>
             )}
           </div>
@@ -310,19 +282,18 @@ export function ShowDontAsk({
     <GameShell
       gameId="show-dont-ask"
       name="Show, Don't Ask"
-      instruction="One thing you want out of the model, and five ways of asking for it. Pick the phrasing that you think gets it, then watch all five measured at once. Most of what people tell you about prompting turns out not to survive this."
+      instruction="Four ways to ask for the same thing. Guess which one changes what the AI does."
       howToPlay={{
-        goal: "Pick the phrasing that actually gets what you asked for.",
+        goal: "Guess which way of asking changes the AI's answer most.",
         steps: [
-          "Read what you are trying to get out of the model.",
-          "Five phrasings of the same request are listed. Pick the one you think works best.",
-          "All five measured probabilities arrive at once, with how many times better than a bare question each one is.",
+          "Read what you want from the AI.",
+          "Tap the way of asking you think works best.",
+          "See what the AI said to each one.",
         ],
-        controls: "Tap or click a phrasing, or press 1–5. Enter moves on.",
-        scoring:
-          "120 for the winner, and more when the runner-up was close behind.",
+        controls: "Tap or click, or press 1 to 4.",
+        scoring: "Points for picking the one that worked.",
       }}
-      startLabel={data ? "Take the first one" : "Loading the measurements…"}
+      startLabel={data ? "Play" : "Loading…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}
       finalScore={scene.score}
@@ -337,8 +308,6 @@ export function ShowDontAsk({
       }
       readouts={[
         { label: "Score", value: scene.score, accent: true },
-        { label: "Right", value: scene.right },
-        { label: "Streak", value: `×${scene.streak}` },
         {
           label: "Round",
           value: `${Math.min(scene.at + 1, Math.max(scene.rounds.length, 1))}/${
@@ -351,44 +320,24 @@ export function ShowDontAsk({
           <p className="display-md mb-2">
             {scene.right} of {scene.rounds.length} right
           </p>
-          {data ? (
-            <ul className="mb-3 space-y-1">
-              {data.summary.map((row) => (
-                <li
-                  key={row.style}
-                  className="flex items-baseline gap-3 text-[0.9375rem]"
-                >
-                  <span className="data w-16 shrink-0 tabular-nums">
-                    {row.medianTimesBare}×
-                  </span>
-                  <span className="text-ink-soft">{row.label}</span>
-                </li>
-              ))}
-            </ul>
-          ) : null}
           <p className="text-ink-soft text-[0.9375rem]">
-            Telling it how to answer did almost nothing. Giving it a role to
-            play did slightly less than nothing. Showing it one worked example
-            beat both on every single item. Delegation is not conversation . If
-            you want a particular shape of answer, put an example of that shape
-            in front of it.
+            Asking nicely or giving it a job title changed nothing. One example
+            changed its whole answer to match the example&rsquo;s shape.
+            Examples steer hard, so make yours a good one.
           </p>
         </div>
       }
       footer={
         data ? (
           <>
-            Measured on {data.model.name}, a base model with no
-            instruction-following training at all, which is the point. The
-            assistant you use has had that training, so polite instructions do
-            work on it. What this shows is the floor: showing a pattern works
-            even on a model that is not trying to please you, which is why it
-            keeps working when the polite phrasing quietly stops.
+            Measured on {data.model.name}, a small AI with no training to follow
+            instructions. Chat assistants do follow instructions, but an example
+            still steers them hard.
           </>
         ) : failed ? (
-          <>The measurements did not load.</>
+          <>The game did not load.</>
         ) : (
-          <>Loading the measurements…</>
+          <>Loading…</>
         )
       }
     >
@@ -398,18 +347,8 @@ export function ShowDontAsk({
             {/* The premise. A board that opens on a bare task reads as a
                 quiz somebody forgot to write the question for. */}
             <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
-              {phone ? (
-                <>
-                  Five ways of asking for the same thing. Pick the one you think
-                  gets closest.
-                </>
-              ) : (
-                <>
-                  Same model, same thing wanted, five different ways of asking
-                  for it. Pick the wording you think gets closest, then all five
-                  are run and scored on what the model actually produced.
-                </>
-              )}
+              Four ways to ask for the same thing. Which one changes what the AI
+              does?
             </p>
             <HoldRoom
               shown={board(scene.picked, true)}

@@ -165,8 +165,7 @@ export function PhrasingFigure() {
               ?.medianTimesBare.toFixed(0)}
             × the bare question, and it takes every single goal. The role-play
             phrasing manages{" "}
-            {data.summary.find((s) => s.style === "role")?.medianTimesBare}×,
-            which is to say nothing at all.
+            {data.summary.find((s) => s.style === "role")?.medianTimesBare}×.
           </motion.p>
         ) : null}
       </div>

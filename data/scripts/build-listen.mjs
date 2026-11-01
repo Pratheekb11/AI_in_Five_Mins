@@ -135,16 +135,6 @@ const ITEMS = [
     ],
   },
   {
-    id: "young", goal: "Get it to name a young dog.", target: " puppy",
-    variants: [
-      { id: "bare", style: "bare", prompt: "What do you call a young dog?" },
-      { id: "polite", style: "request", prompt: "One word answer please. What do you call a young dog?" },
-      { id: "role", style: "role", prompt: "You are a veterinary expert. What do you call a young dog?" },
-      { id: "qa", style: "pattern", prompt: "Young cat: kitten\nYoung cow: calf\nYoung dog:" },
-      { id: "colon", style: "pattern", prompt: "A young dog is called a" },
-    ],
-  },
-  {
     id: "capitalcity", goal: "Get it to name the currency of Japan.", target: " yen",
     variants: [
       { id: "bare", style: "bare", prompt: "What is the currency of Japan?" },
@@ -152,16 +142,6 @@ const ITEMS = [
       { id: "role", style: "role", prompt: "You are a foreign exchange specialist. What is the currency of Japan?" },
       { id: "qa", style: "pattern", prompt: "Country: France\nCurrency: euro\nCountry: Japan\nCurrency:" },
       { id: "colon", style: "pattern", prompt: "The currency of Japan is the" },
-    ],
-  },
-  {
-    id: "sound", goal: "Get it to say what sound a cow makes.", target: " moo",
-    variants: [
-      { id: "bare", style: "bare", prompt: "What sound does a cow make?" },
-      { id: "polite", style: "request", prompt: "Answer with the sound only. What sound does a cow make?" },
-      { id: "role", style: "role", prompt: "You are a farm animal expert. What sound does a cow make?" },
-      { id: "qa", style: "pattern", prompt: "Dog: woof\nCat: meow\nCow:" },
-      { id: "colon", style: "pattern", prompt: "A cow says" },
     ],
   },
   {

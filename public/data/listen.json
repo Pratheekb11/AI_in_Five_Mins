@@ -23,20 +23,20 @@
     {
       "style": "request",
       "label": "The question, plus an instruction about how to answer",
-      "medianTimesBare": 1.65,
+      "medianTimesBare": 1.25,
       "wins": 0
     },
     {
       "style": "role",
       "label": "The question, plus a role to play",
-      "medianTimesBare": 1.02,
+      "medianTimesBare": 1.54,
       "wins": 0
     },
     {
       "style": "pattern",
       "label": "The same thing shown as a pattern to continue",
-      "medianTimesBare": 125.46,
-      "wins": 14
+      "medianTimesBare": 90.67,
+      "wins": 12
     }
   ],
   "rounds": [
@@ -473,60 +473,6 @@
       "bestStyle": "pattern"
     },
     {
-      "id": "young",
-      "goal": "Get it to name a young dog.",
-      "target": " puppy",
-      "variants": [
-        {
-          "id": "bare",
-          "style": "bare",
-          "prompt": "What do you call a young dog?",
-          "says": "",
-          "probability": 0.00000179,
-          "rank": 7150,
-          "topText": "\n"
-        },
-        {
-          "id": "polite",
-          "style": "request",
-          "prompt": "One word answer please. What do you call a young dog?",
-          "says": "",
-          "probability": 0.00001113,
-          "rank": 2659,
-          "topText": "\n"
-        },
-        {
-          "id": "role",
-          "style": "role",
-          "prompt": "You are a veterinary expert. What do you call a young dog?",
-          "says": "",
-          "probability": 0.00000182,
-          "rank": 5968,
-          "topText": "\n"
-        },
-        {
-          "id": "qa",
-          "style": "pattern",
-          "prompt": "Young cat: kitten\nYoung cow: calf\nYoung dog:",
-          "says": "calf",
-          "probability": 0.01910408,
-          "rank": 6,
-          "topText": " calf"
-        },
-        {
-          "id": "colon",
-          "style": "pattern",
-          "prompt": "A young dog is called a",
-          "says": "\"bitch\" and is",
-          "probability": 0.00247672,
-          "rank": 24,
-          "topText": " \""
-        }
-      ],
-      "best": "qa",
-      "bestStyle": "pattern"
-    },
-    {
       "id": "capitalcity",
       "goal": "Get it to name the currency of Japan.",
       "target": " yen",
@@ -575,60 +521,6 @@
           "probability": 0.02858018,
           "rank": 5,
           "topText": " currency"
-        }
-      ],
-      "best": "qa",
-      "bestStyle": "pattern"
-    },
-    {
-      "id": "sound",
-      "goal": "Get it to say what sound a cow makes.",
-      "target": " moo",
-      "variants": [
-        {
-          "id": "bare",
-          "style": "bare",
-          "prompt": "What sound does a cow make?",
-          "says": "",
-          "probability": 4.1e-7,
-          "rank": 541,
-          "topText": "\n"
-        },
-        {
-          "id": "polite",
-          "style": "request",
-          "prompt": "Answer with the sound only. What sound does a cow make?",
-          "says": "",
-          "probability": 7.3e-7,
-          "rank": 372,
-          "topText": "\n"
-        },
-        {
-          "id": "role",
-          "style": "role",
-          "prompt": "You are a farm animal expert. What sound does a cow make?",
-          "says": "",
-          "probability": 3.2e-7,
-          "rank": 1019,
-          "topText": "\n"
-        },
-        {
-          "id": "qa",
-          "style": "pattern",
-          "prompt": "Dog: woof\nCat: meow\nCow:",
-          "says": "meow",
-          "probability": 0.00051611,
-          "rank": 5,
-          "topText": " me"
-        },
-        {
-          "id": "colon",
-          "style": "pattern",
-          "prompt": "A cow says",
-          "says": "she was raped by a man",
-          "probability": 6.3e-7,
-          "rank": 246,
-          "topText": " she"
         }
       ],
       "best": "qa",

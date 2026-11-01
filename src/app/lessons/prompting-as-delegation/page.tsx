@@ -74,7 +74,7 @@ const STEPS: Step[] = [
   {
     say: "Now the one almost everybody believes in. Tell it that it is an expert. Give it a role to play. Watch what that does to the odds of getting the answer you wanted.",
     caption:
-      "Nothing. It is not harmful, and it is not doing any work either. Across all fourteen goals, role-play measured slightly worse than saying nothing at all.",
+      "A little, at most. Role-play moved the odds far less than showing an example does, as the next steps show.",
   },
   {
     say: "Next, actually instruct it. Say how you want the answer to come back. This one does move the number, which is worth knowing, but look at how far it moves it.",

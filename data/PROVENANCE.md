@@ -63,6 +63,20 @@ The book (corpus) rounds are measured as before and are no longer dealt in the g
 
 ---
 
+## `public/data/provenance.json`
+
+**Script:** `data/scripts/build-provenance.mjs`
+**Generated:** 1 November 2026
+**Used by:** Chapter 6, Tools change the game (Provenance Detective, the "Give it something to read" animation)
+
+**Hand-written:** twelve questions, four sensible answers each (right one first), and the one-sentence source pasted in for the "with a source" measurement. Each fact is checked against a named Wikipedia article, revision recorded.
+
+**What is computed:** every whole answer's probability, teacher-forced, cold and with the source sentence in front of the question, shown as a share of the four. "Knows it" means the right answer is its top pick cold. Six of twelve it knows; cold it picks Mumbai, Melbourne, Sao Paulo, Marie Curie, fermentation and 100 degrees Fahrenheit; with the source it picks the right answer on all twelve (97.6% to 100%). Arithmetic: 0 of 200 seeded two-digit sums.
+
+An earlier version decided "knows it" from the model's single next token, so "The capital of the United States is the" counted as not knowing.
+
+---
+
 ## `public/data/token-examples.json`
 
 **Script:** `data/scripts/build-token-examples.mjs`

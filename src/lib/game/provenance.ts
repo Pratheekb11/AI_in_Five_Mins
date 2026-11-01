@@ -6,10 +6,14 @@
 
 export type Verdict = "memory" | "lookup" | "tool";
 
+/** One measurement of the four options, cold or with the source pasted in. */
 export type Measured = {
+  /** The right answer's share of the four. */
   probability: number;
-  rank: number;
-  topText: string;
+  /** Index of the option the model rates highest. */
+  pick: number;
+  /** Every option's share of the four, in `options` order. */
+  shares: number[];
 };
 
 export type ProvenanceRound = {
@@ -18,7 +22,8 @@ export type ProvenanceRound = {
   ask: string;
   question: string;
   answerLabel: string;
-  answerTokens: number;
+  /** Four sensible answers, the right one first. */
+  options: string[];
   fact: string;
   citation: { title: string; url: string; revision: number | null };
   bare: Measured;
@@ -50,9 +55,9 @@ export type ProvenanceData = {
 
 /* Five, not eight. Eight was two minutes of the same decision, and the point
    is made by the third: nobody's attention is the thing being taught here. */
-export const ROUND_SIZE = 5;
+export const ROUND_SIZE = 4;
 /** How many of the round are sums. The rest are drawn from the fact pool. */
-export const SUM_ROUNDS = 2;
+export const SUM_ROUNDS = 1;
 
 const BASE_POINTS = 100;
 /** Calling "it needs the source" on something it ranked 800th is the good one. */
@@ -121,10 +126,18 @@ export function deal(data: ProvenanceData, rolls: number[]): AnyRound[] {
       raw: example.raw,
     }));
 
-  const facts = shuffledBy(data.rounds, rolls.slice(30)).slice(
-    0,
-    ROUND_SIZE - sums.length,
+  /* At least one it knows and one it needs the source for, so every game
+     shows both doors open. The rest are random. */
+  const shuffled = shuffledBy(data.rounds, rolls.slice(30));
+  const firstOf = (kind: ProvenanceRound["kind"]) =>
+    shuffled.find((r) => r.kind === kind);
+  const anchors = [firstOf("memory"), firstOf("lookup")].filter(
+    (r): r is ProvenanceRound => Boolean(r),
   );
+  const facts = [
+    ...anchors,
+    ...shuffled.filter((r) => !anchors.includes(r)),
+  ].slice(0, ROUND_SIZE - sums.length);
 
   return shuffledBy([...facts, ...sums], rolls.slice(60));
 }
@@ -174,7 +187,7 @@ export function pointsFor(round: AnyRound, called: Verdict): number {
   if (called !== answerFor(round)) return 0;
   if (isSum(round)) return BASE_POINTS + INSIGHT_POINTS;
   // Spotting a gap the model hides well is worth more than spotting an easy one.
-  const buried = round.kind === "lookup" && round.bare.rank > 20;
+  const buried = round.kind === "lookup" && round.bare.probability < 0.1;
   return BASE_POINTS + (buried ? INSIGHT_POINTS : 0);
 }
 

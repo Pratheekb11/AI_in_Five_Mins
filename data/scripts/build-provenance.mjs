@@ -50,20 +50,27 @@ const SEED = 20260803;
  * measurement at the bottom of this file, because guessing in advance which
  * facts a model happens to know is exactly the mistake the game is about.
  */
+/*
+ * Every question offers four sensible answers, the right one first, written
+ * by hand. Each whole answer is scored by the model twice: cold, and with the
+ * source sentence pasted in front of the question. An earlier version read
+ * only the model's next token, which counted "the capital of ... is the" as
+ * not knowing.
+ */
 const ITEMS = [
   {
     id: "usa-capital",
     ask: "What is the capital of the United States?",
     question: "The capital of the United States is",
-    answer: " Washington",
+    options: [" Washington", " New York", " Chicago", " Los Angeles"],
     fact: "The capital of the United States is Washington, D.C.",
     article: "Washington, D.C.",
   },
   {
     id: "india-capital",
     ask: "What is the capital of India?",
-    question: "The capital of India is New",
-    answer: " Delhi",
+    question: "The capital of India is",
+    options: [" New Delhi", " Mumbai", " Kolkata", " Bangalore"],
     fact: "The capital of India is New Delhi.",
     article: "New Delhi",
   },
@@ -71,7 +78,7 @@ const ITEMS = [
     id: "australia-capital",
     ask: "What is the capital of Australia?",
     question: "The capital of Australia is",
-    answer: " Canberra",
+    options: [" Canberra", " Sydney", " Melbourne", " Perth"],
     fact: "The capital of Australia is Canberra.",
     article: "Canberra",
   },
@@ -79,31 +86,31 @@ const ITEMS = [
     id: "brazil-capital",
     ask: "What is the capital of Brazil?",
     question: "The capital of Brazil is",
-    answer: " Brasilia",
-    fact: "The capital of Brazil is Brasilia.",
+    options: [" Brasília", " Rio de Janeiro", " São Paulo", " Salvador"],
+    fact: "The capital of Brazil is Brasília.",
     article: "Brasília",
   },
   {
     id: "photosynthesis",
-    ask: "How do plants make their food?",
+    ask: "How do plants make their own food?",
     question: "Plants make their own food by a process called",
-    answer: " photosynthesis",
+    options: [" photosynthesis", " digestion", " fermentation", " respiration"],
     fact: "Plants make their own food by a process called photosynthesis.",
     article: "Photosynthesis",
   },
   {
     id: "gravity",
-    ask: "What holds the planets in orbit around the Sun?",
+    ask: "What keeps the planets in orbit around the Sun?",
     question: "The force that keeps the planets in orbit around the Sun is",
-    answer: " gravity",
+    options: [" gravity", " magnetism", " friction", " electricity"],
     fact: "The force that keeps the planets in orbit around the Sun is gravity.",
     article: "Gravity",
   },
   {
     id: "penicillin",
     ask: "Who discovered penicillin?",
-    question: "Penicillin was discovered by Alexander",
-    answer: " Fleming",
+    question: "Penicillin was discovered by",
+    options: [" Alexander Fleming", " Louis Pasteur", " Marie Curie", " Edward Jenner"],
     fact: "Penicillin was discovered by Alexander Fleming in 1928.",
     article: "Alexander Fleming",
   },
@@ -111,7 +118,7 @@ const ITEMS = [
     id: "everest",
     ask: "What is the highest mountain in the world?",
     question: "The highest mountain in the world is Mount",
-    answer: " Everest",
+    options: [" Everest", " Fuji", " Olympus", " Kilimanjaro"],
     fact: "The highest mountain in the world is Mount Everest.",
     article: "Mount Everest",
   },
@@ -119,32 +126,32 @@ const ITEMS = [
     id: "longest-river",
     ask: "What is the longest river in Africa?",
     question: "The longest river in Africa is the",
-    answer: " Nile",
+    options: [" Nile", " Congo", " Niger", " Zambezi"],
     fact: "The longest river in Africa is the Nile.",
     article: "Nile",
   },
   {
     id: "relativity",
     ask: "Who published the theory of general relativity?",
-    question: "The theory of general relativity was published by Albert",
-    answer: " Einstein",
+    question: "The theory of general relativity was published by",
+    options: [" Albert Einstein", " Isaac Newton", " Niels Bohr", " Stephen Hawking"],
     fact: "The theory of general relativity was published by Albert Einstein in 1915.",
     article: "General relativity",
   },
   {
     id: "largest-planet",
-    ask: "Which is the largest planet in the solar system?",
+    ask: "What is the largest planet in the solar system?",
     question: "The largest planet in the solar system is",
-    answer: " Jupiter",
+    options: [" Jupiter", " Saturn", " Earth", " Neptune"],
     fact: "The largest planet in the solar system is Jupiter.",
     article: "Jupiter",
   },
   {
     id: "boiling",
     ask: "At what temperature does water boil at sea level?",
-    question: "At sea level, water boils at one hundred degrees",
-    answer: " Celsius",
-    fact: "At sea level, water boils at one hundred degrees Celsius.",
+    question: "At sea level, water boils at",
+    options: [" 100 degrees Celsius", " 100 degrees Fahrenheit", " 50 degrees Celsius", " 200 degrees Celsius"],
+    fact: "At sea level, water boils at 100 degrees Celsius.",
     article: "Boiling point",
   },
 ];
@@ -249,39 +256,51 @@ const main = async () => {
       continue;
     }
 
-    const bare = await score(item.question, item.answer);
-    const sourced = await score(`${item.fact}\n${item.question}`, item.answer);
+    /** Each option's share of the weight the model puts on the four. */
+    const shares = async (context) => {
+      const whole = [];
+      for (const option of item.options) {
+        whole.push((await score(context, option)).probability);
+      }
+      const total = whole.reduce((t, p) => t + p, 0);
+      return whole.map((p) => p / total);
+    };
+    const coldShares = await shares(item.question);
+    const sourcedShares = await shares(`${item.fact}\n${item.question}`);
+    const argmax = (xs) => xs.reduce((best, x, i) => (x > xs[best] ? i : best), 0);
+    const bare = { probability: coldShares[0], pick: argmax(coldShares) };
+    const sourced = { probability: sourcedShares[0], pick: argmax(sourcedShares) };
 
     // The bucket is decided here, by the measurement, not by anyone's hunch.
-    // "Knows it" means the answer is already the model's own top choice.
-    const knows = bare.rank === 0;
+    // "Knows it" means that, cold, the right answer is the one of the four it
+    // rates highest.
+    const knows = bare.pick === 0;
 
     rounds.push({
       id: item.id,
       kind: knows ? "memory" : "lookup",
       ask: item.ask,
       question: item.question,
-      answerLabel: item.answer.trim(),
-      answerTokens: (await idsOf(item.question + item.answer)).length -
-        (await idsOf(item.question)).length,
+      answerLabel: item.options[0].trim(),
+      options: item.options.map((o) => o.trim()),
       fact: item.fact,
       citation,
       bare: {
         probability: Number(bare.probability.toFixed(6)),
-        rank: bare.rank,
-        topText: bare.topText,
+        pick: bare.pick,
+        shares: coldShares.map((x) => Number(x.toFixed(6))),
       },
       sourced: {
         probability: Number(sourced.probability.toFixed(6)),
-        rank: sourced.rank,
-        topText: sourced.topText,
+        pick: sourced.pick,
+        shares: sourcedShares.map((x) => Number(x.toFixed(6))),
       },
     });
 
     console.log(
       `  ${item.id.padEnd(20)} ${knows ? "MEMORY " : "LOOKUP "} ` +
-        `bare ${(bare.probability * 100).toFixed(2)}% (rank ${bare.rank})  ` +
-        `sourced ${(sourced.probability * 100).toFixed(2)}%`,
+        `cold ${(bare.probability * 100).toFixed(1)}% picks ${item.options[bare.pick].trim()}  ` +
+        `sourced ${(sourced.probability * 100).toFixed(1)}% picks ${item.options[sourced.pick].trim()}`,
     );
   }
 
@@ -348,7 +367,7 @@ const main = async () => {
       url: "https://huggingface.co/distilbert/distilgpt2",
       licence: "Apache 2.0",
     },
-    note: "Which bucket a question falls in was decided by the measurement, not chosen in advance. A question counts as known if the true answer is already the model's own first choice with no help.",
+    note: "Which bucket a question falls in was decided by the measurement, not chosen in advance. A question counts as known if, with no help, the model rates the right answer highest of the four offered.",
     arithmetic: {
       problems: SUMS,
       correct,

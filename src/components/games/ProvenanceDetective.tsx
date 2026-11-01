@@ -8,7 +8,6 @@ import {
   answerFor,
   call,
   current,
-  finish,
   isSum,
   newScene,
   next,
@@ -90,7 +89,6 @@ export function ProvenanceDetective({
 
   const choose = useCallback((v: Verdict) => setScene((s) => call(s, v)), []);
   const carryOn = useCallback(() => setScene((s) => next(s)), []);
-  const stopHere = useCallback(() => setScene((s) => finish(s)), []);
 
   const round = current(scene);
   const revealed = scene.called !== null;
@@ -99,8 +97,7 @@ export function ProvenanceDetective({
 
   const hint = (
     <p className="text-ink-soft text-[0.9375rem]">
-      Keys 1&ndash;3 work. There is no way to tell from the answer itself. That
-      is the point of calling it first.
+      Tap where you think the answer has to come from.
     </p>
   );
 
@@ -138,76 +135,65 @@ export function ProvenanceDetective({
                 </span>
               </p>
               <p className="text-ink-soft text-[0.9375rem]">
-                The answer is {round.truth}. It read the shape of the line as a
-                statistics table and continued that instead. Handing it a
-                document would not help: nothing it could read contains this
-                sum. That is the difference between a thing that recalls and a
-                thing that computes.
+                The answer is {round.truth}. No source helps with a sum. It
+                needs a calculator.
               </p>
             </div>
           ) : (
             <>
-              <p className="label text-ink-faint mb-2">
-                Chance it produces &ldquo;{round.answerLabel}&rdquo;
-              </p>
+              {/* What it said, cold and with the source pasted in. The two
+                  answers are the evidence; the shares are one tap away. */}
               <ul className="mb-3 space-y-2">
                 {[
-                  {
-                    label: "Asked cold",
-                    m: round.bare,
-                    ink: "bg-pink",
-                  },
-                  {
-                    label: "With the source in front of it",
-                    m: round.sourced,
-                    ink: "bg-teal",
-                  },
-                ].map((row, i) => (
-                  <li key={row.label} className="flex items-center gap-3">
-                    <span className="w-44 shrink-0 text-[0.875rem]">
-                      {row.label}
-                    </span>
-                    <span className="bg-paper-sunk border-ink/20 h-4 flex-1 overflow-hidden rounded-[1px] border">
-                      <motion.span
-                        className={`block h-full ${row.ink}`}
-                        initial={{ width: 0 }}
-                        animate={{
-                          width: `${row.m.probability * 100}%`,
-                        }}
-                        transition={{
-                          duration: 0.7,
-                          delay: 0.15 + i * 0.2,
-                          ease: "easeOut",
-                        }}
-                      />
-                    </span>
-                    <span className="data text-ink-soft w-16 shrink-0 text-right text-xs tabular-nums">
-                      {(row.m.probability * 100).toFixed(
-                        row.m.probability < 0.01 ? 2 : 1,
-                      )}
-                      %
-                    </span>
-                  </li>
-                ))}
+                  { label: "Asked cold, it says", m: round.bare },
+                  { label: "With the source pasted in", m: round.sourced },
+                ].map((row) => {
+                  const said = round.options[row.m.pick];
+                  const right = row.m.pick === 0;
+                  return (
+                    <li key={row.label} className="text-[0.9375rem]">
+                      <span className="label text-ink-faint mr-2">
+                        {row.label}
+                      </span>
+                      <span
+                        className={`data rounded-[2px] px-1.5 py-0.5 font-bold ${
+                          right
+                            ? "bg-teal-wash text-teal-text"
+                            : "bg-pink-wash text-pink-text"
+                        }`}
+                      >
+                        {said}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
               <p className="prose-measure text-ink-soft mb-2 text-[0.9375rem]">
                 {round.kind === "memory"
-                  ? "It had this already. The true answer was its own first choice, with no help at all. Handing it the source barely moved anything."
-                  : `Cold, the true answer was its ${round.bare.rank + 1}th choice out of 50,257, and it would have said “${round.bare.topText.trim()}” instead. With the source in front of it, near-certain. Nothing about the model changed; only what it could see.`}
+                  ? "It already knew this. The source barely changed anything."
+                  : "Cold, it guessed wrong. With the source in front of it, it got it right. Same AI; it only needed something to read."}
               </p>
-              <p className="text-ink-faint text-[0.8125rem]">
-                <a
-                  href={round.citation.url}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="underline underline-offset-2"
-                >
-                  Checked against {round.citation.title}
-                </a>
-                {round.citation.revision
-                  ? `, revision ${round.citation.revision}.`
-                  : "."}
-              </p>
+              <details className="text-ink-faint text-[0.8125rem]">
+                <summary className="cursor-pointer underline underline-offset-2">
+                  Source
+                </summary>
+                <p className="text-ink-faint text-[0.8125rem]">
+                  <a
+                    href={round.citation.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="underline underline-offset-2"
+                  >
+                    Checked against {round.citation.title}
+                  </a>
+                  {round.citation.revision
+                    ? `, revision ${round.citation.revision}.`
+                    : "."}{" "}
+                  Of the four answers, cold it gave the right one{" "}
+                  {Math.round(round.bare.probability * 100)}% of its vote; with
+                  the source, {Math.round(round.sourced.probability * 100)}%.
+                </p>
+              </details>
             </>
           )}
 
@@ -221,19 +207,6 @@ export function ProvenanceDetective({
                 ? "See the result"
                 : "Next case"}
             </button>
-
-            {/* The point is made by the third case. Everything after
-                        it is practice, and practice nobody chose reads as
-                        homework. */}
-            {scene.at >= 2 && scene.at + 1 < scene.rounds.length ? (
-              <button
-                type="button"
-                onClick={stopHere}
-                className="label border-ink/40 hover:border-ink cursor-pointer rounded-[2px] border px-4 py-2.5"
-              >
-                I have got it
-              </button>
-            ) : null}
           </div>
         </motion.div>
       </div>
@@ -256,18 +229,18 @@ export function ProvenanceDetective({
     <GameShell
       gameId="provenance-detective"
       name="Provenance Detective"
-      instruction="A question, and three doors. Does it already know this, does it need the source handing to it, or does it need a tool that can actually do the work? Call it before you see the evidence, because in real use you always have to."
+      instruction="Does the AI already know the answer, need a source to read, or need a calculator? Guess, then see."
       howToPlay={{
-        goal: "Say where the answer would have to come from, before you see any evidence.",
+        goal: "Guess where the answer has to come from.",
         steps: [
           "Read the question.",
-          "Choose one of three doors: it already knows this, it needs the source handing to it, or it needs a real tool.",
-          "The evidence arrives. You see what the model does cold, and what it does with the source in front of it.",
+          "Tap: it already knows, it needs the source, or it needs a real tool.",
+          "See what it said cold, and with the source pasted in.",
         ],
-        controls: "Tap or click a door, or press 1–3. Enter moves on.",
-        scoring: "100 a call, plus 80 for spotting a gap the model hides well.",
+        controls: "Tap or click, or press 1 to 3.",
+        scoring: "Points for each right guess.",
       }}
-      startLabel={data ? "Open the case" : "Loading the evidence…"}
+      startLabel={data ? "Play" : "Loading…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}
       finalScore={scene.score}
@@ -282,8 +255,6 @@ export function ProvenanceDetective({
       }
       readouts={[
         { label: "Score", value: scene.score, accent: true },
-        { label: "Right", value: scene.right },
-        { label: "Streak", value: `×${scene.streak}` },
         {
           label: "Case",
           value: `${Math.min(scene.at + 1, Math.max(scene.rounds.length, 1))}/${
@@ -296,57 +267,33 @@ export function ProvenanceDetective({
           <p className="display-md mb-2">
             {scene.right} of {scene.rounds.length} called right
           </p>
-          <p className="text-ink-soft mb-2 text-[0.9375rem]">
-            Best run: {scene.bestStreak}.
-          </p>
           <p className="text-ink-soft text-[0.9375rem]">
-            This is the habit worth keeping. Not &ldquo;is AI reliable&rdquo; .
-            That question has no answer. Ask instead which of the three you are
-            in. Recall, and it is probably fine. Something it would have to look
-            up, and it needs the source or it will invent one. Actual work, and
-            it needs a tool. The reply reads exactly the same in all three
-            cases, which is the reason you have to ask before you send.
+            Before you trust an answer, ask: did it know this, did it need a
+            source, or did it need a tool? The reply sounds the same either way.
           </p>
         </div>
       }
       footer={
         data ? (
           <>
-            Which door each question belongs to was decided by measuring{" "}
-            {data.model.name}, not chosen in advance. The sums are its real
-            accuracy over {data.arithmetic.problems} seeded two-digit problems:{" "}
-            {data.arithmetic.correct} correct.
+            Each answer was decided by measuring {data.model.name}. On{" "}
+            {data.arithmetic.problems} simple sums it got{" "}
+            {data.arithmetic.correct} right.
           </>
         ) : failed ? (
-          <>The evidence did not load.</>
+          <>The game did not load.</>
         ) : (
-          <>Loading the evidence…</>
+          <>Loading…</>
         )
       }
     >
       <div className="min-h-[13rem] p-4 sm:min-h-[24rem] sm:p-5 md:p-6">
         {round ? (
           <>
-            {/* The deck lands here with only a one-line headline above it,
-                and the ready screen's `instruction` (which explains the
-                three doors) never mounts, the round is dealt server-side,
-                so `playing` is already true on arrival. */}
-            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
-              {/* One sentence on a phone, where the full premise pushed Next
-                  case below the bottom of the screen. */}
-              <span className="sm:hidden">
-                Call it before you see the evidence: does it already know, need
-                the source, or need a real tool?
-              </span>
-              <span className="hidden sm:inline">
-                Before you see any evidence: does the model already know this
-                cold, does it need the source put in front of it, or does it
-                need a tool that can actually calculate? Call it first, because
-                in real use you never get to peek.
-              </span>
+            <p className="text-ink-soft mb-2 text-[0.9375rem]">
+              Where does the answer have to come from?
             </p>
-            <p className="label text-ink-faint mb-2">The question</p>
-            <p className="prose-measure mb-5 text-[1.25rem] leading-snug">
+            <p className="prose-measure mb-4 text-[1.25rem] leading-snug">
               {round.ask}
             </p>
 
@@ -389,8 +336,8 @@ export function ProvenanceDetective({
         ) : (
           <p className="text-ink-soft text-[0.9375rem]">
             {failed
-              ? "The evidence did not load, so there is no case to open."
-              : "Loading the evidence…"}
+              ? "The game did not load. Try refreshing the page."
+              : "Loading…"}
           </p>
         )}
       </div>

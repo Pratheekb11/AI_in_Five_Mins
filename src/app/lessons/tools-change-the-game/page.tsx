@@ -4,8 +4,7 @@ import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { ProvenanceFigure } from "@/components/machines/ProvenanceFigure";
+import { SourceReel } from "@/components/machines/SourceReel";
 import type { CheckBeat } from "@/lib/check";
 import {
   start as dealProvenance,
@@ -61,28 +60,9 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
-  {
-    say: "Start with a question this model cannot answer. The capital of the United States. The right word is sitting sixteenth in its own ranking, and the word it actually wants to write is the.",
-  },
-  {
-    say: "Now hand it one sentence of source text and ask again. Nothing was learned. Nothing was trained. The answer it could not reach is now its first choice at ninety eight percent. That is the whole of what a search tool does.",
-  },
-  {
-    say: "It gets much worse than sixteenth. Ask it how plants make food and the word photosynthesis is eight hundred and ten places down the list. There is no hint here that it is stuck. It will write something confident either way.",
-  },
-  {
-    say: "Same trick, same result. One sentence of source in front of it and eight hundred and ten places collapse to first. Watch the marker rather than the percentage. The distance it travels is the point.",
-  },
-  {
-    say: "Then there is the door neither of those opens. Two digit addition, two hundred problems, none right. No sentence fixes this, because a sum was never written down somewhere to be recalled. It needs a calculator, which is exactly why one got bolted on.",
-    caption:
-      "Looked up · calculated · read · guessed. Only the first three involve anything outside the model being consulted.",
-  },
-  {
-    say: "So the useful question stops being is this right. It becomes which of those four just happened, because that tells you what could have gone wrong. And you can simply ask. Did you look this up, or is it from memory? Show me the source.",
-  },
-];
+/* The reel: India's capital cold and with the source, then a sum. */
+const india = provenanceData.rounds.find((r) => r.id === "india-capital")!;
+const firstSum = provenanceData.arithmetic.examples[0];
 
 const CHECK: CheckBeat[] = [
   {
@@ -98,10 +78,14 @@ const CHECK: CheckBeat[] = [
       { id: "tool", label: "Needs a tool", hint: "must be computed or done" },
     ],
     items: [
-      { id: "capital", text: "What is the capital of India?", bucket: "knows" },
       {
-        id: "boil",
-        text: "Why does water boil faster up a mountain?",
+        id: "capital",
+        text: "What is the capital of France?",
+        bucket: "knows",
+      },
+      {
+        id: "author",
+        text: "Who wrote Romeo and Juliet?",
         bucket: "knows",
       },
       {
@@ -134,7 +118,7 @@ export default function ToolsChangeTheGameLesson() {
   const beats: Beat[] = [
     {
       id: "game",
-      cta: "What just happened",
+      cta: "How it works",
       node: (
         <div className="space-y-4">
           {/* The deck has no masthead headline of its own, so the premise on
@@ -143,8 +127,8 @@ export default function ToolsChangeTheGameLesson() {
               type, and `h1` to `h4` share one base rule, so the tag is the
               whole change. */}
           <h1 className="display-md">
-            Four completely different things can happen behind one reply.{" "}
-            <span className="text-blue-text">All four look the same.</span>
+            Knew it, read it, or guessed?{" "}
+            <span className="text-blue-text">The reply looks the same.</span>
           </h1>
           <ProvenanceDetective
             initialData={provenanceData}
@@ -154,9 +138,25 @@ export default function ToolsChangeTheGameLesson() {
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<ProvenanceFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-2xl space-y-4">
+          <h2 className="display-md">Give it something to read</h2>
+          <SourceReel
+            question={india.question}
+            fact={india.fact}
+            options={india.options}
+            cold={india.bare.shares}
+            sourced={india.sourced.shares}
+            sum={{
+              prompt: firstSum.prompt,
+              truth: firstSum.truth,
+              said: firstSum.raw,
+            }}
+          />
+        </div>
+      ),
     },
   ];
 

@@ -56,7 +56,10 @@ export type PredictorData = {
 /*
   The acts, and how many rounds each one gets.
 */
-export const ACT_SIZE = { phrase: 1, corpus: 1, fact: 2 } as const;
+/* No book round in the dealt game: "the right word is the one the author
+   wrote" is a second rule to learn, and newcomers lost the thread there. The
+   rounds stay in the data. */
+export const ACT_SIZE = { phrase: 1, corpus: 0, fact: 3 } as const;
 export const ROUND_SIZE = ACT_SIZE.phrase + ACT_SIZE.corpus + ACT_SIZE.fact;
 
 const BASE_POINTS = 100;
@@ -150,17 +153,21 @@ export function deal(data: PredictorData, rolls: number[]): PredictorRound[] {
     ).slice(0, n);
 
   /* The fact act is the argument, so its last round is always one where the
-     model is confidently wrong. Seven of the eighteen facts it gets right,
-     and dealing two at random left about one player in seven never seeing
-     it miss. The others stay random, so it still gets some right. */
+     model picks a wrong answer. The others stay random, so it still gets
+     some right, which it does on most facts. */
   const facts = take("fact", Infinity, 80);
   const trap = facts.find((r) => r.trapped);
   const fact = trap
     ? [...facts.filter((r) => r !== trap).slice(0, ACT_SIZE.fact - 1), trap]
     : facts.slice(0, ACT_SIZE.fact);
 
+  /* The opening round shows where it is strong, so it is one it gets right. */
+  const phrase = take("phrase", Infinity, 0)
+    .filter((r) => !r.trapped)
+    .slice(0, ACT_SIZE.phrase);
+
   return [
-    ...take("phrase", ACT_SIZE.phrase, 0),
+    ...phrase,
     ...take("corpus", ACT_SIZE.corpus, 40),
     ...fact,
   ];

@@ -60,84 +60,80 @@ const FIELD = 60;
  * below, it must start with the token that was measured, or the round is
  * dropped rather than shipped with a word the number does not describe.
  */
+/*
+ * Every option in the phrase and fact acts is a sensible answer a person might
+ * give, written by hand, with the right one first. Nothing about the numbers is
+ * hand-written: each whole answer is teacher-forced through the model and its
+ * probability is the product over every token it takes to write (see
+ * `wholeAnswer`). The model's pick is whichever of the four it rates highest.
+ *
+ * An earlier version offered the model's own top next tokens instead, which
+ * put " the", " and", " home" and " now" on screen as answers to "The capital
+ * of Australia is", and counted " the" as the model being wrong about a fact.
+ * It was not wrong, it was mid-sentence. Of eleven "traps", one was a real
+ * factual error.
+ *
+ * Wrong options are chosen so that none of them is also a defensible answer
+ * (no "tea" beside "coffee", no "bike" beside "bicycle").
+ */
 const PHRASE_PROMPTS = [
-  { id: "usa", text: "The United States of", truth: " America" },
-  { id: "genesis", text: "In the beginning God created the heaven and the", truth: " earth" },
-  { id: "york", text: "The Statue of Liberty stands in New", truth: " York" },
-  { id: "once", text: "It was raining, so she opened her", truth: " umbrella" },
-  { id: "birthday", text: "He blew out the candles on his birthday", truth: " cake" },
-  { id: "doctor", text: "She felt ill, so she went to see the", truth: " doctor" },
-  { id: "keys", text: "He could not start the car because he had lost his", truth: " keys" },
-  { id: "coffee", text: "She could not wake up properly without a cup of", truth: " coffee" },
-  { id: "letter", text: "She sealed the envelope and put on a", truth: " stamp" },
-  { id: "shoes", text: "Before going into the temple, everyone took off their", truth: " shoes" },
-  { id: "library", text: "He wanted a quiet place to study, so he went to the", truth: " library" },
-  { id: "teeth", text: "Every night before bed he brushes his", truth: " teeth" },
-  { id: "airport", text: "They arrived two hours early at the", truth: " airport" },
-  { id: "kettle", text: "She filled the kettle and switched it", truth: " on" },
-  { id: "window", text: "The room was stuffy, so he opened the", truth: " window" },
-  { id: "guitar", text: "He picked up the guitar and began to", truth: " play" },
-  { id: "monday", text: "The day after Sunday is", truth: " Monday" },
-  { id: "winter", text: "The coldest season of the year is", truth: " winter" },
-  { id: "salt", text: "The soup was bland, so she added a little", truth: " salt" },
-  { id: "bicycle", text: "He was late, so he rode to school on his", truth: " bicycle" },
+  { id: "usa", text: "The United States of", options: [" America", " Canada", " Europe", " Asia"] },
+  { id: "genesis", text: "In the beginning God created the heaven and the", options: [" earth", " sea", " stars", " moon"] },
+  { id: "york", text: "The Statue of Liberty stands in New", options: [" York", " Orleans", " Delhi", " Zealand"] },
+  { id: "umbrella", text: "It was raining, so she opened her", options: [" umbrella", " fridge", " laptop", " diary"] },
+  { id: "birthday", text: "He blew out the candles on his birthday", options: [" cake", " card", " gift", " hat"] },
+  { id: "doctor", text: "She felt ill, so she went to see the", options: [" doctor", " plumber", " lawyer", " baker"] },
+  { id: "keys", text: "He could not start the car because he had lost his", options: [" keys", " hat", " socks", " umbrella"] },
+  { id: "coffee", text: "She could not wake up properly without a cup of", options: [" coffee", " soup", " sugar", " flour"] },
+  { id: "stamp", text: "She sealed the envelope and put on a", options: [" stamp", " coat", " hat", " show"] },
+  { id: "shoes", text: "Before going into the temple, everyone took off their", options: [" shoes", " glasses", " watches", " rings"] },
+  { id: "library", text: "He wanted a quiet place to study, so he went to the", options: [" library", " stadium", " market", " nightclub"] },
+  { id: "teeth", text: "Every night before bed he brushes his", options: [" teeth", " shoes", " car", " dog"] },
+  { id: "kettle", text: "She filled the kettle and switched it", options: [" on", " off", " around", " back"] },
+  { id: "window", text: "The room was stuffy, so he opened the", options: [" window", " fridge", " book", " oven"] },
+  { id: "guitar", text: "He picked up the guitar and began to", options: [" play", " cook", " swim", " read"] },
+  { id: "monday", text: "The day after Sunday is", options: [" Monday", " Tuesday", " Saturday", " Friday"] },
+  { id: "winter", text: "The coldest season of the year is", options: [" winter", " summer", " spring", " autumn"] },
+  { id: "salt", text: "The soup was bland, so she added a little", options: [" salt", " ice", " water", " flour"] },
 ];
 
 const FACT_PROMPTS = [
-  { id: "paris", text: "Paris is the capital of", truth: " France",
-    fact: "Paris is the capital of France.",
-    article: "Paris" },
-  { id: "everest", text: "The highest mountain in the world is Mount", truth: " Everest",
-    fact: "Mount Everest is the highest mountain above sea level.",
-    article: "Mount Everest" },
-  { id: "planet", text: "The largest planet in the solar system is", truth: " Jupiter",
-    fact: "Jupiter is the largest planet in the Solar System.",
-    article: "Jupiter" },
-  { id: "moon", text: "The first person to walk on the Moon was Neil", truth: " Armstrong",
-    fact: "Neil Armstrong was the first person to walk on the Moon, in July 1969.",
-    article: "Neil Armstrong" },
-  { id: "boil", text: "At sea level, water boils at one hundred degrees", truth: " Celsius",
-    fact: "Water boils at 100 degrees Celsius at standard atmospheric pressure.",
-    article: "Boiling point" },
-  { id: "author", text: "Alice's Adventures in Wonderland was written by Lewis", truth: " Carroll",
-    fact: "Alice's Adventures in Wonderland was written by Lewis Carroll.",
-    article: "Alice's Adventures in Wonderland" },
-  { id: "delhi", text: "The capital of India is New", truth: " Delhi",
-    fact: "New Delhi is the capital of India.",
-    article: "New Delhi" },
-  { id: "tokyo", text: "The capital of Japan is", truth: " Tokyo",
-    fact: "Tokyo is the capital of Japan.",
-    article: "Tokyo" },
-  { id: "canberra", text: "The capital of Australia is", truth: " Canberra",
-    fact: "Canberra is the capital of Australia, not Sydney, which is the largest city.",
-    article: "Canberra" },
-  { id: "brasilia", text: "The capital of Brazil is", truth: " Bras", label: " Brasília",
-    fact: "Brasília is the capital of Brazil, not Rio de Janeiro, which was the capital until 1960.",
-    article: "Brasília" },
-  { id: "ottawa", text: "The capital of Canada is", truth: " Ottawa",
-    fact: "Ottawa is the capital of Canada, not Toronto, which is the largest city.",
-    article: "Ottawa" },
-  { id: "nile", text: "The longest river in Africa is the", truth: " Nile",
-    fact: "The Nile is the longest river in Africa.",
-    article: "Nile" },
-  { id: "ocean", text: "The largest ocean on Earth is the", truth: " Pacific",
-    fact: "The Pacific is the largest and deepest of Earth's oceans.",
-    article: "Pacific Ocean" },
-  { id: "relativity", text: "The theory of general relativity was published by Albert", truth: " Einstein",
-    fact: "Albert Einstein published the general theory of relativity in 1915.",
-    article: "General relativity" },
-  { id: "penicillin", text: "Penicillin was discovered by Alexander", truth: " Fleming",
-    fact: "Alexander Fleming discovered penicillin in 1928.",
-    article: "Alexander Fleming" },
-  { id: "gravity", text: "The force that keeps the planets in orbit around the Sun is", truth: " gravity",
-    fact: "Gravity holds the planets in orbit around the Sun.",
-    article: "Gravity" },
-  { id: "photosynthesis", text: "Plants make their own food by a process called", truth: " photos", label: " photosynthesis",
-    fact: "Plants make food from light by photosynthesis.",
-    article: "Photosynthesis" },
-  { id: "sun", text: "The star at the centre of our solar system is called the", truth: " Sun",
-    fact: "The Sun is the star at the centre of the Solar System.",
-    article: "Sun" },
+  { id: "paris", text: "Paris is the capital of", options: [" France", " Italy", " Germany", " Spain"],
+    fact: "Paris is the capital of France.", article: "Paris" },
+  { id: "everest", text: "The highest mountain in the world is Mount", options: [" Everest", " Fuji", " Olympus", " Kilimanjaro"],
+    fact: "Mount Everest is the highest mountain above sea level.", article: "Mount Everest" },
+  { id: "planet", text: "The largest planet in the solar system is", options: [" Jupiter", " Saturn", " Earth", " Neptune"],
+    fact: "Jupiter is the largest planet in the Solar System.", article: "Jupiter" },
+  { id: "moon", text: "The first person to walk on the Moon was", options: [" Neil Armstrong", " Buzz Aldrin", " Yuri Gagarin", " John Glenn"],
+    fact: "Neil Armstrong was the first person to walk on the Moon, in July 1969.", article: "Neil Armstrong" },
+  { id: "boil", text: "At sea level, water boils at", options: [" 100 degrees Celsius", " 100 degrees Fahrenheit", " 50 degrees Celsius", " 200 degrees Celsius"],
+    fact: "Water boils at 100 degrees Celsius at standard atmospheric pressure.", article: "Boiling point" },
+  { id: "author", text: "Alice's Adventures in Wonderland was written by", options: [" Lewis Carroll", " Charles Dickens", " Roald Dahl", " Jane Austen"],
+    fact: "Alice's Adventures in Wonderland was written by Lewis Carroll.", article: "Alice's Adventures in Wonderland" },
+  { id: "delhi", text: "The capital of India is", options: [" New Delhi", " Mumbai", " Kolkata", " Bangalore"],
+    fact: "New Delhi is the capital of India.", article: "New Delhi" },
+  { id: "tokyo", text: "The capital of Japan is", options: [" Tokyo", " Kyoto", " Osaka", " Hiroshima"],
+    fact: "Tokyo is the capital of Japan.", article: "Tokyo" },
+  { id: "canberra", text: "The capital of Australia is", options: [" Canberra", " Sydney", " Melbourne", " Perth"],
+    fact: "Canberra is the capital of Australia, not Sydney, which is the largest city.", article: "Canberra" },
+  { id: "brasilia", text: "The capital of Brazil is", options: [" Brasília", " Rio de Janeiro", " São Paulo", " Salvador"],
+    fact: "Brasília is the capital of Brazil, not Rio de Janeiro, which was the capital until 1960.", article: "Brasília" },
+  { id: "ottawa", text: "The capital of Canada is", options: [" Ottawa", " Toronto", " Vancouver", " Montreal"],
+    fact: "Ottawa is the capital of Canada, not Toronto, which is the largest city.", article: "Ottawa" },
+  { id: "nile", text: "The longest river in Africa is the", options: [" Nile", " Congo", " Niger", " Zambezi"],
+    fact: "The Nile is the longest river in Africa.", article: "Nile" },
+  { id: "ocean", text: "The largest ocean on Earth is the", options: [" Pacific", " Atlantic", " Indian", " Arctic"],
+    fact: "The Pacific is the largest and deepest of Earth's oceans.", article: "Pacific Ocean" },
+  { id: "relativity", text: "The theory of general relativity was published by", options: [" Albert Einstein", " Isaac Newton", " Niels Bohr", " Stephen Hawking"],
+    fact: "Albert Einstein published the general theory of relativity in 1915.", article: "General relativity" },
+  { id: "penicillin", text: "Penicillin was discovered by", options: [" Alexander Fleming", " Louis Pasteur", " Marie Curie", " Edward Jenner"],
+    fact: "Alexander Fleming discovered penicillin in 1928.", article: "Alexander Fleming" },
+  { id: "gravity", text: "The force that keeps the planets in orbit around the Sun is", options: [" gravity", " magnetism", " friction", " electricity"],
+    fact: "Gravity holds the planets in orbit around the Sun.", article: "Gravity" },
+  { id: "photosynthesis", text: "Plants make their own food by a process called", options: [" photosynthesis", " digestion", " fermentation", " respiration"],
+    fact: "Plants make food from light by photosynthesis.", article: "Photosynthesis" },
+  { id: "sun", text: "The star at the centre of our solar system is called the", options: [" Sun", " Moon", " North Star", " Milky Way"],
+    fact: "The Sun is the star at the centre of the Solar System.", article: "Sun" },
 ];
 
 function softmax(values) {
@@ -389,88 +385,83 @@ const main = async () => {
 
   // ---------------------------------------------------------- phrase rounds --
 
+  const idsOf = async (text) =>
+    Array.from((await tokenizer(text)).input_ids.data ?? []).map(Number);
+
   /**
-   * Builds one round from a prompt whose answer is known in advance.
+   * The probability the model puts on the whole answer, every token of it,
+   * teacher-forced. Also where the answer's first token sat in the model's
+   * whole ranking, for the "where these numbers come from" note.
    *
-   * Shared by the phrase and fact acts. Wrong options are the model's own top
-   * candidates, minus anything that is the answer wearing different clothes.
+   * The context and the answer are tokenized together and the boundary is
+   * checked rather than assumed: byte-pair encoding does not always split a
+   * joined string where you spliced it.
+   */
+  const wholeAnswer = async (context, answer) => {
+    const contextIds = await idsOf(context);
+    const fullIds = await idsOf(context + answer);
+    for (let i = 0; i < contextIds.length; i++) {
+      if (fullIds[i] !== contextIds[i]) {
+        throw new Error(`Token boundary moved at ${i} for ${JSON.stringify(context + answer)}.`);
+      }
+    }
+    const answerIds = fullIds.slice(contextIds.length);
+    if (answerIds.length === 0) throw new Error("Answer tokenized to nothing.");
+
+    const output = await model(await tokenizer(context + answer));
+    const [, , vocab] = output.logits.dims;
+    const flat = output.logits.data;
+    let joint = 1;
+    let firstRank = 0;
+    for (let step = 0; step < answerIds.length; step++) {
+      const position = contextIds.length - 1 + step;
+      const row = Array.from(flat.slice(position * vocab, (position + 1) * vocab));
+      const probabilities = softmax(row);
+      const p = probabilities[answerIds[step]];
+      joint *= p;
+      if (step === 0) firstRank = probabilities.filter((q) => q > p).length;
+    }
+    return {
+      probability: joint,
+      firstRank,
+      chunks: answerIds.map((id) => tokenizer.decode([id])),
+    };
+  };
+
+  /**
+   * One round from a prompt whose four options are written by hand, the right
+   * one first. The model's pick is the option it rates highest. `probability`
+   * on each option is its share of the weight the model puts on these four,
+   * which is what the board draws ("of these four, how sure"), and `whole` is
+   * the raw probability of producing that exact answer.
    */
   const roundFor = async (prompt, seed) => {
-    const truthIds = Array.from(
-      (await tokenizer(prompt.truth)).input_ids.data ?? [],
-    ).map(Number);
-    if (truthIds.length !== 1) return null;
-    const truthId = truthIds[0];
-
-    const { probabilities } = await distribution(prompt.text);
-    const ranked = probabilities
-      .map((p, id) => ({ id, p }))
-      .sort((a, b) => b.p - a.p);
-    const rank = ranked.findIndex((c) => c.id === truthId);
-
-    /* The word as a person knows it, when the model needs more than one token
-       to write it. Checked, not asserted: the label has to begin with the very
-       token whose probability this round prints, or the round does not ship. */
-    let label = null;
-    let chunks = null;
-    if (prompt.label) {
-      chunks = Array.from((await tokenizer(prompt.label)).input_ids.data ?? [])
-        .map(Number)
-        .map((id) => tokenizer.decode([id]));
-      if (chunks[0] !== prompt.truth) {
-        console.log(
-          `  dropping ${prompt.id}: "${prompt.label}" starts "${chunks[0]}", not "${prompt.truth}".`,
-        );
-        return null;
-      }
-      label = prompt.label;
+    const scored = [];
+    for (const [i, text] of prompt.options.entries()) {
+      const m = await wholeAnswer(prompt.text, text);
+      scored.push({ text, truth: i === 0, whole: m.probability, firstRank: m.firstRank, chunks: m.chunks });
     }
-
-    const candidates = ranked
-      .filter((c) => c.id !== truthId)
-      .map((c) => ({ text: tokenizer.decode([c.id]), probability: c.p }))
-      .filter(
-        (d) =>
-          d.text.trim().toLowerCase() !== prompt.truth.trim().toLowerCase() &&
-          d.text.trim().toLowerCase() !==
-            (label ?? prompt.truth).trim().toLowerCase() &&
-          /^ ?[a-z]{3,}$/i.test(d.text),
-      );
-    const field = await wholeWords(prompt.text, candidates, OPTIONS - 1);
-    if (field.length < OPTIONS - 1) return null;
-
-    const options = seededShuffle(
-      [
-        {
-          text: prompt.truth,
-          probability: probabilities[truthId],
-          truth: true,
-          ...(label ? { label } : {}),
-        },
-        ...field.map((d) => ({ ...d, truth: false })),
-      ],
-      seed,
-    );
+    const total = scored.reduce((sum, o) => sum + o.whole, 0);
+    const options = seededShuffle(scored, seed);
     const truth = options.findIndex((o) => o.truth);
     const modelPick = options.reduce(
-      (best, o, at) => (o.probability > options[best].probability ? at : best),
+      (best, o, at) => (o.whole > options[best].whole ? at : best),
       0,
     );
-
+    const right = options[truth];
     return {
       id: prompt.id,
       prefix: prompt.text,
       options: options.map((o) => ({
         text: o.text,
-        probability: Number(o.probability.toFixed(6)),
-        ...(o.label ? { label: o.label } : {}),
+        probability: Number((o.whole / total).toFixed(6)),
+        whole: Number(o.whole.toPrecision(4)),
       })),
       truth,
       modelPick,
-      answerRank: rank,
+      answerRank: right.firstRank,
       trapped: modelPick !== truth,
-      /** The pieces the true word is made of, when it is made of more than one. */
-      ...(chunks ? { truthChunks: chunks } : {}),
+      ...(right.chunks.length > 1 ? { truthChunks: right.chunks } : {}),
     };
   };
 
@@ -485,10 +476,10 @@ const main = async () => {
       ...round,
       kind: "phrase",
       because:
-        "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong.",
+        "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four.",
     });
     console.log(
-      `  ${prompt.id}: truth rank ${round.answerRank} at ${(round.options[round.truth].probability * 100).toFixed(1)}%${round.trapped ? "  <- model misses" : "  <- model wins"}`,
+      `  ${prompt.id}: ${round.options.map((o, i) => `${i === round.truth ? "*" : ""}${i === round.modelPick ? "^" : ""}${o.text.trim()} ${(o.probability * 100).toFixed(1)}`).join(", ")}${round.trapped ? "  <- model misses" : ""}`,
     );
   }
 
@@ -555,10 +546,10 @@ const main = async () => {
       fact: prompt.fact,
       citation,
       because:
-        "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations.",
+        "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four.",
     });
     console.log(
-      `  ${prompt.id}: truth rank ${round.answerRank} at ${(round.options[round.truth].probability * 100).toFixed(2)}%${round.trapped ? "  <- trap" : ""}`,
+      `  ${prompt.id}: ${round.options.map((o, i) => `${i === round.truth ? "*" : ""}${i === round.modelPick ? "^" : ""}${o.text.trim()} ${(o.probability * 100).toFixed(1)}`).join(", ")}${round.trapped ? "  <- trap" : ""}`,
     );
   }
 

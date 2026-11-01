@@ -4,8 +4,10 @@ import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { NextTokenFigure } from "@/components/machines/NextTokenFigure";
+import {
+  HowItAnswers,
+  type AnswerExample,
+} from "@/components/machines/HowItAnswers";
 import type { CheckBeat } from "@/lib/check";
 import { getLesson } from "@/lib/lessons";
 import {
@@ -33,32 +35,35 @@ const initialScene = dealPredictor(
   Array.from({ length: 120 }, () => Math.random()),
 );
 
+/* The infographic's three examples, straight out of the game's measured data:
+   one it gets right, then two it gets wrong. */
+const EXAMPLES: AnswerExample[] = ["paris", "delhi", "ottawa"].map((id) => {
+  const round = predictorData.rounds.find((r) => r.id === id)!;
+  return {
+    prefix: round.prefix,
+    options: round.options.map((o) => ({
+      text: o.label ?? o.text,
+      probability: o.probability,
+    })),
+    modelPick: round.modelPick,
+    truth: round.truth,
+  };
+});
+
 const SOURCES: Source[] = [
   {
     title: "DistilGPT-2",
     publisher: "Hugging Face",
     url: "https://huggingface.co/distilbert/distilgpt2",
-    used: "The machine you play against, and the model behind the figure in the walkthrough. Every percentage on both is its own output for that sentence, measured and printed unrounded.",
+    used: "The AI you play against, and the one in the animation. Every bar is its own measured rating of each answer.",
     licence: "Apache 2.0",
   },
   {
-    title: "Alice's Adventures in Wonderland",
-    publisher: "Lewis Carroll, via Project Gutenberg",
-    url: "https://www.gutenberg.org/ebooks/11",
-    used: "Act two. The right answer in those rounds is simply the word Carroll wrote, so the machine can be scored against something it cannot argue with.",
-    licence: "Public domain",
-  },
-  {
-    title: "Paris",
-    publisher: "Encyclopædia Britannica",
-    url: "https://www.britannica.com/place/Paris",
-    used: "One of the checkable facts in act three, where the likeliest continuation and the true one come apart.",
-  },
-  {
-    title: "Jupiter",
-    publisher: "NASA Science",
-    url: "https://science.nasa.gov/jupiter/",
-    used: "Another act three fact. The model puts the right answer eighth in its own ranking.",
+    title: "Wikipedia",
+    publisher: "Wikimedia Foundation",
+    url: "https://en.wikipedia.org/",
+    used: "Every fact in the game is checked against a named Wikipedia article, linked under the round, with the revision it was checked against.",
+    licence: "CC BY-SA 4.0",
   },
   {
     title: "Why Large Language Models Hallucinate",
@@ -71,34 +76,6 @@ const SOURCES: Source[] = [
     publisher: "Bender, Gebru, McMillan-Major & Shmitchell (FAccT 2021)",
     url: "https://dl.acm.org/doi/10.1145/3442188.3445922",
     used: "The argument that fluency in these systems does not imply understanding.",
-  },
-];
-
-const STEPS: Step[] = [
-  {
-    say: "A large language model does one thing. It looks at the text so far and guesses what comes next. Then it adds that guess to the text and guesses again.",
-    caption:
-      "Below is a real sentence, cut into the chunks the model actually reads, with the empty slot it has to fill. Watch that figure rather than replacing it. Every step from here changes it.",
-  },
-  {
-    say: "Now the scores arrive. Give it the opening of Genesis and almost the whole weight lands on one word. This is the ground a next-word guesser is built for, and it is why it beat you in act one.",
-    caption:
-      "Nothing was rigged in its favour there. Those are its own odds on its own strongest ground.",
-  },
-  {
-    say: "Same machine, different sentence. You know what follows 'Once upon a'. The model's best guess is worth about seven per cent, and the rest is spread thin. Being obvious to a person and being likely to a model are different things.",
-    caption:
-      "That is act two in one picture. The confidence did not drop, only the odds did, and you cannot hear odds in a sentence.",
-  },
-  {
-    say: "Act three is the one worth remembering. Asked to finish 'Paris is the capital of', it puts thirty per cent on the word 'the' and under two per cent on France. It is not lying and it is not broken. It is finishing a sentence, and the shape of the sentence beat the fact.",
-    caption:
-      "The true answer is marked in the figure. Notice that it never sounds any less sure when it is wrong. That is the part that costs people money.",
-  },
-  {
-    say: "Then one of them is drawn, added to the text, and the whole thing runs again. Temperature is the only dial in that loop, and it does not know anything. Now scale it up to more text than a person could read in a thousand lifetimes. The guessing gets good enough to look like knowing, and the failure does not go away. It just gets harder to spot.",
-    caption:
-      "Drag the dial and draw a few. Nothing in the loop ever checks a claim, at any setting.",
   },
 ];
 
@@ -170,15 +147,15 @@ const CHECK: CheckBeat[] = [
   {
     kind: "choice",
     prompt:
-      "In act three the machine was confident and wrong. What does that tell you?",
+      "Asked for India's capital, the AI put most of its vote on Mumbai. What does that tell you?",
     options: [
-      "It was a bug in that particular question, and it would not happen on a different one",
-      "Confidence measures how concentrated its guesses are, not whether they are true",
-      "Bigger models do not do this, because they have seen enough text to know better",
+      "It was a one-off bug in that one question, nothing more",
+      "How sure it is says nothing about whether it is right",
+      "Bigger models have read enough to never do this",
     ],
     answer: 1,
     because:
-      "Confidence and truth are separate things. It was 30% sure of 'the' after 'Paris is the capital of': a high number, and a wrong answer. That gap does not close as models get bigger. It gets harder to spot, because a bigger model is wrong more fluently.",
+      "Confidence and truth are separate things. Out of four answers it gave Mumbai 75% and New Delhi 5%: a strong preference, for the wrong one. Bigger models are wrong less often, but when they are, they sound just as sure.",
   },
 ];
 
@@ -188,7 +165,7 @@ export default function WhatAnLlmIsLesson() {
   const beats: Beat[] = [
     {
       id: "game",
-      cta: "What just happened",
+      cta: "How it works",
       node: (
         <div className="space-y-4">
           {/* The deck has no masthead headline of its own, so the premise on
@@ -197,13 +174,11 @@ export default function WhatAnLlmIsLesson() {
               type, and `h1` to `h4` share one base rule, so the tag is the
               whole change. */}
           <h1 className="display-md">
-            You are about to lose to something that has{" "}
-            <span className="text-pink-text">never understood a word</span> in
-            its life.
+            Can you beat an AI at{" "}
+            <span className="text-pink-text">finishing a sentence</span>?
           </h1>
           <p className="text-ink-soft text-[0.9375rem] leading-snug">
-            Six short chapters. Each one ends with a thing to do differently the
-            next time you use ChatGPT.
+            Six short chapters. Each ends with one tip for using ChatGPT better.
           </p>
           <BeatThePredictor
             initialData={predictorData}
@@ -213,9 +188,14 @@ export default function WhatAnLlmIsLesson() {
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<NextTokenFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-2xl space-y-4">
+          <h2 className="display-md">How it answers you, in three moves</h2>
+          <HowItAnswers examples={EXAMPLES} />
+        </div>
+      ),
     },
   ];
 
@@ -258,13 +238,10 @@ export default function WhatAnLlmIsLesson() {
             description: any check against the world.
           </p>
           <p>
-            You watched that happen. It was 99% sure of the word after
-            &ldquo;God created the heaven and the&rdquo;, and 30% sure of the
-            word after &ldquo;Paris is the capital of&rdquo;. The second one was
-            wrong. Both numbers came from the same place: counting what follows
-            what, across an enormous amount of text. Scale changes how often it
-            is right. It does not add a truth check, because there is not one to
-            add.
+            You watched that happen. Asked for India&rsquo;s capital, it gave
+            Mumbai 75% of its vote and New Delhi 5%. Right answers and wrong
+            ones come out of the same process, so they sound the same. Bigger
+            models are right more often. None of them add a truth check.
           </p>
         </MechanismPanel>
         <Fold title="Watch somebody explain it" note={video.why}>

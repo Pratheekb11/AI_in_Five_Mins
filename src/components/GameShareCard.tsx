@@ -76,26 +76,9 @@ export function GameShareCard({
     link.click();
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 10_000);
-    setNote("Saved.");
+    setNote("Saved the image. Attach it to your post.");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blob, gameName, playerScore, modelScore, resultLine]);
-
-  const copyImage = useCallback(async () => {
-    const file = await blob();
-    if (!file) return;
-    try {
-      if (navigator.clipboard && typeof ClipboardItem !== "undefined") {
-        await navigator.clipboard.write([
-          new ClipboardItem({ "image/png": file }),
-        ]);
-        setNote("Copied. Paste it into your post.");
-        return;
-      }
-    } catch {
-      // Falls through to the message below.
-    }
-    setNote("Copying isn't supported here. Try Download instead.");
-  }, [blob]);
 
   const shareSheet = useCallback(async () => {
     const file = await blob();
@@ -128,29 +111,15 @@ export function GameShareCard({
         className="border-ink/25 mb-3 block h-auto w-full max-w-md rounded-[2px] border"
         aria-label={`Result card: ${resultLine}`}
       />
-      <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={copyImage}
-          className="tap plate hover:border-ink cursor-pointer px-3 py-2 text-[0.9375rem]"
-        >
-          Copy image
-        </button>
-        <button
-          type="button"
-          onClick={download}
-          className="tap plate misreg btn-primary font-display cursor-pointer px-4 py-2 font-bold"
-        >
-          Download
-        </button>
-        <button
-          type="button"
-          onClick={shareSheet}
-          className="tap plate hover:border-ink cursor-pointer px-3 py-2 text-[0.9375rem]"
-        >
-          Share
-        </button>
-      </div>
+      {/* One button. On a phone it opens the share sheet with the image
+          attached; where that is not offered it saves the image instead. */}
+      <button
+        type="button"
+        onClick={shareSheet}
+        className="tap plate hover:border-ink cursor-pointer px-4 py-2 text-[0.9375rem]"
+      >
+        Share result
+      </button>
       {note ? (
         <p className="text-ink-faint mt-2 text-[0.8125rem]" aria-live="polite">
           {note}

@@ -1,21 +1,20 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GameShell } from "@/components/game/GameShell";
 import { GameShareCard } from "@/components/GameShareCard";
 import { playCue } from "@/lib/game/sound";
-import { useIsPhone } from "@/lib/useMedia";
 import {
   actOf,
   current,
-  finish,
   newScene,
   next,
   pick,
   pointsFor,
   type Option,
   type PredictorData,
+  type PredictorRound,
   type PredictorScene,
   ROUND_SIZE,
   scoreOf,
@@ -25,14 +24,6 @@ import {
 /**
  * Beat the Predictor.
  */
-
-/** "1st", "2nd", "148th", a rank reads better than an index to a person. */
-function ordinal(n: number): string {
-  const tens = n % 100;
-  if (tens >= 11 && tens <= 13) return `${n.toLocaleString("en-US")}th`;
-  const suffix = { 1: "st", 2: "nd", 3: "rd" }[n % 10] ?? "th";
-  return `${n.toLocaleString("en-US")}${suffix}`;
-}
 
 /**
  * What to print for an option.
@@ -59,24 +50,43 @@ function loadPredictor(): Promise<PredictorData> {
   return cached;
 }
 
-/** What the scoring line says. Shown once, in the popover always and inline
- *  after round one besides. */
-const SCORING_LINE =
-  "100 for a correct call. More when you are right and the machine was confidently wrong.";
-
-/** What each act is asking of the reader, in one line. The true word is a
+/** What each kind of round is, in one plain line. The right word is a
  *  different kind of thing in each: what usually follows, what one author
  *  actually wrote, and what happens to be true. */
-const ACT_LINES: Record<"phrase" | "corpus" | "fact", string> = {
-  phrase: "Everyday phrases, the kind it has seen thousands of times.",
-  corpus:
-    "It is not the same game now: this is a real book, and the true word is the one the author wrote.",
-  fact: "Now sentences with a checkable fact in them. The true word is the one that is correct.",
+const KIND_LINES: Record<PredictorRound["kind"], string> = {
+  phrase: "An everyday phrase",
+  corpus: "From a real book: the right word is the one the author wrote",
+  fact: "A fact: the right word is the true one",
 };
 
-/** The stake on the final-round wager. Matches the base points a normal
- *  correct call is worth, so doubling reads as literally double. */
-const WAGER_STAKE = 100;
+/** Share of the four that counts as "most of its vote". */
+const MOST = 0.5;
+
+/**
+ * What happened, in plain words, for somebody who has never heard the word
+ * "token". The measured detail (rank, chunks, citation) stays one tap away.
+ */
+function plainVerdict(round: PredictorRound): string {
+  const truth = `\u201c${wordOf(round.options[round.truth])}\u201d`;
+  const pickOption = round.options[round.modelPick];
+  const pick = `\u201c${wordOf(pickOption)}\u201d`;
+  if (round.modelPick === round.truth) {
+    if (round.kind === "phrase")
+      return `It picked ${truth}. Easy: this phrase is everywhere.`;
+    if (round.kind === "corpus")
+      return `It picked ${truth}, same as the author.`;
+    return `It picked ${truth}. Right this time: the true answer also sounded most likely.`;
+  }
+  if (round.kind === "phrase")
+    return `It picked ${pick}. It rated that above ${truth}.`;
+  if (round.kind === "corpus")
+    return `It picked ${pick}, the usual word. The author wrote ${truth}.`;
+  const most =
+    pickOption.probability >= MOST
+      ? " It put most of its vote on it, too."
+      : "";
+  return `It picked ${pick}. Wrong. It goes with what sounds likely and never checks facts.${most}`;
+}
 
 /** How the reveal unfolds, one round at a time. */
 type Stage = "waiting" | "picked" | "bars" | "resolved";
@@ -93,10 +103,6 @@ export function BeatThePredictor({
   initialScene?: PredictorScene;
 } = {}) {
   const still = useReducedMotion();
-  /* The premise is worth its four lines on a screen with room. On a phone the
-     beat is already at the FitBox floor, so it says the same thing in one
-     sentence rather than costing the board another scale-down. */
-  const phone = useIsPhone();
   const [data, setData] = useState<PredictorData | null>(initialData ?? null);
   const [failed, setFailed] = useState(false);
   const [scene, setScene] = useState<PredictorScene>(
@@ -104,10 +110,6 @@ export function BeatThePredictor({
   );
   const [playing, setPlaying] = useState(!!initialScene);
   const [stage, setStage] = useState<Stage>("waiting");
-  const [wager, setWager] = useState<"undecided" | "in" | "out">("undecided");
-  // The header number counts up to the resolved total rather than snapping.
-  const shownRef = useRef(0);
-  const [shownScore, setShownScore] = useState(0);
 
   // Falls back to a network fetch and a client-side deal only where a page
   // has not embedded round one server-side. The lesson page that matters most
@@ -148,30 +150,19 @@ export function BeatThePredictor({
     );
     setPlaying(true);
     setStage("waiting");
-    setWager("undecided");
-    shownRef.current = 0;
-    setShownScore(0);
   }, [data]);
 
   const round = current(scene);
-  const isFinalRound =
-    scene.rounds.length > 0 && scene.at === scene.rounds.length - 1;
-  const wagerPending =
-    isFinalRound && wager === "undecided" && scene.picked === null;
 
-  const choose = useCallback(
-    (i: number) => {
-      playCue("tap");
-      setScene((s) => pick(s, i));
-      setStage("picked");
-    },
-    [],
-  );
+  const choose = useCallback((i: number) => {
+    playCue("tap");
+    setScene((s) => pick(s, i));
+    setStage("picked");
+  }, []);
   const carryOn = useCallback(() => {
     setScene((s) => next(s));
     setStage("waiting");
   }, []);
-  const stopHere = useCallback(() => setScene((s) => finish(s)), []);
 
   // Held silence, then the bars, then the verdict. Collapses to instant for
   // reduced motion rather than skipping steps, so the order stays honest.
@@ -201,42 +192,9 @@ export function BeatThePredictor({
   const result = round && committed ? scoreOf(round, scene.picked!) : null;
   const act = round ? actOf(scene.at) : null;
 
-  /* The final round can be wagered: win doubles it, lose costs a flat stake.
-     Kept out of the reducer entirely, so the numbers that drive the rest of
-     the game (and every other page that reads them) are untouched. */
-  const finalDelta =
-    isFinalRound && wager === "in" && round && result
-      ? result.you
-        ? pointsFor(round, scene.picked!)
-        : -WAGER_STAKE
-      : 0;
-  const displayScore = scene.score + finalDelta;
-
-  useEffect(() => {
-    if (!showVerdict) return;
-    const from = shownRef.current;
-    const to = displayScore;
-    if (from === to) return;
-    const dur = still ? 0 : finalDelta !== 0 ? 700 : 450;
-    const startedAt = performance.now();
-    let raf = 0;
-    const step = (now: number) => {
-      const t = dur === 0 ? 1 : Math.min(1, (now - startedAt) / dur);
-      const eased = 1 - (1 - t) ** 3;
-      const value = Math.round(from + (to - from) * eased);
-      shownRef.current = value;
-      setShownScore(value);
-      if (t < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showVerdict, displayScore, still]);
-
   useEffect(() => {
     if (!playing || scene.done) return;
     const onKey = (e: KeyboardEvent) => {
-      if (wagerPending) return;
       if (e.key >= "1" && e.key <= "4") choose(Number(e.key) - 1);
       else if (e.key === "Enter" || e.key === " ") carryOn();
       else return;
@@ -244,7 +202,7 @@ export function BeatThePredictor({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [playing, scene.done, choose, carryOn, wagerPending]);
+  }, [playing, scene.done, choose, carryOn]);
 
   const widest = round
     ? Math.max(...round.options.map((o) => o.probability), 0.0001)
@@ -262,24 +220,23 @@ export function BeatThePredictor({
     <GameShell
       gameId="beat-the-predictor"
       name="Beat the Predictor"
-      instruction="A sentence with its last word taken away. You pick one of four. The machine picks at the same time, and then its real odds arrive as bars."
+      instruction="A sentence with its last word missing. You and the AI both guess it. Whoever picks the real word wins the round."
       howToPlay={{
-        goal: "Guess the missing word more often than the machine does.",
+        goal: "Pick the real missing word more often than the AI does.",
         steps: [
-          "Read the sentence. The last word has been taken away.",
-          "Pick one of the four options. The machine has already picked, but you cannot see which.",
-          "Its real probability for every option arrives as bars. Whoever chose the true word wins the round.",
+          "Read the sentence. Its last word is missing.",
+          "Tap the word you think goes there. The AI guesses at the same time.",
+          "See the AI's guess, how sure it was about each word, and the real word.",
         ],
         controls:
-          "Tap or click an option, or press 1–4. Enter moves to the next round.",
-        scoring: SCORING_LINE,
+          "Tap or click a word, or press 1 to 4. Enter goes to the next round.",
+        scoring:
+          "100 points when you are right. Extra when you are right and the AI was wrong.",
       }}
-      startLabel={data ? "Play the machine" : "Loading the odds…"}
+      startLabel={data ? "Play" : "Loading…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}
-      finalScore={
-        scene.done ? scene.score + (wager === "in" ? finalDelta : 0) : scene.score
-      }
+      finalScore={scene.score}
       mood={
         !showVerdict
           ? "think"
@@ -291,9 +248,8 @@ export function BeatThePredictor({
       }
       streak={showVerdict ? scene.streak : undefined}
       readouts={[
-        { label: "Score", value: shownScore, accent: true },
-        { label: "You", value: scene.youRight },
-        { label: "Machine", value: scene.modelRight },
+        { label: "You", value: scene.youRight, accent: true },
+        { label: "AI", value: scene.modelRight },
         {
           label: "Round",
           value: `${Math.min(scene.at + 1, Math.max(scene.rounds.length, 1))}/${
@@ -304,18 +260,12 @@ export function BeatThePredictor({
       again={
         <div className="max-w-md">
           <p className="display-md mb-2">
-            You {scene.youRight}, machine {scene.modelRight}
-          </p>
-          <p className="text-ink-soft mb-2 text-[0.9375rem]">
-            {scene.upsets > 0
-              ? `${scene.upsets} ${scene.upsets === 1 ? "round" : "rounds"} where you were right and it was confidently wrong.`
-              : "It did not put a foot wrong against you this time. Go again, because act three is where it falls over."}
+            You {scene.youRight}, AI {scene.modelRight}
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
-            It won the ordinary sentences because that is exactly what it is: a
-            machine for guessing what usually comes next. It lost the book and
-            it lost the facts for the same reason. Nothing in it asks what is
-            true, only what is likely.
+            It is good at everyday phrases and slips on facts, because it goes
+            with what sounds likely, not what is true. That is why ChatGPT can
+            sound sure and still be wrong.
           </p>
           <GameShareCard
             gameName="Beat the Predictor"
@@ -334,88 +284,34 @@ export function BeatThePredictor({
       footer={
         data ? (
           <>
-            Every percentage is {data.model.name}&rsquo;s own output, measured
-            over {data.measuredSentences} sentences from {data.corpus.name} and
-            printed unrounded. The wrong options are not invented. They are
-            tokens the model itself ranked highly for that sentence.
+            The AI here is {data.model.name}, a small real language model. Every
+            percentage is its own measured output, and the wrong options are
+            words it rated highly itself.
           </>
         ) : failed ? (
-          <>The odds did not load.</>
+          <>The game did not load.</>
         ) : (
-          <>Loading the odds…</>
+          <>Loading…</>
         )
       }
     >
       <div className="min-h-[13rem] p-3 sm:min-h-[24rem] sm:p-5 md:p-6">
-        {wagerPending && round ? (
-          <div className="flex min-h-[13rem] flex-col items-center justify-center gap-3 text-center sm:min-h-[24rem]">
-            <p className="label text-pink-text">Final round</p>
-            <p className="prose-measure text-[1.0625rem] font-semibold">
-              Double or nothing. Choose before you see the sentence.
-            </p>
-            <p className="prose-measure text-ink-soft text-[0.9375rem]">
-              Right, and this round is worth double. Wrong, and it costs you{" "}
-              {WAGER_STAKE} points instead of the usual zero.
-            </p>
-            <div className="mt-2 flex flex-wrap justify-center gap-3">
-              <button
-                type="button"
-                onClick={() => setWager("in")}
-                className="plate misreg btn-primary font-display px-5 py-2.5 font-bold"
-              >
-                Double or nothing
-              </button>
-              <button
-                type="button"
-                onClick={() => setWager("out")}
-                className="label border-ink/40 hover:border-ink cursor-pointer rounded-[2px] border px-4 py-2.5"
-              >
-                Play it safe
-              </button>
-            </div>
-          </div>
-        ) : round && act ? (
+        {round && act ? (
           <>
-            {/* The premise, in the board itself. It used to live on the page
-                above the cabinet, where the eye goes straight past it to the
-                live board, people arrived at a sentence with a hole in it and
-                four words underneath and had to infer the game. */}
-            <p className="prose-measure text-ink-soft mb-2 text-[0.9375rem] sm:mb-3">
-              {phone ? (
-                <>
-                  The model has already picked the missing word, in secret.
-                  Choose yours.
-                </>
-              ) : (
-                <>
-                  A real sentence, last word taken out. The model has already
-                  picked, in secret. Choose yours, and its real odds arrive
-                  the moment you commit.
-                </>
-              )}
+            {/* The premise, in the board itself, in words a newcomer
+                already has. The whole lesson in two sentences, said before
+                the first guess rather than explained after it. */}
+            <p className="prose-measure text-ink-soft mb-2 text-[0.9375rem] leading-snug sm:mb-3">
+              ChatGPT writes by guessing the next word. So does this small AI.
+              Can you beat it?
             </p>
-            {/* The act and what it is testing share one row. Stacked, they
-                cost the beat a line it does not have at either width, and
-                only the corpus line is loud: that is the switch, the moment
-                the game changes under the reader. It is also the only one a
-                phone keeps. */}
-            <div className="mb-3 flex flex-wrap items-baseline gap-x-2">
-              <span className="label text-ink-faint">{act.name}</span>
-              <span
-                className={`text-[0.8125rem] ${
-                  round.kind === "corpus"
-                    ? "text-pink-text font-semibold"
-                    : "text-ink-faint hidden sm:inline"
-                }`}
-              >
-                {ACT_LINES[round.kind]}
-              </span>
-            </div>
-            {isFinalRound && wager === "in" ? (
-              <p className="label text-pink-text mb-2">
-                Wagered: double or nothing
-              </p>
-            ) : null}
+            <p
+              className={`label mb-2 sm:mb-3 ${
+                round.kind === "phrase" ? "text-ink-faint" : "text-pink-text"
+              }`}
+            >
+              {KIND_LINES[round.kind]}
+            </p>
 
             <p className="prose-measure mb-3 text-[1.125rem] leading-relaxed sm:mb-4">
               {round.prefix}{" "}
@@ -445,6 +341,14 @@ export function BeatThePredictor({
               </AnimatePresence>
             </p>
 
+            <p
+              className={`label mb-1 transition-opacity ${
+                showAnswer ? "text-ink-faint opacity-100" : "opacity-0"
+              }`}
+              aria-hidden={!showAnswer}
+            >
+              How the AI rated each answer
+            </p>
             <ul className="mb-3 space-y-1.5 sm:mb-3 sm:space-y-1.5">
               {round.options.map((option, i) => {
                 const isTruth = showAnswer && i === round.truth;
@@ -473,13 +377,19 @@ export function BeatThePredictor({
                           {wordOf(option) || "␣"}
                         </span>
                         {isYours ? (
-                          <span className="label text-pink-text">you</span>
+                          <span className="label text-pink-text">
+                            your pick
+                          </span>
                         ) : null}
                         {isMachine ? (
-                          <span className="label text-blue-text">machine</span>
+                          <span className="label text-blue-text">
+                            AI&rsquo;s pick
+                          </span>
                         ) : null}
                         {isTruth ? (
-                          <span className="label text-teal-text">true</span>
+                          <span className="label text-teal-text">
+                            right word
+                          </span>
                         ) : null}
                       </span>
 
@@ -504,9 +414,7 @@ export function BeatThePredictor({
                             transition={{
                               duration: still ? 0 : 0.4,
                               delay:
-                                showAnswer && !still
-                                  ? 0.09 + rank * 0.13
-                                  : 0,
+                                showAnswer && !still ? 0.09 + rank * 0.13 : 0,
                               ease: "easeOut",
                             }}
                           />
@@ -540,79 +448,20 @@ export function BeatThePredictor({
                   transition={{ duration: still ? 0 : 0.3 }}
                 >
                   <p
-                    className={`mb-1 text-[0.9375rem] font-semibold ${
+                    className={`mb-1 text-[1.0625rem] font-bold ${
                       result.you ? "text-teal-text" : "text-pink-text"
                     }`}
                   >
                     {result.upset
-                      ? `You got it and the machine did not, and it was ${(
-                          round.options[round.modelPick].probability * 100
-                        ).toFixed(
-                          0,
-                        )}% sure. +${pointsFor(round, scene.picked!)}`
+                      ? `You win this round. +${pointsFor(round, scene.picked!)}`
                       : result.you
-                        ? `Right, and so was the machine. +${pointsFor(round, scene.picked!)}`
+                        ? `You both got it. +${pointsFor(round, scene.picked!)}`
                         : result.model
-                          ? "The machine got this one and you did not."
-                          : "You both missed it."}
-                    {isFinalRound && wager === "in" ? (
-                      <span
-                        className={
-                          result.you
-                            ? "text-teal-text ml-2"
-                            : "text-pink-text ml-2"
-                        }
-                      >
-                        {result.you
-                          ? "· doubled"
-                          : `· wagered and lost ${WAGER_STAKE}`}
-                      </span>
-                    ) : null}
+                          ? "The AI wins this round."
+                          : "Neither of you got it."}
                   </p>
-                  {scene.at === 0 ? (
-                    <p className="text-ink-faint mb-1 text-[0.8125rem]">
-                      {SCORING_LINE}
-                    </p>
-                  ) : null}
-                  <p className="prose-measure text-ink-soft mb-1 text-[0.9375rem]">
-                    {round.because}
-                  </p>
-                  <p className="text-ink-faint mb-3 text-[0.8125rem]">
-                    {round.truthChunks ? (
-                      <>
-                        {wordOf(round.options[round.truth])} takes{" "}
-                        {round.truthChunks.length}&nbsp;chunks for this model to
-                        write,{" "}
-                        {round.truthChunks
-                          .map((c) => `“${c.trim()}”`)
-                          .join(" then ")}
-                        , so the odds above are for the first one, and it
-                        was the model&rsquo;s {ordinal(round.answerRank + 1)}{" "}
-                        choice out of 50,257.
-                      </>
-                    ) : (
-                      <>
-                        The true word was the model&rsquo;s{" "}
-                        {ordinal(round.answerRank + 1)} choice out of 50,257.
-                      </>
-                    )}
-                    {round.fact ? ` ${round.fact}` : ""}
-                    {round.citation ? (
-                      <>
-                        {" "}
-                        <a
-                          href={round.citation.url}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          className="underline underline-offset-2"
-                        >
-                          Checked against {round.citation.title}
-                        </a>
-                        {round.citation.revision
-                          ? `, revision ${round.citation.revision}.`
-                          : "."}
-                      </>
-                    ) : null}
+                  <p className="prose-measure text-ink-soft mb-2 text-[0.9375rem] leading-snug">
+                    {plainVerdict(round)}
                   </p>
                   <div className="flex flex-wrap items-center gap-3">
                     <button
@@ -624,26 +473,33 @@ export function BeatThePredictor({
                         ? "See the result"
                         : "Next round"}
                     </button>
-
-                    {/* Once the confidently-wrong act has landed, the rest is
-                        practice rather than teaching. A visible way out is why
-                        people stay longer, not why they leave sooner. */}
-                    {round.kind === "fact" &&
-                    scene.at + 1 < scene.rounds.length ? (
-                      <button
-                        type="button"
-                        onClick={stopHere}
-                        className="label border-ink/40 hover:border-ink cursor-pointer rounded-[2px] border px-4 py-2.5"
-                      >
-                        I have got it
-                      </button>
-                    ) : null}
                   </div>
+                  {round.citation ? (
+                    <details className="text-ink-faint mt-3 text-[0.8125rem]">
+                      <summary className="cursor-pointer underline underline-offset-2">
+                        Source
+                      </summary>
+                      <p className="mt-1">
+                        {round.fact}{" "}
+                        <a
+                          href={round.citation.url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="underline underline-offset-2"
+                        >
+                          Checked against {round.citation.title}
+                        </a>
+                        {round.citation.revision
+                          ? `, revision ${round.citation.revision}.`
+                          : "."}{" "}
+                        {round.because}
+                      </p>
+                    </details>
+                  ) : null}
                 </motion.div>
               ) : (
                 <p className="text-ink-soft text-[0.9375rem]">
-                  Pick one. Keys 1&ndash;4 work too. The machine has already
-                  chosen, you just cannot see it yet.
+                  Tap the word you think is missing.
                 </p>
               )}
             </div>
@@ -651,8 +507,8 @@ export function BeatThePredictor({
         ) : (
           <p className="text-ink-soft text-[0.9375rem]">
             {failed
-              ? "The odds did not load, so there is nothing to play against."
-              : "Loading the odds…"}
+              ? "The game did not load. Try refreshing the page."
+              : "Loading…"}
           </p>
         )}
       </div>

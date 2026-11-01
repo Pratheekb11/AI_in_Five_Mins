@@ -1,6 +1,6 @@
 {
   "generatedBy": "data/scripts/build-predictor.mjs",
-  "generatedAt": "2026-08-13T11:38:28+05:30",
+  "generatedAt": "2026-11-01T09:04:30.947Z",
   "model": {
     "id": "Xenova/distilgpt2",
     "name": "DistilGPT-2",
@@ -23,19 +23,23 @@
       "options": [
         {
           "text": " Europe",
-          "probability": 0.001082
+          "probability": 0.001112,
+          "whole": 0.001082
         },
         {
           "text": " America",
-          "probability": 0.971706
+          "probability": 0.998342,
+          "whole": 0.9717
         },
         {
-          "text": " American",
-          "probability": 0.001048
+          "text": " Asia",
+          "probability": 0.000061,
+          "whole": 0.00005907
         },
         {
-          "text": " the",
-          "probability": 0.003132
+          "text": " Canada",
+          "probability": 0.000486,
+          "whole": 0.0004728
         }
       ],
       "truth": 1,
@@ -43,7 +47,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "genesis",
@@ -51,19 +55,23 @@
       "options": [
         {
           "text": " earth",
-          "probability": 0.994124
+          "probability": 0.999142,
+          "whole": 0.9941
         },
         {
-          "text": " east",
-          "probability": 0.000239
-        },
-        {
-          "text": " sea",
-          "probability": 0.000238
+          "text": " stars",
+          "probability": 0.000023,
+          "whole": 0.00002308
         },
         {
           "text": " moon",
-          "probability": 0.000592
+          "probability": 0.000595,
+          "whole": 0.0005924
+        },
+        {
+          "text": " sea",
+          "probability": 0.00024,
+          "whole": 0.0002385
         }
       ],
       "truth": 0,
@@ -71,7 +79,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "york",
@@ -79,19 +87,23 @@
       "options": [
         {
           "text": " York",
-          "probability": 0.881191
+          "probability": 0.950852,
+          "whole": 0.8812
         },
         {
-          "text": " Jersey",
-          "probability": 0.032094
+          "text": " Delhi",
+          "probability": 0.002107,
+          "whole": 0.001952
         },
         {
-          "text": " Mexico",
-          "probability": 0.009422
+          "text": " Zealand",
+          "probability": 0.001275,
+          "whole": 0.001182
         },
         {
           "text": " Orleans",
-          "probability": 0.042413
+          "probability": 0.045766,
+          "whole": 0.04241
         }
       ],
       "truth": 0,
@@ -99,35 +111,39 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
-      "id": "once",
+      "id": "umbrella",
       "prefix": "It was raining, so she opened her",
       "options": [
         {
-          "text": " hand",
-          "probability": 0.031223
+          "text": " diary",
+          "probability": 0.052062,
+          "whole": 0.0001203
         },
         {
           "text": " umbrella",
-          "probability": 0.000946
+          "probability": 0.40942,
+          "whole": 0.0009462
         },
         {
-          "text": " mouth",
-          "probability": 0.162273
+          "text": " laptop",
+          "probability": 0.409936,
+          "whole": 0.0009474
         },
         {
-          "text": " eyes",
-          "probability": 0.569381
+          "text": " fridge",
+          "probability": 0.128582,
+          "whole": 0.0002972
         }
       ],
       "truth": 1,
-      "modelPick": 3,
+      "modelPick": 2,
       "answerRank": 45,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "birthday",
@@ -135,19 +151,23 @@
       "options": [
         {
           "text": " cake",
-          "probability": 0.002031
+          "probability": 0.254539,
+          "whole": 0.002031
         },
         {
-          "text": " day",
-          "probability": 0.027074
+          "text": " hat",
+          "probability": 0.012282,
+          "whole": 0.000098
         },
         {
-          "text": " and",
-          "probability": 0.105107
+          "text": " gift",
+          "probability": 0.178296,
+          "whole": 0.001423
         },
         {
-          "text": " party",
-          "probability": 0.105979
+          "text": " card",
+          "probability": 0.554883,
+          "whole": 0.004427
         }
       ],
       "truth": 0,
@@ -155,7 +175,7 @@
       "answerRank": 43,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "doctor",
@@ -163,19 +183,23 @@
       "options": [
         {
           "text": " doctor",
-          "probability": 0.413383
+          "probability": 0.998266,
+          "whole": 0.4134
         },
         {
-          "text": " hospital",
-          "probability": 0.019253
+          "text": " baker",
+          "probability": 0.000038,
+          "whole": 0.00001574
         },
         {
-          "text": " nurse",
-          "probability": 0.026705
+          "text": " lawyer",
+          "probability": 0.00166,
+          "whole": 0.0006872
         },
         {
-          "text": " doctors",
-          "probability": 0.049256
+          "text": " plumber",
+          "probability": 0.000037,
+          "whole": 0.00001522
         }
       ],
       "truth": 0,
@@ -183,55 +207,63 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "keys",
       "prefix": "He could not start the car because he had lost his",
       "options": [
         {
-          "text": " grip",
-          "probability": 0.044685
+          "text": " umbrella",
+          "probability": 0.022654,
+          "whole": 0.00008527
         },
         {
           "text": " keys",
-          "probability": 0.002943
+          "probability": 0.781901,
+          "whole": 0.002943
         },
         {
-          "text": " mind",
-          "probability": 0.049106
+          "text": " socks",
+          "probability": 0.049568,
+          "whole": 0.0001866
         },
         {
-          "text": " balance",
-          "probability": 0.053205
+          "text": " hat",
+          "probability": 0.145877,
+          "whole": 0.0005491
         }
       ],
       "truth": 1,
-      "modelPick": 3,
+      "modelPick": 1,
       "answerRank": 52,
-      "trapped": true,
+      "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "coffee",
       "prefix": "She could not wake up properly without a cup of",
       "options": [
         {
-          "text": " milk",
-          "probability": 0.027744
+          "text": " flour",
+          "probability": 0.000299,
+          "whole": 0.0001403
         },
         {
-          "text": " water",
-          "probability": 0.054671
+          "text": " sugar",
+          "probability": 0.009267,
+          "whole": 0.004344
         },
         {
           "text": " coffee",
-          "probability": 0.462113
+          "probability": 0.985877,
+          "whole": 0.4621
         },
         {
-          "text": " tea",
-          "probability": 0.279953
+          "text": " soup",
+          "probability": 0.004556,
+          "whole": 0.002136
         }
       ],
       "truth": 2,
@@ -239,27 +271,31 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
-      "id": "letter",
+      "id": "stamp",
       "prefix": "She sealed the envelope and put on a",
       "options": [
         {
-          "text": " shirt",
-          "probability": 0.016318
+          "text": " hat",
+          "probability": 0.415151,
+          "whole": 0.01141
         },
         {
-          "text": " white",
-          "probability": 0.015057
+          "text": " show",
+          "probability": 0.13588,
+          "whole": 0.003734
         },
         {
           "text": " stamp",
-          "probability": 0.000104
+          "probability": 0.003775,
+          "whole": 0.0001037
         },
         {
-          "text": " black",
-          "probability": 0.022132
+          "text": " coat",
+          "probability": 0.445193,
+          "whole": 0.01223
         }
       ],
       "truth": 2,
@@ -267,55 +303,63 @@
       "answerRank": 1149,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "shoes",
       "prefix": "Before going into the temple, everyone took off their",
       "options": [
         {
-          "text": " robes",
-          "probability": 0.05872
+          "text": " rings",
+          "probability": 0.007535,
+          "whole": 0.0007182
         },
         {
-          "text": " pants",
-          "probability": 0.060041
+          "text": " watches",
+          "probability": 0.006307,
+          "whole": 0.0006012
         },
         {
           "text": " shoes",
-          "probability": 0.086518
+          "probability": 0.907635,
+          "whole": 0.08652
         },
         {
-          "text": " clothes",
-          "probability": 0.090779
+          "text": " glasses",
+          "probability": 0.078523,
+          "whole": 0.007485
         }
       ],
       "truth": 2,
-      "modelPick": 3,
+      "modelPick": 2,
       "answerRank": 1,
-      "trapped": true,
+      "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "library",
       "prefix": "He wanted a quiet place to study, so he went to the",
       "options": [
         {
-          "text": " house",
-          "probability": 0.013389
+          "text": " nightclub",
+          "probability": 0.004792,
+          "whole": 0.0003415
         },
         {
-          "text": " University",
-          "probability": 0.018222
+          "text": " market",
+          "probability": 0.016111,
+          "whole": 0.001148
         },
         {
           "text": " library",
-          "probability": 0.069628
+          "probability": 0.976994,
+          "whole": 0.06963
         },
         {
-          "text": " school",
-          "probability": 0.0216
+          "text": " stadium",
+          "probability": 0.002103,
+          "whole": 0.0001499
         }
       ],
       "truth": 2,
@@ -323,7 +367,7 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "teeth",
@@ -331,19 +375,23 @@
       "options": [
         {
           "text": " teeth",
-          "probability": 0.30612
+          "probability": 0.996474,
+          "whole": 0.3061
         },
         {
-          "text": " hands",
-          "probability": 0.049279
+          "text": " car",
+          "probability": 0.000503,
+          "whole": 0.0001547
         },
         {
-          "text": " face",
-          "probability": 0.047
+          "text": " dog",
+          "probability": 0.001975,
+          "whole": 0.0006068
         },
         {
-          "text": " hair",
-          "probability": 0.150418
+          "text": " shoes",
+          "probability": 0.001048,
+          "whole": 0.0003219
         }
       ],
       "truth": 0,
@@ -351,55 +399,31 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
-    },
-    {
-      "id": "airport",
-      "prefix": "They arrived two hours early at the",
-      "options": [
-        {
-          "text": " time",
-          "probability": 0.01727
-        },
-        {
-          "text": " airport",
-          "probability": 0.051615
-        },
-        {
-          "text": " hospital",
-          "probability": 0.014328
-        },
-        {
-          "text": " scene",
-          "probability": 0.0959
-        }
-      ],
-      "truth": 1,
-      "modelPick": 3,
-      "answerRank": 1,
-      "trapped": true,
-      "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "kettle",
       "prefix": "She filled the kettle and switched it",
       "options": [
         {
-          "text": " back",
-          "probability": 0.052808
+          "text": " around",
+          "probability": 0.007968,
+          "whole": 0.003836
         },
         {
           "text": " on",
-          "probability": 0.331208
+          "probability": 0.687939,
+          "whole": 0.3312
         },
         {
-          "text": " over",
-          "probability": 0.024095
+          "text": " back",
+          "probability": 0.109686,
+          "whole": 0.05281
         },
         {
           "text": " off",
-          "probability": 0.093598
+          "probability": 0.194408,
+          "whole": 0.0936
         }
       ],
       "truth": 1,
@@ -407,35 +431,39 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "window",
       "prefix": "The room was stuffy, so he opened the",
       "options": [
         {
-          "text": " window",
-          "probability": 0.034425
-        },
-        {
-          "text": " drawer",
-          "probability": 0.030855
-        },
-        {
           "text": " book",
-          "probability": 0.012651
+          "probability": 0.236304,
+          "whole": 0.01265
         },
         {
-          "text": " door",
-          "probability": 0.54561
+          "text": " window",
+          "probability": 0.643002,
+          "whole": 0.03442
+        },
+        {
+          "text": " oven",
+          "probability": 0.00941,
+          "whole": 0.0005038
+        },
+        {
+          "text": " fridge",
+          "probability": 0.111285,
+          "whole": 0.005958
         }
       ],
-      "truth": 0,
-      "modelPick": 3,
+      "truth": 1,
+      "modelPick": 1,
       "answerRank": 1,
-      "trapped": true,
+      "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "guitar",
@@ -443,19 +471,23 @@
       "options": [
         {
           "text": " play",
-          "probability": 0.355645
+          "probability": 0.99229,
+          "whole": 0.3556
         },
         {
-          "text": " write",
-          "probability": 0.025899
+          "text": " swim",
+          "probability": 0.000016,
+          "whole": 0.000005675
         },
         {
-          "text": " work",
-          "probability": 0.038613
+          "text": " read",
+          "probability": 0.007581,
+          "whole": 0.002717
         },
         {
-          "text": " sing",
-          "probability": 0.083303
+          "text": " cook",
+          "probability": 0.000113,
+          "whole": 0.0000404
         }
       ],
       "truth": 0,
@@ -463,119 +495,103 @@
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "monday",
       "prefix": "The day after Sunday is",
       "options": [
         {
-          "text": " celebrated",
-          "probability": 0.0255
-        },
-        {
           "text": " Monday",
-          "probability": 0.001193
+          "probability": 0.224935,
+          "whole": 0.001193
         },
         {
-          "text": " over",
-          "probability": 0.03502
+          "text": " Friday",
+          "probability": 0.350549,
+          "whole": 0.001859
         },
         {
-          "text": " the",
-          "probability": 0.1432
+          "text": " Saturday",
+          "probability": 0.255902,
+          "whole": 0.001357
+        },
+        {
+          "text": " Tuesday",
+          "probability": 0.168614,
+          "whole": 0.0008942
         }
       ],
-      "truth": 1,
-      "modelPick": 3,
+      "truth": 0,
+      "modelPick": 1,
       "answerRank": 97,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "winter",
       "prefix": "The coldest season of the year is",
       "options": [
         {
+          "text": " autumn",
+          "probability": 0.0703,
+          "whole": 0.000061
+        },
+        {
           "text": " winter",
-          "probability": 0.000174
+          "probability": 0.200446,
+          "whole": 0.0001739
         },
         {
-          "text": " the",
-          "probability": 0.055934
+          "text": " spring",
+          "probability": 0.507966,
+          "whole": 0.0004408
         },
         {
-          "text": " coming",
-          "probability": 0.087933
-        },
-        {
-          "text": " now",
-          "probability": 0.093736
+          "text": " summer",
+          "probability": 0.221288,
+          "whole": 0.000192
         }
       ],
-      "truth": 0,
-      "modelPick": 3,
+      "truth": 1,
+      "modelPick": 2,
       "answerRank": 416,
       "trapped": true,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "salt",
       "prefix": "The soup was bland, so she added a little",
       "options": [
         {
-          "text": " bit",
-          "probability": 0.052452
-        },
-        {
-          "text": " more",
-          "probability": 0.036759
-        },
-        {
           "text": " salt",
-          "probability": 0.109374
+          "probability": 0.823375,
+          "whole": 0.1094
         },
         {
-          "text": " extra",
-          "probability": 0.070663
+          "text": " flour",
+          "probability": 0.057658,
+          "whole": 0.007659
+        },
+        {
+          "text": " water",
+          "probability": 0.094966,
+          "whole": 0.01261
+        },
+        {
+          "text": " ice",
+          "probability": 0.024002,
+          "whole": 0.003188
         }
       ],
-      "truth": 2,
-      "modelPick": 2,
+      "truth": 0,
+      "modelPick": 0,
       "answerRank": 0,
       "trapped": false,
       "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
-    },
-    {
-      "id": "bicycle",
-      "prefix": "He was late, so he rode to school on his",
-      "options": [
-        {
-          "text": " motorcycle",
-          "probability": 0.072435
-        },
-        {
-          "text": " bike",
-          "probability": 0.141396
-        },
-        {
-          "text": " bicycle",
-          "probability": 0.084567
-        },
-        {
-          "text": " own",
-          "probability": 0.21138
-        }
-      ],
-      "truth": 2,
-      "modelPick": 3,
-      "answerRank": 2,
-      "trapped": true,
-      "kind": "phrase",
-      "because": "The right answer is the ordinary completion of an extremely common phrase, which is exactly the territory where a next-word predictor is strong."
+      "because": "The four options were written by hand. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "alice-0",
@@ -588,7 +604,7 @@
         },
         {
           "text": " gloves",
-          "probability": 7e-06
+          "probability": 0.000007
         },
         {
           "text": " found",
@@ -611,7 +627,7 @@
       "options": [
         {
           "text": " hastily",
-          "probability": 3.8e-05
+          "probability": 0.000038
         },
         {
           "text": " and",
@@ -638,7 +654,7 @@
       "options": [
         {
           "text": " round",
-          "probability": 8e-05
+          "probability": 0.00008
         },
         {
           "text": " that",
@@ -669,7 +685,7 @@
         },
         {
           "text": " dance",
-          "probability": 8.9e-05
+          "probability": 0.000089
         },
         {
           "text": " war",
@@ -1663,53 +1679,61 @@
       "options": [
         {
           "text": " France",
-          "probability": 0.016561
+          "probability": 0.453763,
+          "whole": 0.01656
         },
         {
-          "text": " New",
-          "probability": 0.013568
+          "text": " Germany",
+          "probability": 0.214833,
+          "whole": 0.007841
         },
         {
-          "text": " Europe",
-          "probability": 0.012524
+          "text": " Spain",
+          "probability": 0.20274,
+          "whole": 0.0074
         },
         {
-          "text": " the",
-          "probability": 0.300763
+          "text": " Italy",
+          "probability": 0.128665,
+          "whole": 0.004696
         }
       ],
       "truth": 0,
-      "modelPick": 3,
+      "modelPick": 0,
       "answerRank": 2,
-      "trapped": true,
+      "trapped": false,
       "kind": "fact",
       "fact": "Paris is the capital of France.",
       "citation": {
         "title": "Paris",
         "url": "https://en.wikipedia.org/wiki/Paris",
-        "revision": 1368891486
+        "revision": 1383016039
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "everest",
       "prefix": "The highest mountain in the world is Mount",
       "options": [
         {
-          "text": " Sharp",
-          "probability": 0.016114
+          "text": " Olympus",
+          "probability": 0.033824,
+          "whole": 0.01112
         },
         {
           "text": " Everest",
-          "probability": 0.259126
+          "probability": 0.788211,
+          "whole": 0.2591
         },
         {
-          "text": " Olympus",
-          "probability": 0.01112
+          "text": " Kilimanjaro",
+          "probability": 0.031349,
+          "whole": 0.01031
         },
         {
           "text": " Fuji",
-          "probability": 0.0482
+          "probability": 0.146616,
+          "whole": 0.0482
         }
       ],
       "truth": 1,
@@ -1721,237 +1745,282 @@
       "citation": {
         "title": "Mount Everest",
         "url": "https://en.wikipedia.org/wiki/Mount%20Everest",
-        "revision": 1368685860
+        "revision": 1383109425
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "planet",
       "prefix": "The largest planet in the solar system is",
       "options": [
         {
-          "text": " located",
-          "probability": 0.078553
+          "text": " Earth",
+          "probability": 0.301359,
+          "whole": 0.01262
         },
         {
           "text": " Jupiter",
-          "probability": 0.013292
+          "probability": 0.317341,
+          "whole": 0.01329
         },
         {
-          "text": " about",
-          "probability": 0.033327
+          "text": " Neptune",
+          "probability": 0.155871,
+          "whole": 0.006529
         },
         {
-          "text": " the",
-          "probability": 0.09258
+          "text": " Saturn",
+          "probability": 0.225429,
+          "whole": 0.009442
         }
       ],
       "truth": 1,
-      "modelPick": 3,
+      "modelPick": 1,
       "answerRank": 8,
-      "trapped": true,
+      "trapped": false,
       "kind": "fact",
       "fact": "Jupiter is the largest planet in the Solar System.",
       "citation": {
         "title": "Jupiter",
         "url": "https://en.wikipedia.org/wiki/Jupiter",
-        "revision": 1368844148
+        "revision": 1380352046
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "moon",
-      "prefix": "The first person to walk on the Moon was Neil",
+      "prefix": "The first person to walk on the Moon was",
       "options": [
         {
-          "text": " Armstrong",
-          "probability": 0.956578
+          "text": " Neil Armstrong",
+          "probability": 0.759292,
+          "whole": 0.003756
         },
         {
-          "text": " Mitchell",
-          "probability": 0.000233
+          "text": " John Glenn",
+          "probability": 0.01766,
+          "whole": 0.00008737
         },
         {
-          "text": " Gorsuch",
-          "probability": 0.000264
+          "text": " Yuri Gagarin",
+          "probability": 0.163606,
+          "whole": 0.0008094
         },
         {
-          "text": " Young",
-          "probability": 0.001659
+          "text": " Buzz Aldrin",
+          "probability": 0.059442,
+          "whole": 0.0002941
         }
       ],
       "truth": 0,
       "modelPick": 0,
-      "answerRank": 0,
+      "answerRank": 14,
       "trapped": false,
+      "truthChunks": [
+        " Neil",
+        " Armstrong"
+      ],
       "kind": "fact",
       "fact": "Neil Armstrong was the first person to walk on the Moon, in July 1969.",
       "citation": {
         "title": "Neil Armstrong",
         "url": "https://en.wikipedia.org/wiki/Neil%20Armstrong",
-        "revision": 1367800795
+        "revision": 1381325153
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "boil",
-      "prefix": "At sea level, water boils at one hundred degrees",
+      "prefix": "At sea level, water boils at",
       "options": [
         {
-          "text": " above",
-          "probability": 0.027668
+          "text": " 200 degrees Celsius",
+          "probability": 0.089508,
+          "whole": 0.00004865
         },
         {
-          "text": " Celsius",
-          "probability": 0.130853
+          "text": " 100 degrees Celsius",
+          "probability": 0.228188,
+          "whole": 0.000124
         },
         {
-          "text": " and",
-          "probability": 0.053685
+          "text": " 50 degrees Celsius",
+          "probability": 0.30569,
+          "whole": 0.0001662
         },
         {
-          "text": " Fahrenheit",
-          "probability": 0.263045
+          "text": " 100 degrees Fahrenheit",
+          "probability": 0.376614,
+          "whole": 0.0002047
         }
       ],
       "truth": 1,
       "modelPick": 3,
-      "answerRank": 2,
+      "answerRank": 12,
       "trapped": true,
+      "truthChunks": [
+        " 100",
+        " degrees",
+        " Celsius"
+      ],
       "kind": "fact",
       "fact": "Water boils at 100 degrees Celsius at standard atmospheric pressure.",
       "citation": {
         "title": "Boiling point",
         "url": "https://en.wikipedia.org/wiki/Boiling%20point",
-        "revision": 1362065820
+        "revision": 1380069909
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "author",
-      "prefix": "Alice's Adventures in Wonderland was written by Lewis",
+      "prefix": "Alice's Adventures in Wonderland was written by",
       "options": [
         {
-          "text": " Powell",
-          "probability": 0.008208
+          "text": " Jane Austen",
+          "probability": 0.16199,
+          "whole": 0.00007764
         },
         {
-          "text": " Carroll",
-          "probability": 0.223981
+          "text": " Lewis Carroll",
+          "probability": 0.225415,
+          "whole": 0.000108
         },
         {
-          "text": " and",
-          "probability": 0.029455
+          "text": " Roald Dahl",
+          "probability": 0.218737,
+          "whole": 0.0001048
         },
         {
-          "text": " Hamilton",
-          "probability": 0.0731
+          "text": " Charles Dickens",
+          "probability": 0.393859,
+          "whole": 0.0001888
         }
       ],
       "truth": 1,
-      "modelPick": 1,
-      "answerRank": 0,
-      "trapped": false,
+      "modelPick": 3,
+      "answerRank": 348,
+      "trapped": true,
+      "truthChunks": [
+        " Lewis",
+        " Carroll"
+      ],
       "kind": "fact",
       "fact": "Alice's Adventures in Wonderland was written by Lewis Carroll.",
       "citation": {
         "title": "Alice's Adventures in Wonderland",
         "url": "https://en.wikipedia.org/wiki/Alice's%20Adventures%20in%20Wonderland",
-        "revision": 1367224539
+        "revision": 1382119286
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "delhi",
-      "prefix": "The capital of India is New",
+      "prefix": "The capital of India is",
       "options": [
         {
-          "text": " Year",
-          "probability": 0.00233
+          "text": " Kolkata",
+          "probability": 0.02342,
+          "whole": 0.0001018
         },
         {
-          "text": " Zealand",
-          "probability": 0.002019
+          "text": " Bangalore",
+          "probability": 0.175243,
+          "whole": 0.0007621
         },
         {
-          "text": " Delhi",
-          "probability": 0.932264
+          "text": " New Delhi",
+          "probability": 0.050243,
+          "whole": 0.0002185
         },
         {
-          "text": " York",
-          "probability": 0.057105
+          "text": " Mumbai",
+          "probability": 0.751094,
+          "whole": 0.003266
         }
       ],
       "truth": 2,
-      "modelPick": 2,
-      "answerRank": 0,
-      "trapped": false,
+      "modelPick": 3,
+      "answerRank": 349,
+      "trapped": true,
+      "truthChunks": [
+        " New",
+        " Delhi"
+      ],
       "kind": "fact",
       "fact": "New Delhi is the capital of India.",
       "citation": {
         "title": "New Delhi",
         "url": "https://en.wikipedia.org/wiki/New%20Delhi",
-        "revision": 1369152775
+        "revision": 1382426275
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "tokyo",
       "prefix": "The capital of Japan is",
       "options": [
         {
-          "text": " home",
-          "probability": 0.079973
+          "text": " Osaka",
+          "probability": 0.166034,
+          "whole": 0.003439
         },
         {
-          "text": " now",
-          "probability": 0.07893
+          "text": " Hiroshima",
+          "probability": 0.009096,
+          "whole": 0.0001884
         },
         {
           "text": " Tokyo",
-          "probability": 0.016997
+          "probability": 0.820536,
+          "whole": 0.017
         },
         {
-          "text": " the",
-          "probability": 0.132249
+          "text": " Kyoto",
+          "probability": 0.004333,
+          "whole": 0.00008977
         }
       ],
       "truth": 2,
-      "modelPick": 3,
+      "modelPick": 2,
       "answerRank": 8,
-      "trapped": true,
+      "trapped": false,
       "kind": "fact",
       "fact": "Tokyo is the capital of Japan.",
       "citation": {
         "title": "Tokyo",
         "url": "https://en.wikipedia.org/wiki/Tokyo",
-        "revision": 1368962773
+        "revision": 1382193196
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "canberra",
       "prefix": "The capital of Australia is",
       "options": [
         {
-          "text": " now",
-          "probability": 0.058552
+          "text": " Perth",
+          "probability": 0.052242,
+          "whole": 0.0003162
         },
         {
-          "text": " home",
-          "probability": 0.076749
+          "text": " Melbourne",
+          "probability": 0.383097,
+          "whole": 0.002319
         },
         {
           "text": " Canberra",
-          "probability": 0.001179
+          "probability": 0.194857,
+          "whole": 0.001179
         },
         {
-          "text": " the",
-          "probability": 0.125496
+          "text": " Sydney",
+          "probability": 0.369805,
+          "whole": 0.002238
         }
       ],
       "truth": 2,
-      "modelPick": 3,
+      "modelPick": 1,
       "answerRank": 86,
       "trapped": true,
       "kind": "fact",
@@ -1959,34 +2028,37 @@
       "citation": {
         "title": "Canberra",
         "url": "https://en.wikipedia.org/wiki/Canberra",
-        "revision": 1368614683
+        "revision": 1382572761
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "brasilia",
       "prefix": "The capital of Brazil is",
       "options": [
         {
-          "text": " home",
-          "probability": 0.063467
+          "text": " São Paulo",
+          "probability": 0.598891,
+          "whole": 0.001005
         },
         {
-          "text": " now",
-          "probability": 0.058196
+          "text": " Salvador",
+          "probability": 0.00972,
+          "whole": 0.00001631
         },
         {
-          "text": " Bras",
-          "probability": 0.000617,
-          "label": " Brasília"
+          "text": " Brasília",
+          "probability": 0.018803,
+          "whole": 0.00003155
         },
         {
-          "text": " the",
-          "probability": 0.132762
+          "text": " Rio de Janeiro",
+          "probability": 0.372586,
+          "whole": 0.0006251
         }
       ],
       "truth": 2,
-      "modelPick": 3,
+      "modelPick": 0,
       "answerRank": 158,
       "trapped": true,
       "truthChunks": [
@@ -1999,9 +2071,9 @@
       "citation": {
         "title": "Brasília",
         "url": "https://en.wikipedia.org/wiki/Bras%C3%ADlia",
-        "revision": 1369085772
+        "revision": 1382943214
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "ottawa",
@@ -2009,19 +2081,23 @@
       "options": [
         {
           "text": " Ottawa",
-          "probability": 0.001057
+          "probability": 0.134705,
+          "whole": 0.001057
         },
         {
-          "text": " home",
-          "probability": 0.092823
+          "text": " Vancouver",
+          "probability": 0.3817,
+          "whole": 0.002994
         },
         {
-          "text": " now",
-          "probability": 0.052492
+          "text": " Montreal",
+          "probability": 0.100998,
+          "whole": 0.0007922
         },
         {
-          "text": " the",
-          "probability": 0.108502
+          "text": " Toronto",
+          "probability": 0.382597,
+          "whole": 0.003001
         }
       ],
       "truth": 0,
@@ -2033,29 +2109,33 @@
       "citation": {
         "title": "Ottawa",
         "url": "https://en.wikipedia.org/wiki/Ottawa",
-        "revision": 1369024609
+        "revision": 1382359088
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "nile",
       "prefix": "The longest river in Africa is the",
       "options": [
         {
-          "text": " Cape",
-          "probability": 0.011065
+          "text": " Niger",
+          "probability": 0.228215,
+          "whole": 0.005237
         },
         {
           "text": " Nile",
-          "probability": 0.013048
+          "probability": 0.568558,
+          "whole": 0.01305
         },
         {
-          "text": " Red",
-          "probability": 0.010633
+          "text": " Zambezi",
+          "probability": 0.020134,
+          "whole": 0.0004621
         },
         {
-          "text": " Black",
-          "probability": 0.011542
+          "text": " Congo",
+          "probability": 0.183093,
+          "whole": 0.004202
         }
       ],
       "truth": 1,
@@ -2069,7 +2149,7 @@
         "url": "https://en.wikipedia.org/wiki/Nile",
         "revision": 1368885921
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "ocean",
@@ -2077,101 +2157,121 @@
       "options": [
         {
           "text": " Pacific",
-          "probability": 0.040923
+          "probability": 0.666228,
+          "whole": 0.04092
         },
         {
-          "text": " deepest",
-          "probability": 0.027355
+          "text": " Indian",
+          "probability": 0.066597,
+          "whole": 0.004091
         },
         {
-          "text": " Great",
-          "probability": 0.022344
+          "text": " Arctic",
+          "probability": 0.045343,
+          "whole": 0.002785
         },
         {
-          "text": " largest",
-          "probability": 0.055803
+          "text": " Atlantic",
+          "probability": 0.221833,
+          "whole": 0.01363
         }
       ],
       "truth": 0,
-      "modelPick": 3,
+      "modelPick": 0,
       "answerRank": 1,
-      "trapped": true,
+      "trapped": false,
       "kind": "fact",
       "fact": "The Pacific is the largest and deepest of Earth's oceans.",
       "citation": {
         "title": "Pacific Ocean",
         "url": "https://en.wikipedia.org/wiki/Pacific%20Ocean",
-        "revision": 1368439192
+        "revision": 1382930605
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "relativity",
-      "prefix": "The theory of general relativity was published by Albert",
+      "prefix": "The theory of general relativity was published by",
       "options": [
         {
-          "text": " Einstein",
-          "probability": 0.934275
+          "text": " Albert Einstein",
+          "probability": 0.727571,
+          "whole": 0.01202
         },
         {
-          "text": " von",
-          "probability": 0.00044
+          "text": " Niels Bohr",
+          "probability": 0.062268,
+          "whole": 0.001028
         },
         {
-          "text": " Hall",
-          "probability": 0.000381
+          "text": " Stephen Hawking",
+          "probability": 0.062465,
+          "whole": 0.001032
         },
         {
-          "text": " Newton",
-          "probability": 0.000667
+          "text": " Isaac Newton",
+          "probability": 0.147696,
+          "whole": 0.002439
         }
       ],
       "truth": 0,
       "modelPick": 0,
-      "answerRank": 0,
+      "answerRank": 4,
       "trapped": false,
+      "truthChunks": [
+        " Albert",
+        " Einstein"
+      ],
       "kind": "fact",
       "fact": "Albert Einstein published the general theory of relativity in 1915.",
       "citation": {
         "title": "General relativity",
         "url": "https://en.wikipedia.org/wiki/General%20relativity",
-        "revision": 1368949773
+        "revision": 1382597885
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "penicillin",
-      "prefix": "Penicillin was discovered by Alexander",
+      "prefix": "Penicillin was discovered by",
       "options": [
         {
-          "text": " Hamilton",
-          "probability": 0.004081
+          "text": " Edward Jenner",
+          "probability": 0.10622,
+          "whole": 3.101e-7
         },
         {
-          "text": " Fleming",
-          "probability": 0.002193
+          "text": " Alexander Fleming",
+          "probability": 0.144045,
+          "whole": 4.206e-7
         },
         {
-          "text": " the",
-          "probability": 0.005562
+          "text": " Marie Curie",
+          "probability": 0.395046,
+          "whole": 0.000001153
         },
         {
-          "text": " and",
-          "probability": 0.006636
+          "text": " Louis Pasteur",
+          "probability": 0.354689,
+          "whole": 0.000001036
         }
       ],
       "truth": 1,
-      "modelPick": 3,
-      "answerRank": 52,
+      "modelPick": 2,
+      "answerRank": 482,
       "trapped": true,
+      "truthChunks": [
+        " Alexander",
+        " Fleming"
+      ],
       "kind": "fact",
       "fact": "Alexander Fleming discovered penicillin in 1928.",
       "citation": {
         "title": "Alexander Fleming",
         "url": "https://en.wikipedia.org/wiki/Alexander%20Fleming",
-        "revision": 1368641358
+        "revision": 1375868973
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "gravity",
@@ -2179,58 +2279,65 @@
       "options": [
         {
           "text": " gravity",
-          "probability": 0.000293
+          "probability": 0.90877,
+          "whole": 0.000293
         },
         {
-          "text": " not",
-          "probability": 0.02855
+          "text": " electricity",
+          "probability": 0.031866,
+          "whole": 0.00001027
         },
         {
-          "text": " called",
-          "probability": 0.03826
+          "text": " friction",
+          "probability": 0.053616,
+          "whole": 0.00001729
         },
         {
-          "text": " the",
-          "probability": 0.08555
+          "text": " magnetism",
+          "probability": 0.005749,
+          "whole": 0.000001854
         }
       ],
       "truth": 0,
-      "modelPick": 3,
+      "modelPick": 0,
       "answerRank": 425,
-      "trapped": true,
+      "trapped": false,
       "kind": "fact",
       "fact": "Gravity holds the planets in orbit around the Sun.",
       "citation": {
         "title": "Gravity",
         "url": "https://en.wikipedia.org/wiki/Gravity",
-        "revision": 1366779324
+        "revision": 1382394920
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "photosynthesis",
       "prefix": "Plants make their own food by a process called",
       "options": [
         {
-          "text": " photos",
-          "probability": 0.000211,
-          "label": " photosynthesis"
+          "text": " photosynthesis",
+          "probability": 0.016581,
+          "whole": 0.0002057
+        },
+        {
+          "text": " respiration",
+          "probability": 0.033588,
+          "whole": 0.0004167
         },
         {
           "text": " fermentation",
-          "probability": 0.008944
+          "probability": 0.720918,
+          "whole": 0.008944
         },
         {
-          "text": " chemical",
-          "probability": 0.013924
-        },
-        {
-          "text": " the",
-          "probability": 0.0155
+          "text": " digestion",
+          "probability": 0.228913,
+          "whole": 0.00284
         }
       ],
       "truth": 0,
-      "modelPick": 3,
+      "modelPick": 2,
       "answerRank": 810,
       "trapped": true,
       "truthChunks": [
@@ -2242,29 +2349,33 @@
       "citation": {
         "title": "Photosynthesis",
         "url": "https://en.wikipedia.org/wiki/Photosynthesis",
-        "revision": 1368470526
+        "revision": 1379238357
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     },
     {
       "id": "sun",
       "prefix": "The star at the centre of our solar system is called the",
       "options": [
         {
-          "text": " Milky",
-          "probability": 0.009194
+          "text": " Milky Way",
+          "probability": 0.103628,
+          "whole": 0.009193
         },
         {
-          "text": " Red",
-          "probability": 0.010064
+          "text": " North Star",
+          "probability": 0.001909,
+          "whole": 0.0001693
         },
         {
           "text": " Sun",
-          "probability": 0.073366
+          "probability": 0.827037,
+          "whole": 0.07337
         },
         {
-          "text": " Solar",
-          "probability": 0.020601
+          "text": " Moon",
+          "probability": 0.067426,
+          "whole": 0.005981
         }
       ],
       "truth": 2,
@@ -2276,9 +2387,9 @@
       "citation": {
         "title": "Sun",
         "url": "https://en.wikipedia.org/wiki/Sun",
-        "revision": 1368039424
+        "revision": 1382445123
       },
-      "because": "The right answer is a checkable fact, cited below. The other three are the model's own likeliest continuations."
+      "because": "The four options were written by hand and the right one is checked against the source below. Each bar is the AI's own measured preference for that whole answer, out of these four."
     }
   ]
 }

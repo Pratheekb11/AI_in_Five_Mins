@@ -41,6 +41,28 @@ Output should be byte-identical to what is committed, every script that samples 
 
 ---
 
+## `public/data/predictor.json`
+
+**Script:** `data/scripts/build-predictor.mjs`
+**Generated:** 1 November 2026
+**Used by:** Chapter 1, What an LLM actually is (Beat the Predictor, the "How it answers you" animation), and the home page
+
+| | |
+|---|---|
+| Model | [DistilGPT-2](https://huggingface.co/distilbert/distilgpt2) via `@huggingface/transformers` (`Xenova/distilgpt2`, fp32) |
+| Licence | Apache 2.0 |
+| Facts checked against | Wikipedia, one named article per fact, revision id recorded in the file |
+
+**Hand-written:** the phrase and fact prompts and their four options each, right one first, listed in the script. Wrong options are chosen so none is also a defensible answer.
+
+**What is computed:** for every option, the probability of the model producing that whole answer after the prompt, teacher-forced and multiplied over every token it takes to write. The board prints each option's share of the four; the model's pick is the highest. An earlier version offered the model's own top next tokens instead, which put "the", "and", "home" and "now" on screen as answers and counted "the" as a factual error. Of eleven such "errors", one was real.
+
+**Findings the chapter uses:** 8 of 18 facts it picks a wrong answer, among them India's capital (Mumbai 75%, New Delhi 5% of the four), Brazil's (Sao Paulo 60%), Canada's (Toronto 38%) and who wrote Alice (Charles Dickens 39%). 10 of 18 it gets right, Paris 45%, Neil Armstrong 76%.
+
+The book (corpus) rounds are measured as before and are no longer dealt in the game.
+
+---
+
 ## `public/data/token-examples.json`
 
 **Script:** `data/scripts/build-token-examples.mjs`

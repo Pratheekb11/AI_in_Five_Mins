@@ -23,47 +23,64 @@ const data: PredictorData = JSON.parse(
 
 const rolls = Array.from({ length: 120 }, (_, i) => ((i * 37) % 100) / 100);
 
-/** A word, once the leading space is gone. Not " Bre", not " Sch". */
-const WORD = /^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'-]*$/;
+/** A complete answer: a word, a name or a short phrase. Not " Bre". */
+const ANSWER = /^[A-Za-zÀ-ÿ0-9][A-Za-zÀ-ÿ0-9' -]*$/;
+
+/** What the old builder put on screen as answers. None is an answer. */
+const FILLER = new Set([
+  "the",
+  "a",
+  "an",
+  "and",
+  "now",
+  "home",
+  "located",
+  "about",
+  "called",
+  "not",
+]);
+
+const handWritten = data.rounds.filter((r) => r.kind !== "corpus");
 
 describe("the rounds on offer", () => {
-  it("prints a word for every option", () => {
+  it("prints a complete answer for every option", () => {
     for (const round of data.rounds) {
       for (const option of round.options) {
         const shown = (option.label ?? option.text).trim();
-        expect(WORD.test(shown), `${round.id} offers "${shown}"`).toBe(true);
+        expect(ANSWER.test(shown), `${round.id} offers "${shown}"`).toBe(true);
       }
     }
   });
 
-  it("keeps the label honest: it starts with the token that was measured", () => {
-    for (const round of data.rounds) {
-      const truth = round.options[round.truth];
-      if (!truth.label) {
-        expect(round.truthChunks).toBeUndefined();
-        continue;
+  it("never offers a filler word as an answer to a phrase or a fact", () => {
+    for (const round of handWritten) {
+      for (const option of round.options) {
+        expect(FILLER.has(option.text.trim().toLowerCase()), round.id).toBe(
+          false,
+        );
       }
-      // The number belongs to the first chunk, so the word has to start there.
-      expect(truth.label.startsWith(truth.text)).toBe(true);
-      expect(round.truthChunks?.[0]).toBe(truth.text);
-      expect(round.truthChunks!.join("")).toBe(truth.label);
-      expect(round.truthChunks!.length).toBeGreaterThan(1);
     }
   });
 
-  it("still has the two words this model cannot write in one token", () => {
-    const labelled = data.rounds.filter((r) => r.truthChunks);
-    expect(labelled.map((r) => r.id).sort()).toEqual([
-      "brasilia",
-      "photosynthesis",
-    ]);
-    const plants = data.rounds.find((r) => r.id === "photosynthesis")!;
-    expect(plants.options[plants.truth].label?.trim()).toBe("photosynthesis");
-    // Measured, and the reason the round is worth playing at all.
-    expect(plants.answerRank).toBe(810);
+  it("picks for the AI whichever option it rated highest", () => {
+    for (const round of handWritten) {
+      const best = Math.max(...round.options.map((o) => o.probability));
+      expect(round.options[round.modelPick].probability, round.id).toBe(best);
+      const sum = round.options.reduce((t, o) => t + o.probability, 0);
+      expect(sum, round.id).toBeCloseTo(1, 3);
+    }
   });
 
-  it("never offers the same word twice in one round", () => {
+  it("still has facts the AI gets wrong, and facts it gets right", () => {
+    const facts = data.rounds.filter((r) => r.kind === "fact");
+    expect(facts.filter((r) => r.trapped).length).toBeGreaterThanOrEqual(5);
+    expect(facts.filter((r) => !r.trapped).length).toBeGreaterThanOrEqual(5);
+    // Measured, and the round the chapter is remembered by.
+    const india = facts.find((r) => r.id === "delhi")!;
+    expect(india.options[india.modelPick].text.trim()).toBe("Mumbai");
+  });
+
+  it("never offers the same answer twice in one round", () => {
     for (const round of data.rounds) {
       const shown = round.options.map((o) =>
         (o.label ?? o.text).trim().toLowerCase(),
@@ -86,15 +103,16 @@ describe("a dealt set", () => {
     }
   });
 
-  it("deals one phrase, one book sentence and two facts", () => {
+  it("deals one phrase the AI gets right, then three facts", () => {
     const rounds = deal(data, rolls);
     expect(rounds).toHaveLength(ROUND_SIZE);
     expect(rounds.map((r) => r.kind)).toEqual([
       "phrase",
-      "corpus",
+      "fact",
       "fact",
       "fact",
     ]);
+    expect(rounds[0].trapped).toBe(false);
   });
 
   it("scores a pick against the true word, not the model's", () => {

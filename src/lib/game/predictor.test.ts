@@ -31,10 +31,7 @@ describe("the rounds on offer", () => {
     for (const round of data.rounds) {
       for (const option of round.options) {
         const shown = (option.label ?? option.text).trim();
-        expect(
-          WORD.test(shown),
-          `${round.id} offers "${shown}"`,
-        ).toBe(true);
+        expect(WORD.test(shown), `${round.id} offers "${shown}"`).toBe(true);
       }
     }
   });
@@ -77,6 +74,18 @@ describe("the rounds on offer", () => {
 });
 
 describe("a dealt set", () => {
+  it("always ends on a fact the model gets confidently wrong", () => {
+    for (let seed = 0; seed < 200; seed++) {
+      const r = Array.from(
+        { length: 120 },
+        (_, i) => ((seed * 7919 + i * 104729) % 1000) / 1000,
+      );
+      const rounds = deal(data, r);
+      expect(rounds.at(-1)?.kind).toBe("fact");
+      expect(rounds.at(-1)?.trapped).toBe(true);
+    }
+  });
+
   it("deals one phrase, one book sentence and two facts", () => {
     const rounds = deal(data, rolls);
     expect(rounds).toHaveLength(ROUND_SIZE);

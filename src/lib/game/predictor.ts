@@ -149,10 +149,20 @@ export function deal(data: PredictorData, rolls: number[]): PredictorRound[] {
       rolls.slice(offset),
     ).slice(0, n);
 
+  /* The fact act is the argument, so its last round is always one where the
+     model is confidently wrong. Seven of the eighteen facts it gets right,
+     and dealing two at random left about one player in seven never seeing
+     it miss. The others stay random, so it still gets some right. */
+  const facts = take("fact", Infinity, 80);
+  const trap = facts.find((r) => r.trapped);
+  const fact = trap
+    ? [...facts.filter((r) => r !== trap).slice(0, ACT_SIZE.fact - 1), trap]
+    : facts.slice(0, ACT_SIZE.fact);
+
   return [
     ...take("phrase", ACT_SIZE.phrase, 0),
     ...take("corpus", ACT_SIZE.corpus, 40),
-    ...take("fact", ACT_SIZE.fact, 80),
+    ...fact,
   ];
 }
 

@@ -184,7 +184,7 @@ export function GradientHill() {
                 setRate(Number(e.target.value));
                 setDiverged(false);
               }}
-              className="border-ink/40 bg-paper-sunk mt-2 block rounded-[2px] border px-3 py-2.5 text-sm"
+              className="border-ink/40 bg-paper-sunk mt-2 block rounded-[2px] border px-3 py-2.5 text-base sm:text-sm"
             >
               {LEARNING_RATES.map((r) => (
                 <option key={r.value} value={r.value}>

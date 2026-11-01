@@ -212,7 +212,10 @@ export function StageAdvance({ label }: { label?: string }) {
       data-stage-next=""
       className="plate misreg btn-primary font-display inline-flex min-w-0 items-center gap-2 px-4 py-2.5 font-bold"
     >
-      <span className="truncate">{label ?? "Next"}</span>
+      {/* Wraps to a second line rather than truncating: on a 320px phone the
+          rail leaves this button about 170px, and "What the dice are" cut to
+          "What the dic…" is a label nobody can read. */}
+      <span className="leading-tight text-balance">{label ?? "Next"}</span>
       <svg
         width="16"
         height="14"
@@ -252,17 +255,19 @@ function StageRail({
 
   return (
     <div className="border-ink/25 bg-paper-sunk sticky bottom-0 border-t">
-      <div className="mx-auto flex w-full max-w-5xl items-center gap-3 px-5 py-2.5">
+      <div className="mx-auto flex w-full max-w-5xl items-center gap-2 px-5 py-2.5 sm:gap-3">
         <button
           type="button"
           onClick={onBack}
           data-stage-back=""
-          className="tap label text-ink-faint shrink-0 rounded-[2px] px-3 py-2.5"
+          className="tap label text-ink-faint shrink-0 rounded-[2px] px-2 py-2.5 sm:px-3"
         >
           &larr; Back
         </button>
 
-        <span className="flex min-w-0 flex-1 gap-1" aria-hidden="true">
+        {/* A floor on the width, or a long label on a narrow phone squeezes
+            the whole progress bar to nothing. */}
+        <span className="flex min-w-6 flex-1 gap-1" aria-hidden="true">
           {beats.map((beat, i) => (
             <button
               key={beat.id}

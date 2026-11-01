@@ -178,7 +178,7 @@ export function BucketSort() {
               onChange={(e) => setDraft(e.target.value)}
               placeholder="Something you actually did this week"
               maxLength={64}
-              className="border-ink/30 bg-paper-sunk focus:border-ink min-w-[16rem] flex-1 rounded-[2px] border px-3 py-2 text-[0.9375rem] outline-none"
+              className="border-ink/30 bg-paper-sunk focus:border-ink min-w-0 flex-1 basis-64 rounded-[2px] border px-3 py-2 text-base outline-none sm:text-[0.9375rem]"
             />
             <button
               type="submit"

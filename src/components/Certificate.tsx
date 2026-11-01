@@ -183,7 +183,7 @@ export function Certificate({ spec }: { spec: CertificateSpec }) {
               onChange={(event) => setDraft(event.target.value)}
               maxLength={NAME_LIMIT}
               placeholder="Your name"
-              className="border-ink/30 bg-paper-raised focus:border-ink w-full rounded-[2px] border px-3 py-2 text-[0.9375rem] outline-none"
+              className="border-ink/30 bg-paper-raised focus:border-ink w-full rounded-[2px] border px-3 py-2 text-base outline-none sm:text-[0.9375rem]"
             />
           </label>
           <button

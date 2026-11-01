@@ -83,7 +83,7 @@ export function PromptInspector() {
         onChange={(e) => setText(e.target.value)}
         rows={3}
         spellCheck={false}
-        className="border-ink/40 bg-yellow-wash focus:border-ink mt-2 w-full resize-y rounded-[2px] border px-3 py-2 text-[0.9375rem] outline-none sm:py-2.5 sm:text-base"
+        className="border-ink/40 bg-yellow-wash focus:border-ink mt-2 w-full resize-y rounded-[2px] border px-3 py-2 text-base outline-none sm:py-2.5"
       />
 
       <div className="mt-2 flex flex-wrap items-center gap-2">

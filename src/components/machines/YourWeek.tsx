@@ -41,7 +41,7 @@ export function YourWeek() {
             onChange={(e) => setText(e.target.value)}
             placeholder="Write the Monday status note"
             disabled={full}
-            className="border-ink/30 bg-paper focus-visible:outline-ink w-full rounded-[2px] border px-3 py-2.5 text-[0.9375rem] outline-none focus-visible:outline-2 disabled:opacity-40"
+            className="border-ink/30 bg-paper focus-visible:outline-ink w-full rounded-[2px] border px-3 py-2.5 text-base outline-none sm:text-[0.9375rem] focus-visible:outline-2 disabled:opacity-40"
           />
         </label>
 

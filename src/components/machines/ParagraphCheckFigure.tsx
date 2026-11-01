@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useWalkthroughStep } from "@/components/lesson/Walkthrough";
 import {
   puzzleForDay,
@@ -144,23 +144,26 @@ export function ParagraphCheckFigure() {
             if (piece.kind === "words") return `${piece.text} `;
             const { span } = piece;
             const done = isFixed(span);
+            // The trailing space matters: word runs carry their own, and
+            // without one here the next word glues on ("the Sun.Similar").
             return (
-              <motion.span
-                key={piece.key}
-                layout={!still}
-                // Unmarked, it carries no padding at all. A highlight's worth
-                // of space around three phrases is enough to make the clean
-                // read look subtly typeset, which gives the game away.
-                className={`transition-colors ${
-                  !marked
-                    ? ""
-                    : done
-                      ? "bg-teal-wash text-teal-text rounded-[2px] px-1"
-                      : "bg-pink-wash text-pink-text rounded-[2px] px-1"
-                }`}
-              >
-                {done ? span.original : alteredWords(puzzle, span)}
-              </motion.span>
+              <Fragment key={piece.key}>
+                <motion.span
+                  layout={!still}
+                  // Unmarked, it carries no padding at all. A highlight's worth
+                  // of space around three phrases is enough to make the clean
+                  // read look subtly typeset, which gives the game away.
+                  className={`transition-colors ${
+                    !marked
+                      ? ""
+                      : done
+                        ? "bg-teal-wash text-teal-text rounded-[2px] px-1"
+                        : "bg-pink-wash text-pink-text rounded-[2px] px-1"
+                  }`}
+                >
+                  {done ? span.original : alteredWords(puzzle, span)}
+                </motion.span>{" "}
+              </Fragment>
             );
           })}
         </p>

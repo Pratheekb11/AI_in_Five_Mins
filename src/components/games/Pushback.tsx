@@ -97,16 +97,15 @@ export function Pushback({
   const revealed = scene.guessed !== null;
   const outcome = round ? outcomeOf(round) : null;
   const correct = revealed && scene.guessed === outcome;
-  const insistent = round ? phrasingOf(round, "insistent") : undefined;
 
   const question = round ? (
     <>
-      <p className="text-ink-faint mb-3 text-[0.8125rem] sm:mb-5">
-        Someone is about to insist the answer is{" "}
-        <span className="font-data">{round.wrong.trim()}</span>.
-      </p>
-      <p className="label text-ink-faint mb-2">
-        When they assert it first, what does the model do?
+      <p className="mb-3 text-[0.9375rem] sm:mb-4">
+        Someone tells the AI the answer is{" "}
+        <span className="font-data text-pink-text font-bold">
+          {round.wrong.trim()}
+        </span>
+        , then asks. What does it do?
       </p>
       <div className="mb-4 grid gap-2 sm:grid-cols-2">
         {CHOICES.map((choice, i) => (
@@ -150,112 +149,68 @@ export function Pushback({
             : `Actually, ${GUESSES[outcome!].label.toLowerCase()}.`}
         </p>
 
-        {/* Four framings of the same fact. On a wide screen they pair up
-                    once they are results, so the sentence that explains them
-                    is not pushed under the fold. */}
-        <ul className="mb-2 space-y-1.5 sm:mb-4 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0">
-          {round.phrasings.map((phrasing, i) => (
-            <li key={phrasing.id}>
-              <p className="label text-ink-faint mb-0.5 sm:mb-1">
-                {data?.styles[phrasing.style]}
-              </p>
-              {/* The prompt, and then what it actually said. Two
-                          probability bars are the measurement; the model
-                          finishing the sentence with "Moon." because somebody
-                          insisted is the thing anybody feels. */}
-              <p className="font-data bg-paper-sunk border-ink/20 mb-1 rounded-[2px] border px-2 py-1 text-[0.8125rem] sm:mb-1.5 sm:px-3 sm:py-1.5 sm:text-[0.875rem]">
-                {phrasing.prompt}{" "}
-                {(() => {
-                  const said = (phrasing.says ?? phrasing.topText)
-                    .replace(/\n/g, "")
-                    .trim();
-                  if (!said) return <span className="text-ink-faint">…</span>;
-                  const caved = said
-                    .toLowerCase()
-                    .startsWith(round.wrong.trim().toLowerCase());
-                  return (
-                    <span
-                      className={`rounded-[2px] border px-1.5 py-0.5 font-bold ${
-                        caved
-                          ? "border-pink-text/40 bg-pink-wash text-pink-text"
-                          : "border-teal-text/40 bg-teal-wash text-teal-text"
-                      }`}
-                    >
-                      {said}
-                    </span>
-                  );
-                })()}
-              </p>
-              {[
-                {
-                  label: round.right.trim(),
-                  side: phrasing.right,
-                  ink: "bg-teal",
-                  tone: "text-teal-text",
-                },
-                {
-                  label: round.wrong.trim(),
-                  side: phrasing.wrong,
-                  ink: "bg-pink",
-                  tone: "text-pink-text",
-                },
-              ].map((row, j) => (
-                <span
-                  key={row.label}
-                  className="mb-0.5 flex items-center gap-3 sm:mb-1"
-                >
+        {/* Two framings carry the whole idea: the wrong answer said first,
+            then the right one said first. What it said back is the evidence. */}
+        <ul className="mb-3 space-y-2">
+          {(["insistent", "corrected"] as const).map((style) => {
+            const phrasing = phrasingOf(round, style);
+            if (!phrasing) return null;
+            const said = (phrasing.says ?? phrasing.topText)
+              .replace(/\n/g, "")
+              .trim()
+              .replace(/[,.]+$/, "");
+            const lower = said.toLowerCase();
+            const isWrong = lower.startsWith(round.wrong.trim().toLowerCase());
+            const isRight = lower.startsWith(round.right.trim().toLowerCase());
+            return (
+              <li key={style}>
+                <p className="label text-ink-faint mb-0.5">
+                  {style === "insistent"
+                    ? `Told \u201c${round.wrong.trim()}\u201d first`
+                    : `Told \u201c${round.right.trim()}\u201d first`}
+                </p>
+                <p className="text-[0.9375rem]">
+                  It says{" "}
                   <span
-                    className={`font-data w-20 shrink-0 text-right text-xs ${row.tone}`}
+                    className={`data rounded-[2px] px-1.5 py-0.5 font-bold ${
+                      isWrong
+                        ? "bg-pink-wash text-pink-text"
+                        : isRight
+                          ? "bg-teal-wash text-teal-text"
+                          : "bg-paper-sunk text-ink-soft"
+                    }`}
                   >
-                    {row.label}
+                    {said || "nothing"}
                   </span>
-                  <span className="bg-paper-sunk border-ink/20 h-3 flex-1 overflow-hidden rounded-[1px] border">
-                    <motion.span
-                      className={`block h-full ${row.ink}`}
-                      initial={{ width: 0 }}
-                      animate={{
-                        width: `${row.side.probability * 100}%`,
-                      }}
-                      transition={{
-                        duration: 0.6,
-                        delay: 0.15 + i * 0.12 + j * 0.05,
-                        ease: "easeOut",
-                      }}
-                    />
-                  </span>
-                  <span className="data text-ink-soft w-14 shrink-0 text-right text-xs tabular-nums">
-                    {(row.side.probability * 100).toFixed(1)}%
-                  </span>
-                </span>
-              ))}
-            </li>
-          ))}
+                </p>
+              </li>
+            );
+          })}
         </ul>
 
-        <p className="prose-measure text-ink-soft mb-2 text-[0.8125rem] leading-snug sm:text-[0.9375rem] sm:leading-normal">
+        <p className="prose-measure text-ink-soft mb-2 text-[0.9375rem] leading-snug">
           {outcome === "flips"
-            ? `Asserting the wrong answer put it at ${(
-                (insistent?.wrong.probability ?? 0) * 100
-              ).toFixed(1)}% against ${(
-                (insistent?.right.probability ?? 0) * 100
-              ).toFixed(
-                1,
-              )}% for the truth. Look at the last row though: asserting the right answer works exactly as hard in the other direction. It is not agreeing with you. It is copying you.`
-            : "It held on this one. But look at how much the framing still moved both numbers. Nothing about the model changed between those four rows. Only the sentence in front of it did."}
+            ? "It goes with whatever it was told first, true or false. It is not agreeing with you. It is copying you."
+            : "It held on this one. It is not always this firm."}
         </p>
-        <p className="text-ink-faint mb-2 text-[0.8125rem] sm:mb-3">
-          <a
-            href={round.citation.url}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="underline underline-offset-2"
-          >
-            Checked against {round.citation.title}
-          </a>
-          {round.citation.revision
-            ? `, revision ${round.citation.revision}.`
-            : "."}
-        </p>
+        <details className="text-ink-faint mb-3 text-[0.8125rem]">
+          <summary className="cursor-pointer underline underline-offset-2">
+            Source
+          </summary>
+          <p className="text-ink-faint mb-2 text-[0.8125rem] sm:mb-3">
+            <a
+              href={round.citation.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="underline underline-offset-2"
+            >
+              Checked against {round.citation.title}
+            </a>
+            {round.citation.revision
+              ? `, revision ${round.citation.revision}.`
+              : "."}
+          </p>
+        </details>
 
         <button
           type="button"
@@ -284,19 +239,18 @@ export function Pushback({
     <GameShell
       gameId="pushback"
       name="Pushback"
-      instruction="A fact nobody disputes, and the same question put four ways: flat, with a nudge, with the wrong answer asserted first, and with the right one asserted first. Call which way it goes before you see the numbers."
+      instruction="Someone tells the AI a wrong answer, then asks. Guess whether it holds firm or repeats them."
       howToPlay={{
-        goal: "Predict what the model does when somebody insists on a wrong answer.",
+        goal: "Guess what the AI does when told a wrong answer first.",
         steps: [
-          "Read the fact. Nobody disputes it.",
-          "Somebody is about to assert the wrong answer before asking. Say whether the model holds its ground or goes with what it was told.",
-          "The same question is then shown put four ways, with the true and false answers racing each other under each one.",
+          "Read the fact.",
+          "Someone tells the AI a wrong answer first. Guess what it does.",
+          "See what it said.",
         ],
-        controls: "Tap or click a choice, or press 1–2. Enter moves on.",
-        scoring:
-          "120 for the right call, more when the framing swung the answer a long way.",
+        controls: "Tap or click, or press 1 or 2.",
+        scoring: "Points for a right guess.",
       }}
-      startLabel={data ? "Lean on it" : "Loading the measurements…"}
+      startLabel={data ? "Play" : "Loading…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}
       finalScore={scene.score}
@@ -311,8 +265,6 @@ export function Pushback({
       }
       readouts={[
         { label: "Score", value: scene.score, accent: true },
-        { label: "Right", value: scene.right },
-        { label: "Streak", value: `×${scene.streak}` },
         {
           label: "Round",
           value: `${Math.min(scene.at + 1, Math.max(scene.rounds.length, 1))}/${
@@ -325,25 +277,17 @@ export function Pushback({
           <p className="display-md mb-2">
             {scene.right} of {scene.rounds.length} called right
           </p>
-          <p className="text-ink-soft mb-2 text-[0.9375rem]">
-            Put the false answer in front of it and the false answer wins. Put
-            the true one there and the true one wins, just as hard. It is not
-            being persuaded by you. It is copying you.
-          </p>
           <p className="text-ink-soft text-[0.9375rem]">
-            Which is the practical bit: when a model agrees with you, that is
-            not evidence you were right. It is evidence you said it first. If
-            you want to know what it actually has, ask in a fresh chat without
-            telling it what you are hoping to hear.
+            It goes with what you said first. So when it agrees with you, that
+            is not proof you were right. Ask without hinting at the answer.
           </p>
         </div>
       }
       footer={
         data ? (
           <>
-            Measured on {data.model.name}, which has had no training to be
-            agreeable. So this is not sycophancy itself. It is the mechanism
-            underneath it. For the behaviour in real assistants see{" "}
+            Measured on {data.model.name}. For the same behaviour in chat
+            assistants see{" "}
             <a
               href={data.literature.url}
               target="_blank"
@@ -355,9 +299,9 @@ export function Pushback({
             .
           </>
         ) : failed ? (
-          <>The measurements did not load.</>
+          <>The game did not load.</>
         ) : (
-          <>Loading the measurements…</>
+          <>Loading…</>
         )
       }
     >
@@ -376,8 +320,8 @@ export function Pushback({
         ) : (
           <p className="text-ink-soft text-[0.9375rem]">
             {failed
-              ? "The measurements did not load, so there is nothing to lean on."
-              : "Loading the measurements…"}
+              ? "The game did not load. Try refreshing the page."
+              : "Loading…"}
           </p>
         )}
       </div>

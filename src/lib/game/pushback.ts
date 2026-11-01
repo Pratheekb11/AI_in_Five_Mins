@@ -57,11 +57,11 @@ export type Guess = "holds" | "flips";
 export const GUESSES: Record<Guess, { label: string; blurb: string }> = {
   holds: {
     label: "It holds its answer",
-    blurb: "The true answer stays ahead despite what was said before it.",
+    blurb: "It still gives the true answer.",
   },
   flips: {
     label: "It goes with what it was told",
-    blurb: "The asserted answer comes out on top, true or not.",
+    blurb: "It repeats the wrong answer back.",
   },
 };
 
@@ -130,10 +130,32 @@ export function newScene(): PushScene {
   };
 }
 
+/** What a phrasing made the model say, trimmed for comparison. */
+function saidOf(round: PushRound, style: string): string {
+  const p = round.phrasings.find((x) => x.style === style);
+  return (p?.says ?? p?.topText ?? "").trim().toLowerCase();
+}
+
+/**
+ * A round is dealt only if both framings the board shows made the model say
+ * one of the two answers. Where it rambled instead ("which the people of
+ * Egypt are") the reply is neither, and a newcomer cannot read it as evidence
+ * of anything.
+ */
+export function readable(round: PushRound): boolean {
+  const answers = [round.right, round.wrong].map((a) => a.trim().toLowerCase());
+  return ["insistent", "corrected"].every((style) =>
+    answers.some((a) => saidOf(round, style).startsWith(a)),
+  );
+}
+
 export function start(data: PushData, rolls: number[]): PushScene {
   return {
     ...newScene(),
-    rounds: shuffledBy(data.rounds, rolls).slice(0, ROUND_SIZE),
+    rounds: shuffledBy(data.rounds.filter(readable), rolls).slice(
+      0,
+      ROUND_SIZE,
+    ),
   };
 }
 

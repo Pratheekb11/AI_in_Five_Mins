@@ -4,13 +4,9 @@ import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { PushbackFigure } from "@/components/machines/PushbackFigure";
+import { CopyYouReel, type PushShot } from "@/components/machines/CopyYouReel";
 import type { CheckBeat } from "@/lib/check";
-import {
-  start as dealPushback,
-  type PushData,
-} from "@/lib/game/pushback";
+import { start as dealPushback, type PushData } from "@/lib/game/pushback";
 import { getLesson } from "@/lib/lessons";
 import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
@@ -67,30 +63,29 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
-  {
-    say: "These tools fail in four ways, over and over. They invent things, they go stale, they cave when you push, and they cannot really do arithmetic. One of those four you can watch happen, live, so start there. Here is a fact nobody disputes, asked flat.",
-    caption:
-      "Two bars, the true answer and a false one. They stay on screen for the rest of this. All that changes is the sentence put in front of the model.",
+/* The reel: one fact asked plainly, wrong answer first, right answer first. */
+const sun = pushbackData.rounds.find((r) => r.id === "sun")!;
+const SHOT_LABELS = {
+  neutral: "Plain",
+  insistent: "Wrong first",
+  corrected: "Right first",
+};
+const PUSH_SHOTS = (["neutral", "insistent", "corrected"] as const).map(
+  (style) => {
+    const p = sun.phrasings.find((x) => x.style === style)!;
+    const said = (p.says ?? p.topText).trim();
+    return {
+      label: SHOT_LABELS[style],
+      prompt: p.prompt,
+      // The plain prompt runs on ("Sun at a distance of about"); the first word
+      // is the answer.
+      says:
+        style === "neutral" ? said.split(/\s+/)[0] : said.replace(/[,.]+$/, ""),
+      right: p.right.probability,
+      wrong: p.wrong.probability,
+    };
   },
-  {
-    say: "First, just lean on the question a little. Do not assert anything, only sound sure. Confidence in the wording alone is enough to move the odds, and it moves them the wrong way.",
-  },
-  {
-    say: "Now actually push. State the wrong answer first, as though it were settled, and then ask. Watch the bars cross.",
-    caption:
-      "That is caving. Nothing about the model changed between these three sentences. Only what it was told before the question.",
-  },
-  {
-    say: "Here is the part that matters more, and almost nobody shows it. Assert the right answer first instead, in exactly the same shape of sentence. It agrees just as hard.",
-  },
-  {
-    say: "So it is not being argued out of anything. It is copying whatever sits in front of it, whichever direction that points. Which means agreement after you push back tells you nothing at all, and you should push on answers you believe as well as ones you doubt. Try any of the eleven facts.",
-  },
-  {
-    say: "The other three modes are the same fault wearing different clothes. It invents because the training rewards a confident guess over an admission. It goes stale because its knowledge stops on a date it cannot see past. And it cannot carry a calculation, only imitate the look of one. The panels below take those apart.",
-  },
-];
+) as [PushShot, PushShot, PushShot];
 
 const CHECK: CheckBeat[] = [
   {
@@ -139,27 +134,30 @@ export default function WhereItBreaksLesson() {
   const beats: Beat[] = [
     {
       id: "game",
-      cta: "What just happened",
+      cta: "How it works",
       node: (
         <div className="space-y-4">
-          {/* The deck has no masthead headline of its own, so the premise on
-              the first board is this page's top heading. `h1` rather than `h2`
-              for that reason only: `.display-md` carries every pixel of the
-              type, and `h1` to `h4` share one base rule, so the tag is the
-              whole change. */}
           <h1 className="display-md">
-            It fails in{" "}
-            <span className="text-pink-text">exactly four ways</span>. You
-            have probably only ever noticed one of them.
+            It agrees with you,{" "}
+            <span className="text-pink-text">even when you are wrong</span>.
           </h1>
           <Pushback initialData={pushbackData} initialScene={initialScene} />
         </div>
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<PushbackFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-2xl space-y-4">
+          <h2 className="display-md">It copies whoever spoke first</h2>
+          <CopyYouReel
+            right={sun.right.trim()}
+            wrong={sun.wrong.trim()}
+            shots={PUSH_SHOTS}
+          />
+        </div>
+      ),
     },
   ];
 

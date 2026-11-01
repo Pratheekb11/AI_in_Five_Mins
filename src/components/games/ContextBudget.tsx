@@ -6,10 +6,7 @@ import { GameShell } from "@/components/game/GameShell";
 import {
   type BudgetScene,
   ceilingFor,
-  clear,
   type ContextData,
-  effectOf,
-  KIND_NAMES,
   newScene,
   next,
   resultFor,
@@ -22,6 +19,13 @@ import {
 /**
  * Context Budget, five slots, and everything you put in one costs you.
  */
+
+/** Plain names for the kinds of card, where the scenario's own label leans on
+ *  a word a newcomer does not use ("superseded"). */
+const PLAIN_LABEL: Partial<Record<string, string>> = {
+  stale: "An old plan, since changed",
+  example: "An example answer",
+};
 
 let cached: Promise<ContextData> | null = null;
 
@@ -96,7 +100,6 @@ export function ContextBudget({
     (card: string) => setScene((s) => toggle(s, slots, card)),
     [slots],
   );
-  const wipe = useCallback(() => setScene((s) => clear(s)), []);
   const fire = useCallback(() => {
     if (!scenario) return;
     setScene((s) => run(s, scenario));
@@ -126,20 +129,19 @@ export function ContextBudget({
     <GameShell
       gameId="context-budget"
       name="Context Budget"
-      instruction="Five slots, a pile of cards, one question. You decide what the model gets to see, then you run it, and a real model finishes the sentence in front of you from exactly the context you built. Watch which cards change its answer. You get four runs per question."
+      instruction="Pick which cards the AI gets to read, then ask it. It only knows what you give it."
       howToPlay={{
-        goal: "Get the model to produce the right answer, using five slots.",
+        goal: "Get the AI to give the right answer.",
         steps: [
-          "Read the question at the top.",
-          "Click cards from the pile to put them in the window. Click again to take one out.",
-          "Press Run it. The real model runs on exactly what you built, and it finishes the sentence in front of you.",
-          "You only get four runs per question, so think before you spend one.",
+          "Read the question.",
+          "Tap the cards the AI should read. Tap again to take one back.",
+          "Press Ask the AI and see what it says.",
         ],
-        controls: "Tap or click cards and buttons.",
+        controls: "Tap or click.",
         scoring:
-          "Based on how close you got to the best any combination can reach, plus any runs you did not need.",
+          "More points the closer you get to the best answer these cards allow.",
       }}
-      startLabel={data ? "Open the window" : "Loading the measurements…"}
+      startLabel={data ? "Play" : "Loading…"}
       phase={!playing ? "ready" : scene.done ? "over" : "playing"}
       onStart={begin}
       finalScore={scene.score}
@@ -154,12 +156,7 @@ export function ContextBudget({
       }
       readouts={[
         { label: "Score", value: scene.score, accent: true },
-        { label: "Best", value: `${(scene.best * 100).toFixed(0)}%` },
-        { label: "Runs", value: scene.runsLeft },
-        {
-          label: "Slots",
-          value: `${scene.chosen.length}/${slots}`,
-        },
+        { label: "Question", value: `${scene.at + 1}/${scene.order.length}` },
       ]}
       again={
         <div className="max-w-md">
@@ -167,67 +164,40 @@ export function ContextBudget({
             {scene.solved} of {scene.order.length} filled well
           </p>
           <p className="text-ink-soft text-[0.9375rem]">
-            The document with the answer in it was almost the whole game.
-            Without it, nothing else got you anywhere. And the card that did the
-            most damage was the example of a good answer, because the model
-            copied its placeholder. The most helpful-looking thing in the pile
-            was the worst thing to include. Relevance, not volume.
+            The card with the answer did nearly all the work. The most dangerous
+            card was the example answer: the AI copied it. Give it the right
+            thing, not more things.
           </p>
         </div>
       }
       footer={
         data ? (
           <>
-            Every number is measured. {data.model.name} was run on the context
-            those cards make, and the figure is its probability of producing the
-            whole correct answer. The cards themselves were written for the
-            game, because there is no public collection of plausible decoy
-            memos, and the answer being scored is the one the relevant card
-            states.
+            The cards were written for the game. Every answer and chance is{" "}
+            {data.model.name}&rsquo;s real output on exactly the cards you
+            picked.
           </>
         ) : failed ? (
-          <>The measurements did not load.</>
+          <>The game did not load.</>
         ) : (
-          <>Loading the measurements…</>
+          <>Loading…</>
         )
       }
     >
       <div className="min-h-[13rem] p-3 sm:min-h-[26rem] sm:p-5 md:p-6">
         {scenario ? (
           <>
-            {/* The deck lands here with only a one-line headline above it,
-                the round is dealt server-side, so `playing` is already true
-                on arrival and the ready screen's `instruction` (which used
-                to carry this setup) never mounts. Without a sentence here,
-                the board just starts asking. */}
-            <p className="text-ink-soft mb-3 text-[0.9375rem] sm:mb-4">
-              {/* One sentence on a phone, where this paragraph was what
-                  pushed Run below the bottom of the screen. */}
-              <span className="sm:hidden">
-                You pick what the model gets to see before it answers.
-              </span>
-              <span className="hidden sm:inline">
-                Somebody needs this answered for real. You decide what the model
-                gets to see before it answers. The pile has the right document
-                in it, and a few things that only look like they would help.
-              </span>
+            <p className="text-ink-soft mb-2 text-[0.9375rem] sm:mb-3">
+              Tap the cards the AI should read, then ask it.
             </p>
-            <p className="label text-ink-faint mb-1 sm:mb-2">The question</p>
-            <p className="prose-measure mb-3 text-[1rem] sm:mb-5 sm:text-[1.0625rem]">
-              {scenario.ask}{" "}
-              {/* The sentence it has to finish is printed again, in full, in
-                  the panel below. On a phone that second copy is two lines of
-                  the screen spent saying the same thing. */}
-              <span className="text-ink-faint hidden sm:inline">
-                The model will be asked to finish: &ldquo;{scenario.question}
-                &nbsp;&hellip;&rdquo;
-              </span>
+            <p className="prose-measure mb-3 text-[1.0625rem] font-semibold sm:mb-4">
+              {scenario.ask}
             </p>
 
             <div className="grid gap-2 sm:gap-5 lg:grid-cols-[1.2fr_1fr]">
               <div>
                 <p className="label text-ink-faint mb-1 sm:mb-2">
-                  The pile: click a card to put it in the window
+                  Cards ({scene.chosen.length} of {slots} picked)
                 </p>
                 {/* Once a run has happened the pile is a set of switches
                     rather than something to read, so on a phone it goes two
@@ -261,7 +231,7 @@ export function ContextBudget({
                               than above it: a card is two lines instead of
                               three, and seven cards fit the screen. */}
                           <span className="label text-ink-faint mr-2 inline sm:block">
-                            {card.label}
+                            {PLAIN_LABEL[card.kind] ?? card.label}
                           </span>
                           {/* Once a run has happened the pile stops being
                               reading and becomes a set of switches, so on a
@@ -284,11 +254,8 @@ export function ContextBudget({
               </div>
 
               <div>
-                <p className="label text-ink-faint mb-2 sm:hidden">
-                  The window: {scene.chosen.length} of {slots} filled
-                </p>
                 <p className="label text-ink-faint mb-2 hidden sm:block">
-                  The window: {slots} slots
+                  What the AI will read
                 </p>
                 {/* The slots themselves are for a wide screen. On a phone the
                     chosen cards are lit in the pile above and the label carries
@@ -309,7 +276,7 @@ export function ContextBudget({
                         }`}
                       >
                         {card ? (
-                          card.label
+                          (PLAIN_LABEL[card.kind] ?? card.label)
                         ) : (
                           <span className="text-ink-faint">empty</span>
                         )}
@@ -323,7 +290,7 @@ export function ContextBudget({
                 */}
                 <div className="plate-flush mb-2 px-3 py-1.5 sm:mb-3 sm:py-3">
                   <p className="label text-ink-faint mb-1 sm:mb-2">
-                    What it says next
+                    What the AI says
                   </p>
 
                   <p className="prose-measure mb-1 text-[1.0625rem]">
@@ -351,9 +318,14 @@ export function ContextBudget({
 
                   {shown && !rightAnswer ? (
                     <p className="text-ink-faint mb-2 text-[0.8125rem]">
-                      The right answer is{" "}
-                      <span className="data">{scenario.answerLabel}</span>. It
-                      is not being asked to guess, it is being asked to read.
+                      {scene.chosen.some(
+                        (id) =>
+                          scenario.cards.find((c) => c.id === id)?.kind ===
+                          "relevant",
+                      )
+                        ? "The answer was in there, but another card confused it."
+                        : "The answer was not in what it read, so it guessed."}{" "}
+                      Right answer: {scenario.answerLabel}.
                     </p>
                   ) : null}
 
@@ -386,90 +358,38 @@ export function ContextBudget({
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={fire}
-                    disabled={spent || !pending}
-                    className="plate misreg btn-primary font-display px-4 py-1.5 font-bold disabled:opacity-40 sm:py-2"
-                  >
-                    Run it ({scene.runsLeft})
-                  </button>
-                  <button
-                    type="button"
-                    onClick={wipe}
-                    disabled={scene.chosen.length === 0}
-                    className="tap plate hover:border-ink px-4 py-1.5 disabled:opacity-40 sm:py-2"
-                  >
-                    Empty the window
-                  </button>
-                  <button
-                    type="button"
-                    onClick={carryOn}
-                    disabled={!shown}
-                    className="tap plate hover:border-ink px-4 py-1.5 disabled:opacity-40 sm:py-2"
-                  >
-                    {scene.at + 1 >= scene.order.length
-                      ? "See the result"
-                      : "Next question"}
-                  </button>
+                  {/* One button. It asks; once the answer is in and there is
+                      nothing new to ask, it moves on. Changing a card makes
+                      it ask again. */}
+                  {pending && pending !== shown && !spent ? (
+                    <button
+                      type="button"
+                      onClick={fire}
+                      className="plate misreg btn-primary font-display px-4 py-1.5 font-bold sm:py-2"
+                    >
+                      {shown ? "Ask again" : "Ask the AI"}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={carryOn}
+                      disabled={!shown}
+                      className="plate misreg btn-primary font-display px-4 py-1.5 font-bold disabled:opacity-40 sm:py-2"
+                    >
+                      {scene.at + 1 >= scene.order.length
+                        ? "See the result"
+                        : "Next question"}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
-
-            {shown && ceiling ? (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="border-ink/20 mt-3 border-t pt-3 sm:mt-5 sm:pt-4"
-                aria-live="polite"
-              >
-                <p className="mb-1 text-[0.9375rem] font-semibold sm:mb-2">
-                  {shown.probability >= ceiling.probability * 0.9
-                    ? "That is about as good as these cards get."
-                    : shown.probability < 0.1
-                      ? "Almost no chance. Something in there is actively fighting the answer."
-                      : "Something in the window is costing you."}
-                </p>
-                <p className="label text-ink-faint mb-1 sm:mb-2">
-                  What each card in the window is doing, measured
-                </p>
-                <ul className="space-y-0.5 sm:space-y-1">
-                  {scene.chosen.map((id) => {
-                    const card = scenario.cards.find((c) => c.id === id)!;
-                    const effect = effectOf(scenario, scene.chosen, id);
-                    if (!effect) return null;
-                    const up = effect.delta >= 0;
-                    return (
-                      <li
-                        key={id}
-                        className="flex flex-wrap items-baseline gap-x-3 text-[0.8125rem] leading-tight sm:text-[0.875rem] sm:leading-normal"
-                      >
-                        <span className="w-36 shrink-0 sm:w-44">
-                          {card.label}
-                        </span>
-                        <span className="text-ink-faint">
-                          {KIND_NAMES[card.kind]}
-                        </span>
-                        <span
-                          className={`data tabular-nums ${
-                            up ? "text-teal-text" : "text-pink-text"
-                          }`}
-                        >
-                          {up ? "+" : ""}
-                          {(effect.delta * 100).toFixed(1)} points
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </motion.div>
-            ) : null}
           </>
         ) : (
           <p className="text-ink-soft text-[0.9375rem]">
             {failed
-              ? "The measurements did not load, so there is nothing to fill."
-              : "Loading the measurements…"}
+              ? "The game did not load. Try refreshing the page."
+              : "Loading…"}
           </p>
         )}
       </div>

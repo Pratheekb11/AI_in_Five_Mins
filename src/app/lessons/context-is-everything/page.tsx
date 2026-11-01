@@ -4,13 +4,12 @@ import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
-import { ContextWindowFigure } from "@/components/machines/ContextWindowFigure";
-import type { CheckBeat } from "@/lib/check";
 import {
-  start as dealContext,
-  type ContextData,
-} from "@/lib/game/budget";
+  ContextReel,
+  type ContextShot,
+} from "@/components/machines/ContextReel";
+import type { CheckBeat } from "@/lib/check";
+import { start as dealContext, type ContextData } from "@/lib/game/budget";
 import { getLesson } from "@/lib/lessons";
 import { readGameData } from "@/lib/server/gameData";
 import type { Source } from "@/lib/sources";
@@ -26,6 +25,36 @@ const contextData = readGameData<ContextData>("context.json");
 const initialScene = dealContext(
   contextData,
   contextData.scenarios.map(() => Math.random()),
+);
+
+/* The reel's four shots, all measured: the deadline scenario with nothing in
+   the window, with the email, with chat that has pushed the email out, and
+   with the email pasted back beside the chat. */
+const deadline = contextData.scenarios.find((s) => s.id === "deadline")!;
+const shotOf = (cards: string[], dropped?: string): ContextShot => {
+  const key = [...cards].sort().join("|");
+  const c = deadline.combinations.find(
+    (x) => [...x.cards].sort().join("|") === key,
+  )!;
+  return {
+    cards,
+    dropped,
+    says: (c.says ?? c.topText).trim().replace(/[,.;:]+$/, ""),
+    probability: c.probability,
+  };
+};
+const CHAT = ["chat1", "chat2", "policy"];
+const SHOTS: [ContextShot, ContextShot, ContextShot, ContextShot] = [
+  shotOf([]),
+  shotOf(["doc"]),
+  shotOf(CHAT, "doc"),
+  shotOf([...CHAT, "doc"]),
+];
+const REEL_CARDS = Object.fromEntries(
+  deadline.cards.map((c) => [
+    c.id,
+    { label: c.label, text: c.text, relevant: c.kind === "relevant" },
+  ]),
 );
 
 const SOURCES: Source[] = [
@@ -47,32 +76,6 @@ const SOURCES: Source[] = [
     publisher: "Anthropic developer documentation",
     url: "https://docs.claude.com/en/docs/build-with-claude/context-windows",
     used: "A vendor's own description of how the window is counted and what happens to text that no longer fits.",
-  },
-];
-
-const STEPS: Step[] = [
-  {
-    say: "Here is the part nobody tells you. The model does not remember your conversation. Every time you press send, it is handed a window of text and reads it fresh. Start with that window empty.",
-    caption:
-      "Watch the window and the meter below rather than waiting for a new picture. Every step from here changes those same two things.",
-  },
-  {
-    say: "Now put the memo in. That single card is the only reason it can answer at all, and the meter says so. Everything the model knows about your situation is in that box and nowhere else.",
-    caption:
-      "Not your last conversation. Not the file you did not attach. Not the correction you made yesterday.",
-  },
-  {
-    say: "The window has a fixed size. As the chat goes on, more arrives, and when there is no room the oldest is dropped to make it fit. Watch which card leaves.",
-    caption:
-      "The memo is gone, and with it the only thing in the window that could answer the question. Nothing warned you, and nothing marks the reply.",
-  },
-  {
-    say: "And here is what makes it dangerous. The reply comes back in exactly the same confident voice. It is not lying to you about remembering. From where it sits, that memo was never there.",
-  },
-  {
-    say: "Which tells you the fix. Do not ask it to remember harder. Put the thing back in front of it. Restate the constraint, paste the document again, or start a fresh chat with a short summary you wrote yourself.",
-    caption:
-      "Now build the window yourself. Every combination of those seven cards was measured, so whatever you assemble has a real number waiting for it.",
   },
 ];
 
@@ -133,18 +136,12 @@ export default function ContextIsEverythingLesson() {
   const beats: Beat[] = [
     {
       id: "game",
-      cta: "What just happened",
+      cta: "How it works",
       node: (
         <div className="space-y-4">
-          {/* The deck has no masthead headline of its own, so the premise on
-              the first board is this page's top heading. `h1` rather than `h2`
-              for that reason only: `.display-md` carries every pixel of the
-              type, and `h1` to `h4` share one base rule, so the tag is the
-              whole change. */}
           <h1 className="display-md">
-            It does not remember your conversation. It{" "}
-            <span className="text-teal-text">re-reads all of it</span>, from
-            the top, every single time.
+            It only knows{" "}
+            <span className="text-teal-text">what you give it</span>.
           </h1>
           <ContextBudget
             initialData={contextData}
@@ -154,9 +151,19 @@ export default function ContextIsEverythingLesson() {
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<ContextWindowFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-2xl space-y-4">
+          <h2 className="display-md">Why it forgets</h2>
+          <ContextReel
+            ask={deadline.question}
+            answer={deadline.answerLabel}
+            cards={REEL_CARDS}
+            shots={SHOTS}
+          />
+        </div>
+      ),
     },
   ];
 

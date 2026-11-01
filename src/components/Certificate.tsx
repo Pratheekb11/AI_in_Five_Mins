@@ -12,6 +12,7 @@ import {
 } from "@/lib/certificate";
 import { NAME_LIMIT, useLearnerName } from "@/lib/name";
 import { useProgress } from "@/lib/progress";
+import { SUPPORT_URL } from "@/lib/support";
 
 /**
  * The certificate, drawn live, downloadable, and shareable.
@@ -252,6 +253,19 @@ export function Certificate({ spec }: { spec: CertificateSpec }) {
       <p className="text-ink-faint mt-3 text-[0.8125rem]" aria-live="polite">
         {note ??
           "Share it opens your phone's share sheet with the image attached, which is the one that reaches Instagram. On a computer, download it and attach it yourself."}
+      </p>
+
+      <p className="text-ink-soft mt-6 text-sm">
+        Enjoyed it? Every lesson stays free.{" "}
+        <a
+          href={SUPPORT_URL}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="underline underline-offset-2"
+        >
+          Buy me a coffee ☕
+        </a>{" "}
+        and you fund the next chapter.
       </p>
     </div>
   );

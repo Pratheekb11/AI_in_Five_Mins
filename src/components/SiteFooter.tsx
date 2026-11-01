@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SUPPORT_URL } from "@/lib/support";
 const CONTACT = [
   {
     label: "Email",
@@ -40,6 +41,17 @@ export function SiteFooter() {
               >
                 Your certificate
               </Link>
+            </p>
+            <p className="text-ink-soft mt-3 text-sm">
+              Free, no ads, no signup. If it helped,{" "}
+              <a
+                href={SUPPORT_URL}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="underline underline-offset-2"
+              >
+                buy me a coffee ☕
+              </a>
             </p>
           </div>
 

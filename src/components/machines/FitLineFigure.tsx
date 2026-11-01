@@ -84,7 +84,7 @@ export function FitLineFigure() {
       <div className="px-4 py-4">
         <svg
           viewBox={`0 0 ${W} ${H}`}
-          className="block w-full"
+          className="block w-full sm:max-h-[19rem]"
           role="img"
           aria-label={`A scatter plot of ${sampleSize} sentences with a fitted line at ${(1 / slope).toFixed(3)} characters per token`}
         >

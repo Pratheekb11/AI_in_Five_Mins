@@ -100,7 +100,7 @@ export function CurveFigure() {
       <div className="px-4 py-4">
         <svg
           viewBox={`0 0 ${W} ${H}`}
-          className="block w-full"
+          className="block w-full sm:max-h-[19rem]"
           role="img"
           aria-label="Learning curves for four models against the number of training examples"
         >
@@ -159,7 +159,7 @@ export function CurveFigure() {
               y={H - PAD + 16}
               textAnchor="middle"
               className="fill-ink-faint font-data"
-              style={{ fontSize: 9 }}
+              style={{ fontSize: 12 }}
             >
               {size}
             </text>
@@ -168,10 +168,10 @@ export function CurveFigure() {
             <text
               key={at}
               x={PAD - 6}
-              y={y(at) + 3}
+              y={y(at) + 4}
               textAnchor="end"
               className="fill-ink-faint font-data"
-              style={{ fontSize: 9 }}
+              style={{ fontSize: 12 }}
             >
               {(at * 100).toFixed(0)}%
             </text>

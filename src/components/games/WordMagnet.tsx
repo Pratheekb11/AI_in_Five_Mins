@@ -301,7 +301,7 @@ export function WordMagnet() {
         )
       }
     >
-      <div>
+      <div className="sm:mx-auto sm:max-w-[40rem]">
         <svg
           viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
           className="block h-auto w-full cursor-grab touch-none select-none"

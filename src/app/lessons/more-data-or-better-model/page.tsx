@@ -171,6 +171,7 @@ export default function MoreDataOrBetterModelLesson() {
         <MechanismPanel
           question="Why do the curves flatten?"
           summary="Because each new example teaches less than the one before it, until they are mostly repeating what the model already knows."
+          deeper="features-and-labels"
         >
           <p>
             The first hundred messages tell a model roughly what spam looks

@@ -174,6 +174,7 @@ export default function EnsemblesLesson() {
         <MechanismPanel
           question="Why does averaging mistakes help at all?"
           summary="Because independent mistakes land in different places, and a majority only needs most voters to be right on each item."
+          deeper="decision-trees"
         >
           <p>
             Suppose each tree is wrong on a different tenth of the messages. On
@@ -199,6 +200,7 @@ export default function EnsemblesLesson() {
         <MechanismPanel
           question="What does an ensemble cost?"
           summary="Sixty times the work, and the explanation. You cannot read a forest out loud."
+          deeper="logistic-regression"
         >
           <p>
             The tree in the previous module fitted on an index card and could be

@@ -173,6 +173,7 @@ export default function FeaturesAndLabelsLesson() {
         <MechanismPanel
           question="What is a bit, and why measure in those?"
           summary="It is one perfect yes-or-no answer. Bits removed says how much of the guessing a feature saves you."
+          deeper="decision-trees"
         >
           <p>
             Before you know anything, one message in seven is spam, and Shannon
@@ -197,6 +198,7 @@ export default function FeaturesAndLabelsLesson() {
         <MechanismPanel
           question="Why is this where the work is, rather than the algorithm?"
           summary="Because no algorithm can recover what the features left out."
+          deeper="more-data-or-better-model"
         >
           <p>
             A model sees a row of numbers. If the thing that actually explains

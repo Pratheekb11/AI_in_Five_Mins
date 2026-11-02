@@ -150,6 +150,7 @@ export default function TrainAndTestLesson() {
         <MechanismPanel
           question="Why is the training score always flattering?"
           summary="Because the model was allowed to adjust itself until it fitted that particular data, including its accidents."
+          deeper="overfitting"
         >
           <p>
             Any dataset contains the pattern you want plus a great deal of
@@ -175,6 +176,7 @@ export default function TrainAndTestLesson() {
         <MechanismPanel
           question="Why eighty and twenty, and does it matter?"
           summary="Because the test set has to be big enough to trust and small enough that you still have data to learn from."
+          deeper="cross-validation"
         >
           <p>
             The split here is 80/20, which puts 1,115 messages in the locked

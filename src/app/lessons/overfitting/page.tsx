@@ -171,6 +171,7 @@ export default function OverfittingLesson() {
         <MechanismPanel
           question="Why does more freedom always fit the data better?"
           summary="Because a bigger model can do everything a smaller one can, plus more. It is arithmetic, not skill."
+          deeper="train-and-test"
         >
           <p>
             A degree three curve can be a straight line, by setting its extra
@@ -195,6 +196,7 @@ export default function OverfittingLesson() {
         <MechanismPanel
           question="Is a simpler model always safer, then?"
           summary="No. The straight line here would be too simple on data with a real bend in it, and the U can even turn back down."
+          deeper="more-data-or-better-model"
         >
           <p>
             Underfitting is a real failure too, and the game showed it: with a

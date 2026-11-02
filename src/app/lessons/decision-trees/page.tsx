@@ -205,6 +205,7 @@ export default function DecisionTreesLesson() {
         <MechanismPanel
           question="Why are trees called unstable?"
           summary="Because the first split decides everything after it, and the first split can flip on a handful of examples."
+          deeper="ensembles"
         >
           <p>
             If two questions are nearly tied at the root, a few different

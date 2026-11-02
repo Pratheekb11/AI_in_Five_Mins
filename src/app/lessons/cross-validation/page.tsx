@@ -165,6 +165,7 @@ export default function CrossValidationLesson() {
         <MechanismPanel
           question="Why ten folds, and not two, or a hundred?"
           summary="Because it is the cheapest count that keeps both kinds of error small, which is roughly what Kohavi found."
+          deeper="train-and-test"
         >
           <p>
             Two folds means every model trains on only half the data, so the
@@ -190,6 +191,7 @@ export default function CrossValidationLesson() {
         <MechanismPanel
           question="Can I use cross-validation to choose the model and then report its score?"
           summary="Not the same score. Choosing with a number spends it, and what you have left is an optimistic estimate."
+          deeper="overfitting"
         >
           <p>
             If you try twenty models and keep the one with the best

@@ -33,14 +33,20 @@ export type Lesson = {
    */
   feynman?: string;
   /**
-   * What to do differently the next time you open an assistant. Printed on the
-   * closing screen, above the way onward, so a reader who stops here still
-   * leaves with something they can use. Chapters only.
+   * What to do differently next time. Printed on the closing screen, above
+   * the way onward, so a reader who stops here still leaves with something
+   * they can use. Every chapter and every machine learning module has one.
    */
   habit?: Habit;
 };
 
 export type Habit = {
+  /**
+   * When to use it, as the card's heading. Defaults to opening an assistant,
+   * which is what the chapters are about. The machine learning track is about
+   * judging a model somebody else built, so it says so.
+   */
+  when?: string;
   /** The habit, as an instruction. */
   line: string;
   /** A prompt somebody would actually type before this chapter. */
@@ -147,7 +153,7 @@ export const LESSONS: Lesson[] = [
     habit: {
       line: "Show it one example of what good looks like.",
       instead: "Write a catchy caption for my bakery's new cookie.",
-      try: "Here is a caption of ours that did well: \"Warm, gooey, gone by noon.\" Write five like it for our new oat cookie.",
+      try: 'Here is a caption of ours that did well: "Warm, gooey, gone by noon." Write five like it for our new oat cookie.',
     },
   },
   {
@@ -247,6 +253,12 @@ export const LESSONS: Lesson[] = [
     ink: "blue",
     status: "ready",
     feynman: "What did my data turn into, and what got thrown away?",
+    habit: {
+      when: "Next time someone shows you a model",
+      line: "Ask what the model actually sees.",
+      instead: "Can the model predict which customers will cancel?",
+      try: "Which columns does the model see, and would every one of them exist before the customer cancels?",
+    },
   },
 
   {
@@ -262,6 +274,12 @@ export const LESSONS: Lesson[] = [
     ink: "teal",
     status: "ready",
     feynman: "Which data was that accuracy measured on?",
+    habit: {
+      when: "Next time someone shows you a model",
+      line: "Ask which data the score came from.",
+      instead: "How accurate is it?",
+      try: "How accurate is it on data it never saw while it was being built?",
+    },
   },
 
   {
@@ -277,6 +295,12 @@ export const LESSONS: Lesson[] = [
     ink: "pink",
     status: "ready",
     feynman: "Precision or recall, and which one does this job need?",
+    habit: {
+      when: "Next time someone shows you a model",
+      line: "Ask what it misses, not how often it is right.",
+      instead: "What is its accuracy?",
+      try: "Of the cases that matter, how many does it catch, and how many false alarms does it raise?",
+    },
   },
 
   {
@@ -292,6 +316,12 @@ export const LESSONS: Lesson[] = [
     ink: "yellow",
     status: "ready",
     feynman: "Did it find a pattern, or memorise these particular examples?",
+    habit: {
+      when: "Next time someone shows you a model",
+      line: "Distrust a perfect score.",
+      instead: "Did it score well in testing?",
+      try: "How does its score on new data compare with its score on the data it was built from?",
+    },
   },
 
   {
@@ -308,6 +338,12 @@ export const LESSONS: Lesson[] = [
     status: "ready",
     feynman:
       "How much would that number move if I had split the data differently?",
+    habit: {
+      when: "Next time someone shows you a model",
+      line: "Ask how much the number wobbles.",
+      instead: "Which model scored higher?",
+      try: "Which model scored higher, and is the gap bigger than how much each score moves on a different split?",
+    },
   },
 
   {
@@ -324,6 +360,12 @@ export const LESSONS: Lesson[] = [
     status: "ready",
     feynman:
       "What is the model actually drawing, and what does its number mean?",
+    habit: {
+      when: "Next time someone shows you a model",
+      line: "Ask for the score, not just the verdict.",
+      instead: "Is this transaction fraud?",
+      try: "How likely is this to be fraud, and at what score does a transaction get flagged?",
+    },
   },
 
   {
@@ -339,6 +381,12 @@ export const LESSONS: Lesson[] = [
     ink: "yellow",
     status: "ready",
     feynman: "Could I explain this model's decision to the person it affects?",
+    habit: {
+      when: "Next time someone shows you a model",
+      line: "Ask for the reason, in plain words.",
+      instead: "Is the model making fair decisions?",
+      try: "For this one decision, which questions did the model ask, and which answer tipped it?",
+    },
   },
 
   {
@@ -354,6 +402,12 @@ export const LESSONS: Lesson[] = [
     ink: "teal",
     status: "ready",
     feynman: "Do these models make the same mistakes, or different ones?",
+    habit: {
+      when: "Next time someone shows you a model",
+      line: "Ask whether the models disagree.",
+      instead: "Is combining five models more accurate?",
+      try: "Do these five models make different mistakes, or the same ones? If the same, combining them buys nothing.",
+    },
   },
 
   {
@@ -369,6 +423,12 @@ export const LESSONS: Lesson[] = [
     ink: "pink",
     status: "ready",
     feynman: "Does this group mean anything, or did I ask for it?",
+    habit: {
+      when: "Next time someone shows you a model",
+      line: "Ask whether the groups were found or requested.",
+      instead: "What customer segments does the data show?",
+      try: "How many segments did we ask for, and do the groups still hold up if we ask for a different number?",
+    },
   },
 
   {
@@ -384,6 +444,12 @@ export const LESSONS: Lesson[] = [
     ink: "blue",
     status: "ready",
     feynman: "How much data do I have, and what is the next one worth?",
+    habit: {
+      when: "Next time someone shows you a model",
+      line: "Ask what the next batch of data is worth.",
+      instead: "Should we collect more data?",
+      try: "What did the last doubling of data buy us, and how does that compare with trying a better model?",
+    },
   },
 
   // --------------------------------------------------------- down the rabbit hole --

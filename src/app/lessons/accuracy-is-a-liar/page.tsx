@@ -156,6 +156,7 @@ export default function AccuracyIsALiarLesson() {
         <MechanismPanel
           question="Precision and recall, in one sentence each?"
           summary="Precision: of what you flagged, how much was right. Recall: of what was out there, how much you caught."
+          deeper="features-and-labels"
         >
           <p>
             They answer different questions and they are both about the flagged
@@ -180,6 +181,7 @@ export default function AccuracyIsALiarLesson() {
         <MechanismPanel
           question="Is there a right threshold, or is it a matter of taste?"
           summary="There is a right one, and it follows from what each mistake costs. Write those two numbers down and the line puts itself."
+          deeper="logistic-regression"
         >
           <p>
             Elkan set this out plainly: once you say what a false alarm costs

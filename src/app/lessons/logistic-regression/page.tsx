@@ -159,6 +159,7 @@ export default function LogisticRegressionLesson() {
         <MechanismPanel
           question="Why put the answer through a curve at all?"
           summary="Because a probability has to sit between nought and one, and a straight line does not."
+          deeper="accuracy-is-a-liar"
         >
           <p>
             The line gives a number that runs off to infinity in both
@@ -185,6 +186,7 @@ export default function LogisticRegressionLesson() {
         <MechanismPanel
           question="Is a straight boundary not a serious limitation?"
           summary="Yes, and it is a good default anyway. Most of the value in a model is usually in the features, not the shape of its boundary."
+          deeper="features-and-labels"
         >
           <p>
             A straight line cannot capture a rule like &ldquo;spam is either

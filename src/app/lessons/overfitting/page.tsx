@@ -1,10 +1,12 @@
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { PickTheModel } from "@/components/games/PickTheModel";
-import { Hook } from "@/components/lesson/Hook";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import {
+  FigureReel,
+  type FigureReelStep,
+} from "@/components/lesson/FigureReel";
 import { OverfitFigure } from "@/components/machines/OverfitFigure";
 import type { CheckBeat } from "@/lib/check";
 import { start as dealOverfit, type OverfitData } from "@/lib/game/overfit";
@@ -46,26 +48,37 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
+const REEL: FigureReelStep[] = [
   {
-    say: "Thirty real sentences, each one a dot: how many characters it has, and how many tokens it came to. There is a relationship in here, and it looks close to a straight line.",
-  },
-  {
-    say: "So fit a straight line. It misses most of the dots by a little, which feels like a failure and is not. Its error on sentences it has never seen is 2.34, and nothing on this page will beat that by much.",
-  },
-  {
-    say: "Now allow it to bend. It reaches for the dots, and its error on them falls. That is guaranteed: more freedom can always fit the examples better. The question is whether the bends mean anything.",
-  },
-  {
-    say: "Keep going and it threads its way through nearly all of them. Error on the sentences it fitted is the lowest of the whole page. Then look at what it does at the right hand edge, where it has least to go on: it leaves the top of the chart entirely, predicting 343 tokens for a 250 character sentence.",
-  },
-  {
-    say: "Here are the sentences it never saw. One of them, 230 characters long, it misses by 110 tokens. Its error out here is 11.24, five times worse than the straight line it had just beaten on the training data.",
-  },
-  {
-    say: "That is the shape of it. Error on what you fitted falls forever. Error on everything else falls, bottoms out and then climbs. Where the bottom sits depends on how much data you had, which is why the game changed its answer when the sample changed.",
+    label: "Dots",
     caption:
-      "Blue only ever falls. Pink is the one that matters, and it turns upward after degree 1 on this sample of thirty.",
+      "Thirty real sentences: characters against tokens. The relationship looks close to a straight line.",
+  },
+  {
+    label: "Line",
+    caption:
+      "A straight line misses most dots by a little. Its error on sentences it has never seen is 2.34, and nothing here beats that by much.",
+  },
+  {
+    label: "Bend",
+    caption:
+      "Let it bend and its error on these dots falls. More freedom always fits the examples better. The question is whether the bends mean anything.",
+  },
+  {
+    label: "Thread",
+    caption:
+      "Bend further and it threads nearly every dot, then leaves the chart at the right hand edge: 343 tokens for a 250 character sentence.",
+  },
+  {
+    label: "Unseen",
+    caption:
+      "On sentences it never saw, it misses one by 110 tokens. Error 11.24: five times worse than the straight line it had just beaten.",
+  },
+  {
+    label: "Shape",
+    caption:
+      "Error on what you fitted falls forever. Error on everything else bottoms out, then climbs. Tap any degree below to see where.",
+    note: "Blue only ever falls. Pink is the one that matters, and it turns upward after degree 1 on this sample of thirty.",
   },
 ];
 
@@ -127,33 +140,28 @@ const CHECK: CheckBeat[] = [
 export default function OverfittingLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              The curve that fitted the data best was{" "}
-              <span className="text-pink-text">five times worse</span> on
-              everything else.
-            </>
-          }
-          sting="It passes through nearly every one of the thirty sentences it was given, and its error on the hundred and ten it was not is 11.24 against a straight line's 2.34. Nothing about the training data warns you. Four rounds, real fits, and you choose the one to ship."
-          cta="Choose a curve"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "Why it lied",
       node: (
-        <PickTheModel initialData={overfitData} initialScene={initialScene} />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            The curve that fitted the data best was{" "}
+            <span className="text-pink-text">five times worse</span> on
+            everything else.
+          </h1>
+          <PickTheModel initialData={overfitData} initialScene={initialScene} />
+        </div>
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<OverfitFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="display-md">Why the best fit lied</h2>
+          <FigureReel steps={REEL} figure={<OverfitFigure />} />
+        </div>
+      ),
     },
   ];
 

@@ -1,10 +1,12 @@
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { Holdout } from "@/components/games/Holdout";
-import { Hook } from "@/components/lesson/Hook";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import {
+  FigureReel,
+  type FigureReelStep,
+} from "@/components/lesson/FigureReel";
 import { HoldoutFigure } from "@/components/machines/HoldoutFigure";
 import type { CheckBeat } from "@/lib/check";
 import { start as dealSplit, type SplitData } from "@/lib/game/split";
@@ -45,26 +47,37 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
+const REEL: FigureReelStep[] = [
   {
-    say: "Here is every message you have, in one heap. Hand all of it to a model and you have lost the ability to find out what it knows, because every question you could ask it, it has already been given the answer to.",
-  },
-  {
-    say: "So put a wall through it. Four in every five go left, and the model may study those as long as it likes. The rest are locked away and nobody looks at them, not once, until the end.",
-  },
-  {
-    say: "Now a model that cheats. It keeps every training message and its answer in a list. In the room it studied, it is perfect. A hundred per cent, no mistakes. Look at the other room.",
-  },
-  {
-    say: "And a model that actually learned something. It is fractionally worse in the study room than the cheat was, and it is nine points better where it counts. The two rooms now nearly agree, which is the shape you want.",
-  },
-  {
-    say: "One more, and this one is the opposite failure. Both rooms agree perfectly, and both are bad. It was shown fifty messages, which is not enough to learn from. A small gap does not mean a good model. It only means an honest one.",
-  },
-  {
-    say: "So a training score is not a result. It is what somebody scored on their own homework, and the only number worth anything is the one from the locked room. Any accuracy quoted at you without saying which data it came from is not a number at all.",
+    label: "Heap",
     caption:
-      "Ten models, same rooms, same split. The two that scored a perfect hundred are the two that memorised.",
+      "Every message in one heap. Train on all of it and you can never find out what the model knows, because it has seen every answer.",
+  },
+  {
+    label: "Wall",
+    caption:
+      "So put a wall through it. Four in five go to the study room. The rest are locked away, unseen, until the very end.",
+  },
+  {
+    label: "Cheat",
+    caption:
+      "A model that cheats by keeping a list of every message. In the study room it scores a perfect hundred. Now look at the other room.",
+  },
+  {
+    label: "Learner",
+    caption:
+      "A model that actually learned. Fractionally worse in the study room, nine points better where it counts. The two rooms nearly agree.",
+  },
+  {
+    label: "Starved",
+    caption:
+      "The opposite failure: both rooms agree, and both are bad. Fifty messages is too few to learn from. A small gap means honest, not good.",
+  },
+  {
+    label: "Verdict",
+    caption:
+      "A training score is homework marked by the student. Only the locked room's number counts. Tap any model below to compare.",
+    note: "Ten models, same rooms, same split. The two that scored a perfect hundred are the two that memorised.",
   },
 ];
 
@@ -107,30 +120,27 @@ const CHECK: CheckBeat[] = [
 export default function TrainAndTestLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
+      id: "game",
+      cta: "Why hold out",
       node: (
-        <Hook
-          claim={
-            <>
-              The two models that scored a perfect hundred are the two that{" "}
-              <span className="text-pink-text">learned nothing</span>.
-            </>
-          }
-          sting="One keeps a list of every message it was shown. The other copies whichever message looks most like the new one. Both are flawless on their own training data, and one of them collapses by eleven points the moment it meets a message it has not seen. You are shown only the training scores. Call it."
-          cta="Open the envelope"
-        />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            The two models that scored a perfect hundred are the two that{" "}
+            <span className="text-pink-text">learned nothing</span>.
+          </h1>
+          <Holdout initialData={splitData} initialScene={initialScene} />
+        </div>
       ),
     },
     {
-      id: "game",
-      cta: "Why hold out",
-      node: <Holdout initialData={splitData} initialScene={initialScene} />,
-    },
-    {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<HoldoutFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="display-md">Why one room is locked</h2>
+          <FigureReel steps={REEL} figure={<HoldoutFigure />} />
+        </div>
+      ),
     },
   ];
 

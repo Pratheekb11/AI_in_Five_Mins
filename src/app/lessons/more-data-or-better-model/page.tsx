@@ -1,10 +1,12 @@
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { BuyTheUpgrade } from "@/components/games/BuyTheUpgrade";
-import { Hook } from "@/components/lesson/Hook";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import {
+  FigureReel,
+  type FigureReelStep,
+} from "@/components/lesson/FigureReel";
 import { CurveFigure } from "@/components/machines/CurveFigure";
 import type { CheckBeat } from "@/lib/check";
 import { start as dealCurve, type CurveData } from "@/lib/game/curve";
@@ -46,26 +48,37 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
+const REEL: FigureReelStep[] = [
   {
-    say: "Start with the line that ignores the data completely. One hand-written rule, flag anything with five digits in a row, and it scores 96.8 per cent no matter how many training messages you have. It is a flat line, and everything else has to earn its way up to it.",
-  },
-  {
-    say: "Here is a small decision tree learning. With twenty examples it is thirteen points worse than the rule somebody wrote in ten seconds. It needs about a hundred before it catches up, and this is a model with only twelve questions in it.",
-  },
-  {
-    say: "Now the same twelve features, learned differently. It is ahead of the rule from the very start and stays ahead everywhere. Same data, same features, and a better use of both.",
-  },
-  {
-    say: "And now the model with the most to learn: every word in the vocabulary. At twenty examples it is seven points behind a single hand-written rule, because there is far too much for it to work out from far too little.",
-  },
-  {
-    say: "Then it crosses everything. By two thousand examples it is ahead of the lot, and on the full set it is the best model on this page. The model that needs the most data is the wrong choice until you have the data, and then it is the right one.",
-  },
-  {
-    say: "So the argument about data against models has an answer with a location in it. Ten times the data is worth thirteen points at the left of this picture and a sixth of a point at the right. Neither side of that argument is wrong. They are standing in different places.",
+    label: "Rule",
     caption:
-      "Banko and Brill made the same point in 2001, over three orders of magnitude of training data.",
+      "One hand-written rule, flag five digits in a row, scores 96.8% however much data you have. A flat line everything else must climb to.",
+  },
+  {
+    label: "Tree",
+    caption:
+      "A small decision tree with twenty examples is thirteen points worse than that rule. It needs about a hundred to catch up.",
+  },
+  {
+    label: "Better",
+    caption:
+      "The same twelve features, learned differently, are ahead of the rule from the start and stay ahead. A better use of the same data.",
+  },
+  {
+    label: "Words",
+    caption:
+      "Now a model of every word. At twenty examples it is seven points behind a single rule: too much to learn from too little.",
+  },
+  {
+    label: "Crosses",
+    caption:
+      "By two thousand examples it passes everything, and on the full set it is the best here. The wrong choice until you have the data.",
+  },
+  {
+    label: "Where",
+    caption:
+      "Ten times the data is worth thirteen points at the left and a sixth of a point at the right. Both sides of the argument are right, in different places.",
+    note: "Banko and Brill made the same point in 2001, over three orders of magnitude of training data.",
   },
 ];
 
@@ -127,33 +140,28 @@ const CHECK: CheckBeat[] = [
 export default function MoreDataOrBetterModelLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              The best model on this page starts out{" "}
-              <span className="text-pink-text">worse than one rule</span>{" "}
-              anybody could write.
-            </>
-          }
-          sting="At twenty examples, learning from every word in the vocabulary scores 89.4% and a hand-written rule scores 96.8%. At four and a half thousand examples the same model is the best thing here. Same corpus, same measurements. Four budgets, and you choose what to spend them on."
-          cta="Take the first budget"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "Data or model?",
       node: (
-        <BuyTheUpgrade initialData={curveData} initialScene={initialScene} />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            The best model on this page starts out{" "}
+            <span className="text-pink-text">worse than one rule</span> anybody
+            could write.
+          </h1>
+          <BuyTheUpgrade initialData={curveData} initialScene={initialScene} />
+        </div>
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<CurveFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="display-md">Data, or a better model?</h2>
+          <FigureReel steps={REEL} figure={<CurveFigure />} />
+        </div>
+      ),
     },
   ];
 

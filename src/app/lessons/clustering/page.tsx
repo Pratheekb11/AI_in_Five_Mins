@@ -1,10 +1,12 @@
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { OddOneIn } from "@/components/games/OddOneIn";
-import { Hook } from "@/components/lesson/Hook";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import {
+  FigureReel,
+  type FigureReelStep,
+} from "@/components/lesson/FigureReel";
 import { ClusterFigure } from "@/components/machines/ClusterFigure";
 import type { CheckBeat } from "@/lib/check";
 import { start as dealClusters, type ClusterData } from "@/lib/game/clusters";
@@ -47,26 +49,37 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
+const REEL: FigureReelStep[] = [
   {
-    say: "Every word in the vocabulary, drawn at its own coordinates. There are no labels in this chapter at all. Nobody has told the algorithm what a single one of these words means, and there is no right answer for it to be measured against.",
-  },
-  {
-    say: "It gets one number: eight. Eight centres are placed, and every word is handed to whichever centre it is nearest. This first pass is nearly arbitrary, because the centres were placed before anything was known.",
-  },
-  {
-    say: "Then it repeats. Each centre moves to the middle of whatever it collected, and every word looks again to see whether something else is now nearer. Watch the borders walk across the picture.",
-  },
-  {
-    say: "After thirty five passes, nothing moves. That is the whole of what converged means, and you can scrub back through it: no word changed its mind on the final pass, so there is nothing left for the algorithm to do.",
-  },
-  {
-    say: "And here is what it found. Some of those groups are obviously something, colours and animals in one, military and security language in another. Some are a shrug. Both came out of the same procedure.",
-  },
-  {
-    say: "One last thing, and it is the honest one. Ask for more groups and the fit always improves, all the way to one group per word. Nothing in the data can tell you the right number, because with no labels there is nothing to be right about.",
+    label: "Words",
     caption:
-      "MacQueen's algorithm from 1967, with the modern seeding from Arthur and Vassilvitskii.",
+      "Every word in the vocabulary, at its own coordinates. No labels anywhere, and no right answer to be measured against.",
+  },
+  {
+    label: "Eight",
+    caption:
+      "It is given one number: eight. Eight centres are placed and every word joins the nearest. This first pass is nearly arbitrary.",
+  },
+  {
+    label: "Move",
+    caption:
+      "Each centre moves to the middle of what it collected, and every word checks again. Watch the borders walk across the picture.",
+  },
+  {
+    label: "Settled",
+    caption:
+      "After thirty five passes, nothing moves. That is all converged means: no word changed its mind on the final pass.",
+  },
+  {
+    label: "Groups",
+    caption:
+      "Some groups are clearly something: colours and animals in one, military language in another. Some are a shrug. Same procedure.",
+  },
+  {
+    label: "Honest",
+    caption:
+      "Ask for more groups and the fit always improves, all the way to one per word. Nothing in the data says what the right number is.",
+    note: "MacQueen's algorithm from 1967, with the modern seeding from Arthur and Vassilvitskii.",
   },
 ];
 
@@ -123,33 +136,30 @@ const CHECK: CheckBeat[] = [
 export default function ClusteringLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
+      id: "game",
+      cta: "What groups are",
       node: (
-        <Hook
-          claim={
-            <>
-              Ask for eight groups and you get eight,{" "}
-              <span className="text-pink-text">
-                whether or not there are eight
-              </span>
-              .
-            </>
-          }
-          sting="No labels, no answers, nothing to score. 1,851 real word vectors and one number, and it comes back with groups: some of them obviously colours and animals, some of them a shrug. Five rounds, and you say which word the algorithm put where."
-          cta="See the first group"
-        />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            Ask for eight groups and you get eight,{" "}
+            <span className="text-pink-text">
+              whether or not there are eight
+            </span>
+            .
+          </h1>
+          <OddOneIn initialData={clusterData} initialScene={initialScene} />
+        </div>
       ),
     },
     {
-      id: "game",
-      cta: "What groups are",
-      node: <OddOneIn initialData={clusterData} initialScene={initialScene} />,
-    },
-    {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<ClusterFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="display-md">What the groups are</h2>
+          <FigureReel steps={REEL} figure={<ClusterFigure />} />
+        </div>
+      ),
     },
   ];
 

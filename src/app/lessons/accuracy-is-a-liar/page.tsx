@@ -1,10 +1,12 @@
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { WheresTheLine } from "@/components/games/WheresTheLine";
-import { Hook } from "@/components/lesson/Hook";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import {
+  FigureReel,
+  type FigureReelStep,
+} from "@/components/lesson/FigureReel";
 import { ThresholdFigure } from "@/components/machines/ThresholdFigure";
 import type { CheckBeat } from "@/lib/check";
 import {
@@ -48,26 +50,37 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
+const REEL: FigureReelStep[] = [
   {
-    say: "Every dot is one message the model has never seen, placed at the score it gave. Spam above the line, ordinary below. Notice it never said spam or not spam. It said a number, and almost every number is jammed at one end.",
-  },
-  {
-    say: "So somebody has to decide where a number becomes an action. Here is the line most software uses, at one half, chosen by nobody in particular. It catches 145 of 156 spam and wrongly blocks 4 real messages.",
-  },
-  {
-    say: "Slide it left, to flag anything with the faintest smell. Now it catches 155 of the 156. It also blocks 798 perfectly ordinary messages, and its accuracy falls to twenty eight per cent. Recall went up, precision fell through the floor.",
-  },
-  {
-    say: "Slide it right instead. Now everything it flags really is spam, all of it, not one false alarm. And it quietly lets 48 spam messages through. Same model, same day, opposite behaviour.",
-  },
-  {
-    say: "And the number people quote is the one that hides all of this. A filter that flags nothing at all scores eighty six per cent accuracy on these messages, because most messages are not spam. Accuracy alone is not evidence of anything.",
-  },
-  {
-    say: "Which makes this a question for whoever owns the consequences, not for whoever wrote the model. What is worse here: a spam that gets through, or a real message that never arrives? Answer that and the line puts itself.",
+    label: "Scores",
     caption:
-      "Precision: of what you flagged, how much was right. Recall: of what was there, how much you caught. You do not get both.",
+      "Each dot is a message the model never saw, placed at the score it gave. It never said spam or not spam, only a number.",
+  },
+  {
+    label: "Half",
+    caption:
+      "Somebody has to pick where a number becomes an action. At one half: 145 of 156 spam caught, and 4 real messages blocked.",
+  },
+  {
+    label: "Left",
+    caption:
+      "Slide it left: 155 of 156 caught, and 798 ordinary messages blocked. Accuracy falls to 28%. Recall up, precision through the floor.",
+  },
+  {
+    label: "Right",
+    caption:
+      "Slide it right: every flag really is spam, not one false alarm, and 48 spam get through. Same model, same day, opposite behaviour.",
+  },
+  {
+    label: "Nothing",
+    caption:
+      "A filter that flags nothing at all scores 86% accuracy here, because most messages are not spam. Accuracy alone proves nothing.",
+  },
+  {
+    label: "Choose",
+    caption:
+      "Which is worse here: spam getting through, or a real message never arriving? Answer that and the line places itself. Drag it below.",
+    note: "Precision: of what you flagged, how much was right. Recall: of what was there, how much you caught. You do not get both.",
   },
 ];
 
@@ -110,35 +123,30 @@ const CHECK: CheckBeat[] = [
 export default function AccuracyIsALiarLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              The same model, on the same day, catching{" "}
-              <span className="text-pink-text">99% or 69%</span> of the spam.
-            </>
-          }
-          sting="Nothing about it changed. One number moved, the one nobody in the room thinks of as a decision, and it is worth 30 points of catch rate and 798 wrongly blocked messages. You are told what each mistake costs. Put the line somewhere."
-          cta="Take the dial"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "What it hid",
       node: (
-        <WheresTheLine
-          initialData={thresholdData}
-          initialScene={initialScene}
-        />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            The same model, on the same day, catching{" "}
+            <span className="text-pink-text">99% or 69%</span> of the spam.
+          </h1>
+          <WheresTheLine
+            initialData={thresholdData}
+            initialScene={initialScene}
+          />
+        </div>
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<ThresholdFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="display-md">Where the line goes</h2>
+          <FigureReel steps={REEL} figure={<ThresholdFigure />} />
+        </div>
+      ),
     },
   ];
 

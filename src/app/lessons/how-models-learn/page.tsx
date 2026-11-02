@@ -1,10 +1,12 @@
-import { Hook } from "@/components/lesson/Hook";
 import { VideoPanel } from "@/components/lesson/VideoPanel";
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Quiz, type QuizQuestion } from "@/components/lesson/Quiz";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import {
+  FigureReel,
+  type FigureReelStep,
+} from "@/components/lesson/FigureReel";
 import { FitLineFigure } from "@/components/machines/FitLineFigure";
 import { GradientHill } from "@/components/machines/GradientHill";
 import { REGRESSION } from "@/lib/datasets";
@@ -40,23 +42,31 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
+const REEL: FigureReelStep[] = [
   {
-    say: "Here is what the dial was really about. Every dot is one real sentence: how many characters it has, and how many tokens it came to. A model is a formula with adjustable numbers in it, and this one has a single dial.",
+    label: "Dots",
     caption:
-      "tokens = dial × characters. One number to set, and nobody told it the answer.",
+      "Every dot is a real sentence: its characters against its tokens. The model is one formula with one dial, and nobody told it the answer.",
+    note: "tokens = dial × characters. One number to set.",
   },
   {
-    say: "Set the dial badly on purpose and you get this line. The number underneath is how wrong it is across all one hundred and forty sentences. That number is the only feedback the machine ever gets.",
+    label: "Wrong",
+    caption:
+      "Set the dial badly and you get this line. The number under it is how wrong it is across all 140 sentences, and that is the only feedback the machine ever gets.",
   },
   {
-    say: "Six steps downhill. Measure how wrong you are, work out which way is down, take a small step, repeat. The line swings, and notice what it never had: it could not see the shape of the hill, only whether the ground under its feet sloped up or down.",
+    label: "Downhill",
+    caption:
+      "Six steps downhill: measure how wrong, find which way is down, take a small step. It never sees the hill, only the slope under its feet.",
   },
   {
-    say: `Stepping stops helping here, and look what came out. About ${REGRESSION.best.charsPerToken} characters per token. Nobody wrote that number down; it fell out of the measurements. Feed it different text and it settles somewhere else.`,
+    label: "Settled",
+    caption: `It settles at about ${REGRESSION.best.charsPerToken} characters per token. Nobody wrote that number down: it fell out of the measurements.`,
   },
   {
-    say: "Which is the sentence to keep from this page. A model's answers are downstream of the examples it was shown. Always, with no exceptions, at every scale.",
+    label: "Keep",
+    caption:
+      "So a model's answers are downstream of the examples it was shown. Always, at every scale.",
   },
 ];
 
@@ -77,33 +87,28 @@ const QUESTIONS: QuizQuestion[] = [
 export default function HowModelsLearnLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
+      id: "game",
+      cta: "What that hill was",
       node: (
-        <Hook
-          claim={
-            <>
-              Learning, in every AI system ever built, is{" "}
-              <span className="text-teal-text">
-                rolling downhill in the dark
-              </span>
-              .
-            </>
-          }
-          sting={`One dial, ${REGRESSION.sampleSize} real sentences, and no view of the hill. All you get is whether the ground under your feet slopes up or down. Find the bottom by hand first. It is harder than it looks, and then you get to hand it over.`}
-          cta="Take the wheel"
-        />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            Learning, in every AI system ever built, is{" "}
+            <span className="text-teal-text">rolling downhill in the dark</span>
+            .
+          </h1>
+          <GradientHill />
+        </div>
       ),
     },
     {
-      id: "game",
-      cta: "What that hill was",
-      node: <GradientHill />,
-    },
-    {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<FitLineFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="display-md">What that hill was</h2>
+          <FigureReel steps={REEL} figure={<FitLineFigure />} />
+        </div>
+      ),
     },
   ];
 

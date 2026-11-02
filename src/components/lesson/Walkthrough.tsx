@@ -20,6 +20,20 @@ export function useWalkthroughStep(): number {
   return useContext(StepContext);
 }
 
+/**
+ * Drives a walkthrough figure from anything that keeps its own step, such as a
+ * reel that plays itself. The figure cannot tell the difference.
+ */
+export function WalkthroughStepProvider({
+  step,
+  children,
+}: {
+  step: number;
+  children: ReactNode;
+}) {
+  return <StepContext.Provider value={step}>{children}</StepContext.Provider>;
+}
+
 export type Step = {
   /** Two or three sentences. This is also what gets spoken. */
   say: string;

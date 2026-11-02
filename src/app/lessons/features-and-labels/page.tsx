@@ -1,10 +1,12 @@
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { FeatureBench } from "@/components/games/FeatureBench";
-import { Hook } from "@/components/lesson/Hook";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import {
+  FigureReel,
+  type FigureReelStep,
+} from "@/components/lesson/FigureReel";
 import { FeatureSplitFigure } from "@/components/machines/FeatureSplitFigure";
 import type { CheckBeat } from "@/lib/check";
 import { start as dealFeatures, type FeatureData } from "@/lib/game/features";
@@ -52,26 +54,37 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
+const REEL: FigureReelStep[] = [
   {
-    say: "Here is every training message in one bar. Pink is spam, blue is ordinary, and about one in seven is pink. A model cannot read any of them. Somebody has to turn each message into answers to questions, and those answers are all it will ever see.",
-  },
-  {
-    say: "So ask a question. Does this message contain a five digit number? The bar cuts in two, and look at what happens to the colours. The yes pile is almost pure spam. That is what a good feature looks like.",
-  },
-  {
-    say: "Now the question everybody reaches for. Does it use the word free? The cut is much worse. Plenty of ordinary messages say free, and most spam does not bother. Being memorable and being informative are not the same thing.",
-  },
-  {
-    say: "Now one that has nothing to do with what the message says. Is it longer than a hundred and twenty characters? That beats the word free, comfortably, on nothing but the size of the thing.",
-  },
-  {
-    say: "And one that works backwards. Does it say I, or me? The yes pile is almost pure ordinary message, because spam does not talk about itself. A feature that reliably says not spam is worth exactly as much as one that says spam.",
-  },
-  {
-    say: "Which is the whole idea. The model never meets your data. It meets whatever survived this translation, and everything you did not ask about is invisible to it forever. Try the rest of the candidates below.",
+    label: "Bar",
     caption:
-      "Bits removed is Shannon's entropy: how much of the uncertainty about the label disappears once you know the answer to one question.",
+      "Every training message in one bar, pink for spam. A model cannot read any of them, only the answers to questions somebody chose to ask.",
+  },
+  {
+    label: "Digits",
+    caption:
+      "Ask: does it contain a five digit number? The yes pile is almost pure spam. That is what a good feature looks like.",
+  },
+  {
+    label: "Free",
+    caption:
+      "Now the word everybody reaches for, free. A much worse cut: plenty of ordinary messages say it, and most spam does not bother.",
+  },
+  {
+    label: "Length",
+    caption:
+      "Longer than 120 characters? That beats free comfortably, on nothing but the size of the message.",
+  },
+  {
+    label: "I / me",
+    caption:
+      "Does it say I or me? That pile is almost all ordinary, because spam does not talk about itself. Saying not spam is worth as much as saying spam.",
+  },
+  {
+    label: "You",
+    caption:
+      "The model never meets your data, only what survived this translation. Tap any question below to try it.",
+    note: "Bits removed is Shannon's entropy: how much of the uncertainty about the label disappears once you know the answer to one question.",
   },
 ];
 
@@ -130,32 +143,27 @@ const CHECK: CheckBeat[] = [
 export default function FeaturesAndLabelsLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              The word &ldquo;free&rdquo; is beaten by{" "}
-              <span className="text-blue-text">how long the message is</span>.
-            </>
-          }
-          sting="Everybody picks the word. On 5,574 real text messages, asking whether the message runs past 120 characters separates spam from ordinary post nearly three times better, and it never looks at a single word. Put money on a few of these before you are shown the counts."
-          cta="Take the bench"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "What it found",
       node: (
-        <FeatureBench initialData={featureData} initialScene={initialScene} />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            The word &ldquo;free&rdquo; is beaten by{" "}
+            <span className="text-blue-text">how long the message is</span>.
+          </h1>
+          <FeatureBench initialData={featureData} initialScene={initialScene} />
+        </div>
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<FeatureSplitFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="display-md">What a model gets to see</h2>
+          <FigureReel steps={REEL} figure={<FeatureSplitFigure />} />
+        </div>
+      ),
     },
   ];
 

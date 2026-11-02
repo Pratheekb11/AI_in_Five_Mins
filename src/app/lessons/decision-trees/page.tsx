@@ -1,10 +1,12 @@
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { GrowTheTree } from "@/components/games/GrowTheTree";
-import { Hook } from "@/components/lesson/Hook";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import {
+  FigureReel,
+  type FigureReelStep,
+} from "@/components/lesson/FigureReel";
 import { TreeFigure } from "@/components/machines/TreeFigure";
 import type { CheckBeat } from "@/lib/check";
 import { start as dealTree, type TreeData } from "@/lib/game/tree";
@@ -45,26 +47,37 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
+const REEL: FigureReelStep[] = [
   {
-    say: "One pile of 4,459 training messages, about one in seven of them spam. A tree does exactly what the first module of this track did, and then does it again to whatever it produces.",
-  },
-  {
-    say: "So ask the best question. Has it got a five digit number in it? That was the sharpest of the twelve, worth 0.378 bits, and look at what happens to the colour. The yes pile is 99.6 per cent spam, and the no pile is down to 3 per cent.",
-  },
-  {
-    say: "Now ask again, separately, on each of those piles. The best question for the ordinary pile is not the same as the best question for the suspicious one, and that is the whole advantage of a tree: the second question depends on the answer to the first.",
-  },
-  {
-    say: "A third level. The piles are getting small and pure, and each one is a rule you could read out loud: if it has a five digit number, and mentions money, and is longer than 120 characters, call it spam.",
-  },
-  {
-    say: "Four levels down there are eleven piles, and this whole model would fit on an index card. Nothing in it is hidden. Every decision it makes can be traced back through three or four yes-or-no questions to the messages that produced them.",
-  },
-  {
-    say: "And here is what depth is worth. Accuracy on held-out messages climbs to depth five and then flattens rather than collapsing. With only twelve questions to draw on there is a limit to how much it can memorise, which is a reminder that capacity comes from the features as much as from the model.",
+    label: "Pile",
     caption:
-      "Quinlan's algorithm, unchanged since 1986: pick the split with the most information gain, then recurse.",
+      "One pile of 4,459 training messages, about one in seven of them spam.",
+  },
+  {
+    label: "Split",
+    caption:
+      "Ask the sharpest of the twelve questions: a five digit number? Worth 0.378 bits. The yes pile is 99.6% spam, and the no pile 3%.",
+  },
+  {
+    label: "Again",
+    caption:
+      "Now ask again on each pile. The best second question depends on the answer to the first, and that is the whole advantage of a tree.",
+  },
+  {
+    label: "Rules",
+    caption:
+      "Three levels down, every pile is a rule you could read aloud: no five digit number, but it mentions money and runs past 120 characters, so spam.",
+  },
+  {
+    label: "Card",
+    caption:
+      "Four levels, eleven piles, and the model fits on an index card. Every decision traces back to three or four yes-or-no questions.",
+  },
+  {
+    label: "Depth",
+    caption:
+      "Held-out accuracy climbs to depth five, then flattens. With only twelve questions to draw on, there is a limit to what it can memorise.",
+    note: "Quinlan's algorithm, unchanged since 1986: pick the split with the most information gain, then recurse.",
   },
 ];
 
@@ -138,30 +151,27 @@ const CHECK: CheckBeat[] = [
 export default function DecisionTreesLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
+      id: "game",
+      cta: "How it grew",
       node: (
-        <Hook
-          claim={
-            <>
-              One question, and the pile goes from{" "}
-              <span className="text-pink-text">13% spam to 99.6%</span>.
-            </>
-          }
-          sting="Has it got a five digit number in it? That single question splits 4,459 messages into 466 that are almost all spam and 3,993 that are almost all not. Then the tree asks again on each pile, and again, and the whole model ends up small enough to read out loud. Five nodes, and you choose the question."
-          cta="Take the first split"
-        />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            One question, and the pile goes from{" "}
+            <span className="text-pink-text">13% spam to 99.6%</span>.
+          </h1>
+          <GrowTheTree initialData={treeData} initialScene={initialScene} />
+        </div>
       ),
     },
     {
-      id: "game",
-      cta: "How it grew",
-      node: <GrowTheTree initialData={treeData} initialScene={initialScene} />,
-    },
-    {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<TreeFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="display-md">How the tree grew</h2>
+          <FigureReel steps={REEL} figure={<TreeFigure />} />
+        </div>
+      ),
     },
   ];
 

@@ -1,10 +1,12 @@
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { OneFoldOrTen } from "@/components/games/OneFoldOrTen";
-import { Hook } from "@/components/lesson/Hook";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import {
+  FigureReel,
+  type FigureReelStep,
+} from "@/components/lesson/FigureReel";
 import { FoldsFigure } from "@/components/machines/FoldsFigure";
 import type { CheckBeat } from "@/lib/check";
 import { start as dealCrossval, type CrossvalData } from "@/lib/game/crossval";
@@ -46,26 +48,37 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
+const REEL: FigureReelStep[] = [
   {
-    say: "Hold out one block of messages, train on the other nine, and score. That is the number everybody reports, and this is what it looks like: one dot.",
-  },
-  {
-    say: "Now hold out a different block instead. Same model, same corpus, same procedure. The number has moved. Neither of these two is more correct than the other, and either could have been the one in the report.",
-  },
-  {
-    say: "So let every block take its turn. Ten trainings, ten scores. None of them is the accuracy of the model. Together they are something more useful: an idea of how much this number wobbles.",
-  },
-  {
-    say: "The average is 98.87 per cent and the slices sit about half a point either side. Which means any comparison between two models closer together than that cannot be settled by a single split, and in this chapter's game you will be shown some that are.",
-  },
-  {
-    say: "Now look at a model that was shown only eighty examples. Its wobble is four times bigger. Too little training data does not only make a model worse. It makes every measurement of it shakier at the same time.",
-  },
-  {
-    say: "Which gives you one question to ask of any accuracy anybody quotes. How much would it move if the data had been cut differently? If nobody knows, the number has no error bar and should not be used to choose between things.",
+    label: "One",
     caption:
-      "Ten folds is the usual answer, and Kohavi's is the paper that made it usual.",
+      "Hold out one block, train on the other nine, and score. That is the number everybody reports: one dot.",
+  },
+  {
+    label: "Another",
+    caption:
+      "Hold out a different block. Same model, same messages, and the number moves. Either could have been the one in the report.",
+  },
+  {
+    label: "Ten",
+    caption:
+      "Let every block take a turn: ten trainings, ten scores. Together they show how much this number wobbles.",
+  },
+  {
+    label: "Spread",
+    caption:
+      "The average is 98.87%, with the slices about half a point either side. Two models closer than that cannot be told apart by one split.",
+  },
+  {
+    label: "Starved",
+    caption:
+      "A model shown only eighty examples wobbles four times as much. Too little data makes every measurement of it shakier too.",
+  },
+  {
+    label: "Ask",
+    caption:
+      "So ask of any accuracy: how much would it move on a different cut? Tap a model below to compare its spread.",
+    note: "Ten folds is the usual answer, and Kohavi's is the paper that made it usual.",
   },
 ];
 
@@ -119,32 +132,30 @@ const CHECK: CheckBeat[] = [
 export default function CrossValidationLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              Same model, same messages, and the score moves by{" "}
-              <span className="text-pink-text">a point and a half</span>.
-            </>
-          }
-          sting="Nothing changed except which slice of the data was held out. On close comparisons that wobble is bigger than the gap you are trying to measure, so the single number in the report picks the wrong winner. You get one slice. Call it anyway."
-          cta="See the first slice"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "Why ten folds",
       node: (
-        <OneFoldOrTen initialData={crossvalData} initialScene={initialScene} />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            Same model, same messages, and the score moves by{" "}
+            <span className="text-pink-text">a point and a half</span>.
+          </h1>
+          <OneFoldOrTen
+            initialData={crossvalData}
+            initialScene={initialScene}
+          />
+        </div>
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<FoldsFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="display-md">How much one number wobbles</h2>
+          <FigureReel steps={REEL} figure={<FoldsFigure />} />
+        </div>
+      ),
     },
   ];
 

@@ -553,6 +553,12 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* A self-playing reel's progress tick, filling over the step's hold time. */
+@keyframes reel-fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 /* The blank waiting to be filled in: a game's unanswered slot, a figure's
    undrawn token. It is an invitation, so it has to keep moving. */
 .ink-pulse {

@@ -1,10 +1,12 @@
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { WorthTheCrowd } from "@/components/games/WorthTheCrowd";
-import { Hook } from "@/components/lesson/Hook";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import {
+  FigureReel,
+  type FigureReelStep,
+} from "@/components/lesson/FigureReel";
 import { ForestFigure } from "@/components/machines/ForestFigure";
 import type { CheckBeat } from "@/lib/check";
 import { start as dealForest, type ForestData } from "@/lib/game/forest";
@@ -45,26 +47,43 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
+/* Every number in the reel is read from the same file the figure draws, so
+   the caption and the picture under it can never disagree. */
+const pct = (x: number, dp = 2) => `${(x * 100).toFixed(dp)}%`;
+const pts = (x: number) =>
+  Math.abs(x) < 0.00005 ? "nothing" : `${(x * 100).toFixed(2)} points`;
+const forestById = (id: string) => forestData.forests.find((f) => f.id === id)!;
+const shallow = forestById("shallow");
+const stumps = forestById("stumps");
+const identical = forestById("identical");
+const voted = forestData.examples[3] ?? forestData.examples[0];
+
+const REEL: FigureReelStep[] = [
   {
-    say: "One tree, four questions deep, grown on its own sample of the training messages. It gets a bit under 97 per cent on messages it has never seen. Respectable, and not remarkable.",
+    label: "One",
+    caption: `One tree, four questions deep, grown on its own sample. It gets ${pct(shallow.alone[0])} on messages it never saw. Respectable, not remarkable.`,
   },
   {
-    say: "Now sixty of them. Each got its own sample of the messages and, at every split, only four of the twelve questions chosen at random. They land all over: the best gets 97.9 per cent and the worst 95.4.",
+    label: "Sixty",
+    caption: `Now sixty, each on its own sample, each split choosing from four random questions. The best gets ${pct(shallow.bestAlone)}, the worst ${pct(shallow.worstAlone)}.`,
   },
   {
-    say: "Here is one message, and how the sixty voted on it. Thirty four called it spam and twenty six did not. A single tree could never tell you that. A vote can, and a close vote is a model admitting it is not sure.",
+    label: "Vote",
+    caption: `One message: ${voted.votesForSpam} of ${forestData.treesPerForest} trees said spam. A single tree could never tell you that, and a close vote is a model admitting it is not sure.`,
   },
   {
-    say: "And here is the vote's accuracy as trees are added. It passes the average single tree within a handful of them and settles above every dot on the row above. Nothing was made better. Sixty different sets of mistakes cancelled.",
+    label: "Grow",
+    caption: `As trees are added, the vote passes the average tree within a handful and settles ${pts(shallow.gain)} above it, at ${pct(shallow.together)}. Different mistakes cancel.`,
   },
   {
-    say: "Which is the condition, and here it is failing. This forest has no randomness in it, so its sixty trees are the same tree sixty times. The line is flat. A vote among identical opinions returns that opinion.",
-  },
-  {
-    say: "Try all four. The forest that gained most is made of the worst trees, the one-question stumps, and the forest that gained nothing is made of the best. What a vote buys is independence, and you have to build it in on purpose.",
+    label: "Clones",
     caption:
-      "Breiman's two sources of independence: a different sample per tree, and a random subset of features at each split.",
+      "Take the randomness out and the sixty trees are one tree sixty times. The line goes flat. Identical opinions add nothing.",
+  },
+  {
+    label: "Choose",
+    caption: `The weakest trees, one-question stumps, gained ${pts(stumps.gain)}. The best, sixty identical deep trees, gained ${pts(identical.gain)}. A vote buys independence. Tap a forest below.`,
+    note: "Breiman's two sources of independence: a different sample per tree, and a random subset of features at each split.",
   },
 ];
 
@@ -125,32 +144,27 @@ const CHECK: CheckBeat[] = [
 export default function EnsemblesLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              Sixty of the <span className="text-pink-text">worst</span> models
-              gained the most. Sixty of the best gained nothing.
-            </>
-          }
-          sting="The stumps score 93.3% each and vote to 95.9%. The identical deep trees score 97.9% each and vote to 97.9%. What a crowd buys is not quality, it is disagreement, and one of these forests has none. Four forests, and you call what the vote is worth."
-          cta="Meet the first forest"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "Why a crowd",
       node: (
-        <WorthTheCrowd initialData={forestData} initialScene={initialScene} />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            Sixty of the <span className="text-pink-text">worst</span> models
+            gained the most. Sixty of the best gained nothing.
+          </h1>
+          <WorthTheCrowd initialData={forestData} initialScene={initialScene} />
+        </div>
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<ForestFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="display-md">Why a crowd beats its members</h2>
+          <FigureReel steps={REEL} figure={<ForestFigure />} />
+        </div>
+      ),
     },
   ];
 

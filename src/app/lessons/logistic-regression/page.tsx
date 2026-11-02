@@ -1,10 +1,12 @@
 import { Fold, LessonStageShell, type Beat } from "@/components/lesson/stage";
 import { ReadTheScore } from "@/components/games/ReadTheScore";
-import { Hook } from "@/components/lesson/Hook";
 import { MechanismPanel } from "@/components/lesson/MechanismPanel";
 import { PracticeCard } from "@/components/lesson/PracticeCard";
 import { Check } from "@/components/lesson/checks/Check";
-import { Walkthrough, type Step } from "@/components/lesson/Walkthrough";
+import {
+  FigureReel,
+  type FigureReelStep,
+} from "@/components/lesson/FigureReel";
 import { LogisticFigure } from "@/components/machines/LogisticFigure";
 import type { CheckBeat } from "@/lib/check";
 import { start as dealLogistic, type LogisticData } from "@/lib/game/logistic";
@@ -45,26 +47,37 @@ const SOURCES: Source[] = [
   },
 ];
 
-const STEPS: Step[] = [
+const REEL: FigureReelStep[] = [
   {
-    say: "Every held-out message, placed by two numbers you can read off it yourself: how long it is, and how many digits it contains. Spam is mostly up and to the right. Nothing has been trained yet.",
-  },
-  {
-    say: "A model with two features is a straight line through that picture. Here it is before training, which is to say in the wrong place, because it was started at nothing and told to find its own way.",
-  },
-  {
-    say: "Now let it learn. It is the same downhill step from the second chapter of the rabbit hole: measure how wrong you are, work out which way is down, take a small step. The line swings, and the accuracy underneath climbs with it.",
-  },
-  {
-    say: "It settles at 96.8 per cent on messages it never saw, from two numbers. Which is worse than the word-based model earlier in this track, and far better than nothing, and the only model in the whole site that fits on a page.",
-  },
-  {
-    say: "Then the second half of the idea. The line alone gives a yes or a no. Logistic regression measures how far you are from it and pushes that through this curve, so a message on the line gets fifty per cent and everything else runs quickly towards nought or one.",
-  },
-  {
-    say: "Scrub back through the run if you like. Nothing about that boundary was designed. It is where four hundred small corrections left a line, and its position is a summary of five thousand real messages.",
+    label: "Plot",
     caption:
-      "Two features so the whole model can be drawn. A bag of words does better and cannot be put on a page.",
+      "Every held-out message, placed by its length and how many digits it contains. Spam sits up and to the right. Nothing is trained yet.",
+  },
+  {
+    label: "Line",
+    caption:
+      "A model with two features is a straight line through this picture. Before training it starts at nothing, in the wrong place.",
+  },
+  {
+    label: "Learn",
+    caption:
+      "Now the same downhill step as before: how wrong, which way is down, a small step. The line swings and accuracy climbs with it.",
+  },
+  {
+    label: "Settled",
+    caption:
+      "It settles at 96.8% on messages it never saw, from just two numbers, and the whole model fits on a page.",
+  },
+  {
+    label: "Curve",
+    caption:
+      "The line alone says yes or no. Logistic regression turns distance from it into a probability: 50% on the line, near 0 or 1 far away.",
+  },
+  {
+    label: "Scrub",
+    caption:
+      "Nothing about that boundary was designed. It is where four hundred small corrections left it. Scrub back through the run below.",
+    note: "Two features so the whole model can be drawn. A bag of words does better and cannot be put on a page.",
   },
 ];
 
@@ -113,33 +126,30 @@ const CHECK: CheckBeat[] = [
 export default function LogisticRegressionLesson() {
   const beats: Beat[] = [
     {
-      id: "hook",
-      selfAdvance: true,
-      node: (
-        <Hook
-          claim={
-            <>
-              Two numbers per message, one line, and{" "}
-              <span className="text-teal-text">96.8%</span> of them sorted
-              right.
-            </>
-          }
-          sting="How long it is, and how many digits it has. That is everything this model knows, which means the whole of it fits on a page and you can watch it train. Six real messages, and you say how sure it will be about each one."
-          cta="Read the first one"
-        />
-      ),
-    },
-    {
       id: "game",
       cta: "What a score is",
       node: (
-        <ReadTheScore initialData={logisticData} initialScene={initialScene} />
+        <div className="space-y-4">
+          <h1 className="display-md">
+            Two numbers per message, one line, and{" "}
+            <span className="text-teal-text">96.8%</span> of them sorted right.
+          </h1>
+          <ReadTheScore
+            initialData={logisticData}
+            initialScene={initialScene}
+          />
+        </div>
       ),
     },
     {
-      id: "walkthrough",
-      selfAdvance: true,
-      node: <Walkthrough steps={STEPS} figure={<LogisticFigure />} />,
+      id: "how",
+      cta: "Got it",
+      node: (
+        <div className="mx-auto max-w-3xl space-y-4">
+          <h2 className="display-md">From a line to a score</h2>
+          <FigureReel steps={REEL} figure={<LogisticFigure />} />
+        </div>
+      ),
     },
   ];
 
